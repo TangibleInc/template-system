@@ -1,0 +1,9 @@
+/vendor
+node_modules
+*.log
+*.local.js
+
+# Allow symlinked local packages - always use latest commit on composer/npm/yarn update
+composer.lock
+package-lock.json
+yarn.lock

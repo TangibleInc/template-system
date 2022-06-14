@@ -1,0 +1,65 @@
+
+$space-map: (
+  0: $space-0,
+  1: $space-1,
+  2: $space-2,
+  3: $space-3,
+  4: $space-4
+);
+
+@each $space-key, $space-prop in (m: margin, p: padding) {
+
+  @each $i, $space-var in $space-map {
+    .#{$space-key}-#{$i} { #{$space-prop}: $space-var !important; }
+    .#{$space-key}t-#{$i} { #{$space-prop}-top: $space-var !important; }
+    .#{$space-key}b-#{$i} { #{$space-prop}-bottom: $space-var !important; }
+    .#{$space-key}l-#{$i} { #{$space-prop}-left: $space-var !important; }
+    .#{$space-key}r-#{$i} { #{$space-prop}-right: $space-var !important; }
+    .#{$space-key}x-#{$i} {
+      #{$space-prop}-left: $space-var !important;
+      #{$space-prop}-right: $space-var !important;
+    }
+    .#{$space-key}y-#{$i} {
+      #{$space-prop}-top: $space-var !important;
+      #{$space-prop}-bottom: $space-var !important;
+    }
+  }
+
+  @if $space-prop == margin {
+    .#{$space-key}l-auto { #{$space-prop}-left: auto !important; }
+    .#{$space-key}r-auto { #{$space-prop}-right: auto !important; }
+    .#{$space-key}x-auto {
+      #{$space-prop}-left: auto !important;
+      #{$space-prop}-right: auto !important;
+    }
+  }
+
+  @each $screen-name, $screen-width in $screen-max-widths {
+    @include more-than( $screen-name ) {
+      @each $i, $space-var in $space-map {
+        .#{$space-key}-#{$screen-name}-#{$i} { #{$space-prop}: $space-var !important; }
+        .#{$space-key}t-#{$screen-name}-#{$i} { #{$space-prop}-top: $space-var !important; }
+        .#{$space-key}b-#{$screen-name}-#{$i} { #{$space-prop}-bottom: $space-var !important; }
+        .#{$space-key}l-#{$screen-name}-#{$i} { #{$space-prop}-left: $space-var !important; }
+        .#{$space-key}r-#{$screen-name}-#{$i} { #{$space-prop}-right: $space-var !important; }
+        .#{$space-key}x-#{$screen-name}-#{$i} {
+          #{$space-prop}-left: $space-var !important;
+          #{$space-prop}-right: $space-var !important;
+        }
+        .#{$space-key}y-#{$screen-name}-#{$i} {
+          #{$space-prop}-top: $space-var !important;
+          #{$space-prop}-bottom: $space-var !important;
+        }
+      }
+
+      @if $space-prop == margin {
+        .#{$space-key}l-#{$screen-name}-auto { #{$space-prop}-left: auto !important; }
+        .#{$space-key}r-#{$screen-name}-auto { #{$space-prop}-right: auto !important; }
+        .#{$space-key}x-#{$screen-name}-auto {
+          #{$space-prop}-left: auto !important;
+          #{$space-prop}-right: auto !important;
+        }
+      }
+    }
+  }
+}

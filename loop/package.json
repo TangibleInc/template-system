@@ -1,0 +1,10 @@
+{
+  "name": "tangible-loop-module",
+  "scripts": {
+    "dev": "tgb dev",
+    "build": "tgb build"
+  },
+  "devDependencies": {
+    "@tangible/builder": "*"
+  }
+}

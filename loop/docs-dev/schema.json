@@ -1,0 +1,115 @@
+{
+  "LoopArguments": {
+    "type": "function"
+  },
+  "LoopQueryArguments": {
+    "type": "function"
+  },
+  "LoopQuery": {
+    "description": "Query instance for internal use\n\nCan be class instance, array of items, or even the original arguments, if items were manually passed."
+  },
+  "LoopItem": {
+    "description": "Loop item"
+  },
+  "LoopCallback": {
+    "type": "function"
+  },
+  "Loop": {
+    "description": "Loop interface with query, items, cursor, field, pagination\n\nAll loops implement this by extending the class Tangible\\Loop\\BaseLoop, and providing\nWP_Query, WP_User_Query, WP_Taxonomy, or arbitrary items.",
+    "type": "object",
+    "properties": {
+      "create_query_args": {
+        "type": "function",
+        "description": "Crete query arguments from passed arguments"
+      },
+      "create_query": {
+        "type": "function",
+        "description": "Crete query"
+      },
+      "run_query": {
+        "type": "function",
+        "description": "Run query"
+      },
+      "get_items_from_query": {
+        "type": "function",
+        "description": "Get items from query"
+      },
+      "loop": {
+        "type": "function",
+        "description": "Loop over items"
+      },
+      "each": {
+        "type": "function",
+        "description": "Loop over each item (alias of loop)"
+      },
+      "map": {
+        "type": "function",
+        "description": "Map items to a new array"
+      },
+      "reduce": {
+        "type": "function",
+        "description": "Reduce items to a value"
+      },
+      "get_current": {
+        "type": "function",
+        "description": "Get current item"
+      },
+      "set_current": {
+        "type": "function",
+        "description": "Set current item"
+      },
+      "next": {
+        "type": "function",
+        "description": "Move cursor/index forward"
+      },
+      "has_next": {
+        "type": "function",
+        "description": "Has next item"
+      },
+      "reset": {
+        "type": "function",
+        "description": "Reset loop"
+      },
+      "get_field": {
+        "type": "function",
+        "description": "Get field"
+      },
+      "get_items": {
+        "type": "function",
+        "description": "Get paginated items"
+      },
+      "get_items_count": {
+        "type": "function",
+        "description": "Get paginated items count"
+      },
+      "get_items_per_page": {
+        "type": "function",
+        "description": "Get items per page (size of page)"
+      },
+      "get_current_page": {
+        "type": "function",
+        "description": "Get current page number"
+      },
+      "set_current_page": {
+        "type": "function",
+        "description": "Set current page"
+      },
+      "get_current_page_items": {
+        "type": "function",
+        "description": "Get paginated items"
+      },
+      "get_total_items": {
+        "type": "function",
+        "description": "Get total items (no pagination)"
+      },
+      "get_total_items_count": {
+        "type": "function",
+        "description": "Get total items count (no pagination)"
+      },
+      "get_total_pages": {
+        "type": "function",
+        "description": "Get total number of pages"
+      }
+    }
+  }
+}

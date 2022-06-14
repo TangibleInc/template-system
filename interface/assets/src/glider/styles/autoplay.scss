@@ -1,0 +1,36 @@
+.tglider-progress-bar {
+  background-color: $tglider-progress-bar-bg;
+  height: $tglider-progress-bar-height;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: $zindex-progressbar;
+  opacity: 0;
+  @include transitionCustom(opacity 0.08s ease 0s);
+
+  .tglider-progress {
+    background-color: $tglider-progress-bar-active-bg;
+    height: $tglider-progress-bar-height;
+    width: 0;
+  }
+
+  &.tglider-start {
+    .tglider-progress {
+      width: 100%;
+    }
+  }
+
+  .tglider-show-autoplay & {
+    opacity: 1;
+  }
+}
+
+.tglider-autoplay-button {
+  &:after {
+    .tglider-show-autoplay & {
+      content: "\e01a";
+    }
+    content: "\e01d";
+  }
+}

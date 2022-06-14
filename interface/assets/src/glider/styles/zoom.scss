@@ -1,0 +1,56 @@
+.tglider-outer {
+  // reset transition duration
+  &.tglider-css3.tglider-zoom-dragging {
+    .tglider-item.tglider-complete.tglider-zoomable {
+      .tglider-img-wrap, .tglider-image {
+        @include transition-duration(0s);
+      }
+    }
+  }
+
+  .tglider-item.tglider-complete.tglider-zoomable{
+
+    .tglider-img-wrap {
+      @include transitionCustom(transform $zoom-transition-duration ease 0s);
+      @include translate3d(0, 0, 0);
+      @include backface-visibility(hidden);
+    }
+
+    .tglider-image {
+      // Translate required for zoom
+      @include scale3d(1, 1, 1);
+      @include transitionCustom(transform $zoom-transition-duration ease 0s, opacity 0.15s !important);
+      @include transform-origin(0 0);
+      @include backface-visibility(hidden);
+    }
+  }
+
+}
+
+// zoom buttons
+#tglider-zoom-in {
+  &:after {
+    content: "\e311";
+  }
+}
+
+#tglider-actual-size {
+  font-size: 20px;
+  &:after {
+    content: "\e033";
+  }
+}
+
+#tglider-zoom-out {
+  opacity: 0.5;
+  pointer-events: none;
+
+  &:after {
+    content: "\e312";
+  }
+
+  .tglider-zoomed & {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

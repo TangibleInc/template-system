@@ -1,0 +1,14 @@
+{
+  "name": "tangible-template-module",
+  "scripts": {
+    "dev": "tgb dev",
+    "build": "tgb build",
+    "postbuild": "node ./utils/removeSourcemapComments.js"
+  },
+  "dependencies": {
+    "@tangible/codemirror": "1.x"
+  },
+  "devDependencies": {
+    "@tangible/builder": "1.x"
+  }
+}

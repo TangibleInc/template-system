@@ -1,0 +1,57 @@
+$backdrop-opacity: 1 !default;
+$tglider-toolbar-bg: rgba(0, 0, 0, 0.45) !default;
+$tglider-border-radius-base: 2px !default;
+$tglider-theme-highlight: #D6C200; //rgb(169, 7, 7) !default;
+$tglider-theme: #0D0A0A !default;
+
+// basic icon colours
+$tglider-icon-bg: rgba(0, 0, 0, 0.45) !default;
+$tglider-icon-color: #999 !default;
+$tglider-icon-hover-color: #FFF !default;
+
+// counter
+$tglider-counter-color: #e6e6e6 !default;
+$tglider-counter-font-size: 16px !default;
+
+// Next prev icons
+$tglider-next-prev-bg: $tglider-icon-bg !default;
+$tglider-next-prev-color: $tglider-icon-color !default;
+$tglider-next-prev-hover-color: $tglider-icon-hover-color !default;
+
+// toolbar icons
+$tglider-toolbar-icon-color: $tglider-icon-color !default;
+$tglider-toolbar-icon-hover-color: $tglider-icon-hover-color !default;
+
+// autoplay progress bar
+$tglider-progress-bar-bg: #333 !default;
+$tglider-progress-bar-active-bg: $tglider-theme-highlight !default;
+$tglider-progress-bar-height: 5px !default;
+
+// paths
+$tglider-path-fonts: '../vendor/glider/fonts' !default;
+$tglider-path-images: '../vendor/glider/img' !default;
+
+// Zoom plugin
+$zoom-transition-duration: 0.3s !default;
+
+// Sub html - titile
+$tglider-sub-html-bg: rgba(0, 0, 0, 0.45) !default;
+$tglider-sub-html-color: #EEE !default;
+
+// thumbnail toggle button
+$tglider-thumb-toggle-bg: #0D0A0A !default;
+$tglider-thumb-toggle-color: $tglider-icon-color !default;
+$tglider-thumb-toggle-hover-color: $tglider-icon-hover-color !default;
+$tglider-thumb-bg: #0D0A0A !default;
+
+// z-index
+$zindex-outer: 1050 !default;
+$zindex-progressbar: 1080 !default;
+$zindex-controls: 1080 !default;
+$zindex-toolbar: 1080 !default;
+$zindex-subhtml: 1080 !default;
+$zindex-thumbnail: 1080 !default;
+$zindex-pager: 1080 !default;
+$zindex-playbutton: 1080 !default;
+$zindex-item: 1060 !default;
+$zindex-backdrop: 1040 !default;

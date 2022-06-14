@@ -1,0 +1,23 @@
+/**
+ * Embed - Responsive iframe
+ *
+ * CSS-only solution requires fixed aspect ratio, which can be set on the
+ * container element as padding-top="X%".
+ */
+
+.tangible-embed,
+.tangible-embed-dynamic {
+
+  overflow: hidden;
+  position: relative;
+
+  padding-top: 56.25%; // Default - 16:9 aspect ratio
+
+  iframe {
+    height: 100%;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+  }
+}

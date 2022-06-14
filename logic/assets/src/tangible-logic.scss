@@ -1,0 +1,268 @@
+html.tangible-logic-hide-scrollbar,
+.tangible-logic-hide-scrollbar body {
+  overflow-y: hidden !important;
+}
+
+#tangible-logic-root {
+  display: none;
+}
+
+#tangible-logic-root.tangible-logic-open {
+  display: block;
+  position: fixed;
+  color: #333333;
+  background: rgba(255, 255, 255, 0.85);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  padding: 30px;
+  z-index: 999999999;
+}
+
+.tangible-logic-modal {
+  color: #333;
+  font-size: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans,
+    Ubuntu, Cantarell, Helvetica Neue, sans-serif;
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 25px;
+  background: #f5f7f9;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 7px 30px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 7px 30px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 7px 30px;
+}
+
+.tangible-logic-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.tangible-logic-description {
+  margin-bottom: 20px;
+}
+
+.tangible-logic-clear:before,
+.tangible-logic-clear:after {
+  display: table;
+  clear: both;
+  content: '';
+}
+
+/* Rule groups */
+
+.tangible-logic-rule-groups {
+  margin-bottom: 20px;
+}
+
+.tangible-logic-rule-group-separator {
+  padding: 15px;
+}
+
+.tangible-logic-rule-group:first-of-type .tangible-logic-rule-group-separator {
+  display: none;
+}
+
+.tangible-logic-rule-group-box {
+  padding: 15px;
+  border: 1px solid #dcdcdc;
+}
+
+.tangible-logic-rule:first-of-type {
+  margin-top: 0;
+}
+
+.tangible-logic-rule:last-of-type {
+  margin-bottom: 0;
+}
+
+.tangible-logic-rule-column {
+  align-items: top;
+  font-size: 14px;
+  margin-right: 10px;
+  position: relative;
+}
+
+.tangible-logic-rule-column,
+.tangible-logic-rule-columns {
+  display: flex;
+  width: 100%;
+}
+
+.tangible-logic-rule-column-content {
+  display: block;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .tangible-logic-rule-columns {
+    display: block;
+    margin-right: 8px;
+  }
+
+  .tangible-logic-rule-column {
+    margin-bottom: 5px;
+  }
+}
+
+.tangible-logic-rule {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+/* Rule input */
+
+select.tangible-logic-rule-input,
+input.tangible-logic-rule-input {
+  border-style: solid;
+  border-color: transparent;
+  border-width: 2px;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+  padding: 4px 6px;
+  width: 100%;
+  height: 33px !important;
+}
+
+select.tangible-logic-rule-input:focus,
+input.tangible-logic-rule-input:focus {
+  border-color: #00a0d2 !important;
+  outline: none !important;
+}
+
+/* Number input field */
+
+.tangible-logic-rule-number-input-wrap {
+  display: flex;
+}
+
+input[type='number'].tangible-logic-rule-input {
+  /*height: 21px !important;*/
+  width: calc(100% - 30px);
+}
+
+.tangible-logic-rule-value-unit {
+  text-align: center;
+  width: 30px;
+}
+
+.tangible-logic-rule-value-unit-select {
+  margin-left: 10px;
+}
+
+/* Field label, description */
+
+.tangible-logic-rule-input-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 400;
+}
+
+.tangible-logic-rule-input-label,
+.tangible-logic-rule-input-description {
+  padding: 5px 5px 0 5px;
+}
+
+.tangible-logic-rule-input-description {
+  color: #888;
+}
+
+/*
+Label above field - Not supported for now: fixed height is needed for aligning all columns
+
+select.tangible-logic-rule-input,
+input.tangible-logic-rule-input {
+  margin-top: 31px;
+}
+
+.tangible-logic-rule-input-label + select.tangible-logic-rule-input,
+.tangible-logic-rule-input-label + input.tangible-logic-rule-input,
+.tangible-logic-rule-input-label + tangible-logic-rule-number-input-wrap select.tangible-logic-rule-input,
+.tangible-logic-rule-input-label + tangible-logic-rule-number-input-wrap input.tangible-logic-rule-input
+{
+  margin-top: 0;
+}
+*/
+
+/* Actions */
+
+.tangible-logic-modal-actions-box {
+  padding: 15px;
+  border: 1px solid #dcdcdc;
+}
+
+.tangible-logic-modal-actions {
+  margin-top: 10px;
+}
+
+.tangible-logic-button,
+.tangible-logic-action-icon {
+  display: inline-block;
+  border: 2px solid transparent !important; /* Ensure overriding theme button style */
+  margin: 0 8px 0 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-radius: 3px;
+  height: 33px;
+  line-height: 1;
+  color: #676f7a !important;
+  background-color: #e4e7ea;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans,
+    Ubuntu, Cantarell, Helvetica Neue, sans-serif;
+}
+
+.tangible-logic-button:hover,
+.tangible-logic-action-icon:hover {
+  background-color: #dadfe5;
+}
+
+.tangible-logic-button:focus,
+.tangible-logic-action-icon:focus {
+  border-color: #00a0d2;
+  outline: none;
+}
+
+.tangible-logic-button:last-child,
+.tangible-logic-action-icon {
+  margin-right: 0;
+}
+
+.tangible-logic-button[data-tangible-logic='save'] {
+  background-color: #00a0d2;
+  color: #ffffff !important;
+}
+
+.tangible-logic-button[data-tangible-logic='save']:hover {
+  background-color: #0197c6;
+}
+
+.tangible-logic-button[data-tangible-logic='save']:focus {
+  border-color: #ffc217 !important;
+}
+
+.tangible-logic-button[data-tangible-logic='save'],
+.tangible-logic-button[data-tangible-logic='close'] {
+  height: 38px;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+.tangible-logic-button,
+.tangible-logic-action-icon {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

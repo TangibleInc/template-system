@@ -1,0 +1,5 @@
+
+/* Horizontal line wrap */
+.tangible-template-acf-field-input-container .CodeMirror-wrap pre.CodeMirror-line {
+  word-break: break-word;
+}

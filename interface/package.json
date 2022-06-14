@@ -1,0 +1,22 @@
+{
+  "name": "@tangible/interface",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tgb dev",
+    "build": "tgb build",
+    "clean": "rm -rf build"
+  },
+  "dependencies": {
+    "@tangible/window": "^0.0.3",
+    "chart.js": "^3.3.0",
+    "chartjs-plugin-datalabels": "^2.0.0",
+    "lodash": "^4.17.21",
+    "select2": "^4.0.13",
+    "sortablejs": "^1.13.0"
+  },
+  "devDependencies": {
+    "@tangible/builder": "1.x"
+  }
+}

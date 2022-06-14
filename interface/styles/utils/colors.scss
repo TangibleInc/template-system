@@ -1,0 +1,16 @@
+
+
+// Colors
+
+@each $name, $color in $colors {
+  .color-#{$name} { color: $color !important; }
+}
+
+.color-inherit { color: inherit !important; }
+.muted { opacity: 0.5 !important }
+
+.color-fa { color: #fafafa !important; }
+.color-eee { color: #eee !important; }
+.color-ddd { color: #ddd !important; }
+.color-555 { color: #555 !important; }
+.color-333 { color: #333 !important; }

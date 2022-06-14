@@ -1,0 +1,105 @@
+
+.table        { display: table }
+.table-cell   { display: table-cell }
+.border-box { box-sizing: border-box }
+
+.text-strong  { font-weight: $strong-font-weight }
+.text-bold    { font-weight: $bold-font-weight }
+.text-regular { font-weight: $body-font-weight }
+.text-thin { font-weight: 300 }
+.text-italic  { font-style: italic }
+.text-caps    {
+  text-transform: uppercase;
+  //letter-spacing: .2em;
+}
+.text-underline { text-decoration: underline; }
+
+.text-small   { font-size: $body-font-size * 0.9; }
+.text-smaller   { font-size: $body-font-size * 0.75; }
+.text-size-normal { font-size: 1rem; }
+.text-big   { font-size: $body-font-size * 1.1; }
+.text-serif { font-family: $serif-font-family }
+.text-code {
+  font-family: $monospace-font-family;
+}
+.text-body-font {
+  font-family: $font-family;
+}
+
+.nowrap { white-space: nowrap }
+.break-word { word-wrap: break-word }
+.no-line-height { line-height: 0 }
+.truncate {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-top-none {
+  h1, h2, h3, h4, h5, h6 {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+.list-reset {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list-horizontal {
+  line-height: inherit;
+}
+.list-horizontal li {
+  display: inline-block;
+}
+
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+
+.no-select {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+.hoverable a, a.hoverable {
+  color: inherit
+}
+.hoverable {
+  transition: background-color .15s;
+  &:hover, &:active {
+    &, a {
+      text-decoration: none !important;
+    }
+    background-color: rgba(180,180,180,.1)//#fafafa;
+  }
+}
+
+.resize-none {
+  resize: none;
+}
+
+.opacity-1 { opacity: 1 !important; }
+
+.pretty-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #ddd; //#404040;
+  }
+  &::-webkit-scrollbar-thumb {
+    padding: 2px;
+    background: #aaa;
+    //border-radius: 6px;
+  }
+}

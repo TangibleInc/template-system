@@ -1,0 +1,222 @@
+
+$form-field-font-family: inherit !default;
+$form-field-font-size: $body-font-size !default; // 1 rem
+$form-field-height: 2.25rem !default;
+$form-field-padding-y: .5rem !default;
+$form-field-padding-x: .5rem !default;
+$form-field-small-padding-y: .25rem !default;
+$form-field-small-padding-x: .5rem !default;
+
+$field-focus-color: #a5c6e8 !default;
+$field-success-color: $green !default;
+$field-warning-color: $yellow !default;
+$field-error-color: $red !default;
+
+input,
+select,
+textarea,
+fieldset {
+  font-family: $form-field-font-family;
+  font-size: $form-field-font-size;
+  font-weight: $normal-font-weight;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  background-color: transparent;
+}
+
+label, .label {
+  vertical-align: middle;
+  //font-weight: $bold-font-weight;
+  display: block;
+}
+
+.radio, .checkbox {
+  @extend .no-select;
+  font-weight: $normal-font-weight;
+  vertical-align: middle;
+  & > label {
+    font-weight: $normal-font-weight;
+  }
+  & > input[type=checkbox]:not(:first-child),
+  & > input[type=radio]:not(:first-child) {
+    margin-left: $space-2;
+  }
+}
+input[type=checkbox],
+input[type=radio] {
+  vertical-align: middle;
+  margin-right: $space-1;
+
+  margin-top: -2px;
+}
+
+fieldset {
+  border: 0;
+}
+
+input[type=text],
+input[type=date],
+input[type=datetime],
+input[type=datetime-local],
+input[type=email],
+input[type=month],
+input[type=number],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=time],
+input[type=url],
+input[type=week] {
+  //height: $form-field-height;
+  padding: $form-field-padding-y $form-field-padding-x;
+  vertical-align: middle;
+  -webkit-appearance: none;
+
+  margin-top: $space-1 / 2;
+  margin-bottom: $space-1 / 2;
+
+  &.field-reset {
+    height: auto;
+    padding: 0;
+    margin: 0;
+    border: 0 none;
+  }
+  &.field-small {
+    @extend .text-smaller;
+    padding: $form-field-small-padding-y $form-field-small-padding-x;
+  }
+}
+
+input {
+  // Remove autofill background
+  // Firefox
+  filter: none;
+  // Chrome
+  &:-webkit-autofill { -webkit-box-shadow: 0 0 0 500px #ffffff inset; }
+}
+
+// Full-width inputs with border
+select, textarea,
+input[type=text],
+input[type=number],
+input[type=password],
+input[type=email]
+{
+  border-style: solid;
+  border-width: $border-width;
+  border-color: $border-color;
+  border-radius: $border-radius;
+  width: 100%;
+  transition: border-color .1s;
+  &:focus {
+    outline: none;
+    border-color: $field-focus-color;
+  }
+}
+
+input[type=range]
+{
+  width: 100%;
+}
+
+select, textarea {
+  margin-top: $space-1 / 2;
+  margin-bottom: $space-1 / 2;
+}
+select {
+  overflow-y: auto;
+  &.field-small {
+    @extend .text-smaller;
+    padding: ($form-field-small-padding-y / 2) ($form-field-small-padding-x / 2);
+  }
+}
+
+select, .select-label {
+  line-height: 1.75;
+  padding: ($form-field-padding-y / 2) $form-field-padding-x;
+}
+
+select:not([multiple]), .select-label {
+  height: $form-field-height;
+  vertical-align: middle;
+  &.field-small {
+    height: $form-field-height / 1.25;
+  }
+}
+
+textarea {
+  line-height: $line-height;
+  padding: $form-field-padding-y $form-field-padding-x;
+  resize: vertical;
+}
+
+
+// Variations
+
+select.select-small {
+  font-size: 90%;
+  height: auto;
+  padding: 0 ($form-field-padding-x / 2);
+}
+
+// ------------ Field ------------
+
+.field:focus,
+.field.is-focused {
+  outline: none;
+  border-color: $field-focus-color;
+  box-shadow: 0 0 0 2px color($field-focus-color a(.5));
+}
+
+.field:disabled,
+.field.is-disabled {
+  background-color: $darken-2 !important;
+  opacity: .5;
+}
+
+.field:read-only:not(select),
+.field.is-read-only {
+  background-color: $darken-2 !important;
+}
+
+
+.field.is-success {
+  border-color: $field-success-color !important;
+}
+
+.field.is-success:focus,
+.field.is-success.is-focused {
+  box-shadow: 0 0 0 2px color($field-success-color a(.5)) !important;
+}
+
+.field.is-warning {
+  border-color: $field-warning-color !important;
+}
+
+.field.is-warning:focus,
+.field.is-warning.is-focused {
+  box-shadow: 0 0 0 2px color($field-warning-color a(.5)) !important;
+}
+
+.field:invalid,
+.is-error {
+  border-color: $field-error-color !important;
+}
+
+.field:invalid:focus,
+.field:invalid.is-focused,
+.is-error:focus,
+.is-error.is-focused {
+  box-shadow: 0 0 0 2px color($field-error-color a(.5)) !important;
+}
+
+
+.field-error {
+  @extend .text-small, .color-red;
+  //vertical-align: bottom;
+}
+.field-description {
+  @extend .text-small, .color-dark-gray;
+}

@@ -1,0 +1,50 @@
+
+// Table
+
+table {
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: $border-radius;
+  line-height: 1.6;
+}
+
+th, td {
+  border-bottom: 1px solid $border-color;
+}
+
+tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+// Task list
+
+$task-list-item-checkbox-width: 19px !default;
+$task-list-item-checkbox-margin-right: .1rem !default;
+
+.task-list-item {
+  list-style-type: none;
+  margin-left: - $task-list-item-checkbox-width;
+  p:not(:first-child) {
+    margin-left: $task-list-item-checkbox-width;
+  }
+}
+
+li .task-list-item {
+  margin-left: - $task-list-item-checkbox-width + 2px;
+}
+
+.task-list-item .task-list-item {
+  margin-left: 2px;
+}
+
+.task-list-item li:not(.task-list-item) {
+  margin-left: 1.4rem;
+}
+
+.task-list-item-checkbox {
+  margin-right: $task-list-item-checkbox-margin-right !important;
+  margin-bottom: .1rem;
+}

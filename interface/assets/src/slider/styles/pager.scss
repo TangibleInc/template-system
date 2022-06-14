@@ -1,0 +1,33 @@
+
+.tslide-outer .tslider-pager.tslider-pager {
+  margin: 10px 0 0;
+  padding: 0;
+  text-align: center;
+}
+.tslide-outer .tslider-pager.tslider-pager > li {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 5px;
+}
+.tslide-outer .tslider-pager.tslider-pager > li a {
+  background-color: #222222;
+  border-radius: 30px;
+  display: inline-block;
+  height: 8px;
+  overflow: hidden;
+  text-indent: -999em;
+  width: 8px;
+  position: relative;
+  z-index: 99;
+  -webkit-transition: all 0.5s linear 0s;
+  transition: all 0.5s linear 0s;
+}
+.tslide-outer .tslider-pager.tslider-pager > li:hover a, .tslide-outer .tslider-pager.tslider-pager > li.active a {
+  background-color: #428bca;
+}
+.tslide-outer .media {
+  opacity: 0.8;
+}
+.tslide-outer .media.active {
+  opacity: 1;
+}

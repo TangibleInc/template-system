@@ -1,0 +1,51 @@
+
+$code-font-size: .9rem !default;
+$code-font-weight: normal !default;
+$code-margin-top: 0 !default;
+$code-margin-bottom: $space-2 !default;
+$code-border-radius: $border-radius !default;
+$code-background-color: #f7f7f7 !default;
+
+pre, code {
+  background-color: $code-background-color;
+  border-radius: $code-border-radius;
+}
+
+pre, code, samp {
+  font-family: $monospace-font-family;
+  font-size: $code-font-size;
+}
+
+pre {
+  margin-top: $code-margin-top;
+  margin-bottom: $code-margin-bottom;
+
+  //padding: .75rem $space-2;
+
+  overflow-x: auto;
+  /*white-space: pre-wrap;       // css-3
+  white-space: -moz-pre-wrap;  // Mozilla, since 1999
+  white-space: -pre-wrap;      // Opera 4-6
+  white-space: -o-pre-wrap;    // Opera 7
+  word-wrap: break-word;       // Internet Explorer 5.5+*/
+
+  // Make horizontal scroll with inner padding
+  display: flex;
+}
+
+code, pre > code {
+  font-weight: $code-font-weight;
+}
+
+code {
+  margin: 0 .25em;
+  padding: .25em .5em;
+  vertical-align: middle;
+}
+
+pre > code {
+  margin: 0;
+  padding: .75rem $space-2;
+  display: block;
+  width: 100%;
+}

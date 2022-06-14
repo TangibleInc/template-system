@@ -1,0 +1,171 @@
+
+$button-color: $white !default;
+$button-background-color: $blue !default;
+
+$button-font-family: inherit !default;
+$button-font-size: inherit !default;
+$button-font-weight: $normal-font-weight !default;
+$button-line-height: 1.125rem !default;
+
+$button-padding-y: .5rem !default;
+$button-padding-x: 1rem !default;
+$button-small-padding-y: .25rem !default;
+$button-small-padding-x: .5rem !default;
+$button-big-padding-y: 1rem !default;
+$button-big-padding-x: 1.25rem !default;
+$button-narrow-padding-x: $space-1 !default;
+
+$button-border-width: $border-width !default;
+$button-border-color: $border-color !default;
+$button-border-radius: $border-radius !default;
+
+$button-border: $button-border-width solid $button-border-color !default;
+
+/*
+::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+} */
+
+.btn {
+  display: inline-block;
+
+  // Same margin as input fields
+  margin-top: $space-1 / 2;
+  margin-bottom: $space-1 / 2;
+
+  padding: $button-padding-y $button-padding-x;
+
+  border: $button-border; // $darken-1
+  border-radius: $button-border-radius;
+
+  height: auto;
+
+  color: inherit;
+  //background-color: transparent;
+
+  line-height: $button-line-height;
+  vertical-align: middle;
+  text-align: center;
+
+  font-family: $button-font-family;
+  font-size: $button-font-size;
+  font-weight: $button-font-weight;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+
+  user-select: none;
+  overflow: hidden;
+
+  transition: box-shadow .1s;
+}
+
+.btn-text {
+  padding-top: $button-padding-y;
+  padding-bottom: $button-padding-y;
+}
+
+.btn:hover {
+  text-decoration: none;
+  box-shadow: inset 0 0 0 20rem $darken-1;
+}
+
+.btn:focus {
+  outline: none;
+}
+/*.btn:focus:not(:active) {
+  border-color: #77b4d5;
+}*/
+
+.btn.active,
+.btn:active:not(.btn-frozen) {
+  border-color: $darken-3;
+  box-shadow:
+    inset 0 0 0 20rem $darken-2,
+    inset 0 2px 2px 0 $darken-3,
+    0 0 0 $darken-2;
+}
+
+.btn:disabled,
+.btn.is-disabled {
+  opacity: .5;
+}
+
+.btn.no-hover,
+.btn:disabled,
+.btn.is-disabled,
+button:disabled,
+.btn-frozen {
+  box-shadow: none !important;
+  cursor: default !important;
+}
+
+// ------------ Modes ------------
+
+.btn-plain {
+  border: 0;
+  border-radius: 0;
+  transition: box-shadow .3s;
+}
+.btn-plain:hover, .btn-plain:focus, .btn-plain:active {
+  text-decoration: none;
+  box-shadow: inset 0 0 0 20rem $darken-1;
+}
+.btn-card {
+  &:hover, &:focus, &:active {
+    text-decoration: none;
+    box-shadow: none;
+    cursor: default !important;
+  }
+}
+
+.btn-primary {
+  color: $button-color;
+  background-color: $button-background-color;
+  border-radius: $border-radius;
+}
+
+// Group
+
+.btn-group {
+  .btn {
+    border-radius: 0;
+    border-left: 0 none;
+    // border-right: 0 none;
+  }
+  & > .btn:first-child,
+  & > a:first-child .btn {
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+    border-left: $border-width solid $border-color;
+  }
+  & > .btn:last-child,
+  & > a:last-child .btn  {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+    border-right: $border-width solid $border-color;
+  }
+}
+
+// ------------ Sizes ------------
+
+.btn-small {
+  @extend .text-small;
+  padding: $button-small-padding-y $button-small-padding-x;
+}
+
+.btn-small-text {
+  @extend .text-small;
+  padding-top: $button-small-padding-y;
+  padding-bottom: $button-small-padding-y;
+}
+
+.btn-big {
+  padding: $button-big-padding-y $button-big-padding-x;
+}
+
+.btn-narrow {
+  padding-left: $button-narrow-padding-x;
+  padding-right: $button-narrow-padding-x;
+}

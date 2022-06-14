@@ -1,0 +1,58 @@
+
+@mixin more-than( $size ) {
+
+  @if $size == sm {
+    @media (min-width: $screen-small) { @content; }
+  } @else if $size == md {
+    @media (min-width: $screen-mid) { @content; }
+  } @else if $size == lg {
+    @media (min-width: $container-width) { @content; }
+  } @else if $size == xl {
+    @media (min-width: $screen-large) { @content; }
+  } @else {
+    @media (min-width: $size) { @content; }
+  }
+}
+
+@mixin less-than( $size ) {
+
+  @if $size == sm {
+    @media (max-width: $screen-small - 1) { @content; }
+  } @else if $size == md {
+    @media (max-width: $screen-mid - 1) { @content; }
+  } @else if $size == lg {
+    @media (max-width: $container-width - 1) { @content; }
+  } @else if $size == xl {
+    @media (max-width: $screen-large - 1) { @content; }
+  } @else {
+    @media (max-width: $size - 1) { @content; }
+  }
+}
+
+@mixin between( $min, $max ) {
+
+  @if $min == sm { $min: $screen-small; }
+  @if $min == md { $min: $screen-mid; }
+  @if $min == lg { $min: $container-width; }
+  @if $min == xl { $min: $screen-large; }
+
+  @if $max == sm { $max: $screen-small; }
+  @if $max == md { $max: $screen-mid; }
+  @if $max == lg { $max: $container-width; }
+  @if $max == xl { $max: $screen-large; }
+
+  @media (min-width: $min) and (max-width: $max - 1) { @content; }
+}
+
+@mixin within( $size ) {
+
+  @if $size == sm {
+    @media (max-width: $screen-small - 1) { @content; }
+  } @else if $size == md {
+    @media (min-width: $screen-small) and (max-width: $screen-mid - 1) { @content; }
+  } @else if $size == lg {
+    @media (min-width: $screen-mid) and (max-width: $container-width - 1) { @content; }
+  } @else if $size == xl {
+    @media (min-width: $container-width) and (max-width: $screen-large) { @content; }
+  }
+}

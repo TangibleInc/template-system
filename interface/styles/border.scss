@@ -1,0 +1,13 @@
+
+hr {
+  width: 100%;
+  border: 0;
+  border-bottom-style: $rule-border-style;
+  border-bottom-width: $rule-border-width;
+  border-bottom-color: $rule-border-color;
+  &.dark {
+    border-bottom-color: $gray;
+  }
+  margin-top: $space-2;
+  margin-bottom: $space-2;
+}

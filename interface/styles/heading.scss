@@ -1,0 +1,37 @@
+
+$heading-font-family: $font-family !default;
+$heading-font-weight: $bold-font-weight !default;
+$heading-line-height: 1.25 !default;
+
+$heading-margin-top: $space-3 !default;
+$heading-margin-bottom: $space-3 !default;
+
+$h1: 1.75em !default;
+$h2: 1.5em !default;
+$h3: 1.25em !default;
+$h4: 1.1em !default;
+$h5: .875em !default;
+$h6: .75em !default;
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $heading-font-family;
+  font-weight: $heading-font-weight;
+  line-height: $heading-line-height;
+}
+
+h1, .h1 { font-size: $h1 }
+h2, .h2 { font-size: $h2 }
+h3, .h3 { font-size: $h3 }
+h4, .h4 { font-size: $h4 }
+h5 { font-size: $h5 }
+h6 { font-size: $h6 }
+
+h1, h2 {
+  margin-top: $heading-margin-top;
+  margin-bottom: $heading-margin-bottom;
+}
+
+h3, h4, h5, h6 {
+  margin-top: $space-2;
+  margin-bottom: $space-2;
+}

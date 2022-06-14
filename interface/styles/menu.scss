@@ -1,0 +1,116 @@
+$menu-break-point: $screen-small !default;
+
+// Menu is vertical by default
+
+.menu--item-container,
+.menu--child-container {
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover, &:active {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+}
+
+.menu--item-container {
+
+  @extend .full-width;
+
+  border-bottom: $border-width solid $border-color;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .current > .menu--item {
+    font-weight: 400;
+  }
+}
+
+.menu--item {
+  @extend .btn-plain, .m-0, .px-1, .full-width;
+}
+
+.menu--child {
+  @extend .btn-plain, .m-0, .pl-3, .pr-1, .block, .full-width;
+}
+.menu--child-container .menu--child-container .menu--child {
+  padding-left: 2.5rem
+}
+
+.menu--dropdown-container .is-open .menu--dropdown {
+  border-top: $border-width solid $border-color;
+}
+
+// Inverted
+.menu--invert {
+  .menu--item, .menu--child {
+    // Darker on hover
+    &:hover, &:focus, &:active {
+      box-shadow: inset 0 0 0 20rem $darken-3;
+    }
+  }
+}
+.menu--hide-current > .menu--item-container {
+  .current {
+    display: none;
+  }
+}
+
+
+// Horizontal
+
+@mixin horizontal-menu() {
+
+  .menu--item-container {
+    display: inline-block;
+    vertical-align: middle;
+    border-bottom: none;
+    //margin-left: .5em;
+    //margin-right: .5em;
+  }
+
+  & > .menu--item-container {
+    width: auto;
+    .menu--item {
+      border-radius: $border-radius;
+    }
+  }
+
+  .menu--item, .menu--child {
+    padding-left: .75em;
+    padding-right: .75em;
+  }
+
+  .menu--dropdown-container {
+    position: absolute;
+  }
+
+  .menu--dropdown-shadow-space {
+    position: relative;
+    padding-bottom: .5em;
+    padding-right: .5em;
+  }
+
+  .menu--dropdown {
+    //@extend .bordered, .rounded, .shadow;
+    background-color: #fff;
+    border: $border-width solid $border-color;
+    border-radius: $border-radius;
+    box-shadow: 2px 2px 2px $border-color;
+    min-width: 180px;
+    //width: 100%;
+  }
+}
+
+
+// Responsive
+
+@include more-than( $menu-break-point ) {
+  .menu--responsive {
+    @include horizontal-menu();
+  }
+}

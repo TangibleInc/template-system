@@ -1,0 +1,123 @@
+.tglider-outer {
+  .tglider-thumb-outer {
+    background-color: $tglider-thumb-bg;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    z-index: $zindex-thumbnail;
+    max-height: 350px;
+    @include translate3d(0, 100%, 0);
+    @include transitionCustom(transform 0.25s cubic-bezier(0, 0, 0.25, 1) 0s);
+    &.tglider-grab {
+      .tglider-thumb-item {
+        @include grab-cursor;
+      }
+    }
+
+    &.tglider-grabbing {
+      .tglider-thumb-item {
+        @include grabbing-cursor;
+      }
+    }
+
+    &.tglider-dragging {
+      .tglider-thumb {
+        @include transition-duration(0s !important);
+      }
+    }
+  }
+  &.tglider-thumb-open{
+    .tglider-thumb-outer {
+      @include translate3d(0, 0%, 0);
+    }
+  }
+
+  .tglider-thumb {
+    padding: 10px 0;
+    height: 100%;
+    margin-bottom: -5px;
+  }
+
+  .tglider-thumb-item {
+    //border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    overflow: hidden;
+    height: 100%;
+    border: 2px solid transparent;
+    background-color: $tglider-thumb-bg; // #fff;
+    margin-bottom: 5px;
+    @media (min-width: 1025px) {
+      @include transition(border-color 0.25s ease);
+    }
+
+    &.active, &:hover {
+      border-color: $tglider-theme-highlight;
+    }
+    .tglider-thumb-item-image-wrap {
+      margin: 0 auto;
+      height: 100%;
+    }
+    img {
+      width: auto; //100%;
+      height: 100%;
+    }
+  }
+
+  &.tglider-has-thumb {
+    .tglider-item {
+      padding-bottom: 120px;
+    }
+  }
+
+  &.tglider-can-toggle {
+    .tglider-item {
+      padding-bottom: 0;
+    }
+  }
+  &.tglider-pull-caption-up{
+    .tglider-sub-html {
+      @include transition(bottom 0.25s ease);
+    }
+    &.tglider-thumb-open{
+      .tglider-sub-html {
+        bottom: 100px;
+      }
+    }
+  }
+
+  .tglider-toogle-thumb {
+    background-color: $tglider-icon-bg; //$tglider-thumb-toggle-bg;
+    //border-radius: $tglider-border-radius-base $tglider-border-radius-base 0 0;
+    color: $tglider-thumb-toggle-color;
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 27px;
+    position: absolute;
+    //right: 20px;
+    left: 0;
+    text-align: center;
+    /*
+    height: 39px;
+    padding: 5px 0;
+    top: -39px;
+    width: 50px;
+    */
+    height: 40px;
+    padding: 6px 6px 5px 5px;
+    top: -40px;
+    width: 40px;
+
+    &:after {
+      content: "\e1ff";
+    }
+
+    &:hover {
+      color: $tglider-thumb-toggle-hover-color;
+    }
+  }
+}
+
+.tglider-hide-items .tglider-thumb-outer {
+  @include translate3d(0, 150%, 0);
+}

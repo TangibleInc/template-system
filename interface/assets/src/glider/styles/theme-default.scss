@@ -1,0 +1,225 @@
+// default theme
+.tglider-actions {
+
+  .tglider-next, .tglider-prev {
+    background-color: $tglider-next-prev-bg;
+    //border-radius: $tglider-border-radius-base;
+    color: $tglider-next-prev-color;
+    cursor: pointer;
+    display: block;
+    font-size: 22px;
+    margin-top: -10px;
+    padding: 8px 10px 9px;
+    position: absolute;
+    //top: 50%;
+    bottom: 0;
+    z-index: $zindex-controls;
+
+    &.disabled {
+      //pointer-events: none;
+      opacity: 0.5;
+      color: $tglider-next-prev-color !important;
+      cursor: default;
+    }
+
+    &:hover {
+      color: $tglider-next-prev-hover-color;
+    }
+  }
+
+  .tglider-next {
+    right: 0px;
+
+    &:before {
+      content: "\e095";
+    }
+  }
+
+  .tglider-prev {
+    //left: 0px;
+    right: 42px;
+
+    &:after {
+      content: "\e094";
+    }
+  }
+  /*
+  @media (max-width: 960px) {
+    .tglider-prev {
+      left: 0;
+      right: auto;
+    }
+  }*/
+}
+
+@include keyframes(tglider-right-end) {
+  0% {
+    left: 0;
+  }
+
+  50% {
+    left: -30px;
+  }
+
+  100% {
+    left: 0;
+  }
+}
+
+
+@include keyframes(tglider-left-end) {
+  0% {
+    left: 0;
+  }
+
+  50% {
+    left: 30px;
+  }
+
+  100% {
+    left: 0;
+  }
+}
+
+
+.tglider-outer {
+  &.tglider-right-end {
+    .tglider-object {
+      @include animation(tglider-right-end 0.3s);
+      position: relative;
+    }
+  }
+
+  &.tglider-left-end {
+    .tglider-object {
+      @include animation(tglider-left-end 0.3s);
+      position: relative;
+    }
+  }
+}
+
+// lg toolbar
+.tglider-toolbar {
+  z-index: $zindex-toolbar;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  .tglider-icon {
+    background-color: $tglider-toolbar-bg;
+    color: $tglider-toolbar-icon-color;
+    cursor: pointer;
+    float: right;
+    font-size: 24px;
+    text-align: center;
+    text-decoration: none !important;
+    outline: medium none;
+    /*
+    height: 47px;
+    line-height: 27px;
+    padding: 10px 0;
+    width: 50px;
+    */
+    height: 42px;
+    line-height: 27px;
+    padding: 8px 0;
+    width: 42px;
+
+    &:hover {
+      color: $tglider-toolbar-icon-hover-color;
+    }
+  }
+
+  .tglider-close {
+    &:after {
+      content: "\e070";
+    }
+  }
+
+  .tglider-download {
+    &:after {
+      content: "\e0f2";
+    }
+  }
+}
+
+// lightGallery title
+.tglider-sub-html {
+  background-color: $tglider-sub-html-bg;
+  bottom: 0;
+  color: $tglider-sub-html-color;
+  font-size: 16px;
+  left: 0;
+  padding: 10px 40px;
+  position: fixed;
+  right: 0;
+  text-align: center;
+  z-index: $zindex-subhtml - 1;
+
+  h4 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: bold;
+  }
+
+  p {
+    font-size: 12px;
+    margin: 5px 0 0;
+  }
+}
+
+// lg image counter
+#tglider-counter {
+  background-color: $tglider-toolbar-bg;
+  color: $tglider-icon-color;
+  display: inline-block;
+  font-size: $tglider-counter-font-size;
+  padding: 8px;
+  //padding-left: 20px;
+  //padding-top: 12px;
+  vertical-align: middle;
+}
+
+// for idle state
+.tglider-toolbar, .tglider-prev, .tglider-next {
+  opacity: 1;
+  @include transitionCustom(transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s);
+}
+
+.tglider-hide-items {
+  .tglider-prev {
+    opacity: 0 !important;
+    @include translate3d(-10px, 0, 0);
+  }
+
+  .tglider-next {
+    opacity: 0 !important;
+    @include translate3d(10px, 0, 0);
+  }
+
+  .tglider-toolbar {
+    opacity: 0;
+    @include translate3d(0, -10px, 0);
+  }
+}
+
+// Starting effect
+body:not(.tglider-from-hash){
+  .tglider-outer {
+    &.tglider-start-zoom{
+      .tglider-object{
+        @include scale3d(0.5, 0.5, 0.5);
+        opacity: 0;
+        @include transitionCustom(transform 250ms ease 0s, opacity 250ms !important);
+        @include transform-origin(50% 50%);
+      }
+      .tglider-item.tglider-complete{
+        .tglider-object{
+          @include scale3d(1, 1, 1);
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

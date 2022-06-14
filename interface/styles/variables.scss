@@ -1,0 +1,152 @@
+// Shared variables
+
+// Colors
+$transparent: transparent !default;
+$white: #fff !default;
+$black: #111 !default;
+
+$blue: #3F86ce !default; // #0074d9
+$green: #19a974 !default; // #1abc9c #26BF3A #2ecc40
+$light-green: #89d6a8 !default;
+$yellow: #ffe75d !default; // ffdc00
+$orange: #ff851b !default;
+$red: #e74c3c !default; // ff1b1b, #ff4136
+$purple: #9b59b6 !default; // #b10dc9
+
+$navy: #37528A !default; // 415F69 253c52 001f3f 56727C
+$coffee: #575757 !default;
+$cream: #f3e6d5 !default;
+$sky: #4ba6ff !default; // 77b4d5, 57bcff
+$light-sky: #ddecff !default;
+$olive: #3d9970 !default;
+
+$gray: #aaa !default; // aaa
+$light-gray: #ddd !default; // ddd
+$dark-gray: #999 !default;
+$silver: #e4e8ef !default;
+
+$dark-blue: #272933 !default;
+$dark-gray-blue: #313644 !default;
+$gray-blue: #444b5d !default;
+$light-gray-blue: #545e75 !default;
+//$lighter-gray-blue: #5b6272 !default;
+
+
+// Reconsider..
+$aqua: #7fdbff !default;
+$teal: #39cccc !default;
+$lime: #01ff70 !default;
+$fuchsia: #f012be !default;
+$maroon: #85144b !default;
+
+
+$darken-1: rgba(0,0,0,.0625) !default;
+$darken-2: rgba(0,0,0,.125) !default;
+$darken-3: rgba(0,0,0,.25) !default;
+$darken-4: rgba(0,0,0,.5) !default;
+
+$lighten-1: rgba(255,255,255,.0625) !default;
+$lighten-2: rgba(255,255,255,.125) !default;
+$lighten-3: rgba(255,255,255,.25) !default;
+$lighten-4: rgba(255,255,255,.5) !default;
+
+$colors: () !default;
+$colors: map-merge((
+  white: $white,
+  silver: $silver,
+  gray: $gray,
+  light-gray: $light-gray,
+  dark-gray: $dark-gray,
+  black: $black,
+  transparent: $transparent,
+
+  blue: $blue,
+  green: $green,
+  yellow: $yellow,
+  orange: $orange,
+  red: $red,
+  purple: $purple,
+
+  navy: $navy,
+  coffee: $coffee,
+  cream: $cream,
+  olive: $olive,
+  sky: $sky,
+  light-sky: $light-sky,
+
+  dark-blue: $dark-blue,
+  dark-gray-blue: $dark-gray-blue,
+  gray-blue: $gray-blue,
+  light-gray-blue: $light-gray-blue
+
+), $colors);
+
+$theme-colors: (
+  primary: $blue,
+  secondary: $light-gray,
+  success: $green,
+  info: $navy,
+  warning: $yellow,
+  danger: $red
+);
+
+
+// Space
+$space-0: 0;
+$space-1: .5rem !default;
+$space-2: 1rem !default;
+$space-3: 1.5rem !default;
+$space-4: 2rem !default;
+
+
+// Layout
+$screen-small:    480px !default; // 600px
+$screen-mid:      768px !default; // 900px
+$container-width: 1024px !default;
+$screen-large:   1200px !default;
+
+$article-width:  48em !default; // Comfortable reading width 38em
+
+$screen-max-widths: (
+  sm: $screen-small,
+  md: $screen-mid,
+  lg: $container-width,
+  xl: $screen-large
+) !default;
+
+
+// Body
+$body-color: #24292e !default; // $black
+$body-background-color: $white !default;
+
+// Text
+
+$line-height: 1.42857143 !default; //1.33,1.625
+$letter-spacing: inherit !default; //0.01em
+$base-font-size: 16px/1 !default;
+$body-font-size: 1em !default;
+
+$light-font-weight: 300 !default;
+$normal-font-weight: 400 !default;
+$bold-font-weight: 500 !default;
+$strong-font-weight: 600 !default;
+
+$body-font-weight: $normal-font-weight !default;
+
+$font-family:
+  -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Noto Sans", "Ubuntu", "Droid Sans", "Helvetica Neue", sans-serif !default;
+//Roboto, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", sans-serif;
+$serif-font-family: 'Times New Roman', serif !default;
+$monospace-font-family:
+  "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace !default;
+  //"SF Mono", "Segoe UI Mono", "Roboto Mono", "Ubuntu Mono", Menlo, Courier, monospace;
+  //'Source Code Pro', Consolas, Menlo, Courier, monospace !default;
+
+// Border
+$border-width: 1px !default;
+$border-radius: 4px !default;
+$border-color: $silver !default; //light-gray, darken-2
+
+$rule-border-style: solid !default;
+$rule-border-width: $border-width !default;
+$rule-border-color: $border-color !default;

@@ -1,0 +1,766 @@
+@import "variables";
+@import "mixins";
+
+.tglider-css3 {
+    &.tglider-zoom-in {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include scale3d(1.3, 1.3, 1.3);
+            }
+
+            &.tglider-next-slide {
+                @include scale3d(1.3, 1.3, 1.3);
+            }
+
+            &.tglider-current {
+                @include scale3d(1, 1, 1);
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-zoom-in-big {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include scale3d(2, 2, 2);
+            }
+
+            &.tglider-next-slide {
+                @include scale3d(2, 2, 2);
+            }
+
+            &.tglider-current {
+                @include scale3d(1, 1, 1);
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-zoom-out {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include scale3d(0.7, 0.7, 0.7);
+            }
+
+            &.tglider-next-slide {
+                @include scale3d(0.7, 0.7, 0.7);
+            }
+
+            &.tglider-current {
+                @include scale3d(1, 1, 1);
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+    &.tglider-zoom-out-big {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include scale3d(0, 0, 0);
+            }
+
+            &.tglider-next-slide {
+                @include scale3d(0, 0, 0);
+            }
+
+            &.tglider-current {
+                @include scale3d(1, 1, 1);
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-zoom-out-in {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include scale3d(0, 0, 0);
+            }
+
+            &.tglider-next-slide {
+                @include scale3d(2, 2, 2);
+            }
+
+            &.tglider-current {
+                @include scale3d(1, 1, 1);
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-zoom-in-out {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include scale3d(2, 2, 2);
+            }
+
+            &.tglider-next-slide {
+                @include scale3d(0, 0, 0);
+            }
+
+            &.tglider-current {
+                @include scale3d(1, 1, 1);
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-soft-zoom {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include scale3d(1.1, 1.1, 1.1);
+            }
+
+            &.tglider-next-slide {
+                @include scale3d(0.9, 0.9, 0.9);
+            }
+
+            &.tglider-current {
+                @include scale3d(1, 1, 1);
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-scale-up {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(scale3d(0.8, 0.8, 0.8) translate3d(0%, 10%, 0));
+            }
+
+            &.tglider-next-slide {
+                @include transform(scale3d(0.8, 0.8, 0.8) translate3d(0%, 10%, 0));
+            }
+
+            &.tglider-current {
+                @include transform(scale3d(1, 1, 1) translate3d(0, 0, 0));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-circular {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(scale3d(0, 0, 0) translate3d(-100%, 0, 0));
+            }
+
+            &.tglider-next-slide {
+                @include transform(scale3d(0, 0, 0) translate3d(100%, 0, 0));
+            }
+
+            &.tglider-current {
+                @include transform(scale3d(1, 1, 1) translate3d(0, 0, 0));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    // sec
+    &.tglider-slide-circular-up {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(scale3d(0, 0, 0) translate3d(-100%, -100%, 0));
+            }
+
+            &.tglider-next-slide {
+                @include transform(scale3d(0, 0, 0) translate3d(100%, -100%, 0));
+            }
+
+            &.tglider-current {
+                @include transform(scale3d(1, 1, 1) translate3d(0, 0, 0));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    // sec
+    &.tglider-slide-circular-down {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(scale3d(0, 0, 0) translate3d(-100%, 100%, 0));
+            }
+
+            &.tglider-next-slide {
+                @include transform(scale3d(0, 0, 0) translate3d(100%, 100%, 0));
+            }
+
+            &.tglider-current {
+                @include transform(scale3d(1, 1, 1) translate3d(0, 0, 0));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-circular-vertical {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(scale3d(0, 0, 0) translate3d(0, -100%, 0));
+            }
+
+            &.tglider-next-slide {
+                @include transform(scale3d(0, 0, 0) translate3d(0, 100%, 0));
+            }
+
+            &.tglider-current {
+                @include transform(scale3d(1, 1, 1) translate3d(0, 0, 0));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    // sec
+    &.tglider-slide-circular-vertical-left {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(scale3d(0, 0, 0) translate3d(-100%, -100%, 0));
+            }
+
+            &.tglider-next-slide {
+                @include transform(scale3d(0, 0, 0) translate3d(-100%, 100%, 0));
+            }
+
+            &.tglider-current {
+                @include transform(scale3d(1, 1, 1) translate3d(0, 0, 0));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    // sec
+    &.tglider-slide-circular-vertical-down {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(scale3d(0, 0, 0) translate3d(100%, -100%, 0));
+            }
+
+            &.tglider-next-slide {
+                @include transform(scale3d(0, 0, 0) translate3d(100%, 100%, 0));
+            }
+
+            &.tglider-current {
+                @include transform(scale3d(1, 1, 1) translate3d(0, 0, 0));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-vertical {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include translate3d(0, -100%, 0);
+            }
+
+            &.tglider-next-slide {
+                @include translate3d(0, 100%, 0);
+            }
+
+            &.tglider-current {
+                @include translate3d(0, 0, 0);
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-vertical-growth {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(scale3d(0.5, 0.5, 0.5) translate3d(0, -150%, 0));
+            }
+
+            &.tglider-next-slide {
+                @include transform(scale3d(0.5, 0.5, 0.5) translate3d(0, 150%, 0));
+            }
+
+            &.tglider-current {
+                @include transform(scale3d(1, 1, 1) translate3d(0, 0, 0));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-skew-only {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(skew(10deg, 0deg));
+            }
+
+            &.tglider-next-slide {
+                @include transform(skew(10deg, 0deg));
+            }
+
+            &.tglider-current {
+                @include transform(skew(0deg, 0deg));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-skew-only-rev {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(skew(-10deg, 0deg));
+            }
+
+            &.tglider-next-slide {
+                @include transform(skew(-10deg, 0deg));
+            }
+
+            &.tglider-current {
+                @include transform(skew(0deg, 0deg));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-skew-only-y {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(skew(0deg, 10deg));
+            }
+
+            &.tglider-next-slide {
+                @include transform(skew(0deg, 10deg));
+            }
+
+            &.tglider-current {
+                @include transform(skew(0deg, 0deg));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-skew-only-y-rev {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(skew(0deg, -10deg));
+            }
+
+            &.tglider-next-slide {
+                @include transform(skew(0deg, -10deg));
+            }
+
+            &.tglider-current {
+                @include transform(skew(0deg, 0deg));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-skew {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(skew(20deg, 0deg) translate3d(-100%, 0%, 0px));
+            }
+
+            &.tglider-next-slide {
+                @include transform(skew(20deg, 0deg) translate3d(100%, 0%, 0px));
+            }
+
+            &.tglider-current {
+                @include transform(skew(0deg, 0deg) translate3d(0%, 0%, 0px));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-skew-rev {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(skew(-20deg, 0deg) translate3d(-100%, 0%, 0px));
+            }
+
+            &.tglider-next-slide {
+                @include transform(skew(-20deg, 0deg) translate3d(100%, 0%, 0px));
+            }
+
+            &.tglider-current {
+                @include transform(skew(0deg, 0deg) translate3d(0%, 0%, 0px));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-skew-cross {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(skew(0deg, 60deg) translate3d(-100%, 0%, 0px));
+            }
+
+            &.tglider-next-slide {
+                @include transform(skew(0deg, 60deg) translate3d(100%, 0%, 0px));
+            }
+
+            &.tglider-current {
+                @include transform(skew(0deg, 0deg) translate3d(0%, 0%, 0px));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-skew-cross-rev {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(skew(0deg, -60deg) translate3d(-100%, 0%, 0px));
+            }
+
+            &.tglider-next-slide {
+                @include transform(skew(0deg, -60deg) translate3d(100%, 0%, 0px));
+            }
+
+            &.tglider-current {
+                @include transform(skew(0deg, 0deg) translate3d(0%, 0%, 0px));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-skew-ver {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(skew(60deg, 0deg) translate3d(0, -100%, 0px));
+            }
+
+            &.tglider-next-slide {
+                @include transform(skew(60deg, 0deg) translate3d(0, 100%, 0px));
+            }
+
+            &.tglider-current {
+                @include transform(skew(0deg, 0deg) translate3d(0%, 0%, 0px));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-skew-ver-rev {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(skew(-60deg, 0deg) translate3d(0, -100%, 0px));
+            }
+
+            &.tglider-next-slide {
+                @include transform(skew(-60deg, 0deg) translate3d(0, 100%, 0px));
+            }
+
+            &.tglider-current {
+                @include transform(skew(0deg, 0deg) translate3d(0%, 0%, 0px));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-skew-ver-cross {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(skew(0deg, 20deg) translate3d(0, -100%, 0px));
+            }
+
+            &.tglider-next-slide {
+                @include transform(skew(0deg, 20deg) translate3d(0, 100%, 0px));
+            }
+
+            &.tglider-current {
+                @include transform(skew(0deg, 0deg) translate3d(0%, 0%, 0px));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-slide-skew-ver-cross-rev {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(skew(0deg, -20deg) translate3d(0, -100%, 0px));
+            }
+
+            &.tglider-next-slide {
+                @include transform(skew(0deg, -20deg) translate3d(0, 100%, 0px));
+            }
+
+            &.tglider-current {
+                @include transform(skew(0deg, 0deg) translate3d(0%, 0%, 0px));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-lollipop {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include translate3d(-100%, 0, 0);
+            }
+
+            &.tglider-next-slide {
+                @include transform(translate3d(0, 0, 0) scale(0.5));
+            }
+
+            &.tglider-current {
+                @include translate3d(0, 0, 0);
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-lollipop-rev {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(translate3d(0, 0, 0) scale(0.5));
+            }
+
+            &.tglider-next-slide {
+                @include translate3d(100%, 0, 0);
+            }
+
+            &.tglider-current {
+                @include translate3d(0, 0, 0);
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-rotate {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(rotate(-360deg));
+            }
+
+            &.tglider-next-slide {
+                @include transform(rotate(360deg));
+            }
+
+            &.tglider-current {
+                @include transform(rotate(0deg));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-rotate-rev {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(rotate(360deg));
+            }
+
+            &.tglider-next-slide {
+                @include transform(rotate(-360deg));
+            }
+
+            &.tglider-current {
+                @include transform(rotate(0deg));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+
+    &.tglider-tube {
+        .tglider-item {
+            opacity: 0;
+
+            &.tglider-prev-slide {
+                @include transform(scale3d(1, 0, 1) translate3d(-100%, 0, 0));
+            }
+
+            &.tglider-next-slide {
+                @include transform(scale3d(1, 0, 1) translate3d(100%, 0, 0));
+            }
+
+            &.tglider-current {
+                @include transform(scale3d(1, 1, 1) translate3d(0, 0, 0));
+                opacity: 1;
+            }
+
+            &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
+                @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+            }
+        }
+    }
+}

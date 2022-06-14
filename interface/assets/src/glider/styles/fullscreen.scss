@@ -1,0 +1,9 @@
+.tglider-fullscreen {
+  &:after {
+    content: "\e20c";
+
+    .tglider-fullscreen-on & {
+      content: "\e20d";
+    }
+  }
+}

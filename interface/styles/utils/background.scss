@@ -1,0 +1,36 @@
+
+// Background
+
+@each $name, $color in $colors {
+  .bg-#{$name} { background-color: $color; }
+}
+
+.bg-fa { background-color: #fafafa; }
+.bg-eee { background-color: #eee; }
+.bg-ddd { background-color: #ddd; }
+.bg-333 { background-color: #333; }
+
+.bg-darken-1 { background-color: $darken-1 }
+.bg-darken-2 { background-color: $darken-2 }
+.bg-darken-3 { background-color: $darken-3 }
+.bg-darken-4 { background-color: $darken-4 }
+
+.bg-lighten-1 { background-color: $lighten-1 }
+.bg-lighten-2 { background-color: $lighten-2 }
+.bg-lighten-3 { background-color: $lighten-3 }
+.bg-lighten-4 { background-color: $lighten-4 }
+
+.striped:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+// Positions
+
+.bg-cover   { background-size: cover }
+.bg-contain { background-size: contain }
+
+.bg-center  { background-position: center }
+.bg-top     { background-position: top }
+.bg-right   { background-position: right }
+.bg-bottom  { background-position: bottom }
+.bg-left    { background-position: left }

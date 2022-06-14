@@ -1,0 +1,23 @@
+
+.container,
+.lg-container,
+.md-container,
+.sm-container,
+.article-container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $space-3;
+  padding-right: $space-3;
+  padding-bottom: $space-3;
+}
+
+.container,
+.container-width { max-width: $container-width }
+.lg-container,
+.lg-width { max-width: $screen-large }
+.md-container,
+.md-width { max-width: $screen-mid }
+.sm-container,
+.sm-width { max-width: $screen-small }
+.article-container,
+.article-width { max-width: $article-width }

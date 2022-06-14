@@ -1,0 +1,19 @@
+.hide, .sm-show, .md-show, .lg-show {
+  display: none !important
+}
+.show { display: block !important }
+
+@include more-than( sm ) {
+  .sm-show { display: block !important }
+  .sm-hide { display: none !important }
+}
+
+@include more-than( md ) {
+  .md-show { display: block !important }
+  .md-hide { display: none !important }
+}
+
+@include more-than( lg ) {
+  .lg-show { display: block !important }
+  .lg-hide { display: none !important }
+}
