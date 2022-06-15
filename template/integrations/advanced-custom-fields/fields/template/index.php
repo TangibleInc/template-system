@@ -127,6 +127,11 @@ class TemplateField extends acf_field {
 
   function input_admin_enqueue_scripts() {
 
+// Code editor incompatible with Custom HTML field in Customizer
+// due to different versions of HTMLHint in global scope
+global $wp_customize;
+if ( isset( $wp_customize ) ) return;
+
     tangible_template()->enqueue_codemirror();
 
     wp_add_inline_script('tangible-codemirror', file_get_contents(__DIR__.'/index.js'));
