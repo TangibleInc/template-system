@@ -29,6 +29,11 @@ return tangible_loop(new class extends TangibleModule {
   public $url     = '';
   public $state   = [];
 
+  function __construct() {
+    $this->version = tangible_template_system()->version;
+    parent::__construct();
+  }
+
   function __invoke( $type, $args = [] ) {
     return $this->create_type($type, $args);
   }

@@ -1,0 +1,52 @@
+/**
+ * Adapt to default styles of Beaver Builder
+ */
+
+body .fl-lightbox .CodeMirror {
+
+  box-sizing: border-box;
+  position: relative;
+
+  max-width: 100%;
+  height: auto;
+
+  resize: vertical;
+
+  // Override crazy rules like ".fl-lightbox *" and ".fl-lightbox :not(i)"..
+  &, * {
+    box-sizing: border-box;
+
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+
+    font-size: 14px;
+    line-height: 1.5em;
+  }
+
+  .CodeMirror-scroll,
+  .CodeMirror-sizer,
+  .CodeMirror-gutter,
+  .CodeMirror-gutters,
+  .CodeMirror-linenumber {
+    box-sizing: content-box;
+  }
+
+  .CodeMirror-scroll {
+    min-height: 300px;
+  }
+}
+
+.fl-builder-settings .fl-field[data-type="tangible_template_editor"] {
+
+  & .fl-field-control {
+    padding-left: 0 !important;
+  }
+}
+
+.fl-builder-settings[data-type="tangible-template"] {
+
+  .fl-form-table {
+    margin: 10px 12px 10px 10px;
+    padding: 0;
+    width: calc(100% - 22px);
+  }
+}

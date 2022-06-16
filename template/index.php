@@ -28,6 +28,11 @@ return tangible_template(new class extends TangibleModule {
   public $name    = 'tangible_template';
   public $version = '20220519';
 
+  function __construct() {
+    $this->version = tangible_template_system()->version;
+    parent::__construct();
+  }
+
   function load_latest_version() {
 
     add_action('tangible_loop_prepare', function() {

@@ -1,0 +1,4 @@
+# Git attributes - https://www.git-scm.com/docs/gitattributes
+
+# Normalize line endings automatically (CRLF to LF) for files detected as text
+* text=auto

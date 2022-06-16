@@ -1,0 +1,58 @@
+.tangible-codemirror .CodeMirror-scroll,
+.tangible-template-editor-locked {
+  min-height: 300px;
+}
+
+.tangible-template-editor-locked {
+  display: block;
+  margin: 0;
+  padding: .75rem;
+  background: rgba(0,0,0,.05);
+  white-space: pre-wrap; // Make pre > code wrap long lines
+}
+
+.tangible-template-editor-container {
+  display: flex;
+  flex-direction: column;
+}
+
+// Tabs
+
+.tangible-template-tab-selectors {
+  margin: 1rem 0 1.25rem 0;
+}
+
+.tangible-template-tab-selector {
+
+  // Colors similar to WP core's .nav-tab
+
+  display: inline;
+  cursor: pointer;
+
+  padding: 6px 12px;
+  border: 1px solid #c3c4c7;
+
+  background-color: #dcdcde;
+
+  &:not(:last-child) {
+    border-right: 0;
+  }
+
+  &.active {
+    background-color: #fff;
+  }
+}
+
+.tangible-template-tab {
+  margin: 1rem 0;
+}
+
+.tangible-template-tabs .tangible-template-tab:not(:first-child) {
+  display: none;
+}
+
+// Utilities
+
+.tangible-template-setting-row {
+  margin: 1rem 0;
+}

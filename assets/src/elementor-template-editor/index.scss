@@ -1,0 +1,22 @@
+.elementor-control-type-tangible-template-editor .CodeMirror {
+
+  box-sizing: border-box;
+  position: relative;
+
+  max-width: 100%;
+  height: auto;
+
+  resize: vertical;
+
+  .CodeMirror-scroll,
+  .CodeMirror-sizer,
+  .CodeMirror-gutter,
+  .CodeMirror-gutters,
+  .CodeMirror-linenumber {
+    box-sizing: content-box;
+  }
+
+  .CodeMirror-scroll {
+    min-height: 300px;
+  }
+}

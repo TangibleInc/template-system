@@ -1,0 +1,507 @@
+$modal-font-size: 16px;
+$modal-spacing: 2em;
+$modal-overlay: #000;
+$modal-overlay-opacity: 0.35;
+$modal-background: #fff;
+$modal-border: 1px solid #ddd;
+$modal-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+$modal-radius: 2px;
+$modal-text-color: #1d2327;
+$accent: #007cba;
+
+$group-border: 1px solid #E0E0E0;
+$group-spacing: 1.5em;
+
+$control-border: 1px solid #72777c;
+$control-radius: 4px;
+
+$button-color: $accent;
+$button-background: #f3f5f6;
+$button-border: $accent;
+$button-color-hover: $accent;
+$button-background-hover: #f3f5f6;
+$button-border-hover: $accent;
+
+$additive: $accent;
+$destructive: #cc1818;
+
+html.tangible-logic-hide-scrollbar,
+.tangible-logic-hide-scrollbar body {
+  overflow-y: hidden !important;
+}
+
+#tangible-logic-root {
+  display: none;
+}
+
+#tangible-logic-root.tangible-logic-open {
+  display: block;
+  position: fixed;
+  color: $modal-text-color;
+  background: rgba($modal-overlay, $modal-overlay-opacity);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  z-index: 999999999;
+}
+
+.tangible-logic-modal {
+  position: relative;
+  font-size: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans,
+  Ubuntu, Cantarell, Helvetica Neue, sans-serif;
+  margin: 7% auto;
+  max-width: 700px;
+  max-height: calc(100% - 3 * #{$modal-spacing});
+  min-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 $modal-spacing $modal-spacing;
+  border-radius: $modal-radius;
+  background: $modal-background;
+  box-shadow: $modal-shadow;
+  -moz-box-shadow: $modal-shadow;
+  -webkit-box-shadow: $modal-shadow;
+
+  .tangible-logic-header {
+    display: flex;
+    justify-content: space-between;
+    height: 4em;
+    align-items: center;
+    background: $modal-background;
+    border-bottom: $modal-border;
+    padding: 0 $modal-spacing;
+    border-radius: $modal-radius $modal-radius 0 0;
+    position: relative;
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    margin: 0 (-$modal-spacing) 2em;
+  }
+
+  > .tangible-logic-actions {
+    text-align: right;
+    margin-top: 5em;
+
+    .tangible-components-button {
+      margin-left: 0.5em;
+    }
+  }
+}
+
+.tangible-logic-title {
+  font-size: 1em;
+  font-weight: 700;
+}
+
+.tangible-logic-description {
+  margin-bottom: 1em;
+}
+
+.tangible-logic-clear:before,
+.tangible-logic-clear:after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+// Button Component
+
+:root {
+  --tangible-theme-color: #007cba;
+  --tangible-theme-color-darker-10: #006ba1;
+  --tangible-theme-color-darker-20: #005a87;
+  --tangible-border-width-focus: 2px;
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  :root {
+    --tangible-border-width-focus: 1.5px;
+  }
+}
+
+
+.tangible-components-button-group {
+  display: inline-block;
+}
+.tangible-components-button-group .tangible-components-button {
+  border-radius: 0;
+  display: inline-flex;
+  color: #1e1e1e;
+  box-shadow: inset 0 0 0 1px #1e1e1e;
+}
+.tangible-components-button-group .tangible-components-button + .tangible-components-button {
+  margin-left: -1px;
+}
+.tangible-components-button-group .tangible-components-button:first-child {
+  border-radius: 2px 0 0 2px;
+}
+.tangible-components-button-group .tangible-components-button:last-child {
+  border-radius: 0 2px 2px 0;
+}
+.tangible-components-button-group .tangible-components-button.is-primary,
+.tangible-components-button-group .tangible-components-button:focus {
+  position: relative;
+  z-index: 1;
+}
+.tangible-components-button-group .tangible-components-button.is-primary {
+  box-shadow: inset 0 0 0 1px #1e1e1e;
+}
+.tangible-components-button {
+  display: inline-flex;
+  font-weight: 400;
+  font-size: 13px;
+  margin: 0;
+  border: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  height: 36px;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 6px 12px;
+  border-radius: 2px;
+  text-decoration: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tangible-components-button {
+    transition-duration: 0s;
+    transition-delay: 0s;
+  }
+}
+.tangible-components-button:hover,
+.tangible-components-button[aria-expanded="true"] {
+  color: var(--tangible-theme-color);
+}
+.tangible-components-button[aria-disabled="true"]:hover {
+  color: initial;
+}
+.tangible-components-button:focus:not(:disabled) {
+  box-shadow: 0 0 0 var(--tangible-border-width-focus)
+  var(--tangible-theme-color);
+  outline: 3px solid transparent;
+}
+.tangible-components-button.is-primary,
+.tangible-components-button.is-primary:not(:hover):not(:active):not(.has-background)
+{
+  white-space: nowrap;
+  background: var(--tangible-theme-color);
+  color: #fff;
+  text-decoration: none;
+  text-shadow: none;
+  outline: 1px solid transparent;
+}
+.tangible-components-button.is-primary:hover:not(:disabled) {
+  background: var(--tangible-theme-color-darker-10);
+  color: #fff;
+}
+.tangible-components-button.is-primary:active:not(:disabled) {
+  background: var(--tangible-theme-color-darker-20);
+  border-color: var(--tangible-theme-color-darker-20);
+  color: #fff;
+}
+.tangible-components-button.is-primary:focus:not(:disabled) {
+  box-shadow: inset 0 0 0 1px #fff,
+  0 0 0 var(--tangible-border-width-focus) var(--tangible-theme-color);
+}
+.tangible-components-button.is-primary:disabled,
+.tangible-components-button.is-primary:disabled:active:enabled,
+.tangible-components-button.is-primary[aria-disabled="true"],
+.tangible-components-button.is-primary[aria-disabled="true"]:active:enabled,
+.tangible-components-button.is-primary[aria-disabled="true"]:enabled {
+  color: hsla(0, 0%, 100%, 0.4);
+  background: var(--tangible-theme-color);
+  border-color: var(--tangible-theme-color);
+  opacity: 1;
+  outline: none;
+}
+.tangible-components-button.is-primary:disabled:active:enabled:focus:enabled,
+.tangible-components-button.is-primary:disabled:focus:enabled,
+.tangible-components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled,
+.tangible-components-button.is-primary[aria-disabled="true"]:enabled:focus:enabled,
+.tangible-components-button.is-primary[aria-disabled="true"]:focus:enabled {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--tangible-theme-color);
+}
+.tangible-components-button.is-primary.is-busy,
+.tangible-components-button.is-primary.is-busy:disabled,
+.tangible-components-button.is-primary.is-busy[aria-disabled="true"] {
+  color: #fff;
+  background-size: 100px 100%;
+  background-image: linear-gradient(
+      -45deg,
+      var(--tangible-theme-color) 33%,
+      var(--tangible-theme-color-darker-20) 0,
+      var(--tangible-theme-color-darker-20) 70%,
+      var(--tangible-theme-color) 0
+  );
+  border-color: var(--tangible-theme-color);
+}
+.tangible-components-button.is-secondary,
+.tangible-components-button.is-tertiary {
+  outline: 1px solid transparent;
+}
+.tangible-components-button.is-secondary:active:not(:disabled),
+.tangible-components-button.is-tertiary:active:not(:disabled) {
+  background: #ddd;
+  color: var(--tangible-theme-color-darker-10);
+  box-shadow: none;
+}
+.tangible-components-button.is-secondary:hover:not(:disabled),
+.tangible-components-button.is-tertiary:hover:not(:disabled) {
+  color: var(--tangible-theme-color-darker-10);
+  box-shadow: inset 0 0 0 1px var(--tangible-theme-color-darker-10);
+}
+.tangible-components-button.is-secondary:disabled,
+.tangible-components-button.is-secondary[aria-disabled="true"],
+.tangible-components-button.is-secondary[aria-disabled="true"]:hover,
+.tangible-components-button.is-tertiary:disabled,
+.tangible-components-button.is-tertiary[aria-disabled="true"],
+.tangible-components-button.is-tertiary[aria-disabled="true"]:hover {
+  color: #828282;
+  background: #eaeaea;
+  transform: none;
+  opacity: 1;
+  box-shadow: none;
+  outline: none;
+}
+.tangible-components-button.is-secondary {
+  box-shadow: inset 0 0 0 1px var(--tangible-theme-color);
+  outline: 1px solid transparent;
+}
+.tangible-components-button.is-secondary,
+.tangible-components-button.is-tertiary,
+.tangible-components-button.is-secondary:not(:hover):not(:active):not(.has-background),
+.tangible-components-button.is-tertiary:not(:hover):not(:active):not(.has-background)
+{
+  white-space: nowrap;
+  color: var(--tangible-theme-color);
+  background: transparent;
+}
+.tangible-components-button.is-tertiary {
+  padding: 6px;
+}
+.tangible-components-button.is-tertiary .dashicon {
+  display: inline-block;
+  flex: 0 0 auto;
+}
+.tangible-components-button.is-destructive {
+  color: #cc1818;
+  box-shadow: inset 0 0 0 1px #cc1818;
+}
+.tangible-components-button.is-destructive:hover:not(:disabled) {
+  color: #710d0d;
+  box-shadow: inset 0 0 0 1px #710d0d;
+}
+.tangible-components-button.is-destructive:focus:not(:disabled) {
+  color: var(--tangible-theme-color);
+}
+.tangible-components-button.is-destructive:active:not(:disabled) {
+  background: #ccc;
+}
+.tangible-components-button.is-destructive.is-primary {
+  color: #fff;
+  background: #cc1818;
+  box-shadow: inset 0 0 0 1px #cc1818;
+}
+.tangible-components-button.is-destructive.is-primary:hover:not(:disabled) {
+  color: #fff;
+  background: #710d0d;
+  box-shadow: inset 0 0 0 1px #710d0d;
+}
+.tangible-components-button.is-link {
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  outline: none;
+  text-align: left;
+  color: var(--tangible-theme-color);
+  text-decoration: underline;
+  transition-property: border, background, color;
+  transition-duration: 0.05s;
+  transition-timing-function: ease-in-out;
+  height: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tangible-components-button.is-link {
+    transition-duration: 0s;
+    transition-delay: 0s;
+  }
+}
+.tangible-components-button.is-link:focus {
+  border-radius: 2px;
+}
+.tangible-components-button.is-link.is-destructive {
+  color: #cc1818;
+}
+.tangible-components-button.is-link.is-destructive:active:not(:disabled),
+.tangible-components-button.is-link.is-destructive:hover:not(:disabled) {
+  color: #710d0d;
+  background: none;
+}
+.tangible-components-button.is-link.is-destructive:focus:not(:disabled) {
+  color: var(--tangible-theme-color);
+}
+.tangible-components-button:not([aria-disabled="true"]):active {
+  color: inherit;
+}
+.tangible-components-button:disabled,
+.tangible-components-button[aria-disabled="true"] {
+  cursor: default;
+  opacity: 0.3;
+}
+.tangible-components-button.is-busy,
+.tangible-components-button.is-secondary.is-busy,
+.tangible-components-button.is-secondary.is-busy:disabled,
+.tangible-components-button.is-secondary.is-busy[aria-disabled="true"] {
+  animation: tangible-components-button__busy-animation 2.5s linear infinite;
+  opacity: 1;
+  background-size: 100px 100%;
+  background-image: linear-gradient(
+      -45deg,
+      #fafafa 33%,
+      #e0e0e0 0,
+      #e0e0e0 70%,
+      #fafafa 0
+  );
+}
+.tangible-components-button.is-small {
+  height: 24px;
+  line-height: 22px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+.tangible-components-button.is-small.has-icon:not(.has-text) {
+  padding: 0 8px;
+  width: 24px;
+}
+.tangible-components-button.has-icon,
+.tangible-components-button.has-icon:not(:hover):not(:active):not(.has-background)
+{
+  padding: 6px;
+  min-width: 36px;
+  justify-content: center;
+  background: transparent;
+}
+.tangible-components-button.has-icon .dashicon {
+  display: inline-block;
+  flex: 0 0 auto;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.tangible-components-button.has-icon.has-text {
+  justify-content: left;
+}
+.tangible-components-button.has-icon.has-text svg {
+  margin-right: 8px;
+}
+.tangible-components-button.has-icon.has-text .dashicon {
+  margin-right: 10px;
+}
+.tangible-components-button.is-pressed {
+  color: #fff;
+  background: #1e1e1e;
+}
+.tangible-components-button.is-pressed:focus:not(:disabled) {
+  box-shadow: inset 0 0 0 1px #fff,
+  0 0 0 var(--tangible-border-width-focus) var(--tangible-theme-color);
+  outline: 2px solid transparent;
+}
+.tangible-components-button.is-pressed:hover:not(:disabled) {
+  color: #fff;
+  background: #1e1e1e;
+}
+.tangible-components-button svg {
+  fill: currentColor;
+  outline: none;
+}
+.tangible-components-button .tangible-components-visually-hidden {
+  height: auto;
+}
+@keyframes tangible-components-button__busy-animation {
+  0% {
+    background-position: 200px 0;
+  }
+}
+
+.tangible-components-control {
+  .tangible-components-control__label {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  input,
+  select {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+    min-height: 36px;
+    padding: 6px 8px;
+    box-shadow: 0 0 0 transparent;
+    transition: box-shadow .1s linear;
+    border-radius: $control-radius;
+    border: $control-border;
+
+    &:focus {
+      border-color: $accent;
+      box-shadow: 0 0 0 1px $accent;
+      outline: 2px solid transparent;
+    }
+  }
+
+  select {
+    padding-right: 24px;
+    -webkit-appearance: none;
+    background: #fff url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat right 5px top 55%;
+    background-size: 16px 16px;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+}
+
+// Accessibly hide labels
+.tangible-logic-rule .tangible-components-control__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+.tangible-logic-rule {
+  display: flex;
+}
+
+.tangible-logic-rule {
+  margin-bottom: 1em;
+
+  .tangible-components-control {
+    margin-right: 10px;
+    flex: 1 1 auto;
+  }
+  .tangible-logic-rule-actions {
+    margin-left: auto;
+  }
+}
+.tangible-logic-rule-group-box h4 {
+  margin-bottom: 0.5em;
+}
+
+.tangible-logic-rule-group-box-bordered {
+  border: $modal-border;
+  padding: 0.7em;
+}
+
+.tangible-components-control__field > * {
+  min-width: 100%;
+}
+
+.tangible-block-editor .interface-complementary-area .components-panel__header, .interface-complementary-area .components-panel {
+  position: initial;
+}

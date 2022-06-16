@@ -1,0 +1,56 @@
+
+#tangible_template_import_export_form {
+
+  .export-rules {
+    margin-bottom: 1rem;
+  }
+
+  .export-rule {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .export-rule-part {
+    margin-top: 1rem;
+    margin-right: .5rem;
+  }
+
+  .icon {
+
+    width: 18px;
+    height: 18px;
+
+    cursor: pointer;
+
+    svg path {
+      fill: #999;
+      stroke: #999;
+      transition: all .3s;
+    }
+
+    &:hover svg path {
+      fill: #000;
+      stroke: #000;
+    }
+  }
+
+  .export-rule-part--remove-rule .icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .export-rule-part--remove-rule:hover svg path {
+    fill: red;
+    stroke: red;
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 2rem;
+
+    // Restore Select2 field style
+    &.select2-selection__rendered {
+      padding: 0 5px;
+    }
+  }
+}

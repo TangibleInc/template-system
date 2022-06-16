@@ -21,6 +21,11 @@ return tangible_interface(new class extends TangibleModule {
   public $version = '20210901';
   public $state   = [];
 
+  function __construct() {
+    $this->version = tangible_template_system()->version;
+    parent::__construct();
+  }
+
   function load_latest_version() {
 
     $interface = $this;

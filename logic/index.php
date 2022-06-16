@@ -26,6 +26,11 @@ return tangible_logic(new class extends TangibleModule {
   public $version = '20220131';
   public $state   = [];
 
+  function __construct() {
+    $this->version = tangible_template_system()->version;
+    parent::__construct();
+  }
+
   function load_version() {
 
     $this->file_path = __FILE__;

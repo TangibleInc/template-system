@@ -1,0 +1,5 @@
+# Update to newest library
+
+echo -e "<?php\nnamespace Tangible;" > Mobile_Detect.php
+
+curl -L https://raw.githubusercontent.com/serbanghita/Mobile-Detect/5.x/Mobile_Detect.php | tail -n+2 >> Mobile_Detect.php

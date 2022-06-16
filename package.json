@@ -1,0 +1,12 @@
+{
+  "name": "tangible-template-system-module",
+  "private": true,
+  "scripts": {
+    "dev": "roll dev",
+    "build": "roll build",
+    "format": "roll format"
+  },
+  "devDependencies": {
+    "@tangible/roller": "1.x"
+  }
+}
