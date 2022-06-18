@@ -89,6 +89,7 @@ return tangible_template(new class extends TangibleModule {
       $html->dir_path = __DIR__;
       $html->file_path = __FILE__;
       $html->url = plugins_url( '/', __FILE__ );
+
       $html->version = $this->version;
 
       // Utility functions

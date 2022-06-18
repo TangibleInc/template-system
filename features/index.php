@@ -1,7 +1,7 @@
 <?php
 /**
- * Features are independent modules with their own tags, optionally loading
- * script and style.
+ * Features are independent and optional modules with their own
+ * library, tags, script and style.
  */
 
 require_once __DIR__.'/hyperdb/index.php';
