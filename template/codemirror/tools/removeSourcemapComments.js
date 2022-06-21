@@ -15,7 +15,7 @@ const fs = require('fs')
 ]
   .forEach(function removeSourcemapComment(base) {
 
-    const filePath = `./assets/vendor/${base}.min.js`
+    const filePath = `./vendor/${base}.min.js`
 
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) return
