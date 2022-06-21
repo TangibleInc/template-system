@@ -5,7 +5,7 @@ new class {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version     = '20220617';
+  public $version     = '20220618';
   public $url;
 
   function __construct() {
@@ -17,7 +17,7 @@ new class {
 
     add_action('plugins_loaded', function() use ($name) {
       if (!did_action($name)) do_action($name);
-    }, 9); // After plugin framework, before plugins register
+    }, 0);
 
     $this->url = plugins_url( '/', realpath( __FILE__ ) );
   }
@@ -39,45 +39,68 @@ new class {
     remove_all_filters($name); // First one to load wins
     tangible_template_system( $this );
 
-    // Core features
-
     require_once __DIR__ . '/../interface/index.php';
     require_once __DIR__ . '/../loop/index.php';
     require_once __DIR__ . '/../logic/index.php';
     require_once __DIR__ . '/../template/index.php';
 
-    $framework  = tangible();
+    // Wait for latest version of plugin framework
+    add_action('plugins_loaded', function() use ($plugin) {
 
-    $loop       = tangible_loop();
-    $logic      = tangible_logic();
-    $interface  = tangible_interface();
-    $html       = tangible_template();
+      /**
+       * Currently consolidating all features to be internal to the
+       * template system, instead of plugin framework and separate modules.
+       * That will allow migrating away from previous (inter)dependencies.
+       */
 
-    /**
-     * Template post types and fields, editor, management
-     */
+      $framework = $plugin->framework = tangible();
+      $loop = $plugin->loop = tangible_loop();
+      $logic = $plugin->logic = tangible_logic();
+      $interface = $plugin->interface = tangible_interface();
+      $html = $plugin->html = tangible_template();
 
-    require_once __DIR__.'/post-types/index.php';
+      /**
+       * Template post types and fields, editor, management
+       */
 
-    require_once __DIR__.'/data.php';
-    require_once __DIR__.'/editor/index.php';
-    require_once __DIR__.'/fields.php';
-    require_once __DIR__.'/save.php';
-    require_once __DIR__.'/render/index.php';
-    require_once __DIR__.'/tag.php';
+      require_once __DIR__.'/post-types/index.php';
 
-    require_once __DIR__.'/template-assets/index.php';
-    require_once __DIR__.'/location/index.php';
+      require_once __DIR__.'/data.php';
+      require_once __DIR__.'/editor/index.php';
+      require_once __DIR__.'/fields.php';
+      require_once __DIR__.'/save.php';
+      require_once __DIR__.'/render/index.php';
+      require_once __DIR__.'/tag.php';
 
-    require_once __DIR__.'/universal-id/index.php';
-    require_once __DIR__.'/import-export/index.php';
+      require_once __DIR__.'/template-assets/index.php';
+      require_once __DIR__.'/location/index.php';
 
-    require_once __DIR__.'/../features/index.php';
-    require_once __DIR__.'/integrations/index.php';
+      require_once __DIR__.'/universal-id/index.php';
+      require_once __DIR__.'/import-export/index.php';
 
-    // TODO: Convert to use Cloud Client module
-    // require_once __DIR__.'/cloud/index.php';
+      require_once __DIR__.'/../features/index.php';
+      require_once __DIR__.'/integrations/index.php';
 
+      // TODO: Convert to use Cloud Client module
+      // require_once __DIR__.'/cloud/index.php';
+
+      do_action("{$this->name}_ready", $plugin);
+
+    }, 8); // Before plugins register
+
+    add_action('plugins_loaded', function() use ($plugin) {
+
+      // For any callbacks that registered later
+      do_action("{$this->name}_ready", $plugin);
+
+    }, 12); // After
+  }
+
+  function ready($callback) {
+    if (did_action("{$this->name}_ready")) {
+      return $callback($this);
+    }
+    add_action("{$this->name}_ready", $callback);
   }
 
   // Mock $plugin methods during transition from plugin to module

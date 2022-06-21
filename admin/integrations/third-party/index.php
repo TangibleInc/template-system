@@ -3,21 +3,12 @@
 /**
  * Third-party plugin integrations
  *
- * Loops & Logic Pro uses this to extend content types, fields, and conditions.
+ * Template System Pro uses this to extend content types, fields, and conditions.
  *
  * It should be documented to allow third-party developers.
  */
 
 $plugin->integration_configs = []; // A list of configs
-
-/**
- * Keep old variable name for backward compatibility
- *
- * Remove when Pro plugin is updated to use better named variable above.
- *
- * @see tangible-blocks-pro/includes/admin/admin-notice.php
- */
-$plugin->plugin_integrations = &$plugin->integration_configs;
 
 $plugin->register_plugin_integration = function($config) use ($plugin, $framework) {
 
@@ -31,32 +22,7 @@ $plugin->register_plugin_integration = function($config) use ($plugin, $framewor
     if (!isset($config[ $key ])) throw new Exception("Property \"$key\" is required");
   }
 
-  static $tangible_plugins;
-
-  if (empty($tangible_plugins)) {
-    $tangible_plugins = $framework->get_plugins();
-  }
-
   $config['dependency_active'] = $config['active'];
-
-
-  $previous_plugin_name = 'tangible-loops-for-' . $config['slug'];
-
-  if (isset( $tangible_plugins[ $previous_plugin_name ] )) {
-
-    /**
-     * If add-on plugins replaced by Pro are active, do not load the new integration.
-     *
-     * This avoids loading the same integration twice. There will be an admin notice to
-     * prompt the user to uninstall the add-on(s).
-     *
-     * @see tangible-loops-and-logic-pro/includes/admnin/admin-notice.php
-     */
-
-    $config['previous_plugin'] = $tangible_plugins[ $previous_plugin_name ];
-    $config['active'] = false;
-  }
-
 
   if ( ! $plugin->is_integration_enabled( $config['slug'] ) ) {
     $config['active'] = false;
@@ -128,6 +94,7 @@ $plugin->is_integration_enabled = function($slug) use ($plugin) {
 /**
  * Add submenu item Tangible -> Integrations
  */
+/*
 add_action(
   $plugin->is_multisite() ? 'network_admin_menu' : 'admin_menu',
   function() use ($framework, $plugin) {
@@ -144,8 +111,8 @@ add_action(
       require_once __DIR__.'/admin.php', // Callback
       30 // Position
     );
-
   }
   ,
   99 // At the bottom
 );
+*/

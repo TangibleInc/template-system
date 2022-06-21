@@ -18,9 +18,8 @@ require_once __DIR__ . '/elementor/index.php';
  * Third-party plugin integration API
  */
 
-// TODO: Convert to extend Template System module
-// require_once __DIR__ . '/third-party/index.php';
-// require_once __DIR__ . '/wp-fusion/index.php';
+require_once __DIR__ . '/third-party/index.php';
+require_once __DIR__ . '/wp-fusion/index.php';
 
 do_action('tangible_template_integrations_ready');
 

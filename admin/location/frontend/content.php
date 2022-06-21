@@ -7,7 +7,7 @@
  * Loaded by "template_include" filter in ./include.php
  */
 
-$plugin = tangible_loops_and_logic();
+$plugin = tangible_template_system();
 
 $template_id = $plugin->layout_template_for_current_location;
 
