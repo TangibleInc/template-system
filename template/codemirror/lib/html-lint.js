@@ -7,12 +7,12 @@
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
-    mod(require("./codemirror"), window.HTMLHint /*require("htmlhint")*/);
+    mod(require("./codemirror"));
   else if (typeof define == "function" && define.amd) // AMD
     define(["./codemirror", "htmlhint"], mod);
   else // Plain browser env
-    mod(CodeMirror, window.HTMLHint);
-})(function(CodeMirror, HTMLHint) {
+    mod(CodeMirror);
+})(function(CodeMirror) {
   "use strict";
 
   var defaultRules = {
@@ -29,6 +29,7 @@
 
   CodeMirror.registerHelper("lint", "html", function(text, options) {
     var found = [];
+    let HTMLHint = window.Tangible.HTMLHint
     if (HTMLHint && !HTMLHint.verify) {
       if(typeof HTMLHint.default !== 'undefined') {
         HTMLHint = HTMLHint.default;
@@ -36,7 +37,6 @@
         HTMLHint = HTMLHint.HTMLHint;
       }
     }
-    if (!HTMLHint) HTMLHint = window.HTMLHint;
     if (!HTMLHint) {
       if (window.console) {
         // window.console.error("Error: HTMLHint not found, not defined on window, or not available through define/require, CodeMirror HTML linting cannot run.");
