@@ -5,10 +5,10 @@ This is the template system shared by Tangible Blocks and Loops & Logic. Origina
 
 ## Current
 
-- [ ] Remove dependency on plugin framework
+- [ ] Provide extension hooks for L&L and Tangible Blocks
 - [ ] Convert core modules to use new builder tool
 - [ ] Bundle CodeMirror module
-- [ ] Provide extension hooks for L&L and Tangible Blocks
+- [ ] Remove dependency on plugin framework
 
 
 ## Architecture

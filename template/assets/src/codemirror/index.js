@@ -1,6 +1,6 @@
 
 // Code editor with sensible defaults for HTML templates and common languages
-const createCodeEditor = require('@tangible/codemirror')
+const createCodeEditor = require('../../../codemirror') // @tangible/codemirror
 
 const {
   CodeMirror, // Direct access to underlying CodeMirror

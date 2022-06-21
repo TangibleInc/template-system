@@ -21,11 +21,11 @@ module.exports = {
       watch: 'assets/src/codemirror/theme-light.scss'
     },
 
-    {
-      task: 'copy',
-      src: 'node_modules/@tangible/codemirror/vendor/*.min.js',
-      dest: 'assets/vendor'
-    },
+    // {
+    //   task: 'copy',
+    //   src: 'node_modules/@tangible/codemirror/vendor/*.min.js',
+    //   dest: 'assets/vendor'
+    // },
 
     // Paginator
     {

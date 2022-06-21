@@ -1,0 +1,139 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.wheelEventPixels = wheelEventPixels;
+exports.onScrollWheel = onScrollWheel;
+
+var _browser = require("../util/browser.js");
+
+var _event = require("../util/event.js");
+
+var _update_display = require("./update_display.js");
+
+var _scrolling = require("./scrolling.js");
+
+// Since the delta values reported on mouse wheel events are
+// unstandardized between browsers and even browser versions, and
+// generally horribly unpredictable, this code starts by measuring
+// the scroll effect that the first few mouse wheel events have,
+// and, from that, detects the way it can convert deltas to pixel
+// offsets afterwards.
+//
+// The reason we want to know the amount a wheel event will scroll
+// is that it gives us a chance to update the display before the
+// actual scrolling happens, reducing flickering.
+let wheelSamples = 0,
+    wheelPixelsPerUnit = null; // Fill in a browser-detected starting value on browsers where we
+// know one. These don't have to be accurate -- the result of them
+// being wrong would just be a slight flicker on the first wheel
+// scroll (if it is large enough).
+
+if (_browser.ie) wheelPixelsPerUnit = -.53;else if (_browser.gecko) wheelPixelsPerUnit = 15;else if (_browser.chrome) wheelPixelsPerUnit = -.7;else if (_browser.safari) wheelPixelsPerUnit = -1 / 3;
+
+function wheelEventDelta(e) {
+  let dx = e.wheelDeltaX,
+      dy = e.wheelDeltaY;
+  if (dx == null && e.detail && e.axis == e.HORIZONTAL_AXIS) dx = e.detail;
+  if (dy == null && e.detail && e.axis == e.VERTICAL_AXIS) dy = e.detail;else if (dy == null) dy = e.wheelDelta;
+  return {
+    x: dx,
+    y: dy
+  };
+}
+
+function wheelEventPixels(e) {
+  let delta = wheelEventDelta(e);
+  delta.x *= wheelPixelsPerUnit;
+  delta.y *= wheelPixelsPerUnit;
+  return delta;
+}
+
+function onScrollWheel(cm, e) {
+  let delta = wheelEventDelta(e),
+      dx = delta.x,
+      dy = delta.y;
+  let pixelsPerUnit = wheelPixelsPerUnit;
+
+  if (e.deltaMode === 0) {
+    dx = e.deltaX;
+    dy = e.deltaY;
+    pixelsPerUnit = 1;
+  }
+
+  let display = cm.display,
+      scroll = display.scroller; // Quit if there's nothing to scroll here
+
+  let canScrollX = scroll.scrollWidth > scroll.clientWidth;
+  let canScrollY = scroll.scrollHeight > scroll.clientHeight;
+  if (!(dx && canScrollX || dy && canScrollY)) return; // Webkit browsers on OS X abort momentum scrolls when the target
+  // of the scroll event is removed from the scrollable element.
+  // This hack (see related code in patchDisplay) makes sure the
+  // element is kept around.
+
+  if (dy && _browser.mac && _browser.webkit) {
+    outer: for (let cur = e.target, view = display.view; cur != scroll; cur = cur.parentNode) {
+      for (let i = 0; i < view.length; i++) {
+        if (view[i].node == cur) {
+          cm.display.currentWheelTarget = cur;
+          break outer;
+        }
+      }
+    }
+  } // On some browsers, horizontal scrolling will cause redraws to
+  // happen before the gutter has been realigned, causing it to
+  // wriggle around in a most unseemly way. When we have an
+  // estimated pixels/delta value, we just handle horizontal
+  // scrolling entirely here. It'll be slightly off from native, but
+  // better than glitching out.
+
+
+  if (dx && !_browser.gecko && !_browser.presto && pixelsPerUnit != null) {
+    if (dy && canScrollY) (0, _scrolling.updateScrollTop)(cm, Math.max(0, scroll.scrollTop + dy * pixelsPerUnit));
+    (0, _scrolling.setScrollLeft)(cm, Math.max(0, scroll.scrollLeft + dx * pixelsPerUnit)); // Only prevent default scrolling if vertical scrolling is
+    // actually possible. Otherwise, it causes vertical scroll
+    // jitter on OSX trackpads when deltaX is small and deltaY
+    // is large (issue #3579)
+
+    if (!dy || dy && canScrollY) (0, _event.e_preventDefault)(e);
+    display.wheelStartX = null; // Abort measurement, if in progress
+
+    return;
+  } // 'Project' the visible viewport to cover the area that is being
+  // scrolled into view (if we know enough to estimate it).
+
+
+  if (dy && pixelsPerUnit != null) {
+    let pixels = dy * pixelsPerUnit;
+    let top = cm.doc.scrollTop,
+        bot = top + display.wrapper.clientHeight;
+    if (pixels < 0) top = Math.max(0, top + pixels - 50);else bot = Math.min(cm.doc.height, bot + pixels + 50);
+    (0, _update_display.updateDisplaySimple)(cm, {
+      top: top,
+      bottom: bot
+    });
+  }
+
+  if (wheelSamples < 20 && e.deltaMode !== 0) {
+    if (display.wheelStartX == null) {
+      display.wheelStartX = scroll.scrollLeft;
+      display.wheelStartY = scroll.scrollTop;
+      display.wheelDX = dx;
+      display.wheelDY = dy;
+      setTimeout(() => {
+        if (display.wheelStartX == null) return;
+        let movedX = scroll.scrollLeft - display.wheelStartX;
+        let movedY = scroll.scrollTop - display.wheelStartY;
+        let sample = movedY && display.wheelDY && movedY / display.wheelDY || movedX && display.wheelDX && movedX / display.wheelDX;
+        display.wheelStartX = display.wheelStartY = null;
+        if (!sample) return;
+        wheelPixelsPerUnit = (wheelPixelsPerUnit * wheelSamples + sample) / (wheelSamples + 1);
+        ++wheelSamples;
+      }, 200);
+    } else {
+      display.wheelDX += dx;
+      display.wheelDY += dy;
+    }
+  }
+}

@@ -8,6 +8,7 @@ $html->enqueue_codemirror = function($options = []) use ($html) {
 
   $theme = isset($options['theme']) ? $options['theme'] : 'light';
 
+  $url = $html->url;
   $version = $html->version;
 
   // Lint/hint libraries
@@ -16,7 +17,7 @@ $html->enqueue_codemirror = function($options = []) use ($html) {
 
   foreach ($libs as $lib) {
     wp_enqueue_script("tangible-codemirror-{$lib}",
-      "{$html->url}assets/vendor/{$lib}.min.js",
+      "{$url}codemirror/vendor/{$lib}.min.js",
       [],
       $version,
       true
@@ -26,7 +27,7 @@ $html->enqueue_codemirror = function($options = []) use ($html) {
   // CodeMirror
 
   wp_enqueue_script('tangible-codemirror',
-    "{$html->url}assets/build/codemirror.min.js",
+    "{$url}assets/build/codemirror.min.js",
     array_map(function($lib) {
       return "tangible-codemirror-{$lib}";
     }, $libs),
@@ -35,13 +36,13 @@ $html->enqueue_codemirror = function($options = []) use ($html) {
   );
 
   wp_enqueue_style('tangible-codemirror',
-    "{$html->url}assets/build/codemirror.min.css",
+    "{$url}assets/build/codemirror.min.css",
     [],
     $version
   );
 
   wp_register_style('tangible-codemirror-theme-light',
-    "{$html->url}assets/build/codemirror-theme-light.min.css",
+    "{$url}assets/build/codemirror-theme-light.min.css",
     ['tangible-codemirror'],
     $version
   );
