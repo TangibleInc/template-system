@@ -21,6 +21,6 @@ require_once __DIR__ . '/elementor/index.php';
 require_once __DIR__ . '/third-party/index.php';
 require_once __DIR__ . '/wp-fusion/index.php';
 
-do_action('tangible_template_integrations_ready');
+do_action( 'tangible_template_integrations_ready' );
 
 require_once __DIR__ . '/themes/index.php';

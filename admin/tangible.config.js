@@ -96,5 +96,9 @@ module.exports = {
       src: 'assets/src/elementor-template-editor/index.scss',
       dest: 'assets/build/elementor-template-editor.min.css',
     },
+  ],
+  format: [
+    'assets/src',
+    '**/*.php',
   ]
 }

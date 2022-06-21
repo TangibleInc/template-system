@@ -4,7 +4,7 @@
  * Documentation - For template edit screen's "asset" tab (see ./fields.php),
  * and also for reuse in documentation site.
  */
-$plugin->render_assets_documentation = function() use ($plugin) {
+$plugin->render_assets_documentation = function() use ( $plugin ) {
   ?>
   <h3>Asset name</h3>
 

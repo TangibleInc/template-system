@@ -1,13 +1,12 @@
 {
   "name": "tangible-logic-module",
   "scripts": {
-    "postinstall": "cd node_modules/@tangible/builder && composer install",
-    "dev": "tgb dev",
-    "build": "tgb build",
-    "lint": "tgb lint",
-    "beautify": "tgb beautify"
+    "dev": "roll dev",
+    "build": "roll build",
+    "lint": "roll lint",
+    "format": "roll format"
   },
   "devDependencies": {
-    "@tangible/builder": "*"
+    "@tangible/roller": "1.x"
   }
 }

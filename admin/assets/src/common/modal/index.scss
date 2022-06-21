@@ -9,7 +9,7 @@ $modal-radius: 2px;
 $modal-text-color: #1d2327;
 $accent: #007cba;
 
-$group-border: 1px solid #E0E0E0;
+$group-border: 1px solid #e0e0e0;
 $group-spacing: 1.5em;
 
 $control-border: 1px solid #72777c;
@@ -51,7 +51,7 @@ html.tangible-logic-hide-scrollbar,
   position: relative;
   font-size: 15px;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans,
-  Ubuntu, Cantarell, Helvetica Neue, sans-serif;
+    Ubuntu, Cantarell, Helvetica Neue, sans-serif;
   margin: 7% auto;
   max-width: 700px;
   max-height: calc(100% - 3 * #{$modal-spacing});
@@ -104,7 +104,7 @@ html.tangible-logic-hide-scrollbar,
 .tangible-logic-clear:after {
   display: table;
   clear: both;
-  content: "";
+  content: '';
 }
 
 // Button Component
@@ -121,7 +121,6 @@ html.tangible-logic-hide-scrollbar,
   }
 }
 
-
 .tangible-components-button-group {
   display: inline-block;
 }
@@ -131,7 +130,9 @@ html.tangible-logic-hide-scrollbar,
   color: #1e1e1e;
   box-shadow: inset 0 0 0 1px #1e1e1e;
 }
-.tangible-components-button-group .tangible-components-button + .tangible-components-button {
+.tangible-components-button-group
+  .tangible-components-button
+  + .tangible-components-button {
   margin-left: -1px;
 }
 .tangible-components-button-group .tangible-components-button:first-child {
@@ -170,20 +171,19 @@ html.tangible-logic-hide-scrollbar,
   }
 }
 .tangible-components-button:hover,
-.tangible-components-button[aria-expanded="true"] {
+.tangible-components-button[aria-expanded='true'] {
   color: var(--tangible-theme-color);
 }
-.tangible-components-button[aria-disabled="true"]:hover {
+.tangible-components-button[aria-disabled='true']:hover {
   color: initial;
 }
 .tangible-components-button:focus:not(:disabled) {
   box-shadow: 0 0 0 var(--tangible-border-width-focus)
-  var(--tangible-theme-color);
+    var(--tangible-theme-color);
   outline: 3px solid transparent;
 }
 .tangible-components-button.is-primary,
-.tangible-components-button.is-primary:not(:hover):not(:active):not(.has-background)
-{
+.tangible-components-button.is-primary:not(:hover):not(:active):not(.has-background) {
   white-space: nowrap;
   background: var(--tangible-theme-color);
   color: #fff;
@@ -202,13 +202,13 @@ html.tangible-logic-hide-scrollbar,
 }
 .tangible-components-button.is-primary:focus:not(:disabled) {
   box-shadow: inset 0 0 0 1px #fff,
-  0 0 0 var(--tangible-border-width-focus) var(--tangible-theme-color);
+    0 0 0 var(--tangible-border-width-focus) var(--tangible-theme-color);
 }
 .tangible-components-button.is-primary:disabled,
 .tangible-components-button.is-primary:disabled:active:enabled,
-.tangible-components-button.is-primary[aria-disabled="true"],
-.tangible-components-button.is-primary[aria-disabled="true"]:active:enabled,
-.tangible-components-button.is-primary[aria-disabled="true"]:enabled {
+.tangible-components-button.is-primary[aria-disabled='true'],
+.tangible-components-button.is-primary[aria-disabled='true']:active:enabled,
+.tangible-components-button.is-primary[aria-disabled='true']:enabled {
   color: hsla(0, 0%, 100%, 0.4);
   background: var(--tangible-theme-color);
   border-color: var(--tangible-theme-color);
@@ -217,22 +217,22 @@ html.tangible-logic-hide-scrollbar,
 }
 .tangible-components-button.is-primary:disabled:active:enabled:focus:enabled,
 .tangible-components-button.is-primary:disabled:focus:enabled,
-.tangible-components-button.is-primary[aria-disabled="true"]:active:enabled:focus:enabled,
-.tangible-components-button.is-primary[aria-disabled="true"]:enabled:focus:enabled,
-.tangible-components-button.is-primary[aria-disabled="true"]:focus:enabled {
+.tangible-components-button.is-primary[aria-disabled='true']:active:enabled:focus:enabled,
+.tangible-components-button.is-primary[aria-disabled='true']:enabled:focus:enabled,
+.tangible-components-button.is-primary[aria-disabled='true']:focus:enabled {
   box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--tangible-theme-color);
 }
 .tangible-components-button.is-primary.is-busy,
 .tangible-components-button.is-primary.is-busy:disabled,
-.tangible-components-button.is-primary.is-busy[aria-disabled="true"] {
+.tangible-components-button.is-primary.is-busy[aria-disabled='true'] {
   color: #fff;
   background-size: 100px 100%;
   background-image: linear-gradient(
-      -45deg,
-      var(--tangible-theme-color) 33%,
-      var(--tangible-theme-color-darker-20) 0,
-      var(--tangible-theme-color-darker-20) 70%,
-      var(--tangible-theme-color) 0
+    -45deg,
+    var(--tangible-theme-color) 33%,
+    var(--tangible-theme-color-darker-20) 0,
+    var(--tangible-theme-color-darker-20) 70%,
+    var(--tangible-theme-color) 0
   );
   border-color: var(--tangible-theme-color);
 }
@@ -252,11 +252,11 @@ html.tangible-logic-hide-scrollbar,
   box-shadow: inset 0 0 0 1px var(--tangible-theme-color-darker-10);
 }
 .tangible-components-button.is-secondary:disabled,
-.tangible-components-button.is-secondary[aria-disabled="true"],
-.tangible-components-button.is-secondary[aria-disabled="true"]:hover,
+.tangible-components-button.is-secondary[aria-disabled='true'],
+.tangible-components-button.is-secondary[aria-disabled='true']:hover,
 .tangible-components-button.is-tertiary:disabled,
-.tangible-components-button.is-tertiary[aria-disabled="true"],
-.tangible-components-button.is-tertiary[aria-disabled="true"]:hover {
+.tangible-components-button.is-tertiary[aria-disabled='true'],
+.tangible-components-button.is-tertiary[aria-disabled='true']:hover {
   color: #828282;
   background: #eaeaea;
   transform: none;
@@ -271,8 +271,7 @@ html.tangible-logic-hide-scrollbar,
 .tangible-components-button.is-secondary,
 .tangible-components-button.is-tertiary,
 .tangible-components-button.is-secondary:not(:hover):not(:active):not(.has-background),
-.tangible-components-button.is-tertiary:not(:hover):not(:active):not(.has-background)
-{
+.tangible-components-button.is-tertiary:not(:hover):not(:active):not(.has-background) {
   white-space: nowrap;
   color: var(--tangible-theme-color);
   background: transparent;
@@ -344,27 +343,27 @@ html.tangible-logic-hide-scrollbar,
 .tangible-components-button.is-link.is-destructive:focus:not(:disabled) {
   color: var(--tangible-theme-color);
 }
-.tangible-components-button:not([aria-disabled="true"]):active {
+.tangible-components-button:not([aria-disabled='true']):active {
   color: inherit;
 }
 .tangible-components-button:disabled,
-.tangible-components-button[aria-disabled="true"] {
+.tangible-components-button[aria-disabled='true'] {
   cursor: default;
   opacity: 0.3;
 }
 .tangible-components-button.is-busy,
 .tangible-components-button.is-secondary.is-busy,
 .tangible-components-button.is-secondary.is-busy:disabled,
-.tangible-components-button.is-secondary.is-busy[aria-disabled="true"] {
+.tangible-components-button.is-secondary.is-busy[aria-disabled='true'] {
   animation: tangible-components-button__busy-animation 2.5s linear infinite;
   opacity: 1;
   background-size: 100px 100%;
   background-image: linear-gradient(
-      -45deg,
-      #fafafa 33%,
-      #e0e0e0 0,
-      #e0e0e0 70%,
-      #fafafa 0
+    -45deg,
+    #fafafa 33%,
+    #e0e0e0 0,
+    #e0e0e0 70%,
+    #fafafa 0
   );
 }
 .tangible-components-button.is-small {
@@ -378,8 +377,7 @@ html.tangible-logic-hide-scrollbar,
   width: 24px;
 }
 .tangible-components-button.has-icon,
-.tangible-components-button.has-icon:not(:hover):not(:active):not(.has-background)
-{
+.tangible-components-button.has-icon:not(:hover):not(:active):not(.has-background) {
   padding: 6px;
   min-width: 36px;
   justify-content: center;
@@ -406,7 +404,7 @@ html.tangible-logic-hide-scrollbar,
 }
 .tangible-components-button.is-pressed:focus:not(:disabled) {
   box-shadow: inset 0 0 0 1px #fff,
-  0 0 0 var(--tangible-border-width-focus) var(--tangible-theme-color);
+    0 0 0 var(--tangible-border-width-focus) var(--tangible-theme-color);
   outline: 2px solid transparent;
 }
 .tangible-components-button.is-pressed:hover:not(:disabled) {
@@ -437,11 +435,12 @@ html.tangible-logic-hide-scrollbar,
     display: inline-block;
     box-sizing: border-box;
     width: 100%;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+      Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif;
     min-height: 36px;
     padding: 6px 8px;
     box-shadow: 0 0 0 transparent;
-    transition: box-shadow .1s linear;
+    transition: box-shadow 0.1s linear;
     border-radius: $control-radius;
     border: $control-border;
 
@@ -455,7 +454,9 @@ html.tangible-logic-hide-scrollbar,
   select {
     padding-right: 24px;
     -webkit-appearance: none;
-    background: #fff url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat right 5px top 55%;
+    background: #fff
+      url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E')
+      no-repeat right 5px top 55%;
     background-size: 16px 16px;
     cursor: pointer;
     vertical-align: middle;
@@ -470,7 +471,7 @@ html.tangible-logic-hide-scrollbar,
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0,0,0,0);
+  clip: rect(0, 0, 0, 0);
   border: 0;
 }
 
@@ -502,6 +503,7 @@ html.tangible-logic-hide-scrollbar,
   min-width: 100%;
 }
 
-.tangible-block-editor .interface-complementary-area .components-panel__header, .interface-complementary-area .components-panel {
+.tangible-block-editor .interface-complementary-area .components-panel__header,
+.interface-complementary-area .components-panel {
   position: initial;
 }

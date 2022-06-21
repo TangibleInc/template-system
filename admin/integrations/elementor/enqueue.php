@@ -6,7 +6,7 @@
 
 $plugin->elementor_template_editor_enqueued = false;
 
-$plugin->enqueue_elementor_template_editor = function() use ($plugin, $html) {
+$plugin->enqueue_elementor_template_editor = function() use ( $plugin, $html ) {
 
   if ($plugin->elementor_template_editor_enqueued) return;
 
@@ -17,7 +17,7 @@ $plugin->enqueue_elementor_template_editor = function() use ($plugin, $html) {
   wp_enqueue_script(
     'tangible-elementor-template-editor',
     $plugin->url . 'assets/build/elementor-template-editor.min.js',
-    ['tangible-codemirror', 'tangible-module-loader', 'jquery', 'wp-element', 'tangible-ajax'],
+    [ 'tangible-codemirror', 'tangible-module-loader', 'jquery', 'wp-element', 'tangible-ajax' ],
     $plugin->version
   );
 

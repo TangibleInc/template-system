@@ -6,9 +6,9 @@
 
 $interface->register_modules_done = false;
 
-$interface->register_modules = function() use ($interface) {
+$interface->register_modules = function() use ( $interface ) {
 
-  $url = $interface->assets_url;
+  $url     = $interface->assets_url;
   $version = $interface->version;
 
   // Chart
@@ -16,7 +16,7 @@ $interface->register_modules = function() use ($interface) {
   wp_register_script(
     'tangible-chart',
     "{$url}build/chart.min.js",
-    ['jquery'],
+    [ 'jquery' ],
     $version,
     true
   );
@@ -43,7 +43,7 @@ $interface->register_modules = function() use ($interface) {
   wp_register_script(
     'tangible-embed-dynamic',
     "{$url}build/embed.min.js",
-    ['jquery'],
+    [ 'jquery' ],
     $version,
     true
   );
@@ -60,7 +60,7 @@ $interface->register_modules = function() use ($interface) {
   wp_register_script(
     'tangible-glider',
     "{$url}build/glider.min.js",
-    ['jquery'],
+    [ 'jquery' ],
     $version,
     true
   );
@@ -88,7 +88,7 @@ $interface->register_modules = function() use ($interface) {
   wp_register_script(
     'tangible-prism',
     "{$url}vendor/prism.min.js",
-    ['tangible-clipboard'],
+    [ 'tangible-clipboard' ],
     '1.20.0',
     true
   );
@@ -106,7 +106,7 @@ $interface->register_modules = function() use ($interface) {
   wp_register_script(
     'tangible-select',
     "{$url}build/select.min.js",
-    ['jquery'],
+    [ 'jquery' ],
     $version,
     true
   );
@@ -123,7 +123,7 @@ $interface->register_modules = function() use ($interface) {
   wp_register_script(
     'tangible-slider',
     "{$url}build/slider.min.js",
-    ['jquery'],
+    [ 'jquery' ],
     $version,
     true
   );
@@ -157,7 +157,7 @@ $interface->register_modules = function() use ($interface) {
   wp_register_script(
     'tangible-table',
     "{$url}build/table.min.js",
-    ['jquery'],
+    [ 'jquery' ],
     $version,
     true
   );
@@ -165,5 +165,5 @@ $interface->register_modules = function() use ($interface) {
   $interface->register_modules_done = true;
 };
 
-add_action('wp_enqueue_scripts', $interface->register_modules, 0);
-add_action('admin_enqueue_scripts', $interface->register_modules, 0);
+add_action( 'wp_enqueue_scripts', $interface->register_modules, 0 );
+add_action( 'admin_enqueue_scripts', $interface->register_modules, 0 );

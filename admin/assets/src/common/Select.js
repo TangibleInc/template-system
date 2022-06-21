@@ -15,9 +15,8 @@ const Select = ({
   value = '',
   onChange,
   multiSelect,
-  style
+  style,
 }) => {
-
   const ref = useRef()
 
   /**
@@ -25,14 +24,13 @@ const Select = ({
    */
 
   useEffect(() => {
-
     const $el = $(ref.current)
     ref.current.$el = $el
 
     onChange(value)
 
     $el.tangibleSelect({
-      minimumResultsForSearch: 5
+      minimumResultsForSearch: 5,
     })
 
     if (multiSelect) {
@@ -41,70 +39,73 @@ const Select = ({
       $el.trigger('change')
     }
 
-    $el.on('change', function(e) {
-
-      if ( !multiSelect ) {
+    $el.on('change', function (e) {
+      if (!multiSelect) {
         onChange(e.target.value)
         return
       }
 
-      if ( !ref.current ) return
+      if (!ref.current) return
 
       // Ensure array of values for multi-select
 
-      const values = $el.select2('data').map(item => item.id)
+      const values = $el.select2('data').map((item) => item.id)
       onChange(values)
     })
 
-    const select2 = ref.current.select2 = $el.data('select2')
+    const select2 = (ref.current.select2 = $el.data('select2'))
 
     // Clean up when component removed
     return () => {
       select2 && select2.destroy()
     }
-
   }, []) // NOTE: Empty array to run only once on component mount
 
   // Ensure Select2 shows current value
   if (ref.current && ref.current.$el) {
     if (multiSelect) {
       const currentValues = ref.current.$el.val()
-      if (value.length!==currentValues.length && options.length) {
+      if (value.length !== currentValues.length && options.length) {
         // After select is rendered with options
-        setImmediate(function() {
+        setImmediate(function () {
           ref.current.$el.val(value)
           ref.current.$el.trigger('change')
         })
       }
-    } else if (ref.current.value!==value) {
+    } else if (ref.current.value !== value) {
       ref.current.$el.val(value)
       ref.current.$el.trigger('change')
     }
   }
 
-  return <select
-    ref={ref}
-    // onChange={e => onChange(e.target.value)}
-    autoComplete='off'
-    multiple={multiSelect}
-    style={{
-      display: 'none',
-      width: '160px', // Default width
-      ...style
-    }}
-  >
-    { labelForEmptyValue &&
-       <option value="" disabled={true} selected={value==null}>{ labelForEmptyValue }</option>
-    }
-    { options.map((option, optionIndex) =>
-      <option
-        key={`option-${optionIndex}`}
-        value={option.value}
-        selected={option.value===value}
-      >{option.label}</option>
-    )}
-
-  </select>
+  return (
+    <select
+      ref={ref}
+      // onChange={e => onChange(e.target.value)}
+      autoComplete="off"
+      multiple={multiSelect}
+      style={{
+        display: 'none',
+        width: '160px', // Default width
+        ...style,
+      }}
+    >
+      {labelForEmptyValue && (
+        <option value="" disabled={true} selected={value == null}>
+          {labelForEmptyValue}
+        </option>
+      )}
+      {options.map((option, optionIndex) => (
+        <option
+          key={`option-${optionIndex}`}
+          value={option.value}
+          selected={option.value === value}
+        >
+          {option.label}
+        </option>
+      ))}
+    </select>
+  )
 }
 
 export default Select

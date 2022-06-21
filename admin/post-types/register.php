@@ -4,17 +4,17 @@
  *
  * @see https://developer.wordpress.org/reference/functions/register_post_type/
  */
-$plugin->register_template_post_type = function($config) {
+$plugin->register_template_post_type = function( $config ) {
 
   /**
    * Extract required config properties into variables
    */
-  foreach ([
+  foreach ( [
     'post_type',
     'single',
     'plural',
-    'description'
-  ] as $key) {
+    'description',
+  ] as $key ) {
     $$key = $config[ $key ];
   }
 
@@ -44,19 +44,19 @@ $plugin->register_template_post_type = function($config) {
     'remove_featured_image' => 'Remove featured image',
     'use_featured_image'    => 'Use as featured image',
     'insert_into_item'      => 'Insert into ' . $single,
-    'uploaded_to_this_item' => 'Uploaded to this ' . strtolower($single),
+    'uploaded_to_this_item' => 'Uploaded to this ' . strtolower( $single ),
     'items_list'            => $plural . ' list',
     'items_list_navigation' => $plural . ' list navigation',
-    'filter_items_list'     => 'Filter ' . strtolower($plural) . ' list',
+    'filter_items_list'     => 'Filter ' . strtolower( $plural ) . ' list',
   ];
 
   $args = [
-    'description'           => $description,
-    'labels'                => $labels,
-    'supports'              => ['title'], // , 'page-attributes', 'editor'
+    'description'         => $description,
+    'labels'              => $labels,
+    'supports'            => [ 'title' ], // , 'page-attributes', 'editor'
 
-    'capability_type'      => 'options',
-    'capabilities' => [
+    'capability_type'     => 'options',
+    'capabilities'        => [
       'edit_post'          => 'manage_options',
       'read_post'          => 'manage_options',
       'delete_post'        => 'manage_options',
@@ -67,17 +67,17 @@ $plugin->register_template_post_type = function($config) {
       'create_posts'       => 'manage_options',
     ],
 
-    'public'                => true,
-    'hierarchical'          => false,
+    'public'              => true,
+    'hierarchical'        => false,
 
-    'has_archive'           => false,
+    'has_archive'         => false,
 
     /**
      * Enabling the following two will show permalink edit field. However, it also makes
      * public URLs for templates.
      */
-    'rewrite'               => false,
-    'publicly_queryable'    => false,
+    'rewrite'             => false,
+    'publicly_queryable'  => false,
 
     /**
      * Menu position
@@ -96,7 +96,7 @@ $plugin->register_template_post_type = function($config) {
      * 80 – below Settings
      * 100 – below second separator
      */
-    'menu_position'         => 30,
+    'menu_position'       => 30,
 
     /**
      * Menu icon
@@ -107,26 +107,26 @@ $plugin->register_template_post_type = function($config) {
      * - Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-chart-pie'.
      * - Pass 'none' to leave div.wp-menu-image empty so an icon can be added via CSS. Defaults to use the posts icon.
      */
-    'menu_icon'             => 'dashicons-editor-code',
+    'menu_icon'           => 'dashicons-editor-code',
 
-    'show_ui'               => true,
+    'show_ui'             => true,
 
     /**
      * Where to show the post type in the admin menu - true/false or string for sub menu
      */
-    'show_in_menu'          => 'tangible', // true,
+    'show_in_menu'        => 'tangible', // true,
 
-    'show_in_admin_bar'     => false,
-    'show_in_nav_menus'     => false,
-    'show_in_rest'          => false,
+    'show_in_admin_bar'   => false,
+    'show_in_nav_menus'   => false,
+    'show_in_rest'        => false,
 
-    'can_export'            => true,
-    'exclude_from_search'   => true,
+    'can_export'          => true,
+    'exclude_from_search' => true,
 
   ];
 
-  if (isset($config['args'])) {
-    $args = array_merge($args, $config['args']);
+  if ( isset( $config['args'] ) ) {
+    $args = array_merge( $args, $config['args'] );
   }
 
   register_post_type( $post_type, $args );

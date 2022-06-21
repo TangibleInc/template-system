@@ -6,9 +6,9 @@
 
 if ( ! class_exists( 'FLBuilder' ) ) return;
 
-require_once __DIR__.'/field-types/index.php';
-require_once __DIR__.'/modules/index.php';
-require_once __DIR__.'/enqueue.php';
+require_once __DIR__ . '/field-types/index.php';
+require_once __DIR__ . '/modules/index.php';
+require_once __DIR__ . '/enqueue.php';
 
 
 /**
@@ -21,11 +21,10 @@ require_once __DIR__.'/enqueue.php';
  * @see bb-plugin/classes/class-fl-builder.php, render_content()
  */
 
-add_filter('tangible_loop_default_context_allowed', function($allowed, $post_type, $post) {
+add_filter('tangible_loop_default_context_allowed', function( $allowed, $post_type, $post ) {
   return $allowed
     && ! in_array($post_type, [
       'fl-builder-template',
-      'fl-theme-layout'
-    ])
-  ;
+      'fl-theme-layout',
+    ]);
 }, 10, 3);

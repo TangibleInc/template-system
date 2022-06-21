@@ -7,15 +7,14 @@ import { render, useRef, useState } from 'react'
 
 import Catalog from './Catalog'
 import Menu from './Menu'
-import Importer from "../template-import-export/Importer"
+import Importer from '../template-import-export/Importer'
 
 const el = document.getElementById('tangible_template_cloud_wrapper')
 const tabs = {
   public: 'Public Blocks',
 }
 
-const Wrapper = (({ tabs }) => {
-
+const Wrapper = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState(Object.keys(tabs)[0])
   const [importData, setImportData] = useState()
 
@@ -23,25 +22,34 @@ const Wrapper = (({ tabs }) => {
     setImportData(data)
   }
 
-  return (<>
+  return (
+    <>
+      <Menu
+        {...{
+          tabs,
+          activeTab,
+          setActiveTab,
+        }}
+      />
 
-    <Menu {...{
-      tabs,
-      activeTab,
-      setActiveTab
-    }} />
+      <Importer
+        key={importData}
+        {...{
+          useInput: false,
+          directImportData: importData,
+        }}
+      />
 
-    <Importer key={importData} { ...{
-      useInput: false,
-      directImportData: importData
-    }} />
-
-    <Catalog key={activeTab} {...{
-      tabs,
-      activeTab,
-      loadImportData
-    }} />
-  </>)
-})
+      <Catalog
+        key={activeTab}
+        {...{
+          tabs,
+          activeTab,
+          loadImportData,
+        }}
+      />
+    </>
+  )
+}
 
 render(<Wrapper tabs={tabs} />, el)

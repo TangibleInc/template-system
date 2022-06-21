@@ -1,16 +1,16 @@
-export const _isArray = arr => Array.isArray(arr)
+export const _isArray = (arr) => Array.isArray(arr)
 
-export const _isNumber = num => typeof num === 'number'
+export const _isNumber = (num) => typeof num === 'number'
 
-export const _isObject = obj => typeof obj === 'object'
+export const _isObject = (obj) => typeof obj === 'object'
 
-export const _isFunction = fun => typeof fun === 'function'
+export const _isFunction = (fun) => typeof fun === 'function'
 
-export const _isString = str => typeof str === 'string'
+export const _isString = (str) => typeof str === 'string'
 
-export const _isNumericString = str => _isNumber(parseFloat(str, 10))
+export const _isNumericString = (str) => _isNumber(parseFloat(str, 10))
 
-export const _isDate = str => {
+export const _isDate = (str) => {
   if (Object.prototype.toString.call(str) === '[object Date]') {
     if (_isNumber(str.getTime())) {
       return true
@@ -33,7 +33,7 @@ export const _sort = (arr, order) => {
   })
 }
 
-export const _keys = obj => {
+export const _keys = (obj) => {
   if ('keys' in Object) {
     return Object.keys(obj)
   }
@@ -96,7 +96,6 @@ export const _invariant = (condition, format, ...rest) => {
 }
 
 export const _nativeCompare = (value, other) => {
-
   if (value === other) return 0
 
   if (_isNumber(value)) {
@@ -120,13 +119,13 @@ export const _nativeCompare = (value, other) => {
 
 export const debounce = (func, delay) => {
   let timer
-  return function() {
+  return function () {
     clearTimeout(timer)
     timer = window.setTimeout(() => func.apply(this, arguments), delay)
   }
 }
 
-export const _lower = str => {
+export const _lower = (str) => {
   return _isString(str) ? str.toLowerCase() : String(str)
 }
 
@@ -145,7 +144,11 @@ export const lookInObject = (obj, str, columns = []) => {
   while (i < len) {
     const item = keys[i]
     const dest = _lower(obj[item])
-    if (columns.length && columns.indexOf(item) > -1 && dest.indexOf(source) > -1) {
+    if (
+      columns.length &&
+      columns.indexOf(item) > -1 &&
+      dest.indexOf(source) > -1
+    ) {
       found = true
       break
     }

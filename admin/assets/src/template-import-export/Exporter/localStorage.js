@@ -1,4 +1,3 @@
-
 /**
  * Remember export settings in local storage
  */
@@ -14,7 +13,7 @@ export function getSavedStateFromLocalStorage() {
   try {
     state = JSON.parse(state)
     return state
-  } catch(e) {
+  } catch (e) {
     /* Ignore */
   }
 }

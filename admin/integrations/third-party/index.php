@@ -10,16 +10,16 @@
 
 $plugin->integration_configs = []; // A list of configs
 
-$plugin->register_plugin_integration = function($config) use ($plugin, $framework) {
+$plugin->register_plugin_integration = function( $config ) use ( $plugin, $framework ) {
 
-  foreach ([
+  foreach ( [
     'slug',
     'title',
     'url',
-    'active'
-  ] as $key) {
+    'active',
+  ] as $key ) {
 
-    if (!isset($config[ $key ])) throw new Exception("Property \"$key\" is required");
+    if ( ! isset( $config[ $key ] )) throw new Exception( "Property \"$key\" is required" );
   }
 
   $config['dependency_active'] = $config['active'];
@@ -28,7 +28,7 @@ $plugin->register_plugin_integration = function($config) use ($plugin, $framewor
     $config['active'] = false;
   }
 
-  $plugin->integration_configs []= $config;
+  $plugin->integration_configs [] = $config;
 
   return $config['active'];
 };
@@ -42,12 +42,12 @@ $plugin->register_plugin_integration = function($config) use ($plugin, $framewor
  */
 $plugin->integration_instances = new stdClass; // name => $object
 
-$plugin->set_integration = function($name, $object) use ($plugin) {
+$plugin->set_integration = function( $name, $object ) use ( $plugin ) {
   $plugin->integration_instances->$name = $object;
 };
 
-$plugin->get_integration = function($name) use ($plugin) {
-  if (isset($plugin->integration_instances->$name)) {
+$plugin->get_integration = function( $name ) use ( $plugin ) {
+  if ( isset( $plugin->integration_instances->$name ) ) {
     return $plugin->integration_instances->$name;
   }
   return false;
@@ -59,18 +59,17 @@ $plugin->get_integration = function($name) use ($plugin) {
  * Each checkbox is saved as string 'true' or 'false'
  */
 
-$plugin->get_settings_for_integrations_enabled = function() use ($plugin) {
+$plugin->get_settings_for_integrations_enabled = function() use ( $plugin ) {
 
   static $integrations_enabled;
 
-  if (empty($integrations_enabled)) {
+  if ( empty( $integrations_enabled ) ) {
 
     $settings = $plugin->get_settings();
 
-    $integrations_enabled = isset($settings['integrations_enabled'])
+    $integrations_enabled = isset( $settings['integrations_enabled'] )
       ? $settings['integrations_enabled']
-      : []
-    ;
+      : [];
   }
 
   return $integrations_enabled;
@@ -81,13 +80,12 @@ $plugin->get_settings_for_integrations_enabled = function() use ($plugin) {
  * Check if single integration by name is enabled
  */
 
-$plugin->is_integration_enabled = function($slug) use ($plugin) {
+$plugin->is_integration_enabled = function( $slug ) use ( $plugin ) {
 
   $integrations_enabled = $plugin->get_settings_for_integrations_enabled();
 
-  return !isset($integrations_enabled[ $slug ]) // Enabled by default
-    || $integrations_enabled[ $slug ]==='true'
-  ;
+  return ! isset( $integrations_enabled[ $slug ] ) // Enabled by default
+    || $integrations_enabled[ $slug ] === 'true';
 };
 
 

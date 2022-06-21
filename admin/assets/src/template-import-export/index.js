@@ -8,27 +8,26 @@ import Importer from './Importer'
 import Exporter from './Exporter'
 
 const {
-  Tangible: {
-    Preact
-  }
+  Tangible: { Preact },
 } = window
 
 const el = document.getElementById('tangible_template_import_export_form')
 
-el.addEventListener('submit', function(e) {
+el.addEventListener('submit', function (e) {
   e.preventDefault()
 })
 
-Preact.render(<>
+Preact.render(
+  <>
+    <h1 className="wp-heading-inline">Import</h1>
 
-  <h1 className="wp-heading-inline">Import</h1>
+    <Importer />
 
-  <Importer />
+    <hr />
 
-  <hr />
+    <h1 className="wp-heading-inline">Export</h1>
 
-  <h1 className="wp-heading-inline">Export</h1>
-
-  <Exporter />
-
-</>, el)
+    <Exporter />
+  </>,
+  el
+)

@@ -15,8 +15,8 @@ const {
 if (registerBlockCollection) {
   registerBlockCollection('tangible', {
     title: 'Tangible',
-    icon:
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99 99" >
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99 99">
         <path d="M0 0 H 33 V 33 H 0 L 0 0" fill="#262262" />
         <path d="M33 0 H 66 V 33 H 33 L 33 0" fill="#662d91" />
         <path d="M66 0 H 99 V 33 H 66 L 66 0" fill="#9f1f63" />
@@ -26,5 +26,6 @@ if (registerBlockCollection) {
 
         <path d="M33 66 H 66 V 99 H 33 L 33 66" fill="#02aeef" />
       </svg>
+    ),
   })
 }

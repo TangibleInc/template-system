@@ -5,7 +5,6 @@
 import TableSortable from './TableSortable'
 
 function create(options) {
-
   if (!options.element.length) {
     console.warn('Tangible table requires element in options', options)
     return

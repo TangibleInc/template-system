@@ -7,40 +7,40 @@ $plugin->is_saving_template_post = false;
  *
  * General purpose - Used by AJAX action
  */
-$plugin->save_template_post = function($data = []) use ($plugin, $html) {
+$plugin->save_template_post = function( $data = [] ) use ( $plugin, $html ) {
 
-  foreach ([
+  foreach ( [
     'id',
     'name',
     'title',
     'content',
-  ] as $key) {
-    $$key = isset($data[ $key ]) ? $data[ $key ] : '';
+  ] as $key ) {
+    $$key = isset( $data[ $key ] ) ? $data[ $key ] : '';
   }
 
-  if (empty($id)) return new WP_Error(
+  if (empty( $id )) return new WP_Error(
     'save_error_id_required',
-    __('Property "id" is required', 'tangible_loops_and_logic')
+    __( 'Property "id" is required', 'tangible_loops_and_logic' )
   );
 
-  if (empty($title)) return new WP_Error(
+  if (empty( $title )) return new WP_Error(
     'save_error_title_required',
-    __('Property "title" is required', 'tangible_loops_and_logic')
+    __( 'Property "title" is required', 'tangible_loops_and_logic' )
   );
 
   $tax_input = [];
-  if (isset($data['tax_input']) && is_array($data['tax_input'])) {
+  if ( isset( $data['tax_input'] ) && is_array( $data['tax_input'] ) ) {
     // { taxonomy name: array of term IDs }
     $tax_input = $data['tax_input'];
   }
-  unset($data['tax_input']);
+  unset( $data['tax_input'] );
 
   // Prepare fields
 
   $fields = $plugin->template_field_defaults; // Copy defaults
 
-  foreach ($fields as $key => $default_value) {
-    if ( ! isset($data[ $key ]) ) continue;
+  foreach ( $fields as $key => $default_value ) {
+    if ( ! isset( $data[ $key ] ) ) continue;
 
     /**
      * NOTE: Must add backslash "\" escaping to compensate for the call to stripslashes()
@@ -48,18 +48,18 @@ $plugin->save_template_post = function($data = []) use ($plugin, $html) {
      *
      * @see https://developer.wordpress.org/reference/functions/update_post_meta/#character-escaping
      */
-    $value = $data[ $key ];
-    $fields[ $key ] = is_string($value) ? wp_slash($value) : $value;
+    $value          = $data[ $key ];
+    $fields[ $key ] = is_string( $value ) ? wp_slash( $value ) : $value;
   }
 
   $post_data = [
-    'ID' => $id,
+    'ID'           => $id,
     'post_content' => $content,
-    'meta_input' => $fields,
-    'tax_input' => $tax_input,
+    'meta_input'   => $fields,
+    'tax_input'    => $tax_input,
   ];
 
-  if (!empty($title)) {
+  if ( ! empty( $title ) ) {
     $post_data['post_title'] = $title;
   }
 
@@ -76,26 +76,26 @@ $plugin->save_template_post = function($data = []) use ($plugin, $html) {
 
   $plugin->is_saving_template_post = false;
 
-  if (empty($result)) {
+  if ( empty( $result ) ) {
 
     // Simplify error handling by ensuring an instance of WP_Error
-    $result = new WP_Error('save_error', __('Unknown error', 'tangible_loops_and_logic'));
+    $result = new WP_Error( 'save_error', __( 'Unknown error', 'tangible_loops_and_logic' ) );
 
-  } elseif (!is_wp_error($result)) {
+  } elseif ( ! is_wp_error( $result ) ) {
 
     // Update template slug
 
     $post = get_post( $result );
 
     $post_name = sanitize_title_with_dashes(
-      !empty($name) ? $name
-        : (!empty($title) ? $title : 'no-title')
+      ! empty( $name ) ? $name
+        : ( ! empty( $title ) ? $title : 'no-title' )
     );
 
-    $plugin->save_unique_template_post_slug($post, $post_name);
+    $plugin->save_unique_template_post_slug( $post, $post_name );
 
-    if (isset($fields['style'])) {
-      $plugin->maybe_save_style_compiled($post, $fields['style']);
+    if ( isset( $fields['style'] ) ) {
+      $plugin->maybe_save_style_compiled( $post, $fields['style'] );
     }
   }
 
@@ -106,34 +106,32 @@ $plugin->save_template_post = function($data = []) use ($plugin, $html) {
 /**
  * Save template fields via form POST
  */
-add_action( 'wp_after_insert_post', function($post_id, $post, $update) use($plugin, $html) {
+add_action( 'wp_after_insert_post', function( $post_id, $post, $update ) use ( $plugin, $html ) {
 
-  if ((defined( 'DOING_AJAX' ) && DOING_AJAX)
+  if (( defined( 'DOING_AJAX' ) && DOING_AJAX )
     || $plugin->is_saving_template_post
-    || empty($post) || !in_array($post->post_type, $plugin->template_post_types)
+    || empty( $post ) || ! in_array( $post->post_type, $plugin->template_post_types )
   ) return;
-
 
   // Update template slug
 
   $post_name = sanitize_title_with_dashes(
-    !empty( $_POST['name'] ) ? $_POST['name']
-      : (!empty( $post->post_title ) ? $post->post_title
+    ! empty( $_POST['name'] ) ? $_POST['name']
+      : ( ! empty( $post->post_title ) ? $post->post_title
         : 'no-title'
       )
   );
 
-  $plugin->save_unique_template_post_slug($post, $post_name);
-
+  $plugin->save_unique_template_post_slug( $post, $post_name );
 
   // Update template fields
 
-  foreach ($plugin->template_field_defaults as $key => $value) {
+  foreach ( $plugin->template_field_defaults as $key => $value ) {
 
     if ( ! isset( $_POST[ $key ] ) ) continue;
 
     // @see https://developer.wordpress.org/reference/functions/sanitize_post_field/
-    $value = sanitize_post_field($key, $_POST[ $key ], $post_id, 'raw');
+    $value = sanitize_post_field( $key, $_POST[ $key ], $post_id, 'raw' );
 
     /**
      * NOTE: Values coming from $_POST are backslash "\" escaped.
@@ -143,8 +141,8 @@ add_action( 'wp_after_insert_post', function($post_id, $post, $update) use($plug
      */
     update_post_meta( $post_id, $key, $value );
 
-    if ($key==='style') {
-      $plugin->maybe_save_style_compiled($post, $value);
+    if ( $key === 'style' ) {
+      $plugin->maybe_save_style_compiled( $post, $value );
     }
   }
 
@@ -158,21 +156,21 @@ add_action( 'wp_after_insert_post', function($post_id, $post, $update) use($plug
  *
  * @see https://developer.wordpress.org/reference/functions/wp_unique_post_slug/
  */
-$plugin->save_unique_template_post_slug = function($post, $slug) {
+$plugin->save_unique_template_post_slug = function( $post, $slug ) {
 
-  if (empty($post)) return;
+  if (empty( $post )) return;
 
   global $wpdb;
 
   $wpdb->update('wp_posts',
     [
-      'post_name' => wp_unique_post_slug(
+    'post_name' => wp_unique_post_slug(
         $slug,
         $post->ID,
         'publish',
         $post->post_type,
         $post->post_parent
-      )
+      ),
     ],
     [ 'ID' => $post->ID ]
   );
@@ -188,9 +186,9 @@ $plugin->save_unique_template_post_slug = function($post, $slug) {
  * @see ./render.php, $plugin->enqueue_template_style()
  */
 
-$plugin->maybe_save_style_compiled = function($post, $style) use ($html) {
+$plugin->maybe_save_style_compiled = function( $post, $style ) use ( $html ) {
 
-  if ($post->post_type==='tangible_block') {
+  if ( $post->post_type === 'tangible_block' ) {
     return;
   }
 
@@ -203,7 +201,7 @@ $plugin->maybe_save_style_compiled = function($post, $style) use ($html) {
    */
 
   $css = $html->sass(
-    stripslashes($style),
+    stripslashes( $style ),
     [ 'error' => false ]
   );
 

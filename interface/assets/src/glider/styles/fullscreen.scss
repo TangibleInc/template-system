@@ -1,9 +1,9 @@
 .tglider-fullscreen {
   &:after {
-    content: "\e20c";
+    content: '\e20c';
 
     .tglider-fullscreen-on & {
-      content: "\e20d";
+      content: '\e20d';
     }
   }
 }

@@ -4,19 +4,18 @@ $plugin->block_dependency_fallbacks = [
 
   'sfwd-lms' => function () use ( $plugin, $framework ) {
     // Learndash's main file has a special naming
-    return $framework->is_dependency_active( "sfwd-lms/sfwd_lms.php" );
+    return $framework->is_dependency_active( 'sfwd-lms/sfwd_lms.php' );
   },
 
 ];
 
-$plugin->get_block_dependency_fallback = function( $slug ) use( $plugin, $framework ) {
-  return !empty( $plugin->block_dependency_fallbacks[ $slug ] )
+$plugin->get_block_dependency_fallback = function( $slug ) use ( $plugin, $framework ) {
+  return ! empty( $plugin->block_dependency_fallbacks[ $slug ] )
     ? $plugin->block_dependency_fallbacks[ $slug ]
-    : null
-  ;
+    : null;
 };
 
-$plugin->post_process_block_downloads = function( $api_data ) use($plugin, $framework) {
+$plugin->post_process_block_downloads = function( $api_data ) use ( $plugin, $framework ) {
 
   $api_data->products = array_map( function ( $product ) use ( $plugin, $framework ) {
 
@@ -33,37 +32,37 @@ $plugin->post_process_block_downloads = function( $api_data ) use($plugin, $fram
 $plugin->add_block_dependency_data = function( $product ) use ( $plugin, $framework ) {
 
   $product->is_pro = false;
-  if( !$product->dependencies ) return $product;
+  if ( ! $product->dependencies ) return $product;
 
-  $met = [];
+  $met   = [];
   $unmet = [];
 
-  foreach( $product->dependencies as $dependency ) {
+  foreach ( $product->dependencies as $dependency ) {
 
-    $slug = $dependency->slug;
+    $slug   = $dependency->slug;
     $active = $framework->is_dependency_active(
       "{$slug}/{$slug}.php",
-      $plugin->get_block_dependency_fallback($slug)
+      $plugin->get_block_dependency_fallback( $slug )
     );
 
-    if( $slug === 'tangible-blocks-pro' ) {
+    if ( $slug === 'tangible-blocks-pro' ) {
       $product->is_pro = true;
     }
 
     $arr = [
-      'slug' => $slug,
-      'name' => $dependency->name,
-      'active' => $active
+      'slug'   => $slug,
+      'name'   => $dependency->name,
+      'active' => $active,
     ];
 
-    $active? // Branching side effects on ternary condition *sigh*
-      $met[]=$arr :
-      $unmet[]=$arr;
+    $active ? // Branching side effects on ternary condition *sigh*
+      $met[]   = $arr :
+      $unmet[] = $arr;
   }
 
   $product->dependencies = [
-    'met' => $met,
-    'unmet' => $unmet
+    'met'   => $met,
+    'unmet' => $unmet,
   ];
 
   return $product;

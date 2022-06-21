@@ -18,7 +18,7 @@
 
 if ( ! class_exists( 'Elementor\\Plugin' ) ) return;
 
-require_once __DIR__.'/enqueue.php';
+require_once __DIR__ . '/enqueue.php';
 
 /**
  * Add Elementor-specific actions to replace wp_head and wp_footer
@@ -29,8 +29,8 @@ require_once __DIR__.'/enqueue.php';
  * @see https://github.com/elementor/elementor/issues/7174#issuecomment-466746848
  */
 
-add_action('elementor/editor/before_enqueue_scripts', $html->head_action, 99);
-add_action('elementor/editor/footer', $html->footer_action, 99);
+add_action( 'elementor/editor/before_enqueue_scripts', $html->head_action, 99 );
+add_action( 'elementor/editor/footer', $html->footer_action, 99 );
 
 
 /**
@@ -41,11 +41,11 @@ add_action('elementor/editor/footer', $html->footer_action, 99);
  * https://developers.elementor.com/add-custom-functionality/#Registering_New_Widgets
  */
 
-add_action( 'elementor/widgets/widgets_registered', function() use ($plugin, $html) {
+add_action( 'elementor/widgets/widgets_registered', function() use ( $plugin, $html ) {
 
   $elementor = \Elementor\Plugin::instance();
 
-  require_once __DIR__.'/template-editor-widget.php';
+  require_once __DIR__ . '/template-editor-widget.php';
 
 });
 
@@ -59,11 +59,11 @@ add_action( 'elementor/widgets/widgets_registered', function() use ($plugin, $ht
  * https://developers.elementor.com/add-custom-functionality/#Registering_New_Controls
  */
 
-add_action( 'elementor/controls/controls_registered', function() use ($plugin, $html) {
+add_action( 'elementor/controls/controls_registered', function() use ( $plugin, $html ) {
 
   $elementor = \Elementor\Plugin::instance();
 
-  require_once __DIR__.'/template-editor-control.php';
+  require_once __DIR__ . '/template-editor-control.php';
 
 });
 
@@ -73,26 +73,25 @@ add_action( 'elementor/controls/controls_registered', function() use ($plugin, $
  *
  * https://developers.elementor.com/widget-categories/
  */
-add_action( 'elementor/elements/categories_registered', function($elements_manager) use($plugin) {
+add_action( 'elementor/elements/categories_registered', function( $elements_manager ) use ( $plugin ) {
 
 });
 
 
 /**
  * Dynamic tags
- *
  */
-add_action('elementor/dynamic_tags/register_tags', function( $dynamic_tags ) use ($plugin, $html) {
+add_action('elementor/dynamic_tags/register_tags', function( $dynamic_tags ) use ( $plugin, $html ) {
 
   // Creating tag group
   $dynamic_tags->register_group( 'loops-logic', [
-    'title' => 'Tangible Loops & Logic'
+    'title' => 'Tangible Loops & Logic',
   ] );
 
   // Include Dynamic tag files
-  include_once(__DIR__ . '/template-dynamic-tag.php');
+  include_once __DIR__ . '/template-dynamic-tag.php';
 
   // Register tag
-  $dynamic_tags->register_tag('Tangible\\Template\\Integrations\\Elementor\\Template_DynamicTag');
+  $dynamic_tags->register_tag( 'Tangible\\Template\\Integrations\\Elementor\\Template_DynamicTag' );
 
 });

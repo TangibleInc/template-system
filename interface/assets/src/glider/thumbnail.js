@@ -1,5 +1,4 @@
-(function($, window, document, undefined) {
-
+;(function ($, window, document, undefined) {
   'use strict'
 
   var defaults = {
@@ -27,11 +26,10 @@
     loadVimeoThumbnail: true,
     vimeoThumbSize: 'thumbnail_small',
 
-    loadDailymotionThumbnail: true
+    loadDailymotionThumbnail: true,
   }
 
-  var Thumbnail = function(element) {
-
+  var Thumbnail = function (element) {
     // get tangibleGlider core plugin data
     this.core = $(element).data('tangibleGlider')
 
@@ -41,7 +39,9 @@
     this.$el = $(element)
     this.$thumbOuter = null
     this.thumbOuterWidth = 0
-    this.thumbTotalWidth = (this.core.$items.length * (this.core.s.thumbWidth + this.core.s.thumbMargin))
+    this.thumbTotalWidth =
+      this.core.$items.length *
+      (this.core.s.thumbWidth + this.core.s.thumbMargin)
     this.thumbIndex = this.core.index
 
     // Thumbnail animation value
@@ -52,11 +52,11 @@
     return this
   }
 
-  Thumbnail.prototype.init = function() {
+  Thumbnail.prototype.init = function () {
     var _this = this
     if (this.core.s.thumbnail && this.core.$items.length > 1) {
       if (this.core.s.showThumbByDefault) {
-        setTimeout(function(){
+        setTimeout(function () {
           _this.core.$outer.addClass('tglider-thumb-open')
         }, 700)
       }
@@ -67,11 +67,19 @@
 
       this.build()
       if (this.core.s.animateThumb) {
-        if (this.core.s.enableThumbDrag && !this.core.isTouch && this.core.doCss()) {
+        if (
+          this.core.s.enableThumbDrag &&
+          !this.core.isTouch &&
+          this.core.doCss()
+        ) {
           this.enableThumbDrag()
         }
 
-        if (this.core.s.enableThumbSwipe && this.core.isTouch && this.core.doCss()) {
+        if (
+          this.core.s.enableThumbSwipe &&
+          this.core.isTouch &&
+          this.core.doCss()
+        ) {
           this.enableThumbSwipe()
         }
 
@@ -85,25 +93,26 @@
     }
   }
 
-  Thumbnail.prototype.build = function() {
+  Thumbnail.prototype.build = function () {
     var _this = this
     var thumbList = ''
     var vimeoErrorThumbSize = ''
     var $thumb
-    var html = '<div class="tglider-thumb-outer">' +
-            '<div class="tglider-thumb group">' +
-            '</div>' +
-            '</div>'
+    var html =
+      '<div class="tglider-thumb-outer">' +
+      '<div class="tglider-thumb group">' +
+      '</div>' +
+      '</div>'
 
     switch (this.core.s.vimeoThumbSize) {
-    case 'thumbnail_large':
-      vimeoErrorThumbSize = '640'
-      break
-    case 'thumbnail_medium':
-      vimeoErrorThumbSize = '200x150'
-      break
-    case 'thumbnail_small':
-      vimeoErrorThumbSize = '100x75'
+      case 'thumbnail_large':
+        vimeoErrorThumbSize = '640'
+        break
+      case 'thumbnail_medium':
+        vimeoErrorThumbSize = '200x150'
+        break
+      case 'thumbnail_small':
+        vimeoErrorThumbSize = '100x75'
     }
 
     _this.core.$outer.addClass('tglider-has-thumb')
@@ -116,7 +125,7 @@
     if (_this.core.s.animateThumb) {
       _this.core.$outer.find('.tglider-thumb').css({
         width: _this.thumbTotalWidth + 'px',
-        position: 'relative'
+        position: 'relative',
       })
     }
 
@@ -133,20 +142,27 @@
       if (isVideo.youtube || isVideo.vimeo || isVideo.dailymotion) {
         if (isVideo.youtube) {
           if (_this.core.s.loadYoutubeThumbnail) {
-            thumbImg = '//img.youtube.com/vi/' + isVideo.youtube[1] + '/' + _this.core.s.youtubeThumbSize + '.jpg'
+            thumbImg =
+              '//img.youtube.com/vi/' +
+              isVideo.youtube[1] +
+              '/' +
+              _this.core.s.youtubeThumbSize +
+              '.jpg'
           } else {
             thumbImg = thumb
           }
         } else if (isVideo.vimeo) {
           if (_this.core.s.loadVimeoThumbnail) {
-            thumbImg = '//i.vimeocdn.com/video/error_' + vimeoErrorThumbSize + '.jpg'
+            thumbImg =
+              '//i.vimeocdn.com/video/error_' + vimeoErrorThumbSize + '.jpg'
             vimeoId = isVideo.vimeo[1]
           } else {
             thumbImg = thumb
           }
         } else if (isVideo.dailymotion) {
           if (_this.core.s.loadDailymotionThumbnail) {
-            thumbImg = '//www.dailymotion.com/thumbnail/video/' + isVideo.dailymotion[1]
+            thumbImg =
+              '//www.dailymotion.com/thumbnail/video/' + isVideo.dailymotion[1]
           } else {
             thumbImg = thumb
           }
@@ -155,23 +171,46 @@
         thumbImg = thumb
       }
 
-      thumbList += '<div data-vimeo-id="' + vimeoId + '" class="tglider-thumb-item" style="width:' + _this.core.s.thumbWidth + 'px; margin-right: ' + _this.core.s.thumbMargin + 'px"><div class="tglider-thumb-item-image-wrap" align="center"><img src="' + thumbImg + '" /></div></div>'
+      thumbList +=
+        '<div data-vimeo-id="' +
+        vimeoId +
+        '" class="tglider-thumb-item" style="width:' +
+        _this.core.s.thumbWidth +
+        'px; margin-right: ' +
+        _this.core.s.thumbMargin +
+        'px"><div class="tglider-thumb-item-image-wrap" align="center"><img src="' +
+        thumbImg +
+        '" /></div></div>'
       vimeoId = ''
     }
 
     if (_this.core.s.dynamic) {
       for (var i = 0; i < _this.core.s.dynamicEl.length; i++) {
-        getThumb(_this.core.s.dynamicEl[i].src, _this.core.s.dynamicEl[i].thumb, i)
+        getThumb(
+          _this.core.s.dynamicEl[i].src,
+          _this.core.s.dynamicEl[i].thumb,
+          i
+        )
       }
     } else {
-      _this.core.$items.each(function(i) {
-
+      _this.core.$items.each(function (i) {
         if (!_this.core.s.exThumbImage) {
-          getThumb($(this).attr('href') || $(this).attr('data-src') || $(this).find('a').attr('href'), $(this).find('img').attr('src'), i)
+          getThumb(
+            $(this).attr('href') ||
+              $(this).attr('data-src') ||
+              $(this).find('a').attr('href'),
+            $(this).find('img').attr('src'),
+            i
+          )
         } else {
-          getThumb($(this).attr('href') || $(this).attr('data-src') || $(this).find('a').attr('href'), $(this).attr(_this.core.s.exThumbImage), i)
+          getThumb(
+            $(this).attr('href') ||
+              $(this).attr('data-src') ||
+              $(this).find('a').attr('href'),
+            $(this).attr(_this.core.s.exThumbImage),
+            i
+          )
         }
-
       })
     }
 
@@ -180,75 +219,83 @@
     $thumb = _this.core.$outer.find('.tglider-thumb-item')
 
     // Load vimeo thumbnails
-    $thumb.each(function() {
+    $thumb.each(function () {
       var $this = $(this)
       var vimeoVideoId = $this.attr('data-vimeo-id')
 
       if (vimeoVideoId) {
-        $.getJSON('//www.vimeo.com/api/v2/video/' + vimeoVideoId + '.json?callback=?', {
-          format: 'json'
-        }, function(data) {
-          $this.find('img').attr('src', data[0][_this.core.s.vimeoThumbSize])
-        })
+        $.getJSON(
+          '//www.vimeo.com/api/v2/video/' + vimeoVideoId + '.json?callback=?',
+          {
+            format: 'json',
+          },
+          function (data) {
+            $this.find('img').attr('src', data[0][_this.core.s.vimeoThumbSize])
+          }
+        )
       }
     })
 
     // manage active class for thumbnail
     $thumb.eq(_this.core.index).addClass('active')
-    _this.core.$el.on('onBeforeSlide.lg.tm', function() {
+    _this.core.$el.on('onBeforeSlide.lg.tm', function () {
       $thumb.removeClass('active')
       $thumb.eq(_this.core.index).addClass('active')
     })
 
-    $thumb.on('click.lg touchend.lg', function() {
+    $thumb.on('click.lg touchend.lg', function () {
       var _$this = $(this)
-      setTimeout(function() {
-
+      setTimeout(function () {
         // In IE9 and bellow touch does not support
         // Go to slide if browser does not support css transitions
-        if ((_this.thumbClickable && !_this.core.lgBusy) || !_this.core.doCss()) {
+        if (
+          (_this.thumbClickable && !_this.core.lgBusy) ||
+          !_this.core.doCss()
+        ) {
           _this.core.index = _$this.index()
           _this.core.slide(_this.core.index, false, true)
         }
       }, 50)
     })
 
-    _this.core.$el.on('onBeforeSlide.lg.tm', function() {
+    _this.core.$el.on('onBeforeSlide.lg.tm', function () {
       _this.animateThumb(_this.core.index)
     })
 
-    $(window).on('resize.lg.thumb orientationchange.lg.thumb', function() {
-      setTimeout(function() {
+    $(window).on('resize.lg.thumb orientationchange.lg.thumb', function () {
+      setTimeout(function () {
         _this.animateThumb(_this.core.index)
         _this.thumbOuterWidth = _this.$thumbOuter.width()
       }, 200)
     })
-
   }
 
-  Thumbnail.prototype.setTranslate = function(value) {
+  Thumbnail.prototype.setTranslate = function (value) {
     // jQuery supports Automatic CSS prefixing since jQuery 1.8.0
     this.core.$outer.find('.tglider-thumb').css({
-      transform: 'translate3d(-' + (value) + 'px, 0px, 0px)'
+      transform: 'translate3d(-' + value + 'px, 0px, 0px)',
     })
   }
 
-  Thumbnail.prototype.animateThumb = function(index) {
+  Thumbnail.prototype.animateThumb = function (index) {
     var $thumb = this.core.$outer.find('.tglider-thumb')
     if (this.core.s.animateThumb) {
       var position
       switch (this.core.s.currentPagerPosition) {
-      case 'left':
-        position = 0
-        break
-      case 'middle':
-        position = (this.thumbOuterWidth / 2) - (this.core.s.thumbWidth / 2)
-        break
-      case 'right':
-        position = this.thumbOuterWidth - this.core.s.thumbWidth
+        case 'left':
+          position = 0
+          break
+        case 'middle':
+          position = this.thumbOuterWidth / 2 - this.core.s.thumbWidth / 2
+          break
+        case 'right':
+          position = this.thumbOuterWidth - this.core.s.thumbWidth
       }
-      this.left = ((this.core.s.thumbWidth + this.core.s.thumbMargin) * index - 1) - position
-      if (this.left > (this.thumbTotalWidth - this.thumbOuterWidth)) {
+      this.left =
+        (this.core.s.thumbWidth + this.core.s.thumbMargin) * index -
+        1 -
+        position
+      if (this.left > this.thumbTotalWidth - this.thumbOuterWidth) {
         this.left = this.thumbTotalWidth - this.thumbOuterWidth
       }
 
@@ -258,13 +305,18 @@
 
       if (this.core.lGalleryOn) {
         if (!$thumb.hasClass('on')) {
-          this.core.$outer.find('.tglider-thumb').css('transition-duration', this.core.s.speed + 'ms')
+          this.core.$outer
+            .find('.tglider-thumb')
+            .css('transition-duration', this.core.s.speed + 'ms')
         }
 
         if (!this.core.doCss()) {
-          $thumb.animate({
-            left: -this.left + 'px'
-          }, this.core.s.speed)
+          $thumb.animate(
+            {
+              left: -this.left + 'px',
+            },
+            this.core.s.speed
+          )
         }
       } else {
         if (!this.core.doCss()) {
@@ -273,13 +325,11 @@
       }
 
       this.setTranslate(this.left)
-
     }
   }
 
   // Enable thumbnail dragging and swiping
-  Thumbnail.prototype.enableThumbDrag = function() {
-
+  Thumbnail.prototype.enableThumbDrag = function () {
     var _this = this
     var startCoords = 0
     var endCoords = 0
@@ -289,24 +339,28 @@
 
     _this.$thumbOuter.addClass('tglider-grab')
 
-    _this.core.$outer.find('.tglider-thumb').on('mousedown.lg.thumb', function(e) {
-      if (_this.thumbTotalWidth > _this.thumbOuterWidth) {
-        // execute only on .tglider-object
-        e.preventDefault()
-        startCoords = e.pageX
-        isDraging = true
+    _this.core.$outer
+      .find('.tglider-thumb')
+      .on('mousedown.lg.thumb', function (e) {
+        if (_this.thumbTotalWidth > _this.thumbOuterWidth) {
+          // execute only on .tglider-object
+          e.preventDefault()
+          startCoords = e.pageX
+          isDraging = true
 
-        // ** Fix for webkit cursor issue https://code.google.com/p/chromium/issues/detail?id=26723
-        _this.core.$outer.scrollLeft += 1
-        _this.core.$outer.scrollLeft -= 1
+          // ** Fix for webkit cursor issue https://code.google.com/p/chromium/issues/detail?id=26723
+          _this.core.$outer.scrollLeft += 1
+          _this.core.$outer.scrollLeft -= 1
 
-        // *
-        _this.thumbClickable = false
-        _this.$thumbOuter.removeClass('tglider-grab').addClass('tglider-grabbing')
-      }
-    })
+          // *
+          _this.thumbClickable = false
+          _this.$thumbOuter
+            .removeClass('tglider-grab')
+            .addClass('tglider-grabbing')
+        }
+      })
 
-    $(window).on('mousemove.lg.thumb', function(e) {
+    $(window).on('mousemove.lg.thumb', function (e) {
       if (isDraging) {
         tempLeft = _this.left
         isMoved = true
@@ -316,7 +370,7 @@
 
         tempLeft = tempLeft - (endCoords - startCoords)
 
-        if (tempLeft > (_this.thumbTotalWidth - _this.thumbOuterWidth)) {
+        if (tempLeft > _this.thumbTotalWidth - _this.thumbOuterWidth) {
           tempLeft = _this.thumbTotalWidth - _this.thumbOuterWidth
         }
 
@@ -326,11 +380,10 @@
 
         // move current slide
         _this.setTranslate(tempLeft)
-
       }
     })
 
-    $(window).on('mouseup.lg.thumb', function() {
+    $(window).on('mouseup.lg.thumb', function () {
       if (isMoved) {
         isMoved = false
         _this.$thumbOuter.removeClass('tglider-dragging')
@@ -340,27 +393,27 @@
         if (Math.abs(endCoords - startCoords) < _this.core.s.swipeThreshold) {
           _this.thumbClickable = true
         }
-
       } else {
         _this.thumbClickable = true
       }
 
       if (isDraging) {
         isDraging = false
-        _this.$thumbOuter.removeClass('tglider-grabbing').addClass('tglider-grab')
+        _this.$thumbOuter
+          .removeClass('tglider-grabbing')
+          .addClass('tglider-grab')
       }
     })
-
   }
 
-  Thumbnail.prototype.enableThumbSwipe = function() {
+  Thumbnail.prototype.enableThumbSwipe = function () {
     var _this = this
     var startCoords = 0
     var endCoords = 0
     var isMoved = false
     var tempLeft = 0
 
-    _this.core.$outer.find('.tglider-thumb').on('touchstart.lg', function(e) {
+    _this.core.$outer.find('.tglider-thumb').on('touchstart.lg', function (e) {
       if (_this.thumbTotalWidth > _this.thumbOuterWidth) {
         e.preventDefault()
         startCoords = e.originalEvent.targetTouches[0].pageX
@@ -368,7 +421,7 @@
       }
     })
 
-    _this.core.$outer.find('.tglider-thumb').on('touchmove.lg', function(e) {
+    _this.core.$outer.find('.tglider-thumb').on('touchmove.lg', function (e) {
       if (_this.thumbTotalWidth > _this.thumbOuterWidth) {
         e.preventDefault()
         endCoords = e.originalEvent.targetTouches[0].pageX
@@ -380,7 +433,7 @@
 
         tempLeft = tempLeft - (endCoords - startCoords)
 
-        if (tempLeft > (_this.thumbTotalWidth - _this.thumbOuterWidth)) {
+        if (tempLeft > _this.thumbTotalWidth - _this.thumbOuterWidth) {
           tempLeft = _this.thumbTotalWidth - _this.thumbOuterWidth
         }
 
@@ -390,13 +443,11 @@
 
         // move current slide
         _this.setTranslate(tempLeft)
-
       }
     })
 
-    _this.core.$outer.find('.tglider-thumb').on('touchend.lg', function() {
+    _this.core.$outer.find('.tglider-thumb').on('touchend.lg', function () {
       if (_this.thumbTotalWidth > _this.thumbOuterWidth) {
-
         if (isMoved) {
           isMoved = false
           _this.$thumbOuter.removeClass('tglider-dragging')
@@ -412,23 +463,26 @@
         _this.thumbClickable = true
       }
     })
-
   }
 
-  Thumbnail.prototype.toogle = function() {
+  Thumbnail.prototype.toogle = function () {
     var _this = this
     if (_this.core.s.toogleThumb) {
       _this.core.$outer.addClass('tglider-can-toggle')
-      _this.$thumbOuter.append('<span class="tglider-toogle-thumb tglider-icon"></span>')
-      _this.core.$outer.find('.tglider-toogle-thumb').on('click.lg', function() {
-        _this.core.$outer.toggleClass('tglider-thumb-open')
-      })
+      _this.$thumbOuter.append(
+        '<span class="tglider-toogle-thumb tglider-icon"></span>'
+      )
+      _this.core.$outer
+        .find('.tglider-toogle-thumb')
+        .on('click.lg', function () {
+          _this.core.$outer.toggleClass('tglider-thumb-open')
+        })
     }
   }
 
-  Thumbnail.prototype.thumbkeyPress = function() {
+  Thumbnail.prototype.thumbkeyPress = function () {
     var _this = this
-    $(window).on('keydown.lg.thumb', function(e) {
+    $(window).on('keydown.lg.thumb', function (e) {
       if (e.keyCode === 38) {
         e.preventDefault()
         _this.core.$outer.addClass('tglider-thumb-open')
@@ -439,14 +493,15 @@
     })
   }
 
-  Thumbnail.prototype.destroy = function() {
+  Thumbnail.prototype.destroy = function () {
     if (this.core.s.thumbnail && this.core.$items.length > 1) {
-      $(window).off('resize.lg.thumb orientationchange.lg.thumb keydown.lg.thumb')
+      $(window).off(
+        'resize.lg.thumb orientationchange.lg.thumb keydown.lg.thumb'
+      )
       this.$thumbOuter.remove()
       this.core.$outer.removeClass('tglider-has-thumb')
     }
   }
 
   $.fn.tangibleGlider.modules.Thumbnail = Thumbnail
-
 })(jQuery, window, document)

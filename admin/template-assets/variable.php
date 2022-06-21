@@ -16,14 +16,14 @@
  */
 
 $html->register_variable_type('asset', [
-  'set' => function($name, $atts, $content, &$memory) use ($html) {
+  'set' => function( $name, $atts, $content, &$memory ) use ( $html ) {
     // Internal use only, not for Set tag
   },
-  'get' => function($name, $atts, &$memory) use ($html, $loop, $plugin) {
+  'get' => function( $name, $atts, &$memory ) use ( $html, $loop, $plugin ) {
 
     $assets = $plugin->current_template_assets_map;
 
-    if (empty($assets) || empty($assets[ $name ])) return;
+    if (empty( $assets ) || empty( $assets[ $name ] )) return;
 
     $asset = $assets[ $name ];
 
@@ -31,10 +31,10 @@ $html->register_variable_type('asset', [
 
     $attachment_id = $asset['id'];
 
-    $field = isset($atts['field']) ? $atts['field'] : 'id';
+    $field = isset( $atts['field'] ) ? $atts['field'] : 'id';
 
     // Only the "name" is different from normal attachment field
-    if ($field==='name' && isset($asset[ $field ])) {
+    if ( $field === 'name' && isset( $asset[ $field ] ) ) {
       return $asset[ $field ];
     }
 
@@ -57,33 +57,34 @@ $html->register_variable_type('asset', [
  */
 
 $plugin->previous_template_assets_map = null;
-$plugin->current_template_assets_map = [
+$plugin->current_template_assets_map  = [
   // name => asset
 ];
 
 /**
  * Prepare assets map for current template
  */
-$plugin->prepare_template_assets_map = function($post_id) use ($plugin) {
+$plugin->prepare_template_assets_map = function( $post_id ) use ( $plugin ) {
 
-  $assets = get_post_meta($post_id, 'assets', true);
+  $assets = get_post_meta( $post_id, 'assets', true );
 
-  if (!is_array($assets)) {
+  if ( ! is_array( $assets ) ) {
     try {
-      $assets = json_decode($assets, true);
-    } catch (\Throwable $th) { /* OK */ }
+      $assets = json_decode( $assets, true );
+    } catch ( \Throwable $th ) {
+      /* OK */ }
   }
 
-  if (empty($assets) || !is_array($assets)) $assets = [];
+  if (empty( $assets ) || ! is_array( $assets )) $assets = [];
 
   // Convert from list to map for quick access by name
   $assets_map = [];
-  foreach ($assets as $asset) {
+  foreach ( $assets as $asset ) {
 
     $name = $plugin->ensure_valid_asset_name( $asset['name'] );
 
     // Additional fields
-    $asset['url'] = isset($asset['id']) ? wp_get_attachment_url($asset['id']) : '';
+    $asset['url'] = isset( $asset['id'] ) ? wp_get_attachment_url( $asset['id'] ) : '';
 
     $assets_map[ $name ] = $asset;
   }
@@ -99,11 +100,11 @@ $plugin->prepare_template_assets_map = function($post_id) use ($plugin) {
 /**
  * Restore parent template's asset map
  */
-$plugin->restore_template_assets_map = function() use ($plugin) {
-  $plugin->current_template_assets_map = $plugin->previous_template_assets_map;
+$plugin->restore_template_assets_map = function() use ( $plugin ) {
+  $plugin->current_template_assets_map  = $plugin->previous_template_assets_map;
   $plugin->previous_template_assets_map = null;
 };
 
-$plugin->ensure_valid_asset_name = function($name) {
-  return preg_replace("/[^a-zA-Z0-9_\-]+/i", "", $name);
+$plugin->ensure_valid_asset_name = function( $name ) {
+  return preg_replace( '/[^a-zA-Z0-9_\-]+/i', '', $name );
 };

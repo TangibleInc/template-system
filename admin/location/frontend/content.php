@@ -11,7 +11,7 @@ $plugin = tangible_template_system();
 
 $template_id = $plugin->layout_template_for_current_location;
 
-$_post = get_post( $template_id );
+$_post  = get_post( $template_id );
 $fields = $plugin->get_template_fields( $_post );
 
 get_header( $fields['theme_header'] );

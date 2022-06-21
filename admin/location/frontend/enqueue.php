@@ -4,36 +4,35 @@
  * Template type: Tangible Style
  */
 
-add_action('wp_head', function() use ($plugin, $logic) {
+add_action('wp_head', function() use ( $plugin, $logic ) {
 
   $templates = $plugin->get_all_templates(
     'tangible_style'
   );
 
-  if (empty($templates)) return;
+  if (empty( $templates )) return;
 
-  foreach ($templates as $template) {
+  foreach ( $templates as $template ) {
 
     // Evaluate template location rules
 
-    $rule_groups = (isset($template['location']) && isset($template['location']['rule_groups']))
+    $rule_groups = ( isset( $template['location'] ) && isset( $template['location']['rule_groups'] ) )
       ? $template['location']['rule_groups']
-      : []
-    ;
+      : [];
 
-    $matches = empty($rule_groups)
+    $matches = empty( $rule_groups )
 
       ? true // No location rules - Apply to entire site
 
       /**
        * Evaluate rule groups
+       *
        * @see vendor/tangible/logic/evaluate
        */
-      : $logic->evaluate_rule_groups(
+    : $logic->evaluate_rule_groups(
         $rule_groups,
         $plugin->evaluate_location_rule
-      )
-    ;
+      );
 
     if ( ! $matches ) continue;
 
@@ -47,36 +46,35 @@ add_action('wp_head', function() use ($plugin, $logic) {
 /**
  * Template type: Tangible Script
  */
-add_action('wp_footer', function() use ($plugin, $logic) {
+add_action('wp_footer', function() use ( $plugin, $logic ) {
 
   $templates = $plugin->get_all_templates(
     'tangible_script'
   );
 
-  if (empty($templates)) return;
+  if (empty( $templates )) return;
 
-  foreach ($templates as $template) {
+  foreach ( $templates as $template ) {
 
     // Evaluate template location rules
 
-    $rule_groups = (isset($template['location']) && isset($template['location']['rule_groups']))
+    $rule_groups = ( isset( $template['location'] ) && isset( $template['location']['rule_groups'] ) )
       ? $template['location']['rule_groups']
-      : []
-    ;
+      : [];
 
-    $matches = empty($rule_groups)
+    $matches = empty( $rule_groups )
 
       ? true // No location rules - Apply to entire site
 
       /**
        * Evaluate rule groups
+       *
        * @see vendor/tangible/logic/evaluate
        */
-      : $logic->evaluate_rule_groups(
+    : $logic->evaluate_rule_groups(
         $rule_groups,
         $plugin->evaluate_location_rule
-      )
-    ;
+      );
 
     if ( ! $matches ) continue;
 

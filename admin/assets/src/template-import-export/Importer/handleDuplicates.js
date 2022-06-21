@@ -1,14 +1,10 @@
-import {
-  ajax,
-  ajaxActionPrefix
-} from '../common'
+import { ajax, ajaxActionPrefix } from '../common'
 
 export default function handleDuplicates({
   mode, // overwrite or keep_both
   inputStateRef,
-  setInputState
+  setInputState,
 }) {
-
   const { importData } = inputStateRef.current
 
   if (!importData || !importData.post_types) {
@@ -19,23 +15,25 @@ export default function handleDuplicates({
   const duplicates = {
     ...importData, // NOTE: Other import data properties such as "shared_assets"
     post_types: {},
-    handle_duplicates: mode
+    handle_duplicates: mode,
   }
 
   // Filter only duplicate posts
-  for (const { id, title, post_type } of inputStateRef.current.duplicatesFound) {
-
-    const postData = importData.post_types[ post_type ].filter(post => post.id===id)[0]
+  for (const { id, title, post_type } of inputStateRef.current
+    .duplicatesFound) {
+    const postData = importData.post_types[post_type].filter(
+      (post) => post.id === id
+    )[0]
     if (!postData) {
       console.warn('Corresponding post not found', id, post_type, title)
       continue
     }
 
-    if (!duplicates.post_types[ post_type ]) {
-      duplicates.post_types[ post_type ] = []
+    if (!duplicates.post_types[post_type]) {
+      duplicates.post_types[post_type] = []
     }
 
-    duplicates.post_types[ post_type ].push(postData)
+    duplicates.post_types[post_type].push(postData)
   }
 
   // console.log('Import duplicates', mode, duplicates)
@@ -46,21 +44,17 @@ export default function handleDuplicates({
     importedData: {},
     duplicatesFound: [],
     duplicatesHandledMessage: '',
-    message: ''
+    message: '',
   })
 
-  ajax(
-    ajaxActionPrefix+'import',
-    duplicates
-  )
-    .then(result => {
-
+  ajax(ajaxActionPrefix + 'import', duplicates)
+    .then((result) => {
       const importedData = {
         ...duplicates,
         old_to_new_id: {
           ...(inputStateRef.current.old_to_new_id || {}),
-          ...(result.old_to_new_id || {})
-        }
+          ...(result.old_to_new_id || {}),
+        },
       }
 
       console.log('Imported duplicates', importedData)
@@ -75,17 +69,16 @@ export default function handleDuplicates({
         duplicatesFound: [],
         duplicatesHandledMessage: '',
         message:
-            result.post_count+' template'
-            +(result.post_count!==1 ? 's' : '')
-            +' imported'
-        ,
+          result.post_count +
+          ' template' +
+          (result.post_count !== 1 ? 's' : '') +
+          ' imported',
       })
     })
-    .catch(error => {
+    .catch((error) => {
       setInputState({
         ...inputStateRef.current,
-        duplicatesHandledMessage: 'Error: '+error.message
+        duplicatesHandledMessage: 'Error: ' + error.message,
       })
     })
-
 }

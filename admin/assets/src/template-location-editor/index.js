@@ -8,9 +8,7 @@ import LocationEditor from './LocationEditor'
 
 const {
   jQuery: $,
-  Tangible: {
-    Preact
-  }
+  Tangible: { Preact },
 } = window
 
 const $el = $('#post .template-location-editor')
@@ -23,7 +21,12 @@ data = typeof data === 'object' && !Array.isArray(data) ? data : {}
 
 const ruleDefinitions = $el.data('ruleDefinitions') || []
 
-Preact.render(<LocationEditor {...{
-  data,
-  ruleDefinitions
-}} />, el)
+Preact.render(
+  <LocationEditor
+    {...{
+      data,
+      ruleDefinitions,
+    }}
+  />,
+  el
+)

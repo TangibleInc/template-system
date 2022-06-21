@@ -8,19 +8,10 @@
 
 const { jQuery, wp, Tangible } = window
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
+  const { Tangible, elementor } = window
 
-  const {
-    Tangible,
-    elementor
-  } = window
-
-  const {
-    CodeMirror,
-    createCodeEditor,
-    moduleLoader,
-  } = Tangible
-
+  const { CodeMirror, createCodeEditor, moduleLoader } = Tangible
 
   /**
    * Keep track of preview element that corresponds to this widget panel's template editor.
@@ -31,14 +22,16 @@ jQuery(document).ready(function($) {
    */
   let currentlyOpenWidget = null
 
-  elementor.hooks.addAction('panel/open_editor/widget/tangible-template-editor', function( panel, model, view ) {
-    currentlyOpenWidget = { panel, model, view }
-  })
+  elementor.hooks.addAction(
+    'panel/open_editor/widget/tangible-template-editor',
+    function (panel, model, view) {
+      currentlyOpenWidget = { panel, model, view }
+    }
+  )
 
   // Controls
   const templateEditorControl = elementor.modules.controls.BaseData.extend({
     onReady: function () {
-
       // this = { el, $el, model, ui, .. }
       // console.log('Template editor control: Ready', this)
 
@@ -46,7 +39,9 @@ jQuery(document).ready(function($) {
 
       // Create code editor instance
 
-      const textarea = this.$el.find('.tangible-elementor-template-editor-textarea')[0]
+      const textarea = this.$el.find(
+        '.tangible-elementor-template-editor-textarea'
+      )[0]
       if (!textarea) return
 
       const editor = createCodeEditor(textarea, {
@@ -56,27 +51,25 @@ jQuery(document).ready(function($) {
         lineWrapping: true,
 
         extraKeys: {
-          "Alt-F": 'findPersistent',
-          'Enter': 'emmetInsertLineBreak',
-          'Ctrl-Space': 'autocomplete'
+          'Alt-F': 'findPersistent',
+          Enter: 'emmetInsertLineBreak',
+          'Ctrl-Space': 'autocomplete',
         },
       })
 
       editor.setSize(null, '100%') // Prevent width resize, scroll instead
 
       // Trick to fix initial CodeMirror styling
-      setTimeout(function() {
+      setTimeout(function () {
         editor.refresh()
         editor.focus()
       }, 0)
-
 
       // Preview refresh logic
 
       let shouldRefresh = false
 
       editor.on('change', () => {
-
         shouldRefresh = true
 
         /**
@@ -96,34 +89,38 @@ jQuery(document).ready(function($) {
        */
       const refreshInterval = 1000
       const refreshTimer = setInterval(() => {
-
         if (!shouldRefresh) return
         shouldRefresh = false
 
         // Update field value
         const value = editor.getValue()
-        this.setValue( value )
+        this.setValue(value)
 
         // Load dynamic modules for preview
-        if (moduleLoader && currentlyOpenWidget && currentlyOpenWidget.view && currentlyOpenWidget.view.$el) {
-
-          const previewElement = currentlyOpenWidget.view.$el.find('.elementor-widget-container')[0]
+        if (
+          moduleLoader &&
+          currentlyOpenWidget &&
+          currentlyOpenWidget.view &&
+          currentlyOpenWidget.view.$el
+        ) {
+          const previewElement = currentlyOpenWidget.view.$el.find(
+            '.elementor-widget-container'
+          )[0]
           if (!previewElement) return
 
-          moduleLoader( previewElement )
+          moduleLoader(previewElement)
         }
-
       }, refreshInterval)
 
       // Clean up
-      this.unsubscribers.push(function() {
+      this.unsubscribers.push(function () {
         clearInterval(refreshTimer)
       })
     },
 
     onBeforeDestroy: function () {
-      this.unsubscribers.forEach(unsubscribe => unsubscribe())
-    }
+      this.unsubscribers.forEach((unsubscribe) => unsubscribe())
+    },
   })
 
   elementor.addControlView('tangible-template-editor', templateEditorControl)

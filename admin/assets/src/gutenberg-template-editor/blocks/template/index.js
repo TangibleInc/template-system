@@ -3,17 +3,25 @@ const {
   element: { Component },
   blockEditor: { BlockControls, InspectorControls },
   blocks: { registerBlockType },
-  components: { Button, DropdownMenu, KeyboardShortcuts, SelectControl, TextControl, ToolbarItem, ToolbarButton, ToolbarGroup, Panel, PanelBody, PanelRow, withConstrainedTabbing },
+  components: {
+    Button,
+    DropdownMenu,
+    KeyboardShortcuts,
+    SelectControl,
+    TextControl,
+    ToolbarItem,
+    ToolbarButton,
+    ToolbarGroup,
+    Panel,
+    PanelBody,
+    PanelRow,
+    withConstrainedTabbing,
+  },
   i18n: { __ },
   keycodes: { rawShortcut },
   serverSideRender: ServerSideRender,
 } = wp
-const {
-  CodeMirror,
-  createCodeEditor,
-  gutenbergConfig
-} = Tangible
-
+const { CodeMirror, createCodeEditor, gutenbergConfig } = Tangible
 
 /**
  * Workaround for Gutenberg issue with keyboard shortcuts
@@ -32,23 +40,27 @@ const stop = (e) => e.stopImmediatePropagation()
 const stopGutenbergShortcuts = {
   tab: stop,
   [rawShortcut.shift('tab')]: stop,
-  [rawShortcut.ctrl('[')]: stop, [rawShortcut.primary('[')]: stop,
-  [rawShortcut.ctrl(']')]: stop, [rawShortcut.primary(']')]: stop,
-  [rawShortcut.ctrl('a')]: stop, [rawShortcut.primary('a')]: stop,
-  [rawShortcut.ctrl('d')]: stop, [rawShortcut.primary('d')]: stop,
-  [rawShortcut.ctrl('z')]: stop, [rawShortcut.ctrlShift('z')]: stop,
-  [rawShortcut.primary('z')]: stop, [rawShortcut.primaryShift('z')]: stop,
+  [rawShortcut.ctrl('[')]: stop,
+  [rawShortcut.primary('[')]: stop,
+  [rawShortcut.ctrl(']')]: stop,
+  [rawShortcut.primary(']')]: stop,
+  [rawShortcut.ctrl('a')]: stop,
+  [rawShortcut.primary('a')]: stop,
+  [rawShortcut.ctrl('d')]: stop,
+  [rawShortcut.primary('d')]: stop,
+  [rawShortcut.ctrl('z')]: stop,
+  [rawShortcut.ctrlShift('z')]: stop,
+  [rawShortcut.primary('z')]: stop,
+  [rawShortcut.primaryShift('z')]: stop,
 }
 
 const EmptyTemplate = () => <div>&nbsp;</div>
 
 class TemplateEditor extends Component {
-
   componentDidMount() {
-
     const editor = createCodeEditor(this.el, {
       language: 'html',
-      resizable: true
+      resizable: true,
     })
 
     // editor.focus() // Don't focus, since there can be multiple Template blocks
@@ -72,38 +84,36 @@ class TemplateEditor extends Component {
 
   render() {
     const { value, onChange } = this.props
-    return <KeyboardShortcuts
-      shortcuts={ stopGutenbergShortcuts }
-    >
-      <textarea
-        ref={el => this.el = el}
-        value={value}
-        onChange={e => {
-          onChange(e.target.value)
-        }}
-        cols="30" rows="10"
-      ></textarea>
-    </KeyboardShortcuts>
+    return (
+      <KeyboardShortcuts shortcuts={stopGutenbergShortcuts}>
+        <textarea
+          ref={(el) => (this.el = el)}
+          value={value}
+          onChange={(e) => {
+            onChange(e.target.value)
+          }}
+          cols="30"
+          rows="10"
+        ></textarea>
+      </KeyboardShortcuts>
+    )
   }
 }
 
 class edit extends Component {
-
   canEditTemplate = gutenbergConfig.canEditTemplate
 
   state = {
     /**
      * Current tab showing: editor, selectTemplate, or preview
      */
-    currentTab: (this.props.attributes.template_selected
-      || !this.canEditTemplate
-    )
-      ? 'selectTemplate'
-      : 'editor'
+    currentTab:
+      this.props.attributes.template_selected || !this.canEditTemplate
+        ? 'selectTemplate'
+        : 'editor',
   }
 
   constructor(props) {
-
     super(props)
 
     /**
@@ -120,99 +130,103 @@ class edit extends Component {
     for (const id of optionKeys) {
       this.templateOptions.push({
         value: id ? parseInt(id, 10) : id, // ID can be null if no templates available
-        label: options[ id ]
+        label: options[id],
       })
     }
   }
 
   showTab(tab) {
-
-    if (this.state.currentTab===tab) return // Already showing tab
+    if (this.state.currentTab === tab) return // Already showing tab
 
     this.setState({ currentTab: tab })
 
-    if (tab==='editor' && this.props.attributes.template_selected) {
-
+    if (tab === 'editor' && this.props.attributes.template_selected) {
       // Clear selected template
 
       this.props.setAttributes({
-        template_selected: 0
+        template_selected: 0,
       })
-
-    } else if (tab==='selectTemplate' && !this.props.attributes.template_selected ) {
-
+    } else if (
+      tab === 'selectTemplate' &&
+      !this.props.attributes.template_selected
+    ) {
       // Select first option if nothing selected yet
 
       this.props.setAttributes({
-        template_selected: this.templateOptions[0].value
+        template_selected: this.templateOptions[0].value,
       })
     }
   }
 
   render() {
-
     const { className, attributes, setAttributes } = this.props
     const { currentTab } = this.state
 
-    return <>
+    return (
+      <>
+        <BlockControls>
+          <ToolbarGroup>
+            {this.canEditTemplate && (
+              <Button
+                className="components-tab-button"
+                isPressed={currentTab === 'editor'}
+                onClick={() => this.showTab('editor')}
+              >
+                <span>{__('Editor')}</span>
+              </Button>
+            )}
 
-      <BlockControls>
-        <ToolbarGroup>
-          { this.canEditTemplate &&
             <Button
               className="components-tab-button"
-              isPressed={ currentTab==='editor' }
-              onClick={ () => this.showTab('editor') }
+              isPressed={currentTab === 'selectTemplate'}
+              onClick={() => this.showTab('selectTemplate')}
             >
-              <span>{ __( 'Editor' ) }</span>
+              <span>{__('Saved templates')}</span>
             </Button>
-          }
+          </ToolbarGroup>
+          <ToolbarGroup>
+            <Button
+              className="components-tab-button"
+              isPressed={currentTab === 'preview'}
+              onClick={() => this.showTab('preview')}
+            >
+              <span>{__('Preview')}</span>
+            </Button>
+          </ToolbarGroup>
+        </BlockControls>
 
-          <Button
-            className="components-tab-button"
-            isPressed={ currentTab==='selectTemplate' }
-            onClick={ () => this.showTab('selectTemplate') }
-          >
-            <span>{ __( 'Saved templates' ) }</span>
-          </Button>
-        </ToolbarGroup>
-        <ToolbarGroup>
-          <Button
-            className="components-tab-button"
-            isPressed={ currentTab==='preview' }
-            onClick={ () => this.showTab('preview') }
-          >
-            <span>{ __( 'Preview' ) }</span>
-          </Button>
-        </ToolbarGroup>
-      </BlockControls>
-
-      { currentTab==='preview'
-        ? <ServerSideRender
-          block="tangible/template"
-          className={className}
-          attributes={attributes}
-          EmptyResponsePlaceholder={EmptyTemplate}
-          LoadingResponsePlaceholder={EmptyTemplate}
-        />
-        : (this.canEditTemplate && currentTab==='editor')
-          ? <TemplateEditor
+        {currentTab === 'preview' ? (
+          <ServerSideRender
+            block="tangible/template"
+            className={className}
+            attributes={attributes}
+            EmptyResponsePlaceholder={EmptyTemplate}
+            LoadingResponsePlaceholder={EmptyTemplate}
+          />
+        ) : this.canEditTemplate && currentTab === 'editor' ? (
+          <TemplateEditor
             value={attributes.template}
-            onChange={ val => setAttributes({
-              template: val
-            }) }
+            onChange={(val) =>
+              setAttributes({
+                template: val,
+              })
+            }
           />
-          : <SelectControl
-            label={ 'Select template' }
-            value={ attributes.template_selected }
+        ) : (
+          <SelectControl
+            label={'Select template'}
+            value={attributes.template_selected}
             style={{ height: '60px' }}
-            onChange={ val => setAttributes({
-              template_selected: val ? parseInt(val, 10) : val
-            }) }
-            options={ this.templateOptions }
+            onChange={(val) =>
+              setAttributes({
+                template_selected: val ? parseInt(val, 10) : val,
+              })
+            }
+            options={this.templateOptions}
           />
-      }
-    </>
+        )}
+      </>
+    )
   }
 }
 
@@ -228,5 +242,5 @@ registerBlockType('tangible/template', {
   save() {
     // Dynamic block
     return null
-  }
+  },
 })

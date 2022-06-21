@@ -2,8 +2,7 @@
  * Editor for template post type
  */
 
-jQuery(function($){
-
+jQuery(function ($) {
   const $postForm = $('#post')
 
   const $editors = $postForm.find('[data-tangible-template-editor-type]')
@@ -16,7 +15,6 @@ jQuery(function($){
     // fieldName: editor instance
   }
 
-
   const postId = $('#post_ID').val()
   const $postTitle = $postForm.find('input[name="post_title"]')
   // const $postContent = $postForm.find('[name="post_content"]') // textarea
@@ -24,13 +22,10 @@ jQuery(function($){
   const $publishButton = $('#publish')
   const $publishingActions = $publishButton.closest('#major-publishing-actions')
 
-  const templateMeta = $postForm.find('#tangible-template-editor-meta').data('json') || {}
+  const templateMeta =
+    $postForm.find('#tangible-template-editor-meta').data('json') || {}
 
-  const {
-    ajax,
-    createCodeEditor
-  } = window.Tangible
-
+  const { ajax, createCodeEditor } = window.Tangible
 
   /**
    * Additional fields that are not editors
@@ -44,7 +39,7 @@ jQuery(function($){
     'theme_position',
     'theme_header',
     'theme_footer',
-    'universal_id'
+    'universal_id',
   ]
 
   const $additionalFields = {
@@ -54,7 +49,7 @@ jQuery(function($){
   for (const fieldName of additionalFieldNames) {
     const $field = $postForm.find(`[name="${fieldName}"]`)
     if ($field.length) {
-      $additionalFields[ fieldName ] = $field
+      $additionalFields[fieldName] = $field
     }
   }
 
@@ -64,17 +59,18 @@ jQuery(function($){
   }
 
   for (const taxName of taxonomyNames) {
-    const $terms = $postForm.find(`[type="checkbox"][name="tax_input[${taxName}][]"]`)
+    const $terms = $postForm.find(
+      `[type="checkbox"][name="tax_input[${taxName}][]"]`
+    )
     if ($terms.length) {
-
-      $taxonomyFields[ taxName ] = $terms
+      $taxonomyFields[taxName] = $terms
 
       /**
        * Fix browser autocomplete messing with checkboxes..
        * Force "checked" state based on HTML attribute
        */
-      $terms.each(function() {
-        const checked = this.getAttribute('checked')==='checked'
+      $terms.each(function () {
+        const checked = this.getAttribute('checked') === 'checked'
         $(this).prop('checked', checked)
       })
     }
@@ -83,8 +79,7 @@ jQuery(function($){
   /**
    * Show success/error message in publish button
    */
-  const updatePublishButton = function(newText, errorMessage) {
-
+  const updatePublishButton = function (newText, errorMessage) {
     $publishButton.val(newText)
 
     if (errorMessage) {
@@ -96,47 +91,42 @@ jQuery(function($){
     }
   }
 
-
-  const getEditorFields = function() {
-
+  const getEditorFields = function () {
     const data = {}
 
     for (let fieldName in editorInstances) {
+      const editor = editorInstances[fieldName]
 
-      const editor = editorInstances[ fieldName ]
-
-      if (fieldName==='post_content') fieldName = 'content'
+      if (fieldName === 'post_content') fieldName = 'content'
 
       const value = editor.getValue()
-      data[ fieldName ] = value
+      data[fieldName] = value
     }
 
     return data
   }
 
-  const getAdditionalFields = function() {
-
+  const getAdditionalFields = function () {
     const data = {}
 
     for (const fieldName of additionalFieldNames) {
-      if ( ! $additionalFields[ fieldName ]) continue
-      data[ fieldName ] = $additionalFields[ fieldName ].val()
+      if (!$additionalFields[fieldName]) continue
+      data[fieldName] = $additionalFields[fieldName].val()
     }
 
     return data
   }
 
-  const getTaxonomyFields = function() {
-
+  const getTaxonomyFields = function () {
     const data = {}
 
-    for (const taxName of  taxonomyNames) {
-      if ( !  $taxonomyFields[ taxName ]) continue
-      data[ taxName ] = []
-      $taxonomyFields[ taxName ].each(function() {
+    for (const taxName of taxonomyNames) {
+      if (!$taxonomyFields[taxName]) continue
+      data[taxName] = []
+      $taxonomyFields[taxName].each(function () {
         const $el = $(this)
         if ($el.prop('checked')) {
-           data[ taxName ].push( $el.val() )
+          data[taxName].push($el.val())
         }
       })
     }
@@ -144,8 +134,7 @@ jQuery(function($){
     return data
   }
 
-  const save = function() {
-
+  const save = function () {
     if (templateMeta.isNewPost) {
       $publishButton.click()
       return
@@ -163,7 +152,7 @@ jQuery(function($){
       content: '',
       ...getEditorFields(),
       ...getAdditionalFields(),
-      tax_input: getTaxonomyFields()
+      tax_input: getTaxonomyFields(),
     }
 
     const previousLabel = $publishButton.val()
@@ -171,7 +160,7 @@ jQuery(function($){
     let labelTimer
     function restorePreviousLabelAfterTimeout() {
       if (labelTimer) clearTimeout(labelTimer)
-      labelTimer = setTimeout(function() {
+      labelTimer = setTimeout(function () {
         $publishButton.val(previousLabel)
       }, 4000)
     }
@@ -179,28 +168,26 @@ jQuery(function($){
     $publishButton.val('Saving..')
 
     ajax('tangible_template_editor_save', data)
-      .then(function(res) {
+      .then(function (res) {
         updatePublishButton('Saved')
         restorePreviousLabelAfterTimeout()
       })
-      .catch(function(e) {
+      .catch(function (e) {
         updatePublishButton('Error', e.message)
         restorePreviousLabelAfterTimeout()
       })
   }
 
-
   /**
    * New or draft posts must submit the form and reload the edit screen,
    * but after that the publish button can use AJAX save.
    */
-  if (!templateMeta.isNewPost && templateMeta.postStatus==='publish') {
-    $publishButton.on('click', function(e) {
+  if (!templateMeta.isNewPost && templateMeta.postStatus === 'publish') {
+    $publishButton.on('click', function (e) {
       e.preventDefault()
       save()
     })
   }
-
 
   const sharedEditorOptions = {
     viewportMargin: Infinity, // With .CodeMirror height: auto or 100%
@@ -208,18 +195,17 @@ jQuery(function($){
     lineWrapping: true,
 
     extraKeys: {
-      "Alt-F": 'findPersistent',
+      'Alt-F': 'findPersistent',
       'Ctrl-S': save,
       'Cmd-S': save,
-      'Tab': 'emmetExpandAbbreviation',
-      'Esc': 'emmetResetAbbreviation',
-      'Enter': 'emmetInsertLineBreak',
-      'Ctrl-Space': 'autocomplete'
-    }
+      Tab: 'emmetExpandAbbreviation',
+      Esc: 'emmetResetAbbreviation',
+      Enter: 'emmetInsertLineBreak',
+      'Ctrl-Space': 'autocomplete',
+    },
   }
 
-  $editors.each(function() {
-
+  $editors.each(function () {
     const $editor = $(this)
     const fieldName = $editor.attr('name')
     const type = $editor.data('tangibleTemplateEditorType') // html, sass, javascript, json
@@ -229,31 +215,30 @@ jQuery(function($){
       language: type,
     }
 
-    if (type==='html') {
-
+    if (type === 'html') {
       editorOptions.emmet = {
         preview: false,
         config: {
-
           // TODO: Emmet custom abbreviations - Currently not working
           // @see https://github.com/emmetio/codemirror-plugin#emmet-config
           html: {
             Loop: 'Loop[type]',
-            Field: 'Field/'
-          }
-        }
+            Field: 'Field/',
+          },
+        },
       }
     }
 
-    const editor = editorInstances[ fieldName ] = createCodeEditor(this, editorOptions)
+    const editor = (editorInstances[fieldName] = createCodeEditor(
+      this,
+      editorOptions
+    ))
 
     editor.setSize(null, '100%')
 
     // Focus on content if editing existing post
-    if (fieldName==='post_content' && !templateMeta.isNewPost ) editor.focus()
-
+    if (fieldName === 'post_content' && !templateMeta.isNewPost) editor.focus()
   })
-
 
   // Tabs
 
@@ -263,22 +248,19 @@ jQuery(function($){
 
   if (!$tabs.length) {
     console.warn('No tabs elements found for Tangible Template code editor')
-    return;
+    return
   }
 
-  $tabSelectors.on('click', function() {
-
+  $tabSelectors.on('click', function () {
     const currentTabSelector = this
 
     // Show current tab, hide others
 
-    $tabSelectors.each(function(index) {
-
+    $tabSelectors.each(function (index) {
       const $tabSelector = $(this)
       const $tab = $tabs.eq(index)
 
-      if (this!==currentTabSelector) {
-
+      if (this !== currentTabSelector) {
         // Hide
 
         $tabSelector.removeClass('active')
@@ -296,13 +278,12 @@ jQuery(function($){
       const $tabEditor = $tab.find('[data-tangible-template-editor-type]')
       const editorInstance = $tabEditor.length
         ? editorInstances[
-          $tabEditor.attr('name') // By field name
-        ]
+            $tabEditor.attr('name') // By field name
+          ]
         : false
 
-      if (!tabEditorActivated[ index ]) {
-
-        tabEditorActivated[ index ] = true
+      if (!tabEditorActivated[index]) {
+        tabEditorActivated[index] = true
 
         // Refresh editor once
         if (editorInstance) {
@@ -314,26 +295,27 @@ jQuery(function($){
         editorInstance.focus()
       }
     }) // End for each tab selector
-
   }) // End on click tab selector
-
 
   /**
    * For development: Set default tab from URL query parameter
    */
 
-  const query = window.location.search.substr(1).split('&')
-    .reduce(function(obj, pair) {
+  const query = window.location.search
+    .substr(1)
+    .split('&')
+    .reduce(function (obj, pair) {
       const [key, value] = pair.split('=')
-      obj[ key ] = value
+      obj[key] = value
       return obj
     }, {})
 
   if (query.tab) {
-
     // Switch to tab
 
-    const $activeTabSelector = $tabSelectors.filter(`[data-tab-name="${query.tab}"]`)
+    const $activeTabSelector = $tabSelectors.filter(
+      `[data-tab-name="${query.tab}"]`
+    )
 
     if ($activeTabSelector.length) {
       $activeTabSelector.eq(0).click()
@@ -341,5 +323,4 @@ jQuery(function($){
       console.warn('Tab not found', query.tab)
     }
   }
-
 })

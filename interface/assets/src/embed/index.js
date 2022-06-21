@@ -5,12 +5,10 @@
  * aspect ratio is dynamic or unknown.
  */
 
-jQuery(document).on('ready', function() {
-
+jQuery(document).on('ready', function () {
   const $ = jQuery
 
   function resizeEmbed($el) {
-
     const iframe = $el.find('iframe')[0]
 
     if (!iframe) return
@@ -26,12 +24,12 @@ jQuery(document).on('ready', function() {
     // console.log('iframe aspect ratio', iframe, ratio)
 
     $el.css({
-      paddingTop: (ratio * 100)+'%'
+      paddingTop: ratio * 100 + '%',
     })
   }
 
   function resizeEmbeds() {
-    $('.tangible-embed-dynamic').each(function() {
+    $('.tangible-embed-dynamic').each(function () {
       resizeEmbed($(this))
     })
   }

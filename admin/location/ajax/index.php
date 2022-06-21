@@ -8,5 +8,5 @@ $ajax = $framework->ajax();
  */
 $prefix = 'tangible_loops_and_logic__template_location__';
 
-require_once __DIR__.'/post-type.php';
-require_once __DIR__.'/taxonomy.php';
+require_once __DIR__ . '/post-type.php';
+require_once __DIR__ . '/taxonomy.php';

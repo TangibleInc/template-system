@@ -7,6 +7,7 @@
  * post ID assigned during export/import, or if its post slug is changed.
  *
  * UUID v4 is 36 characters, minus 4 dashes = 32 chars long
+ *
  * @see https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_4_(random)
  * @see https://developer.wordpress.org/reference/functions/wp_generate_uuid4/
  *
@@ -45,15 +46,15 @@
  * This is also relevant for Tangible Cloud, where sites can export/import templates.
  */
 
-add_action('transition_post_status', function($new_status, $old_status, $post) use ($plugin) {
+add_action('transition_post_status', function( $new_status, $old_status, $post ) use ( $plugin ) {
 
   if (
     $old_status === 'new' // @see https://codex.wordpress.org/Post_Status_Transitions
-    && in_array($post->post_type, $plugin->template_post_types)
+    && in_array( $post->post_type, $plugin->template_post_types )
     // Don't overwrite if post has universal ID already during import
-    && empty($plugin->get_universal_id($post->ID))
+    && empty( $plugin->get_universal_id( $post->ID ) )
   ) {
-    $plugin->set_universal_id($post->ID);
+    $plugin->set_universal_id( $post->ID );
   }
 
 }, 10, 3 );
@@ -62,16 +63,16 @@ $plugin->create_universal_id = function() {
   return str_replace( '-', '', wp_generate_uuid4() );
 };
 
-$plugin->set_universal_id = function($post_id, $universal_id = true) use ($plugin) {
+$plugin->set_universal_id = function( $post_id, $universal_id = true ) use ( $plugin ) {
   update_post_meta(
     $post_id,
     'universal_id',
-    $universal_id===true
+    $universal_id === true
       ? $plugin->create_universal_id()
       : $universal_id
   );
 };
 
-$plugin->get_universal_id = function($post_id) {
-  return get_post_meta($post_id, 'universal_id', true);
+$plugin->get_universal_id = function( $post_id ) {
+  return get_post_meta( $post_id, 'universal_id', true );
 };

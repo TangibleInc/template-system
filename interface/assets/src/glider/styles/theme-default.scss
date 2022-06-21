@@ -1,7 +1,7 @@
 // default theme
 .tglider-actions {
-
-  .tglider-next, .tglider-prev {
+  .tglider-next,
+  .tglider-prev {
     background-color: $tglider-next-prev-bg;
     //border-radius: $tglider-border-radius-base;
     color: $tglider-next-prev-color;
@@ -31,7 +31,7 @@
     right: 0px;
 
     &:before {
-      content: "\e095";
+      content: '\e095';
     }
   }
 
@@ -40,7 +40,7 @@
     right: 42px;
 
     &:after {
-      content: "\e094";
+      content: '\e094';
     }
   }
   /*
@@ -66,7 +66,6 @@
   }
 }
 
-
 @include keyframes(tglider-left-end) {
   0% {
     left: 0;
@@ -80,7 +79,6 @@
     left: 0;
   }
 }
-
 
 .tglider-outer {
   &.tglider-right-end {
@@ -133,13 +131,13 @@
 
   .tglider-close {
     &:after {
-      content: "\e070";
+      content: '\e070';
     }
   }
 
   .tglider-download {
     &:after {
-      content: "\e0f2";
+      content: '\e0f2';
     }
   }
 }
@@ -182,9 +180,14 @@
 }
 
 // for idle state
-.tglider-toolbar, .tglider-prev, .tglider-next {
+.tglider-toolbar,
+.tglider-prev,
+.tglider-next {
   opacity: 1;
-  @include transitionCustom(transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s);
+  @include transitionCustom(
+    transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s
+  );
 }
 
 .tglider-hide-items {
@@ -205,17 +208,20 @@
 }
 
 // Starting effect
-body:not(.tglider-from-hash){
+body:not(.tglider-from-hash) {
   .tglider-outer {
-    &.tglider-start-zoom{
-      .tglider-object{
+    &.tglider-start-zoom {
+      .tglider-object {
         @include scale3d(0.5, 0.5, 0.5);
         opacity: 0;
-        @include transitionCustom(transform 250ms ease 0s, opacity 250ms !important);
+        @include transitionCustom(
+          transform 250ms ease 0s,
+          opacity 250ms !important
+        );
         @include transform-origin(50% 50%);
       }
-      .tglider-item.tglider-complete{
-        .tglider-object{
+      .tglider-item.tglider-complete {
+        .tglider-object {
           @include scale3d(1, 1, 1);
           opacity: 1;
         }

@@ -12,10 +12,10 @@
 
 // In local scope: $fields
 
-$theme_positions = $plugin->get_theme_positions();
+$theme_positions       = $plugin->get_theme_positions();
 $theme_position_groups = $plugin->get_theme_position_groups();
 
-$current_theme_position = isset($fields['theme_position']) ? $fields['theme_position'] : '';
+$current_theme_position = isset( $fields['theme_position'] ) ? $fields['theme_position'] : '';
 
 ?>
 <br>
@@ -25,37 +25,37 @@ $current_theme_position = isset($fields['theme_position']) ? $fields['theme_posi
   style="display: none; width: 160px;"
 >
   <option value="" <?php
-    echo empty($current_theme_position) ? 'selected' : '';
+    echo empty( $current_theme_position ) ? 'selected' : '';
   ?>>Content</option>
 
   <?php
 
     // Theme positions without groups
 
-    foreach ($theme_positions as $hook) {
-      ?><option
+  foreach ( $theme_positions as $hook ) {
+    ?><option
         value="<?php echo $hook['name']; ?>"
-        <?php echo $hook['name']===$current_theme_position ? 'selected' : ''; ?>
+      <?php echo $hook['name'] === $current_theme_position ? 'selected' : ''; ?>
       >
-        <?php echo $hook['label']; ?>
+      <?php echo $hook['label']; ?>
       </option><?php
-    }
+  }
 
     // Theme position groups
 
-    foreach ($theme_position_groups as $group_name => $group) {
-      if (empty($group['hooks'])) continue;
-      ?><optgroup label="<?php echo $group['label']; ?>"><?php
-        foreach ($group['hooks'] as $hook) {
-          ?><option
+  foreach ( $theme_position_groups as $group_name => $group ) {
+    if (empty( $group['hooks'] )) continue;
+    ?><optgroup label="<?php echo $group['label']; ?>"><?php
+foreach ( $group['hooks'] as $hook ) {
+  ?><option
             value="<?php echo $hook['name']; ?>"
-            <?php echo $hook['name']===$current_theme_position ? 'selected' : ''; ?>
+  <?php echo $hook['name'] === $current_theme_position ? 'selected' : ''; ?>
           >
-            <?php echo $hook['label']; ?>
+  <?php echo $hook['label']; ?>
           </option><?php
-        }
-      ?></optgroup><?php
-    }
+}
+?></optgroup><?php
+  }
   ?>
 </select>
 

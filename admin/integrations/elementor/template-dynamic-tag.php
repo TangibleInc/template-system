@@ -15,7 +15,7 @@ class Template_DynamicTag extends \Elementor\Core\DynamicTags\Tag {
   }
 
   public function get_group() {
-    return ['loops-logic'];
+    return [ 'loops-logic' ];
   }
 
   public function get_categories() {
@@ -31,9 +31,9 @@ class Template_DynamicTag extends \Elementor\Core\DynamicTags\Tag {
     $this->add_control(
       'template',
       [
-        'label'   =>  __('Choose one', 'tangible-loops-and-logic'),
-        'type'    =>  \Elementor\Controls_Manager::SELECT,
-        'default' => array_keys($options)[0], // At least one option exists even if no templates
+        'label'   => __( 'Choose one', 'tangible-loops-and-logic' ),
+        'type'    => \Elementor\Controls_Manager::SELECT,
+        'default' => array_keys( $options )[0], // At least one option exists even if no templates
         'options' => $options,
       ]
     );
@@ -41,13 +41,13 @@ class Template_DynamicTag extends \Elementor\Core\DynamicTags\Tag {
 
   public function render() {
 
-    $id = $this->get_settings('template');
+    $id = $this->get_settings( 'template' );
 
-    if (empty($id)) return;
+    if (empty( $id )) return;
 
-    $post = get_post($id);
+    $post = get_post( $id );
 
-    echo self::$plugin->render_template_post($post);
+    echo self::$plugin->render_template_post( $post );
   }
 }
 

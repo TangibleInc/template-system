@@ -11,7 +11,6 @@ const getRange = (start, end) => {
 }
 
 export const generatePageRange = (currentPage, pageCount) => {
-
   let delta
 
   if (pageCount <= 7) {
@@ -25,7 +24,7 @@ export const generatePageRange = (currentPage, pageCount) => {
 
   const range = {
     start: Math.round(currentPage - delta / 2),
-    end: Math.round(currentPage + delta / 2)
+    end: Math.round(currentPage + delta / 2),
   }
 
   if (range.start - 1 === 1 || range.end + 1 === pageCount) {
@@ -35,11 +34,15 @@ export const generatePageRange = (currentPage, pageCount) => {
 
   let pages =
     currentPage > delta
-      ? getRange(Math.min(range.start, pageCount - delta), Math.min(range.end, pageCount))
+      ? getRange(
+          Math.min(range.start, pageCount - delta),
+          Math.min(range.end, pageCount)
+        )
       : getRange(1, Math.min(pageCount, delta + 1))
 
   const dots = '...' // '&hellip;' or '…'
-  const withDots = (value, pair) => (pages.length + 1 !== pageCount ? pair : [value])
+  const withDots = (value, pair) =>
+    pages.length + 1 !== pageCount ? pair : [value]
 
   if (pages[0] !== 1) {
     pages = withDots(1, [1, dots]).concat(pages)

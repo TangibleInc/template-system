@@ -3,7 +3,6 @@
  */
 
 body .fl-lightbox .CodeMirror {
-
   box-sizing: border-box;
   position: relative;
 
@@ -13,10 +12,12 @@ body .fl-lightbox .CodeMirror {
   resize: vertical;
 
   // Override crazy rules like ".fl-lightbox *" and ".fl-lightbox :not(i)"..
-  &, * {
+  &,
+  * {
     box-sizing: border-box;
 
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
+      monospace;
 
     font-size: 14px;
     line-height: 1.5em;
@@ -35,15 +36,13 @@ body .fl-lightbox .CodeMirror {
   }
 }
 
-.fl-builder-settings .fl-field[data-type="tangible_template_editor"] {
-
+.fl-builder-settings .fl-field[data-type='tangible_template_editor'] {
   & .fl-field-control {
     padding-left: 0 !important;
   }
 }
 
-.fl-builder-settings[data-type="tangible-template"] {
-
+.fl-builder-settings[data-type='tangible-template'] {
   .fl-form-table {
     margin: 10px 12px 10px 10px;
     padding: 0;

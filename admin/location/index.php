@@ -11,8 +11,8 @@
  * @see wp-includes/template-loader.php
  */
 
-require_once __DIR__.'/admin/index.php';
-require_once __DIR__.'/ajax/index.php';
-require_once __DIR__.'/frontend/index.php';
-require_once __DIR__.'/rules/evaluate.php';
-require_once __DIR__.'/theme/index.php';
+require_once __DIR__ . '/admin/index.php';
+require_once __DIR__ . '/ajax/index.php';
+require_once __DIR__ . '/frontend/index.php';
+require_once __DIR__ . '/rules/evaluate.php';
+require_once __DIR__ . '/theme/index.php';

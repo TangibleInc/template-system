@@ -1,13 +1,13 @@
 $backdrop-opacity: 1 !default;
 $tglider-toolbar-bg: rgba(0, 0, 0, 0.45) !default;
 $tglider-border-radius-base: 2px !default;
-$tglider-theme-highlight: #D6C200; //rgb(169, 7, 7) !default;
-$tglider-theme: #0D0A0A !default;
+$tglider-theme-highlight: #d6c200; //rgb(169, 7, 7) !default;
+$tglider-theme: #0d0a0a !default;
 
 // basic icon colours
 $tglider-icon-bg: rgba(0, 0, 0, 0.45) !default;
 $tglider-icon-color: #999 !default;
-$tglider-icon-hover-color: #FFF !default;
+$tglider-icon-hover-color: #fff !default;
 
 // counter
 $tglider-counter-color: #e6e6e6 !default;
@@ -28,21 +28,21 @@ $tglider-progress-bar-active-bg: $tglider-theme-highlight !default;
 $tglider-progress-bar-height: 5px !default;
 
 // paths
-$tglider-path-fonts: '../vendor/glider/fonts' !default;
-$tglider-path-images: '../vendor/glider/img' !default;
+$tglider-path-fonts: '../../vendor/glider/fonts' !default;
+$tglider-path-images: '../../vendor/glider/img' !default;
 
 // Zoom plugin
 $zoom-transition-duration: 0.3s !default;
 
 // Sub html - titile
 $tglider-sub-html-bg: rgba(0, 0, 0, 0.45) !default;
-$tglider-sub-html-color: #EEE !default;
+$tglider-sub-html-color: #eee !default;
 
 // thumbnail toggle button
-$tglider-thumb-toggle-bg: #0D0A0A !default;
+$tglider-thumb-toggle-bg: #0d0a0a !default;
 $tglider-thumb-toggle-color: $tglider-icon-color !default;
 $tglider-thumb-toggle-hover-color: $tglider-icon-hover-color !default;
-$tglider-thumb-bg: #0D0A0A !default;
+$tglider-thumb-bg: #0d0a0a !default;
 
 // z-index
 $zindex-outer: 1050 !default;

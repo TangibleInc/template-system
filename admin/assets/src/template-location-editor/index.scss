@@ -1,25 +1,25 @@
 .template-location-editor {
-
   .rule-groups {
     margin-bottom: 1rem;
   }
 
   .rule-group {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   .rule-group:not(:first-child) {
-    margin-top: .5rem;
+    margin-top: 0.5rem;
   }
 
   .rule-group {
-    padding-top: .5rem;
+    padding-top: 0.5rem;
     border-top: 1px solid #ddd;
 
     // For rule description
     p {
-      margin: 0 0 .5em 0;
-      &, code {
+      margin: 0 0 0.5em 0;
+      &,
+      code {
         font-size: 12px;
       }
     }
@@ -28,7 +28,6 @@
     // padding-bottom: .5rem;
     border-bottom: 1px solid #ddd;
   }
-
 
   .rule {
     display: flex;
@@ -43,11 +42,13 @@
      * Vertically center label - Select2's default style is line height 28px,
      * which pushes the label down for some reason
      */
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
+    .select2-container--default
+      .select2-selection--single
+      .select2-selection__rendered {
       line-height: 26px;
     }
     // Align regular input field
-    input[type="text"] {
+    input[type='text'] {
       min-height: 28px;
       height: 28px;
     }
@@ -62,9 +63,9 @@
   .rule-part {
     // flex: 1 0 auto; // Grow
 
-    margin-right: .5rem;
+    margin-right: 0.5rem;
     // margin-top: .5rem;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   /**
@@ -72,7 +73,6 @@
    */
 
   .rule-actions {
-
     flex: 1 0 auto; // Grow
 
     display: flex;
@@ -88,9 +88,7 @@
     align-items: flex-start;
   }
 
-
   .icon {
-
     width: 18px;
     height: 18px;
 
@@ -99,7 +97,7 @@
     svg path {
       fill: #999;
       stroke: #999;
-      transition: all .3s;
+      transition: all 0.3s;
     }
 
     &:hover svg path {
@@ -117,5 +115,4 @@
     fill: red;
     stroke: red;
   }
-
 }

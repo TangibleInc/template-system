@@ -2,7 +2,7 @@
  * Select2 - https://select2.org/
  */
 
-import createSelect2 from 'select2'
+const createSelect2 = require('select2')
 
 const $ = window.jQuery
 
@@ -19,13 +19,13 @@ $.fn.select2 = previous || select2
 
 // Export
 
-$.fn.tangibleSelect = function(options = {}) {
-  this.each(function() {
+$.fn.tangibleSelect = function (options = {}) {
+  this.each(function () {
     const $el = $(this)
     const instanceOptions = $el.data('tangibleSelect') || {}
     select2.call($el, {
       ...options,
-      ...instanceOptions
+      ...instanceOptions,
     })
   })
 }

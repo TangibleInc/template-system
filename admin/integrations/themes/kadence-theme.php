@@ -9,6 +9,12 @@
  */
 
 $plugin->register_theme_positions([
-  [ 'name' => 'kadence_header', 'label' => 'Header' ],
-  [ 'name' => 'kadence_footer', 'label' => 'Footer' ],
+  [
+'name'  => 'kadence_header',
+'label' => 'Header',
+  ],
+  [
+  'name'  => 'kadence_footer',
+  'label' => 'Footer',
+  ],
 ]);

@@ -4,17 +4,17 @@
  * Import
  */
 
-$plugin->import_templates = function($data) use ($plugin) {
+$plugin->import_templates = function( $data ) use ( $plugin ) {
 
   $result = [
-    'message' => 'Success',
-    'post_count' => 0,
+    'message'           => 'Success',
+    'post_count'        => 0,
     'failed_post_count' => 0,
-    'duplicates_found' => [],
-    'old_to_new_id' => [], // old => new
+    'duplicates_found'  => [],
+    'old_to_new_id'     => [], // old => new
   ];
 
-  if (!isset($data['post_types'])) return $result;
+  if ( ! isset( $data['post_types'] )) return $result;
 
   /**
    * Modes to handle duplicate templates: overwrite, keep_both, skip, or return
@@ -23,12 +23,11 @@ $plugin->import_templates = function($data) use ($plugin) {
    * the user what to do with duplicates.
    */
 
-  $handle_duplicates = isset($data['handle_duplicates'])
+  $handle_duplicates = isset( $data['handle_duplicates'] )
     ? $data['handle_duplicates']
-    : 'return'
-  ;
+    : 'return';
 
-  $shared_assets = isset($data['shared_assets']) ? $data['shared_assets'] : [];
+  $shared_assets = isset( $data['shared_assets'] ) ? $data['shared_assets'] : [];
 
   /**
    * Import taxonomies before post types to prepare map of new term IDs
@@ -37,40 +36,41 @@ $plugin->import_templates = function($data) use ($plugin) {
 
   $taxonomy_term_ids = []; // taxonomy => term name => term ID
 
-  if ($handle_duplicates==='return' && isset($data['taxonomies'])) {
+  if ( $handle_duplicates === 'return' && isset( $data['taxonomies'] ) ) {
 
-    foreach ($data['taxonomies'] as $taxonomy_name => $terms_map) {
+    foreach ( $data['taxonomies'] as $taxonomy_name => $terms_map ) {
 
       $taxonomy_term_ids[ $taxonomy_name ] = [];
 
-      foreach ($terms_map as $term_name => $term_fields) {
+      foreach ( $terms_map as $term_name => $term_fields ) {
 
         /**
          * Add new term if it doesn't exist
+         *
          * @see https://developer.wordpress.org/reference/functions/wp_insert_term/
          */
 
-        $existing_term = get_term_by('name', $term_name, $taxonomy_name);
-        if (!empty($existing_term)) continue;
+        $existing_term = get_term_by( 'name', $term_name, $taxonomy_name );
+        if ( ! empty( $existing_term )) continue;
 
         // description, slug
-        unset($term_fields['parent']); // This is parent name, not ID
+        unset( $term_fields['parent'] ); // This is parent name, not ID
 
-        $new_term_data = wp_insert_term($term_name, $taxonomy_name, $term_fields);
-        if (!is_wp_error($new_term_data) && isset($new_term_data['term_id'])) {
+        $new_term_data = wp_insert_term( $term_name, $taxonomy_name, $term_fields );
+        if ( ! is_wp_error( $new_term_data ) && isset( $new_term_data['term_id'] ) ) {
           $taxonomy_term_ids[ $taxonomy_name ][ $term_name ] = $new_term_data['term_id'];
         }
       }
 
       // Associate new parent term IDs after all terms of this taxonomy are created
 
-      foreach ($terms_map as $term_name => $term_fields) {
-        if (empty($term_fields['parent'])
-          || !isset($taxonomy_term_ids[ $taxonomy_name ][ $term_name ])
-          || !isset($taxonomy_term_ids[ $taxonomy_name ][ $term_fields['parent'] ])
+      foreach ( $terms_map as $term_name => $term_fields ) {
+        if (empty( $term_fields['parent'] )
+          || ! isset( $taxonomy_term_ids[ $taxonomy_name ][ $term_name ] )
+          || ! isset( $taxonomy_term_ids[ $taxonomy_name ][ $term_fields['parent'] ] )
         ) continue;
 
-        $term_id = $taxonomy_term_ids[ $taxonomy_name ][ $term_name ];
+        $term_id        = $taxonomy_term_ids[ $taxonomy_name ][ $term_name ];
         $parent_term_id = $taxonomy_term_ids[ $taxonomy_name ][ $term_fields['parent'] ];
 
         wp_update_term($term_id, $taxonomy_name, [
@@ -83,22 +83,22 @@ $plugin->import_templates = function($data) use ($plugin) {
   /**
    * Import posts by post type
    */
-  foreach ($data['post_types'] as $post_type => $posts) {
+  foreach ( $data['post_types'] as $post_type => $posts ) {
 
-    foreach ($posts as $post) {
+    foreach ( $posts as $post ) {
 
-      $id = 0;
-      $name = '';
-      $title = '';
-      $content = '';
-      $fields = [];
+      $id         = 0;
+      $name       = '';
+      $title      = '';
+      $content    = '';
+      $fields     = [];
       $taxonomies = [];
 
-      $extract_vars = ['id', 'name', 'title', 'content', 'taxonomies'];
+      $extract_vars = [ 'id', 'name', 'title', 'content', 'taxonomies' ];
 
-      foreach ($post as $key => $value) {
+      foreach ( $post as $key => $value ) {
 
-        if (in_array($key, $extract_vars)) {
+        if ( in_array( $key, $extract_vars ) ) {
           $$key = $value;
           continue;
         }
@@ -109,17 +109,17 @@ $plugin->import_templates = function($data) use ($plugin) {
          *
          * @see https://developer.wordpress.org/reference/functions/update_post_meta/#character-escaping
          */
-        $fields[ $key ] = is_string($value) ? wp_slash($value) : $value;
+        $fields[ $key ] = is_string( $value ) ? wp_slash( $value ) : $value;
       }
 
-      if (empty($id) || empty($name)) continue; // Just in case
+      if (empty( $id ) || empty( $name )) continue; // Just in case
 
       $old_id = $id;
 
       // By default, always create new post
       $id = 0;
 
-      if ($handle_duplicates!=='keep_both') {
+      if ( $handle_duplicates !== 'keep_both' ) {
 
         // Check for duplicates
 
@@ -130,9 +130,9 @@ $plugin->import_templates = function($data) use ($plugin) {
           'post_status'    => 'any',
         ];
 
-        if (!empty($fields['universal_id'])) {
+        if ( ! empty( $fields['universal_id'] ) ) {
 
-          $query_args['meta_key'] = 'universal_id';
+          $query_args['meta_key']   = 'universal_id';
           $query_args['meta_value'] = $fields['universal_id'];
 
         } else {
@@ -141,20 +141,20 @@ $plugin->import_templates = function($data) use ($plugin) {
           $query_args['name'] = $name;
         }
 
-        $existing_posts = get_posts($query_args);
+        $existing_posts = get_posts( $query_args );
 
-        if ( ! empty($existing_posts) ) {
+        if ( ! empty( $existing_posts ) ) {
 
           // Duplicate(s) found
 
-          if ($handle_duplicates==='skip') continue; // Don't create post at all
+          if ($handle_duplicates === 'skip') continue; // Don't create post at all
 
-          if ($handle_duplicates==='return') {
+          if ( $handle_duplicates === 'return' ) {
 
             // Keep track of old IDs for frontend to handle
 
-            $result['duplicates_found'] []= [
-              'id'        => intval($old_id),
+            $result['duplicates_found'] [] = [
+              'id'        => intval( $old_id ),
               'post_type' => $post_type,
               'title'     => $title,
             ];
@@ -162,12 +162,11 @@ $plugin->import_templates = function($data) use ($plugin) {
             continue;
           }
 
-          if ($handle_duplicates==='overwrite') {
+          if ( $handle_duplicates === 'overwrite' ) {
 
             // Overwrite existing post
             $id = $existing_posts[0];
           }
-
         } // Found existing post(s) with same name
       } // Not keep both
 
@@ -177,30 +176,30 @@ $plugin->import_templates = function($data) use ($plugin) {
        * @see /includes/template/assets/import.php
        */
 
-      if (!empty($fields['assets']) && is_array($fields['assets'])) {
+      if ( ! empty( $fields['assets'] ) && is_array( $fields['assets'] ) ) {
 
         $imported_assets = [];
 
-        foreach ($fields['assets'] as $asset_index => $asset) {
+        foreach ( $fields['assets'] as $asset_index => $asset ) {
 
           /**
            * Create a non-numeric key to prevent JS/PHP confusion with array index.
            * See same logic in ./export.php
            */
-          $asset_id = $asset['id'];
+          $asset_id  = $asset['id'];
           $asset_key = '_' . $asset_id;
 
           // Asset data not found
-          if (!isset($shared_assets[ $asset_key ])) continue;
+          if ( ! isset( $shared_assets[ $asset_key ] )) continue;
 
           $attachment_id = 0;
 
-          if (isset($shared_assets[ $asset_key ]['attachment_id'])) {
+          if ( isset( $shared_assets[ $asset_key ]['attachment_id'] ) ) {
 
             // Already imported
             $attachment_id = $shared_assets[ $asset_key ]['attachment_id'];
 
-          } elseif (isset($shared_assets[ $asset_key ]['base64'])) {
+          } elseif ( isset( $shared_assets[ $asset_key ]['base64'] ) ) {
 
             /**
              * Decode data and create attachment file
@@ -210,29 +209,28 @@ $plugin->import_templates = function($data) use ($plugin) {
 
             try {
               $asset_data = base64_decode( $shared_assets[ $asset_key ]['base64'] );
-            } catch (\Throwable $th) {
+            } catch ( \Throwable $th ) {
               // Invalid data
               continue;
             }
 
-            $attachment_id = $plugin->import_template_asset($asset, $asset_data);
+            $attachment_id = $plugin->import_template_asset( $asset, $asset_data );
 
             // For other assets with same attachment
             $shared_assets[ $asset_key ]['attachment_id'] = $attachment_id;
           }
 
-          if (empty($attachment_id)) {
+          if ( empty( $attachment_id ) ) {
 
             // TODO: Handle import fail
 
             continue;
           }
 
-
           // Update attachment ID
           $asset['id'] = $attachment_id;
 
-          $imported_assets []= $asset;
+          $imported_assets [] = $asset;
 
         } // Each asset
 
@@ -241,7 +239,6 @@ $plugin->import_templates = function($data) use ($plugin) {
         $fields['assets'] = $imported_assets;
 
       } // Has assets
-
 
       /**
        * Create post
@@ -263,7 +260,7 @@ $plugin->import_templates = function($data) use ($plugin) {
 
       $post_id = wp_insert_post( $post_data );
 
-      if (empty($post_id) || is_wp_error($post_id)) {
+      if ( empty( $post_id ) || is_wp_error( $post_id ) ) {
 
         $result['failed_post_count']++;
         continue;
@@ -277,48 +274,48 @@ $plugin->import_templates = function($data) use ($plugin) {
       /**
        * Give post a new universal ID if it's a duplicate
        */
-      if ($handle_duplicates==='keep_both' && !empty($fields['universal_id'])) {
-        $plugin->set_universal_id($post_id);
+      if ( $handle_duplicates === 'keep_both' && ! empty( $fields['universal_id'] ) ) {
+        $plugin->set_universal_id( $post_id );
       }
 
       /**
        * Assign taxonomies
+       *
        * @see https://developer.wordpress.org/reference/functions/wp_set_post_terms/
        */
 
-      foreach ($taxonomies as $taxonomy_slug => $term_names) {
+      foreach ( $taxonomies as $taxonomy_slug => $term_names ) {
 
         // Gather term IDs from term names
         $term_ids = [];
 
-        foreach ($term_names as $term_name) {
+        foreach ( $term_names as $term_name ) {
 
-          if (isset($taxonomy_term_ids[ $taxonomy_slug ])
-            && isset($taxonomy_term_ids[ $taxonomy_slug ][ $term_name ])
+          if ( isset( $taxonomy_term_ids[ $taxonomy_slug ] )
+            && isset( $taxonomy_term_ids[ $taxonomy_slug ][ $term_name ] )
           ) {
-            $term_ids []= $taxonomy_term_ids[ $taxonomy_slug ][ $term_name ];
+            $term_ids [] = $taxonomy_term_ids[ $taxonomy_slug ][ $term_name ];
             continue;
           }
 
           // Find new term ID and cache it
 
-          $term = get_term_by('name', $term_name, $taxonomy_slug);
-          if (empty($term)) continue;
+          $term = get_term_by( 'name', $term_name, $taxonomy_slug );
+          if (empty( $term )) continue;
 
-          $term_id = $term->term_id;
-          $term_ids []= $term_id;
+          $term_id     = $term->term_id;
+          $term_ids [] = $term_id;
 
-          if (!isset($taxonomy_term_ids[ $taxonomy_slug ])) {
-            $taxonomy_term_ids[ $taxonomy_slug ] = [];
+          if ( ! isset( $taxonomy_term_ids[ $taxonomy_slug ] ) ) {
+            $taxonomy_term_ids[ $taxonomy_slug ]               = [];
             $taxonomy_term_ids[ $taxonomy_slug ][ $term_name ] = $term_id;
           }
         }
 
-        if (!empty($term_ids)) {
-          wp_set_post_terms($post_id, $term_ids, $taxonomy_slug);
+        if ( ! empty( $term_ids ) ) {
+          wp_set_post_terms( $post_id, $term_ids, $taxonomy_slug );
         }
       }
-
     } // Each post
   } // Each post type
 

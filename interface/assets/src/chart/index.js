@@ -1,10 +1,13 @@
-import Chart from 'chart.js'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
-// Register the plugin to all charts:
-Chart.register(ChartDataLabels);
 
-import get from 'lodash/get'
-import set from 'lodash/set'
+// Note: Had to convert these to require CommonJS-style, to avoid
+// issues inmporting their ESM modules
+const Chart = require('chart.js')
+const get = require('lodash/get')
+const set = require('lodash/set')
+
+// Register the plugin to all charts:
+Chart.register(ChartDataLabels)
 
 window.Tangible = window.Tangible || {}
 window.Tangible.Chart = Chart
@@ -12,7 +15,6 @@ window.Tangible.Chart = Chart
 const $ = window.jQuery
 
 $.fn.tangibleChart = function (config = {}) {
-
   const $el = this // jQuery object
 
   if ($el.length === 0) {
@@ -35,7 +37,11 @@ $.fn.tangibleChart = function (config = {}) {
 
   const optionsFromElement = $el.data('tangibleDynamicModuleOptions')
 
-  if (optionsFromElement && typeof optionsFromElement==='object' && !Array.isArray(optionsFromElement)) {
+  if (
+    optionsFromElement &&
+    typeof optionsFromElement === 'object' &&
+    !Array.isArray(optionsFromElement)
+  ) {
     // Valid options
     Object.assign(config, optionsFromElement)
   }
@@ -55,12 +61,11 @@ $.fn.tangibleChart = function (config = {}) {
 
   // Check child nodes to see if data was passed by extended tags, such as GFChartData
 
-  if ( ! config.data.datasets.length ) {
-
+  if (!config.data.datasets.length) {
     const $data = $el.find('[data-tangible-dynamic-module="chart-data"]')
     if ($data.length) {
       const data = $data.data('tangibleDynamicModuleOptions')
-      if (typeof data==='object') {
+      if (typeof data === 'object') {
         Object.assign(config.data, data)
       }
     }
@@ -73,21 +78,20 @@ $.fn.tangibleChart = function (config = {}) {
 
   const {
     type,
-    data: {
-      labels,
-      datasets,
-    },
+    data: { labels, datasets },
     options,
     tickValues,
-    tooltipValues
+    tooltipValues,
   } = config
 
   const styleOptionNames = [
-    'fill', 'backgroundColor', 'borderColor', 'borderWidth'
+    'fill',
+    'backgroundColor',
+    'borderColor',
+    'borderWidth',
   ]
 
   datasets.forEach((data, index) => {
-
     styleOptionNames.forEach((key) => {
       data[key] = data[key] || config[key]
     })
@@ -95,7 +99,7 @@ $.fn.tangibleChart = function (config = {}) {
     if (!data.borderWidth) data.borderWidth = 1
 
     // Cast colors for specific types
-    if (type==='bar') {
+    if (type === 'bar') {
       ;['backgroundColor', 'borderColor'].forEach((key) => {
         if (config[key] && config[key][index]) {
           data[key] = config[key][index]
@@ -112,16 +116,16 @@ $.fn.tangibleChart = function (config = {}) {
     },
     options,
     tickValues,
-    tooltipValues
+    tooltipValues,
   }
 
   // indexAxis - if 'y' it is horizontal bar for example
 
-  const indexAxis = get(chartOptions, 'options.indexAxis');
+  const indexAxis = get(chartOptions, 'options.indexAxis')
   const axis = indexAxis === 'y' ? 'x' : 'y'
 
   // if we have 'y' value, let's flip axis titles accordingly
-  if(indexAxis === 'y'){
+  if (indexAxis === 'y') {
     const x_title = get(chartOptions, 'options.scales.x.title')
     const y_title = get(chartOptions, 'options.scales.y.title')
 
@@ -134,7 +138,7 @@ $.fn.tangibleChart = function (config = {}) {
 
   // data from datasets
 
-  var axes_data = get(chartOptions, 'data.datasets[0].data');
+  var axes_data = get(chartOptions, 'data.datasets[0].data')
 
   // Set ticks
 
@@ -143,7 +147,6 @@ $.fn.tangibleChart = function (config = {}) {
   // Set max value if max_value was passed by extended tags,such as GFChartData, and override
 
   const set_max_value = (axes_data = [], max) => {
-
     // Check child nodes to see
     const $max_value = $el.find('[data-tangible-dynamic-module="chart-data"]')
     if ($max_value.length) max = $max_value.data('tangibleMaxPossibleValue')
@@ -155,8 +158,11 @@ $.fn.tangibleChart = function (config = {}) {
     return max
   }
 
-  if (tick_values && typeof tick_values==='object' && !Array.isArray(tick_values)) {
-
+  if (
+    tick_values &&
+    typeof tick_values === 'object' &&
+    !Array.isArray(tick_values)
+  ) {
     const {
       min_value,
       max_value,
@@ -169,45 +175,43 @@ $.fn.tangibleChart = function (config = {}) {
 
     // show percentage
 
-    const show_in_percent = (show_in && show_in == 'percent') ? true : false
+    const show_in_percent = show_in && show_in == 'percent' ? true : false
 
     // text before and after
 
-    const before = (text_before) ? text_before : '';
-    const after = (text_after) ? text_after : '';
+    const before = text_before ? text_before : ''
+    const after = text_after ? text_after : ''
 
     //min values
 
-    const min = (!min_value) ? 0 : min_value;
-    const min_p = (!min_percent) ? 0 : min_percent;
+    const min = !min_value ? 0 : min_value
+    const min_p = !min_percent ? 0 : min_percent
 
     //max values
 
-    const max = set_max_value(axes_data, max_value);
-    const max_p = (!max_percent) ? 100 : max_percent;
+    const max = set_max_value(axes_data, max_value)
+    const max_p = !max_percent ? 100 : max_percent
 
-    if(show_in_percent) {
-
+    if (show_in_percent) {
       // check if all data are number and replace with percent
 
       if (axes_data) {
         var is_number = true
         var percent_data = []
-        axes_data.forEach((el,idx) => {
+        axes_data.forEach((el, idx) => {
           if (!Number.isNaN(Number.parseFloat(el)) === false) {
             is_number = false
             return
-          }else{
-            percent_data[idx] = Math.round(el/max * 100 * 100) / 100
+          } else {
+            percent_data[idx] = Math.round((el / max) * 100 * 100) / 100
           }
         })
 
         if (is_number) {
-
           //callback
 
           const callback = (value) => {
-            return before + ' ' + value  + '%' + ' ' +after
+            return before + ' ' + value + '%' + ' ' + after
           }
 
           // set all things up
@@ -216,28 +220,26 @@ $.fn.tangibleChart = function (config = {}) {
           set(chartOptions, 'data.datasets[0].data', percent_data)
 
           // axes min/max percentage
-          set(chartOptions, axes_path +'.min', min_p)
-          set(chartOptions, axes_path +'.max', max_p)
+          set(chartOptions, axes_path + '.min', min_p)
+          set(chartOptions, axes_path + '.max', max_p)
 
           //callback
-          set(chartOptions, axes_path +'.ticks.callback', callback)
+          set(chartOptions, axes_path + '.ticks.callback', callback)
         }
       }
-
-    } else if(!show_in_percent && (before || after)) {
-
+    } else if (!show_in_percent && (before || after)) {
       //callback
 
       const callback = (value) => {
-        return before + ' ' + value  +  ' ' +after
+        return before + ' ' + value + ' ' + after
       }
 
       // axes min/max percentage
-      set(chartOptions, axes_path +'.min', min)
-      set(chartOptions, axes_path +'.max', max)
+      set(chartOptions, axes_path + '.min', min)
+      set(chartOptions, axes_path + '.max', max)
 
       // set
-      set(chartOptions, axes_path +'.ticks.callback', callback)
+      set(chartOptions, axes_path + '.ticks.callback', callback)
     }
   }
 
@@ -245,41 +247,43 @@ $.fn.tangibleChart = function (config = {}) {
 
   const tooltip_values = get(chartOptions, 'tooltipValues')
 
-  if (tooltip_values && typeof tooltip_values==='object' && !Array.isArray(tooltip_values)) {
-
+  if (
+    tooltip_values &&
+    typeof tooltip_values === 'object' &&
+    !Array.isArray(tooltip_values)
+  ) {
     const {
       max_value,
       show, //percent,value,both; default: value
       show_label,
       custom_label,
-      custom_label_text
+      custom_label_text,
     } = tooltip_values
 
     // if to display label
 
-    const if_show_label = (show_label === true || undefined === show_label) ? true : false
+    const if_show_label =
+      show_label === true || undefined === show_label ? true : false
 
     //max value
 
-    const max = set_max_value(axes_data, max_value);
+    const max = set_max_value(axes_data, max_value)
 
     // tooltip enabled
 
     const tooltip_enabled = get(chartOptions, 'options.plugins.tooltip.enabled')
 
-    if(tooltip_enabled === true || undefined === tooltip_enabled){
-
+    if (tooltip_enabled === true || undefined === tooltip_enabled) {
       let callbacks = {}
 
-      if(show === 'percent'){
-
+      if (show === 'percent') {
         //callback
 
-        const label_cb= (context) => {
-
+        const label_cb = (context) => {
           var label = context.dataset.label || ''
 
-          if(custom_label === true) label =  custom_label_text ? custom_label_text : ''
+          if (custom_label === true)
+            label = custom_label_text ? custom_label_text : ''
 
           if (label) {
             label += ': '
@@ -287,11 +291,11 @@ $.fn.tangibleChart = function (config = {}) {
 
           //if ticks set in percent data already overriden, just add '%', otherwise calculate percent
           if (context.parsed[axis] !== null) {
-            if(tick_values.show_in == 'percent') {
+            if (tick_values.show_in == 'percent') {
               label += context.parsed[axis] + '%'
-            } else{
-              const data =axes_data[context.dataIndex]
-              const percent = Math.round(data/max * 100 * 100) / 100
+            } else {
+              const data = axes_data[context.dataIndex]
+              const percent = Math.round((data / max) * 100 * 100) / 100
               label += percent + '%'
             }
           }
@@ -300,17 +304,15 @@ $.fn.tangibleChart = function (config = {}) {
         }
 
         callbacks.label = label_cb
-
-      } else if(show === 'both'){
-
+      } else if (show === 'both') {
         //callback
 
         const label_cb = (context) => {
-
-          const data =axes_data[context.dataIndex]
+          const data = axes_data[context.dataIndex]
           var label = context.dataset.label || ''
 
-          if(custom_label === true) label =  custom_label_text ? custom_label_text : ''
+          if (custom_label === true)
+            label = custom_label_text ? custom_label_text : ''
 
           if (label) {
             label += ': '
@@ -326,17 +328,16 @@ $.fn.tangibleChart = function (config = {}) {
         // afterBody callback
 
         const afterBody_cb = (context) => {
-
-          var after_body = '';
+          var after_body = ''
 
           //if ticks set in percent data are already overriden, just add '%', otherwise calculate percent
           if (context[0].parsed[axis] !== null) {
-            if(tick_values.show_in == 'percent') {
-              after_body += '('+context[0].parsed[axis]+'%'+')'
-            } else{
-              const data =axes_data[context[0].dataIndex]
-              const percent = Math.round(data/max * 100 * 100) / 100
-              after_body += '('+percent+'%'+')'
+            if (tick_values.show_in == 'percent') {
+              after_body += '(' + context[0].parsed[axis] + '%' + ')'
+            } else {
+              const data = axes_data[context[0].dataIndex]
+              const percent = Math.round((data / max) * 100 * 100) / 100
+              after_body += '(' + percent + '%' + ')'
             }
           }
 
@@ -345,26 +346,24 @@ $.fn.tangibleChart = function (config = {}) {
 
         callbacks.label = label_cb
         callbacks.afterBody = afterBody_cb
-
       } else {
-
         //callback
 
         const label_cb = (context) => {
-
           const data = axes_data[context.dataIndex]
           var label = context.dataset.label || ''
 
-          if(custom_label === true) label =  custom_label_text ? custom_label_text : ''
+          if (custom_label === true)
+            label = custom_label_text ? custom_label_text : ''
 
           if (label) {
             label += ': '
           }
 
           if (context.parsed[axis] !== null) {
-            if(tick_values.show_in == 'percent' && show !=='value') {
-              label +=context.parsed[axis]+'%'
-            } else{
+            if (tick_values.show_in == 'percent' && show !== 'value') {
+              label += context.parsed[axis] + '%'
+            } else {
               label += data
             }
           }
@@ -375,7 +374,7 @@ $.fn.tangibleChart = function (config = {}) {
         callbacks.label = label_cb
       }
 
-      set(chartOptions, 'options.plugins.tooltip.callbacks',callbacks)
+      set(chartOptions, 'options.plugins.tooltip.callbacks', callbacks)
     }
   }
 
@@ -391,56 +390,81 @@ $.fn.tangibleChart = function (config = {}) {
 
   const vl = get(datalabels, 'value_label')
 
-  if(get(datalabels, 'display') === true  || undefined === get(datalabels, 'display')) {
-
+  if (
+    get(datalabels, 'display') === true ||
+    undefined === get(datalabels, 'display')
+  ) {
     //max value
 
-    const max = set_max_value(axes_data, 0);
+    const max = set_max_value(axes_data, 0)
 
     const pf = (value, context) => {
-      if(tick_values.show_in == 'percent') {
+      if (tick_values.show_in == 'percent') {
         return value + '%'
-      } else{
-        const data =axes_data[context.dataIndex]
-        const percent = Math.round(data/max * 100 * 100) / 100
+      } else {
+        const data = axes_data[context.dataIndex]
+        const percent = Math.round((data / max) * 100 * 100) / 100
         return percent + '%'
       }
     }
 
     const vf = (value, context) => {
-      if(tick_values.show_in == 'percent') {
+      if (tick_values.show_in == 'percent') {
         return axes_data[context.dataIndex]
-      } else{
+      } else {
         return value
       }
     }
 
-    var labels_data = [pl,vl]
+    var labels_data = [pl, vl]
 
     labels_data.forEach((data, index) => {
-
       var formatter = data === pl ? pf : vf
       var label_name = data === pl ? 'percent' : 'value'
 
-      var label={
-        'backgroundColor': get(data, 'backgroundColor') ? get(data, 'backgroundColor') : 'rgba(0,0,0,0)',
-        'borderColor': get(data, 'borderColor') ? get(data, 'borderColor') : 'rgba(0,0,0,0)',
-        'borderRadius': get(data, 'borderRadius') ? get(data, 'borderRadius') : '0',
-        'borderWidth': get(data, 'borderWidth') ? get(data, 'borderWidth') : '0',
-        'color': get(data, 'color') ? get(data, 'color') : '',
-        'font': get(data, 'font') ? get(data, 'font') : {},
-        'padding': get(data, 'padding') ? get(data, 'padding') : {},
-        'align': get(data, 'align') ? get(data, 'align') : (data === pl ? 'end' :'start'),
-        'anchor': get(data, 'anchor') ? get(data, 'anchor') : (data === pl ? 'start' :'end'),
-        'offset': get(data, 'offset') ? get(data, 'offset') : (data === pl ? '0' : '4'),
-        'formatter': formatter,
+      var label = {
+        backgroundColor: get(data, 'backgroundColor')
+          ? get(data, 'backgroundColor')
+          : 'rgba(0,0,0,0)',
+        borderColor: get(data, 'borderColor')
+          ? get(data, 'borderColor')
+          : 'rgba(0,0,0,0)',
+        borderRadius: get(data, 'borderRadius')
+          ? get(data, 'borderRadius')
+          : '0',
+        borderWidth: get(data, 'borderWidth') ? get(data, 'borderWidth') : '0',
+        color: get(data, 'color') ? get(data, 'color') : '',
+        font: get(data, 'font') ? get(data, 'font') : {},
+        padding: get(data, 'padding') ? get(data, 'padding') : {},
+        align: get(data, 'align')
+          ? get(data, 'align')
+          : data === pl
+          ? 'end'
+          : 'start',
+        anchor: get(data, 'anchor')
+          ? get(data, 'anchor')
+          : data === pl
+          ? 'start'
+          : 'end',
+        offset: get(data, 'offset')
+          ? get(data, 'offset')
+          : data === pl
+          ? '0'
+          : '4',
+        formatter: formatter,
       }
 
-      if(get(data, 'display_label') === true || undefined ===get(data, 'display_label'))
-        set(chartOptions, 'options.plugins.datalabels.labels.'+label_name, label)
+      if (
+        get(data, 'display_label') === true ||
+        undefined === get(data, 'display_label')
+      )
+        set(
+          chartOptions,
+          'options.plugins.datalabels.labels.' + label_name,
+          label
+        )
     })
-
-  } else{
+  } else {
     set(chartOptions, 'options.plugins.datalabels.display', false)
   }
 

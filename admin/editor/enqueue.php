@@ -1,6 +1,6 @@
 <?php
 
-$plugin->enqueue_template_editor = function() use ($plugin, $html, $ajax) {
+$plugin->enqueue_template_editor = function() use ( $plugin, $html, $ajax ) {
 
   $html->enqueue_codemirror(); // See Template module, modules/codemirror
   $ajax->enqueue();
@@ -10,7 +10,7 @@ $plugin->enqueue_template_editor = function() use ($plugin, $html, $ajax) {
     $plugin->url . 'assets/build/template-editor.min.js',
     [
       'tangible-ajax',
-      'tangible-codemirror'
+      'tangible-codemirror',
     ],
     $plugin->version
   );
@@ -19,7 +19,7 @@ $plugin->enqueue_template_editor = function() use ($plugin, $html, $ajax) {
     'tangible-template-editor',
     $plugin->url . 'assets/build/template-editor.min.css',
     [
-      'tangible-codemirror'
+      'tangible-codemirror',
     ],
     $plugin->version
   );

@@ -6,13 +6,12 @@
 require __DIR__ . '/tangible-module.php';
 
 if ( ! function_exists( 'tangible_interface' ) ) :
-function tangible_interface( $module = false ) {
-  static $interface;
-  return is_a($module, 'TangibleModule')
-    ? ($interface = $module->latest)
-    : $interface
-  ;
-}
+  function tangible_interface( $module = false ) {
+    static $interface;
+    return is_a( $module, 'TangibleModule' )
+    ? ( $interface = $module->latest )
+    : $interface;
+  }
 endif;
 
 return tangible_interface(new class extends TangibleModule {
@@ -30,12 +29,12 @@ return tangible_interface(new class extends TangibleModule {
 
     $interface = $this;
 
-    $interface->path = __DIR__;
+    $interface->path      = __DIR__;
     $interface->file_path = __FILE__;
 
-    $interface->url = plugins_url( '/', realpath( __FILE__ ) );
+    $interface->url        = plugins_url( '/', realpath( __FILE__ ) );
     $interface->assets_url = $interface->url . 'assets/';
 
-    require_once __DIR__.'/includes/index.php';
+    require_once __DIR__ . '/includes/index.php';
   }
 });

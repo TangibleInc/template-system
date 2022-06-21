@@ -1,13 +1,11 @@
-(function($, window, document, undefined) {
-
+;(function ($, window, document, undefined) {
   'use strict'
 
   var defaults = {
-    fullScreen: true
+    fullScreen: true,
   }
 
-  var Fullscreen = function(element) {
-
+  var Fullscreen = function (element) {
     // get tangibleGlider core plugin data
     this.core = $(element).data('tangibleGlider')
 
@@ -21,13 +19,16 @@
     return this
   }
 
-  Fullscreen.prototype.init = function() {
+  Fullscreen.prototype.init = function () {
     var fullScreen = ''
     if (this.core.s.fullScreen) {
-
       // check for fullscreen browser support
-      if (!document.fullscreenEnabled && !document.webkitFullscreenEnabled &&
-                !document.mozFullScreenEnabled && !document.msFullscreenEnabled) {
+      if (
+        !document.fullscreenEnabled &&
+        !document.webkitFullscreenEnabled &&
+        !document.mozFullScreenEnabled &&
+        !document.msFullscreenEnabled
+      ) {
         return
       } else {
         fullScreen = '<span class="tglider-fullscreen tglider-icon"></span>'
@@ -37,7 +38,7 @@
     }
   }
 
-  Fullscreen.prototype.requestFullscreen = function() {
+  Fullscreen.prototype.requestFullscreen = function () {
     var el = document.documentElement
     if (el.requestFullscreen) {
       el.requestFullscreen()
@@ -50,7 +51,7 @@
     }
   }
 
-  Fullscreen.prototype.exitFullscreen = function() {
+  Fullscreen.prototype.exitFullscreen = function () {
     if (document.exitFullscreen) {
       document.exitFullscreen()
     } else if (document.msExitFullscreen) {
@@ -63,32 +64,38 @@
   }
 
   // https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode
-  Fullscreen.prototype.fullScreen = function() {
+  Fullscreen.prototype.fullScreen = function () {
     var _this = this
 
-    $(document).on('fullscreenchange.lg webkitfullscreenchange.lg mozfullscreenchange.lg MSFullscreenChange.lg', function() {
-      _this.core.$outer.toggleClass('tglider-fullscreen-on')
-    })
+    $(document).on(
+      'fullscreenchange.lg webkitfullscreenchange.lg mozfullscreenchange.lg MSFullscreenChange.lg',
+      function () {
+        _this.core.$outer.toggleClass('tglider-fullscreen-on')
+      }
+    )
 
-    this.core.$outer.find('.tglider-fullscreen').on('click.lg', function() {
-      if (!document.fullscreenElement &&
-                !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+    this.core.$outer.find('.tglider-fullscreen').on('click.lg', function () {
+      if (
+        !document.fullscreenElement &&
+        !document.mozFullScreenElement &&
+        !document.webkitFullscreenElement &&
+        !document.msFullscreenElement
+      ) {
         _this.requestFullscreen()
       } else {
         _this.exitFullscreen()
       }
     })
-
   }
 
-  Fullscreen.prototype.destroy = function() {
-
+  Fullscreen.prototype.destroy = function () {
     // exit from fullscreen if activated
     this.exitFullscreen()
 
-    $(document).off('fullscreenchange.lg webkitfullscreenchange.lg mozfullscreenchange.lg MSFullscreenChange.lg')
+    $(document).off(
+      'fullscreenchange.lg webkitfullscreenchange.lg mozfullscreenchange.lg MSFullscreenChange.lg'
+    )
   }
 
   $.fn.tangibleGlider.modules.fullscreen = Fullscreen
-
 })(jQuery, window, document)

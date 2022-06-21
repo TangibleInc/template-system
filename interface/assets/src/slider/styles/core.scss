@@ -1,7 +1,6 @@
-
 .tangible-slider {
   opacity: 0;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
 }
 .tangible-slider.loaded {
   opacity: 1;
@@ -16,8 +15,9 @@
   -ms-user-select: none;
   user-select: none;
 }
-.tslider:before, .tslider:after {
-  content: " ";
+.tslider:before,
+.tslider:after {
+  content: ' ';
   display: table;
 }
 .tslider {
@@ -37,9 +37,9 @@
   -ms-transform: translate(0px, 0px);
   transform: translate(0px, 0px);
   -webkit-transition: all 1s;
-  -webkit-transition-property: -webkit-transform,height;
-  -moz-transition-property: -moz-transform,height;
-  transition-property: transform,height;
+  -webkit-transition-property: -webkit-transform, height;
+  -moz-transition-property: -moz-transform, height;
+  transition-property: transform, height;
   -webkit-transition-duration: inherit !important;
   transition-duration: inherit !important;
   -webkit-transition-timing-function: inherit !important;
@@ -58,7 +58,7 @@
 }
 /* May not work with carousel mode */
 .tslide-wrapper .tslider-fade img {
-width: 100%;
+  width: 100%;
 }
 .tslide-wrapper.usingCss .tslider-fade > * {
   opacity: 0;
@@ -77,7 +77,6 @@ width: 100%;
 .tslide-wrapper.usingCss .tslider-fade > *.active {
   opacity: 1;
 }
-
 
 /* slider actions */
 .tslider-action > a {
@@ -115,7 +114,6 @@ width: 100%;
   overflow: hidden;
 }
 
-
 /* vertical */
 .tslide-outer.vertical {
   position: relative;
@@ -151,128 +149,131 @@ width: 100%;
 }
 /* vertical */
 
-
 /* Rtl */
 .tslide-outer.tslider-rtl {
   direction: rtl;
 }
-.tslide-outer .tslider, .tslide-outer .tslider-pager {
+.tslide-outer .tslider,
+.tslide-outer .tslider-pager {
   padding-left: 0;
   list-style: none outside none;
 }
-.tslide-outer.tslider-rtl .tslider, .tslide-outer.tslider-rtl .tslider-pager {
+.tslide-outer.tslider-rtl .tslider,
+.tslide-outer.tslider-rtl .tslider-pager {
   padding-right: 0;
 }
-.tslide-outer .tslider > *,  .tslide-outer .tslider-gallery li {
+.tslide-outer .tslider > *,
+.tslide-outer .tslider-gallery li {
   float: left;
 }
-.tslide-outer.tslider-rtl .tslider > *,  .tslide-outer.tslider-rtl .tslider-gallery li {
+.tslide-outer.tslider-rtl .tslider > *,
+.tslide-outer.tslider-rtl .tslider-gallery li {
   float: right !important;
 }
 /* Rtl */
 
 @-webkit-keyframes rightEnd {
   0% {
-      left: 0;
+    left: 0;
   }
 
   50% {
-      left: -15px;
+    left: -15px;
   }
 
   100% {
-      left: 0;
+    left: 0;
   }
 }
 @keyframes rightEnd {
   0% {
-      left: 0;
+    left: 0;
   }
 
   50% {
-      left: -15px;
+    left: -15px;
   }
 
   100% {
-      left: 0;
+    left: 0;
   }
 }
 @-webkit-keyframes topEnd {
   0% {
-      top: 0;
+    top: 0;
   }
 
   50% {
-      top: -15px;
+    top: -15px;
   }
 
   100% {
-      top: 0;
+    top: 0;
   }
 }
 @keyframes topEnd {
   0% {
-      top: 0;
+    top: 0;
   }
 
   50% {
-      top: -15px;
+    top: -15px;
   }
 
   100% {
-      top: 0;
+    top: 0;
   }
 }
 @-webkit-keyframes leftEnd {
   0% {
-      left: 0;
+    left: 0;
   }
 
   50% {
-      left: 15px;
+    left: 15px;
   }
 
   100% {
-      left: 0;
+    left: 0;
   }
 }
 @keyframes leftEnd {
   0% {
-      left: 0;
+    left: 0;
   }
 
   50% {
-      left: 15px;
+    left: 15px;
   }
 
   100% {
-      left: 0;
+    left: 0;
   }
 }
 @-webkit-keyframes bottomEnd {
   0% {
-      bottom: 0;
+    bottom: 0;
   }
 
   50% {
-      bottom: -15px;
+    bottom: -15px;
   }
 
   100% {
-      bottom: 0;
+    bottom: 0;
   }
 }
 @keyframes bottomEnd {
   0% {
-      bottom: 0;
+    bottom: 0;
   }
 
   50% {
-      bottom: -15px;
+    bottom: -15px;
   }
 
   100% {
-      bottom: 0;
+    bottom: 0;
   }
 }
 .tslide-outer .rightEnd {
@@ -308,17 +309,17 @@ width: 100%;
 
 /*/  Grab cursor */
 .tslider.tslider-grab > * {
-cursor: -webkit-grab;
-cursor: -moz-grab;
-cursor: -o-grab;
-cursor: -ms-grab;
-cursor: grab;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: -o-grab;
+  cursor: -ms-grab;
+  cursor: grab;
 }
 .tslider.tslider-grabbing > * {
-cursor: move;
-cursor: -webkit-grabbing;
-cursor: -moz-grabbing;
-cursor: -o-grabbing;
-cursor: -ms-grabbing;
-cursor: grabbing;
+  cursor: move;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: -o-grabbing;
+  cursor: -ms-grabbing;
+  cursor: grabbing;
 }

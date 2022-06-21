@@ -1,9 +1,7 @@
-(function($, window, document, undefined) {
-
+;(function ($, window, document, undefined) {
   'use strict'
 
   var defaults = {
-
     mode: 'tglider-slide',
 
     // Ex : 'ease'
@@ -35,14 +33,14 @@
     getCaptionFromTitleOrAlt: false,
 
     /**
-         * @desc number of preload slides
-         * will exicute only after the current slide is fully loaded.
-         *
-         * @ex you clicked on 4th image and if preload = 1 then 3rd slide and 5th
-         * slide will be loaded in the background after the 4th slide is fully loaded..
-         * if preload is 2 then 2nd 3rd 5th 6th slides will be preloaded.. ... ...
-         *
-         */
+     * @desc number of preload slides
+     * will exicute only after the current slide is fully loaded.
+     *
+     * @ex you clicked on 4th image and if preload = 1 then 3rd slide and 5th
+     * slide will be loaded in the background after the 4th slide is fully loaded..
+     * if preload is 2 then 2nd 3rd 5th 6th slides will be preloaded.. ... ...
+     *
+     */
     preload: 1,
     showAfterLoad: true,
     showThumbByDefault: false,
@@ -66,11 +64,10 @@
 
     dynamic: false,
     dynamicEl: [],
-    galleryId: 1
+    galleryId: 1,
   }
 
   function Plugin(element, options) {
-
     // Current tangibleGlider element
     this.el = element
 
@@ -81,8 +78,13 @@
     this.s = $.extend({}, defaults, options)
 
     // When using dynamic mode, ensure dynamicEl is an array
-    if (this.s.dynamic && this.s.dynamicEl !== 'undefined' && this.s.dynamicEl.constructor === Array && !this.s.dynamicEl.length) {
-      throw ('When using dynamic mode, you must also define dynamicEl as an Array.')
+    if (
+      this.s.dynamic &&
+      this.s.dynamicEl !== 'undefined' &&
+      this.s.dynamicEl.constructor === Array &&
+      !this.s.dynamicEl.length
+    ) {
+      throw 'When using dynamic mode, you must also define dynamicEl as an Array.'
     }
 
     // tangibleGlider modules
@@ -97,7 +99,7 @@
     this.hideBartimeout = false
 
     // To determine browser supports for touch events;
-    this.isTouch = ('ontouchstart' in document.documentElement)
+    this.isTouch = 'ontouchstart' in document.documentElement
 
     // Disable hideControlOnEnd if sildeEndAnimation is true
     /*        if (this.s.slideEndAnimatoin) {
@@ -121,8 +123,9 @@
       }
 
       // Filter out containers without image
-      this.$items = this.$items.filter(function(){ return $(this).find('img').length })
-
+      this.$items = this.$items.filter(function () {
+        return $(this).find('img').length
+      })
     }
 
     // .tglider-item
@@ -136,8 +139,7 @@
     return this
   }
 
-  Plugin.prototype.init = function() {
-
+  Plugin.prototype.init = function () {
     var _this = this
 
     // s.preload should not be more than $item.length
@@ -148,12 +150,11 @@
     // if dynamic option is enabled execute immediately
     var _hash = window.location.hash
     if (_hash.indexOf('lg=' + this.s.galleryId) > 0) {
-
       _this.index = parseInt(_hash.split('&slide=')[1], 10)
 
       $('body').addClass('tglider-from-hash')
       if (!$('body').hasClass('tglider-on')) {
-        setTimeout(function() {
+        setTimeout(function () {
           _this.build(_this.index)
           $('body').addClass('tglider-on')
         })
@@ -161,23 +162,20 @@
     }
 
     if (_this.s.dynamic) {
-
       _this.$el.trigger('onBeforeOpen.lg')
 
       _this.index = _this.s.index || 0
 
       // prevent accidental double execution
       if (!$('body').hasClass('tglider-on')) {
-        setTimeout(function() {
+        setTimeout(function () {
           _this.build(_this.index)
           $('body').addClass('tglider-on')
         })
       }
     } else {
-
       // Using different namespace for click because click event should not unbind if selector is same object('this')
-      _this.$items.on('click.lgcustom', function(event) {
-
+      _this.$items.on('click.lgcustom', function (event) {
         // For IE8
         try {
           event.preventDefault()
@@ -197,17 +195,15 @@
         }
       })
     }
-
   }
 
-  Plugin.prototype.build = function(index) {
-
+  Plugin.prototype.build = function (index) {
     var _this = this
 
     _this.structure()
 
     // module constructor
-    $.each($.fn.tangibleGlider.modules, function(key) {
+    $.each($.fn.tangibleGlider.modules, function (key) {
       _this.modules[key] = new $.fn.tangibleGlider.modules[key](_this.el)
     })
 
@@ -219,10 +215,9 @@
     }
 
     if (_this.$items.length > 1) {
-
       _this.arrow()
 
-      setTimeout(function() {
+      setTimeout(function () {
         _this.enableDrag()
         _this.enableSwipe()
       }, 50)
@@ -239,22 +234,19 @@
     _this.$el.trigger('onAfterOpen.lg')
 
     // Hide controllers if mouse doesn't move for some period
-    _this.$outer.on('mousemove.lg click.lg touchstart.lg', function() {
-
+    _this.$outer.on('mousemove.lg click.lg touchstart.lg', function () {
       _this.$outer.removeClass('tglider-hide-items')
 
       clearTimeout(_this.hideBartimeout)
 
       // Timeout will be cleared on each slide movement also
-      _this.hideBartimeout = setTimeout(function() {
+      _this.hideBartimeout = setTimeout(function () {
         _this.$outer.addClass('tglider-hide-items')
       }, _this.s.hideBarsDelay)
-
     })
-
   }
 
-  Plugin.prototype.structure = function() {
+  Plugin.prototype.structure = function () {
     var list = ''
     var controls = ''
     var i = 0
@@ -263,7 +255,10 @@
     var _this = this
 
     $('body').append('<div class="tglider-backdrop"></div>')
-    $('.tglider-backdrop').css('transition-duration', this.s.backdropDuration + 'ms')
+    $('.tglider-backdrop').css(
+      'transition-duration',
+      this.s.backdropDuration + 'ms'
+    )
 
     // Create gallery items
     for (i = 0; i < this.$items.length; i++) {
@@ -272,26 +267,42 @@
 
     // Create controlls
     if (this.s.controls && this.$items.length > 1) {
-      controls = '<div class="tglider-actions">' +
-                '<div class="tglider-prev tglider-icon">' + this.s.prevHtml + '</div>' +
-                '<div class="tglider-next tglider-icon">' + this.s.nextHtml + '</div>' +
-                '</div>'
+      controls =
+        '<div class="tglider-actions">' +
+        '<div class="tglider-prev tglider-icon">' +
+        this.s.prevHtml +
+        '</div>' +
+        '<div class="tglider-next tglider-icon">' +
+        this.s.nextHtml +
+        '</div>' +
+        '</div>'
     }
 
     if (this.s.appendSubHtmlTo === '.tglider-sub-html') {
       subHtmlCont = '<div class="tglider-sub-html"></div>'
     }
 
-    template = '<div class="tglider-outer ' + this.s.addClass + ' ' + this.s.startClass + '">' +
-            '<div class="lg" style="width:' + this.s.width + '; height:' + this.s.height + '">' +
-            '<div class="tglider-inner">' + list + '</div>' +
-            '<div class="tglider-toolbar group">' +
-            '<span class="tglider-close tglider-icon"></span>' +
-            '</div>' +
-            controls +
-            subHtmlCont +
-            '</div>' +
-            '</div>'
+    template =
+      '<div class="tglider-outer ' +
+      this.s.addClass +
+      ' ' +
+      this.s.startClass +
+      '">' +
+      '<div class="lg" style="width:' +
+      this.s.width +
+      '; height:' +
+      this.s.height +
+      '">' +
+      '<div class="tglider-inner">' +
+      list +
+      '</div>' +
+      '<div class="tglider-toolbar group">' +
+      '<span class="tglider-close tglider-icon"></span>' +
+      '</div>' +
+      controls +
+      subHtmlCont +
+      '</div>' +
+      '</div>'
 
     $('body').append(template)
     this.$outer = $('.tglider-outer')
@@ -308,8 +319,8 @@
 
     // For fixed height gallery
     _this.setTop()
-    $(window).on('resize.lg orientationchange.lg', function() {
-      setTimeout(function() {
+    $(window).on('resize.lg orientationchange.lg', function () {
+      setTimeout(function () {
         _this.setTop()
       }, 100)
     })
@@ -345,21 +356,24 @@
 
     $('.tglider-backdrop').addClass('in')
 
-    setTimeout(function() {
+    setTimeout(function () {
       _this.$outer.addClass('tglider-visible')
     }, this.s.backdropDuration)
 
     if (this.s.download) {
-      this.$outer.find('.tglider-toolbar').append('<a id="tglider-download" target="_blank" download class="tglider-download tglider-icon"></a>')
+      this.$outer
+        .find('.tglider-toolbar')
+        .append(
+          '<a id="tglider-download" target="_blank" download class="tglider-download tglider-icon"></a>'
+        )
     }
 
     // Store the current scroll top value to scroll back after closing the gallery..
     this.prevScrollTop = $(window).scrollTop()
-
   }
 
   // For fixed height gallery
-  Plugin.prototype.setTop = function() {
+  Plugin.prototype.setTop = function () {
     if (this.s.height !== '100%') {
       var wH = $(window).height()
       var top = (wH - parseInt(this.s.height, 10)) / 2
@@ -373,10 +387,17 @@
   }
 
   // Find css3 support
-  Plugin.prototype.doCss = function() {
+  Plugin.prototype.doCss = function () {
     // check for css animation support
-    var support = function() {
-      var transition = ['transition', 'MozTransition', 'WebkitTransition', 'OTransition', 'msTransition', 'KhtmlTransition']
+    var support = function () {
+      var transition = [
+        'transition',
+        'MozTransition',
+        'WebkitTransition',
+        'OTransition',
+        'msTransition',
+        'KhtmlTransition',
+      ]
       var root = document.documentElement
       var i = 0
       for (i = 0; i < transition.length; i++) {
@@ -394,13 +415,12 @@
   }
 
   /**
-     *  @desc Check the given src is video
-     *  @param {String} src
-     *  @return {Object} video type
-     *  Ex:{ youtube  :  ["//www.youtube.com/watch?v=c0asJgSyxcY", "c0asJgSyxcY"] }
-     */
-  Plugin.prototype.isVideo = function(src, index) {
-
+   *  @desc Check the given src is video
+   *  @param {String} src
+   *  @return {Object} video type
+   *  Ex:{ youtube  :  ["//www.youtube.com/watch?v=c0asJgSyxcY", "c0asJgSyxcY"] }
+   */
+  Plugin.prototype.isVideo = function (src, index) {
     var html
     if (this.s.dynamic) {
       html = this.s.dynamicEl[index].html
@@ -411,52 +431,62 @@
     if (!src) {
       if (html) {
         return {
-          html5: true
+          html5: true,
         }
       } else return
     }
 
-    var youtube = src.match(/\/\/(?:www\.)?youtu(?:\.be|be\.com)\/(?:watch\?v=|embed\/)?([a-z0-9\-\_\%]+)/i)
+    var youtube = src.match(
+      /\/\/(?:www\.)?youtu(?:\.be|be\.com)\/(?:watch\?v=|embed\/)?([a-z0-9\-\_\%]+)/i
+    )
     var vimeo = src.match(/\/\/(?:www\.)?vimeo.com\/([0-9a-z\-_]+)/i)
     var dailymotion = src.match(/\/\/(?:www\.)?dai.ly\/([0-9a-z\-_]+)/i)
-    var vk = src.match(/\/\/(?:www\.)?(?:vk\.com|vkontakte\.ru)\/(?:video_ext\.php\?)(.*)/i)
+    var vk = src.match(
+      /\/\/(?:www\.)?(?:vk\.com|vkontakte\.ru)\/(?:video_ext\.php\?)(.*)/i
+    )
 
     if (youtube) {
       return {
-        youtube: youtube
+        youtube: youtube,
       }
     } else if (vimeo) {
       return {
-        vimeo: vimeo
+        vimeo: vimeo,
       }
     } else if (dailymotion) {
       return {
-        dailymotion: dailymotion
+        dailymotion: dailymotion,
       }
     } else if (vk) {
       return {
-        vk: vk
+        vk: vk,
       }
     }
   }
 
   /**
-     *  @desc Create image counter
-     *  Ex: 1/10
-     */
-  Plugin.prototype.counter = function() {
+   *  @desc Create image counter
+   *  Ex: 1/10
+   */
+  Plugin.prototype.counter = function () {
     if (this.s.counter) {
       if (this.$items.length > 1) {
-        $(this.s.appendCounterTo).append('<div id="tglider-counter"><span id="tglider-counter-current">' + (parseInt(this.index, 10) + 1) + '</span> / <span id="tglider-counter-all">' + this.$items.length + '</span></div>')
+        $(this.s.appendCounterTo).append(
+          '<div id="tglider-counter"><span id="tglider-counter-current">' +
+            (parseInt(this.index, 10) + 1) +
+            '</span> / <span id="tglider-counter-all">' +
+            this.$items.length +
+            '</span></div>'
+        )
       }
     }
   }
 
   /**
-     *  @desc add sub-html into the slide
-     *  @param {Number} index - index of the slide
-     */
-  Plugin.prototype.addHtml = function(index) {
+   *  @desc add sub-html into the slide
+   *  @param {Number} index - index of the slide
+   */
+  Plugin.prototype.addHtml = function (index) {
     var subHtml = null
     var subHtmlUrl
     if (this.s.dynamic) {
@@ -471,14 +501,15 @@
       } else {
         subHtml = this.$items.eq(index).attr('data-sub-html')
         if (this.s.getCaptionFromTitleOrAlt && !subHtml) {
-          subHtml = this.$items.eq(index).attr('title') || this.$items.eq(index).find('img').first().attr('alt')
+          subHtml =
+            this.$items.eq(index).attr('title') ||
+            this.$items.eq(index).find('img').first().attr('alt')
         }
       }
     }
 
     if (!subHtmlUrl) {
       if (typeof subHtml !== 'undefined' && subHtml !== null) {
-
         // get first letter of subhtml
         // if first letter starts with . or # get the html form the jQuery object
         var fL = subHtml.substring(0, 1)
@@ -493,15 +524,12 @@
     }
 
     if (this.s.appendSubHtmlTo === '.tglider-sub-html') {
-
       if (subHtmlUrl) {
         this.$outer.find(this.s.appendSubHtmlTo).load(subHtmlUrl)
       } else {
         this.$outer.find(this.s.appendSubHtmlTo).html(subHtml)
       }
-
     } else {
-
       if (subHtmlUrl) {
         this.$slide.eq(index).load(subHtmlUrl)
       } else {
@@ -514,7 +542,9 @@
       if (subHtml === '') {
         this.$outer.find(this.s.appendSubHtmlTo).addClass('tglider-empty-html')
       } else {
-        this.$outer.find(this.s.appendSubHtmlTo).removeClass('tglider-empty-html')
+        this.$outer
+          .find(this.s.appendSubHtmlTo)
+          .removeClass('tglider-empty-html')
       }
     }
 
@@ -522,10 +552,10 @@
   }
 
   /**
-     *  @desc Preload slides
-     *  @param {Number} index - index of the slide
-     */
-  Plugin.prototype.preload = function(index) {
+   *  @desc Preload slides
+   *  @param {Number} index - index of the slide
+   */
+  Plugin.prototype.preload = function (index) {
     var i = 1
     var j = 1
     for (i = 1; i <= this.s.preload; i++) {
@@ -546,13 +576,12 @@
   }
 
   /**
-     *  @desc Load slide content into slide.
-     *  @param {Number} index - index of the slide.
-     *  @param {Boolean} rec - if true call loadcontent() function again.
-     *  @param {Boolean} delay - delay for adding complete class. it is 0 except first time.
-     */
-  Plugin.prototype.loadContent = function(index, rec, delay) {
-
+   *  @desc Load slide content into slide.
+   *  @param {Number} index - index of the slide.
+   *  @param {Boolean} rec - if true call loadcontent() function again.
+   *  @param {Boolean} delay - delay for adding complete class. it is 0 except first time.
+   */
+  Plugin.prototype.loadContent = function (index, rec, delay) {
     var _this = this
     var _hasPoster = false
     var _$img
@@ -561,7 +590,7 @@
     var _srcset
     var _sizes
     var _html
-    var getResponsiveSrc = function(srcItms) {
+    var getResponsiveSrc = function (srcItms) {
       var rsWidth = []
       var rsSrc = []
       for (var i = 0; i < srcItms.length; i++) {
@@ -586,7 +615,6 @@
     }
 
     if (_this.s.dynamic) {
-
       if (_this.s.dynamicEl[index].poster) {
         _hasPoster = true
         _poster = _this.s.dynamicEl[index].poster
@@ -602,17 +630,17 @@
 
       _srcset = _this.s.dynamicEl[index].srcset
       _sizes = _this.s.dynamicEl[index].sizes
-
     } else {
-
       if (_this.$items.eq(index).attr('data-poster')) {
         _hasPoster = true
         _poster = _this.$items.eq(index).attr('data-poster')
       }
 
       _html = _this.$items.eq(index).attr('data-html')
-      _src = _this.$items.eq(index).attr('href') || _this.$items.eq(index).attr('data-src')
-              || _this.$items.eq(index).find('a').attr('href')
+      _src =
+        _this.$items.eq(index).attr('href') ||
+        _this.$items.eq(index).attr('data-src') ||
+        _this.$items.eq(index).find('a').attr('href')
 
       if (_this.$items.eq(index).attr('data-responsive')) {
         var srcItms = _this.$items.eq(index).attr('data-responsive').split(',')
@@ -621,7 +649,6 @@
 
       _srcset = _this.$items.eq(index).attr('data-srcset')
       _sizes = _this.$items.eq(index).attr('data-sizes')
-
     }
 
     //if (_src || _srcset || _sizes || _poster) {
@@ -640,7 +667,15 @@
     var _isVideo = _this.isVideo(_src, index)
     if (!_this.$slide.eq(index).hasClass('tglider-loaded')) {
       if (iframe) {
-        _this.$slide.eq(index).prepend('<div class="tglider-video-cont" style="max-width:' + _this.s.iframeMaxWidth + '"><div class="tglider-video"><iframe class="tglider-object" frameborder="0" src="' + _src + '"  allowfullscreen="true"></iframe></div></div>')
+        _this.$slide
+          .eq(index)
+          .prepend(
+            '<div class="tglider-video-cont" style="max-width:' +
+              _this.s.iframeMaxWidth +
+              '"><div class="tglider-video"><iframe class="tglider-object" frameborder="0" src="' +
+              _src +
+              '"  allowfullscreen="true"></iframe></div></div>'
+          )
       } else if (_hasPoster) {
         var videoClass = ''
         if (_isVideo && _isVideo.youtube) {
@@ -651,13 +686,30 @@
           videoClass = 'tglider-has-html5'
         }
 
-        _this.$slide.eq(index).prepend('<div class="tglider-video-cont ' + videoClass + ' "><div class="tglider-video"><span class="tglider-video-play"></span><img class="tglider-object tglider-has-poster" src="' + _poster + '" /></div></div>')
-
+        _this.$slide
+          .eq(index)
+          .prepend(
+            '<div class="tglider-video-cont ' +
+              videoClass +
+              ' "><div class="tglider-video"><span class="tglider-video-play"></span><img class="tglider-object tglider-has-poster" src="' +
+              _poster +
+              '" /></div></div>'
+          )
       } else if (_isVideo) {
-        _this.$slide.eq(index).prepend('<div class="tglider-video-cont "><div class="tglider-video"></div></div>')
+        _this.$slide
+          .eq(index)
+          .prepend(
+            '<div class="tglider-video-cont "><div class="tglider-video"></div></div>'
+          )
         _this.$el.trigger('hasVideo.lg', [index, _src, _html])
       } else {
-        _this.$slide.eq(index).prepend('<div class="tglider-img-wrap"><img class="tglider-object tglider-image" src="' + _src + '" /></div>')
+        _this.$slide
+          .eq(index)
+          .prepend(
+            '<div class="tglider-img-wrap"><img class="tglider-object tglider-image" src="' +
+              _src +
+              '" /></div>'
+          )
       }
 
       _this.$el.trigger('onAferAppendSlide.lg', [index])
@@ -671,7 +723,7 @@
         _$img.attr('srcset', _srcset)
         try {
           picturefill({
-            elements: [_$img[0]]
+            elements: [_$img[0]],
           })
         } catch (e) {
           console.error('Make sure you have included Picturefill version 2')
@@ -685,23 +737,24 @@
       _this.$slide.eq(index).addClass('tglider-loaded')
     }
 
-    _this.$slide.eq(index).find('.tglider-object').on('load.lg error.lg', function() {
+    _this.$slide
+      .eq(index)
+      .find('.tglider-object')
+      .on('load.lg error.lg', function () {
+        // For first time add some delay for displaying the start animation.
+        var _speed = 0
 
-      // For first time add some delay for displaying the start animation.
-      var _speed = 0
+        // Do not change the delay value because it is required for zoom plugin.
+        // If gallery opened from direct url (hash) speed value should be 0
+        if (delay && !$('body').hasClass('tglider-from-hash')) {
+          _speed = delay
+        }
 
-      // Do not change the delay value because it is required for zoom plugin.
-      // If gallery opened from direct url (hash) speed value should be 0
-      if (delay && !$('body').hasClass('tglider-from-hash')) {
-        _speed = delay
-      }
-
-      setTimeout(function() {
-        _this.$slide.eq(index).addClass('tglider-complete')
-        _this.$el.trigger('onSlideItemLoad.lg', [index, delay || 0])
-      }, _speed)
-
-    })
+        setTimeout(function () {
+          _this.$slide.eq(index).addClass('tglider-complete')
+          _this.$el.trigger('onSlideItemLoad.lg', [index, delay || 0])
+        }, _speed)
+      })
 
     // @todo check load state for html5 videos
     if (_isVideo && _isVideo.html5 && !_hasPoster) {
@@ -710,9 +763,12 @@
 
     if (rec === true) {
       if (!_this.$slide.eq(index).hasClass('tglider-complete')) {
-        _this.$slide.eq(index).find('.tglider-object').on('load.lg error.lg', function() {
-          _this.preload(index)
-        })
+        _this.$slide
+          .eq(index)
+          .find('.tglider-object')
+          .on('load.lg error.lg', function () {
+            _this.preload(index)
+          })
       } else {
         _this.preload(index)
       }
@@ -741,14 +797,13 @@
     *   @param {Boolean} fromTouch - true if slide function called via touch event or mouse drag
     *   @param {Boolean} fromThumb - true if slide function called via thumbnail click
     */
-  Plugin.prototype.slide = function(index, fromTouch, fromThumb) {
-
+  Plugin.prototype.slide = function (index, fromTouch, fromThumb) {
     var _prevIndex = this.$outer.find('.tglider-current').index()
     var _this = this
 
     // Prevent if multiple call
     // Required for hsh plugin
-    if (_this.lGalleryOn && (_prevIndex === index)) {
+    if (_this.lGalleryOn && _prevIndex === index) {
       return
     }
 
@@ -763,10 +818,15 @@
     if (this.s.download) {
       var _src
       if (_this.s.dynamic) {
-        _src = _this.s.dynamicEl[index].downloadUrl !== false && (_this.s.dynamicEl[index].downloadUrl || _this.s.dynamicEl[index].src)
+        _src =
+          _this.s.dynamicEl[index].downloadUrl !== false &&
+          (_this.s.dynamicEl[index].downloadUrl || _this.s.dynamicEl[index].src)
       } else {
-        _src = _this.$items.eq(index).attr('data-download-url') !== 'false' && (_this.$items.eq(index).attr('data-download-url') || _this.$items.eq(index).attr('href') || _this.$items.eq(index).attr('data-src'))
-
+        _src =
+          _this.$items.eq(index).attr('data-download-url') !== 'false' &&
+          (_this.$items.eq(index).attr('data-download-url') ||
+            _this.$items.eq(index).attr('href') ||
+            _this.$items.eq(index).attr('data-src'))
       }
 
       if (_src) {
@@ -777,7 +837,12 @@
       }
     }
 
-    this.$el.trigger('onBeforeSlide.lg', [_prevIndex, index, fromTouch, fromThumb])
+    this.$el.trigger('onBeforeSlide.lg', [
+      _prevIndex,
+      index,
+      fromTouch,
+      fromThumb,
+    ])
 
     _this.lgBusy = true
 
@@ -785,9 +850,8 @@
 
     // Add title if this.s.appendSubHtmlTo === tglider-sub-html
     if (this.s.appendSubHtmlTo === '.tglider-sub-html') {
-
       // wait for slide animation to complete
-      setTimeout(function() {
+      setTimeout(function () {
         _this.addHtml(index)
       }, _time)
     }
@@ -795,7 +859,6 @@
     this.arrowDisable(index)
 
     if (!fromTouch) {
-
       // remove all transitions
       _this.$outer.addClass('tglider-no-trans')
 
@@ -803,13 +866,23 @@
 
       if (index < _prevIndex) {
         _prev = true
-        if ((index === 0) && (_prevIndex === _length - 1) && (this.lastMove!=='prev') && !fromThumb) {
+        if (
+          index === 0 &&
+          _prevIndex === _length - 1 &&
+          this.lastMove !== 'prev' &&
+          !fromThumb
+        ) {
           _prev = false
           _next = true
         }
       } else if (index > _prevIndex) {
         _next = true
-        if ((index === _length - 1) && (_prevIndex === 0) && (this.lastMove!=='next') && !fromThumb) {
+        if (
+          index === _length - 1 &&
+          _prevIndex === 0 &&
+          this.lastMove !== 'next' &&
+          !fromThumb
+        ) {
           _prev = true
           _next = false
         }
@@ -821,7 +894,6 @@
         this.$slide.eq(index).addClass('tglider-prev-slide')
         this.$slide.eq(_prevIndex).addClass('tglider-next-slide')
       } else if (_next) {
-
         //console.log('next key', _this.lastMove, index, _prevIndex)
         // next slide
         this.$slide.eq(index).addClass('tglider-next-slide')
@@ -829,7 +901,7 @@
       }
 
       // give 50 ms for browser to add/remove class
-      setTimeout(function() {
+      setTimeout(function () {
         _this.$slide.removeClass('tglider-current')
 
         //_this.$slide.eq(_prevIndex).removeClass('tglider-current');
@@ -839,25 +911,24 @@
         _this.$outer.removeClass('tglider-no-trans')
       }, 50)
     } else {
-
       var touchPrev = index - 1
       var touchNext = index + 1
 
-      if (touchPrev<0) touchPrev = 0
-      if (touchNext>=_length) touchNext = _length - 1
+      if (touchPrev < 0) touchPrev = 0
+      if (touchNext >= _length) touchNext = _length - 1
 
-      if ((_prevIndex === _length - 1) && (index === 0)) {
+      if (_prevIndex === _length - 1 && index === 0) {
         // next slide
-        if (this.lastMove=='next') {
+        if (this.lastMove == 'next') {
           touchPrev = _length - 1
           touchNext = 0
         } else {
           touchPrev = 0
           touchNext = _length - 1
         }
-      } else if ((_prevIndex === 0) && (index === _length - 1)) {
+      } else if (_prevIndex === 0 && index === _length - 1) {
         // prev slide
-        if (this.lastMove=='prev') {
+        if (this.lastMove == 'prev') {
           touchPrev = _length - 1
           touchNext = 0
         } else {
@@ -868,21 +939,23 @@
 
       //console.log('touch '+this.lastMove+'('+(_length-1)+')', _prevIndex, index, touchPrev, touchNext)
 
-      if (touchPrev===touchNext) {
-        if (this.lastMove=='prev') {
+      if (touchPrev === touchNext) {
+        if (this.lastMove == 'prev') {
           touchPrev = false
         } else {
           touchNext = false
         }
       }
 
-      this.$slide.removeClass('tglider-prev-slide tglider-current tglider-next-slide')
+      this.$slide.removeClass(
+        'tglider-prev-slide tglider-current tglider-next-slide'
+      )
 
       if (touchPrev !== false) {
-        if (touchPrev!==index && touchPrev!==_prevIndex) {
+        if (touchPrev !== index && touchPrev !== _prevIndex) {
           // Prevent out of frame image from visibly sliding in the background
           _this.$slide.eq(touchPrev).addClass('tglider-prev-slide no-trans')
-          setTimeout(function() {
+          setTimeout(function () {
             _this.$slide.eq(touchPrev).removeClass('no-trans')
           }, this.s.speed + 50)
         } else {
@@ -891,10 +964,10 @@
       }
 
       if (touchNext !== false) {
-        if (touchNext!==index && touchNext!==_prevIndex) {
+        if (touchNext !== index && touchNext !== _prevIndex) {
           // Prevent out of frame image from visibly sliding in the background
           _this.$slide.eq(touchNext).addClass('tglider-next-slide no-trans')
-          setTimeout(function() {
+          setTimeout(function () {
             _this.$slide.eq(touchNext).removeClass('no-trans')
           }, this.s.speed + 50)
         } else {
@@ -906,20 +979,29 @@
     }
 
     if (_this.lGalleryOn) {
-      setTimeout(function() {
+      setTimeout(function () {
         _this.loadContent(index, true, 0)
       }, this.s.speed + 50)
 
-      setTimeout(function() {
+      setTimeout(function () {
         _this.lgBusy = false
-        _this.$el.trigger('onAfterSlide.lg', [_prevIndex, index, fromTouch, fromThumb])
+        _this.$el.trigger('onAfterSlide.lg', [
+          _prevIndex,
+          index,
+          fromTouch,
+          fromThumb,
+        ])
       }, this.s.speed)
-
     } else {
       _this.loadContent(index, true, _this.s.backdropDuration)
 
       _this.lgBusy = false
-      _this.$el.trigger('onAfterSlide.lg', [_prevIndex, index, fromTouch, fromThumb])
+      _this.$el.trigger('onAfterSlide.lg', [
+        _prevIndex,
+        index,
+        fromTouch,
+        fromThumb,
+      ])
     }
 
     _this.lGalleryOn = true
@@ -927,18 +1009,17 @@
     if (this.s.counter) {
       $('#tglider-counter-current').text(index + 1)
     }
-
   }
 
   /**
-     *  @desc Go to next slide
-     *  @param {Boolean} fromTouch - true if slide function called via touch event
-     */
-  Plugin.prototype.goToNextSlide = function(fromTouch) {
+   *  @desc Go to next slide
+   *  @param {Boolean} fromTouch - true if slide function called via touch event
+   */
+  Plugin.prototype.goToNextSlide = function (fromTouch) {
     var _this = this
     _this.lastMove = 'next'
     if (!_this.lgBusy) {
-      if ((_this.index + 1) < _this.$slide.length) {
+      if (_this.index + 1 < _this.$slide.length) {
         _this.index++
         _this.$el.trigger('onBeforeNextSlide.lg', [_this.index])
         _this.slide(_this.index, fromTouch, false)
@@ -949,7 +1030,7 @@
           _this.slide(_this.index, fromTouch, false)
         } else if (_this.s.slideEndAnimatoin) {
           _this.$outer.addClass('tglider-right-end')
-          setTimeout(function() {
+          setTimeout(function () {
             _this.$outer.removeClass('tglider-right-end')
           }, 400)
         }
@@ -958,10 +1039,10 @@
   }
 
   /**
-     *  @desc Go to previous slide
-     *  @param {Boolean} fromTouch - true if slide function called via touch event
-     */
-  Plugin.prototype.goToPrevSlide = function(fromTouch) {
+   *  @desc Go to previous slide
+   *  @param {Boolean} fromTouch - true if slide function called via touch event
+   */
+  Plugin.prototype.goToPrevSlide = function (fromTouch) {
     var _this = this
     _this.lastMove = 'prev'
     if (!_this.lgBusy) {
@@ -976,7 +1057,7 @@
           _this.slide(_this.index, fromTouch, false)
         } else if (_this.s.slideEndAnimatoin) {
           _this.$outer.addClass('tglider-left-end')
-          setTimeout(function() {
+          setTimeout(function () {
             _this.$outer.removeClass('tglider-left-end')
           }, 400)
         }
@@ -984,10 +1065,10 @@
     }
   }
 
-  Plugin.prototype.keyPress = function() {
+  Plugin.prototype.keyPress = function () {
     var _this = this
     if (this.$items.length > 1) {
-      $(window).on('keyup.lg', function(e) {
+      $(window).on('keyup.lg', function (e) {
         if (_this.$items.length > 1) {
           if (e.keyCode === 37) {
             e.preventDefault()
@@ -1002,7 +1083,7 @@
       })
     }
 
-    $(window).on('keydown.lg', function(e) {
+    $(window).on('keydown.lg', function (e) {
       if (_this.s.escKey === true && e.keyCode === 27) {
         e.preventDefault()
         if (!_this.$outer.hasClass('tglider-thumb-open')) {
@@ -1014,55 +1095,62 @@
     })
   }
 
-  Plugin.prototype.arrow = function() {
+  Plugin.prototype.arrow = function () {
     var _this = this
-    this.$outer.find('.tglider-prev').on('click.lg', function() {
-      if (!$(this).hasClass('disabled'))
-        _this.goToPrevSlide()
+    this.$outer.find('.tglider-prev').on('click.lg', function () {
+      if (!$(this).hasClass('disabled')) _this.goToPrevSlide()
     })
 
-    this.$outer.find('.tglider-next').on('click.lg', function() {
-      if (!$(this).hasClass('disabled'))
-        _this.goToNextSlide()
+    this.$outer.find('.tglider-next').on('click.lg', function () {
+      if (!$(this).hasClass('disabled')) _this.goToNextSlide()
     })
   }
 
-  Plugin.prototype.arrowDisable = function(index) {
-
+  Plugin.prototype.arrowDisable = function (index) {
     // Disable arrows if s.hideControlOnEnd is true
     if (!this.s.loop && this.s.hideControlOnEnd) {
-      if ((index + 1) < this.$slide.length) {
-        this.$outer.find('.tglider-next').removeAttr('disabled').removeClass('disabled')
+      if (index + 1 < this.$slide.length) {
+        this.$outer
+          .find('.tglider-next')
+          .removeAttr('disabled')
+          .removeClass('disabled')
       } else {
-        this.$outer.find('.tglider-next').attr('disabled', 'disabled').addClass('disabled')
+        this.$outer
+          .find('.tglider-next')
+          .attr('disabled', 'disabled')
+          .addClass('disabled')
       }
 
       if (index > 0) {
-        this.$outer.find('.tglider-prev').removeAttr('disabled').removeClass('disabled')
+        this.$outer
+          .find('.tglider-prev')
+          .removeAttr('disabled')
+          .removeClass('disabled')
       } else {
-        this.$outer.find('.tglider-prev').attr('disabled', 'disabled').addClass('disabled')
+        this.$outer
+          .find('.tglider-prev')
+          .attr('disabled', 'disabled')
+          .addClass('disabled')
       }
     }
   }
 
-  Plugin.prototype.setTranslate = function($el, xValue, yValue) {
+  Plugin.prototype.setTranslate = function ($el, xValue, yValue) {
     // jQuery supports Automatic CSS prefixing since jQuery 1.8.0
     if (this.s.useLeft) {
       $el.css('left', xValue)
     } else {
       $el.css({
-        transform: 'translate3d(' + (xValue) + 'px, ' + yValue + 'px, 0px)'
+        transform: 'translate3d(' + xValue + 'px, ' + yValue + 'px, 0px)',
       })
     }
   }
 
-  Plugin.prototype.touchMove = function(startCoords, endCoords) {
-
+  Plugin.prototype.touchMove = function (startCoords, endCoords) {
     var distance = endCoords - startCoords
 
-    if (distance>0) this.lastMove = 'next'
+    if (distance > 0) this.lastMove = 'next'
     else this.lastMove = 'prev'
-
 
     if (Math.abs(distance) > 15) {
       // reset opacity and transition duration
@@ -1072,12 +1160,20 @@
       this.setTranslate(this.$slide.eq(this.index), distance, 0)
 
       // move next and prev slide with current slide
-      this.setTranslate($('.tglider-prev-slide'), -this.$slide.eq(this.index).width() + distance, 0)
-      this.setTranslate($('.tglider-next-slide'), this.$slide.eq(this.index).width() + distance, 0)
+      this.setTranslate(
+        $('.tglider-prev-slide'),
+        -this.$slide.eq(this.index).width() + distance,
+        0
+      )
+      this.setTranslate(
+        $('.tglider-next-slide'),
+        this.$slide.eq(this.index).width() + distance,
+        0
+      )
     }
   }
 
-  Plugin.prototype.touchEnd = function(distance) {
+  Plugin.prototype.touchEnd = function (distance) {
     var _this = this
 
     // keep slide animation for any mode while dragg/swipe
@@ -1085,17 +1181,18 @@
       _this.$outer.addClass('tglider-slide')
     }
 
-    this.$slide.not('.tglider-current, .tglider-prev-slide, .tglider-next-slide').css('opacity', '0')
+    this.$slide
+      .not('.tglider-current, .tglider-prev-slide, .tglider-next-slide')
+      .css('opacity', '0')
 
     // set transition duration
-    setTimeout(function() {
+    setTimeout(function () {
       _this.$outer.removeClass('tglider-dragging')
-      if ((distance < 0) && (Math.abs(distance) > _this.s.swipeThreshold)) {
+      if (distance < 0 && Math.abs(distance) > _this.s.swipeThreshold) {
         _this.goToNextSlide(true)
-      } else if ((distance > 0) && (Math.abs(distance) > _this.s.swipeThreshold)) {
+      } else if (distance > 0 && Math.abs(distance) > _this.s.swipeThreshold) {
         _this.goToPrevSlide(true)
       } else if (Math.abs(distance) < 5) {
-
         // Trigger click if distance is less than 5 pix
         _this.$el.trigger('onSlideClick.lg')
       }
@@ -1104,23 +1201,24 @@
     })
 
     // remove slide class once drag/swipe is completed if mode is not slide
-    setTimeout(function() {
-      if (!_this.$outer.hasClass('tglider-dragging') && _this.s.mode !== 'tglider-slide') {
+    setTimeout(function () {
+      if (
+        !_this.$outer.hasClass('tglider-dragging') &&
+        _this.s.mode !== 'tglider-slide'
+      ) {
         _this.$outer.removeClass('tglider-slide')
       }
     }, _this.s.speed + 100)
-
   }
 
-  Plugin.prototype.enableSwipe = function() {
+  Plugin.prototype.enableSwipe = function () {
     var _this = this
     var startCoords = 0
     var endCoords = 0
     var isMoved = false
 
     if (_this.s.enableSwipe && _this.isTouch && _this.doCss()) {
-
-      _this.$slide.on('touchstart.lg', function(e) {
+      _this.$slide.on('touchstart.lg', function (e) {
         if (!_this.$outer.hasClass('tglider-zoomed') && !_this.lgBusy) {
           e.preventDefault()
           _this.manageSwipeClass()
@@ -1128,7 +1226,7 @@
         }
       })
 
-      _this.$slide.on('touchmove.lg', function(e) {
+      _this.$slide.on('touchmove.lg', function (e) {
         if (!_this.$outer.hasClass('tglider-zoomed')) {
           e.preventDefault()
           endCoords = e.originalEvent.targetTouches[0].pageX
@@ -1137,7 +1235,7 @@
         }
       })
 
-      _this.$slide.on('touchend.lg', function() {
+      _this.$slide.on('touchend.lg', function () {
         if (!_this.$outer.hasClass('tglider-zoomed')) {
           if (isMoved) {
             isMoved = false
@@ -1148,20 +1246,22 @@
         }
       })
     }
-
   }
 
-  Plugin.prototype.enableDrag = function() {
+  Plugin.prototype.enableDrag = function () {
     var _this = this
     var startCoords = 0
     var endCoords = 0
     var isDraging = false
     var isMoved = false
     if (_this.s.enableDrag && !_this.isTouch && _this.doCss()) {
-      _this.$slide.on('mousedown.lg', function(e) {
+      _this.$slide.on('mousedown.lg', function (e) {
         // execute only on .tglider-object
         if (!_this.$outer.hasClass('tglider-zoomed')) {
-          if ($(e.target).hasClass('tglider-object') || $(e.target).hasClass('tglider-video-play')) {
+          if (
+            $(e.target).hasClass('tglider-object') ||
+            $(e.target).hasClass('tglider-video-play')
+          ) {
             e.preventDefault()
 
             if (!_this.lgBusy) {
@@ -1175,16 +1275,17 @@
 
               // *
 
-              _this.$outer.removeClass('tglider-grab').addClass('tglider-grabbing')
+              _this.$outer
+                .removeClass('tglider-grab')
+                .addClass('tglider-grabbing')
 
               _this.$el.trigger('onDragstart.lg')
             }
-
           }
         }
       })
 
-      $(window).on('mousemove.lg', function(e) {
+      $(window).on('mousemove.lg', function (e) {
         if (isDraging) {
           isMoved = true
           endCoords = e.pageX
@@ -1193,12 +1294,15 @@
         }
       })
 
-      $(window).on('mouseup.lg', function(e) {
+      $(window).on('mouseup.lg', function (e) {
         if (isMoved) {
           isMoved = false
           _this.touchEnd(endCoords - startCoords)
           _this.$el.trigger('onDragend.lg')
-        } else if ($(e.target).hasClass('tglider-object') || $(e.target).hasClass('tglider-video-play')) {
+        } else if (
+          $(e.target).hasClass('tglider-object') ||
+          $(e.target).hasClass('tglider-video-play')
+        ) {
           _this.$el.trigger('onSlideClick.lg')
         }
 
@@ -1208,11 +1312,10 @@
           _this.$outer.removeClass('tglider-grabbing').addClass('tglider-grab')
         }
       })
-
     }
   }
 
-  Plugin.prototype.manageSwipeClass = function() {
+  Plugin.prototype.manageSwipeClass = function () {
     var touchNext = this.index + 1
     var touchPrev = this.index - 1
     var length = this.$slide.length
@@ -1232,10 +1335,9 @@
     this.$slide.eq(touchNext).addClass('tglider-next-slide')
   }
 
-  Plugin.prototype.mousewheel = function() {
+  Plugin.prototype.mousewheel = function () {
     var _this = this
-    _this.$outer.on('mousewheel.lg', function(e) {
-
+    _this.$outer.on('mousewheel.lg', function (e) {
       if (!e.deltaY) {
         return
       }
@@ -1248,46 +1350,45 @@
 
       e.preventDefault()
     })
-
   }
 
-  Plugin.prototype.closeGallery = function() {
-
+  Plugin.prototype.closeGallery = function () {
     var _this = this
     var mousedown = false
-    this.$outer.find('.tglider-close').on('click.lg', function() {
+    this.$outer.find('.tglider-close').on('click.lg', function () {
       _this.destroy()
     })
 
     if (_this.s.closable) {
-
       // If you drag the slide and release outside gallery gets close on chrome
       // for preventing this check mousedown and mouseup happened on .tglider-item or tglider-outer
-      _this.$outer.on('mousedown.lg', function(e) {
-
-        if ($(e.target).is('.tglider-outer') || $(e.target).is('.tglider-item ') || $(e.target).is('.tglider-img-wrap')) {
+      _this.$outer.on('mousedown.lg', function (e) {
+        if (
+          $(e.target).is('.tglider-outer') ||
+          $(e.target).is('.tglider-item ') ||
+          $(e.target).is('.tglider-img-wrap')
+        ) {
           mousedown = true
         } else {
           mousedown = false
         }
-
       })
 
-      _this.$outer.on('mouseup.lg', function(e) {
-        if ($(e.target).is('.tglider-outer') || $(e.target).is('.tglider-item ') || $(e.target).is('.tglider-img-wrap') && mousedown) {
+      _this.$outer.on('mouseup.lg', function (e) {
+        if (
+          $(e.target).is('.tglider-outer') ||
+          $(e.target).is('.tglider-item ') ||
+          ($(e.target).is('.tglider-img-wrap') && mousedown)
+        ) {
           if (!_this.$outer.hasClass('tglider-dragging')) {
             _this.destroy()
           }
         }
-
       })
-
     }
-
   }
 
-  Plugin.prototype.destroy = function(d) {
-
+  Plugin.prototype.destroy = function (d) {
     var _this = this
 
     if (!d) {
@@ -1297,11 +1398,11 @@
     $(window).scrollTop(_this.prevScrollTop)
 
     /**
-         * if d is false or undefined destroy will only close the gallery
-         * plugins instance remains with the element
-         *
-         * if d is true destroy will completely remove the plugin
-         */
+     * if d is false or undefined destroy will only close the gallery
+     * plugins instance remains with the element
+     *
+     * if d is true destroy will completely remove the plugin
+     */
 
     if (d) {
       if (!_this.s.dynamic) {
@@ -1316,7 +1417,7 @@
     this.$el.off('.lg.tm')
 
     // Distroy all tangibleGlider modules
-    $.each($.fn.tangibleGlider.modules, function(key) {
+    $.each($.fn.tangibleGlider.modules, function (key) {
       if (_this.modules[key]) {
         _this.modules[key].destroy()
       }
@@ -1335,7 +1436,7 @@
 
     $('.tglider-backdrop').removeClass('in')
 
-    setTimeout(function() {
+    setTimeout(function () {
       if (_this.$outer) {
         _this.$outer.remove()
       }
@@ -1345,13 +1446,12 @@
       if (!d) {
         _this.$el.trigger('onCloseAfter.lg')
       }
-
     }, _this.s.backdropDuration + 50)
   }
 
-  $.fn.tangibleGlider = function(options) {
-    return this.each(function() {
-      if ( ! $.data(this, 'tangibleGlider')) {
+  $.fn.tangibleGlider = function (options) {
+    return this.each(function () {
+      if (!$.data(this, 'tangibleGlider')) {
         $.data(this, 'tangibleGlider', new Plugin(this, options))
       } else {
         // Already initialized
@@ -1365,5 +1465,4 @@
   }
 
   $.fn.tangibleGlider.modules = {}
-
 })(jQuery, window, document)

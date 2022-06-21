@@ -1,6 +1,4 @@
-
 #tangible_template_import_export_form {
-
   .export-rules {
     margin-bottom: 1rem;
   }
@@ -12,11 +10,10 @@
 
   .export-rule-part {
     margin-top: 1rem;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
 
   .icon {
-
     width: 18px;
     height: 18px;
 
@@ -25,7 +22,7 @@
     svg path {
       fill: #999;
       stroke: #999;
-      transition: all .3s;
+      transition: all 0.3s;
     }
 
     &:hover svg path {

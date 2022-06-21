@@ -5,8 +5,7 @@
  * @license MIT License (MIT)
  */
 
-(function($, window, document, undefined) {
-
+;(function ($, window, document, undefined) {
   'use strict'
 
   var defaults = {
@@ -15,15 +14,14 @@
     progressBar: true,
     fourceAutoplay: false,
     autoplayControls: true,
-    appendAutoplayControlsTo: '.tglider-toolbar'
+    appendAutoplayControlsTo: '.tglider-toolbar',
   }
 
   /**
-     * Creates the autoplay plugin.
-     * @param {object} element - tangibleGlider element
-     */
-  var Autoplay = function(element) {
-
+   * Creates the autoplay plugin.
+   * @param {object} element - tangibleGlider element
+   */
+  var Autoplay = function (element) {
     this.core = $(element).data('tangibleGlider')
 
     this.$el = $(element)
@@ -55,7 +53,7 @@
     return this
   }
 
-  Autoplay.prototype.init = function() {
+  Autoplay.prototype.init = function () {
     var _this = this
 
     // append autoplay controls
@@ -65,7 +63,11 @@
 
     // Create progress bar
     if (_this.core.s.progressBar) {
-      _this.core.$outer.find('.lg').append('<div class="tglider-progress-bar"><div class="tglider-progress"></div></div>')
+      _this.core.$outer
+        .find('.lg')
+        .append(
+          '<div class="tglider-progress-bar"><div class="tglider-progress"></div></div>'
+        )
     }
 
     // set progress
@@ -77,7 +79,7 @@
     }
 
     // cancel interval on touchstart and dragstart
-    _this.$el.on('onDragstart.lg.tm touchstart.lg.tm', function() {
+    _this.$el.on('onDragstart.lg.tm touchstart.lg.tm', function () {
       if (_this.interval) {
         _this.cancelAuto()
         _this.canceledOnTouch = true
@@ -85,23 +87,23 @@
     })
 
     // restore autoplay if autoplay canceled from touchstart / dragstart
-    _this.$el.on('onDragend.lg.tm touchend.lg.tm onSlideClick.lg.tm', function() {
-      if (!_this.interval && _this.canceledOnTouch) {
-        _this.startlAuto()
-        _this.canceledOnTouch = false
+    _this.$el.on(
+      'onDragend.lg.tm touchend.lg.tm onSlideClick.lg.tm',
+      function () {
+        if (!_this.interval && _this.canceledOnTouch) {
+          _this.startlAuto()
+          _this.canceledOnTouch = false
+        }
       }
-    })
-
+    )
   }
 
-  Autoplay.prototype.progress = function() {
-
+  Autoplay.prototype.progress = function () {
     var _this = this
     var _$progressBar
     var _$progress
 
-    _this.$el.on('onBeforeSlide.lg.tm', function() {
-
+    _this.$el.on('onBeforeSlide.lg.tm', function () {
       // start progress bar animation
       if (_this.core.s.progressBar && _this.fromAuto) {
         _$progressBar = _this.core.$outer.find('.tglider-progress-bar')
@@ -109,8 +111,13 @@
         if (_this.interval) {
           _$progress.removeAttr('style')
           _$progressBar.removeClass('tglider-start')
-          setTimeout(function() {
-            _$progress.css('transition', 'width ' + (_this.core.s.speed + _this.core.s.pause) + 'ms ease 0s')
+          setTimeout(function () {
+            _$progress.css(
+              'transition',
+              'width ' +
+                (_this.core.s.speed + _this.core.s.pause) +
+                'ms ease 0s'
+            )
             _$progressBar.addClass('tglider-start')
           }, 20)
         }
@@ -122,40 +129,46 @@
       }
 
       _this.fromAuto = false
-
     })
   }
 
   // Manage autoplay via play/stop buttons
-  Autoplay.prototype.controls = function() {
+  Autoplay.prototype.controls = function () {
     var _this = this
     var _html = '<span class="tglider-autoplay-button tglider-icon"></span>'
 
     // Append autoplay controls
     $(this.core.s.appendAutoplayControlsTo).append(_html)
 
-    _this.core.$outer.find('.tglider-autoplay-button').on('click.lg', function() {
-      if ($(_this.core.$outer).hasClass('tglider-show-autoplay')) {
-        _this.cancelAuto()
-        _this.core.s.fourceAutoplay = false
-      } else {
-        if (!_this.interval) {
-          _this.startlAuto()
-          _this.core.s.fourceAutoplay = _this.fourceAutoplayTemp
+    _this.core.$outer
+      .find('.tglider-autoplay-button')
+      .on('click.lg', function () {
+        if ($(_this.core.$outer).hasClass('tglider-show-autoplay')) {
+          _this.cancelAuto()
+          _this.core.s.fourceAutoplay = false
+        } else {
+          if (!_this.interval) {
+            _this.startlAuto()
+            _this.core.s.fourceAutoplay = _this.fourceAutoplayTemp
+          }
         }
-      }
-    })
+      })
   }
 
   // Autostart gallery
-  Autoplay.prototype.startlAuto = function() {
+  Autoplay.prototype.startlAuto = function () {
     var _this = this
 
-    _this.core.$outer.find('.tglider-progress').css('transition', 'width ' + (_this.core.s.speed + _this.core.s.pause) + 'ms ease 0s')
+    _this.core.$outer
+      .find('.tglider-progress')
+      .css(
+        'transition',
+        'width ' + (_this.core.s.speed + _this.core.s.pause) + 'ms ease 0s'
+      )
     _this.core.$outer.addClass('tglider-show-autoplay')
     _this.core.$outer.find('.tglider-progress-bar').addClass('tglider-start')
 
-    _this.interval = setInterval(function() {
+    _this.interval = setInterval(function () {
       if (_this.core.index + 1 < _this.core.$items.length) {
         _this.core.index = _this.core.index
       } else {
@@ -169,7 +182,7 @@
   }
 
   // cancel Autostart
-  Autoplay.prototype.cancelAuto = function() {
+  Autoplay.prototype.cancelAuto = function () {
     clearInterval(this.interval)
     this.interval = false
     this.core.$outer.find('.tglider-progress').removeAttr('style')
@@ -177,12 +190,10 @@
     this.core.$outer.find('.tglider-progress-bar').removeClass('tglider-start')
   }
 
-  Autoplay.prototype.destroy = function() {
-
+  Autoplay.prototype.destroy = function () {
     this.cancelAuto()
     this.core.$outer.find('.tglider-progress-bar').remove()
   }
 
   $.fn.tangibleGlider.modules.autoplay = Autoplay
-
 })(jQuery, window, document)

@@ -1,10 +1,7 @@
-
 const debug = false // Set this to false for production
 const log = (...args) => debug && console.log('[ensureDataForRule]', ...args)
 
-const {
-  ajax
-} = window.Tangible
+const { ajax } = window.Tangible
 
 // AJAX action prefix must be the same as in includes/location/ajax/index.php
 const ajaxActionPrefix = 'tangible_loops_and_logic__template_location__'
@@ -13,26 +10,20 @@ const ensureDataForRule = ({
   rule,
   ruleDefinitionByField,
   ajaxStateRef,
-  setAjaxState
+  setAjaxState,
 }) => {
-
-  if ( ! rule.field ) return
+  if (!rule.field) return
 
   // Field definition
-  const fieldDef = ruleDefinitionByField[ rule.field ]
-  if ( ! fieldDef ) return
+  const fieldDef = ruleDefinitionByField[rule.field]
+  if (!fieldDef) return
 
-  for (const partName of [
-    'field_2',
-    'values'
-  ]) {
-
-    if ( ! fieldDef[ partName ] ) continue // Next
+  for (const partName of ['field_2', 'values']) {
+    if (!fieldDef[partName]) continue // Next
 
     // Field part definition
-    let partDef = fieldDef[ partName ][0]
-    if ( ! partDef || partDef.type !== 'select_ajax') continue // Check next part
-
+    let partDef = fieldDef[partName][0]
+    if (!partDef || partDef.type !== 'select_ajax') continue // Check next part
 
     /**
      * Support conditionally showing values select for certain operators
@@ -42,12 +33,12 @@ const ensureDataForRule = ({
      * See same logic in ./index.js, partSelect()
      */
 
-    if (partName==='values') {
-
+    if (partName === 'values') {
       for (const valuesDef of fieldDef.values) {
-
-        if (!valuesDef.operators || valuesDef.operators.indexOf( rule.operator ) >= 0) {
-
+        if (
+          !valuesDef.operators ||
+          valuesDef.operators.indexOf(rule.operator) >= 0
+        ) {
           // Operators not defined or matches
 
           partDef = valuesDef
@@ -64,10 +55,8 @@ const ensureDataForRule = ({
       }
     }
 
-
-
     const ajaxState = ajaxStateRef.current
-    const ajaxActionName  = partDef.ajax_action
+    const ajaxActionName = partDef.ajax_action
     const ajaxActionData = {}
 
     /**
@@ -78,20 +67,17 @@ const ensureDataForRule = ({
      */
 
     if (partDef['rule_properties_to_ajax']) {
-
       const props = partDef['rule_properties_to_ajax']
 
       for (const key in props) {
-
-        if ( ! rule[ key ] ) {
-
+        if (!rule[key]) {
           // Assume all keys are required: Don't make AJAX request
 
           log('Missing request key', key)
           return
         }
 
-        ajaxActionData[ props[ key ] ] = rule[ key ]
+        ajaxActionData[props[key]] = rule[key]
       }
     }
 
@@ -102,29 +88,25 @@ const ensureDataForRule = ({
      * request.post_type = 'lesson'
      */
     if (partDef['ajax_properties']) {
-
       const props = partDef['ajax_properties']
 
       for (const key in props) {
-        ajaxActionData[ key ] = props[ key ]
+        ajaxActionData[key] = props[key]
       }
 
       log('Mapped AJAX properties to values', ajaxActionData)
     }
 
     // Provide part definition with methods to get options based on rule
-    if ( ! partDef.getAjaxActionCacheKey ) {
-
-      partDef.getAjaxActionCacheKey = function(currentRule) {
-
+    if (!partDef.getAjaxActionCacheKey) {
+      partDef.getAjaxActionCacheKey = function (currentRule) {
         let cacheKey = ajaxActionName
 
         if (partDef['rule_properties_to_ajax']) {
-
           const props = partDef['rule_properties_to_ajax']
 
           for (const key in props) {
-            cacheKey += '__' + props[ key ] + '__' + currentRule[ key ]
+            cacheKey += '__' + props[key] + '__' + currentRule[key]
           }
 
           // log('Cache key', cacheKey, currentRule)
@@ -133,8 +115,7 @@ const ensureDataForRule = ({
         return cacheKey
       }
 
-      partDef.getOptionsForRule = function(currentRule) {
-
+      partDef.getOptionsForRule = function (currentRule) {
         const key = partDef.getAjaxActionCacheKey(currentRule)
         const ajaxState = ajaxStateRef.current // NOTE: Ensure fresh reference
 
@@ -147,7 +128,6 @@ const ensureDataForRule = ({
       }
     }
 
-
     // Unique key to track progress
     const ajaxActionCacheKey = partDef.getAjaxActionCacheKey(rule)
 
@@ -156,37 +136,37 @@ const ensureDataForRule = ({
      */
 
     const updatePartDefinition = (data) => {
-
       log('updatePartDefinition', ajaxStateRef.current)
 
       setAjaxState({
-        ...ajaxStateRef.current // NOTE: Ensure fresh reference
+        ...ajaxStateRef.current, // NOTE: Ensure fresh reference
       }) // Re-render
     }
 
     /**
      * Fetch
      */
-    if ( ! ajaxState[ ajaxActionCacheKey ] ) {
-
-      const name = ajaxActionPrefix +  ajaxActionName
+    if (!ajaxState[ajaxActionCacheKey]) {
+      const name = ajaxActionPrefix + ajaxActionName
 
       log('Getting data..', name, ajaxActionData)
 
       // Assign the Promise to cache for tracking progress
-      ajaxState[ ajaxActionCacheKey ] = ajax(name, ajaxActionData)
-        .then(data => {
+      ajaxState[ajaxActionCacheKey] = ajax(name, ajaxActionData)
+        .then((data) => {
+          ajaxStateRef.current[ajaxActionCacheKey] = data // NOTE: Ensure fresh reference
 
-          ajaxStateRef.current[ ajaxActionCacheKey ] = data // NOTE: Ensure fresh reference
-
-          log('Got data', ajaxActionCacheKey, ajaxStateRef.current[ ajaxActionCacheKey ])
+          log(
+            'Got data',
+            ajaxActionCacheKey,
+            ajaxStateRef.current[ajaxActionCacheKey]
+          )
 
           updatePartDefinition(data)
 
           return data // Make it available for subsequent .then()
         })
-        .catch(e => {
-
+        .catch((e) => {
           log('Failed to get data', ajaxActionCacheKey, e)
         })
 
@@ -196,8 +176,7 @@ const ensureDataForRule = ({
     /**
      * Fetch in progress
      */
-    if ( ajaxState[ ajaxActionCacheKey ] instanceof Promise ) {
-
+    if (ajaxState[ajaxActionCacheKey] instanceof Promise) {
       log('Fetch in progress', ajaxActionCacheKey)
       return // Skip the rest until data ready
     }
@@ -210,7 +189,6 @@ const ensureDataForRule = ({
 
     // Continue to next rule part
   }
-
 }
 
 export default ensureDataForRule

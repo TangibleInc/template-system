@@ -3,7 +3,7 @@
 /**
  * Get taxonomies
  */
-$ajax->add_action("{$prefix}get_taxonomies", function($data, $ajax) {
+$ajax->add_action("{$prefix}get_taxonomies", function( $data, $ajax ) {
 
   // @see https://developer.wordpress.org/reference/functions/get_taxonomies
 
@@ -15,8 +15,8 @@ $ajax->add_action("{$prefix}get_taxonomies", function($data, $ajax) {
     // { label, value }
   ];
 
-  foreach ($taxonomies as $name => $taxonomy) {
-    $options []= [
+  foreach ( $taxonomies as $name => $taxonomy ) {
+    $options [] = [
       /**
        * NOTE: It's necessary to append the slug to label, because there can be
        * multiple taxonomies called "Category", "Tag", etc.
@@ -24,8 +24,7 @@ $ajax->add_action("{$prefix}get_taxonomies", function($data, $ajax) {
        * Possible better solution: Create option groups for each post type?
        */
       'label' => $taxonomy->labels->singular_name
-        . ' (' . $name . ')'
-      ,
+        . ' (' . $name . ')',
       'value' => $name,
     ];
   }
@@ -37,16 +36,16 @@ $ajax->add_action("{$prefix}get_taxonomies", function($data, $ajax) {
 /**
  * Get taxonomy items
  */
-$ajax->add_action("{$prefix}get_taxonomy_items", function($data, $ajax) {
+$ajax->add_action("{$prefix}get_taxonomy_items", function( $data, $ajax ) {
 
-  if (empty($data['taxonomy'])) return $ajax->error([
-    'message' => 'Property "taxonomy" is required'
+  if (empty( $data['taxonomy'] )) return $ajax->error([
+    'message' => 'Property "taxonomy" is required',
   ]);
 
   $taxonomy = $data['taxonomy'];
 
   $query = new \WP_Term_Query([
-    'taxonomy' => $taxonomy,
+    'taxonomy'   => $taxonomy,
     'hide_empty' => false,
   ]);
 
@@ -56,8 +55,8 @@ $ajax->add_action("{$prefix}get_taxonomy_items", function($data, $ajax) {
     // { label, value }
   ];
 
-  foreach ($terms as $term) {
-    $options []= [
+  foreach ( $terms as $term ) {
+    $options [] = [
       'label' => $term->name,
       'value' => $term->term_id,
     ];

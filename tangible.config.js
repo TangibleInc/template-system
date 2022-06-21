@@ -1,3 +1,6 @@
 module.exports = {
-  format: ['integrations', '*.php']
+  format: [
+    'integrations',
+    '*.php'
+  ]
 }

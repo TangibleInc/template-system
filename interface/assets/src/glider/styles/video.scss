@@ -37,44 +37,46 @@
     }
   }
 
-  .tglider-has-vimeo{
-    .tglider-video-play{
-      background: url("#{$tglider-path-images}/vimeo-play.png") no-repeat scroll 0 0 transparent;
+  .tglider-has-vimeo {
+    .tglider-video-play {
+      background: url('#{$tglider-path-images}/vimeo-play.png') no-repeat scroll
+        0 0 transparent;
     }
-    &:hover{
-      .tglider-video-play{
-        background: url("#{$tglider-path-images}/vimeo-play.png") no-repeat scroll 0 -58px transparent;
+    &:hover {
+      .tglider-video-play {
+        background: url('#{$tglider-path-images}/vimeo-play.png') no-repeat
+          scroll 0 -58px transparent;
       }
-
     }
   }
 
-  .tglider-has-html5{
-    .tglider-video-play{
-      background: transparent url("#{$tglider-path-images}/video-play.png") no-repeat scroll 0 0;
+  .tglider-has-html5 {
+    .tglider-video-play {
+      background: transparent url('#{$tglider-path-images}/video-play.png')
+        no-repeat scroll 0 0;
       height: 64px;
       margin-left: -32px;
       margin-top: -32px;
       width: 64px;
       opacity: 0.8;
     }
-    &:hover{
-      .tglider-video-play{
-        opacity: 1
+    &:hover {
+      .tglider-video-play {
+        opacity: 1;
       }
-
     }
   }
 
-  .tglider-has-youtube{
-    .tglider-video-play{
-      background: url("#{$tglider-path-images}/youtube-play.png") no-repeat scroll 0 0 transparent;
+  .tglider-has-youtube {
+    .tglider-video-play {
+      background: url('#{$tglider-path-images}/youtube-play.png') no-repeat
+        scroll 0 0 transparent;
     }
-    &:hover{
-      .tglider-video-play{
-        background: url("#{$tglider-path-images}/youtube-play.png") no-repeat scroll 0 -60px transparent;
+    &:hover {
+      .tglider-video-play {
+        background: url('#{$tglider-path-images}/youtube-play.png') no-repeat
+          scroll 0 -60px transparent;
       }
-
     }
   }
   .tglider-video-object {
@@ -91,7 +93,8 @@
     }
 
     &.tglider-video-playing {
-      .tglider-object, .tglider-video-play {
+      .tglider-object,
+      .tglider-video-play {
         display: none;
       }
 

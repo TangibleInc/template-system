@@ -1,11 +1,12 @@
 {
-  "name": "tangible-template-admin",
-  "private": true,
+  "name": "tangible-template-system-module",
   "scripts": {
+    "_": "Run below commands with name of module, such as: npm run build admin",
     "dev": "roll dev",
     "build": "roll build",
     "format": "roll format"
   },
+  "dependencies": {},
   "devDependencies": {
     "@tangible/roller": "1.x"
   }

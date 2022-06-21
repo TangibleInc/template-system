@@ -5,7 +5,7 @@
  */
 add_action(
   $plugin->is_multisite() ? 'network_admin_menu' : 'admin_menu',
-  function() use ($framework, $plugin) {
+  function() use ( $framework, $plugin ) {
 
     // https://developer.wordpress.org/reference/functions/add_submenu_page/
     add_submenu_page(
@@ -14,7 +14,7 @@ add_action(
       'Import & Export', // Menu title
       'manage_options', // Capability
       'tangible_template_import_export', // Menu slug
-      function() use ($plugin) {
+      function() use ( $plugin ) {
 
         // The form is rendered by JavaScript in /assets/src/template-import-export
         $plugin->enqueue_template_import_export();

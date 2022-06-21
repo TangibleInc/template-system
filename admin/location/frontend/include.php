@@ -16,22 +16,22 @@ $plugin->layout_template_for_theme_position = [
   // Theme position => Post ID
 ];
 
-add_filter('template_include', function( $file_path ) use ($plugin, $html, $logic) {
+add_filter('template_include', function( $file_path ) use ( $plugin, $html, $logic ) {
 
   $include_template = apply_filters( 'tangible_layout_template_include', true, $file_path );
-  if( ! $include_template ) return $file_path;
+  if ( ! $include_template ) return $file_path;
 
-  $templates = $plugin->get_all_templates('tangible_layout');
-  if (empty($templates)) return $file_path;
+  $templates = $plugin->get_all_templates( 'tangible_layout' );
+  if (empty( $templates )) return $file_path;
 
   global $wp;
 
-  $current_route = '/' . $wp->request;
+  $current_route       = '/' . $wp->request;
   $content_template_id = null;
 
-  foreach ($templates as $template) {
+  foreach ( $templates as $template ) {
 
-    if (empty($template['location']) || !isset($template['location']['rule_groups'])) continue;
+    if (empty( $template['location'] ) || ! isset( $template['location']['rule_groups'] )) continue;
 
     // Evaluate template location rules
 
@@ -39,32 +39,32 @@ add_filter('template_include', function( $file_path ) use ($plugin, $html, $logi
 
     /**
      * Evaluate rule groups
+     *
      * @see vendor/tangible/logic/evaluate
      */
-    $is_matched = empty($rule_groups)
+    $is_matched = empty( $rule_groups )
       ? false // No location rules - Skip this template
-      : $logic->evaluate_rule_groups(
+    : $logic->evaluate_rule_groups(
         $rule_groups,
         $plugin->evaluate_location_rule
-      )
-    ;
+      );
 
     // tangible()->see( $template['id'], $rule_groups, $is_matched );
 
-    if (!$is_matched) continue;
+    if ( ! $is_matched) continue;
 
-    $template_id = $template['id'];
+    $template_id    = $template['id'];
     $theme_position = get_post_meta( $template_id, 'theme_position', true );
 
     /**
      * Theme position "content"
      */
-    if (empty($theme_position) || $theme_position==='content') {
+    if ( empty( $theme_position ) || $theme_position === 'content' ) {
 
       // Apply only the first matching template found, and pass template ID to content.php
-      if (empty($content_template_id)) {
+      if ( empty( $content_template_id ) ) {
         $plugin->layout_template_for_current_location = $template_id;
-        $content_template_id = $template_id;
+        $content_template_id                          = $template_id;
       }
 
       continue;
@@ -79,7 +79,7 @@ add_filter('template_include', function( $file_path ) use ($plugin, $html, $logi
      */
 
     // Apply only the first matching template found for this position.
-    if (!isset($plugin->layout_template_for_theme_position[ $theme_position ])) {
+    if ( ! isset( $plugin->layout_template_for_theme_position[ $theme_position ] ) ) {
       $plugin->layout_template_for_theme_position[ $theme_position ] = $template_id;
     }
   }
@@ -88,11 +88,11 @@ add_filter('template_include', function( $file_path ) use ($plugin, $html, $logi
    * Apply any layout templates that match theme positions
    */
 
-  foreach($plugin->get_all_theme_position_hooks() as $hook) {
+  foreach ( $plugin->get_all_theme_position_hooks() as $hook ) {
 
     $hook_name = $hook['name'];
 
-    if (!isset($plugin->layout_template_for_theme_position[ $hook_name ])) continue;
+    if ( ! isset( $plugin->layout_template_for_theme_position[ $hook_name ] )) continue;
 
     /**
      * Matching layout template found for this theme position
@@ -101,7 +101,7 @@ add_filter('template_include', function( $file_path ) use ($plugin, $html, $logi
      * other action callbacks.
      */
 
-    add_action($hook_name, function() use ($plugin, $hook_name) {
+    add_action($hook_name, function() use ( $plugin, $hook_name ) {
 
       // Apply this template
       $template_id = $plugin->layout_template_for_theme_position[ $hook_name ];
@@ -109,15 +109,14 @@ add_filter('template_include', function( $file_path ) use ($plugin, $html, $logi
       echo $plugin->render_template_post( $template_id );
 
       // Remove other action callbacks
-      remove_all_actions($hook_name);
+      remove_all_actions( $hook_name );
 
     }, 0);
   }
 
   // Load content template, if any
-  return !empty($content_template_id)
+  return ! empty( $content_template_id )
     ? __DIR__ . '/content.php'
-    : $file_path
-  ;
+    : $file_path;
 
 }, 1100, 1); // Ensure priority higher than Tangible Views (1000), Beaver Themer (999), ..

@@ -1,7 +1,7 @@
-@import "variables";
-@import "mixins";
+@import 'variables';
+@import 'mixins';
 
-.tglider-outer.fb-comments{
+.tglider-outer.fb-comments {
   .tglider-img-wrap {
     padding-right: 400px !important;
   }
@@ -13,11 +13,13 @@
     top: 0;
     width: 420px;
     z-index: 99999;
-    background: #fff url("#{$tglider-path-images}/loading.gif") no-repeat scroll center center;
+    background: #fff url('#{$tglider-path-images}/loading.gif') no-repeat scroll
+      center center;
     &.fb_iframe_widget {
       background-image: none;
-      &.fb_iframe_widget_loader{
-        background: #fff url("#{$tglider-path-images}/loading.gif") no-repeat scroll center center;
+      &.fb_iframe_widget_loader {
+        background: #fff url('#{$tglider-path-images}/loading.gif') no-repeat
+          scroll center center;
       }
     }
   }
@@ -30,14 +32,15 @@
   }
   .tglider-item {
     background-image: none;
-    &.tglider-complete{
-      .tglider-img-wrap{
+    &.tglider-complete {
+      .tglider-img-wrap {
         background-image: none;
       }
     }
   }
   .tglider-img-wrap {
-    background: url("#{$tglider-path-images}/loading.gif") no-repeat scroll center center transparent;
+    background: url('#{$tglider-path-images}/loading.gif') no-repeat scroll
+      center center transparent;
   }
 
   .tglider-sub-html {

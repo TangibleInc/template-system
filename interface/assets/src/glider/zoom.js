@@ -1,16 +1,14 @@
-(function($, window, document, undefined) {
-
+;(function ($, window, document, undefined) {
   'use strict'
 
   var defaults = {
     scale: 1,
     zoom: true,
     actualSize: true,
-    enableZoomAfter: 300
+    enableZoomAfter: 300,
   }
 
-  var Zoom = function(element) {
-
+  var Zoom = function (element) {
     this.core = $(element).data('tangibleGlider')
 
     this.core.s = $.extend({}, defaults, this.core.s)
@@ -23,14 +21,13 @@
 
       // Set the initial value center
       this.pageX = $(window).width() / 2
-      this.pageY = ($(window).height() / 2) + $(window).scrollTop()
+      this.pageY = $(window).height() / 2 + $(window).scrollTop()
     }
 
     return this
   }
 
-  Zoom.prototype.init = function() {
-
+  Zoom.prototype.init = function () {
     var _this = this
     /*
         var zoomIcons = '<span id="tglider-zoom-in" class="tglider-icon"></span><span id="tglider-zoom-out" class="tglider-icon"></span>';
@@ -39,61 +36,68 @@
             zoomIcons += '<span id="tglider-actual-size" class="tglider-icon"></span>';
         }
 */
-    var zoomIcons = '<span id="tglider-actual-size" class="tglider-icon"></span>'
+    var zoomIcons =
+      '<span id="tglider-actual-size" class="tglider-icon"></span>'
 
     this.core.$outer.find('.tglider-toolbar').append(zoomIcons)
 
     // Add zoomable class
-    _this.core.$el.on('onSlideItemLoad.lg.tm.zoom', function(event, index, delay) {
+    _this.core.$el.on(
+      'onSlideItemLoad.lg.tm.zoom',
+      function (event, index, delay) {
+        // delay will be 0 except first time
+        var _speed = _this.core.s.enableZoomAfter + delay
 
-      // delay will be 0 except first time
-      var _speed = _this.core.s.enableZoomAfter + delay
+        // set _speed value 0 if gallery opened from direct url and if it is first slide
+        if ($('body').hasClass('tglider-from-hash') && delay) {
+          // will execute only once
+          _speed = 0
+        } else {
+          // Remove tglider-from-hash to enable starting animation.
+          $('body').removeClass('tglider-from-hash')
+        }
 
-      // set _speed value 0 if gallery opened from direct url and if it is first slide
-      if ($('body').hasClass('tglider-from-hash') && delay) {
-
-        // will execute only once
-        _speed = 0
-      } else {
-
-        // Remove tglider-from-hash to enable starting animation.
-        $('body').removeClass('tglider-from-hash')
+        _this.zoomabletimeout = setTimeout(function () {
+          _this.core.$slide.eq(index).addClass('tglider-zoomable')
+        }, _speed + 30)
       }
-
-      _this.zoomabletimeout = setTimeout(function() {
-        _this.core.$slide.eq(index).addClass('tglider-zoomable')
-      }, _speed + 30)
-    })
+    )
 
     var scale = 1
     /**
-         * @desc Image zoom
-         * Translate the wrap and scale the image to get better user experience
-         *
-         * @param {String} scaleVal - Zoom decrement/increment value
-         */
-    var zoom = function(scaleVal) {
-
+     * @desc Image zoom
+     * Translate the wrap and scale the image to get better user experience
+     *
+     * @param {String} scaleVal - Zoom decrement/increment value
+     */
+    var zoom = function (scaleVal) {
       var $image = _this.core.$outer.find('.tglider-current .tglider-image')
       var _x
       var _y
 
       // Find offset manually to avoid issue after zoom
       var offsetX = ($(window).width() - $image.width()) / 2
-      var offsetY = (($(window).height() - $image.height()) / 2) + $(window).scrollTop()
+      var offsetY =
+        ($(window).height() - $image.height()) / 2 + $(window).scrollTop()
 
       _x = _this.pageX - offsetX
       _y = _this.pageY - offsetY
 
-      var x = (scaleVal - 1) * (_x)
-      var y = (scaleVal - 1) * (_y)
+      var x = (scaleVal - 1) * _x
+      var y = (scaleVal - 1) * _y
 
-      $image.css('transform', 'scale3d(' + scaleVal + ', ' + scaleVal + ', 1)').attr('data-scale', scaleVal)
+      $image
+        .css('transform', 'scale3d(' + scaleVal + ', ' + scaleVal + ', 1)')
+        .attr('data-scale', scaleVal)
 
-      $image.parent().css('transform', 'translate3d(-' + x + 'px, -' + y + 'px, 0)').attr('data-x', x).attr('data-y', y)
+      $image
+        .parent()
+        .css('transform', 'translate3d(-' + x + 'px, -' + y + 'px, 0)')
+        .attr('data-x', x)
+        .attr('data-y', y)
     }
 
-    var callScale = function() {
+    var callScale = function () {
       if (scale > 1) {
         _this.core.$outer.addClass('tglider-zoomed')
       } else {
@@ -107,13 +111,16 @@
       zoom(scale)
     }
 
-    var actualSize = function(event, $image, index, fromIcon) {
+    var actualSize = function (event, $image, index, fromIcon) {
       var w = $image.width()
       var nw
       if (_this.core.s.dynamic) {
         nw = _this.core.s.dynamicEl[index].width || $image[0].naturalWidth || w
       } else {
-        nw = _this.core.$items.eq(index).attr('data-width') || $image[0].naturalWidth || w
+        nw =
+          _this.core.$items.eq(index).attr('data-width') ||
+          $image[0].naturalWidth ||
+          w
       }
 
       var _scale
@@ -129,33 +136,34 @@
 
       if (fromIcon) {
         _this.pageX = $(window).width() / 2
-        _this.pageY = ($(window).height() / 2) + $(window).scrollTop()
+        _this.pageY = $(window).height() / 2 + $(window).scrollTop()
       } else {
         _this.pageX = event.pageX || event.originalEvent.targetTouches[0].pageX
         _this.pageY = event.pageY || event.originalEvent.targetTouches[0].pageY
       }
 
       callScale()
-      setTimeout(function() {
-        _this.core.$outer.removeClass('tglider-grabbing').addClass('tglider-grab')
+      setTimeout(function () {
+        _this.core.$outer
+          .removeClass('tglider-grabbing')
+          .addClass('tglider-grab')
       }, 10)
     }
 
     var tapped = false
 
     // event triggered after appending slide content
-    _this.core.$el.on('onAferAppendSlide.lg.tm.zoom', function(event, index) {
-
+    _this.core.$el.on('onAferAppendSlide.lg.tm.zoom', function (event, index) {
       // Get the current element
       var $image = _this.core.$slide.eq(index).find('.tglider-image')
 
-      $image.on('dblclick', function(event) {
+      $image.on('dblclick', function (event) {
         actualSize(event, $image, index)
       })
 
-      $image.on('touchstart', function(event) {
+      $image.on('touchstart', function (event) {
         if (!tapped) {
-          tapped = setTimeout(function() {
+          tapped = setTimeout(function () {
             tapped = null
           }, 300)
         } else {
@@ -166,36 +174,43 @@
 
         event.preventDefault()
       })
-
     })
 
     // Update zoom on resize and orientationchange
-    $(window).on('resize.lg.zoom scroll.lg.zoom orientationchange.lg.zoom', function() {
-      _this.pageX = $(window).width() / 2
-      _this.pageY = ($(window).height() / 2) + $(window).scrollTop()
-      zoom(scale)
-    })
+    $(window).on(
+      'resize.lg.zoom scroll.lg.zoom orientationchange.lg.zoom',
+      function () {
+        _this.pageX = $(window).width() / 2
+        _this.pageY = $(window).height() / 2 + $(window).scrollTop()
+        zoom(scale)
+      }
+    )
 
-    $('#tglider-zoom-out').on('click.lg', function() {
+    $('#tglider-zoom-out').on('click.lg', function () {
       if (_this.core.$outer.find('.tglider-current .tglider-image').length) {
         scale -= _this.core.s.scale
         callScale()
       }
     })
 
-    $('#tglider-zoom-in').on('click.lg', function() {
+    $('#tglider-zoom-in').on('click.lg', function () {
       if (_this.core.$outer.find('.tglider-current .tglider-image').length) {
         scale += _this.core.s.scale
         callScale()
       }
     })
 
-    $('#tglider-actual-size').on('click.lg', function(event) {
-      actualSize(event, _this.core.$slide.eq(_this.core.index).find('.tglider-image'), _this.core.index, true)
+    $('#tglider-actual-size').on('click.lg', function (event) {
+      actualSize(
+        event,
+        _this.core.$slide.eq(_this.core.index).find('.tglider-image'),
+        _this.core.index,
+        true
+      )
     })
 
     // Reset zoom on slide change
-    _this.core.$el.on('onBeforeSlide.lg.tm', function() {
+    _this.core.$el.on('onBeforeSlide.lg.tm', function () {
       scale = 1
       _this.resetZoom()
     })
@@ -208,21 +223,20 @@
     if (_this.core.isTouch) {
       _this.zoomSwipe()
     }
-
   }
 
   // Reset zoom effect
-  Zoom.prototype.resetZoom = function() {
+  Zoom.prototype.resetZoom = function () {
     this.core.$outer.removeClass('tglider-zoomed')
     this.core.$slide.find('.tglider-img-wrap').removeAttr('style data-x data-y')
     this.core.$slide.find('.tglider-image').removeAttr('style data-scale')
 
     // Reset pagx pagy values to center
     this.pageX = $(window).width() / 2
-    this.pageY = ($(window).height() / 2) + $(window).scrollTop()
+    this.pageY = $(window).height() / 2 + $(window).scrollTop()
   }
 
-  Zoom.prototype.zoomSwipe = function() {
+  Zoom.prototype.zoomSwipe = function () {
     var _this = this
     var startCoords = {}
     var endCoords = {}
@@ -234,29 +248,33 @@
     // Allow Y direction drag
     var allowY = false
 
-    _this.core.$slide.on('touchstart.lg', function(e) {
-
+    _this.core.$slide.on('touchstart.lg', function (e) {
       if (_this.core.$outer.hasClass('tglider-zoomed')) {
-        var $image = _this.core.$slide.eq(_this.core.index).find('.tglider-object')
+        var $image = _this.core.$slide
+          .eq(_this.core.index)
+          .find('.tglider-object')
 
-        allowY = $image.outerHeight() * $image.attr('data-scale') > _this.core.$outer.find('.lg').height()
-        allowX = $image.outerWidth() * $image.attr('data-scale') > _this.core.$outer.find('.lg').width()
-        if ((allowX || allowY)) {
+        allowY =
+          $image.outerHeight() * $image.attr('data-scale') >
+          _this.core.$outer.find('.lg').height()
+        allowX =
+          $image.outerWidth() * $image.attr('data-scale') >
+          _this.core.$outer.find('.lg').width()
+        if (allowX || allowY) {
           e.preventDefault()
           startCoords = {
             x: e.originalEvent.targetTouches[0].pageX,
-            y: e.originalEvent.targetTouches[0].pageY
+            y: e.originalEvent.targetTouches[0].pageY,
           }
         }
       }
-
     })
 
-    _this.core.$slide.on('touchmove.lg', function(e) {
-
+    _this.core.$slide.on('touchmove.lg', function (e) {
       if (_this.core.$outer.hasClass('tglider-zoomed')) {
-
-        var _$el = _this.core.$slide.eq(_this.core.index).find('.tglider-img-wrap')
+        var _$el = _this.core.$slide
+          .eq(_this.core.index)
+          .find('.tglider-img-wrap')
         var distanceX
         var distanceY
 
@@ -265,47 +283,50 @@
 
         endCoords = {
           x: e.originalEvent.targetTouches[0].pageX,
-          y: e.originalEvent.targetTouches[0].pageY
+          y: e.originalEvent.targetTouches[0].pageY,
         }
 
         // reset opacity and transition duration
         _this.core.$outer.addClass('tglider-zoom-dragging')
 
         if (allowY) {
-          distanceY = (-Math.abs(_$el.attr('data-y'))) + (endCoords.y - startCoords.y)
+          distanceY =
+            -Math.abs(_$el.attr('data-y')) + (endCoords.y - startCoords.y)
         } else {
           distanceY = -Math.abs(_$el.attr('data-y'))
         }
 
         if (allowX) {
-          distanceX = (-Math.abs(_$el.attr('data-x'))) + (endCoords.x - startCoords.x)
+          distanceX =
+            -Math.abs(_$el.attr('data-x')) + (endCoords.x - startCoords.x)
         } else {
           distanceX = -Math.abs(_$el.attr('data-x'))
         }
 
-        if ((Math.abs(endCoords.x - startCoords.x) > 15) || (Math.abs(endCoords.y - startCoords.y) > 15)) {
-          _$el.css('transform', 'translate3d(' + distanceX + 'px, ' + distanceY + 'px, 0)')
+        if (
+          Math.abs(endCoords.x - startCoords.x) > 15 ||
+          Math.abs(endCoords.y - startCoords.y) > 15
+        ) {
+          _$el.css(
+            'transform',
+            'translate3d(' + distanceX + 'px, ' + distanceY + 'px, 0)'
+          )
         }
-
       }
-
     })
 
-    _this.core.$slide.on('touchend.lg', function() {
+    _this.core.$slide.on('touchend.lg', function () {
       if (_this.core.$outer.hasClass('tglider-zoomed')) {
         if (isMoved) {
           isMoved = false
           _this.core.$outer.removeClass('tglider-zoom-dragging')
           _this.touchendZoom(startCoords, endCoords, allowX, allowY)
-
         }
       }
     })
-
   }
 
-  Zoom.prototype.zoomDrag = function() {
-
+  Zoom.prototype.zoomDrag = function () {
     var _this = this
     var startCoords = {}
     var endCoords = {}
@@ -318,20 +339,25 @@
     // Allow Y direction drag
     var allowY = false
 
-    _this.core.$slide.on('mousedown.lg.zoom', function(e) {
-
+    _this.core.$slide.on('mousedown.lg.zoom', function (e) {
       // execute only on .tglider-object
-      var $image = _this.core.$slide.eq(_this.core.index).find('.tglider-object')
+      var $image = _this.core.$slide
+        .eq(_this.core.index)
+        .find('.tglider-object')
 
-      allowY = $image.outerHeight() * $image.attr('data-scale') > _this.core.$outer.find('.lg').height()
-      allowX = $image.outerWidth() * $image.attr('data-scale') > _this.core.$outer.find('.lg').width()
+      allowY =
+        $image.outerHeight() * $image.attr('data-scale') >
+        _this.core.$outer.find('.lg').height()
+      allowX =
+        $image.outerWidth() * $image.attr('data-scale') >
+        _this.core.$outer.find('.lg').width()
 
       if (_this.core.$outer.hasClass('tglider-zoomed')) {
         if ($(e.target).hasClass('tglider-object') && (allowX || allowY)) {
           e.preventDefault()
           startCoords = {
             x: e.pageX,
-            y: e.pageY
+            y: e.pageY,
           }
 
           isDraging = true
@@ -340,79 +366,106 @@
           _this.core.$outer.scrollLeft += 1
           _this.core.$outer.scrollLeft -= 1
 
-          _this.core.$outer.removeClass('tglider-grab').addClass('tglider-grabbing')
+          _this.core.$outer
+            .removeClass('tglider-grab')
+            .addClass('tglider-grabbing')
         }
       }
     })
 
-    $(window).on('mousemove.lg.zoom', function(e) {
+    $(window).on('mousemove.lg.zoom', function (e) {
       if (isDraging) {
-        var _$el = _this.core.$slide.eq(_this.core.index).find('.tglider-img-wrap')
+        var _$el = _this.core.$slide
+          .eq(_this.core.index)
+          .find('.tglider-img-wrap')
         var distanceX
         var distanceY
 
         isMoved = true
         endCoords = {
           x: e.pageX,
-          y: e.pageY
+          y: e.pageY,
         }
 
         // reset opacity and transition duration
         _this.core.$outer.addClass('tglider-zoom-dragging')
 
         if (allowY) {
-          distanceY = (-Math.abs(_$el.attr('data-y'))) + (endCoords.y - startCoords.y)
+          distanceY =
+            -Math.abs(_$el.attr('data-y')) + (endCoords.y - startCoords.y)
         } else {
           distanceY = -Math.abs(_$el.attr('data-y'))
         }
 
         if (allowX) {
-          distanceX = (-Math.abs(_$el.attr('data-x'))) + (endCoords.x - startCoords.x)
+          distanceX =
+            -Math.abs(_$el.attr('data-x')) + (endCoords.x - startCoords.x)
         } else {
           distanceX = -Math.abs(_$el.attr('data-x'))
         }
 
-        _$el.css('transform', 'translate3d(' + distanceX + 'px, ' + distanceY + 'px, 0)')
+        _$el.css(
+          'transform',
+          'translate3d(' + distanceX + 'px, ' + distanceY + 'px, 0)'
+        )
       }
     })
 
-    $(window).on('mouseup.lg.zoom', function(e) {
-
+    $(window).on('mouseup.lg.zoom', function (e) {
       if (isDraging) {
         isDraging = false
         _this.core.$outer.removeClass('tglider-zoom-dragging')
 
         // Fix for chrome mouse move on click
-        if (isMoved && ((startCoords.x !== endCoords.x) || (startCoords.y !== endCoords.y))) {
+        if (
+          isMoved &&
+          (startCoords.x !== endCoords.x || startCoords.y !== endCoords.y)
+        ) {
           endCoords = {
             x: e.pageX,
-            y: e.pageY
+            y: e.pageY,
           }
           _this.touchendZoom(startCoords, endCoords, allowX, allowY)
-
         }
 
         isMoved = false
       }
 
       _this.core.$outer.removeClass('tglider-grabbing').addClass('tglider-grab')
-
     })
   }
 
-  Zoom.prototype.touchendZoom = function(startCoords, endCoords, allowX, allowY) {
-
+  Zoom.prototype.touchendZoom = function (
+    startCoords,
+    endCoords,
+    allowX,
+    allowY
+  ) {
     var _this = this
     var _$el = _this.core.$slide.eq(_this.core.index).find('.tglider-img-wrap')
     var $image = _this.core.$slide.eq(_this.core.index).find('.tglider-object')
-    var distanceX = (-Math.abs(_$el.attr('data-x'))) + (endCoords.x - startCoords.x)
-    var distanceY = (-Math.abs(_$el.attr('data-y'))) + (endCoords.y - startCoords.y)
-    var minY = (_this.core.$outer.find('.lg').height() - $image.outerHeight()) / 2
-    var maxY = Math.abs(($image.outerHeight() * Math.abs($image.attr('data-scale'))) - _this.core.$outer.find('.lg').height() + minY)
+    var distanceX =
+      -Math.abs(_$el.attr('data-x')) + (endCoords.x - startCoords.x)
+    var distanceY =
+      -Math.abs(_$el.attr('data-y')) + (endCoords.y - startCoords.y)
+    var minY =
+      (_this.core.$outer.find('.lg').height() - $image.outerHeight()) / 2
+    var maxY = Math.abs(
+      $image.outerHeight() * Math.abs($image.attr('data-scale')) -
+        _this.core.$outer.find('.lg').height() +
+        minY
+    )
     var minX = (_this.core.$outer.find('.lg').width() - $image.outerWidth()) / 2
-    var maxX = Math.abs(($image.outerWidth() * Math.abs($image.attr('data-scale'))) - _this.core.$outer.find('.lg').width() + minX)
+    var maxX = Math.abs(
+      $image.outerWidth() * Math.abs($image.attr('data-scale')) -
+        _this.core.$outer.find('.lg').width() +
+        minX
+    )
 
-    if ((Math.abs(endCoords.x - startCoords.x) > 15) || (Math.abs(endCoords.y - startCoords.y) > 15)) {
+    if (
+      Math.abs(endCoords.x - startCoords.x) > 15 ||
+      Math.abs(endCoords.y - startCoords.y) > 15
+    ) {
       if (allowY) {
         if (distanceY <= -maxY) {
           distanceY = -maxY
@@ -441,12 +494,14 @@
         distanceX = -Math.abs(_$el.attr('data-x'))
       }
 
-      _$el.css('transform', 'translate3d(' + distanceX + 'px, ' + distanceY + 'px, 0)')
+      _$el.css(
+        'transform',
+        'translate3d(' + distanceX + 'px, ' + distanceY + 'px, 0)'
+      )
     }
   }
 
-  Zoom.prototype.destroy = function() {
-
+  Zoom.prototype.destroy = function () {
     var _this = this
 
     // Unbind all events added by tangibleGlider zoom plugin
@@ -460,5 +515,4 @@
   }
 
   $.fn.tangibleGlider.modules.zoom = Zoom
-
 })(jQuery, window, document)

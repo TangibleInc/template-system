@@ -1,7 +1,9 @@
 .tglider-css3 {
   // Remove all transition effects
   &.tglider-no-trans {
-    .tglider-prev-slide, .tglider-next-slide, .tglider-current {
+    .tglider-prev-slide,
+    .tglider-next-slide,
+    .tglider-current {
       @include transitionCustom(none 0s ease 0s !important);
     }
   }
@@ -35,8 +37,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 1s ease 0s
+        );
       }
     }
   }
@@ -58,8 +65,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 1s ease 0s
+        );
       }
     }
   }
@@ -81,8 +93,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 1s ease 0s
+        );
       }
     }
   }
@@ -104,8 +121,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 1s ease 0s
+        );
       }
     }
   }
@@ -127,8 +149,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 1s ease 0s
+        );
       }
     }
   }
@@ -150,8 +177,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 1s ease 0s
+        );
       }
     }
   }
@@ -174,8 +206,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 1s ease 0s
+        );
       }
     }
   }
@@ -198,8 +235,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 1s ease 0s
+        );
       }
     }
   }
@@ -221,8 +263,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 1s ease 0s
+        );
       }
     }
   }
@@ -245,8 +292,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 1s ease 0s
+        );
       }
     }
   }
@@ -269,8 +321,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 1s ease 0s
+        );
       }
     }
   }
@@ -292,8 +349,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -315,8 +377,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -338,8 +405,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -361,8 +433,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -384,8 +461,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -407,8 +489,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -430,8 +517,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -453,8 +545,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -476,8 +573,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -499,8 +601,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -522,8 +629,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -545,8 +657,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -568,8 +685,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -591,8 +713,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -614,8 +741,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -637,8 +769,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -660,8 +797,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -683,8 +825,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }
@@ -706,8 +853,13 @@
         opacity: 1;
       }
 
-      &.tglider-prev-slide, &.tglider-next-slide, &.tglider-current {
-        @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+      &.tglider-prev-slide,
+      &.tglider-next-slide,
+      &.tglider-current {
+        @include transitionCustom(
+          transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+          opacity 0.1s ease 0s
+        );
       }
     }
   }

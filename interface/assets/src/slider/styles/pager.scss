@@ -1,4 +1,3 @@
-
 .tslide-outer .tslider-pager.tslider-pager {
   margin: 10px 0 0;
   padding: 0;
@@ -22,7 +21,8 @@
   -webkit-transition: all 0.5s linear 0s;
   transition: all 0.5s linear 0s;
 }
-.tslide-outer .tslider-pager.tslider-pager > li:hover a, .tslide-outer .tslider-pager.tslider-pager > li.active a {
+.tslide-outer .tslider-pager.tslider-pager > li:hover a,
+.tslide-outer .tslider-pager.tslider-pager > li.active a {
   background-color: #428bca;
 }
 .tslide-outer .media {

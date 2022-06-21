@@ -11,7 +11,6 @@
 const $ = jQuery
 
 const defaults = {
-
   mode: 'slide',
 
   loop: true,
@@ -67,11 +66,10 @@ const defaults = {
   onBeforeSlide: function ($el, scene) {},
   onAfterSlide: function ($el, scene) {},
   onBeforeNextSlide: function ($el, scene) {},
-  onBeforePrevSlide: function ($el, scene) {}
+  onBeforePrevSlide: function ($el, scene) {},
 }
 
 const fadeModeDefaults = {
-
   mode: 'fade',
 
   speed: 1200,
@@ -80,7 +78,6 @@ const fadeModeDefaults = {
 }
 
 $.fn.tangibleSlider = function (options = {}) {
-
   if (this.length === 0) {
     return this
   }
@@ -95,7 +92,6 @@ $.fn.tangibleSlider = function (options = {}) {
   if (this.tangibleSliderLoaded) return
   this.tangibleSliderLoaded = true
 
-
   // Support options from element's data attribtue
 
   let optionsFromElement = this.data('tangibleDynamicModuleOptions')
@@ -103,9 +99,15 @@ $.fn.tangibleSlider = function (options = {}) {
   if (optionsFromElement) {
     try {
       optionsFromElement = JSON.parse(optionsFromElement)
-    } catch(e) { /* OK */ }
+    } catch (e) {
+      /* OK */
+    }
   }
-  if (optionsFromElement && typeof optionsFromElement==='object' && !Array.isArray(optionsFromElement)) {
+  if (
+    optionsFromElement &&
+    typeof optionsFromElement === 'object' &&
+    !Array.isArray(optionsFromElement)
+  ) {
     // Valid options
     Object.assign(options, optionsFromElement)
   }
@@ -119,10 +121,9 @@ $.fn.tangibleSlider = function (options = {}) {
   for (const alias of Object.keys(aliases)) {
     if (typeof options[alias] === 'undefined') continue
     const key = aliases[alias]
-    options[ key ] = options[ alias ]
-    delete options[ alias ]
+    options[key] = options[alias]
+    delete options[alias]
   }
-
 
   var plugin = {},
     settings = $.extend(true, {}, defaults, options),
@@ -144,14 +145,14 @@ $.fn.tangibleSlider = function (options = {}) {
     elSize = 0,
     $slide = '',
     scene = 0,
-    property = (settings.vertical === true) ? 'height' : 'width',
-    gutter = (settings.vertical === true) ? 'margin-bottom' : 'margin-right',
+    property = settings.vertical === true ? 'height' : 'width',
+    gutter = settings.vertical === true ? 'margin-bottom' : 'margin-right',
     slideValue = 0,
     pagerWidth = 0,
     slideWidth = 0,
     thumbWidth = 0,
     interval = null,
-    isTouch = ('ontouchstart' in document.documentElement)
+    isTouch = 'ontouchstart' in document.documentElement
 
   if ($children.length < 2) {
     // One or zero slides
@@ -181,14 +182,20 @@ $.fn.tangibleSlider = function (options = {}) {
       if (typeof resposiveObj !== 'undefined' && resposiveObj !== null) {
         for (var j in resposiveObj.settings) {
           if (resposiveObj.settings.hasOwnProperty(j)) {
-            if (typeof settingsTemp[j] === 'undefined' || settingsTemp[j] === null) {
+            if (
+              typeof settingsTemp[j] === 'undefined' ||
+              settingsTemp[j] === null
+            ) {
               settingsTemp[j] = settings[j]
             }
             settings[j] = resposiveObj.settings[j]
           }
         }
       }
-      if (!$.isEmptyObject(settingsTemp) && windowW > settings.responsive[0].breakpoint) {
+      if (
+        !$.isEmptyObject(settingsTemp) &&
+        windowW > settings.responsive[0].breakpoint
+      ) {
         for (var k in settingsTemp) {
           if (settingsTemp.hasOwnProperty(k)) {
             settings[k] = settingsTemp[k]
@@ -198,7 +205,10 @@ $.fn.tangibleSlider = function (options = {}) {
       if (settings.autoWidth === false) {
         if (slideValue > 0 && slideWidth > 0) {
           if (item !== settings.item) {
-            scene = Math.round(slideValue / ((slideWidth + settings.slideMargin) * settings.slideMove))
+            scene = Math.round(
+              slideValue /
+                ((slideWidth + settings.slideMargin) * settings.slideMove)
+            )
           }
         }
       }
@@ -207,7 +217,10 @@ $.fn.tangibleSlider = function (options = {}) {
 
   refresh.calSW = function () {
     if (settings.autoWidth === false) {
-      slideWidth = (elSize - ((settings.item * (settings.slideMargin)) - settings.slideMargin)) / settings.item
+      slideWidth =
+        (elSize -
+          (settings.item * settings.slideMargin - settings.slideMargin)) /
+        settings.item
     }
   }
 
@@ -218,7 +231,7 @@ $.fn.tangibleSlider = function (options = {}) {
     } else {
       w = 0
       for (var i = 0; i < ln; i++) {
-        w += (parseInt($children.eq(i).width()) + settings.slideMargin)
+        w += parseInt($children.eq(i).width()) + settings.slideMargin
       }
     }
     return w
@@ -226,7 +239,14 @@ $.fn.tangibleSlider = function (options = {}) {
   plugin = {
     doCss: function () {
       var support = function () {
-        var transition = ['transition', 'MozTransition', 'WebkitTransition', 'OTransition', 'msTransition', 'KhtmlTransition']
+        var transition = [
+          'transition',
+          'MozTransition',
+          'WebkitTransition',
+          'OTransition',
+          'msTransition',
+          'KhtmlTransition',
+        ]
         var root = document.documentElement
         for (var i = 0; i < transition.length; i++) {
           if (transition[i] in root.style) {
@@ -258,8 +278,14 @@ $.fn.tangibleSlider = function (options = {}) {
       }
     },
     controls: function () {
-      if ( ! settings.controls ) return
-      $el.after('<div class="tslider-action"><a class="tslider-prev">' + settings.prevHtml + '</a><a class="tslider-next">' + settings.nextHtml + '</a></div>')
+      if (!settings.controls) return
+      $el.after(
+        '<div class="tslider-action"><a class="tslider-prev">' +
+          settings.prevHtml +
+          '</a><a class="tslider-next">' +
+          settings.nextHtml +
+          '</a></div>'
+      )
       if (!settings.autoWidth) {
         if (length <= settings.item) {
           $slide.find('.tslider-action').hide()
@@ -302,7 +328,13 @@ $.fn.tangibleSlider = function (options = {}) {
       }
       settings.onBeforeStart.call(this, $el)
       refresh.chbreakpoint()
-      $el.addClass('tslider').wrap('<div class="tslide-outer ' + settings.addClass + '"><div class="tslide-wrapper"></div></div>')
+      $el
+        .addClass('tslider')
+        .wrap(
+          '<div class="tslide-outer ' +
+            settings.addClass +
+            '"><div class="tslide-wrapper"></div></div>'
+        )
       $slide = $el.parent('.tslide-wrapper')
       if (settings.rtl === true) {
         $slide.parent().addClass('tslider-rtl')
@@ -323,9 +355,11 @@ $.fn.tangibleSlider = function (options = {}) {
             var tWr = 0,
               tI = 0
             for (var k = 0; k < $children.length; k++) {
-              tWr += (parseInt($el.find('.tslide').eq(k).width()) + settings.slideMargin)
+              tWr +=
+                parseInt($el.find('.tslide').eq(k).width()) +
+                settings.slideMargin
               tI++
-              if (tWr >= (elSize + settings.slideMargin)) {
+              if (tWr >= elSize + settings.slideMargin) {
                 break
               }
             }
@@ -338,18 +372,39 @@ $.fn.tangibleSlider = function (options = {}) {
               }
             }
             if (tItem < $el.find('.clone.right').length) {
-              for (var j = $children.length - 1; j > ($children.length - 1 - $el.find('.clone.right').length); j--) {
+              for (
+                var j = $children.length - 1;
+                j > $children.length - 1 - $el.find('.clone.right').length;
+                j--
+              ) {
                 scene--
                 $children.eq(j).remove()
               }
             }
             /**/
             for (var n = $el.find('.clone.right').length; n < tItem; n++) {
-              $el.find('.tslide').eq(n).clone().removeClass('tslide').addClass('clone right').appendTo($el)
+              $el
+                .find('.tslide')
+                .eq(n)
+                .clone()
+                .removeClass('tslide')
+                .addClass('clone right')
+                .appendTo($el)
               scene++
             }
-            for (var m = $el.find('.tslide').length - $el.find('.clone.left').length; m > ($el.find('.tslide').length - tItem); m--) {
-              $el.find('.tslide').eq(m - 1).clone().removeClass('tslide').addClass('clone left').prependTo($el)
+            for (
+              var m =
+                $el.find('.tslide').length - $el.find('.clone.left').length;
+              m > $el.find('.tslide').length - tItem;
+              m--
+            ) {
+              $el
+                .find('.tslide')
+                .eq(m - 1)
+                .clone()
+                .removeClass('tslide')
+                .addClass('clone left')
+                .prependTo($el)
             }
             $children = $el.children()
           } else {
@@ -396,7 +451,6 @@ $.fn.tangibleSlider = function (options = {}) {
         if (settings.vertical === false) {
           this.setHeight($el, false)
         }
-
       } else {
         this.setHeight($el, true)
         $el.addClass('tslider-fade')
@@ -414,7 +468,11 @@ $.fn.tangibleSlider = function (options = {}) {
     pager: function () {
       var $this = this
       refresh.createPager = function () {
-        thumbWidth = (elSize - ((settings.thumbItem * (settings.thumbMargin)) - settings.thumbMargin)) / settings.thumbItem
+        thumbWidth =
+          (elSize -
+            (settings.thumbItem * settings.thumbMargin -
+              settings.thumbMargin)) /
+          settings.thumbItem
         var $children = $slide.find('.tslide')
         var length = $slide.find('.tslide').length
         var i = 0,
@@ -426,17 +484,30 @@ $.fn.tangibleSlider = function (options = {}) {
             if (!settings.autoWidth) {
               v = i * ((slideWidth + settings.slideMargin) * settings.slideMove)
             } else {
-              v += ((parseInt($children.eq(i).width()) + settings.slideMargin) * settings.slideMove)
+              v +=
+                (parseInt($children.eq(i).width()) + settings.slideMargin) *
+                settings.slideMove
             }
           }
           var thumb = $children.eq(i * settings.slideMove).attr('data-thumb')
           if (settings.gallery === true) {
-            pagers += '<li style="width:100%;' + property + ':' + thumbWidth + 'px;' + gutter + ':' + settings.thumbMargin + 'px"><a href="#"><img src="' + thumb + '" /></a></li>'
+            pagers +=
+              '<li style="width:100%;' +
+              property +
+              ':' +
+              thumbWidth +
+              'px;' +
+              gutter +
+              ':' +
+              settings.thumbMargin +
+              'px"><a href="#"><img src="' +
+              thumb +
+              '" /></a></li>'
           } else {
             pagers += '<li><a href="#">' + (i + 1) + '</a></li>'
           }
           if (settings.mode === 'slide') {
-            if ((v) >= w - elSize - settings.slideMargin) {
+            if (v >= w - elSize - settings.slideMargin) {
               i = i + 1
               var minPgr = 2
               if (settings.autoWidth) {
@@ -458,15 +529,22 @@ $.fn.tangibleSlider = function (options = {}) {
         if (settings.gallery === true) {
           if (settings.vertical === true) {
             // set Gallery thumbnail width
-            $cSouter.find('.tslider-pager').css('width', settings.vThumbWidth + 'px')
+            $cSouter
+              .find('.tslider-pager')
+              .css('width', settings.vThumbWidth + 'px')
           }
-          pagerWidth = (i * (settings.thumbMargin + thumbWidth)) + 0.5
+          pagerWidth = i * (settings.thumbMargin + thumbWidth) + 0.5
           $cSouter.find('.tslider-pager').css({
             property: pagerWidth + 'px',
-            'transition-duration': settings.speed + 'ms'
+            'transition-duration': settings.speed + 'ms',
           })
           if (settings.vertical === true) {
-            $slide.parent().css('padding-right', (settings.vThumbWidth + settings.galleryMargin) + 'px')
+            $slide
+              .parent()
+              .css(
+                'padding-right',
+                settings.vThumbWidth + settings.galleryMargin + 'px'
+              )
           }
           $cSouter.find('.tslider-pager').css(property, pagerWidth + 'px')
         }
@@ -474,7 +552,10 @@ $.fn.tangibleSlider = function (options = {}) {
         $pager.first().addClass('active')
         $pager.on('click', function () {
           if (settings.loop === true && settings.mode === 'slide') {
-            scene = scene + ($pager.index(this) - $cSouter.find('.tslider-pager').find('li.active').index())
+            scene =
+              scene +
+              ($pager.index(this) -
+                $cSouter.find('.tslider-pager').find('li.active').index())
           } else {
             scene = $pager.index(this)
           }
@@ -491,8 +572,11 @@ $.fn.tangibleSlider = function (options = {}) {
           cl = 'tslider-gallery'
         }
         $slide.after('<ul class="tslider-pager ' + cl + '"></ul>')
-        var gMargin = (settings.vertical) ? 'margin-left' : 'margin-top'
-        $slide.parent().find('.tslider-pager').css(gMargin, settings.galleryMargin + 'px')
+        var gMargin = settings.vertical ? 'margin-left' : 'margin-top'
+        $slide
+          .parent()
+          .find('.tslider-pager')
+          .css(gMargin, settings.galleryMargin + 'px')
         refresh.createPager()
       }
 
@@ -514,21 +598,21 @@ $.fn.tangibleSlider = function (options = {}) {
           tHT = tH
         if (fade) {
           tH = 0
-          tP = ((tHT) * 100) / elSize
+          tP = (tHT * 100) / elSize
         }
         ob.css({
-          'height': tH + 'px',
-          'padding-bottom': tP + '%'
+          height: tH + 'px',
+          'padding-bottom': tP + '%',
         })
       }
       setCss()
       if (obj.find('img').length) {
-        if ( obj.find('img')[0].complete) {
+        if (obj.find('img')[0].complete) {
           setCss()
           if (!interval) {
             $this.auto()
           }
-        }else{
+        } else {
           obj.find('img').on('load', function () {
             setTimeout(function () {
               setCss()
@@ -538,7 +622,7 @@ $.fn.tangibleSlider = function (options = {}) {
             }, 100)
           })
         }
-      }else{
+      } else {
         if (!interval) {
           $this.auto()
         }
@@ -608,27 +692,35 @@ $.fn.tangibleSlider = function (options = {}) {
       if (this.doCss()) {
         if (settings.vertical === true) {
           ob.css({
-            'transform': 'translate3d(0px, ' + (-v) + 'px, 0px)',
-            '-webkit-transform': 'translate3d(0px, ' + (-v) + 'px, 0px)'
+            transform: 'translate3d(0px, ' + -v + 'px, 0px)',
+            '-webkit-transform': 'translate3d(0px, ' + -v + 'px, 0px)',
           })
         } else {
           //console.log(-v)
           ob.css({
             // 'transform': 'translateX(' + (-v) + 'px)',//, 0px, 0px)',
             // '-webkit-transform': 'translateX(' + (-v) + 'px)', //, 0px, 0px)',
-            'transform': 'translate3d(' + (-v) + 'px, 0px, 0px)',
-            '-webkit-transform': 'translate3d(' + (-v) + 'px, 0px, 0px)',
+            transform: 'translate3d(' + -v + 'px, 0px, 0px)',
+            '-webkit-transform': 'translate3d(' + -v + 'px, 0px, 0px)',
           })
         }
       } else {
         if (settings.vertical === true) {
-          ob.css('position', 'relative').animate({
-            top: -v + 'px'
-          }, settings.speed, settings.easing)
+          ob.css('position', 'relative').animate(
+            {
+              top: -v + 'px',
+            },
+            settings.speed,
+            settings.easing
+          )
         } else {
-          ob.css('position', 'relative').animate({
-            left: -v + 'px'
-          }, settings.speed, settings.easing)
+          ob.css('position', 'relative').animate(
+            {
+              left: -v + 'px',
+            },
+            settings.speed,
+            settings.easing
+          )
         }
       }
 
@@ -648,14 +740,17 @@ $.fn.tangibleSlider = function (options = {}) {
         if (w > elSize) {
           slideValue = $this.slideValue()
           $this.active($children, false)
-          if ((slideValue) > w - elSize - settings.slideMargin) {
+          if (slideValue > w - elSize - settings.slideMargin) {
             slideValue = w - elSize - settings.slideMargin
           } else if (slideValue < 0) {
             slideValue = 0
           }
           $this.move($el, slideValue)
           if (settings.loop === true && settings.mode === 'slide') {
-            if (scene >= (length - ($el.find('.clone.left').length / settings.slideMove))) {
+            if (
+              scene >=
+              length - $el.find('.clone.left').length / settings.slideMove
+            ) {
               $this.resetSlide($el.find('.clone.left').length)
             }
             if (scene === 0) {
@@ -688,7 +783,7 @@ $.fn.tangibleSlider = function (options = {}) {
       } else {
         _sV = 0
         for (var i = 0; i < scene; i++) {
-          _sV += (parseInt($children.eq(i).width()) + settings.slideMargin)
+          _sV += parseInt($children.eq(i).width()) + settings.slideMargin
         }
       }
       return _sV
@@ -696,14 +791,14 @@ $.fn.tangibleSlider = function (options = {}) {
     slideThumb: function () {
       var position
       switch (settings.currentPagerPosition) {
-      case 'left':
-        position = 0
-        break
-      case 'middle':
-        position = (elSize / 2) - (thumbWidth / 2)
-        break
-      case 'right':
-        position = elSize - thumbWidth
+        case 'left':
+          position = 0
+          break
+        case 'middle':
+          position = elSize / 2 - thumbWidth / 2
+          break
+        case 'right':
+          position = elSize - thumbWidth
       }
       var sc = scene - $el.find('.clone.left').length
       var $pager = $slide.parent().find('.tslider-pager')
@@ -714,8 +809,8 @@ $.fn.tangibleSlider = function (options = {}) {
           sc = $pager.children().length
         }
       }
-      var thumbSlide = sc * ((thumbWidth + settings.thumbMargin)) - (position)
-      if ((thumbSlide + elSize) > pagerWidth) {
+      var thumbSlide = sc * (thumbWidth + settings.thumbMargin) - position
+      if (thumbSlide + elSize > pagerWidth) {
         thumbSlide = pagerWidth - elSize - settings.thumbMargin
       }
       if (thumbSlide < 0) {
@@ -731,15 +826,15 @@ $.fn.tangibleSlider = function (options = {}) {
         }, settings.pause)
       }
     },
-    pauseOnHover: function(){
+    pauseOnHover: function () {
       var $this = this
       if (settings.auto && settings.pauseOnHover) {
-        $slide.on('mouseenter', function(){
+        $slide.on('mouseenter', function () {
           $(this).addClass('ls-hover')
           $el.pause()
           settings.auto = true
         })
-        $slide.on('mouseleave', function(){
+        $slide.on('mouseleave', function () {
           $(this).removeClass('ls-hover')
           if (!$slide.find('.tslider').hasClass('tslider-grabbing')) {
             $this.auto()
@@ -752,13 +847,12 @@ $.fn.tangibleSlider = function (options = {}) {
       if (settings.mode === 'slide') {
         var distance = endCoords - startCoords
         var swipeVal = slideValue - distance
-        if ((swipeVal) >= w - elSize - settings.slideMargin) {
+        if (swipeVal >= w - elSize - settings.slideMargin) {
           if (settings.freeMove === false) {
             swipeVal = w - elSize - settings.slideMargin
           } else {
             var swipeValT = w - elSize - settings.slideMargin
-            swipeVal = swipeValT + ((swipeVal - swipeValT) / 5)
-
+            swipeVal = swipeValT + (swipeVal - swipeValT) / 5
           }
         } else if (swipeVal < 0) {
           if (settings.freeMove === false) {
@@ -777,7 +871,7 @@ $.fn.tangibleSlider = function (options = {}) {
         var mxVal = false
         var _next = true
         slideValue = slideValue - distance
-        if ((slideValue) > w - elSize - settings.slideMargin) {
+        if (slideValue > w - elSize - settings.slideMargin) {
           slideValue = w - elSize - settings.slideMargin
           if (settings.autoWidth === false) {
             mxVal = true
@@ -793,9 +887,11 @@ $.fn.tangibleSlider = function (options = {}) {
             }
           }
           if (!settings.autoWidth) {
-            var num = slideValue / ((slideWidth + settings.slideMargin) * settings.slideMove)
+            var num =
+              slideValue /
+              ((slideWidth + settings.slideMargin) * settings.slideMove)
             scene = parseInt(num) + ad
-            if (slideValue >= (w - elSize - settings.slideMargin)) {
+            if (slideValue >= w - elSize - settings.slideMargin) {
               if (num % 1 !== 0) {
                 scene++
               }
@@ -803,7 +899,7 @@ $.fn.tangibleSlider = function (options = {}) {
           } else {
             var tW = 0
             for (var i = 0; i < $children.length; i++) {
-              tW += (parseInt($children.eq(i).width()) + settings.slideMargin)
+              tW += parseInt($children.eq(i).width()) + settings.slideMargin
               scene = i + ad
               if (tW >= slideValue) {
                 break
@@ -842,8 +938,11 @@ $.fn.tangibleSlider = function (options = {}) {
               return false
             }
           }
-          if ($(e.target).attr('class') !== ('tslider-prev') && $(e.target).attr('class') !== ('tslider-next')) {
-            startCoords = (settings.vertical === true) ? e.pageY : e.pageX
+          if (
+            $(e.target).attr('class') !== 'tslider-prev' &&
+            $(e.target).attr('class') !== 'tslider-next'
+          ) {
+            startCoords = settings.vertical === true ? e.pageY : e.pageX
             isDraging = true
             if (e.preventDefault) {
               e.preventDefault()
@@ -854,21 +953,27 @@ $.fn.tangibleSlider = function (options = {}) {
             $slide.scrollLeft += 1
             $slide.scrollLeft -= 1
             // *
-            $slide.find('.tslider').removeClass('tslider-grab').addClass('tslider-grabbing')
+            $slide
+              .find('.tslider')
+              .removeClass('tslider-grab')
+              .addClass('tslider-grabbing')
             clearInterval(interval)
           }
         })
         $(window).on('mousemove', function (e) {
           if (isDraging) {
-            endCoords = (settings.vertical === true) ? e.pageY : e.pageX
+            endCoords = settings.vertical === true ? e.pageY : e.pageX
             $this.touchMove(endCoords, startCoords)
           }
         })
         $(window).on('mouseup', function (e) {
           if (isDraging) {
-            $slide.find('.tslider').removeClass('tslider-grabbing').addClass('tslider-grab')
+            $slide
+              .find('.tslider')
+              .removeClass('tslider-grabbing')
+              .addClass('tslider-grab')
             isDraging = false
-            endCoords = (settings.vertical === true) ? e.pageY : e.pageX
+            endCoords = settings.vertical === true ? e.pageY : e.pageX
             var distance = endCoords - startCoords
             if (Math.abs(distance) >= settings.swipeThreshold) {
               $(window).on('click.ls', function (e) {
@@ -884,7 +989,6 @@ $.fn.tangibleSlider = function (options = {}) {
             }
 
             $this.touchEnd(distance)
-
           }
         })
       }
@@ -912,17 +1016,16 @@ $.fn.tangibleSlider = function (options = {}) {
           var xMovement = Math.abs(endCoords.pageX - startCoords.pageX)
           var yMovement = Math.abs(endCoords.pageY - startCoords.pageY)
           if (settings.vertical === true) {
-            if ((yMovement * 3) > xMovement) {
+            if (yMovement * 3 > xMovement) {
               e.preventDefault()
             }
             $this.touchMove(endCoords.pageY, startCoords.pageY)
           } else {
-            if ((xMovement * 3) > yMovement) {
+            if (xMovement * 3 > yMovement) {
               e.preventDefault()
             }
             $this.touchMove(endCoords.pageX, startCoords.pageX)
           }
-
         })
         $slide.on('touchend', function () {
           if (w < elSize) {
@@ -944,7 +1047,6 @@ $.fn.tangibleSlider = function (options = {}) {
       var $this = this
       $this.initialStyle()
       if (this.doCss()) {
-
         if (settings.enableTouch === true) {
           $this.enableTouch()
         }
@@ -953,11 +1055,11 @@ $.fn.tangibleSlider = function (options = {}) {
         }
       }
 
-      $(window).on('focus', function(){
+      $(window).on('focus', function () {
         $this.auto()
       })
 
-      $(window).on('blur', function(){
+      $(window).on('blur', function () {
         clearInterval(interval)
       })
 
@@ -965,7 +1067,7 @@ $.fn.tangibleSlider = function (options = {}) {
       $this.pauseOnHover()
       $this.controls()
       $this.keyPress()
-    }
+    },
   }
 
   plugin.build()
@@ -1008,7 +1110,7 @@ $.fn.tangibleSlider = function (options = {}) {
       if (settings.mode === 'slide') {
         if (settings.vertical === false) {
           plugin.setHeight($el, false)
-        }else{
+        } else {
           plugin.auto()
         }
       } else {
@@ -1028,7 +1130,7 @@ $.fn.tangibleSlider = function (options = {}) {
         $slide.find('.tslider-action').show()
       }
     } else {
-      if ((refresh.calWidth(false) < elSize) && (w !== 0)) {
+      if (refresh.calWidth(false) < elSize && w !== 0) {
         $slide.find('.tslider-action').hide()
       } else {
         $slide.find('.tslider-action').show()
@@ -1048,7 +1150,7 @@ $.fn.tangibleSlider = function (options = {}) {
       if (settings.loop === true) {
         settings.onBeforePrevSlide.call(this, $el, scene)
         if (settings.mode === 'fade') {
-          var l = (length - 1)
+          var l = length - 1
           scene = parseInt(l / settings.slideMove)
         }
         $el.mode(false)
@@ -1070,7 +1172,7 @@ $.fn.tangibleSlider = function (options = {}) {
       var _slideValue = plugin.slideValue()
       nextI = _slideValue < w - elSize - settings.slideMargin
     }
-    if (((scene * settings.slideMove) < length - settings.slideMove) && nextI) {
+    if (scene * settings.slideMove < length - settings.slideMove && nextI) {
       settings.onBeforeNextSlide.call(this, $el, scene)
       scene++
       $el.mode(false)
@@ -1157,7 +1259,7 @@ $.fn.tangibleSlider = function (options = {}) {
         cl = $el.find('.clone.left').length
       if (scene <= cl - 1) {
         sc = ln + (scene - cl)
-      } else if (scene >= (ln + cl)) {
+      } else if (scene >= ln + cl) {
         sc = scene - ln - cl
       } else {
         sc = scene - cl
@@ -1170,7 +1272,7 @@ $.fn.tangibleSlider = function (options = {}) {
   }
   $el.goToSlide = function (s) {
     if (settings.loop) {
-      scene = (s + $el.find('.clone.left').length - 1)
+      scene = s + $el.find('.clone.left').length - 1
     } else {
       scene = s
     }
@@ -1181,21 +1283,27 @@ $.fn.tangibleSlider = function (options = {}) {
   }
   $el.destroy = function () {
     if ($el.tangibleSlider) {
-      $el.goToPrevSlide = function(){}
-      $el.goToNextSlide = function(){}
-      $el.mode = function(){}
-      $el.play = function(){}
-      $el.pause = function(){}
-      $el.refresh = function(){}
-      $el.getCurrentSlideCount = function(){}
-      $el.getTotalSlideCount = function(){}
-      $el.goToSlide = function(){}
+      $el.goToPrevSlide = function () {}
+      $el.goToNextSlide = function () {}
+      $el.mode = function () {}
+      $el.play = function () {}
+      $el.pause = function () {}
+      $el.refresh = function () {}
+      $el.getCurrentSlideCount = function () {}
+      $el.getTotalSlideCount = function () {}
+      $el.goToSlide = function () {}
       $el.tangibleSlider = null
       refresh = {
-        init : function(){}
+        init: function () {},
       }
       $el.parent().parent().find('.tslider-action, .tslider-pager').remove()
-      $el.removeClass('tslider tslider-fade tslide-animate tslider-grab tslider-grabbing leftEnd right').removeAttr('style').unwrap().unwrap()
+      $el
+        .removeClass(
+          'tslider tslider-fade tslide-animate tslider-grab tslider-grabbing leftEnd right'
+        )
+        .removeAttr('style')
+        .unwrap()
+        .unwrap()
       $el.children().removeAttr('style')
       $children.removeClass('tslide active')
       $el.find('.clone').remove()
@@ -1204,13 +1312,11 @@ $.fn.tangibleSlider = function (options = {}) {
       on = false
       scene = 0
     }
-
   }
   setTimeout(function () {
     settings.onSliderLoad.call(this, $el)
 
     $el.addClass('loaded')
-
   }, 10)
   $(window).on('resize orientationchange', function (e) {
     setTimeout(function () {
@@ -1225,8 +1331,8 @@ $.fn.tangibleSlider = function (options = {}) {
   return this
 }
 
-$(document).ready(function() {
-  $('.tangible-slider').each(function() {
+$(document).ready(function () {
+  $('.tangible-slider').each(function () {
     $(this).tangibleSlider()
   })
 })

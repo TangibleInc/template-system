@@ -6,9 +6,7 @@
 import { render } from 'react'
 import AssetsEditor from './AssetsEditor'
 
-const {
-  jQuery: $
-} = window
+const { jQuery: $ } = window
 
 const el = document.getElementById('tangible_template_assets_editor')
 

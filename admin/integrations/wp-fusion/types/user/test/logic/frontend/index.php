@@ -1,18 +1,18 @@
 <?php
 
-$test('tangible_logic()', function($it) {
+$test('tangible_logic()', function( $it ) {
 
-  $it('exists', function_exists('tangible_logic'));
+  $it( 'exists', function_exists( 'tangible_logic' ) );
 
   $logic = tangible_logic();
 
-  $it('has method enqueue', isset($logic->enqueue));
+  $it( 'has method enqueue', isset( $logic->enqueue ) );
 
   try {
     $logic->enqueue();
-    $it('enqueues', true);
-  } catch (\Throwable $th) {
-    $it('enqueues', false);
+    $it( 'enqueues', true );
+  } catch ( \Throwable $th ) {
+    $it( 'enqueues', false );
   }
 });
 
@@ -24,8 +24,8 @@ $test_id = $test->id;
 
 // Conditional rules config - See https://docs.tangible.one/modules/logic/
 $config = [
-  'title' => 'Modal title',
-  'fields' => $logic->get_fields_by_category('core'),
+  'title'  => 'Modal title',
+  'fields' => $logic->get_fields_by_category( 'core' ),
 ];
 
 // Saved rule groups
@@ -39,18 +39,18 @@ $input_field_name = 'tangible_logic';
 $saved_rule_groups = [
   [
     [
-      'field' => 'user_field',
+      'field'   => 'user_field',
       'field_2' => 'wp_fusion_tags',
       'operand' => 'exists',
-    ]
+    ],
   ],
   [
     [
-      'field' => 'user_field',
+      'field'   => 'user_field',
       'field_2' => 'wp_fusion_access',
       'operand' => 'exists',
-    ]
-  ]
+    ],
+  ],
 ];
 
 // Button to open the UI
@@ -73,17 +73,19 @@ The rules are saved in the input field only, not in the database.</p>
 ?>
 <input type="hidden"
   name="<?= $input_field_name ?>"
-  value='<?= esc_attr( json_encode($saved_rule_groups) ) ?>'
+  value='<?= esc_attr( json_encode( $saved_rule_groups ) ) ?>'
   data-tangible-logic="input"
-  data-tangible-logic-config='<?= esc_attr( json_encode($config) ) ?>'
+  data-tangible-logic-config='<?= esc_attr( json_encode( $config ) ) ?>'
 />
 
-<?php /*
+<?php
+/*
 <button type="button" class="btn btn-secondary" data-tangible-logic-test="evaluate">
   Evaluate
 </button>
 &nbsp;&nbsp;&nbsp;
-*/ ?>
+*/
+?>
 Evaluated: <b data-tangible-logic-test="evaluateResult"></b>
 
 <hr>
@@ -92,15 +94,15 @@ Evaluated: <b data-tangible-logic-test="evaluateResult"></b>
 // JavaScript tests
 
 $tester->enqueue();
-$framework->ajax()->enqueue(  );
+$framework->ajax()->enqueue();
 
 // Ensure frontend test runs *after* Logic module's script
 
-add_action('wp_footer', function() use ($test_id, $input_field_name) {
+add_action('wp_footer', function() use ( $test_id, $input_field_name ) {
 
   ?><script> jQuery(function($) { <?php
 
   include __DIR__ . '/test.js';
 
-  ?> }) </script> <?php
+?> }) </script> <?php
 }, 99);
