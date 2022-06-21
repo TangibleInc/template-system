@@ -11,9 +11,9 @@ namespace Tangible\Loop;
 class MapLoop extends ListLoop {
 
   static $config = [
-    'name'       => 'map',
-    'title'      => 'Map',
-    'category'   => 'core',
+    'name'     => 'map',
+    'title'    => 'Map',
+    'category' => 'core',
   ];
 
   function run_query( $args = [] ) {
@@ -21,10 +21,10 @@ class MapLoop extends ListLoop {
   }
 
   function get_items_from_query( $args ) {
-    return [$args];
+    return [ $args ];
   }
 };
 
 $loop->register_type( MapLoop::class );
 
-require_once __DIR__.'/keys.php';
+require_once __DIR__ . '/keys.php';

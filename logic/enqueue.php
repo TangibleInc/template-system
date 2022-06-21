@@ -7,7 +7,7 @@ $logic->state['enqueued'] = false;
  *
  * Call it within action `wp_enqueue_scripts`.
  */
-$logic->enqueue = function() use ($logic) {
+$logic->enqueue = function() use ( $logic ) {
 
   if ( $logic->state['enqueued'] ) {
     return;

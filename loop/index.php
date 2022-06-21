@@ -10,16 +10,15 @@
 require __DIR__ . '/tangible-module.php';
 
 if ( ! function_exists( 'tangible_loop' ) ) :
-function tangible_loop( $type = false, $args = [] ) {
-  static $loop;
-  return is_a($type, 'TangibleModule')
-    ? ($loop = $type->latest)
-    : ($type !== false && $loop
-      ? $loop->create_type($type, $args)
+  function tangible_loop( $type = false, $args = [] ) {
+    static $loop;
+    return is_a( $type, 'TangibleModule' )
+    ? ( $loop = $type->latest )
+    : ( $type !== false && $loop
+      ? $loop->create_type( $type, $args )
       : $loop
-    )
-  ;
-}
+      );
+  }
 endif;
 
 return tangible_loop(new class extends TangibleModule {
@@ -35,7 +34,7 @@ return tangible_loop(new class extends TangibleModule {
   }
 
   function __invoke( $type, $args = [] ) {
-    return $this->create_type($type, $args);
+    return $this->create_type( $type, $args );
   }
 
   function load_latest_version() {
@@ -43,7 +42,7 @@ return tangible_loop(new class extends TangibleModule {
     $loop = $this;
 
     $loop->file_path = __FILE__;
-    $loop->url = plugins_url( '/', __FILE__ );
+    $loop->url       = plugins_url( '/', __FILE__ );
 
     require_once __DIR__ . '/utils/index.php';
     require_once __DIR__ . '/context/index.php';
@@ -52,7 +51,7 @@ return tangible_loop(new class extends TangibleModule {
     require_once __DIR__ . '/types/index.php';
     require_once __DIR__ . '/field/index.php';
 
-    add_action('tangible_modules_ready', function() use ($loop) {
+    add_action('tangible_modules_ready', function() use ( $loop ) {
 
       /**
        * Some loop types' fields depend on HTML module to render, for example, image tags; and
@@ -68,7 +67,7 @@ return tangible_loop(new class extends TangibleModule {
        * Template module depends on this for its features.
        */
 
-      do_action('tangible_loop_prepare', $loop);
+      do_action( 'tangible_loop_prepare', $loop );
     });
   }
 });

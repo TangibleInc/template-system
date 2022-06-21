@@ -4,7 +4,7 @@
 const loading = {} // name => Promise
 const loaded = {} // name => true
 
-async function assetLoader (assets) {
+async function assetLoader(assets) {
   if (Array.isArray(assets)) {
     return await Promise.all(assets.map(assetLoader))
   }
@@ -13,10 +13,7 @@ async function assetLoader (assets) {
     assets = { file: assets }
   }
 
-  const {
-    file = '',
-    depend = []
-  } = assets
+  const { file = '', depend = [] } = assets
 
   // Ensure dependencies
   if (depend.length) await assetLoader(depend)
@@ -37,7 +34,8 @@ async function assetLoader (assets) {
       delete loading[file] // Clear loading state
 
       // e.type is 'load' or 'error'
-      if (e.type[0] === 'e') return reject(new Error(`Failed loading file: ${file}`))
+      if (e.type[0] === 'e')
+        return reject(new Error(`Failed loading file: ${file}`))
 
       loaded[file] = true
       resolve()

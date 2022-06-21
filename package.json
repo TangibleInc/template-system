@@ -1,10 +1,13 @@
 {
   "name": "tangible-template-system-module",
   "scripts": {
-    "_": "Run below commands with name of module, such as: npm run build admin",
+    "--- Run commands below with name of module, like: npm run build admin": "",
     "dev": "roll dev",
     "build": "roll build",
-    "format": "roll format"
+    "format": "roll format",
+    "---": "",
+    "build:all": "roll build admin; roll build interface; roll build logic; roll build template",
+    "format:all": "roll format; roll format admin; roll format interface; roll format logic; roll format template"
   },
   "dependencies": {},
   "devDependencies": {

@@ -20,25 +20,24 @@ class FieldLoop extends ListLoop {
 
     $this->items = [];
 
-    $items = isset($query['items'])
+    $items = isset( $query['items'] )
       ? $query['items'] // Field value passed from $loop->create_type('field')
-      : (isset($query['field'])
+      : ( isset( $query['field'] )
         ? self::$loop->get_field( $query['field'] )
         : []
-      )
-    ;
+      );
 
-    if (empty($items)) return $this->items;
+    if (empty( $items )) return $this->items;
 
-    if (is_string($items)) {
+    if ( is_string( $items ) ) {
 
-      $this->items = $items = @json_decode($items, true);
+      $this->items = $items = @json_decode( $items, true );
     }
 
-    if (is_array($items)) {
+    if ( is_array( $items ) ) {
       // Associative array
-      if (array_keys($items) !== range(0, count($items) - 1)) {
-        $this->items = [$items];
+      if ( array_keys( $items ) !== range( 0, count( $items ) - 1 ) ) {
+        $this->items = [ $items ];
       } else {
         $this->items = $items;
       }
@@ -51,4 +50,4 @@ class FieldLoop extends ListLoop {
 
 $loop->register_type( FieldLoop::class );
 
-require_once __DIR__.'/keys.php';
+require_once __DIR__ . '/keys.php';

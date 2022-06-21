@@ -5,12 +5,12 @@
  * Supports loading scripts and styles when page builders fetch and insert dynamic HTML
  */
 
-$html->enqueue_dynamic_module_loader = function() use ($html, $interface) {
+$html->enqueue_dynamic_module_loader = function() use ( $html, $interface ) {
 
   wp_enqueue_script(
     'tangible-module-loader',
     "{$html->url}assets/build/module-loader.min.js",
-    ['jquery'],
+    [ 'jquery' ],
     $html->version
   );
 
@@ -21,8 +21,8 @@ $html->enqueue_dynamic_module_loader = function() use ($html, $interface) {
   // $interface->enqueue('dynamic-table');
   // $interface->enqueue('embed');
   // $interface->enqueue('glider');
-  $interface->enqueue('slider');
-  $interface->enqueue('chart');
+  $interface->enqueue( 'slider' );
+  $interface->enqueue( 'chart' );
 
   /**
    * Client-side conditional enqueue would be tricky, since script/style tags need to be loaded
@@ -31,5 +31,4 @@ $html->enqueue_dynamic_module_loader = function() use ($html, $interface) {
 
   // global $wp_scripts, $wp_styles;
   // tangible()->see( $wp_scripts->registered );
-
 };

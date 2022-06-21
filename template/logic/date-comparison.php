@@ -17,19 +17,31 @@
  */
 
 $html->date_comparisons = [
-  [ 'name' => 'before', 'label' => 'before date' ],
-  [ 'name' => 'before_inclusive', 'label' => 'before and including date' ],
-  [ 'name' => 'after', 'label' => 'after date' ],
-  [ 'name' => 'after_inclusive', 'label' => 'after and including date' ],
+  [
+'name'  => 'before',
+'label' => 'before date',
+  ],
+  [
+  'name'  => 'before_inclusive',
+  'label' => 'before and including date',
+  ],
+  [
+  'name'  => 'after',
+  'label' => 'after date',
+  ],
+  [
+  'name'  => 'after_inclusive',
+  'label' => 'after and including date',
+  ],
 ];
 
-$html->evaluate_date_comparison = function($value, $current_value, $atts) use ($html) {
+$html->evaluate_date_comparison = function( $value, $current_value, $atts ) use ( $html ) {
 
   // Return true/false, or null for unknown operand (pass through)
   $condition = null;
   $timestamp = null;
 
-  if (isset($atts['from_format'])) {
+  if ( isset( $atts['from_format'] ) ) {
     /**
      * Convert from format - Same logic in /format/date.php
      *
@@ -38,35 +50,34 @@ $html->evaluate_date_comparison = function($value, $current_value, $atts) use ($
      */
     try {
       $current_value = $html->date()
-        ->createFromFormat($atts['from_format'], $current_value)
-        ->format('Y-m-d H:i:s')
-      ;
-    } catch (\Throwable $th) {
+        ->createFromFormat( $atts['from_format'], $current_value )
+        ->format( 'Y-m-d H:i:s' );
+    } catch ( \Throwable $th ) {
       return $condition;
     }
   }
 
-  if (isset($atts['before'])) {
+  if ( isset( $atts['before'] ) ) {
 
     // Before
 
-    $timestamp = is_null($timestamp) ? $html->format_date($current_value, 'timestamp') : $timestamp;
+    $timestamp = is_null( $timestamp ) ? $html->format_date( $current_value, 'timestamp' ) : $timestamp;
 
     // Start of day
-    $compare_value =  $html->format_date(
+    $compare_value = $html->format_date(
       $html->format_date( $atts['before'], 'Y-m-d' ) . ' 00:00:00',
       'timestamp'
     );
 
     $condition = $timestamp < $compare_value;
 
-    if (!$condition) return $condition;
+    if ( ! $condition) return $condition;
 
-  } elseif (isset($atts['before_inclusive'])) {
+  } elseif ( isset( $atts['before_inclusive'] ) ) {
 
     // Before inclusive
 
-    $timestamp = is_null($timestamp) ? $html->format_date($current_value, 'timestamp') : $timestamp;
+    $timestamp = is_null( $timestamp ) ? $html->format_date( $current_value, 'timestamp' ) : $timestamp;
 
     // End of day
     $compare_value = $html->format_date(
@@ -76,16 +87,16 @@ $html->evaluate_date_comparison = function($value, $current_value, $atts) use ($
 
     $condition = $timestamp <= $compare_value;
 
-    if (!$condition) return $condition;
+    if ( ! $condition) return $condition;
   }
 
   // Before/after can be used together to mean "between"
 
-  if (isset($atts['after'])) {
+  if ( isset( $atts['after'] ) ) {
 
     // After
 
-    $timestamp = is_null($timestamp) ? $html->format_date($current_value, 'timestamp') : $timestamp;
+    $timestamp = is_null( $timestamp ) ? $html->format_date( $current_value, 'timestamp' ) : $timestamp;
 
     // End of day
     $compare_value = $html->format_date(
@@ -95,11 +106,11 @@ $html->evaluate_date_comparison = function($value, $current_value, $atts) use ($
 
     $condition = $timestamp > $compare_value;
 
-  } elseif (isset($atts['after_inclusive'])) {
+  } elseif ( isset( $atts['after_inclusive'] ) ) {
 
     // After inclusive
 
-    $timestamp = is_null($timestamp) ? $html->format_date($current_value, 'timestamp') : $timestamp;
+    $timestamp = is_null( $timestamp ) ? $html->format_date( $current_value, 'timestamp' ) : $timestamp;
 
     // Start of day
     $compare_value = $html->format_date(

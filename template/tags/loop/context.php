@@ -23,55 +23,55 @@ $html->loop_tag_attributes_for_type = [
  * Create context for Loop tag, an instance of loop type based on attributes
  */
 
-$html->create_loop_tag_context = function($atts) use ($loop, $html) {
+$html->create_loop_tag_context = function( $atts ) use ( $loop, $html ) {
 
   $type_name = isset( $atts['keys'][0] ) ? $atts['keys'][0]
-    : (isset($atts['type']) ? $atts['type'] : '')
-  ;
+    : ( isset( $atts['type'] ) ? $atts['type'] : '' );
 
   // Determine content type
 
-  if (empty($type_name)) {
+  if ( empty( $type_name ) ) {
 
     /**
      * Times - List loop of X times
      */
 
-    if (isset($atts['times'])) {
+    if ( isset( $atts['times'] ) ) {
 
       $times = (int) $atts['times'];
 
       $items = [];
-      for ($i = 1; $i <= $times; $i++) {
-        $items []= $i;
+      for ( $i = 1; $i <= $times; $i++ ) {
+        $items [] = $i;
       }
 
-      return $loop('list', $items);
+      return $loop( 'list', $items );
     }
 
     /**
      * Support from=options - Get ACF field from options page
      */
-    if (isset($atts['from'])) {
+    if ( isset( $atts['from'] ) ) {
 
       // Ensure ACF text field type as default
-      if (isset($atts['field'])) {
+      if ( isset( $atts['field'] ) ) {
         $atts['acf_text'] = $atts['field'];
-        unset($atts['field']);
+        unset( $atts['field'] );
       }
     }
 
-    foreach ($atts as $key => $value) {
+    foreach ( $atts as $key => $value ) {
 
       /**
        * ACF fields
+       *
        * @see tags/field/acf.php
        */
-      if (substr($key, 0, 4)==='acf_') {
+      if ( substr( $key, 0, 4 ) === 'acf_' ) {
 
-        $acf_field_type = substr($key, 4); // After "acf_"
+        $acf_field_type = substr( $key, 4 ); // After "acf_"
 
-        if ($acf_field_type==='select') {
+        if ( $acf_field_type === 'select' ) {
           $acf_field_type = 'multi_select'; // Ensure list
         }
 
@@ -85,53 +85,51 @@ $html->create_loop_tag_context = function($atts) use ($loop, $html) {
          * Support from=options - Pass to field options
          * See ../field/acf.php
          */
-        if (isset($atts['from'])) {
+        if ( isset( $atts['from'] ) ) {
           $acf_field_options['from'] = $atts['from'];
         }
 
         // Return loop instance
 
-        $value = $html->get_acf_field_type($acf_field_type, $field_name, $acf_field_options);
+        $value = $html->get_acf_field_type( $acf_field_type, $field_name, $acf_field_options );
 
         // Subfield
-        if (isset($atts['field'])) {
+        if ( isset( $atts['field'] ) ) {
           $subfield = $atts['field'];
-          $value = is_array($value) && isset($value[ $subfield ])
+          $value    = is_array( $value ) && isset( $value[ $subfield ] )
             ? $value[ $subfield ]
-            : ''
-          ;
+            : '';
         }
 
-        if ($loop->is_instance($value)) return $value;
+        if ($loop->is_instance( $value )) return $value;
 
-        if (is_array($value)) {
+        if ( is_array( $value ) ) {
 
-          if (empty($value) || isset($value[0])) {
+          if ( empty( $value ) || isset( $value[0] ) ) {
             // Array
-            return $loop->create_type('list', $value);
+            return $loop->create_type( 'list', $value );
           }
 
           // Map
-          return $loop->create_type('map', $value);
+          return $loop->create_type( 'map', $value );
         }
 
-        return $loop->create_type('list', []); // Empty loop
+        return $loop->create_type( 'list', [] ); // Empty loop
       }
 
-
-      if ( ! in_array($key, $html->loop_tag_attributes_for_type) ) continue;
+      if ( ! in_array( $key, $html->loop_tag_attributes_for_type ) ) continue;
 
       /**
        * Attributes of the same loop type as its name
        */
 
-      if ($key==='user_field' || $key==='user') {
+      if ( $key === 'user_field' || $key === 'user' ) {
 
-        $user_loop = $loop('user', [ 'id' => 'current' ]);
+        $user_loop  = $loop( 'user', [ 'id' => 'current' ] );
         $user_field = $value;
 
         if ( ! $user_loop->has_next() ) {
-          return $loop->create_type('list', []); // Empty loop
+          return $loop->create_type( 'list', [] ); // Empty loop
         }
 
         $user_loop->next();
@@ -144,36 +142,36 @@ $html->create_loop_tag_context = function($atts) use ($loop, $html) {
         $user_loop->reset();
 
         // Field value is a loop instance
-        if ($loop->is_instance($user_field_value)) {
+        if ( $loop->is_instance( $user_field_value ) ) {
           return $user_field_value;
         }
 
-        if (!is_array($user_field_value)) {
+        if ( ! is_array( $user_field_value ) ) {
           // List of single item
           $user_field_value = [ $user_field_value ];
         }
 
         return $loop->create_type('field', [
-          'items' => $user_field_value
+          'items' => $user_field_value,
         ]);
       }
 
       // If taxonomy is given, loop that taxonomy's terms
-      if ($key==='taxonomy') $key = 'taxonomy_term';
-      if ($key==='items') $key = 'list';
+      if ($key === 'taxonomy') $key = 'taxonomy_term';
+      if ($key === 'items') $key    = 'list';
 
       $type_name = $atts['type'] = $key;
       break;
     }
   }
 
-  if (empty($type_name)) {
+  if ( empty( $type_name ) ) {
 
     // Without query parameter "type", Loop inherits from <If loop exists>, if any
 
     $current_context = $html->get_loop_exists_context();
 
-    if ($current_context!==false) {
+    if ( $current_context !== false ) {
       return $current_context;
     }
 
@@ -181,7 +179,7 @@ $html->create_loop_tag_context = function($atts) use ($loop, $html) {
      * Fallback to default context from global $wp_query
      */
 
-    if (!isset($atts['sort_field']) && !isset($atts['paged'])) {
+    if ( ! isset( $atts['sort_field'] ) && ! isset( $atts['paged'] ) ) {
 
       // Without sort or paginate
 
@@ -193,18 +191,17 @@ $html->create_loop_tag_context = function($atts) use ($loop, $html) {
        * Using custom and minimal implementation, since there's no simple way to modify and re-run WP_Query.
        */
 
-      if (isset($atts['offset'])) {
-        $offset = (int) $atts['offset'];
-        $current_context->total_items = array_slice($current_context->total_items, $offset);
-        $current_context->items = $current_context->get_current_page_items();
+      if ( isset( $atts['offset'] ) ) {
+        $offset                       = (int) $atts['offset'];
+        $current_context->total_items = array_slice( $current_context->total_items, $offset );
+        $current_context->items       = $current_context->get_current_page_items();
       }
 
-      if (isset($atts['count'])) {
-        $count = (int) $atts['count'];
-        $current_context->total_items = array_slice($current_context->total_items, 0, $count);
-        $current_context->items = $current_context->get_current_page_items();
+      if ( isset( $atts['count'] ) ) {
+        $count                        = (int) $atts['count'];
+        $current_context->total_items = array_slice( $current_context->total_items, 0, $count );
+        $current_context->items       = $current_context->get_current_page_items();
       }
-
     } else {
 
       /**
@@ -213,14 +210,14 @@ $html->create_loop_tag_context = function($atts) use ($loop, $html) {
 
       global $post, $wp_query;
 
-      if (empty($wp_query)) return $loop('list', []); // Empty loop
+      if (empty( $wp_query )) return $loop( 'list', [] ); // Empty loop
 
       $post_type = 'post';
 
       // Archive or single post
-      if (!empty($post)) {
+      if ( ! empty( $post ) ) {
         $post_type = $post->post_type;
-      } elseif (!empty($wp_query->query_vars['post_type'])) {
+      } elseif ( ! empty( $wp_query->query_vars['post_type'] ) ) {
         $post_type = $wp_query->query_vars['post_type'];
       }
 
@@ -228,14 +225,13 @@ $html->create_loop_tag_context = function($atts) use ($loop, $html) {
 
       // tangible()->see($wp_query);
 
-      $current_context = $loop($post_type, $atts);
+      $current_context = $loop( $post_type, $atts );
     }
 
     return $current_context;
   }
 
-
-  if ($type_name==='list' || $type_name==='map' || $type_name==='map_keys') {
+  if ( $type_name === 'list' || $type_name === 'map' || $type_name === 'map_keys' ) {
 
     /**
      * Data types
@@ -243,41 +239,39 @@ $html->create_loop_tag_context = function($atts) use ($loop, $html) {
      * From variable name of that type, or JSON string for raw data
      */
 
-    $data = [];
-    $data_name = isset($atts[ $type_name ])
+    $data      = [];
+    $data_name = isset( $atts[ $type_name ] )
       ? $atts[ $type_name ]
-      : null
-    ;
+      : null;
 
-    if (is_string($data_name)) {
+    if ( is_string( $data_name ) ) {
 
-      if (@$data_name[0]==='[' || @$data_name[0]==='{') {
+      if ( @$data_name[0] === '[' || @$data_name[0] === '{' ) {
         try {
           $data = json_decode( $data_name, true );
-        } catch (\Exception $e) {
+        } catch ( \Exception $e ) {
           $data = [];
         }
       } else {
         $data = $html->get_variable_type(
-          $type_name==='map_keys' ? 'map' : $type_name,
+          $type_name === 'map_keys' ? 'map' : $type_name,
           $data_name
         );
       }
-
-    } elseif ($type_name==='list' && isset($atts['items'])) {
-      return $loop->create_type($type_name,
-        array_map('trim', explode(',', $atts['items']))
+    } elseif ( $type_name === 'list' && isset( $atts['items'] ) ) {
+        return $loop->create_type($type_name,
+        array_map( 'trim', explode( ',', $atts['items'] ) )
       );
     }
 
-    return $loop->create_type($type_name, $data);
+    return $loop->create_type( $type_name, $data );
 
-  } elseif ($type_name==='calendar') {
+  } elseif ( $type_name === 'calendar' ) {
     $type_name = 'calendar_' . $atts['calendar'];
   }
 
   $atts['type'] = $type_name;
-  unset($atts['keys']); // Don't pass to loop
+  unset( $atts['keys'] ); // Don't pass to loop
 
-  return $loop->create_type($type_name, $atts);
+  return $loop->create_type( $type_name, $atts );
 };

@@ -16,7 +16,7 @@
  * type rule_groups = rule_group[] // rule group OR rule group OR..
  */
 
-$logic->evaluate_rule_groups = function( $rule_groups = [], $evaluate_rule = null, $context = [] ) use ($logic) {
+$logic->evaluate_rule_groups = function( $rule_groups = [], $evaluate_rule = null, $context = [] ) use ( $logic ) {
 
   $condition = true;
 
@@ -29,7 +29,7 @@ $logic->evaluate_rule_groups = function( $rule_groups = [], $evaluate_rule = nul
   }
 
   // Support passing single rule for convenience
-  if (isset($rule_groups['field'])) {
+  if ( isset( $rule_groups['field'] ) ) {
     $rule_groups = [ $rule_groups ];
   }
 
@@ -62,10 +62,11 @@ $logic->evaluate_rule_groups = function( $rule_groups = [], $evaluate_rule = nul
 
 /**
  * Evaluate rule groups based on the shared set of rules and evaluators from extend_rules()
+ *
  * @see ../rules
  */
 
-$logic->evaluate = function( $rule_groups = [], $context = [] ) use ($logic) {
+$logic->evaluate = function( $rule_groups = [], $context = [] ) use ( $logic ) {
   return $logic->evaluate_rule_groups(
     $rule_groups,
     $logic->evaluate_rule_by_field,
@@ -73,32 +74,31 @@ $logic->evaluate = function( $rule_groups = [], $context = [] ) use ($logic) {
   );
 };
 
-$logic->evaluate_rule_by_field = function( $rule, $context = [] ) use ($logic) {
+$logic->evaluate_rule_by_field = function( $rule, $context = [] ) use ( $logic ) {
 
   $rules_by_field = $logic->state['rules_by_field'];
 
-  if ( !isset($rule['field']) || !isset($rules_by_field[ $rule['field'] ])) return true;
+  if ( ! isset( $rule['field'] ) || ! isset( $rules_by_field[ $rule['field'] ] )) return true;
 
-  $condition = true;
+  $condition  = true;
   $field_name = $rule['field'];
 
   /**
    * Evaluators added later has precedence. They should return true by default, to
    * fall back to evaluators added earlier.
    */
-  $field_definitions = array_reverse($rules_by_field[ $field_name ]);
+  $field_definitions = array_reverse( $rules_by_field[ $field_name ] );
 
-  foreach ($field_definitions as $field) {
+  foreach ( $field_definitions as $field ) {
 
     $evaluate_rule = $field['evaluator'];
 
-    if (is_array($evaluate_rule)) {
+    if ( is_array( $evaluate_rule ) ) {
 
-      foreach (array_reverse( $evaluate_rule ) as $evaluator) {
+      foreach ( array_reverse( $evaluate_rule ) as $evaluator ) {
         $condition = $evaluator( $rule, $context );
         if ( ! $condition ) break;
       }
-
     } else {
       $condition = $evaluate_rule( $rule, $context );
     }

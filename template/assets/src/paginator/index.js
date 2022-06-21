@@ -2,14 +2,11 @@ import { generatePageRange } from './range'
 
 const {
   jQuery: $,
-  Tangible: {
-    ajax
-  }
+  Tangible: { ajax },
 } = window
 
 function activatePaginators() {
-
-  $('.tangible-paginator-target').each(function() {
+  $('.tangible-paginator-target').each(function () {
     createPaginator($(this))
   })
 }
@@ -20,26 +17,18 @@ $(activatePaginators)
 window.Tangible.activatePaginators = activatePaginators
 // window.Tangible.activatePaginator = activatePaginator__deprecated
 
-
 /**
  * Create paginator
  */
 
 function createPaginator($target) {
-
   const targetId = $target.data('tangiblePaginatorTargetId')
   const targetData = $target.data('tangiblePaginatorTargetData') || {}
 
   // console.log('Create paginator', targetId, targetData)
 
   // @see /tags/loop/paginate/loop.php
-  const {
-    state,
-    template,
-    hash,
-    context,
-    context_hash
-  } = targetData
+  const { state, template, hash, context, context_hash } = targetData
 
   if (!state || !template) return
 
@@ -57,51 +46,53 @@ function createPaginator($target) {
   let $loading
   let $buttonsContainer
 
-  $subscribers.each(function() {
-
+  $subscribers.each(function () {
     const $subscriber = $(this)
     const actionName = $subscriber.data('tangiblePaginatorSubscribeAction')
 
     switch (actionName) {
-    case 'fields':
+      case 'fields':
+        $subscriber.find('[data-tangible-paginator-field]').each(function () {
+          const $field = $(this)
+          const fieldName = $field.data('tangiblePaginatorField')
 
-      $subscriber.find('[data-tangible-paginator-field]').each(function() {
-        const $field = $(this)
-        const fieldName = $field.data('tangiblePaginatorField')
+          $fields[fieldName] = $field
+        })
 
-        $fields[ fieldName ] = $field
-      })
+        // console.log('Fields subscribed', Object.keys($fields))
 
-      // console.log('Fields subscribed', Object.keys($fields))
+        break
+      case 'loading':
+        $loading = $subscriber
+        break
+      case 'buttons':
+        $buttonsContainer = $subscriber
+        renderPaginationButtons($buttonsContainer, state, setState)
 
-      break
-    case 'loading':
-      $loading = $subscriber
-      break
-    case 'buttons':
+        /**
+         * Pass additional settings, such as scroll_top
+         * @see /tags/loop/paginate/buttons.php
+         */
 
-      $buttonsContainer = $subscriber
-      renderPaginationButtons($buttonsContainer, state, setState)
-
-      /**
-       * Pass additional settings, such as scroll_top
-       * @see /tags/loop/paginate/buttons.php
-       */
-
-      const subscribeSettings = $subscriber.data('tangiblePaginatorSubscribeSettings')
-      if (typeof subscribeSettings==='object' && !Array.isArray(subscribeSettings)) {
-        Object.assign(additionalSettings, subscribeSettings)
-      }
-      break
-    default:
-      console.warn('Unknown subscriber action', actionName)
-      break
+        const subscribeSettings = $subscriber.data(
+          'tangiblePaginatorSubscribeSettings'
+        )
+        if (
+          typeof subscribeSettings === 'object' &&
+          !Array.isArray(subscribeSettings)
+        ) {
+          Object.assign(additionalSettings, subscribeSettings)
+        }
+        break
+      default:
+        console.warn('Unknown subscriber action', actionName)
+        break
     }
   })
 
   function updateFields(state) {
-    Object.keys( $fields ).forEach(function(fieldName) {
-      $fields[ fieldName ].text( state[ fieldName ] )
+    Object.keys($fields).forEach(function (fieldName) {
+      $fields[fieldName].text(state[fieldName])
     })
   }
 
@@ -111,11 +102,9 @@ function createPaginator($target) {
   state.last_rendered_page = state.current_page
 
   // Page rendered on server-side
-  cachedPages[ state.current_page ] = $target.html()
-
+  cachedPages[state.current_page] = $target.html()
 
   function render(state) {
-
     updateFields(state)
 
     if ($buttonsContainer) {
@@ -128,31 +117,34 @@ function createPaginator($target) {
     if (state.last_rendered_page === state.current_page) return
     state.last_rendered_page = state.current_page
 
-    const afterLoaded = function() {
+    const afterLoaded = function () {
       // Scroll to top
       if (additionalSettings.scroll_top) {
-
         const targetTop = $target.offset().top
 
-        if ( ! additionalSettings.scroll_animate ) {
+        if (!additionalSettings.scroll_animate) {
           // Jump with no animation
           $([document.documentElement, document.body]).scrollTop(targetTop)
           return
         }
 
-        const duration = typeof additionalSettings.scroll_animate==='number'
-          ? additionalSettings.scroll_animate
-          : 300
+        const duration =
+          typeof additionalSettings.scroll_animate === 'number'
+            ? additionalSettings.scroll_animate
+            : 300
 
-        $([document.documentElement, document.body]).animate({
-          scrollTop: targetTop
-        }, duration)
+        $([document.documentElement, document.body]).animate(
+          {
+            scrollTop: targetTop,
+          },
+          duration
+        )
       }
     }
 
     // Cached
-    if (typeof cachedPages[ state.current_page ]!=='undefined') {
-      $target.html( cachedPages[ state.current_page ] )
+    if (typeof cachedPages[state.current_page] !== 'undefined') {
+      $target.html(cachedPages[state.current_page])
       afterLoaded()
       return
     }
@@ -160,18 +152,16 @@ function createPaginator($target) {
     const loadingClass = 'tangible-paginator-target-loading'
     const currentPage = state.current_page
 
-    const startLoading = function() {
-
-      $target.addClass( loadingClass )
+    const startLoading = function () {
+      $target.addClass(loadingClass)
 
       // TODO: Option to fade in/out loading indicator
 
       if ($loading) $loading.show()
     }
 
-    const finishLoading = function() {
-
-      $target.removeClass( loadingClass )
+    const finishLoading = function () {
+      $target.removeClass(loadingClass)
 
       if ($loading) $loading.hide()
 
@@ -181,7 +171,7 @@ function createPaginator($target) {
     startLoading()
 
     // Prevent repeated requests to same page
-    cachedPages[ currentPage ] = ''
+    cachedPages[currentPage] = ''
 
     // @see /ajax/index.php
     ajax('tangible_template_render', {
@@ -189,21 +179,19 @@ function createPaginator($target) {
       page: currentPage,
       hash,
       context,
-      context_hash
+      context_hash,
     })
-      .then(result => {
-
+      .then((result) => {
         // console.log('Fetch page result', result)
 
-        cachedPages[ currentPage ] = result
-        $target.html( result )
+        cachedPages[currentPage] = result
+        $target.html(result)
         finishLoading()
       })
-      .catch(error => {
-
+      .catch((error) => {
         console.error('Fetch page error', error)
 
-        delete cachedPages[ currentPage ]
+        delete cachedPages[currentPage]
 
         finishLoading()
       })
@@ -211,11 +199,7 @@ function createPaginator($target) {
 }
 
 function renderPaginationButtons($buttonsContainer, state, setState) {
-
-  const {
-    current_page: currentPage,
-    total_pages: totalPages,
-  } = state
+  const { current_page: currentPage, total_pages: totalPages } = state
 
   const pageNumbers = generatePageRange(currentPage, totalPages)
 
@@ -223,17 +207,15 @@ function renderPaginationButtons($buttonsContainer, state, setState) {
 
   const $existingButtons = $buttonsContainer.children()
 
-  pageNumbers.forEach(function(num, index) {
-
+  pageNumbers.forEach(function (num, index) {
     const $button = $('<button />')
 
     $button.text(num)
     $button.addClass('tangible-paginator-button')
 
-    if (num==='...') {
+    if (num === '...') {
       $button.prop('disabled', true)
     } else {
-
       $button.attr('data-tangible-paginator-action', 'page')
       $button.attr('data-tangible-paginator-page', num)
 
@@ -254,40 +236,43 @@ function renderPaginationButtons($buttonsContainer, state, setState) {
 
   // First-time render: Bind event handler
 
-  $buttonsContainer.on('click', '[data-tangible-paginator-action]', function() {
+  $buttonsContainer.on(
+    'click',
+    '[data-tangible-paginator-action]',
+    function () {
+      const $button = $(this)
+      const actionName = $button.data('tangiblePaginatorAction')
 
-    const $button = $(this)
-    const actionName = $button.data('tangiblePaginatorAction')
+      switch (actionName) {
+        case 'page': {
+          const page = parseInt($button.data('tangiblePaginatorPage'), 10)
 
-    switch (actionName) {
-    case 'page': {
+          if (isNaN(page) || page <= 0 || page > state.total_pages) return
 
-      const page = parseInt($button.data('tangiblePaginatorPage'), 10)
+          state.current_page = page
+          break
+        }
+        case 'first_page':
+          state.current_page = 1
+          break
+        case 'last_page':
+          state.current_page = state.total_pages
+          break
+        case 'next_page':
+          if (state.current_page === state.total_pages) return
+          state.current_page++
+          break
+        case 'previous_page':
+          if (state.current_page === 1) return
+          state.current_page--
+          break
+        default:
+          return
+      }
 
-      if (isNaN(page) || page <= 0 || page > state.total_pages) return
-
-      state.current_page = page
-      break
+      setState(state)
     }
-    case 'first_page':
-      state.current_page = 1
-      break
-    case 'last_page':
-      state.current_page = state.total_pages
-      break
-    case 'next_page':
-      if (state.current_page === state.total_pages) return
-      state.current_page++
-      break
-    case 'previous_page':
-      if (state.current_page === 1) return
-      state.current_page--
-      break
-    default: return
-    }
-
-    setState(state)
-  })
+  )
 
   return $buttonsContainer
 }

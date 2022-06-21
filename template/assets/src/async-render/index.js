@@ -4,15 +4,11 @@
 
 const {
   jQuery: $,
-  Tangible: {
-    ajax
-  }
+  Tangible: { ajax },
 } = window
 
 function activateAsyncRender() {
-
-  $('.tangible-async-render').each(function() {
-
+  $('.tangible-async-render').each(function () {
     // Render once only - Support multiple calls to activateAsyncRender()
     if (this.tangibleAsyncRenderDone) return
     this.tangibleAsyncRenderDone = true
@@ -22,14 +18,13 @@ function activateAsyncRender() {
 
     // @see /ajax/index.php
     ajax('tangible_template_render', templateData)
-      .then(result => {
-        $el.html( result )
+      .then((result) => {
+        $el.html(result)
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Async render error', error)
         console.log('Template data', templateData)
       })
-
   })
 }
 

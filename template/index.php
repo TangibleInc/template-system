@@ -11,16 +11,15 @@
 require __DIR__ . '/tangible-module.php';
 
 if ( ! function_exists( 'tangible_template' ) ) :
-function tangible_template( $arg = false ) {
-  static $template;
-  return is_a($arg, 'TangibleModule')
-    ? ($template = $arg->latest)
-    : ($arg !== false && $template
+  function tangible_template( $arg = false ) {
+    static $template;
+    return is_a( $arg, 'TangibleModule' )
+    ? ( $template = $arg->latest )
+    : ( $arg !== false && $template
       ? $template->html->render( $arg )
       : $template->html
-    )
-  ;
-}
+      );
+  }
 endif;
 
 return tangible_template(new class extends TangibleModule {
@@ -44,18 +43,21 @@ return tangible_template(new class extends TangibleModule {
 
       /**
        * Loop module - Content type loops and fields
+       *
        * @see vendor/tangible/loop
        */
       $html->loop = $loop = tangible_loop();
 
       /**
        * Logic module - Conditional rules registry, evaluator, UI
+       *
        * @see vendor/tangible/logic
        */
       $html->logic = $logic = tangible_logic();
 
       /**
        * Interface module - Library of UI components
+       *
        * @see vendor/tangible/interface
        */
       $html->interface = $interface = tangible_interface();
@@ -72,12 +74,14 @@ return tangible_template(new class extends TangibleModule {
 
       /**
        * Date module
+       *
        * @see vendor/tangible/plugin-framework/modules/date
       */
       $html->date = tangible_date();
 
       /**
        * Human JSON module
+       *
        * @see vendor/tangible/plugin-framework/modules/hjson
       */
       $html->hjson = $framework->hjson;
@@ -86,44 +90,44 @@ return tangible_template(new class extends TangibleModule {
        * Main
        */
 
-      $html->dir_path = __DIR__;
+      $html->dir_path  = __DIR__;
       $html->file_path = __FILE__;
-      $html->url = plugins_url( '/', __FILE__ );
+      $html->url       = plugins_url( '/', __FILE__ );
 
       $html->version = $this->version;
 
       // Utility functions
-      require_once __DIR__.'/utils/index.php';
+      require_once __DIR__ . '/utils/index.php';
 
       // Dynamic tags
-      require_once __DIR__.'/tags/index.php';
+      require_once __DIR__ . '/tags/index.php';
 
       // Format utilities
-      require_once __DIR__.'/format/index.php';
+      require_once __DIR__ . '/format/index.php';
 
       // Conditional logic rules
-      require_once __DIR__.'/logic/index.php';
+      require_once __DIR__ . '/logic/index.php';
 
       // Content structure
-      require_once __DIR__.'/content/index.php';
+      require_once __DIR__ . '/content/index.php';
 
       // Page life cycle
-      require_once __DIR__.'/enqueue/index.php';
-      require_once __DIR__.'/actions/index.php';
-      require_once __DIR__.'/ajax/index.php';
+      require_once __DIR__ . '/enqueue/index.php';
+      require_once __DIR__ . '/actions/index.php';
+      require_once __DIR__ . '/ajax/index.php';
 
       // Modules
-      require_once __DIR__.'/modules/index.php';
-      require_once __DIR__.'/module-loader/index.php';
+      require_once __DIR__ . '/modules/index.php';
+      require_once __DIR__ . '/module-loader/index.php';
 
       // Integrations
-      require_once __DIR__.'/integrations/index.php';
+      require_once __DIR__ . '/integrations/index.php';
 
       // For themes: first action hook available after functions.php is loaded.
-      add_action('after_setup_theme', function() use ($html) {
+      add_action('after_setup_theme', function() use ( $html ) {
 
         // Use this action to load templates
-        do_action('tangible_templates_ready', $html);
+        do_action( 'tangible_templates_ready', $html );
       });
 
     }, 0);

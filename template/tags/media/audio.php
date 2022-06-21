@@ -11,22 +11,21 @@
  *     @type string $style    The 'style' attribute for the `<audio>` element. Default 'width: 100%;'.
  * }
  */
-$html->add_closed_tag('Audio', function($atts) use ($html) {
+$html->add_closed_tag('Audio', function( $atts ) use ( $html ) {
 
-  $type = isset($atts['type']) ? $atts['type'] : 'default';
+  $type = isset( $atts['type'] ) ? $atts['type'] : 'default';
 
-  $callback = isset($html->audio_type_callbacks[ $type ])
+  $callback = isset( $html->audio_type_callbacks[ $type ] )
     ? $html->audio_type_callbacks[ $type ]
-    : $html->audio_type_callbacks['default']
-  ;
+    : $html->audio_type_callbacks['default'];
 
-  return $callback($atts);
+  return $callback( $atts );
 });
 
 $html->audio_type_callbacks = [
-  'default' => 'wp_audio_shortcode'
+  'default' => 'wp_audio_shortcode',
 ];
 
-$html->register_audio_type = function($type, $callback) use ($html) {
+$html->register_audio_type = function( $type, $callback ) use ( $html ) {
   $html->audio_type_callbacks[ $type ] = $callback;
 };

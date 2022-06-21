@@ -25,29 +25,29 @@
  */
 $loop->register_type = function( $config ) use ( $loop ) {
 
-  if (is_string($config)) {
+  if ( is_string( $config ) ) {
 
     // Get config from given class name
 
     $classname = $config;
-    $config = $classname::$config;
+    $config    = $classname::$config;
 
     $type = $config['name'];
 
-    if (!isset($config['create'])) {
+    if ( ! isset( $config['create'] ) ) {
 
       // Default loop type creator
 
-      $config['create'] = function( $args ) use ($classname) {
+      $config['create'] = function( $args ) use ( $classname ) {
         return new $classname( $args );
       };
     }
 
     // Loop type action defined as static method
 
-    $action_callback = [$classname, 'action'];
+    $action_callback = [ $classname, 'action' ];
 
-    if (is_callable($action_callback)) {
+    if ( is_callable( $action_callback ) ) {
       $config['action'] = $action_callback;
     }
   }
@@ -61,9 +61,9 @@ $loop->register_type = function( $config ) use ( $loop ) {
 
   $configs[ $type ] = $config;
 
-  if (isset($config['post_type'])) {
+  if ( isset( $config['post_type'] ) ) {
     $post_type_to_loop_type[ $config['post_type'] ] = $type;
-    $loop_type_to_post_type[ $type ] = $config['post_type'];
+    $loop_type_to_post_type[ $type ]                = $config['post_type'];
   }
 
   return $config;

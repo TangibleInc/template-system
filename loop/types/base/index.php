@@ -2,7 +2,7 @@
 
 namespace Tangible\Loop;
 
-require_once __DIR__.'/interface.php';
+require_once __DIR__ . '/interface.php';
 
 /**
  * Generic loop with query, items, cursor, field, pagination
@@ -38,7 +38,7 @@ class BaseLoop implements BaseLoopInterface {
 
   // Required config
   static $config = [
-    'name' => 'base',
+    'name'       => 'base',
     'query_args' => [
 
       /**
@@ -47,13 +47,13 @@ class BaseLoop implements BaseLoopInterface {
        * They all have target_name as false, to remove them from specific loop type queries.
        */
 
-      'count' => [
+      'count'         => [
         'target_name' => false,
         'description' => 'Limit number of items',
         'type'        => 'number',
       ],
 
-      'offset' => [
+      'offset'        => [
         'target_name' => false,
         'description' => 'Offset loop by number of items to skip',
         'type'        => 'number',
@@ -61,7 +61,7 @@ class BaseLoop implements BaseLoopInterface {
 
       // Filter by field
 
-      'field' => [
+      'field'         => [
         'target_name' => false,
         'description' => 'Filter by given field - If value is not set, it queries for posts whose field value exists',
         'type'        => 'string',
@@ -86,14 +86,14 @@ class BaseLoop implements BaseLoopInterface {
       'sort_field'    => [
         'target_name' => false,
         'description' => 'Sort by given field name',
-        'type'        => 'string'
+        'type'        => 'string',
       ],
       'sort_order'    => [
         'target_name' => false,
         'description' => 'Sort order: asc (ascending) or desc (descending)',
         'type'        => 'string',
         'default'     => 'asc',
-        'accepts'     => ['asc', 'desc'],
+        'accepts'     => [ 'asc', 'desc' ],
       ],
       'sort_type'     => [
         'target_name' => false,
@@ -102,7 +102,7 @@ class BaseLoop implements BaseLoopInterface {
       ],
 
     ],
-    'fields' => [],
+    'fields'     => [],
   ];
 
   // Item operations
@@ -111,27 +111,27 @@ class BaseLoop implements BaseLoopInterface {
   static function update_item( $args ) {}
   static function remove_item( $args ) {}
 
-  public $args       = []; // Original arguments for constructor
+  public $args = []; // Original arguments for constructor
 
   public $index      = -1;
   public $query      = [];
   public $query_args = [];
 
-  public $items = []; // Current paged items
+  public $items       = []; // Current paged items
   public $total_items = [];
-  public $current = null; // Current item
+  public $current     = null; // Current item
 
   public $page_query_var;
-  public $current_page   = 1;
-  public $items_per_page = -1;
-  public $items_offset   = 0;
+  public $current_page    = 1;
+  public $items_per_page  = -1;
+  public $items_offset    = 0;
   public $max_items_count = -1;
 
   public $filter_fields = [];
 
   public $sort_field = '';
   public $sort_order = 'asc';
-  public $sort_type = '';
+  public $sort_type  = '';
 
   function __construct( $args = [] ) {
 
@@ -143,8 +143,8 @@ class BaseLoop implements BaseLoopInterface {
 
     // Filter by fields
 
-    if (!empty($this->filter_fields)) {
-      foreach ($this->filter_fields as $field) {
+    if ( ! empty( $this->filter_fields ) ) {
+      foreach ( $this->filter_fields as $field ) {
         $this->filter_by_field(
           $field['name'],
           $field['compare'],
@@ -156,7 +156,7 @@ class BaseLoop implements BaseLoopInterface {
 
     // Sort by field
 
-    if (!empty($this->sort_field)) {
+    if ( ! empty( $this->sort_field ) ) {
       $this->sort_by_field(
         $this->sort_field,
         $this->sort_order,
@@ -166,14 +166,14 @@ class BaseLoop implements BaseLoopInterface {
 
     // Offset
 
-    if ($this->items_offset > 0) {
-      $this->total_items = array_slice($this->total_items, $this->items_offset);
+    if ( $this->items_offset > 0 ) {
+      $this->total_items = array_slice( $this->total_items, $this->items_offset );
     }
 
     // Count
 
-    if ($this->max_items_count >= 0) {
-      $this->total_items = array_slice($this->total_items, 0, (int) $this->max_items_count);
+    if ( $this->max_items_count >= 0 ) {
+      $this->total_items = array_slice( $this->total_items, 0, (int) $this->max_items_count );
     }
 
     $this->items = $this->get_current_page_items();
@@ -223,66 +223,64 @@ class BaseLoop implements BaseLoopInterface {
 
     // Filter by field(s)
 
-    for ($i=1; $i <= 3; $i++) {
+    for ( $i = 1; $i <= 3; $i++ ) {
 
-      $postfix = $i===1 ? '' : '_'.$i;
+      $postfix = $i === 1 ? '' : '_' . $i;
 
-      if (!isset($args['field' . $postfix])) break;
+      if ( ! isset( $args[ 'field' . $postfix ] )) break;
 
       $field = [
-        'name' => $args['field' . $postfix],
+        'name'    => $args[ 'field' . $postfix ],
         'compare' => 'exists',
-        'value' => '',
-        'type' => 'string'
+        'value'   => '',
+        'type'    => 'string',
       ];
 
-      unset($args['field' . $postfix]);
+      unset( $args[ 'field' . $postfix ] );
 
-      if (isset($args['field_value' . $postfix])) {
-        $field['value'] = $args['field_value' . $postfix];
-        unset($args['field_value' . $postfix]);
+      if ( isset( $args[ 'field_value' . $postfix ] ) ) {
+        $field['value'] = $args[ 'field_value' . $postfix ];
+        unset( $args[ 'field_value' . $postfix ] );
 
         // Default compare is "is", not "exists", if value is set
-        if (!isset($args['field_compare' . $postfix])) {
+        if ( ! isset( $args[ 'field_compare' . $postfix ] ) ) {
           $field['compare'] = 'is';
         }
       }
 
-      if (isset($args['field_compare' . $postfix])) {
-        $field['compare'] = $args['field_compare' . $postfix];
-        unset($args['field_compare' . $postfix]);
+      if ( isset( $args[ 'field_compare' . $postfix ] ) ) {
+        $field['compare'] = $args[ 'field_compare' . $postfix ];
+        unset( $args[ 'field_compare' . $postfix ] );
       }
 
-      if (isset($args['field_type' . $postfix])) {
-        $field['type'] = $args['field_type' . $postfix];
-        unset($args['field_type' . $postfix]);
+      if ( isset( $args[ 'field_type' . $postfix ] ) ) {
+        $field['type'] = $args[ 'field_type' . $postfix ];
+        unset( $args[ 'field_type' . $postfix ] );
       }
 
-      $this->filter_fields []= $field;
+      $this->filter_fields [] = $field;
     }
 
-
-    if (isset($args['sort_field'])) {
+    if ( isset( $args['sort_field'] ) ) {
       $this->sort_field = $args['sort_field'];
-      unset($args['sort_field']);
+      unset( $args['sort_field'] );
     }
 
-    if (isset($args['sort_type'])) {
+    if ( isset( $args['sort_type'] ) ) {
       $this->sort_type = $args['sort_type'];
-      unset($args['sort_type']);
+      unset( $args['sort_type'] );
     }
 
-    if (isset($args['sort_order'])) {
+    if ( isset( $args['sort_order'] ) ) {
       $this->sort_order = $args['sort_order'];
-      unset($args['sort_order']);
+      unset( $args['sort_order'] );
     }
-
 
     if ( isset( $args['query'] ) ) return [
       'query' => $args['query'],
     ];
 
-    if (!isset($this::$config['query_args'])) return $args;
+    if ( ! isset( $this::$config['query_args'] )) return $args;
 
     /**
      * Pre-process given args based on defined query args
@@ -308,8 +306,7 @@ class BaseLoop implements BaseLoopInterface {
 
     $this->query = isset( $this->query_args['query'] )
       ? $this->query_args['query'] // Query instance passed
-      : $this->create_query( $this->query_args )
-    ;
+      : $this->create_query( $this->query_args );
 
     // By default, pass through args from constructor -> query
 
@@ -338,7 +335,7 @@ class BaseLoop implements BaseLoopInterface {
 
     $loop->push_context( $this );
 
-    $callback = $fn->bindTo($this, $this);
+    $callback = $fn->bindTo( $this, $this );
 
     while ( $this->has_next() ) {
       $this->next();
@@ -352,25 +349,26 @@ class BaseLoop implements BaseLoopInterface {
 
   // Array utilities
 
-  function each( $fn ) { return $this->loop($fn); } // Alias
+  function each( $fn ) {
+    return $this->loop( $fn ); } // Alias
 
   function map( $fn ) {
 
-    $results = [];
-    $callback = $fn->bindTo($this, $this);
+    $results  = [];
+    $callback = $fn->bindTo( $this, $this );
 
-    $this->loop(function($item) use (&$results, $callback) {
+    $this->loop(function( $item ) use ( &$results, $callback ) {
       if (is_null( $result = $callback( $item ) )) return;
-      $results []= $result;
+      $results [] = $result;
     });
     return $results;
   }
 
   function reduce( $fn, $acc = [] ) {
 
-    $callback = $fn->bindTo($this, $this);
+    $callback = $fn->bindTo( $this, $this );
 
-    $this->loop(function($item) use (&$acc, $callback) {
+    $this->loop(function( $item ) use ( &$acc, $callback ) {
       if (is_null( $result = $callback( $item, $acc ) )) return;
       $acc = $result;
     });
@@ -380,12 +378,12 @@ class BaseLoop implements BaseLoopInterface {
 
   function filter( $fn ) {
 
-    $current = $this->current;
-    $callback = $fn->bindTo($this, $this);
+    $current  = $this->current;
+    $callback = $fn->bindTo( $this, $this );
 
-    $this->items = array_filter($this->items, $callback);
+    $this->items = array_filter( $this->items, $callback );
 
-    $this->current = $current;
+    $this->current     = $current;
     $this->total_items = $this->items;
 
     return $this->items;
@@ -393,12 +391,12 @@ class BaseLoop implements BaseLoopInterface {
 
   function sort( $fn ) {
 
-    $current = $this->current;
-    $callback = $fn->bindTo($this, $this);
+    $current  = $this->current;
+    $callback = $fn->bindTo( $this, $this );
 
-    usort($this->items, $callback);
+    usort( $this->items, $callback );
 
-    $this->current = $current;
+    $this->current     = $current;
     $this->total_items = $this->items;
 
     return $this->items;
@@ -407,14 +405,14 @@ class BaseLoop implements BaseLoopInterface {
   function loop_current_item( $fn ) {
 
     $current = $this->current;
-    $items = $this->items;
+    $items   = $this->items;
 
     $this->items = [ $this->current ];
 
-    $this->loop($fn);
+    $this->loop( $fn );
 
     $this->current = $current;
-    $this->items = $items;
+    $this->items   = $items;
   }
 
   // Cursor
@@ -457,8 +455,8 @@ class BaseLoop implements BaseLoopInterface {
   function get_field( $field_name, $args = [] ) {
 
     // Ensure that current item exists
-    if (empty( $this->current )) {
-      if ($this->index!==-1) return;
+    if ( empty( $this->current ) ) {
+      if ($this->index !== -1) return;
 
       // Start loop if it hasn't yet
       $this->next();
@@ -478,8 +476,8 @@ class BaseLoop implements BaseLoopInterface {
      * @see $loop->get_filtered_field in /field/index.php
      */
 
-    if (!is_null(
-      $value = $this->get_filtered_field($field_name, $args)
+    if ( ! is_null(
+      $value = $this->get_filtered_field( $field_name, $args )
     )) return $value;
 
     // After all above checks passed, get current item's field
@@ -570,7 +568,7 @@ class BaseLoop implements BaseLoopInterface {
 
   function set_current_page( $current_page = 1 ) {
     $this->current_page = $current_page;
-    $this->items = $this->get_current_page_items();
+    $this->items        = $this->get_current_page_items();
     return $this;
   }
 
@@ -581,25 +579,25 @@ class BaseLoop implements BaseLoopInterface {
 
     $current = $this->current;
 
-    $order = strtolower($order)==='asc' ? 1 : -1;
+    $order = strtolower( $order ) === 'asc' ? 1 : -1;
 
-    usort($this->total_items, function($a, $b) use ($field_name, $order, $sort_type) {
+    usort($this->total_items, function( $a, $b ) use ( $field_name, $order, $sort_type ) {
 
       $this->current = $a;
-      $a_value = $this->get_field($field_name);
+      $a_value       = $this->get_field( $field_name );
       $this->current = $b;
-      $b_value = $this->get_field($field_name);
+      $b_value       = $this->get_field( $field_name );
 
-      switch ($sort_type) {
+      switch ( $sort_type ) {
 
         case 'date':
-          $a_value = strtotime($a_value);
-          $b_value = strtotime($b_value);
+          $a_value = strtotime( $a_value );
+          $b_value = strtotime( $b_value );
           // Fall through
 
         case 'number':
-          if ($a_value==$b_value) return 0;
-          return ($a_value < $b_value ? -1 : 1) * $order;
+          if ($a_value == $b_value) return 0;
+            return ( $a_value < $b_value ? -1 : 1 ) * $order;
         break;
 
         case 'lowercase':
@@ -609,7 +607,7 @@ class BaseLoop implements BaseLoopInterface {
 
         case 'string':
         default:
-          return strcmp($a_value, $b_value) * $order;
+            return strcmp( $a_value, $b_value ) * $order;
         break;
       }
     });
@@ -629,7 +627,7 @@ class BaseLoop implements BaseLoopInterface {
 
     $html = self::$loop->html;
 
-    foreach ($this->total_items as $item) {
+    foreach ( $this->total_items as $item ) {
 
       $this->current = $item;
       $current_value = $this->get_field( $field_name );
@@ -638,10 +636,11 @@ class BaseLoop implements BaseLoopInterface {
 
       /**
        * Evaluate comparison using same logic as If tag
+       *
        * @see /vendor/tangible/template/logic/comparison.php
        */
 
-      switch ($field_compare) {
+      switch ( $field_compare ) {
         /**
          * For array comparisons, flip current field value and given value
          * because it's the opposite of how If tag works: field=X in value=X,Y,Z
@@ -651,14 +650,14 @@ class BaseLoop implements BaseLoopInterface {
           $keep = $html->evaluate_logic_comparison(
             $field_compare, $current_value, $field_value
           );
-        break;
+            break;
         default:
           $keep = $html->evaluate_logic_comparison(
             $field_compare, $field_value, $current_value
           );
       }
 
-      if ($keep) $filtered_items []= $item;
+      if ($keep) $filtered_items [] = $item;
     }
 
     $this->reset();

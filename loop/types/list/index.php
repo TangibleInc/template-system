@@ -9,9 +9,9 @@ namespace Tangible\Loop;
 class ListLoop extends BaseLoop {
 
   static $config = [
-    'name'       => 'list',
-    'title'      => 'List',
-    'category'   => 'core',
+    'name'     => 'list',
+    'title'    => 'List',
+    'category' => 'core',
   ];
 
   function run_query( $args = [] ) {
@@ -31,8 +31,8 @@ class ListLoop extends BaseLoop {
   function get_item_field( $item, $field_name, $args = [] ) {
 
     // Support passing JSON string
-    if (is_string($item)) {
-      $item = @json_decode($item, true);
+    if ( is_string( $item ) ) {
+      $item = @json_decode( $item, true );
     }
 
     // By default, get field from object or associative array

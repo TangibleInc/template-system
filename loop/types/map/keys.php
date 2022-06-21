@@ -9,9 +9,9 @@ namespace Tangible\Loop;
 class MapKeysLoop extends ListLoop {
 
   static $config = [
-    'name'       => 'map_keys',
-    'title'      => 'Map keys',
-    'category'   => 'core',
+    'name'     => 'map_keys',
+    'title'    => 'Map keys',
+    'category' => 'core',
   ];
 
   function run_query( $args = [] ) {
@@ -20,15 +20,15 @@ class MapKeysLoop extends ListLoop {
 
   function get_items_from_query( $map ) {
 
-    if (!is_array($map)) $map = [];
+    if ( ! is_array( $map )) $map = [];
 
-    $keys = array_keys($map);
+    $keys = array_keys( $map );
 
-    sort($keys); // TODO: Sort options
+    sort( $keys ); // TODO: Sort options
 
-    $items = array_map(function($key) use ($map) {
+    $items = array_map(function( $key ) use ( $map ) {
       return [
-        'key' => $key,
+        'key'   => $key,
         'value' => $map[ $key ],
       ];
     }, $keys);

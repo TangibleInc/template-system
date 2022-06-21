@@ -26,33 +26,36 @@
  * <Term name taxonomy=category />
  * ```
  */
-$html->taxonomy_tag = function($atts, $nodes) use ($html) {
+$html->taxonomy_tag = function( $atts, $nodes ) use ( $html ) {
 
   $taxonomy = '';
 
-  if (isset($atts['keys']) && isset($atts['keys'][0])) {
-    $taxonomy = array_shift($atts['keys']);
-  } elseif (isset($atts['name'])) {
+  if ( isset( $atts['keys'] ) && isset( $atts['keys'][0] ) ) {
+    $taxonomy = array_shift( $atts['keys'] );
+  } elseif ( isset( $atts['name'] ) ) {
     $taxonomy = $atts['name'];
-    unset($atts['name']);
+    unset( $atts['name'] );
   }
-  if (empty($taxonomy)) return;
+  if (empty( $taxonomy )) return;
 
-  if (isset($atts['field'])) {
+  if ( isset( $atts['field'] ) ) {
     // Single term field
     $atts['count'] = 1;
-    $nodes = [
-      [ 'tag' => 'Field', 'attributes' => [
-        'keys' => [ $atts['field'] ]
-      ] ]
+    $nodes         = [
+      [
+    'tag'        => 'Field',
+    'attributes' => [
+        'keys' => [ $atts['field'] ],
+      ],
+      ],
     ];
   }
 
-  $atts['type'] = 'taxonomy_term';
+  $atts['type']     = 'taxonomy_term';
   $atts['taxonomy'] = $taxonomy;
-  $atts['post'] = 'current';
+  $atts['post']     = 'current';
 
-  return $html->loop_tag($atts, $nodes);
+  return $html->loop_tag( $atts, $nodes );
 };
 
 return $html->taxonomy_tag;

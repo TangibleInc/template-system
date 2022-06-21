@@ -6,93 +6,93 @@
  */
 
 $html->register_variable_type('url', [
-  'set' => function($name, $atts, $content, &$memory) use ($html) {
+  'set' => function( $name, $atts, $content, &$memory ) use ( $html ) {
 
-    $content = isset($atts['raw']) ? $content : $html->render( $content );
+    $content = isset( $atts['raw'] ) ? $content : $html->render( $content );
 
     // Trim string by default, unless trim=false
-    if (is_string($content) &&
-      (!isset($atts['trim']) || ($atts['trim']!=='false' && $atts['trim']!==false))
+    if ( is_string( $content ) &&
+      ( ! isset( $atts['trim'] ) || ( $atts['trim'] !== 'false' && $atts['trim'] !== false ) )
     ) {
-      $content = trim($content);
+      $content = trim( $content );
     }
 
     $memory[ $name ] = $content;
   },
-  'get' => function($name, $atts, &$memory) use ($html) {
-    if (isset($memory[ $name ])) return $memory[ $name ];
+  'get' => function( $name, $atts, &$memory ) use ( $html ) {
+    if (isset( $memory[ $name ] )) return $memory[ $name ];
 
     global $wp;
     $url = '';
 
     // For backward compatibility - Standardized to use underscore for field names
-    $name = str_replace('-', '_', $name);
+    $name = str_replace( '-', '_', $name );
 
-    switch ($name) {
+    switch ( $name ) {
       case '':
       case 'current':
         $url = is_multisite() ? get_home_url( $wp->request ) : home_url( $wp->request );
-      break;
+          break;
 
       case 'site':
         $url = is_multisite() ? get_site_url() : site_url();
-      break;
+          break;
       case 'home':
         $url = is_multisite() ? get_home_url() : home_url();
-      break;
+          break;
       case 'admin':
         $url = is_multisite() ? get_admin_url() : admin_url();
-      break;
+          break;
       case 'ajax':
-        $url = is_multisite() ? get_admin_url('admin-ajax.php') : admin_url('admin-ajax.php');
-      break;
+        $url = is_multisite() ? get_admin_url( 'admin-ajax.php' ) : admin_url( 'admin-ajax.php' );
+          break;
 
       case 'network_admin':
         $url = network_admin_url();
-      break;
+          break;
       case 'network_site':
         $url = network_site_url();
-      break;
+          break;
       case 'network_home':
         $url = network_home_url();
-      break;
+          break;
 
       case 'content':
         $url = content_url();
-      break;
+          break;
       case 'plugins':
         $url = plugins_url();
-      break;
+          break;
       case 'theme':
         $url = get_theme_file_uri();
-      break;
+          break;
       case 'child_theme':
         $url = get_stylesheet_directory_uri();
-      break;
+          break;
       case 'uploads':
         $data = wp_upload_dir( null, false, false );
-        $url = $data['url'];
-      break;
+        $url  = $data['url'];
+          break;
 
       case 'login':
         $url = wp_login_url(
-          isset($atts['redirect']) ? $atts['redirect'] :
-            (is_multisite() ? get_site_url() : site_url())
+          isset( $atts['redirect'] ) ? $atts['redirect'] :
+            ( is_multisite() ? get_site_url() : site_url() )
         );
-      break;
+          break;
       case 'logout':
         $url = wp_logout_url(
-          isset($atts['redirect']) ? $atts['redirect'] :
-            (is_multisite() ? get_site_url() : site_url())
+          isset( $atts['redirect'] ) ? $atts['redirect'] :
+            ( is_multisite() ? get_site_url() : site_url() )
         );
-      break;
+          break;
       case 'register':
         $url = add_query_arg('action', 'register', wp_login_url(
-          isset($atts['redirect']) ? $atts['redirect'] : ''
+          isset( $atts['redirect'] ) ? $atts['redirect'] : ''
         ));
-      break;
+          break;
       default:
-        return '';
+          return '';
     }
 
     // URLs do not have trailing slash
@@ -101,64 +101,63 @@ $html->register_variable_type('url', [
   },
 ]);
 
-$html->get_url = function($name = '', $atts = []) use ($html) {
-  return $html->get_variable_type('url', $name, $atts);
+$html->get_url = function( $name = '', $atts = [] ) use ( $html ) {
+  return $html->get_variable_type( 'url', $name, $atts );
 };
 
-$html->set_url = function($name, $content, $atts = []) use ($html) {
-  return $html->set_variable_type('url', $name, $content, $atts + [ 'raw' => true ]);
+$html->set_url = function( $name, $content, $atts = [] ) use ( $html ) {
+  return $html->set_variable_type( 'url', $name, $content, $atts + [ 'raw' => true ] );
 };
 
 // Query - The part after "?" in the URL
-$html->get_url_query = function($name) use ($html) {
+$html->get_url_query = function( $name ) use ( $html ) {
 
   static $memory;
 
-  if (!$memory) $memory = [];
+  if ( ! $memory) $memory = [];
 
-  if (isset($memory['query'])) {
+  if ( isset( $memory['query'] ) ) {
     $query = $memory['query'];
   } else {
-    $url = parse_url( $_SERVER['REQUEST_URI'] );
-    $query = isset($url['query']) ? $url['query'] : '';
+    $url             = parse_url( $_SERVER['REQUEST_URI'] );
+    $query           = isset( $url['query'] ) ? $url['query'] : '';
     $memory['query'] = $query;
   }
 
-  if ($name==='query' || empty($query)) {
-    return sanitize_text_field(urldecode($query));
+  if ( $name === 'query' || empty( $query ) ) {
+    return sanitize_text_field( urldecode( $query ) );
   }
 
-  if (isset($memory['queries'])) {
+  if ( isset( $memory['queries'] ) ) {
     $queries = $memory['queries'];
   } else {
     // Create array from query string
-    parse_str( htmlspecialchars_decode($query), $queries );
+    parse_str( htmlspecialchars_decode( $query ), $queries );
     $memory['queries'] = $queries;
   }
 
   return isset( $queries[ $name ] )
     ? sanitize_text_field( $queries[ $name ] )
-    : ''
-  ;
+    : '';
 };
 
-$html->url_tag = function($atts, $content) use ($html) {
+$html->url_tag = function( $atts, $content ) use ( $html ) {
 
   // URL query parameter
-  if (isset($atts['query'])) {
+  if ( isset( $atts['query'] ) ) {
     $key = $atts['query'];
-    unset($atts['query']);
-    return $html->get_url_query($key);
+    unset( $atts['query'] );
+    return $html->get_url_query( $key );
   }
 
-  $key = array_shift($atts['keys']);
+  $key = array_shift( $atts['keys'] );
 
   // <Url query /> returns the whole query string with multiple keys
-  if ($key==='query') {
-    return $html->get_url_query($key);
+  if ( $key === 'query' ) {
+    return $html->get_url_query( $key );
   }
 
-  return $html->get_variable_type('url', $key, $atts);
+  return $html->get_variable_type( 'url', $key, $atts );
 };
 
 return $html->url_tag;

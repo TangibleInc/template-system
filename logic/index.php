@@ -9,10 +9,9 @@ if ( ! function_exists( 'tangible_logic' ) ) {
 
   function tangible_logic( $instance = null ) {
     static $o;
-    return is_a($instance, 'TangibleModule')
-      ? ($o = $instance->latest)
-      : $o
-    ;
+    return is_a( $instance, 'TangibleModule' )
+      ? ( $o = $instance->latest )
+      : $o;
   }
 }
 
@@ -34,10 +33,10 @@ return tangible_logic(new class extends TangibleModule {
   function load_version() {
 
     $this->file_path = __FILE__;
-    $this->url = plugins_url( '/', __FILE__ );
+    $this->url       = plugins_url( '/', __FILE__ );
 
     // Backward compatibility
-    $this->state['url'] = $this->url;
+    $this->state['url']     = $this->url;
     $this->state['version'] = $this->version;
   }
 

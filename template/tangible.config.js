@@ -1,6 +1,5 @@
 module.exports = {
   build: [
-
     // CodeMirror
     {
       src: 'assets/src/codemirror/index.js',
@@ -48,6 +47,6 @@ module.exports = {
       src: 'assets/src/form/index.js',
       dest: 'assets/build/form.min.js',
     },
-
   ],
+  format: ['**/*.{php,js,scss}', '!assets/build', '!codemirror'],
 }

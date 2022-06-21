@@ -2,14 +2,14 @@
 
 namespace Tangible\Math;
 
-$html->math = function($content = '') {
+$html->math = function( $content = '' ) {
 
   static $math;
 
-  if (!$math) {
+  if ( ! $math ) {
 
-    if (!class_exists('Tangible\\Math\\Math')) {
-      require_once __DIR__.'/Math.php';
+    if ( ! class_exists( 'Tangible\\Math\\Math' ) ) {
+      require_once __DIR__ . '/Math.php';
     }
 
     $math = new Math;
@@ -18,21 +18,21 @@ $html->math = function($content = '') {
   return $math->evaluate( $content );
 };
 
-$html->add_open_tag('Math', function($atts, $content) use ($html) {
-  return $html->math( $html->render($content) );
+$html->add_open_tag('Math', function( $atts, $content ) use ( $html ) {
+  return $html->math( $html->render( $content ) );
 });
 
 /**
  * Math variable type
  */
 $html->register_variable_type('math', [
-  'set' => function($name, $atts, $content, &$memory) use ($html) {
+  'set' => function( $name, $atts, $content, &$memory ) use ( $html ) {
 
     $content = $html->render( $content );
 
-    $html->math($name.'='.$content);
+    $html->math( $name . '=' . $content );
   },
-  'get' => function($name, $atts, &$memory) use ($html) {
-    return $html->math($name);
+  'get' => function( $name, $atts, &$memory ) use ( $html ) {
+    return $html->math( $name );
   },
 ]);

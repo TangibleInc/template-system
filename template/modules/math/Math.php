@@ -92,8 +92,8 @@ class Math {
 
   function evaluate( $expr ) {
 
-    $this->last_error                        = null;
-    $expr                                    = trim( $expr );
+    $this->last_error = null;
+    $expr             = trim( $expr );
 
     if (substr( $expr, -1, 1 ) == ';') $expr = substr( $expr, 0, strlen( $expr ) - 1 ); // strip semicolons at the end
 
@@ -111,7 +111,7 @@ class Math {
       return; // don't return anything for variable assignment
       // return $this->v[$matches[1]]; // and return the resulting value
 
-    // Is it a function assignment?
+      // Is it a function assignment?
     } elseif ( preg_match(
       '/^\s*(' . self::$namepat . ')\s*\(\s*(' . self::$namepat . '(?:\s*,\s*' . self::$namepat . ')*)\s*\)\s*=\s*(.+)$/',
       $expr,
@@ -269,7 +269,7 @@ class Math {
           $arg_count = $stack->pop(); // see how many arguments there were (cleverly stored on the stack, thank you)
           $fn        = $stack->pop();
 
-          $output[]  = array(
+          $output[] = array(
             'fn'       => $fn,
             'fnn'      => $fnn,
             'argcount' => $arg_count,
@@ -304,12 +304,11 @@ class Math {
           } else { // did we somehow push a non-function on the stack? this should never happen
               return $this->trigger( $this->get_string( 'internalerror', 'mathslib' ) );
           }
-
         }
 
         $index++;
 
-      // Did we just finish a function argument?
+        // Did we just finish a function argument?
       } elseif ( $op == ',' and $expecting_op ) {
 
         while ( ( $o2 = $stack->pop() ) != '(' ) {
@@ -331,7 +330,7 @@ class Math {
         $index++;
         $allow_neg = true;
 
-      // Do we now have a function/variable/number?
+        // Do we now have a function/variable/number?
       } elseif ( $ex and ! $expecting_op ) {
 
         $expecting_op = true;
@@ -353,7 +352,6 @@ class Math {
               $val      = $matches[1];
               $output[] = $val;
           }
-
         } else { // it's a plain old var or num
           $output[] = $val;
         }
@@ -395,7 +393,7 @@ class Math {
             return $this->trigger( $this->get_string( 'unexpectedclosingbracket', 'mathslib' ) );
         }
 
-      // Miscellaneous error checking
+        // Miscellaneous error checking
       } elseif ( in_array( $op, $ops ) and ! $expecting_op ) {
 
         return $this->trigger( $this->get_string( 'unexpectedoperator', 'mathslib', $op ) );
@@ -488,7 +486,6 @@ class Math {
           }
           $stack->push( $this->pfx( $this->f[ $fnn ]['func'], $args ) ); // yay... recursion!!!!
         }
-
       } elseif ( in_array( $token, array( '+', '-', '*', '/', '^', '%' ), true ) ) {
 
         // If the token is a binary operator, pop two values off the stack, do the operation, and push the result back on
@@ -498,25 +495,24 @@ class Math {
         switch ( $token ) {
           case '+':
             $stack->push( $op1 + $op2 );
-            break;
+              break;
           case '-':
             $stack->push( $op1 - $op2 );
-            break;
+              break;
           case '*':
             $stack->push( $op1 * $op2 );
-            break;
+              break;
           case '/':
             if ($op2 == 0) return $this->trigger( $this->get_string( 'divisionbyzero', 'mathslib' ) );
             $stack->push( $op1 / $op2 );
-            break;
+              break;
           case '^':
             $stack->push( pow( $op1, $op2 ) );
-            break;
+              break;
           case '%':
             $stack->push( $op1 % $op2 );
-            break;
+              break;
         }
-
       } elseif ( $token == '_' ) {
 
         // If the token is a unary operator, pop one value off the stack, do the operation, and push it back on

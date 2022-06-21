@@ -4,13 +4,13 @@
 
 $html = tangible_template();
 
-$test('CodeMirror', function($it) use ($html, $tester) {
+$test('CodeMirror', function( $it ) use ( $html, $tester ) {
 
-  $it('tangible_template()->enqueue_codemirror', isset($html->enqueue_codemirror));
+  $it( 'tangible_template()->enqueue_codemirror', isset( $html->enqueue_codemirror ) );
 
   $html->enqueue_codemirror();
 
-  $it('enqueues', true);
+  $it( 'enqueues', true );
 
 });
 

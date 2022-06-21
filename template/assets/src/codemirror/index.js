@@ -1,16 +1,15 @@
-
 // Code editor with sensible defaults for HTML templates and common languages
 const createCodeEditor = require('../../../codemirror') // @tangible/codemirror
 
 const {
   CodeMirror, // Direct access to underlying CodeMirror
   commonOptions,
-  languageOptions
+  languageOptions,
 } = createCodeEditor
 
 Object.assign(CodeMirror, {
   commonOptions,
-  languageOptions
+  languageOptions,
 })
 
 window.Tangible = window.Tangible || {}

@@ -13,16 +13,16 @@
 
   $rule_definitions = $logic->get_logic_tag_rules();
 
-  foreach ($rule_definitions as $field_name => $defs) {
+foreach ( $rule_definitions as $field_name => $defs ) {
 
-?>
+  ?>
 <tr>
   <td><?php echo $field_name; ?></td>
   <td><?php
 
-  foreach ($defs as $def_index => $def) {
+  foreach ( $defs as $def_index => $def ) {
     if ($def_index > 0) echo '<hr>';
-    echo implode(', ', array_map(function($op) {
+    echo implode(', ', array_map(function( $op ) {
       return $op['name'];
     }, $def['operands']));
   }
@@ -30,18 +30,18 @@
   ?></td>
   <td><?php
 
-  foreach ($defs as $def_index => $def) {
+  foreach ( $defs as $def_index => $def ) {
     if ($def_index > 0) echo '<hr>';
-    echo implode(', ', array_map(function($v) {
-      return isset($v['name']) ? $v['name'] : "(".(
-        isset($v['type']) ? $v['type'] : 'unknown'
-      ).")";
+    echo implode(', ', array_map(function( $v ) {
+      return isset( $v['name'] ) ? $v['name'] : '(' . (
+        isset( $v['type'] ) ? $v['type'] : 'unknown'
+      ) . ')';
     }, $def['values']));
   }
 
   ?></td>
 </tr>
-<?php
+  <?php
 
 }
 

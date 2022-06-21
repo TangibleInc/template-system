@@ -1,24 +1,22 @@
-
 const $ = window.jQuery
-const {
-  Table,
-  ajax
-} = window.Tangible || {}
-
+const { Table, ajax } = window.Tangible || {}
 
 const debug = false // Show console.log - Set false before publish
 
-const createLogger = title => ['log', 'warn', 'error'].reduce((obj, key) => {
-  obj[key] = (...args) =>
-    (key==='log' && !debug) ? null : window.console[key](`[${title}]`, ...args)
-  return obj
-}, {})
+const createLogger = (title) =>
+  ['log', 'warn', 'error'].reduce((obj, key) => {
+    obj[key] = (...args) =>
+      key === 'log' && !debug
+        ? null
+        : window.console[key](`[${title}]`, ...args)
+    return obj
+  }, {})
 
 const console = createLogger('Tangible Table')
 
 const debounce = (func, delay) => {
   let timer
-  return function() {
+  return function () {
     clearTimeout(timer)
     timer = window.setTimeout(() => func.apply(this, arguments), delay)
   }
@@ -27,15 +25,13 @@ const debounce = (func, delay) => {
 const cacheKey = '__tangibleTableRendered'
 
 function activateTable(selector, options = {}) {
-
   if (!Table) {
     console.warn('Library not found')
     return
   }
 
-  const el = typeof selector==='string'
-    ? document.querySelector(selector)
-    : selector
+  const el =
+    typeof selector === 'string' ? document.querySelector(selector) : selector
 
   if (!el) {
     console.warn('Element not found', selector)
@@ -73,20 +69,18 @@ function activateTable(selector, options = {}) {
     row_loop: rowLoop,
     column_template: columnTemplate,
     column_order: columnOrder,
-
   } = config
 
   // Current state
 
   let currentPage = 1
   let {
-    per_page:    perPage = -1,
+    per_page: perPage = -1,
     total_pages: totalPages,
 
     sort_column: sortColumn,
-    sort_order:  sortOrder,
-    sort_type:   sortType,
-
+    sort_order: sortOrder,
+    sort_type: sortType,
   } = config
 
   let currentSearch = ''
@@ -111,7 +105,7 @@ function activateTable(selector, options = {}) {
     columns: columnLabel,
     sorting: columnSortEnabled,
 
-    rowsPerPage: perPage===-1 ? 999 : perPage,
+    rowsPerPage: perPage === -1 ? 999 : perPage,
     pagination,
     totalPages,
     paginationTemplate,
@@ -129,12 +123,9 @@ function activateTable(selector, options = {}) {
 
   console.log('Created', tableOptions)
 
-
   // Replace existing table's content and move pagination after it
 
-  $el.empty().append(
-    $container.find('table').children()
-  )
+  $el.empty().append($container.find('table').children())
 
   const $pagination = $container.find('.tangible-table-pagination')
 
@@ -142,10 +133,12 @@ function activateTable(selector, options = {}) {
 
   $el.wrap('<div class="tangible-table-overflow"></div>')
 
-  const $emptyTableTemplate = $('<div class="tangible-table-on-empty">' + emptyTableTemplate + '</div>')
+  const $emptyTableTemplate = $(
+    '<div class="tangible-table-on-empty">' + emptyTableTemplate + '</div>'
+  )
 
   $emptyTableTemplate.hide()
-  $emptyTableTemplate.insertAfter( $pagination )
+  $emptyTableTemplate.insertAfter($pagination)
 
   $container = $el.closest('.tangible-table-container')
 
@@ -157,8 +150,7 @@ function activateTable(selector, options = {}) {
 
   const tableDataCache = {}
 
-  const createCacheKey = obj => {
-
+  const createCacheKey = (obj) => {
     const keys = Object.keys(obj)
 
     keys.sort()
@@ -169,9 +161,7 @@ function activateTable(selector, options = {}) {
   }
 
   function createTableRequest(request = {}) {
-
     const tableRequest = {
-
       page: currentPage,
       per_page: perPage,
 
@@ -187,7 +177,7 @@ function activateTable(selector, options = {}) {
 
       filter_by_column_values: currentFilterByColumnValues,
 
-      ...request
+      ...request,
     }
 
     // Create unique key to cache request
@@ -198,14 +188,13 @@ function activateTable(selector, options = {}) {
         ...tableRequest,
         // Excluded from cache key
         column_template: columnTemplate,
-        column_sort_type: columnSortType
+        column_sort_type: columnSortType,
       },
-      cacheKey
+      cacheKey,
     }
   }
 
-  function handleEmptyTable( hasData = false ) {
-
+  function handleEmptyTable(hasData = false) {
     // Called on search or filter - Show empty table template as needed
 
     if (hasData) {
@@ -220,17 +209,11 @@ function activateTable(selector, options = {}) {
   }
 
   function fetchTableData(request = {}) {
-
-    const {
-      tableRequest,
-      cacheKey
-    } = createTableRequest(request)
+    const { tableRequest, cacheKey } = createTableRequest(request)
 
     return new Promise((resolve, reject) => {
-
-      if (tableDataCache[ cacheKey ]) {
-
-        const cached = tableDataCache[ cacheKey ]
+      if (tableDataCache[cacheKey]) {
+        const cached = tableDataCache[cacheKey]
 
         // console.log('fetchTableData cached', cached)
 
@@ -242,17 +225,15 @@ function activateTable(selector, options = {}) {
       $container.addClass('loading')
 
       ajax('tangible_table_data', tableRequest)
-        .then(function(response) {
-
-          tableDataCache[ cacheKey ] = response
+        .then(function (response) {
+          tableDataCache[cacheKey] = response
 
           console.log('fetchTableData success', response)
           resolve(response)
 
           $container.removeClass('loading')
         })
-        .catch(function(e) {
-
+        .catch(function (e) {
           console.log('fetchTableData error', e)
           resolve() // NOTE: Caller must check for undefined
 
@@ -263,13 +244,11 @@ function activateTable(selector, options = {}) {
 
   // Cache initial page
 
-  const {
-    cacheKey: initialCacheKey
-  } = createTableRequest()
+  const { cacheKey: initialCacheKey } = createTableRequest()
 
-  tableDataCache[ initialCacheKey ] = {
+  tableDataCache[initialCacheKey] = {
     rows,
-    total_pages: totalPages
+    total_pages: totalPages,
   }
 
   /**
@@ -277,16 +256,14 @@ function activateTable(selector, options = {}) {
    */
 
   function onPaginationChange(pageIndex) {
+    console.log('Get page', pageIndex + 1)
 
-    console.log('Get page', pageIndex+1)
+    currentPage = pageIndex + 1
 
-    currentPage = pageIndex+1
-
-    fetchTableData()
-      .then(function(response) {
-        if (!response) return
-        table.setPage(pageIndex, response.rows)
-      })
+    fetchTableData().then(function (response) {
+      if (!response) return
+      table.setPage(pageIndex, response.rows)
+    })
   }
 
   function onUpdateRowsPerPage(rowsPerPage) {
@@ -294,45 +271,41 @@ function activateTable(selector, options = {}) {
   }
 
   function onColumnSort(column, order) {
-
     currentPage = 1
     sortColumn = column
-    sortOrder  = order
-    sortType   = columnSortType[column] || 'string'
+    sortOrder = order
+    sortType = columnSortType[column] || 'string'
 
     console.log('onColumnSort', currentPage, sortColumn, sortOrder, sortType)
 
-    fetchTableData()
-      .then(function(response) {
-        if (!response) return
-        const pageIndex = currentPage - 1
-        table.setPage(pageIndex, response.rows)
-      })
+    fetchTableData().then(function (response) {
+      if (!response) return
+      const pageIndex = currentPage - 1
+      table.setPage(pageIndex, response.rows)
+    })
   }
 
   function onSearch(value, searchColumns) {
-
     console.log('onSearch', value, searchColumns)
 
     currentPage = 1
     currentSearch = value
     currentSearchColumns = searchColumns || table.getVisibleColumns()
 
-    fetchTableData()
-      .then(function(response) {
-        if (!response) return
+    fetchTableData().then(function (response) {
+      if (!response) return
 
-        console.log('Search result', response)
+      console.log('Search result', response)
 
-        table.setTotalPages(response.total_pages || 1)
+      table.setTotalPages(response.total_pages || 1)
 
-        const pageIndex = currentPage - 1
-        const currentRows = response.rows || []
+      const pageIndex = currentPage - 1
+      const currentRows = response.rows || []
 
-        table.setPage(pageIndex, currentRows)
+      table.setPage(pageIndex, currentRows)
 
-        handleEmptyTable( currentRows.length )
-      })
+      handleEmptyTable(currentRows.length)
+    })
   }
 
   // Filters
@@ -341,70 +314,66 @@ function activateTable(selector, options = {}) {
 
   if (!$filterForm.length) return
 
-  const runFilter = function({
-    $field, tag, name, type, action, filterColumns
+  const runFilter = function ({
+    $field,
+    tag,
+    name,
+    type,
+    action,
+    filterColumns,
   }) {
-
     const value = $field.val()
 
     console.log('Filter', action, name, value)
 
-    if (action==='loop' || action==='column') {
-
-      if (action==='column') {
-
+    if (action === 'loop' || action === 'column') {
+      if (action === 'column') {
         // Filter by column value
 
         // If value is empty, clear previous filter
-        if ( ! value.length ) {
-          delete currentFilterByColumnValues[ name ]
+        if (!value.length) {
+          delete currentFilterByColumnValues[name]
         } else {
-          currentFilterByColumnValues[ name ] = {
-            value
+          currentFilterByColumnValues[name] = {
+            value,
           }
         }
-
       } else {
-
         // Filter by loop attribute
 
         rowLoop.attributes[name] = value
       }
 
-      fetchTableData()
-        .then(function(response) {
+      fetchTableData().then(function (response) {
+        if (!response) return
 
-          if (!response) return
+        totalPages = response.total_pages || 1 // Minimum
 
-          totalPages = response.total_pages || 1 // Minimum
+        if (currentPage > totalPages) {
+          currentPage = totalPages
+        }
 
-          if (currentPage > totalPages) {
-            currentPage = totalPages
-          }
+        table.setTotalPages(totalPages)
 
-          table.setTotalPages(totalPages)
+        const pageIndex = currentPage - 1
+        const currentRows = response.rows || []
 
-          const pageIndex = currentPage - 1
-          const currentRows = response.rows || []
+        table.setPage(pageIndex, currentRows)
 
-          table.setPage(pageIndex, currentRows)
-
-          handleEmptyTable( currentRows.length )
-        })
+        handleEmptyTable(currentRows.length)
+      })
 
       return
     }
 
-    if (action==='search') {
-
+    if (action === 'search') {
       onSearch(value, filterColumns)
       // table.search( value, filterColumns )
 
       return
     }
 
-    if (action==='perPage') {
-
+    if (action === 'perPage') {
       onUpdateRowsPerPage(parseInt(value, 10))
       return
     }
@@ -412,42 +381,45 @@ function activateTable(selector, options = {}) {
     // Unkown action
   }
 
-  $filterForm.each(function() {
-
+  $filterForm.each(function () {
     const $form = $(this)
 
-    $form.find('select,input').each(function() {
-
+    $form.find('select,input').each(function () {
       const $field = $(this)
 
       const tag = $field.prop('tagName').toLowerCase()
       const name = $field.attr('name')
 
-      const type = tag==='select' ? 'select' : $field.attr('type')
+      const type = tag === 'select' ? 'select' : $field.attr('type')
       const action = $field.data('tangibleTableFilterAction') || 'loop'
 
       const filterColumns = $field.data('tangibleTableFilterColumns')
 
-      const onAction = function() {
+      const onAction = function () {
         runFilter({
-          $field, tag, name, type, action, filterColumns
+          $field,
+          tag,
+          name,
+          type,
+          action,
+          filterColumns,
         })
       }
 
       $field.on('change', onAction)
 
-      if (type==='text') {
+      if (type === 'text') {
         $field.on('input', debounce(onAction, 500)) // Limit frequency
       }
     })
 
-    $form.on('submit', function(e) {
+    $form.on('submit', function (e) {
       e.preventDefault()
     })
   })
 }
 
-$('.tangible-table').each(function() {
+$('.tangible-table').each(function () {
   activateTable(this)
 })
 

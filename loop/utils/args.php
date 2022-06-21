@@ -5,7 +5,7 @@
  *
  * Used to create loop type query args from definition
  */
-$loop->get_args_from_config = function( $given_args, $config ) use ($loop) {
+$loop->get_args_from_config = function( $given_args, $config ) use ( $loop ) {
 
   $args = [];
 
@@ -16,9 +16,9 @@ $loop->get_args_from_config = function( $given_args, $config ) use ($loop) {
   return $args;
 };
 
-$loop->set_arg_from_config = function( $args, $given_args, $name, $field_config ) use ($loop) {
+$loop->set_arg_from_config = function( $args, $given_args, $name, $field_config ) use ( $loop ) {
 
-  if (isset($field_config['subfields']) && isset( $given_args[ $name ] )) {
+  if ( isset( $field_config['subfields'] ) && isset( $given_args[ $name ] ) ) {
 
     // Set subfields if this field value given
 
@@ -27,14 +27,14 @@ $loop->set_arg_from_config = function( $args, $given_args, $name, $field_config 
     }
   }
 
-  if (isset($field_config['value'])) {
+  if ( isset( $field_config['value'] ) ) {
     // Always set, without ability to override
     $args[ $name ] = $field_config['value'];
     return $args;
   }
 
-  if (isset($field_config['target_name'])) {
-    if (empty($field_config['target_name'])) return $args;
+  if ( isset( $field_config['target_name'] ) ) {
+    if (empty( $field_config['target_name'] )) return $args;
     $target_name = $field_config['target_name'];
   } else {
     $target_name = $name;
@@ -49,7 +49,7 @@ $loop->set_arg_from_config = function( $args, $given_args, $name, $field_config 
 
   $value = $given_args[ $name ];
 
-  if (isset( $field_config['accepts'] )) {
+  if ( isset( $field_config['accepts'] ) ) {
     // Exclude value if not in accepts
     if ( ! in_array( $value, $field_config['accepts'] ) ) return $args;
   }
@@ -64,38 +64,37 @@ $loop->set_arg_from_config = function( $args, $given_args, $name, $field_config 
 
   if ( ! is_array( $field_types ) ) $field_types = [ $field_types ];
 
-  $cast_to_number = in_array( 'number', $field_types );
+  $cast_to_number  = in_array( 'number', $field_types );
   $cast_to_boolean = in_array( 'boolean', $field_types );
 
   if ( in_array( 'array', $field_types ) ) {
 
-    if (is_string($value) && isset($value[0]) && $value[0]==='[') {
+    if ( is_string( $value ) && isset( $value[0] ) && $value[0] === '[' ) {
       $orig_value = $value;
       try {
-        $value = json_decode($value);
-      } catch (\Throwable $th) {
+        $value = json_decode( $value );
+      } catch ( \Throwable $th ) {
         $value = $orig_value;
       }
     }
 
-    $value = is_string($value)
+    $value = is_string( $value )
       ? array_map( 'trim', explode( ',', $value ) )
-      : (!is_array($value)
+      : ( ! is_array( $value )
         ? [ $value ]
         : $value
-      )
-    ;
+      );
 
     // If key already exists, append to array
-    if (isset($args[ $target_name ])) {
-      if (!is_array($args[ $target_name ])) {
+    if ( isset( $args[ $target_name ] ) ) {
+      if ( ! is_array( $args[ $target_name ] ) ) {
         $args[ $target_name ] = [ $args[ $target_name ] ];
       }
       $value = array_merge( $args[ $target_name ], $value );
     }
 
     if ( $cast_to_number || $cast_to_boolean ) {
-      foreach ($value as $index => $item) {
+      foreach ( $value as $index => $item ) {
         if ( ! is_string( $value ) ) continue;
         if ( $cast_to_number && is_numeric( $item ) ) {
           $value[ $index ] = (float) $item;
@@ -104,8 +103,7 @@ $loop->set_arg_from_config = function( $args, $given_args, $name, $field_config 
         }
       }
     }
-
-  } else if ( is_string( $value ) ) {
+  } elseif ( is_string( $value ) ) {
     if ( $cast_to_number && is_numeric( $value ) ) {
       $value = (float) $value;
     } elseif ( $cast_to_boolean && ( $value === 'true' || $value === 'false' ) ) {

@@ -1,16 +1,12 @@
-jQuery(function($){
-
+jQuery(function ($) {
   var Tangible = window.Tangible
   var wp = window.wp
 
   var $publish = $('#publish')
 
-  $('.tangible-template-acf-field-input-container textarea').each(function() {
-
+  $('.tangible-template-acf-field-input-container textarea').each(function () {
     function save() {
-
       if ($publish.length) {
-
         // Classic editor
 
         $publish.trigger('click')
@@ -19,7 +15,7 @@ jQuery(function($){
 
       // Gutenberg
 
-      wp.data.dispatch("core/editor").savePost()
+      wp.data.dispatch('core/editor').savePost()
     }
 
     var textarea = this
@@ -30,17 +26,17 @@ jQuery(function($){
       lineWrapping: true,
 
       extraKeys: {
-        "Alt-F": 'findPersistent',
+        'Alt-F': 'findPersistent',
         'Ctrl-S': save,
         'Cmd-S': save,
-        'Tab': 'emmetExpandAbbreviation',
-        'Esc': 'emmetResetAbbreviation',
-        'Enter': 'emmetInsertLineBreak',
-        'Ctrl-Space': 'autocomplete'
+        Tab: 'emmetExpandAbbreviation',
+        Esc: 'emmetResetAbbreviation',
+        Enter: 'emmetInsertLineBreak',
+        'Ctrl-Space': 'autocomplete',
       },
     })
 
-    editor.on('change', function() {
+    editor.on('change', function () {
       textarea.value = editor.getValue()
     })
 
@@ -50,6 +46,5 @@ jQuery(function($){
     setTimeout(() => {
       editor.refresh()
     }, 100)
-
   })
 })

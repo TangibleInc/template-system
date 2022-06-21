@@ -6,9 +6,9 @@
 
 $plugin->get_mobile_detect = function() {
   static $detect;
-  if (!$detect) {
-    if (!class_exists('Tangible\Mobile_Detect')) {
-      require_once __DIR__.'/Mobile_Detect.php';
+  if ( ! $detect ) {
+    if ( ! class_exists( 'Tangible\Mobile_Detect' ) ) {
+      require_once __DIR__ . '/Mobile_Detect.php';
     }
     $detect = new Tangible\Mobile_Detect;
   }
@@ -19,36 +19,40 @@ $plugin->get_mobile_detect = function() {
  * Variable type "device"
  */
 $html->register_variable_type('device', [
-  'set' => function($name, $atts, $content, &$memory) {
+  'set' => function( $name, $atts, $content, &$memory ) {
     // Do nothing
   },
-  'get' => function($name, $atts, &$memory) use ($plugin) {
+  'get' => function( $name, $atts, &$memory ) use ( $plugin ) {
 
     $detect = $plugin->get_mobile_detect();
 
     $condition = false;
 
-    switch ($name) {
+    switch ( $name ) {
       case 'type':
         // Device type
         if ($detect->isMobile()) return 'mobile';
         if ($detect->isTablet()) return 'tablet';
-        return 'desktop';
+          return 'desktop';
       break;
       case 'agent':
-        return $detect->getUserAgent();
-      case 'mobile': $condition = $detect->isMobile(); break;
-      case 'tablet': $condition = $detect->isTablet(); break;
+          return $detect->getUserAgent();
+      case 'mobile':
+            $condition = $detect->isMobile();
+          break;
+      case 'tablet':
+            $condition = $detect->isTablet();
+          break;
       case 'desktop':
-        $condition = !$detect->isMobile() && !$detect->isTablet();
-      break;
+        $condition = ! $detect->isMobile() && ! $detect->isTablet();
+          break;
       default:
         /**
          * Match rule for device/browser/OS
          * For all rule names, see $detect->getMobileDetectionRulesExtended()
          */
         $condition = $detect->is( $name );
-      break;
+          break;
     }
 
     if ($condition) return 'TRUE';
@@ -62,26 +66,27 @@ $html->register_variable_type('device', [
 $logic->extend_rules_by_category(
   'mobile',
   [
-    [ 'name' => 'device',
-      'label' => 'Device variable type',
-      'field_2' => [ 'type' => 'string' ],
+    [
+'name'           => 'device',
+      'label'    => 'Device variable type',
+      'field_2'  => [ 'type' => 'string' ],
       'operands' => [],
-      'values' => [],
+      'values'   => [],
     ],
   ],
-  function($rule, $atts = []) use ($html) {
+  function( $rule, $atts = [] ) use ( $html ) {
 
     $condition = true;
 
-    $field   = isset($rule['field']) ? $rule['field'] : '';
-    $value   = isset($rule['value']) ? $rule['value'] : '';
-    $operand = isset($rule['operand']) ? $rule['operand'] : '';
+    $field   = isset( $rule['field'] ) ? $rule['field'] : '';
+    $value   = isset( $rule['value'] ) ? $rule['value'] : '';
+    $operand = isset( $rule['operand'] ) ? $rule['operand'] : '';
 
-    switch ($field) {
+    switch ( $field ) {
       case 'device':
-        $current_value = $html->get_variable_type('device', $rule['field_2']);
-        $condition = $html->evaluate_logic_comparison($operand, $value, $current_value, $atts);
-      break;
+        $current_value = $html->get_variable_type( 'device', $rule['field_2'] );
+        $condition     = $html->evaluate_logic_comparison( $operand, $value, $current_value, $atts );
+          break;
     }
 
     return $condition;

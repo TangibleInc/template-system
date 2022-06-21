@@ -3,22 +3,22 @@
  * Fetch table data via AJAX
  */
 
-$ajax->add_public_action('tangible_table_data', function($request) use ($html) {
+$ajax->add_public_action('tangible_table_data', function( $request ) use ( $html ) {
 
-  $data = $html->render_tag('Table', $request);
+  $data = $html->render_tag( 'Table', $request );
 
   // Return only what's needed
 
   $response = [];
 
-  foreach ([
+  foreach ( [
     'rows'        => [],
     'page'        => 1,
     'per_page'    => 10,
     'total_pages' => 1,
 
-  ] as $key => $default_value) {
-    $response[ $key ] = isset($data[ $key ]) ? $data[ $key ] : $default_value;
+  ] as $key => $default_value ) {
+    $response[ $key ] = isset( $data[ $key ] ) ? $data[ $key ] : $default_value;
   }
 
   return $response;

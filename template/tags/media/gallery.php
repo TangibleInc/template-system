@@ -23,22 +23,21 @@
  *                                    Accepts 'file', 'none'.
  * }
  */
-$html->add_closed_tag('Gallery', function($atts) use ($html) {
+$html->add_closed_tag('Gallery', function( $atts ) use ( $html ) {
 
-  $type = isset($atts['type']) ? $atts['type'] : 'default';
+  $type = isset( $atts['type'] ) ? $atts['type'] : 'default';
 
-  $callback = isset($html->gallery_type_callbacks[ $type ])
+  $callback = isset( $html->gallery_type_callbacks[ $type ] )
     ? $html->gallery_type_callbacks[ $type ]
-    : $html->gallery_type_callbacks['default']
-  ;
+    : $html->gallery_type_callbacks['default'];
 
-  return $callback($atts);
+  return $callback( $atts );
 });
 
 $html->gallery_type_callbacks = [
-  'default' => 'wp_gallery_shortcode'
+  'default' => 'wp_gallery_shortcode',
 ];
 
-$html->register_gallery_type = function($type, $callback) use ($html) {
+$html->register_gallery_type = function( $type, $callback ) use ( $html ) {
   $html->gallery_type_callbacks[ $type ] = $callback;
 };

@@ -1,4 +1,4 @@
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
   // Conditional logic modal window
 
   var $html = $('html')
@@ -8,10 +8,8 @@ jQuery(document).ready(function($) {
   $body.append($root)
 
   // Open button - can be dynamically added, so bind on body
-  $body.on('click', '[data-tangible-logic="open"]', function() {
-    var $input = $(this)
-      .parent()
-      .find('[data-tangible-logic="input"]')
+  $body.on('click', '[data-tangible-logic="open"]', function () {
+    var $input = $(this).parent().find('[data-tangible-logic="input"]')
 
     if (!$input.length) {
       console.warn('tangible/logic - Input field not found')
@@ -88,7 +86,7 @@ jQuery(document).ready(function($) {
     $form.find('[data-tangible-logic="close"]').on('click', closeUI)
 
     // Save
-    $form.find('[data-tangible-logic="save"]').on('click', function() {
+    $form.find('[data-tangible-logic="save"]').on('click', function () {
       saveForm($form, $input)
       closeUI()
     })
@@ -99,7 +97,7 @@ jQuery(document).ready(function($) {
 
     $form
       .find('[data-tangible-logic="add-rule-group"]')
-      .on('click', function() {
+      .on('click', function () {
         var ruleGroupHtml = buildRuleGroup([{}], config)
 
         $ruleGroups.append(ruleGroupHtml)
@@ -108,7 +106,7 @@ jQuery(document).ready(function($) {
     // Rule actions - can be dynamically added, so bind on form
 
     // Add rule
-    $form.on('click', '[data-tangible-logic="add-rule"]', function() {
+    $form.on('click', '[data-tangible-logic="add-rule"]', function () {
       var $rules = $(this)
         .closest('.tangible-logic-rule-group')
         .find('.tangible-logic-rule-group-rules')
@@ -118,7 +116,7 @@ jQuery(document).ready(function($) {
     })
 
     // Remove rule
-    $form.on('click', '[data-tangible-logic="remove-rule"]', function() {
+    $form.on('click', '[data-tangible-logic="remove-rule"]', function () {
       var $rule = $(this).closest('.tangible-logic-rule')
       var $rules = $rule.closest('.tangible-logic-rule-group-rules')
 
@@ -137,10 +135,10 @@ jQuery(document).ready(function($) {
     config.fieldMap = buildFieldMap(config)
 
     var fieldSelectSelector = '.tangible-logic-rule-field-select'
-    $form.find(fieldSelectSelector).each(function() {
+    $form.find(fieldSelectSelector).each(function () {
       updateRuleBasedOnField($(this), config)
     })
-    $form.on('change', fieldSelectSelector, function(e) {
+    $form.on('change', fieldSelectSelector, function (e) {
       updateRuleBasedOnField($(this), config)
     })
 
@@ -149,7 +147,7 @@ jQuery(document).ready(function($) {
     /*$form.find(operandSelectSelector).each(function() {
       updateRuleBasedOnOperand($(this), config)
     })*/
-    $form.on('change', operandSelectSelector, function(e) {
+    $form.on('change', operandSelectSelector, function (e) {
       updateRuleBasedOnOperand($(this), config)
     })
   }
@@ -159,7 +157,7 @@ jQuery(document).ready(function($) {
 
     var fieldMap = {} // { name: { operands, values }, .. }
 
-    $.each(config.fields || [], function(index, field) {
+    $.each(config.fields || [], function (index, field) {
       fieldMap[field.name] = field
     })
 
@@ -187,7 +185,7 @@ jQuery(document).ready(function($) {
       // Default when empty
       html += buildRuleGroup([{}], config)
     } else {
-      $.each(data, function(ruleGroupIndex, ruleGroupData) {
+      $.each(data, function (ruleGroupIndex, ruleGroupData) {
         html += buildRuleGroup(ruleGroupData, config)
       })
     }
@@ -220,7 +218,7 @@ jQuery(document).ready(function($) {
 
     // Rules
     html += '<div class="tangible-logic-rule-group-rules">'
-    $.each(ruleGroupData, function(ruleIndex, ruleData) {
+    $.each(ruleGroupData, function (ruleIndex, ruleData) {
       html += buildRule(ruleData, config)
     })
     html += '</div>'
@@ -231,8 +229,7 @@ jQuery(document).ready(function($) {
       '<button type="button" class="tangible-logic-button" data-tangible-logic="add-rule">Add rule</button>' +
       '</div>'
 
-    html +=
-      '</div>' + '</div>' // rule-group-box // rule group
+    html += '</div>' + '</div>' // rule-group-box // rule group
 
     return html
   }
@@ -241,20 +238,14 @@ jQuery(document).ready(function($) {
     var fieldName = 'tangible_logic[][][field]'
 
     var html =
-      '<div class="tangible-logic-rule tangible-logic-clear"'
-        +' data-tangible-logic-rule-data=\''
-
-          // Important: Escape '"<>
-          + escapeHtml( JSON.stringify(ruleData || {}) )
-
-        +'\''
-      +'>'
-        +'<div class="tangible-logic-rule-columns">'
-
-          +buildRuleColumn('field',
-            buildFieldSelect(fieldName, ruleData, config)
-          )
-
+      '<div class="tangible-logic-rule tangible-logic-clear"' +
+      " data-tangible-logic-rule-data='" +
+      // Important: Escape '"<>
+      escapeHtml(JSON.stringify(ruleData || {})) +
+      "'" +
+      '>' +
+      '<div class="tangible-logic-rule-columns">' +
+      buildRuleColumn('field', buildFieldSelect(fieldName, ruleData, config)) +
       // Add these columns as needed
       /*
           +'<div class="tangible-logic-rule-column tangible-logic-rule-operand">'
@@ -266,13 +257,13 @@ jQuery(document).ready(function($) {
           +'<div class="tangible-logic-rule-column tangible-logic-rule-subvalue">'
           +'</div>'
           */
-        +'</div>'
-        +'<div class="tangible-logic-rule-actions">'
-          +'<button type="button" class="tangible-logic-action-icon" data-tangible-logic="remove-rule">'
-            +'Remove'
-          +'</button>'
-        +'</div>'
-      +'</div>'
+      '</div>' +
+      '<div class="tangible-logic-rule-actions">' +
+      '<button type="button" class="tangible-logic-action-icon" data-tangible-logic="remove-rule">' +
+      'Remove' +
+      '</button>' +
+      '</div>' +
+      '</div>'
 
     return html
   }
@@ -354,7 +345,7 @@ jQuery(document).ready(function($) {
     // Values for operand
     var valuesForOperand = []
 
-    $.each(values, function(index, value) {
+    $.each(values, function (index, value) {
       var keep = true
       if (value.operands) keep = value.operands.indexOf(currentOperand) >= 0
       if (value.excludeOperands)
@@ -379,12 +370,7 @@ jQuery(document).ready(function($) {
   }
 
   // Similar to buildValueSelect, to support input types
-  function buildSubfieldSelect(
-    fieldName,
-    ruleData,
-    values,
-    subvalueIndex = 0
-  ) {
+  function buildSubfieldSelect(fieldName, ruleData, values, subvalueIndex = 0) {
     if (!values) return ''
 
     var valueKey = 'field' + (subvalueIndex ? '_' + subvalueIndex : '')
@@ -397,7 +383,7 @@ jQuery(document).ready(function($) {
       // Default value
       if (
         (ruleData[valueKey] === undefined || ruleData[valueKey] === '') &&
-          valueConfig.default !== undefined
+        valueConfig.default !== undefined
       )
         ruleData[valueKey] = valueConfig.default
 
@@ -453,9 +439,9 @@ jQuery(document).ready(function($) {
 
     options = options.concat(fields || [])
 
-    $.each(options, function(i, option) {
+    $.each(options, function (i, option) {
       if (!option) return
-      var isSelected = (!i && !valueDefined) || option.name.toString()===value
+      var isSelected = (!i && !valueDefined) || option.name.toString() === value
 
       html +=
         '<option value="' +
@@ -518,7 +504,7 @@ jQuery(document).ready(function($) {
           '_unit"' +
           '>'
 
-        $.each(valueConfig.unit, function(index, unitConfig) {
+        $.each(valueConfig.unit, function (index, unitConfig) {
           if (typeof unitConfig === 'string') {
             unitConfig = { name: unitConfig, label: unitConfig }
           }
@@ -542,9 +528,14 @@ jQuery(document).ready(function($) {
     )
   }
 
-  function buildTextInput(name, value = '', valueConfig, selectType, inputName) {
-
-    var html = '<input type="text" name="'+name+'"'
+  function buildTextInput(
+    name,
+    value = '',
+    valueConfig,
+    selectType,
+    inputName
+  ) {
+    var html = '<input type="text" name="' + name + '"'
     if (selectType) {
       html +=
         ' class="tangible-logic-rule-input tangible-logic-rule-' +
@@ -555,12 +546,14 @@ jQuery(document).ready(function($) {
         '"'
     }
     html +=
-      ' value="'
-        // Important: Escape user input text
-        + escapeHtml(value)
-      +'"'
-      +(valueConfig.placeholder ? ' placeholder="'+valueConfig.placeholder+'"' : '')
-      +' />'
+      ' value="' +
+      // Important: Escape user input text
+      escapeHtml(value) +
+      '"' +
+      (valueConfig.placeholder
+        ? ' placeholder="' + valueConfig.placeholder + '"'
+        : '') +
+      ' />'
 
     return html
   }
@@ -621,8 +614,7 @@ jQuery(document).ready(function($) {
     if (fieldDescription) $fieldColumn.append($(fieldDescription))
 
     // Subfields: field_2, ..
-    for (let i=0; i < 3; i++) {
-
+    for (let i = 0; i < 3; i++) {
       const subvalueIndex = i + 2 // Start with 2
       const subFieldKey = 'field_' + subvalueIndex
       const subFields = fieldConfig[subFieldKey]
@@ -633,12 +625,7 @@ jQuery(document).ready(function($) {
       $columns.append(
         buildRuleColumn(
           'subfield',
-          buildSubfieldSelect(
-            fieldName,
-            ruleData,
-            subFields,
-            subvalueIndex
-          )
+          buildSubfieldSelect(fieldName, ruleData, subFields, subvalueIndex)
         )
       )
     }
@@ -703,10 +690,10 @@ jQuery(document).ready(function($) {
     }
 
     var $subValues = $rule.find('.tangible-logic-rule-subvalue')
-    $subValues.each(function(i) {
+    $subValues.each(function (i) {
       $(this)
         .find('.tangible-logic-rule-input')
-        .each(function() {
+        .each(function () {
           var $el = $(this)
           var key = $el.data('tangibleLogicRuleInputName')
           ruleData[key] = $el.val()
@@ -724,10 +711,14 @@ jQuery(document).ready(function($) {
 
     // Operand can set value=false
     if (currentOperand && fieldConfig.operands) {
-      for (let i=0, len=fieldConfig.operands.length; i < len; i++) {
-        if (!fieldConfig.operands[i] || fieldConfig.operands[i].name!==currentOperand) continue
+      for (let i = 0, len = fieldConfig.operands.length; i < len; i++) {
+        if (
+          !fieldConfig.operands[i] ||
+          fieldConfig.operands[i].name !== currentOperand
+        )
+          continue
         // No value field
-        if (fieldConfig.operands[i].value===false) return
+        if (fieldConfig.operands[i].value === false) return
         // Found matching
         break
       }
@@ -760,11 +751,9 @@ jQuery(document).ready(function($) {
       fieldConfig.values[0].hasOwnProperty('before_operand') &&
       fieldConfig.values[0].before_operand === true
     ) {
-      $rule
-        .find('.tangible-logic-rule-operand')
-        .before( column )
+      $rule.find('.tangible-logic-rule-operand').before(column)
     } else {
-      $columns.append( column )
+      $columns.append(column)
     }
 
     // If there is conditional displaying for field values
@@ -772,7 +761,6 @@ jQuery(document).ready(function($) {
 
     // Build subvalues
     for (let i = 0; i < 3; i++) {
-
       var subvalueIndex = i + 2 // Start at 2
       var subvalueKey = 'values_' + subvalueIndex
 
@@ -801,11 +789,9 @@ jQuery(document).ready(function($) {
         subvalues[0].hasOwnProperty('before_operand') &&
         subvalues[0].before_operand === true
       ) {
-        $rule
-          .find('.tangible-logic-rule-operand')
-          .before( column )
+        $rule.find('.tangible-logic-rule-operand').before(column)
       } else {
-        $columns.append( column )
+        $columns.append(column)
       }
 
       visibilities = addVisibility(subvalues, subvalueKey, visibilities)
@@ -835,16 +821,16 @@ jQuery(document).ready(function($) {
   function getFormData($form) {
     var ruleGroups = []
 
-    $form.find('.tangible-logic-rule-group').each(function() {
+    $form.find('.tangible-logic-rule-group').each(function () {
       var $rules = $(this).find('.tangible-logic-rule')
       var rules = []
 
-      $rules.each(function() {
+      $rules.each(function () {
         var rule = {}
 
         $(this)
           .find('.tangible-logic-rule-input')
-          .each(function() {
+          .each(function () {
             var $input = $(this)
             var name = $input.data('tangibleLogicRuleInputName')
             var value = $input.val()
@@ -867,17 +853,18 @@ jQuery(document).ready(function($) {
 
   function addVisibility(values, fieldName, visibilities) {
     // Value type
-    if (values[0]===undefined || values[0].type===undefined) return visibilities
+    if (values[0] === undefined || values[0].type === undefined)
+      return visibilities
 
     // Visibility conditions
-    if (values[0].visibility===undefined) return visibilities
+    if (values[0].visibility === undefined) return visibilities
 
     var visibility = values[0].visibility
 
     // We store a callback for applying the visbility when all the fields are created
     visibilities.push({
       name: fieldName,
-      config: visibility
+      config: visibility,
     })
 
     return visibilities
@@ -895,7 +882,11 @@ jQuery(document).ready(function($) {
     // Test each visibility condition
     for (let i = 0; i < visibility.length; i++) {
       // We need to remove the 's' in value => name is value but backend is values
-      let $field = $rule.find('select[name="tangible_logic[][][' + visibility[i].field.replace('s', '') + ']"]')
+      let $field = $rule.find(
+        'select[name="tangible_logic[][][' +
+          visibility[i].field.replace('s', '') +
+          ']"]'
+      )
 
       // If we have an array on multiple field
       if (
@@ -910,10 +901,14 @@ jQuery(document).ready(function($) {
       }
     }
 
-    let $container = $rule.find('select[name="tangible_logic[][][' + fieldName.replace('s', '') + ']"]').parent().parent()
+    let $container = $rule
+      .find(
+        'select[name="tangible_logic[][][' + fieldName.replace('s', '') + ']"]'
+      )
+      .parent()
+      .parent()
     show !== false ? $container.show() : $container.hide()
   }
-
 
   // Utilities
 
@@ -925,7 +920,7 @@ jQuery(document).ready(function($) {
     "'": '&#39;',
     '/': '&#x2F;',
     '`': '&#x60;',
-    '=': '&#x3D;'
+    '=': '&#x3D;',
   }
 
   function escapeHtml(string) {
@@ -933,6 +928,4 @@ jQuery(document).ready(function($) {
       return entityMap[s]
     })
   }
-
-
 })

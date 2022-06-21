@@ -8,5 +8,5 @@
 
 // add_filter( 'wp_code_editor_settings', function($settings, $args) {
 
-//   return $settings;
+// return $settings;
 // }, 99, 2);

@@ -3,11 +3,11 @@
 /**
  * Wrap dynamic fields
  */
-$html->wrap_paginate_field = function($name, $value) {
+$html->wrap_paginate_field = function( $name, $value ) {
   return '<span data-tangible-paginator-field="' . $name . '">' . $value . '</span>';
 };
 
-$html->add_open_tag('PaginateFields', function($atts, $nodes) use ($loop, $html) {
+$html->add_open_tag('PaginateFields', function( $atts, $nodes ) use ( $loop, $html ) {
 
   $loop_context = $loop->get_previous();
 
@@ -15,22 +15,20 @@ $html->add_open_tag('PaginateFields', function($atts, $nodes) use ($loop, $html)
 
   $fields_content = [];
 
-  foreach ([
+  foreach ( [
     'current_page' => $loop_context->get_current_page(),
-    'total_pages' => $loop_context->get_total_pages()
-  ] as $key => $value) {
-    $fields_content[ $key ] = $html->wrap_paginate_field($key, $value);
+    'total_pages'  => $loop_context->get_total_pages(),
+  ] as $key => $value ) {
+    $fields_content[ $key ] = $html->wrap_paginate_field( $key, $value );
   }
 
   $target_id = isset( $loop_context->paginator_target_id )
     ? $loop_context->paginator_target_id
-    : 0
-  ;
+    : 0;
 
   // Pass target ID and action to frontend
-  $atts['class'] = (isset($atts['class']) ? ($atts['class'] . ' ') : '')
-    . 'tangible-paginator-fields tangible-paginator-subscribe--' . $target_id
-  ;
+  $atts['class']                                    = ( isset( $atts['class'] ) ? ( $atts['class'] . ' ' ) : '' )
+    . 'tangible-paginator-fields tangible-paginator-subscribe--' . $target_id;
   $atts['data-tangible-paginator-subscribe-action'] = 'fields';
 
   $result = '';
@@ -39,12 +37,12 @@ $html->add_open_tag('PaginateFields', function($atts, $nodes) use ($loop, $html)
    * Create paginated context for <Field> tag
    */
   $paginated_context = new \Tangible\Loop\BaseLoop([
-    'query' => [ $fields_content ] // A loop with a single item
+    'query' => [ $fields_content ], // A loop with a single item
   ]);
 
-  $paginated_context->loop(function() use ($html, &$result, $atts, $nodes, $loop, $loop_context) {
+  $paginated_context->loop(function() use ( $html, &$result, $atts, $nodes, $loop, $loop_context ) {
     $loop->last_context = $loop_context;
-    $result = $html->render_tag('div', $atts, $nodes);
+    $result             = $html->render_tag( 'div', $atts, $nodes );
   });
 
   $html->enqueue_paginator();

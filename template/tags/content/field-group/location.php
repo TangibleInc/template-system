@@ -7,19 +7,19 @@
 
 $html->current_field_group_location_rule_group = false;
 
-$html->content_field_group_location_rule_group_tag = function($atts, $nodes) use ($html) {
+$html->content_field_group_location_rule_group_tag = function( $atts, $nodes ) use ( $html ) {
 
   // Rules outside of any group
-  if ( $html->current_field_group_location_rule_group!==false ) {
-    $html->current_field_group_config['location_rule_groups'] []= $html->current_field_group_location_rule_group;
+  if ( $html->current_field_group_location_rule_group !== false ) {
+    $html->current_field_group_config['location_rule_groups'] [] = $html->current_field_group_location_rule_group;
   }
 
   $html->current_field_group_location_rule_group = [];
 
-  $html->render($nodes);
+  $html->render( $nodes );
 
-  if (!empty($html->current_field_group_location_rule_group)) {
-    $html->current_field_group_config['location_rule_groups'] []= $html->current_field_group_location_rule_group;
+  if ( ! empty( $html->current_field_group_location_rule_group ) ) {
+    $html->current_field_group_config['location_rule_groups'] [] = $html->current_field_group_location_rule_group;
   }
 
   $html->current_field_group_location_rule_group = false;
@@ -28,16 +28,15 @@ $html->content_field_group_location_rule_group_tag = function($atts, $nodes) use
 /**
  * Location rule
  */
-$html->content_field_group_location_rule_tag = function($atts, $nodes) use ($html) {
+$html->content_field_group_location_rule_tag = function( $atts, $nodes ) use ( $html ) {
 
   $rule = [];
 
-  foreach ($atts as $key => $value) {
+  foreach ( $atts as $key => $value ) {
 
-    if ($key==='keys') continue;
+    if ($key === 'keys') continue;
 
     /*
-
     Accepted rule fields:
 
     post_type
@@ -70,13 +69,13 @@ $html->content_field_group_location_rule_tag = function($atts, $nodes) use ($htm
 
     // Only accepts single rule
     $rule = [
-      'param' => $key,
-      'operator' => in_array('not', $atts['keys']) ? '!=' : '==',
-      'value' => $value,
+      'param'    => $key,
+      'operator' => in_array( 'not', $atts['keys'] ) ? '!=' : '==',
+      'value'    => $value,
     ];
   }
 
-  if (empty($rule)) return;
+  if (empty( $rule )) return;
 
   /**
    * Support array of values
@@ -85,29 +84,29 @@ $html->content_field_group_location_rule_tag = function($atts, $nodes) use ($htm
    * location rule groups to clarify "OR" (groups) and "AND" (rules in a group).
    */
 
-  if (strpos($rule['value'], ',')!==false) {
+  if ( strpos( $rule['value'], ',' ) !== false ) {
 
-    $values = array_map('trim', explode(',', $rule['value']));
+    $values = array_map( 'trim', explode( ',', $rule['value'] ) );
 
     // Each must be in its own group, as "OR"
 
-    foreach ($values as $value) {
+    foreach ( $values as $value ) {
       $html->current_field_group_config['location_rule_groups'] [] = [
         array_merge($rule, [
-          'value' => $value
-        ])
+          'value' => $value,
+        ]),
       ];
     }
 
     return;
   }
 
-  if ( $html->current_field_group_location_rule_group===false ) {
+  if ( $html->current_field_group_location_rule_group === false ) {
     $html->current_field_group_location_rule_group = [];
   }
 
   // Rules are combined as "AND".
-  $html->current_field_group_location_rule_group []= $rule;
+  $html->current_field_group_location_rule_group [] = $rule;
 
   // If current rule is outside of any group, it's handled by FieldGroup tag
   // If inside a group, rule is added by LocationRuleGroup tag

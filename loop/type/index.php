@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__.'/config.php';
-require_once __DIR__.'/action.php';
-require_once __DIR__.'/register.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/action.php';
+require_once __DIR__ . '/register.php';
 
 /**
  * Create loop of type
@@ -15,11 +15,10 @@ $loop->create_type = function( $type_name, $args = [] ) use ( $loop ) {
    * This must be done outside FieldLoop, because it can be a different loop type.
    */
   if (
-    ($type_name==='field' || $type_name==='field_keys') && !isset($args['items'])
+    ( $type_name === 'field' || $type_name === 'field_keys' ) && ! isset( $args['items'] )
   ) {
 
-    $field_name = isset($args[ $type_name ]) ? $args[ $type_name ] : '';
-
+    $field_name = isset( $args[ $type_name ] ) ? $args[ $type_name ] : '';
 
     /**
      * Support getting currently queried object on an archive page as field loop:
@@ -27,16 +26,16 @@ $loop->create_type = function( $type_name, $args = [] ) use ( $loop ) {
      *
      * @see https://developer.wordpress.org/reference/functions/get_queried_object/
      */
-    if (substr($field_name, 0, 8)==='archive_') {
+    if ( substr( $field_name, 0, 8 ) === 'archive_' ) {
 
       $object_id = get_queried_object_id();
 
-      if (empty($object_id)) return new \Tangible\Loop\BaseLoop([]); // Empty loop
+      if (empty( $object_id )) return new \Tangible\Loop\BaseLoop( [] ); // Empty loop
 
-      $type = substr($field_name, 8);
+      $type = substr( $field_name, 8 );
 
-      if ($type==='author') $type = 'user';
-      elseif ($type==='term') $type = 'taxonomy_term';
+      if ($type === 'author') $type   = 'user';
+      elseif ($type === 'term') $type = 'taxonomy_term';
       // ..or post_type
 
       return $loop->create_type($type, [
@@ -46,15 +45,15 @@ $loop->create_type = function( $type_name, $args = [] ) use ( $loop ) {
 
     // Pass possible Field options, excluding Loop attributes
     $field_atts = $args;
-    foreach (['type', 'field'] as $key) {
-      unset($field_atts[ $key ]);
+    foreach ( [ 'type', 'field' ] as $key ) {
+      unset( $field_atts[ $key ] );
     }
 
     $value = $loop->get_field( $field_name, $field_atts );
 
-    if ($loop->is_instance($value)) {
+    if ( $loop->is_instance( $value ) ) {
 
-      if ($type_name==='field'
+      if ($type_name === 'field'
         || ! $value->has_next() // Empty
       ) return $value;
 
@@ -73,7 +72,7 @@ $loop->create_type = function( $type_name, $args = [] ) use ( $loop ) {
 
         function get_item_field( $key, $field_name, $args = [] ) {
           // Field key
-          if ( $field_name==='key' ) return $key;
+          if ( $field_name === 'key' ) return $key;
           // Field value
           return $this::$field_loop->get_field( $key );
         }
@@ -97,17 +96,17 @@ $loop->create_type = function( $type_name, $args = [] ) use ( $loop ) {
   $type = $loop->get_type_config( $type_name );
 
   // If it defaulted to post, pass the type name
-  if ($type['name']!==$type_name) {
-    $args = $args+[ 'type' => $type_name ];
+  if ( $type['name'] !== $type_name ) {
+    $args = $args + [ 'type' => $type_name ];
   }
 
   $context = $type['create']( $args );
 
-  if (is_array($context)) {
+  if ( is_array( $context ) ) {
 
     // Create function can return array of items
 
-    $context = new \Tangible\Loop\BaseLoop($context);
+    $context = new \Tangible\Loop\BaseLoop( $context );
   }
 
   return $context;
@@ -116,6 +115,6 @@ $loop->create_type = function( $type_name, $args = [] ) use ( $loop ) {
 /**
  * Check if value is a loop class instance
  */
-$loop->is_instance = function($value) {
-  return is_a($value, Tangible\Loop\BaseLoop::class);
+$loop->is_instance = function( $value ) {
+  return is_a( $value, Tangible\Loop\BaseLoop::class );
 };

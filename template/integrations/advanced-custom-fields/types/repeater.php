@@ -17,12 +17,12 @@ class RepeaterLoop extends ListLoop {
     'name'       => 'acf_repeater',
     'title'      => 'ACF repeater',
     'category'   => 'acf',
-    'query_args'  => [
-      'count'         => [
+    'query_args' => [
+      'count' => [
         'description' => 'Limit item count',
         'type'        => 'number',
       ],
-    ]
+    ],
   ];
 
   function run_query( $args = [] ) {
@@ -32,23 +32,23 @@ class RepeaterLoop extends ListLoop {
   function get_items_from_query( $args ) {
 
     // Property "field" is required
-    if (!isset($args['field'])) return [];
+    if ( ! isset( $args['field'] )) return [];
 
-    $id = $this->object_id = isset($args['id']) ? $args['id'] : false;
+    $id = $this->object_id = isset( $args['id'] ) ? $args['id'] : false;
 
     $parent_loop = self::$loop->get_context();
-    $loop_type = $parent_loop->get_name();
+    $loop_type   = $parent_loop->get_name();
 
-    if (self::$html->is_acf_field_type_with_sub_field($loop_type)) {
+    if ( self::$html->is_acf_field_type_with_sub_field( $loop_type ) ) {
       $items = get_sub_field( $args['field'], false );
     } else {
-      $items = get_field($args['field'], $id, false);
+      $items = get_field( $args['field'], $id, false );
     }
 
-    if (!is_array($items)) $items = []; // get_field can return NULL
+    if ( ! is_array( $items )) $items = []; // get_field can return NULL
 
-    if (isset($args['count']) && $args['count'] >= 0) {
-      $items = array_slice($items, 0, (int) $args['count']);
+    if ( isset( $args['count'] ) && $args['count'] >= 0 ) {
+      $items = array_slice( $items, 0, (int) $args['count'] );
     }
 
     $this->reset();
@@ -63,7 +63,7 @@ class RepeaterLoop extends ListLoop {
 
   function reset() {
     parent::reset();
-    @have_rows($this->args['field'],  $this->object_id);
+    @have_rows( $this->args['field'], $this->object_id );
   }
 
   function get_item_field( $item, $field_name, $args = [] ) {

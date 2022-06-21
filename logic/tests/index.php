@@ -4,6 +4,6 @@
 
 $logic = tangible_logic();
 
-require_once __DIR__.'/methods.php';
-require_once __DIR__.'/rules.php';
-require_once __DIR__.'/frontend.php';
+require_once __DIR__ . '/methods.php';
+require_once __DIR__ . '/rules.php';
+require_once __DIR__ . '/frontend.php';

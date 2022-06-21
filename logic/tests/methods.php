@@ -3,10 +3,10 @@
 <?php
 
 $logic_methods = [
-  'enqueue' => 'Enqueue',
-  'evaluate_rule_groups' => 'Evaluate rule groups',
+  'enqueue'                => 'Enqueue',
+  'evaluate_rule_groups'   => 'Evaluate rule groups',
   'extend_logic_tag_rules' => 'Extend logic tag with rules config and evaluator',
-  'get_logic_tag_rules' => 'Get registered logic rules',
+  'get_logic_tag_rules'    => 'Get registered logic rules',
 ];
 
 ?>
@@ -14,22 +14,22 @@ $logic_methods = [
 <p><pre><code>$logic = tangible_logic();</code></pre></p>
 <?php
 
-$tester->test('tangible_logic() methods', function($it) use ($logic, $logic_methods) {
+$tester->test('tangible_logic() methods', function( $it ) use ( $logic, $logic_methods ) {
 
-  $it('$logic exists', !empty($logic));
+  $it( '$logic exists', ! empty( $logic ) );
 
   ?><ul><?php
 
-  foreach ($logic_methods as $key => $value) {
+foreach ( $logic_methods as $key => $value ) {
 
-    $title = "\$logic->{$key}";
+  $title = "\$logic->{$key}";
 
-    ?><li><code><?php echo $title; ?></code> - <?php echo $value; ?></li><?php
+  ?><li><code><?php echo $title; ?></code> - <?php echo $value; ?></li><?php
 
-    $it($title, is_callable($logic->$key));
-  }
+  $it( $title, is_callable( $logic->$key ) );
+}
 
-  ?></ul><?php
+?></ul><?php
 });
 
-require_once __DIR__.'/methods-old.php';
+require_once __DIR__ . '/methods-old.php';

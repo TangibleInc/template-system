@@ -25,55 +25,62 @@
  */
 
 $html->timers = [
-  'default' => 0
+  'default' => 0,
 ];
 
 $html->last_started_timer_name = null;
 
-$html->start_timer = function($name = '') use ($html) {
-  return $html->timer_tag([ 'keys' => [], 'start' => $name ]);
+$html->start_timer = function( $name = '' ) use ( $html ) {
+return $html->timer_tag( [
+  'keys'  => [],
+  'start' => $name,
+  ] );
 };
 
-$html->clear_timer = function($name = '') use ($html) {
-  return $html->timer_tag([ 'keys' => [], 'clear' => $name ]);
+$html->clear_timer = function( $name = '' ) use ( $html ) {
+return $html->timer_tag( [
+  'keys'  => [],
+  'clear' => $name,
+  ] );
 };
 
-$html->stop_timer = function($name = '') use ($html) {
-  return $html->timer_tag([ 'keys' => [], 'stop' => $name ]);
+$html->stop_timer = function( $name = '' ) use ( $html ) {
+return $html->timer_tag( [
+  'keys' => [],
+  'stop' => $name,
+  ] );
 };
 
-$html->timer_tag = function($atts) use ($html) {
+$html->timer_tag = function( $atts ) use ( $html ) {
 
-  $stop = (isset($atts['keys'][0]) && $atts['keys'][0]==='stop')
+  $stop  = ( isset( $atts['keys'][0] ) && $atts['keys'][0] === 'stop' )
     ? $html->last_started_timer_name
-    : (!empty($atts['stop']) ? $atts['stop'] : false)
-  ;
-  $check = (isset($atts['keys'][0]) && $atts['keys'][0]==='check')
+    : ( ! empty( $atts['stop'] ) ? $atts['stop'] : false );
+  $check = ( isset( $atts['keys'][0] ) && $atts['keys'][0] === 'check' )
     ? $html->last_started_timer_name
-    : (!empty($atts['check']) ? $atts['check'] : false)
-  ;
+    : ( ! empty( $atts['check'] ) ? $atts['check'] : false );
 
   // Check or stop
 
   if ($check) $stop = $check;
-  if ($stop) {
+  if ( $stop ) {
 
-    if (!isset($html->timers[ $stop ]) || $html->timers[ $stop ]===0) {
+    if ( ! isset( $html->timers[ $stop ] ) || $html->timers[ $stop ] === 0 ) {
       return 'Timer not found';
     }
 
-    $time_elapsed = (float) microtime(true) - $html->timers[ $stop ];
-    $time_elapsed_rounded = number_format( $time_elapsed, 4, '.', '');
+    $time_elapsed         = (float) microtime( true ) - $html->timers[ $stop ];
+    $time_elapsed_rounded = number_format( $time_elapsed, 4, '.', '' );
 
-    if ($check) {
+    if ( $check ) {
 
       // Set new time and continue
-      $html->timers[ $stop ] = microtime(true);
+      $html->timers[ $stop ] = microtime( true );
 
     } else {
 
       // Clear timer
-      unset($html->timers[ $stop ]);
+      unset( $html->timers[ $stop ] );
     }
 
     return $time_elapsed_rounded;
@@ -81,22 +88,21 @@ $html->timer_tag = function($atts) use ($html) {
 
   // Clear
 
-  $clear = (isset($atts['keys'][0]) && $atts['keys'][0]==='clear')
+  $clear = ( isset( $atts['keys'][0] ) && $atts['keys'][0] === 'clear' )
     ? $html->last_started_timer_name
-    : (!empty($atts['clear']) ? $atts['clear'] : false)
-  ;
+    : ( ! empty( $atts['clear'] ) ? $atts['clear'] : false );
 
-  if ($clear) {
+  if ( $clear ) {
     // Clear timer
-    unset($html->timers[ $clear ]);
+    unset( $html->timers[ $clear ] );
     return;
   }
 
   // Start
 
-  $start = !empty($atts['start']) ? $atts['start'] : 'default';
+  $start = ! empty( $atts['start'] ) ? $atts['start'] : 'default';
 
-  $html->timers[ $start ] = microtime(true); // Current time
+  $html->timers[ $start ] = microtime( true ); // Current time
 
   $html->last_started_timer_name = $start;
 };

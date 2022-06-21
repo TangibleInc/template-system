@@ -74,7 +74,7 @@ const Rule = ({
     const isPartSelect =
       partName === 'operators' ||
       (partDef && (partDef.type === 'select' || partDef.type === 'select_ajax'))
-      // NOTE: If fieldDef['values'][1] exists, assume it's the same type
+    // NOTE: If fieldDef['values'][1] exists, assume it's the same type
 
     if (!isPartSelect) {
       /**

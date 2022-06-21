@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__.'/tag.php';
+require_once __DIR__ . '/tag.php';
 
-$html->markdown = function($content = '', $options = []) use ($html) {
+$html->markdown = function( $content = '', $options = [] ) use ( $html ) {
 
   static $markdown;
 
-  if ( ! $markdown) {
+  if ( ! $markdown ) {
     $markdown = $html->create_markdown_instance();
     $markdown->setClosedTags(
       $html->get_all_closed_tag_names()
@@ -16,15 +16,15 @@ $html->markdown = function($content = '', $options = []) use ($html) {
   return $markdown->text( $content );
 };
 
-$html->create_markdown_instance = function($options = []) use ($html) {
+$html->create_markdown_instance = function( $options = [] ) use ( $html ) {
 
-  if (!class_exists('ParsedownExtra_0_8_0')) {
+  if ( ! class_exists( 'ParsedownExtra_0_8_0' ) ) {
     /**
      * @see https://github.com/erusev/parsedown
      * @see https://github.com/erusev/parsedown-extra
      */
-    require_once __DIR__.'/Parsedown.php';
-    require_once __DIR__.'/ParsedownExtra.php';
+    require_once __DIR__ . '/Parsedown.php';
+    require_once __DIR__ . '/ParsedownExtra.php';
   }
 
   return new class extends ParsedownExtra_0_8_0 {
@@ -40,59 +40,60 @@ $html->create_markdown_instance = function($options = []) use ($html) {
 
     /**
      * Checklist support
+     *
      * @see https://github.com/leblanc-simon/parsedown-checkbox
      */
     public $task_list_item_class          = 'task-list-item';
     public $task_list_item_checkbox_class = 'task-list-item-checkbox';
 
-    function blockListComplete(array $block) {
+    function blockListComplete( array $block ) {
 
       // From original class
-      if (isset($block['loose'])) {
-        foreach ($block['element']['elements'] as &$li) {
-          if (end($li['handler']['argument']) !== '') {
-            $li['handler']['argument'] []= '';
+      if ( isset( $block['loose'] ) ) {
+        foreach ( $block['element']['elements'] as &$li ) {
+          if ( end( $li['handler']['argument'] ) !== '' ) {
+            $li['handler']['argument'] [] = '';
           }
         }
       }
 
-      if (empty($block)
-        || !isset($block['element'])
-        || !isset($block['element']['name'])
-        || $block['element']['name']!=='ul'
-        || !isset($block['element']['elements'])
+      if ( empty( $block )
+        || ! isset( $block['element'] )
+        || ! isset( $block['element']['name'] )
+        || $block['element']['name'] !== 'ul'
+        || ! isset( $block['element']['elements'] )
       ) {
         return $block;
       }
 
-      foreach ($block['element']['elements'] as $index => $el) {
+      foreach ( $block['element']['elements'] as $index => $el ) {
 
-        if (empty($el)
-          || !isset($el['name']) || $el['name']!=='li'
-          || !isset($el['handler']) || !isset($el['handler']['argument'])
-          || !isset($el['handler']['argument'][0])
+        if (empty( $el )
+          || ! isset( $el['name'] ) || $el['name'] !== 'li'
+          || ! isset( $el['handler'] ) || ! isset( $el['handler']['argument'] )
+          || ! isset( $el['handler']['argument'][0] )
         ) continue;
 
-        $text = $el['handler']['argument'][0];
-        $start = substr($text, 0, 4);
+        $text  = $el['handler']['argument'][0];
+        $start = substr( $text, 0, 4 );
 
-        if ($start==='[ ] ') {
+        if ( $start === '[ ] ' ) {
 
-          $block['element']['elements'][$index]['handler']['argument'][0] =
-            '<input class="'.$this->task_list_item_checkbox_class.'" type="checkbox" /> '
-            .substr($text, 4);
+          $block['element']['elements'][ $index ]['handler']['argument'][0] =
+            '<input class="' . $this->task_list_item_checkbox_class . '" type="checkbox" /> '
+            . substr( $text, 4 );
 
-          $block['element']['elements'][$index]['attributes'] = [
+          $block['element']['elements'][ $index ]['attributes'] = [
             'class' => $this->task_list_item_class,
           ];
 
-        } elseif ($start==='[x] ') {
+        } elseif ( $start === '[x] ' ) {
 
-          $block['element']['elements'][$index]['handler']['argument'][0] =
-            '<input class="'.$this->task_list_item_checkbox_class.'" type="checkbox" checked /> '
-            .substr($text, 4);
+          $block['element']['elements'][ $index ]['handler']['argument'][0] =
+            '<input class="' . $this->task_list_item_checkbox_class . '" type="checkbox" checked /> '
+            . substr( $text, 4 );
 
-          $block['element']['elements'][$index]['attributes'] = [
+          $block['element']['elements'][ $index ]['attributes'] = [
             'class' => $this->task_list_item_class,
           ];
         }

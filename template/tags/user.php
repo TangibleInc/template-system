@@ -11,9 +11,9 @@
  * </Loop>
  * ```
  */
-$html->user_tag = function($atts) use ($html) {
-  $atts['user'] = array_shift($atts['keys']);
-  return $html->field_tag($atts);
+$html->user_tag = function( $atts ) use ( $html ) {
+  $atts['user'] = array_shift( $atts['keys'] );
+  return $html->field_tag( $atts );
 };
 
 return $html->user_tag;

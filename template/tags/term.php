@@ -15,34 +15,37 @@
  * ```
  */
 
-$html->taxonomy_term_tag = function($atts) use ($html, $loop) {
+$html->taxonomy_term_tag = function( $atts ) use ( $html, $loop ) {
 
-  if (isset($atts['field'])) {
+  if ( isset( $atts['field'] ) ) {
     $atts['name'] = $atts['field'];
-    unset($atts['field']);
+    unset( $atts['field'] );
   }
 
-  if (isset($atts['taxonomy'])) {
+  if ( isset( $atts['taxonomy'] ) ) {
     $taxonomy = $atts['taxonomy'];
     return $html->taxonomy_tag(
       [
-        'name' => $taxonomy,
+        'name'  => $taxonomy,
         'count' => 1,
       ],
       [
-        [ 'tag' => 'Field', 'attributes' => $atts ]
+        [
+      'tag'        => 'Field',
+      'attributes' => $atts,
+        ],
       ]
     );
   }
 
-  $taxonomy_term_loop = $loop->get_context('taxonomy_term');
-  if (empty($taxonomy_term_loop)) return;
+  $taxonomy_term_loop = $loop->get_context( 'taxonomy_term' );
+  if (empty( $taxonomy_term_loop )) return;
 
   // Set current loop context to taxonomy term loop
-  $previous_context = $loop->current_context;
+  $previous_context      = $loop->current_context;
   $loop->current_context = $taxonomy_term_loop;
 
-  $value = $html->field_tag($atts);
+  $value = $html->field_tag( $atts );
 
   // Restore loop context
   $loop->current_context = $previous_context;

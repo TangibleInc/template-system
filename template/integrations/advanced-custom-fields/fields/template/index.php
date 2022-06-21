@@ -17,26 +17,23 @@ class TemplateField extends acf_field {
 
     $this->name = 'tangible_template';
 
-    $this->label = __('Tangible Template', 'tangible_template');
+    $this->label = __( 'Tangible Template', 'tangible_template' );
 
     /*
     *  category (string) basic | content | choice | relational | jquery | layout | CUSTOM GROUP NAME
     */
     $this->category = 'content';
 
-
     /*
     *  defaults (array) Array of default settings which are merged into the field object. These are used later in settings
     */
     $this->defaults = [];
-
 
     /*
     *  l10n (array) Array of strings that are used in JavaScript. This allows JS strings to be translated in PHP and loaded via:
     *  var message = acf._e('FIELD_NAME', 'error');
     */
     $this->l10n = [];
-
 
     /*
     *  settings (array) Store plugin settings (url, path, version) as a reference for later use with assets
@@ -103,7 +100,7 @@ class TemplateField extends acf_field {
 
     ?>
     <div class="tangible-template-acf-field-input-container">
-      <textarea name="<?php echo esc_attr($field['name']); ?>"
+      <textarea name="<?php echo esc_attr( $field['name'] ); ?>"
         style="display: none"
       ><?php echo esc_html( $field['value'] ); ?></textarea>
     </div>
@@ -127,15 +124,15 @@ class TemplateField extends acf_field {
 
   function input_admin_enqueue_scripts() {
 
-// Code editor incompatible with Custom HTML field in Customizer
-// due to different versions of HTMLHint in global scope
-global $wp_customize;
-if ( isset( $wp_customize ) ) return;
+    // Code editor incompatible with Custom HTML field in Customizer
+    // due to different versions of HTMLHint in global scope
+    global $wp_customize;
+    if ( isset( $wp_customize ) ) return;
 
     tangible_template()->enqueue_codemirror();
 
-    wp_add_inline_script('tangible-codemirror', file_get_contents(__DIR__.'/index.js'));
-    wp_add_inline_style( 'tangible-codemirror', file_get_contents(__DIR__.'/index.css'));
+    wp_add_inline_script( 'tangible-codemirror', file_get_contents( __DIR__ . '/index.js' ) );
+    wp_add_inline_style( 'tangible-codemirror', file_get_contents( __DIR__ . '/index.css' ) );
   }
 
 
@@ -154,7 +151,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function input_admin_head() {
 
 
@@ -182,7 +178,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function input_form_data( $args ) {
 
 
@@ -207,7 +202,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function input_admin_footer() {
 
 
@@ -232,7 +226,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function field_group_admin_enqueue_scripts() {
 
   }
@@ -255,7 +248,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function field_group_admin_head() {
 
   }
@@ -279,7 +271,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function load_value( $value, $post_id, $field ) {
 
     return $value;
@@ -305,7 +296,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function update_value( $value, $post_id, $field ) {
 
     return $value;
@@ -332,7 +322,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function format_value( $value, $post_id, $field ) {
 
     // bail early if no value
@@ -378,7 +367,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function validate_value( $valid, $value, $field, $input ){
 
     // Basic usage
@@ -419,7 +407,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function delete_value( $post_id, $key ) {
 
 
@@ -443,7 +430,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function load_field( $field ) {
 
     return $field;
@@ -467,7 +453,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function update_field( $field ) {
 
     return $field;
@@ -491,7 +476,6 @@ if ( isset( $wp_customize ) ) return;
   */
 
   /*
-
   function delete_field( $field ) {
 
 

@@ -3,51 +3,50 @@
  * Embed - oEmbed
  */
 
-$html->add_open_tag('Embed', function($atts, $nodes) use ($html, $interface) {
+$html->add_open_tag('Embed', function( $atts, $nodes ) use ( $html, $interface ) {
 
   $content = $html->format_embed(
-    $html->render($nodes)
+    $html->render( $nodes )
   );
 
-  if (isset($atts['ratio'])) {
+  if ( isset( $atts['ratio'] ) ) {
 
     $atts['responsive'] = $atts['ratio'];
-    unset($atts['ratio']);
+    unset( $atts['ratio'] );
 
-  } elseif (!isset($atts['responsive']) || array_search('responsive', $atts['keys'])!==false) {
+  } elseif ( ! isset( $atts['responsive'] ) || array_search( 'responsive', $atts['keys'] ) !== false ) {
 
-    $atts['responsive'] = strpos($content, '<iframe ')!==false
+    $atts['responsive'] = strpos( $content, '<iframe ' ) !== false
       ? 'dynamic'
-      : 'false'
-    ;
+      : 'false';
   }
 
-  if ($atts['responsive']==='false') return $content;
+  if ($atts['responsive'] === 'false') return $content;
 
-  unset($atts['keys']);
+  unset( $atts['keys'] );
 
   $is_dynamic = false;
 
-  $interface->enqueue('embed');
+  $interface->enqueue( 'embed' );
 
   $ratio = $atts['responsive'];
-  unset($atts['responsive']);
+  unset( $atts['responsive'] );
 
-  if ($ratio==='dynamic') {
+  if ( $ratio === 'dynamic' ) {
 
     // JS required for dynamic ratio
-    $interface->enqueue('embed-dynamic');
+    $interface->enqueue( 'embed-dynamic' );
 
     $is_dynamic = true;
 
-  } elseif ($ratio!=='default') {
+  } elseif ( $ratio !== 'default' ) {
 
     // Ratio given as width:height, such as 16:9
-    $parts = explode(':', $ratio);
+    $parts = explode( ':', $ratio );
 
-    if (count($parts)===2) {
+    if ( count( $parts ) === 2 ) {
 
-      $width = $parts[0];
+      $width  = $parts[0];
       $height = $parts[1];
 
       $ratio = $height / $width * 100;
@@ -57,17 +56,15 @@ $html->add_open_tag('Embed', function($atts, $nodes) use ($html, $interface) {
     }
 
     $atts['style'] =
-      (isset($atts['style']) ? ($atts['style'] . ';') : '')
-      . 'padding-top:' . $ratio . '%;'
-    ;
+      ( isset( $atts['style'] ) ? ( $atts['style'] . ';' ) : '' )
+      . 'padding-top:' . $ratio . '%;';
   }
 
   return $html->render_tag('div', array_merge($atts, [
-    'class' => ($is_dynamic
+    'class' => ( $is_dynamic
         ? 'tangible-embed-dynamic' // Dynamic aspect ratio requires JS
         : 'tangible-embed'         // CSS-only solution
       )
-      . (isset($atts['class']) ? ' '.$atts['class'] : '')
-    ,
+      . ( isset( $atts['class'] ) ? ' ' . $atts['class'] : '' ),
   ]), $content);
 });

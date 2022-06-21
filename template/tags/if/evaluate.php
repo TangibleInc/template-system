@@ -13,87 +13,83 @@
  * The only required part is field, which must match one of the registered rules.
  */
 
-$html->evaluate_logic_token_rule_groups = function($token_rule_groups, $atts = [])
-  use ($logic, $html)
-{
-
+$html->evaluate_logic_token_rule_groups = function( $token_rule_groups, $atts = [] ) use ( $logic, $html ) {
   /**
    * Rules registered with Logic module, using $logic->extend_rules()
    */
   $rules_by_field = $logic->get_rules();
-  $condition = true;
+  $condition      = true;
 
   // tgbl()->see('if evaluate token rule groups', $token_rule_groups);
 
-  foreach ($token_rule_groups as $group_index => $group) {
+  foreach ( $token_rule_groups as $group_index => $group ) {
 
     $rule_group_condition = true;
 
-    foreach ($group as $rule_index => $tokens) {
+    foreach ( $group as $rule_index => $tokens ) {
 
-      $rule = [];
+      $rule           = [];
       $rule_condition = true;
 
-      $token_count = count($tokens);
-      if ($token_count===0) continue;
+      $token_count = count( $tokens );
+      if ($token_count === 0) continue;
 
       /**
        * Rule can start with "not"
        */
-      $is_not = $tokens[0]==='not';
-      if ($is_not) {
-        array_shift($tokens);
+      $is_not = $tokens[0] === 'not';
+      if ( $is_not ) {
+        array_shift( $tokens );
       }
 
-      $field_name = $rule['field'] = array_shift($tokens);
+      $field_name = $rule['field'] = array_shift( $tokens );
 
-      if (!isset($rules_by_field[ $field_name ])) {
+      if ( ! isset( $rules_by_field[ $field_name ] ) ) {
         // Unknown field
-        $rule_condition = false;
+        $rule_condition   = false;
         $rule_definitions = [];
       } else {
         $rule_definitions = $rules_by_field[ $field_name ];
       }
 
-      foreach ($rule_definitions as $def) {
+      foreach ( $rule_definitions as $def ) {
 
         // Build rule from shortcode parameter tokens, based on matching rule definition
 
         $remaining_tokens = $tokens; // Copy
 
-        if (isset($def['field_2'])) {
-          $rule['field_2'] = array_shift($remaining_tokens);
+        if ( isset( $def['field_2'] ) ) {
+          $rule['field_2'] = array_shift( $remaining_tokens );
         }
 
-        if (isset($def['operands'])) {
+        if ( isset( $def['operands'] ) ) {
 
-          $token = array_shift($remaining_tokens);
+          $token = array_shift( $remaining_tokens );
 
           // Unknown operand
-          if (isset($def['operands_by_key'])
-            && !isset($def['operands_by_key'][ $token ])
+          if ( isset( $def['operands_by_key'] )
+            && ! isset( $def['operands_by_key'][ $token ] )
           ) {
 
             // field_2 is operand
-            if (isset($rule['field_2'])
-              && isset($def['operands_by_key'][ $rule['field_2'] ])
+            if ( isset( $rule['field_2'] )
+              && isset( $def['operands_by_key'][ $rule['field_2'] ] )
             ) {
               $rule['operand'] = $rule['field_2'];
               $rule['field_2'] = '';
             } else {
               $rule['operand'] =
-                !is_null($token) ? 'is'
+                ! is_null( $token ) ? 'is'
                   /**
                    * Previously used implicit "exists", but now passing empty operand
                    * so comparison logic can optionally check other attributes like is="..."
                    * See /logic/comparison.php, case 'exists'
                    */
-                  : ''
-              ;
+                  : '';
             }
 
             // Push token back on stack for value
-            $remaining_tokens []= $token;
+            $remaining_tokens [] = $token;
 
           } else {
             $rule['operand'] = $token;
@@ -101,14 +97,14 @@ $html->evaluate_logic_token_rule_groups = function($token_rule_groups, $atts = [
         }
 
         // values, values_2, values_3
-        for ($i=1; $i <= 3; $i++) {
+        for ( $i = 1; $i <= 3; $i++ ) {
 
           $value_key_suffix = $i > 1 ? "_$i" : '';
-          $values_key = "values{$value_key_suffix}";
+          $values_key       = "values{$value_key_suffix}";
 
-          if (!isset($def[ $values_key ])) break;
-          $token = array_shift($remaining_tokens);
-          if ($token===null) break;
+          if ( ! isset( $def[ $values_key ] )) break;
+          $token = array_shift( $remaining_tokens );
+          if ($token === null) break;
           $rule[ "value{$value_key_suffix}" ] = $token;
         }
 
@@ -120,8 +116,8 @@ $html->evaluate_logic_token_rule_groups = function($token_rule_groups, $atts = [
 
         $evaluator = $def['evaluator'];
 
-        if (is_array($evaluator)) {
-          foreach (array_reverse( $evaluator ) as $evaluate_rule) {
+        if ( is_array( $evaluator ) ) {
+          foreach ( array_reverse( $evaluator ) as $evaluate_rule ) {
 
             $evaluated_condition = $evaluate_rule( $rule, $atts );
 
@@ -132,7 +128,7 @@ $html->evaluate_logic_token_rule_groups = function($token_rule_groups, $atts = [
         }
 
         // Apply "not"
-        if ($is_not) {
+        if ( $is_not ) {
           $evaluated_condition = ! $evaluated_condition;
         }
 

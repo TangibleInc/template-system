@@ -13,15 +13,15 @@ class PostTypeLoop extends BaseLoop {
     'title'      => 'Post Type',
     'category'   => 'core',
     'query_args' => [
-      'public' => [
+      'public'  => [
         'description' => 'If true, only public post types will be returned.',
-        'type' => 'boolean',
-        'default' => true,
+        'type'        => 'boolean',
+        'default'     => true,
       ],
       'builtin' => [
         'target_name' => '_builtin',
         'description' => 'If true, will return WordPress default post types. Use false to return only custom post types.',
-        'type' => 'boolean',
+        'type'        => 'boolean',
         // 'default' => true,
       ],
       // publicly_queryable – Boolean
@@ -38,21 +38,21 @@ class PostTypeLoop extends BaseLoop {
     ],
     'fields'     => [
       // @see https://developer.wordpress.org/reference/classes/wp_post_type/
-      'name'           => [ 'description' => 'Post type name/slug' ],
-      'label'          => [ 'description' => 'Post type label (singular)' ],
-      'label_plural'   => [ 'description' => 'Post type label (plural)' ],
-      'description'    => [ 'description' => 'Post type description' ],
+      'name'         => [ 'description' => 'Post type name/slug' ],
+      'label'        => [ 'description' => 'Post type label (singular)' ],
+      'label_plural' => [ 'description' => 'Post type label (plural)' ],
+      'description'  => [ 'description' => 'Post type description' ],
     ],
   ];
 
   function get_items_from_query( $query ) {
     // @see https://developer.wordpress.org/reference/functions/get_post_types
-    $post_types = get_post_types($query, 'objects');
+    $post_types = get_post_types( $query, 'objects' );
 
     // Associative array to array
     $items = [];
-    foreach ($post_types as $name => $type) {
-      $items []= $type;
+    foreach ( $post_types as $name => $type ) {
+      $items [] = $type;
     }
 
     // TODO: Sort
@@ -68,13 +68,17 @@ class PostTypeLoop extends BaseLoop {
    */
   function get_item_field( $item, $field_name, $args = [] ) {
 
-    switch ($field_name) {
-      case 'name': return $item->name;
-      case 'label': return $item->labels->singular_name;
-      case 'label_plural': return $item->label;
-      case 'description': return $item->description;
+    switch ( $field_name ) {
+      case 'name':
+          return $item->name;
+      case 'label':
+          return $item->labels->singular_name;
+      case 'label_plural':
+          return $item->label;
+      case 'description':
+          return $item->description;
       default:
-        if (isset($item->$field_name)) return $item->$field_name;
+        if (isset( $item->$field_name )) return $item->$field_name;
     }
   }
 };

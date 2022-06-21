@@ -26,13 +26,13 @@ class MessageField extends acf_field {
   function initialize() {
 
     // vars
-    $this->name = 'tangible_message';
-    $this->label = __("Tangible Message", 'tangible_template');
+    $this->name     = 'tangible_message';
+    $this->label    = __( 'Tangible Message', 'tangible_template' );
     $this->category = 'layout';
     $this->defaults = array(
-      'message'    => '',
-      'esc_html'    => 0,
-      'new_lines'    => 'wpautop',
+      'message'   => '',
+      'esc_html'  => 0,
+      'new_lines' => 'wpautop',
     );
 
   }
@@ -59,10 +59,10 @@ class MessageField extends acf_field {
 
     global $post;
 
-    if (!empty($post)) {
-      echo $html->render_tag('Loop', [
+    if ( ! empty( $post ) ) {
+    echo $html->render_tag('Loop', [
         'type' => $post->post_type,
-        'id' => $post->ID,
+        'id'   => $post->ID,
       ], $m);
       return;
     }
@@ -88,13 +88,13 @@ class MessageField extends acf_field {
 
     // default_value
     acf_render_field_setting( $field, array(
-      'label'      => __('Message','acf'),
-      'instructions'  => '',
-      'type'      => 'textarea',
-      'name'      => 'message',
+      'label'        => __( 'Message', 'acf' ),
+      'instructions' => '',
+      'type'         => 'textarea',
+      'name'         => 'message',
     ));
 
-/*
+    /*
     // formatting
     acf_render_field_setting( $field, array(
       'label'      => __('New Lines','acf'),
@@ -117,7 +117,7 @@ class MessageField extends acf_field {
       'type'      => 'true_false',
       'ui'      => 1,
     ));
-*/
+    */
   }
 
 
@@ -138,7 +138,6 @@ class MessageField extends acf_field {
 
     // translate
     $field['message'] = acf_translate( $field['message'] );
-
 
     // return
     return $field;

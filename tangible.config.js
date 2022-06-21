@@ -1,6 +1,6 @@
 module.exports = {
   format: [
-    'integrations',
-    '*.php'
+    'features',
+    '*.{php,json}'
   ]
 }

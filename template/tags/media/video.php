@@ -15,22 +15,21 @@
  *                            Default 'wp-video-shortcode'.
  * }
  */
-$html->add_closed_tag('Video', function($atts) use ($html) {
+$html->add_closed_tag('Video', function( $atts ) use ( $html ) {
 
-  $type = isset($atts['type']) ? $atts['type'] : 'default';
+  $type = isset( $atts['type'] ) ? $atts['type'] : 'default';
 
-  $callback = isset($html->video_type_callbacks[ $type ])
+  $callback = isset( $html->video_type_callbacks[ $type ] )
     ? $html->video_type_callbacks[ $type ]
-    : $html->video_type_callbacks['default']
-  ;
+    : $html->video_type_callbacks['default'];
 
-  return $callback($atts);
+  return $callback( $atts );
 });
 
 $html->video_type_callbacks = [
-  'default' => 'wp_video_shortcode'
+  'default' => 'wp_video_shortcode',
 ];
 
-$html->register_video_type = function($type, $callback) use ($html) {
+$html->register_video_type = function( $type, $callback ) use ( $html ) {
   $html->video_type_callbacks[ $type ] = $callback;
 };

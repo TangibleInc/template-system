@@ -7,6 +7,7 @@ module.exports = {
     {
       src: 'assets/src/tangible-logic.scss',
       dest: 'assets/build/tangible-logic.css',
-    }
-  ]
+    },
+  ],
+  format: ['**/*.{php,json,js,scss}', '!assets/build'],
 }

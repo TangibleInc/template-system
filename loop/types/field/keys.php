@@ -20,27 +20,26 @@ class FieldKeysLoop extends ListLoop {
 
     $this->items = [];
 
-    if (isset($query['field_keys'])) {
+    if ( isset( $query['field_keys'] ) ) {
 
-      $items = isset($query['items'])
+      $items = isset( $query['items'] )
         ? $query['items'] // Field value passed from $loop->create_type('field')
-        : self::$loop->get_field( $query['field'] )
-      ;
+        : self::$loop->get_field( $query['field'] );
 
-      if (is_string($items)) {
-        $items = @json_decode($items, true);
+      if ( is_string( $items ) ) {
+        $items = @json_decode( $items, true );
       }
 
-      if (is_array($items)) {
+      if ( is_array( $items ) ) {
 
-        $map = $items;
-        $keys = array_keys($map);
+        $map  = $items;
+        $keys = array_keys( $map );
 
-        sort($keys); // TODO: Sort options
+        sort( $keys ); // TODO: Sort options
 
-        $items = array_map(function($key) use ($map) {
+        $items = array_map(function( $key ) use ( $map ) {
           return [
-            'key' => $key,
+            'key'   => $key,
             'value' => $map[ $key ],
           ];
         }, $keys);

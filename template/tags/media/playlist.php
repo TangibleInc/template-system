@@ -24,25 +24,23 @@
  *     @type bool    $artists      Whether to show or hide artist name in the playlist. Default true.
  * }
  */
-$html->add_closed_tag('Playlist', function($atts) use ($html) {
+$html->add_closed_tag('Playlist', function( $atts ) use ( $html ) {
 
-  $type = (isset($atts['type']) && $atts['type']!=='audio' && $atts['type']!=='video')
+  $type = ( isset( $atts['type'] ) && $atts['type'] !== 'audio' && $atts['type'] !== 'video' )
     ? $atts['type']
-    : 'default'
-  ;
+    : 'default';
 
-  $callback = isset($html->playlist_type_callbacks[ $type ])
+  $callback = isset( $html->playlist_type_callbacks[ $type ] )
     ? $html->playlist_type_callbacks[ $type ]
-    : $html->playlist_type_callbacks['default']
-  ;
+    : $html->playlist_type_callbacks['default'];
 
-  return $callback($atts);
+  return $callback( $atts );
 });
 
 $html->playlist_type_callbacks = [
-  'default' => 'wp_playlist_shortcode'
+  'default' => 'wp_playlist_shortcode',
 ];
 
-$html->register_playlist_type = function($type, $callback) use ($html) {
+$html->register_playlist_type = function( $type, $callback ) use ( $html ) {
   $html->playlist_type_callbacks[ $type ] = $callback;
 };

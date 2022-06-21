@@ -2,7 +2,7 @@
 
 namespace Tangible\Loop;
 
-$loop->get_attachment_field = function( $attachment, $field_name, $args = [] ) use ($loop) {
+$loop->get_attachment_field = function( $attachment, $field_name, $args = [] ) use ( $loop ) {
 
   if ( is_numeric( $attachment ) ) {
 
@@ -20,13 +20,13 @@ $loop->get_attachment_field = function( $attachment, $field_name, $args = [] ) u
   }
 
   if (empty( $attachment )) $attachment = get_post(); // Current attachment?
-  if (empty( $attachment ) || empty($attachment->ID) || $attachment->post_type!=='attachment') return '';
+  if (empty( $attachment ) || empty( $attachment->ID ) || $attachment->post_type !== 'attachment') return '';
 
-  $id    = $attachment->ID;
+  $id = $attachment->ID;
 
   // Check if extended field
-  $value = $loop->get_filtered_field('attachment', $attachment, $field_name, $args);
-  if (!is_null($value)) return $value;
+  $value = $loop->get_filtered_field( 'attachment', $attachment, $field_name, $args );
+  if ( ! is_null( $value )) return $value;
 
   if ( isset( $args['custom'] ) && $args['custom'] === 'true' ) {
     return get_post_meta( $id, $field_name, true );
@@ -36,146 +36,140 @@ $loop->get_attachment_field = function( $attachment, $field_name, $args = [] ) u
 
   switch ( $field_name ) {
     case 'all':
-
       $defined_fields = [];
-      foreach (AttachmentLoop::$config['fields'] as $key => $config) {
-        if ($key==='all' || substr($key, -2)==='_*') continue;
+      foreach ( AttachmentLoop::$config['fields'] as $key => $config ) {
+        if ($key === 'all' || substr( $key, -2 ) === '_*') continue;
         $defined_fields[ $key ] = $loop->get_attachment_field( $attachment, $key, $args );
       }
 
       ob_start();
       ?><pre><code><?php
       print_r( $defined_fields );
-      ?></code></pre><?php
+?></code></pre><?php
       $value = ob_get_clean();
-    break;
+        break;
     case 'id':
       $value = $id;
-    break;
+        break;
     case 'name':
       $value = $attachment->post_name;
-    break;
+        break;
     case 'title':
       $value = $attachment->post_title;
-    break;
+        break;
     case 'caption':
       $value = $attachment->post_excerpt;
-    break;
+        break;
     case 'description':
       $value = $attachment->post_content;
-    break;
+        break;
     case 'status':
       $value = $attachment->post_status;
-    break;
+        break;
     case 'type':
     case 'mime':
       $value = $attachment->post_mime_type;
-    break;
+        break;
     case 'alt':
       $value = get_post_meta( $id, '_wp_attachment_image_alt', true );
-    break;
+        break;
     case 'url':
-
-      if (isset($args['size'])) {
+      if ( isset( $args['size'] ) ) {
 
         $image_size = $args['size'];
-        $sources = wp_get_attachment_image_src($id, $image_size);
+        $sources    = wp_get_attachment_image_src( $id, $image_size );
 
-        if (isset($sources[0])) {
+        if ( isset( $sources[0] ) ) {
           $value = $sources[0];
         }
-
       } else {
         // Full size
-        $value = wp_get_attachment_url($id);
+        $value = wp_get_attachment_url( $id );
       }
 
-    break;
+        break;
     case 'filename':
-      $value = basename(wp_get_attachment_url($id));
-    break;
+      $value = basename( wp_get_attachment_url( $id ) );
+        break;
     case 'extension':
-      $value = pathinfo(wp_get_attachment_url($id), PATHINFO_EXTENSION);
-    break;
+      $value = pathinfo( wp_get_attachment_url( $id ), PATHINFO_EXTENSION );
+        break;
     case 'size':
-      $metadata = wp_get_attachment_metadata($id);
-      if (isset($metadata['filesize'])) return $metadata['filesize'];
-      if (!isset($metadata['file'])) return;
+      $metadata = wp_get_attachment_metadata( $id );
+      if (isset( $metadata['filesize'] )) return $metadata['filesize'];
+      if ( ! isset( $metadata['file'] )) return;
 
-      $upload_dir = wp_upload_dir();
+      $upload_dir      = wp_upload_dir();
       $upload_base_dir = $upload_dir['basedir'];
-      $size = filesize( $upload_base_dir . '/' . $metadata['file'] );
+      $size            = filesize( $upload_base_dir . '/' . $metadata['file'] );
 
-      if (isset($args['raw'])) return $size;
+      if (isset( $args['raw'] )) return $size;
 
-      if ( $size >= 1<<30 )
-        return number_format($size/(1<<30),2).' GB';
-      if ( $size >= 1<<20 )
-        return number_format($size/(1<<20),2).' MB';
-      if ( $size >= 1<<10 )
-        return number_format($size/(1<<10),2).' KB';
+      if ( $size >= 1 << 30 )
+        return number_format( $size / ( 1 << 30 ), 2 ) . ' GB';
+      if ( $size >= 1 << 20 )
+        return number_format( $size / ( 1 << 20 ), 2 ) . ' MB';
+      if ( $size >= 1 << 10 )
+        return number_format( $size / ( 1 << 10 ), 2 ) . ' KB';
 
-      return number_format($size).' bytes';
+        return number_format( $size ) . ' bytes';
     break;
 
     case 'srcset':
-
       // @see https://developer.wordpress.org/reference/functions/wp_get_attachment_image_srcset/
 
-      $image_size = isset($args['size']) ? $args['size'] : 'medium';
+      $image_size = isset( $args['size'] ) ? $args['size'] : 'medium';
 
-      if (strpos($image_size, ',')!==false) {
+      if ( strpos( $image_size, ',' ) !== false ) {
         // array of width and height
-        $image_size = array_map(function($size) {
-          return (int) trim($size);
-        }, explode(',', $image_size));
+        $image_size = array_map(function( $size ) {
+          return (int) trim( $size );
+        }, explode( ',', $image_size ));
       }
 
-      $value = wp_get_attachment_image_srcset($id, $image_size);
-      if ($value===false) $value = '';
-    break;
+      $value                       = wp_get_attachment_image_srcset( $id, $image_size );
+      if ($value === false) $value = '';
+        break;
     case 'sizes':
-
       // @see https://developer.wordpress.org/reference/functions/wp_get_attachment_image_sizes/
 
-      $image_size = isset($args['size']) ? $args['size'] : 'medium';
+      $image_size = isset( $args['size'] ) ? $args['size'] : 'medium';
 
-      if (strpos($image_size, ',')!==false) {
+      if ( strpos( $image_size, ',' ) !== false ) {
         // array of width and height
-        $image_size = array_map(function($size) {
-          return (int) trim($size);
-        }, explode(',', $image_size));
+        $image_size = array_map(function( $size ) {
+          return (int) trim( $size );
+        }, explode( ',', $image_size ));
       }
 
-      $value = wp_get_attachment_image_sizes($id, $image_size);
-      if ($value===false) $value = '';
-    break;
+      $value                       = wp_get_attachment_image_sizes( $id, $image_size );
+      if ($value === false) $value = '';
+        break;
     case 'image':
-
-      $url = $loop->get_attachment_field( $attachment, 'url', $args );
+      $url              = $loop->get_attachment_field( $attachment, 'url', $args );
       $image_attributes = [
         'src' => $url,
       ];
 
       // Allowed image attributes
 
-      foreach ([
+      foreach ( [
         'id',
         'class',
         'width',
         'height',
-        'alt'
-      ] as $key) {
-        if (!isset($args[ $key ])) continue;
+        'alt',
+      ] as $key ) {
+        if ( ! isset( $args[ $key ] )) continue;
         $image_attributes[ $key ] = $args[ $key ];
       }
 
-      $value = $loop->html->render_tag('img', $image_attributes);
+      $value = $loop->html->render_tag( 'img', $image_attributes );
 
-    break;
+        break;
     default:
       $value = $loop->get_post_field( $attachment, $field_name, $args );
-    break;
+        break;
   }
 
   return $value;

@@ -1,6 +1,6 @@
 <?php
 
-$html->load_file = function($file) use ($html) {
+$html->load_file = function( $file ) use ( $html ) {
   return $html->load_asset( $file );
 };
 
@@ -9,13 +9,13 @@ $html->load_file = function($file) use ($html) {
  *
  * This is used to resolve relative import by <Load> inside the template.
  */
-$html->load_template_with_context = function($file, $before = false, $after = false) {
+$html->load_template_with_context = function( $file, $before = false, $after = false ) {
 
   ob_start();
 
   ?><PushContext
-    path="<?php echo dirname($file); ?>"
-    file="<?php echo basename($file); ?>"
+    path="<?php echo dirname( $file ); ?>"
+    file="<?php echo basename( $file ); ?>"
   /><?php
 
   if ($before) echo $before;
@@ -27,44 +27,43 @@ $html->load_template_with_context = function($file, $before = false, $after = fa
   return ob_get_clean();
 };
 
-$html->load_asset = function($asset_type, $asset = '', $options = []) use ($html) {
+$html->load_asset = function( $asset_type, $asset = '', $options = [] ) use ( $html ) {
 
-  if (empty($asset)) {
-    $asset = $asset_type;
+  if ( empty( $asset ) ) {
+    $asset      = $asset_type;
     $asset_type = 'file';
   }
 
-  $file_parts = explode('.', $asset);
-  $file_extension = isset($file_parts[1]) ? end($file_parts) : '';
+  $file_parts     = explode( '.', $asset );
+  $file_extension = isset( $file_parts[1] ) ? end( $file_parts ) : '';
 
   /**
    * Get current path from context
    */
-  $current_path = $html->get_current_context('path');
+  $current_path = $html->get_current_context( 'path' );
 
-  $is_external_url = substr($asset, 0, 2)==='//'
-    || strpos($asset, '://')!==false
-  ;
+  $is_external_url = substr( $asset, 0, 2 ) === '//'
+    || strpos( $asset, '://' ) !== false;
 
-  if ($is_external_url) {
+  if ( $is_external_url ) {
 
     // If it's a site internal URL, convert to path
 
     $original_asset = $asset;
-    $asset = str_replace( $html->get_url('site'), $html->get_path('site'), $asset );
+    $asset          = str_replace( $html->get_url( 'site' ), $html->get_path( 'site' ), $asset );
 
     $is_external_url = $asset !== $original_asset;
 
-  } else if ($asset[0]==='/') {
+  } elseif ( $asset[0] === '/' ) {
 
-    if (strpos($asset, ABSPATH)===0) {
+    if ( strpos( $asset, ABSPATH ) === 0 ) {
 
       // Absolute path within site - Unmodified
 
     } else {
 
       // From views root path - @see tangible-views/includes/views.php
-      $root_path = $html->get_current_context('views_root_path');
+      $root_path = $html->get_current_context( 'views_root_path' );
 
       /**
        * Views root path can be empty if we're inside AJAX/REST request;
@@ -74,46 +73,42 @@ $html->load_asset = function($asset_type, $asset = '', $options = []) use ($html
        * a template file in a symlinked directory, where it's using the
        * __DIR__ constant.
        */
-      if (empty($root_path) && (wp_doing_ajax() || wp_is_json_request())) {
-        $root_path = $html->get_variable_type('path', 'views');
+      if ( empty( $root_path ) && ( wp_doing_ajax() || wp_is_json_request() ) ) {
+        $root_path = $html->get_variable_type( 'path', 'views' );
       }
 
-      $asset = untrailingslashit($root_path) . $asset;
+      $asset = untrailingslashit( $root_path ) . $asset;
     }
-
-  } else if (preg_match( '#^[a-zA-Z]:\\\\#', $asset )) {
+  } elseif ( preg_match( '#^[a-zA-Z]:\\\\#', $asset ) ) {
 
     // Absolute path on Windows - Unmodified
 
-  } else if (!empty($current_path)) {
+  } elseif ( ! empty( $current_path ) ) {
 
     // Relative path
-    $asset = trailingslashit($current_path) . $asset;
+    $asset = trailingslashit( $current_path ) . $asset;
   }
 
-  $asset_url = str_replace(ABSPATH, trailingslashit(site_url()), $asset);
+  $asset_url = str_replace( ABSPATH, trailingslashit( site_url() ), $asset );
 
-  if (isset($options['version'])) {
-    $asset_url .= (strpos($asset_url, '?')===false ? '?' : '') . 'version=' . $options['version'];
+  if ( isset( $options['version'] ) ) {
+    $asset_url .= ( strpos( $asset_url, '?' ) === false ? '?' : '' ) . 'version=' . $options['version'];
   }
 
-  if ($is_external_url || !file_exists( $asset )) {
-    trigger_error("File not found: $asset", E_USER_WARNING);
+  if ( $is_external_url || ! file_exists( $asset ) ) {
+    trigger_error( "File not found: $asset", E_USER_WARNING );
     return;
   }
 
-  switch ($asset_type) {
+  switch ( $asset_type ) {
     case 'template':
-
       // TODO: From post type tangible_template
 
-    break;
+        break;
     case 'file':
-
-      switch ($file_extension) {
+      switch ( $file_extension ) {
         case 'html':
         case 'php':
-
           // Local variable scope - @see /tags/get-set/local.php
           $html->push_local_variable_scope();
 
@@ -132,49 +127,49 @@ $html->load_asset = function($asset_type, $asset = '', $options = []) use ($html
           // End local variable scope
           $html->pop_local_variable_scope();
 
-          return $content;
+            return $content;
         case 'svg':
-          return file_get_contents( $asset );
+            return file_get_contents( $asset );
 
         // Markdown
         case 'md':
-          return $html->render(
+            return $html->render(
             $html->load_template_with_context( $asset,
-              "<Markdown>\n", "</Markdown>"
+              "<Markdown>\n", '</Markdown>'
             )
           );
         case 'scss':
           $html->enqueue_sass_file( $asset );
-        break;
+            break;
         case 'css':
           $html->enqueue_style_file( $asset_url, $options );
-        break;
+            break;
         case 'js':
           $html->enqueue_script_file( $asset_url, $options );
-        break;
+            break;
         case 'json':
         case 'hjson':
-
           $content = file_get_contents( $asset );
 
-          if (isset($options['json'])) {
+          if ( isset( $options['json'] ) ) {
 
             /**
              * JSON decode options
+             *
              * @see https://www.php.net/manual/en/function.json-decode
              */
             $json_options = 0;
 
-            if (isset($atts['array'])) {
+            if ( isset( $atts['array'] ) ) {
               $json_options = $json_options | JSON_OBJECT_AS_ARRAY;
             }
 
-            $result = json_decode($content, true, 512, $json_options);
+            $result = json_decode( $content, true, 512, $json_options );
 
-            if (json_last_error()) {
-              $message = json_last_error_msg();
-              if (!empty($message)) $message = ': ' . $message;
-              trigger_error("JSON error \"{$message}\" in $asset", E_USER_WARNING);
+            if ( json_last_error() ) {
+              $message                           = json_last_error_msg();
+              if ( ! empty( $message )) $message = ': ' . $message;
+              trigger_error( "JSON error \"{$message}\" in $asset", E_USER_WARNING );
               $result = [];
             }
 
@@ -189,45 +184,45 @@ $html->load_asset = function($asset_type, $asset = '', $options = []) use ($html
             return $html->hjson()->parse( $content, $options + [
               'throw' => true,
             ] );
-          } catch (\Throwable $th) {
-            $message = $th->getMessage();
-            if (!empty($message)) $message = ': ' . $message;
-            trigger_error("JSON error \"{$message}\" in $asset", E_USER_WARNING);
+          } catch ( \Throwable $th ) {
+            $message                           = $th->getMessage();
+            if ( ! empty( $message )) $message = ': ' . $message;
+            trigger_error( "JSON error \"{$message}\" in $asset", E_USER_WARNING );
             return [];
           }
 
-        break;
+            break;
         default:
-        trigger_error("Unknown file type: $asset", E_USER_WARNING);
-        return;
+          trigger_error( "Unknown file type: $asset", E_USER_WARNING );
+            return;
       }
-    break;
+        break;
   }
 };
 
 /**
  * <Load> file, template, library, ..
  */
-$html->load_content_tag = function($atts, $content = '') use ($html) {
+$html->load_content_tag = function( $atts, $content = '' ) use ( $html ) {
 
-  $asset = '';
+  $asset      = '';
   $asset_type = '';
 
-  foreach ([
+  foreach ( [
     'template',
-    'file'
-  ] as $key) {
-    if (isset($atts[ $key ])) {
-      $asset = $atts[ $key ];
+    'file',
+  ] as $key ) {
+    if ( isset( $atts[ $key ] ) ) {
+      $asset      = $atts[ $key ];
       $asset_type = $key;
 
       // Support multiple
-      if (strpos($asset, ',')!==false) {
-        $assets = array_map('trim', explode(',', $asset));
+      if ( strpos( $asset, ',' ) !== false ) {
+        $assets = array_map( 'trim', explode( ',', $asset ) );
         $result = '';
-        foreach ($assets as $each_asset) {
+        foreach ( $assets as $each_asset ) {
           $result .= $html->load_content_tag(array_merge($atts, [
-            $key => $each_asset
+            $key => $each_asset,
           ]));
         }
         return $result;
@@ -237,15 +232,15 @@ $html->load_content_tag = function($atts, $content = '') use ($html) {
     }
   }
 
-  if ( isset($atts['from']) ) {
+  if ( isset( $atts['from'] ) ) {
 
     $path = $html->get_path( $atts['from'] );
-    if (!empty( $path )) {
-      $asset = trailingslashit($path) . ltrim($asset, '/');
+    if ( ! empty( $path ) ) {
+      $asset = trailingslashit( $path ) . ltrim( $asset, '/' );
     }
   }
 
-  if ( in_array('render', $atts['keys']) ) {
+  if ( in_array( 'render', $atts['keys'] ) ) {
     $atts['render'] = true;
   }
 

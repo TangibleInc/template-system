@@ -7,18 +7,18 @@
 
 $html->registered_metaboxes = []; // name => config
 
-$html->register_metabox = function($name, $config) use ($html) {
+$html->register_metabox = function( $name, $config ) use ( $html ) {
   $html->registered_metaboxes[ $name ] = $config;
 };
 
 // Call from "init" action
-$html->init_metaboxes = function() use ($html) {
-  foreach ($html->registered_metaboxes as $name => $config) {
-    $html->create_metabox($name, $config);
+$html->init_metaboxes = function() use ( $html ) {
+  foreach ( $html->registered_metaboxes as $name => $config ) {
+    $html->create_metabox( $name, $config );
   };
 };
 
-$html->create_metabox = function($name, $config) use ($html) {
+$html->create_metabox = function( $name, $config ) use ( $html ) {
   /*
   add_meta_box(
     $id,           // ID

@@ -2,17 +2,20 @@ $paginator-breakpoint: 767px;
 $paginator-button-background-color: #295cbf;
 
 .tangible-paginator-button {
-
-  padding: .25rem .75rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 0;
 
-  &, &[disabled], &:hover, &:hover[disabled] {
+  &,
+  &[disabled],
+  &:hover,
+  &:hover[disabled] {
     color: inherit;
     background-color: inherit;
     border: 1px solid #ddd;
   }
 
-  &[disabled], &:hover[disabled] {
+  &[disabled],
+  &:hover[disabled] {
     color: #999;
   }
 
@@ -39,14 +42,14 @@ $paginator-button-background-color: #295cbf;
   }
 }
 
-@media(max-width: $paginator-breakpoint) {
+@media (max-width: $paginator-breakpoint) {
   .tangible-paginator-button {
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
   }
 }
 
 .tangible-paginator-target {
-  transition: opacity .3s;
+  transition: opacity 0.3s;
   &.tangible-paginator-target-loading {
     opacity: 0;
   }
