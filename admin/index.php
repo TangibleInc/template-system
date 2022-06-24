@@ -1,5 +1,7 @@
 <?php
 
+namespace Tangible\TemplateSystem;
+
 new class {
 
   public $name = 'tangible_template_system';
@@ -48,9 +50,8 @@ new class {
     add_action('plugins_loaded', function() use ( $plugin ) {
 
       /**
-       * Currently consolidating all features to be internal to the
-       * template system, instead of plugin framework and separate modules.
-       * That will allow migrating away from previous (inter)dependencies.
+       * Currently consolidating all features to be internal to the template system,
+       * removing dependecy on plugin framework and other modules.
        */
 
       $framework = $plugin->framework = tangible();

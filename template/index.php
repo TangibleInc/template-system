@@ -8,128 +8,125 @@
  * modules in the plugin framework.
  */
 
-require __DIR__ . '/tangible-module.php';
-
 if ( ! function_exists( 'tangible_template' ) ) :
   function tangible_template( $arg = false ) {
-    static $template;
-    return is_a( $arg, 'TangibleModule' )
-    ? ( $template = $arg->latest )
-    : ( $arg !== false && $template
-      ? $template->html->render( $arg )
-      : $template->html
-      );
+    static $html;
+    return is_object( $arg )
+      ? ( $html = $arg )
+      : ( $html && $arg !== false ? $html->render( $arg ) : $html )
+    ;
   }
 endif;
 
-return tangible_template(new class extends TangibleModule {
+return tangible_template(new class {
 
   public $name    = 'tangible_template';
-  public $version = '20220519';
+  public $version = '0';
 
   function __construct() {
+
     $this->version = tangible_template_system()->version;
-    parent::__construct();
+
+    // Depends on Loop module
+    add_action('tangible_loop_prepare', [$this, 'load'], 0);
   }
 
-  function load_latest_version() {
+  // Dynamic methods
+  function __call( $method = '', $args = [] ) {
+    if ( isset( $this->$method ) ) {
+      return call_user_func_array( $this->$method, $args );
+    }
+    $caller = current( debug_backtrace() );
+    echo "Warning: Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>";
+  }
 
-    add_action('tangible_loop_prepare', function() {
+  function load() {
 
-      /**
-       * Template module extends HTML module in plugin framework
-       */
-      $this->html = $html = tangible_html();
+    /**
+     * Template module base is called HTML module
+     *
+     * It used to be bundled in the plugin framework, but was moved into
+     * the Template System to remove dependency, and for ease of development.
+     *
+     * Some features are being used by the Loop module, for example, to build
+     * an image tag with attributes.
+     */
+    $this->html = $html = $this;
 
-      /**
-       * Loop module - Content type loops and fields
-       *
-       * @see vendor/tangible/loop
-       */
-      $html->loop = $loop = tangible_loop();
+    require_once __DIR__.'/html/index.php';
 
-      /**
-       * Logic module - Conditional rules registry, evaluator, UI
-       *
-       * @see vendor/tangible/logic
-       */
-      $html->logic = $logic = tangible_logic();
+    /**
+     * Plugin framework
+     *
+     * Using:
+     * - Case conversion utilities for format
+     * - AJAX module
+     * - HJSON module
+     * - Date module
+     *
+     * @see vendor/tangible/plugin-framework
+     * - utils/convert
+     * - modules/ajax, hjson, date
+     */
+    $html->framework = $framework = tangible();
 
-      /**
-       * Interface module - Library of UI components
-       *
-       * @see vendor/tangible/interface
-       */
-      $html->interface = $interface = tangible_interface();
+    // Loop module - Content type loops and fields
+    $html->loop = $loop = tangible_loop();
 
-      /**
-       * Plugin framework
-       *
-       * Using case conversion utilities for format
-       *
-       * @see vendor/tangible/plugin-framework
-       * @see vendor/tangible/plugin-framework/utils/convert
-       */
-      $html->framework = $framework = tangible();
+    // Logic module - Conditional rules registry, evaluator, UI
+    $html->logic = $logic = tangible_logic();
 
-      /**
-       * Date module
-       *
-       * @see vendor/tangible/plugin-framework/modules/date
-      */
-      $html->date = tangible_date();
+    // Interface module - Library of UI components
+    $html->interface = $interface = tangible_interface();
 
-      /**
-       * Human JSON module
-       *
-       * @see vendor/tangible/plugin-framework/modules/hjson
-      */
-      $html->hjson = $framework->hjson;
+    // Date module
+    $html->date = tangible_date();
 
-      /**
-       * Main
-       */
+    // Human JSON module
+    $html->hjson = $framework->hjson;
 
-      $html->dir_path  = __DIR__;
-      $html->file_path = __FILE__;
-      $html->url       = plugins_url( '/', __FILE__ );
+    /**
+     * Template language
+     */
 
-      $html->version = $this->version;
+    $html->dir_path  = __DIR__;
+    $html->file_path = __FILE__;
+    $html->url       = plugins_url( '/', __FILE__ );
 
-      // Utility functions
-      require_once __DIR__ . '/utils/index.php';
+    $html->version = $this->version;
 
-      // Dynamic tags
-      require_once __DIR__ . '/tags/index.php';
+    // Utility functions
+    require_once __DIR__ . '/utils/index.php';
 
-      // Format utilities
-      require_once __DIR__ . '/format/index.php';
+    // Dynamic tags
+    require_once __DIR__ . '/tags/index.php';
 
-      // Conditional logic rules
-      require_once __DIR__ . '/logic/index.php';
+    // Format utilities
+    require_once __DIR__ . '/format/index.php';
 
-      // Content structure
-      require_once __DIR__ . '/content/index.php';
+    // Conditional logic rules
+    require_once __DIR__ . '/logic/index.php';
 
-      // Page life cycle
-      require_once __DIR__ . '/enqueue/index.php';
-      require_once __DIR__ . '/actions/index.php';
-      require_once __DIR__ . '/ajax/index.php';
+    // Content structure
+    require_once __DIR__ . '/content/index.php';
 
-      // Modules
-      require_once __DIR__ . '/modules/index.php';
-      require_once __DIR__ . '/module-loader/index.php';
+    // Page life cycle
+    require_once __DIR__ . '/enqueue/index.php';
+    require_once __DIR__ . '/actions/index.php';
+    require_once __DIR__ . '/ajax/index.php';
 
-      // Integrations
-      require_once __DIR__ . '/integrations/index.php';
+    // Modules
+    require_once __DIR__ . '/modules/index.php';
+    require_once __DIR__ . '/module-loader/index.php';
 
-      // For themes: first action hook available after functions.php is loaded.
-      add_action('after_setup_theme', function() use ( $html ) {
+    // Integrations
+    require_once __DIR__ . '/integrations/index.php';
 
-        // Use this action to load templates
-        do_action( 'tangible_templates_ready', $html );
-      });
+    // For themes: first action hook available after functions.php is loaded.
+    add_action('after_setup_theme', function() use ( $html ) {
 
-    }, 0);
+      // Use this action to load templates
+      do_action( 'tangible_templates_ready', $html );
+    });
   }
 });
