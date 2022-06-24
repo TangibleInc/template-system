@@ -30,6 +30,7 @@
   CodeMirror.registerHelper("lint", "html", function(text, options) {
     var found = [];
     let HTMLHint = window.Tangible.HTMLHint
+
     if (HTMLHint && !HTMLHint.verify) {
       if(typeof HTMLHint.default !== 'undefined') {
         HTMLHint = HTMLHint.default;

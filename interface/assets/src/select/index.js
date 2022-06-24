@@ -2,7 +2,7 @@
  * Select2 - https://select2.org/
  */
 
-const createSelect2 = require('select2')
+import createSelect2 from 'select2'
 
 const $ = window.jQuery
 

@@ -32,7 +32,7 @@ $html->paginated_loop_tag = function( $current_loop, $atts, $nodes, $result ) us
   ) {
     $ids = [];
     foreach ( $current_loop->total_items as $item ) {
-    $ids [] = $current_loop->get_item_field(
+      $ids [] = $current_loop->get_item_field(
         $item, 'id'
       );
     }

@@ -1,2 +1,2 @@
 // For minifying original
-require('../vendor/scsslint')
+import '../vendor/scsslint'

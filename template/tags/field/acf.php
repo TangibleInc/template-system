@@ -83,7 +83,7 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
 
       // Get sub-field by ACF key
       // https://www.advancedcustomfields.com/resources/get_field_object/
-    $result = get_sub_field_object($field_name, $current_id,
+      $result = get_sub_field_object($field_name, $current_id,
         $format_value, // format value
         true   // load value
       );
@@ -95,7 +95,7 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
     }
 
     $get_field_config = function() use ( $field_name, $current_id ) {
-    return get_sub_field_object($field_name, $current_id,
+      return get_sub_field_object($field_name, $current_id,
         false, // format value
         false  // load value
       );
@@ -121,7 +121,7 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
     $value = get_field( $field_name, $current_id, $format_value );
 
     $get_field_config = function() use ( $field_name, $current_id ) {
-    return get_field_object(
+      return get_field_object(
         $field_name,
         $current_id,
         false, // format value

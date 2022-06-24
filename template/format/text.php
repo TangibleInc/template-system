@@ -13,7 +13,7 @@ $html->format_case = function( $content, $options = [] ) {
     case 'kebab':
     case 'snake':
       // Snake case: hello_world - Used for PHP array keys and variable names
-      $content = strtolower(
+    $content = strtolower(
         preg_replace('/\s+/', '_',
         preg_replace([ '/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/' ], '$1_$2',
             preg_replace( '/[^a-zA-Z0-9]+/', '', $content )
@@ -35,7 +35,7 @@ $html->format_case = function( $content, $options = [] ) {
        * all words separated by a space then it turns and deletes all
        * spaces.
        */
-      $content = str_replace(' ', '', ucwords(
+    $content = str_replace(' ', '', ucwords(
         strtolower( preg_replace( '/[^a-zA-Z0-9]+/', ' ', $content ) )
       ));
       if ($case === 'pascal') return $content;

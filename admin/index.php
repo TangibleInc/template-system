@@ -7,7 +7,7 @@ new class {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20220618';
+  public $version = '20220624';
   public $url;
 
   function __construct() {

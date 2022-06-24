@@ -112,7 +112,7 @@ $html->load_asset = function( $asset_type, $asset = '', $options = [] ) use ( $h
           // Local variable scope - @see /tags/get-set/local.php
           $html->push_local_variable_scope();
 
-          $content = $html->render(
+        $content = $html->render(
             /**
              * Support Exit tag by wrapping template with Catch tag
              *
@@ -221,7 +221,7 @@ $html->load_content_tag = function( $atts, $content = '' ) use ( $html ) {
         $assets = array_map( 'trim', explode( ',', $asset ) );
         $result = '';
         foreach ( $assets as $each_asset ) {
-          $result .= $html->load_content_tag(array_merge($atts, [
+        $result .= $html->load_content_tag(array_merge($atts, [
             $key => $each_asset,
           ]));
         }

@@ -76,13 +76,13 @@ $html->get_variable_types_from_template = function( $nodes ) use ( $html ) {
         || strpos( $value, $pair[0] ) === false || strpos( $value, $pair[1] ) === false
       ) continue;
 
-    $atts_nodes = $parse(
+      $atts_nodes = $parse(
         str_replace([ '<<', '>>' ], $pair, // Double-brackets {{ }} to escape
           str_replace( array_merge( $tag_pair, $pair ), array_merge( [ '&lt;', '&gt;' ], $tag_pair ), $value )
         )
       );
 
-    merge_variable_types($variable_types,
+      merge_variable_types($variable_types,
         $html->get_variable_types_from_template( $atts_nodes )
       );
     }

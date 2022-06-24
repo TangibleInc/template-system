@@ -118,7 +118,7 @@ $html->register_variable_type('route', [
       // Ensure valid range
       if ( $part_index * -1 > count( $route_parts ) ) return;
 
-      $parts = array_slice(
+    $parts = array_slice(
         $route_parts,
         (int) $part_index,
         1

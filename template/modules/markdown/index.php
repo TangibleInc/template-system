@@ -33,7 +33,7 @@ $html->create_markdown_instance = function( $options = [] ) use ( $html ) {
      * Support extending HTML void elements
      */
     function setClosedTags( $tag_names = [] ) {
-      $this->voidElements = array_unique(
+    $this->voidElements = array_unique(
         array_merge( $this->voidElements, $tag_names )
       );
     }

@@ -60,7 +60,7 @@ class MessageField extends acf_field {
     global $post;
 
     if ( ! empty( $post ) ) {
-    echo $html->render_tag('Loop', [
+      echo $html->render_tag('Loop', [
         'type' => $post->post_type,
         'id'   => $post->ID,
       ], $m);

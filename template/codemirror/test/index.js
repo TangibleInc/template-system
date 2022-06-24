@@ -1,4 +1,4 @@
-const createCodeMirror = require('../index')
+import createCodeMirror from '../index'
 
 createCodeMirror(
   document.getElementById('html-editor'),

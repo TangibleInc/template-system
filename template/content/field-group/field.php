@@ -93,7 +93,7 @@ $html->create_field_config = function( $config, $key_prefix = 'tangible_template
     $config['sub_fields'] = [];
 
     foreach ( $config['fields'] as $field_config ) {
-      $config['sub_fields'] [] = $html->create_field_config(array_merge($field_config, [
+    $config['sub_fields'] [] = $html->create_field_config(array_merge($field_config, [
         'key' => $config['key'] . '__' . $field_config['name'],
       ]));
     }
@@ -116,7 +116,7 @@ $html->create_field_config = function( $config, $key_prefix = 'tangible_template
 
       if ( isset( $layout['fields'] ) ) {
         foreach ( $layout['fields'] as $field_config ) {
-          $layout['sub_fields'] [] = $html->create_field_config(array_merge($field_config, [
+        $layout['sub_fields'] [] = $html->create_field_config(array_merge($field_config, [
             'key' => $config['key'] . '__layout_' . $layout['name'] . '__' . $field_config['name'],
           ]));
         }

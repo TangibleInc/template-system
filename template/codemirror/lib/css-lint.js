@@ -3,7 +3,7 @@
 
 // Depends on csslint.js from https://github.com/stubbornella/csslint
 
-// declare global: CSSLint
+// declare global: Tangible.CSSLint
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -17,12 +17,13 @@
 
 CodeMirror.registerHelper("lint", "css", function(text, options) {
   var found = [];
-  if (!window.CSSLint) {
+  if (!window.Tangible || !window.Tangible.CSSLint) {
     if (window.console) {
         // window.console.error("Error: window.CSSLint not defined, CodeMirror CSS linting cannot run.");
     }
     return found;
   }
+  var CSSLint = window.Tangible.CSSLint
   var results = CSSLint.verify(text, options), messages = results.messages, message = null;
   for ( var i = 0; i < messages.length; i++) {
     message = messages[i];

@@ -1,6 +1,6 @@
-require('./glider')
-require('./thumbnail')
-//require('./zoom')
+import './glider'
+import './thumbnail'
+//import './zoom'
 
 jQuery(function ($) {
   $('.tangible-glider').each(function () {

@@ -1,1 +1,3 @@
-window.JSHINT = require('jshint').JSHINT
+import JSHINT from 'jshint'
+
+window.JSHINT = JSHINT.JSHINT

@@ -356,7 +356,7 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
 
       // Default to list of IDs
 
-    $ids = $value->map(function() use ( $value ) {
+      $ids = $value->map(function() use ( $value ) {
         return $value->get_field( 'id' );
       });
 
@@ -372,7 +372,7 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
   if ( ! is_string( $value ) && ! is_null( $value ) ) {
 
     if ( isset( $atts['format'] ) && $atts['format'] === 'join' ) {
-    return implode(
+      return implode(
         isset( $atts['glue'] ) ? $atts['glue'] : ', ',
         $value
       );

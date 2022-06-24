@@ -437,5 +437,8 @@ return parser;
 // }
 // }
 
-if (typeof window!=='undefined') window.jsonlint = jsonlint
-if (typeof module!=='undefined' && module.exports) module.exports = jsonlint
+if (typeof window!=='undefined') {
+  window.Tangible = window.Tangible || {}
+  window.Tangible.jsonlint = jsonlint
+}
+// if (typeof module!=='undefined' && module.exports) module.exports = jsonlint

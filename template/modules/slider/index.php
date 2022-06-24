@@ -84,7 +84,7 @@ $html->add_open_tag('Slider', function( $atts, $nodes ) use ( $framework, $html,
 
     try {
 
-    $responsive_options = $html->hjson()->parse( $atts['responsive'], [
+      $responsive_options = $html->hjson()->parse( $atts['responsive'], [
         'throw' => true,
       ]);
 

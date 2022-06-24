@@ -489,7 +489,7 @@ class ParsedownExtra_0_8_0 extends Parsedown_1_8_0 {
             $n = count( $textElements ) - 1;
 
          if ( $textElements[ $n ]['name'] === 'p' ) {
-           $backLinkElements = array_merge(
+        $backLinkElements = array_merge(
                array(
               array(
                   'rawHtml'                => '&#160;',
@@ -518,7 +518,7 @@ class ParsedownExtra_0_8_0 extends Parsedown_1_8_0 {
             $Element['elements'][1]['elements'] [] = array(
           'name'       => 'li',
           'attributes' => array( 'id' => 'fn:' . $definitionId ),
-         'elements'     => array_merge(
+        'elements'    => array_merge(
               $textElements
                ),
             );

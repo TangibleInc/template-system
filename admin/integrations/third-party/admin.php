@@ -48,7 +48,7 @@ return function() use ( $framework, $plugin ) {
             || $integrations_enabled[ $slug ] === 'true';
 
           // @see vendor/tangible/plugin-framework/settings/fields/render.php
-          echo $framework->render_setting_field_checkbox([
+        echo $framework->render_setting_field_checkbox([
             'name'  => 'integrations_enabled[' . $slug . ']',
             'value' => $value ? 'true' : 'false',
             'label' => $config['title']

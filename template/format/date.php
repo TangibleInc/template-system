@@ -58,7 +58,7 @@ $html->format_date = function( $content, $options = [] ) use ( $html ) {
   if ( isset( $options['locale'] ) ) {
     $previous_locale = $create_date->getLocale();
     if ( $previous_locale !== $options['locale'] ) {
-      $create_date->setLocale(
+    $create_date->setLocale(
         $options['locale']
       );
     } else $previous_locale = '';
@@ -102,7 +102,7 @@ $html->format_date = function( $content, $options = [] ) use ( $html ) {
 
     } elseif ( $format === 'duration' ) {
 
-      $result = $create_date->now()->timespan(
+    $result = $create_date->now()->timespan(
         $date
       );
 

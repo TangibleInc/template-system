@@ -58,7 +58,7 @@ $plugin->evaluate_location_rule = function( $rule ) use ( $plugin, $html ) {
       $current_route = '/' . $wp->request;
 
       // Match given route with wildcard (?, *, **)
-    $result = $html->route_matches(
+      $result = $html->route_matches(
         $field_2,
         $current_route
       );

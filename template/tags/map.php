@@ -52,14 +52,14 @@ $html->map_key_tag = function( $atts, $nodes ) use ( $html ) {
 
     if ( $atts['type'] === 'list' ) {
 
-      $html->render_tag('List', [
+    $html->render_tag('List', [
         'name' => $key,
       ], $nodes);
       return;
 
     } elseif ( $atts['type'] === 'map' ) {
 
-      $html->render_tag('Map', [
+    $html->render_tag('Map', [
         'name' => $key,
       ], $nodes);
       return;
