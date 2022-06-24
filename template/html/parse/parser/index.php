@@ -9,18 +9,18 @@ namespace Tangible\Html;
  * such a case-sensitive tag names, and determinate order of attributes without value.
  */
 
-return function($str) use ($html) {
+return function( $str ) use ( $html ) {
   static $parser;
 
   if ( ! $parser ) {
 
-    require_once __DIR__.'/tokenizer.php';
-    require_once __DIR__.'/node.php';
-    require_once __DIR__.'/parser.php';
+    require_once __DIR__ . '/tokenizer.php';
+    require_once __DIR__ . '/node.php';
+    require_once __DIR__ . '/parser.php';
 
     $parser = new HTML_Parser_HTML5;
 
-    foreach ($html->raw_tags as $tag => $_) {
+    foreach ( $html->raw_tags as $tag => $_ ) {
       $parser->tag_map[ $tag ] = 'parse_raw';
     }
   }

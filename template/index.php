@@ -13,8 +13,7 @@ if ( ! function_exists( 'tangible_template' ) ) :
     static $html;
     return is_object( $arg )
       ? ( $html = $arg )
-      : ( $html && $arg !== false ? $html->render( $arg ) : $html )
-    ;
+      : ( $html && $arg !== false ? $html->render( $arg ) : $html );
   }
 endif;
 
@@ -28,7 +27,7 @@ return tangible_template(new class {
     $this->version = tangible_template_system()->version;
 
     // Depends on Loop module
-    add_action('tangible_loop_prepare', [$this, 'load'], 0);
+    add_action( 'tangible_loop_prepare', [ $this, 'load' ], 0 );
   }
 
   // Dynamic methods
@@ -53,7 +52,7 @@ return tangible_template(new class {
      */
     $this->html = $html = $this;
 
-    require_once __DIR__.'/html/index.php';
+    require_once __DIR__ . '/html/index.php';
 
     /**
      * Plugin framework

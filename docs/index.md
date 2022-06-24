@@ -11,7 +11,9 @@ Originally all of the code was in the L&L plugin and its Composer modules, but t
 - [x] Convert core modules to use new builder tool
 - [x] Bundle CodeMirror module
 - [ ] Remove dependency on plugin framework
-
+  - [x] Move HTML module
+  - Date
+  - HJSON
 
 ## Architecture
 

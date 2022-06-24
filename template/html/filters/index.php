@@ -5,7 +5,7 @@
  * See loop/integrations for filters specific to page builders
  */
 
-$html->content_filter = function($content) use ($html) {
+$html->content_filter = function( $content ) use ( $html ) {
   return $html->render( $content );
 };
 
@@ -13,6 +13,7 @@ $html->content_filter = function($content) use ($html) {
  * Filter Post content
  *
  * After wpautop (10), before do_shortcode (11)
+ *
  * @see wp-includes/default-filters.php
  */
 // add_filter('the_content', $html->content_filter, 10, 1);

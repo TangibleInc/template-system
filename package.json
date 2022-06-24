@@ -1,8 +1,8 @@
 {
   "name": "tangible-template-system-module",
   "scripts": {
-    "--- Modules: admin, interface, logic, loop, template": "",
     "--- Run commands below with name of module, like: npm run build admin": "",
+    "--- Modules: admin, interface, logic, loop, template": "",
     "dev": "roll dev",
     "build": "roll build",
     "format": "roll format",

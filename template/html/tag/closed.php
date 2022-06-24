@@ -21,36 +21,36 @@ $html->closed_tags = array_reduce([
   'param',
   'source',
   'track',
-  'wbr'
-], function($tags, $tag) {
+  'wbr',
+], function( $tags, $tag ) {
   $tags[ $tag ] = true;
   return $tags;
 }, []);
 
-$html->is_closed_tag = function($tag) use ($html) {
-  return isset($html->closed_tags[ $tag ]);
+$html->is_closed_tag = function( $tag ) use ( $html ) {
+  return isset( $html->closed_tags[ $tag ] );
 };
 
-$html->add_closed_tag = function($tag, $callback, $options =[]) use ($html) {
+$html->add_closed_tag = function( $tag, $callback, $options = [] ) use ( $html ) {
 
-  $html->add_open_tag($tag, $callback, $options + [ 'closed' => true ]);
+  $html->add_open_tag( $tag, $callback, $options + [ 'closed' => true ] );
 
-  if (!isset($html->closed_tags[ $tag ])) {
+  if ( ! isset( $html->closed_tags[ $tag ] ) ) {
     $html->closed_tags[ $tag ] = true;
   }
 };
 
-$html->get_all_closed_tag_names = function() use ($html) {
+$html->get_all_closed_tag_names = function() use ( $html ) {
 
   $closed_tags = [];
 
-  foreach ($html->tags as $tag => $tag_config) {
-    if (isset($tag_config['closed']) && $tag_config['closed']) {
-      $closed_tags []= $tag;
-    } else if ($tag_config['local_tags']) {
-      foreach ($tag_config['local_tags'] as $local_tag => $local_tag_config) {
-        if (isset($local_tag_config['closed']) && $local_tag_config['closed']) {
-          $closed_tags []= $local_tag;
+  foreach ( $html->tags as $tag => $tag_config ) {
+    if ( isset( $tag_config['closed'] ) && $tag_config['closed'] ) {
+      $closed_tags [] = $tag;
+    } elseif ( $tag_config['local_tags'] ) {
+      foreach ( $tag_config['local_tags'] as $local_tag => $local_tag_config ) {
+        if ( isset( $local_tag_config['closed'] ) && $local_tag_config['closed'] ) {
+          $closed_tags [] = $local_tag;
         }
       }
     }

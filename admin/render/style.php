@@ -43,7 +43,7 @@ $plugin->enqueue_template_style = function(
         ? $plugin->replace_control_values( $style, $control_values, 'style' )
         : $style;
 
-      $css = $html->sass($style, [
+    $css = $html->sass($style, [
         'variables' => $sass_variables, // Pass Sass variables
       ]);
     }
