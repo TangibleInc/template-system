@@ -88,7 +88,7 @@ return tangible_template(new class {
      * Template language
      */
 
-    $html->dir_path  = __DIR__;
+    $html->path      = __DIR__;
     $html->file_path = __FILE__;
     $html->url       = plugins_url( '/', __FILE__ );
 

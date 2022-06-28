@@ -23,7 +23,7 @@ $test('User loop', function( $it ) {
   $it( 'next returns an instance of WP_User', is_a( $item, 'WP_User' ) );
 
   $value    = $user_loop->get_field( 'id' );
-  $expected = $item->id;
+  $expected = $item->ID;
 
   $it( 'get_field', $value === $expected );
 

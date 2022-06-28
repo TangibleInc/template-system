@@ -12,8 +12,6 @@ $plugin->TANGIBLE_STORE_URL = 'https://tangibleplugins.com';
 $plugin->TANGIBLE_STORE_API_BLOCKS_ENDPOINT =
   $plugin->TANGIBLE_STORE_URL . '/' . 'wp-json/edd-api-tangible/v1/available-blocks';
 
-$ajax = $framework->ajax();
-
 /**
  * AJAX action prefix must be the same as in: /assets/src/template-cloud
  */

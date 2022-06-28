@@ -2,7 +2,7 @@
 
 This is the template system shared by Tangible Blocks and Loops & Logic.
 
-Originally all of the code was in the L&L plugin and its Composer modules, but the features have been consolidated into this module so Tangible Blocks can be installed independently and alongside L&L.
+Originally all of the code was in the L&L plugin and its Composer modules. The features have been consolidated into this module, so Tangible Blocks can be installed independently and alongside L&L.
 
 
 ## Current
@@ -12,8 +12,11 @@ Originally all of the code was in the L&L plugin and its Composer modules, but t
 - [x] Bundle CodeMirror module
 - [ ] Remove dependency on plugin framework
   - [x] Move HTML module
+  - AJAX
   - Date
   - HJSON
+  - Sortable post type
+
 
 ## Architecture
 

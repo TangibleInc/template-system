@@ -1,9 +1,7 @@
-<h3 class="my-3">Frontend</h3>
-
 <?php
 
-$tester->test('Frontend', function( $it ) use ( $logic ) {
-
+$test('Frontend', function( $it ) use ( $logic ) {
+/*
   ?>
 <h4>Enqueue UI script and style</h4>
 <p>
@@ -12,6 +10,7 @@ $tester->test('Frontend', function( $it ) use ( $logic ) {
 });</code></pre>
 </p>
   <?php
+*/
 
   $logic->enqueue();
 
@@ -19,12 +18,16 @@ $tester->test('Frontend', function( $it ) use ( $logic ) {
 
   // TODO: Test from JS if it was enqueued
 
+/*
   ?>
 <h4>Modal</h4>
 
 <p>Create button to open modal.</p>
 
 <p>
+<?php
+*/
+?>
 <button data-tangible-logic="open">
   Open Conditional Logic Settings
 </button>
@@ -33,18 +36,19 @@ $tester->test('Frontend', function( $it ) use ( $logic ) {
   $field_name = 'tangible_logic';
 
   // Get saved rule groups
-  $field_value                            = get_post_meta( get_the_ID(), $field_name, true );
-  if (empty( $field_value )) $field_value = [
-
-  // Test HTML attribute escape
-  [
-    [
-      'field'   => 'text',
-      'operand' => 'is',
-      'value'   => '\'"<>',
-    ],
-  ],
+  $field_value = get_post_meta( get_the_ID(), $field_name, true );
+  if (empty( $field_value )) {
+    $field_value = [
+      // Test HTML attribute escape
+      [
+        [
+          'field'   => 'text',
+          'operand' => 'is',
+          'value'   => '\'"<>',
+        ],
+      ],
   ];
+  }
 
   // Conditions config
   $config = [
@@ -102,11 +106,14 @@ $tester->test('Frontend', function( $it ) use ( $logic ) {
   data-tangible-logic-config='<?php echo esc_attr( json_encode( $config ) ); ?>'
   autocomplete="off"
 />
+<?php
+/*
+?>
 </p>
 
 <p>Create hidden input field with conditions config and stored field value.</p>
 <p>It must have the same parent element as the button.</p>
-
   <?php
+*/
 
 });

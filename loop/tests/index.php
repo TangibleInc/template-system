@@ -3,9 +3,6 @@
 $framework = tangible();
 $loop      = tangible_loop();
 $html      = tangible_template();
-$tester    = $framework->tester();
-
-$test = $tester->start();
 
 $test('tangible_loop()', function( $it ) use ( $loop ) {
 
@@ -23,5 +20,3 @@ $test('tangible_loop()', function( $it ) use ( $loop ) {
 require_once __DIR__ . '/../types/base/test.php';
 require_once __DIR__ . '/../types/post/test.php';
 require_once __DIR__ . '/../types/user/test.php';
-
-$test->report();

@@ -3,37 +3,40 @@
  * Interface module
  */
 
-require __DIR__ . '/tangible-module.php';
-
 if ( ! function_exists( 'tangible_interface' ) ) :
-  function tangible_interface( $module = false ) {
-    static $interface;
-    return is_a( $module, 'TangibleModule' )
-    ? ( $interface = $module->latest )
-    : $interface;
-  }
+function tangible_interface( $module = false ) {
+  static $o;
+  return is_object( $module ) ? ( $o = $module ) : $o;
+}
 endif;
 
-return tangible_interface(new class extends TangibleModule {
+return tangible_interface(new class {
 
   public $name    = 'tangible_interface';
-  public $version = '20210901';
-  public $state   = [];
 
   function __construct() {
     $this->version = tangible_template_system()->version;
-    parent::__construct();
+    $this->load();
   }
 
-  function load_latest_version() {
+  // Dynamic methods
+  function __call( $method = '', $args = [] ) {
+    if ( isset( $this->$method ) ) {
+      return call_user_func_array( $this->$method, $args );
+    }
+    $caller = current( debug_backtrace() );
+    echo "Warning: Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>";
+  }
+
+  function load() {
+
+    $this->path      = __DIR__;
+    $this->file_path = __FILE__;
+
+    $this->url        = plugins_url( '/', realpath( __FILE__ ) );
+    $this->assets_url = $this->url . 'assets/';
 
     $interface = $this;
-
-    $interface->path      = __DIR__;
-    $interface->file_path = __FILE__;
-
-    $interface->url        = plugins_url( '/', realpath( __FILE__ ) );
-    $interface->assets_url = $interface->url . 'assets/';
 
     require_once __DIR__ . '/includes/index.php';
   }

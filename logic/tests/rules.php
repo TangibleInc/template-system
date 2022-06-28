@@ -21,6 +21,10 @@ foreach ( $rule_definitions as $field_name => $defs ) {
   <td><?php
 
   foreach ( $defs as $def_index => $def ) {
+
+    // Some conditions have no operands
+    if (!isset($def['operands'])) continue;
+
     if ($def_index > 0) echo '<hr>';
     echo implode(', ', array_map(function( $op ) {
       return $op['name'];
@@ -31,6 +35,10 @@ foreach ( $rule_definitions as $field_name => $defs ) {
   <td><?php
 
   foreach ( $defs as $def_index => $def ) {
+
+    // Some conditions have no values
+    if (!isset($def['values'])) continue;
+
     if ($def_index > 0) echo '<hr>';
     echo implode(', ', array_map(function( $v ) {
       return isset( $v['name'] ) ? $v['name'] : '(' . (

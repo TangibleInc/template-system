@@ -2,8 +2,6 @@
 
 if ( ! is_admin()) return;
 
-$ajax = $framework->ajax();
-
 /**
  * AJAX action prefix must be the same as in: /assets/src/template-import-export
  */

@@ -3,44 +3,41 @@
  * Generic conditional logic UI
  */
 
-require __DIR__ . '/tangible-module.php';
-
-if ( ! function_exists( 'tangible_logic' ) ) {
-
-  function tangible_logic( $instance = null ) {
-    static $o;
-    return is_a( $instance, 'TangibleModule' )
-      ? ( $o = $instance->latest )
-      : $o;
-  }
+if ( ! function_exists( 'tangible_logic' ) ) :
+function tangible_logic( $module = false ) {
+  static $o;
+  return is_object( $module ) ? ( $o = $module ) : $o;
 }
+endif;
 
-if ( ! class_exists( 'TangibleLogic' ) ) {
-  class TangibleLogic {}; // Backward compatibility
-}
-
-return tangible_logic(new class extends TangibleModule {
+return tangible_logic(new class {
 
   public $name    = 'tangible_logic';
-  public $version = '20220131';
   public $state   = [];
 
   function __construct() {
     $this->version = tangible_template_system()->version;
-    parent::__construct();
+    $this->load();
   }
 
-  function load_version() {
+  // Dynamic methods
+  function __call( $method = '', $args = [] ) {
+    if ( isset( $this->$method ) ) {
+      return call_user_func_array( $this->$method, $args );
+    }
+    $caller = current( debug_backtrace() );
+    echo "Warning: Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>";
+  }
 
+  function load() {
+
+    $this->path      = __DIR__;
     $this->file_path = __FILE__;
     $this->url       = plugins_url( '/', __FILE__ );
 
     // Backward compatibility
     $this->state['url']     = $this->url;
     $this->state['version'] = $this->version;
-  }
-
-  function load_latest_version() {
 
     $logic = $this;
 

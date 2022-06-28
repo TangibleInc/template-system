@@ -7,40 +7,47 @@
  * Depends on Date and HTML modules in the plugin framework.
  */
 
-require __DIR__ . '/tangible-module.php';
-
 if ( ! function_exists( 'tangible_loop' ) ) :
   function tangible_loop( $type = false, $args = [] ) {
-    static $loop;
-    return is_a( $type, 'TangibleModule' )
-    ? ( $loop = $type->latest )
-    : ( $type !== false && $loop
-      ? $loop->create_type( $type, $args )
-      : $loop
-      );
+    static $o;
+    return is_object( $type )
+    ? ( $o = $type )
+    : ( $type !== false && $o
+      ? $o->create_type( $type, $args )
+      : $o
+    );
   }
 endif;
 
-return tangible_loop(new class extends TangibleModule {
+return tangible_loop(new class {
 
   public $name    = 'tangible_loop';
-  public $version = '20220512';
   public $url     = '';
   public $state   = [];
 
   function __construct() {
     $this->version = tangible_template_system()->version;
-    parent::__construct();
+    $this->load();
+  }
+
+  // Dynamic methods
+  function __call( $method = '', $args = [] ) {
+    if ( isset( $this->$method ) ) {
+      return call_user_func_array( $this->$method, $args );
+    }
+    $caller = current( debug_backtrace() );
+    echo "Warning: Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>";
   }
 
   function __invoke( $type, $args = [] ) {
     return $this->create_type( $type, $args );
   }
 
-  function load_latest_version() {
+  function load() {
 
     $loop = $this;
 
+    $loop->path      = __DIR__;
     $loop->file_path = __FILE__;
     $loop->url       = plugins_url( '/', __FILE__ );
 
@@ -51,13 +58,13 @@ return tangible_loop(new class extends TangibleModule {
     require_once __DIR__ . '/types/index.php';
     require_once __DIR__ . '/field/index.php';
 
-    add_action('tangible_modules_ready', function() use ( $loop ) {
+    add_action('plugins_loaded', function() use ( $loop ) {
 
       /**
-       * Some loop types' fields depend on HTML module to render, for example, image tags; and
-       * Date module for date formatting and operations.
+       * Some loop types' fields depend on HTML module to render, for example,
+       * image tags; and Date module for date formatting and conversions.
        */
-      $loop->html = tangible_html();
+      $loop->html = tangible_template();
       $loop->date = tangible_date();
 
       require_once __DIR__ . '/types/calendar/index.php';
@@ -68,6 +75,6 @@ return tangible_loop(new class extends TangibleModule {
        */
 
       do_action( 'tangible_loop_prepare', $loop );
-    });
+    }, 7); // After plugin framework
   }
 });

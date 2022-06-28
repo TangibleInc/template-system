@@ -1,8 +1,9 @@
 <?php
 
+use Tangible\Loop\AttachmentLoop;
+use Tangible\Loop\ListLoop;
 use Tangible\Loop\PostLoop;
 use Tangible\Loop\UserLoop;
-use Tangible\Loop\AttachmentLoop;
 
 $test('Post loop', function( $it ) {
 
@@ -53,16 +54,24 @@ $test('Post loop: Field of another loop type', function( $it ) use ( $framework,
     $short_classname = str_replace( 'Tangible\\Loop\\', '', $classname );
     $value           = $page_loop->get_field( $field );
 
-    if (
-      ! $it( "Field $field is an instance of $short_classname", is_a( $value, $classname ) )
-    ) {
-      $framework->see( 'field: ' . $field, $value );
+    if (is_a( $value, $classname )) {
+
+      $it( "Field $field is an instance of $short_classname", true );
+
+    } elseif (is_a( $value, ListLoop::class )) {
+
+      $it( "Field $field is an instance of ListLoop", true );
+
+    } else {
+
+      $it( "Field $field is an instance of known loop type", false );
+      $framework->see( 'Field of unknown loop type: ' . $field, $value );
       continue;
     }
 
     if ( ! $value->has_next() ) {
       $it( "$field is empty", true );
-      // $framework->see( 'field: '.$field, $value );
+      // $framework->see( 'Field: '.$field, $value );
       continue;
     }
 

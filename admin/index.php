@@ -7,7 +7,7 @@ new class {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20220624';
+  public $version = '20220628';
   public $url;
 
   function __construct() {
@@ -21,6 +21,8 @@ new class {
       if ( ! did_action( $name )) do_action( $name );
     }, 0);
 
+    $this->path      = __DIR__;
+    $this->file_path = __FILE__;
     $this->url = plugins_url( '/', realpath( __FILE__ ) );
   }
 
@@ -41,24 +43,28 @@ new class {
     remove_all_filters( $name ); // First one to load wins
     tangible_template_system( $this );
 
+    /**
+     * Currently consolidating all features to be internal to the template system,
+     * removing dependecy on plugin framework and external modules.
+     */
+
     require_once __DIR__ . '/../interface/index.php';
     require_once __DIR__ . '/../loop/index.php';
     require_once __DIR__ . '/../logic/index.php';
     require_once __DIR__ . '/../template/index.php';
 
+    require_once __DIR__ . '/../tester/index.php';
+
     // Wait for latest version of plugin framework
     add_action('plugins_loaded', function() use ( $plugin ) {
 
-      /**
-       * Currently consolidating all features to be internal to the template system,
-       * removing dependecy on plugin framework and other modules.
-       */
+      $framework = tangible();
 
-      $framework = $plugin->framework = tangible();
       $loop      = $plugin->loop = tangible_loop();
       $logic     = $plugin->logic = tangible_logic();
       $interface = $plugin->interface = tangible_interface();
       $html      = $plugin->html = tangible_template();
+      $ajax      = $plugin->ajax = $framework->ajax();
 
       /**
        * Template post types and fields, editor, management
@@ -92,9 +98,9 @@ new class {
     add_action('plugins_loaded', function() use ( $plugin ) {
 
       // For any callbacks that registered later
-      do_action( "{$this->name}_ready", $plugin );
+      do_action( "{$plugin->name}_ready", $plugin );
 
-    }, 12); // After
+    }, 12); // After plugins register
   }
 
   function ready( $callback ) {
@@ -104,19 +110,27 @@ new class {
     add_action( "{$this->name}_ready", $callback );
   }
 
-  // Mock $plugin methods during transition from plugin to module
+  function run_tests() {
+    include __DIR__ . '/../tests/index.php';
+  }
+
+  /**
+   * Mock $plugin methods during transition from plugin to module
+   */
   function is_multisite() {
-    return false; }
+    return false;
+  }
   function get_settings() {
-    return []; }
+    return [];
+  }
   function update_settings() {}
 };
 
 if ( ! function_exists( 'tangible_template_system' ) ) :
 
   function tangible_template_system( $arg = false ) {
-    static $instance;
-    return $arg === false ? $instance : ( $instance = $arg );
+    static $o;
+    return $arg === false ? $o : ( $o = $arg );
   }
 
 endif;

@@ -9,8 +9,10 @@ $test('Base loop', function( $it ) {
   $it( 'exists', class_exists( $class_name ) );
 
   $test_loop = new BaseLoop([
-    [ 'key' => 'value' ],
-    [],
+    'query' => [
+      [ 'key' => 'value' ],
+      [],
+    ]
   ]);
 
   $it( 'instantiates', is_a( $test_loop, $class_name ) );
