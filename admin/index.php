@@ -13,6 +13,9 @@ new class {
     $name     = $this->name;
     $priority = 99999999 - absint( $this->version );
 
+    // Ensure single instance of version
+    remove_all_actions( $name, $priority );
+
     add_action( $name, [ $this, 'load' ], $priority );
 
     add_action('plugins_loaded', function() use ( $name ) {
@@ -38,7 +41,7 @@ new class {
     $name   = $this->name;
     $plugin = $system = $this;
 
-    remove_all_filters( $name ); // First one to load wins
+    remove_all_actions( $name ); // First one to load wins
     tangible_template_system( $this );
 
     /**
