@@ -1,5 +1,5 @@
 {
-  "name": "template-system",
+  "name": "tangible-template-system",
   "scripts": {
     "--- Modules: admin, interface, logic, loop, template": "",
     "--- Run commands below with name of module, like: npm run build admin": "",

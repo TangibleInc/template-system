@@ -38,4 +38,4 @@ include $system->loop->path . '/tests/index.php';
 $test->end();
 
 
-$tester->group_summary();
+$tester->group_report();

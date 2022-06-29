@@ -1,7 +1,5 @@
 <?php
 
-namespace Tangible\TemplateSystem;
-
 new class {
 
   public $name = 'tangible_template_system';

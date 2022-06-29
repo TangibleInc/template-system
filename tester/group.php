@@ -4,7 +4,7 @@ $tester->start_group = function() use ( $tester ) {
   $tester->mode = 'json';
 };
 
-$tester->group_summary = function() use ( $tester ) {
+$tester->group_report = function() use ( $tester ) {
 
   ?><h3>Summary</h3><?php
 

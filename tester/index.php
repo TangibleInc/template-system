@@ -28,7 +28,7 @@ $plugin->tester = function() use ( $plugin ) {
 
   require_once __DIR__ . '/enqueue.php';
   require_once __DIR__ . '/report.php';
-  require_once __DIR__ . '/summary.php';
+  require_once __DIR__ . '/group.php';
   require_once __DIR__ . '/test.php';
 
   return $tester;

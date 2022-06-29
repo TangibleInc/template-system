@@ -25,7 +25,7 @@ $tester->start = function( $title = false ) use ( $tester ) {
   );
 
   // Capture output
-  ob_start();
+  if (self::$tester->mode==='json') ob_start();
 
   $tester->id++;
 
@@ -38,7 +38,6 @@ $tester->start = function( $title = false ) use ( $tester ) {
     static $session;
 
     public $id;
-    public $output = '';
 
     function __invoke( $title, $fn ) {
 
@@ -94,17 +93,13 @@ $tester->start = function( $title = false ) use ( $tester ) {
       $this->end();
 
       if (self::$tester->mode==='html') {
-        self::$tester->report(
-          self::$session
-        );
-        echo $this->output;
-        $this->output = '';
+        self::$tester->report( self::$session );
       }
     }
 
     function end() {
       restore_error_handler();
-      $this->output = ob_get_clean();
+      if (self::$tester->mode==='json') ob_end_clean();
       self::$tester->session_history []= self::$session;
     }
   };
