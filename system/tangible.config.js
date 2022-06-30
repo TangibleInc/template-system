@@ -50,6 +50,7 @@ module.exports = {
     },
 
     // Template cloud
+    /*
     {
       src: 'assets/src/template-cloud/index.jsx',
       dest: 'assets/build/template-cloud.min.js',
@@ -61,6 +62,7 @@ module.exports = {
       src: 'assets/src/template-cloud/index.scss',
       dest: 'assets/build/template-cloud.min.css',
     },
+    */
 
     // Page buider integrations
 

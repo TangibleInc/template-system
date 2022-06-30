@@ -20,6 +20,7 @@ register_taxonomy(
     // Admin column is renamed in ./extend.php
     'show_admin_column' => true,
 
+    'show_in_menu'      => true,
     'show_in_rest'      => true,
     'labels'            => [
       'singular_name'              => __( 'Template Category', 'tangible_blocks' ),
@@ -57,6 +58,24 @@ add_action($plugin->is_multisite() ? 'network_admin_menu' : 'admin_menu',
   },
   10
 );
+
+/**
+ * Admin menu highlight
+ *
+ * Without this, the admin menu tries to open at Posts -> Tags,
+ * because it sees edit-tags.php.
+ *
+ * @see https://stackoverflow.com/questions/32984834/wordpress-show-taxonomy-under-custom-admin-menu
+ */
+add_filter('parent_file', function($parent_file) {
+  global $plugin_page, $submenu_file, $post_type, $taxonomy;
+  if ($taxonomy == 'tangible_template_category') {
+      $plugin_page = 'edit-tags.php?taxonomy=tangible_template_category'; // the submenu slug
+      $submenu_file = 'edit-tags.php?taxonomy=tangible_template_category';    // the submenu slug
+  }
+  return $parent_file;
+});
+
 
 /**
  * Get all template taxonomies

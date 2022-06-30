@@ -26,7 +26,11 @@ add_action('wp_enqueue_scripts', function() use ( $tester ) {
 
 // Enqueue
 
+$tester->enqueued = false;
 $tester->enqueue = function( $options = [] ) use ( $tester ) {
+
+  if ($tester->enqueued) return;
+  $tester->enqueued = true;
 
   $enqueue = function() use ( $tester, $options ) {
     wp_enqueue_script( $tester->name );

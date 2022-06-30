@@ -15,6 +15,8 @@ $tester->session = $tester->new_session;
 
 $tester->start = function( $title = false ) use ( $tester ) {
 
+  if (!$tester->enqueued) $tester->enqueue();
+
   /**
    * Make warnings and errors catchable - Restored by $test->end()
    */
@@ -25,7 +27,7 @@ $tester->start = function( $title = false ) use ( $tester ) {
   );
 
   // Capture output
-  if (self::$tester->mode==='json') ob_start();
+  if ($tester->mode==='json') ob_start();
 
   $tester->id++;
 

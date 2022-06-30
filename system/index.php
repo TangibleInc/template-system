@@ -5,11 +5,10 @@ new class {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20220628';
+  public $version = '20220630';
   public $url;
 
   function __construct() {
-
     $name     = $this->name;
     $priority = 99999999 - absint( $this->version );
 
