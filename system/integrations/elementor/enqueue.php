@@ -30,4 +30,11 @@ $plugin->enqueue_elementor_template_editor = function() use ( $plugin, $html ) {
 
   // Module loader - Support loading scripts and styles when page builders fetch and insert HTML
   $html->enqueue_dynamic_module_loader();
+
+  /**
+   * Action hook for Tangible Blocks
+   * @see tangible-blocks/includes/integrations/elementor/enqueue.php
+   */
+  do_action('tangible_enqueue_elementor_template_editor');
+
 };

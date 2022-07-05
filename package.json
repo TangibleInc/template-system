@@ -1,5 +1,8 @@
 {
   "name": "tangible-template-system",
+  "description": "Template System module",
+  "homepage": "https://bitbucket.org/tangibleinc/template-system",
+  "repository": "git@bitbucket.org:tangibleinc/template-system.git",
   "scripts": {
     "--- Modules: admin, interface, logic, loop, template": "",
     "--- Run commands below with name of module, like: npm run build admin": "",

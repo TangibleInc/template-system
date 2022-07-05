@@ -100,17 +100,41 @@ foreach ($plugin->template_post_types as $post_type) {
  */
 add_action('admin_head', function() use ($plugin) {
 
+  global $submenu;
+
+  if (isset($submenu['tangible'])) {
+
+    /**
+     * Determine where to put separator above "Categories", since L&L and Tangible Blocks
+     * change the menu items.
+     */
+
+    $after_this_index = -1;
+
+    foreach ($submenu['tangible'] as $index => $menu_item) {
+      if ($menu_item[2]==='edit-tags.php?taxonomy=tangible_template_category') {
+        $after_this_index = $index - 1;
+      }
+    }
+
+    if ($after_this_index >= 0) {
+
 ?><style>
 
-/* Admin submenu separator above "Import & Export" */
+/* Admin submenu separator above "Categories" */
 
-li#toplevel_page_tangible ul.wp-submenu > li:nth-child(5) {
+li#toplevel_page_tangible ul.wp-submenu > li:nth-child(<?php
+  // There's a hidden first submenu "Tangible", and 1-based index
+  echo $after_this_index + 2;
+?>) {
   margin-bottom: 7px;
   padding-bottom: 7px;
   border-bottom: 1px solid rgba(240, 246, 252, 0.5); /* Slightly darker than submenu item */
 }
-
 </style><?php
+    }
+
+  }
 
   // Archive
 
@@ -124,7 +148,6 @@ li#toplevel_page_tangible ul.wp-submenu > li:nth-child(5) {
   if ( $is_archive ) {
 
 ?><style>
-
 @media screen and (min-width: 782px) {
 
   /* Column "ID" */
@@ -144,21 +167,6 @@ li#toplevel_page_tangible ul.wp-submenu > li:nth-child(5) {
   }
 
 }
-
-<?php
-
-  // For Tangible Block, hide "Add New" button if Block Editor plugin is not installed
-
-  if ($_GET['post_type']==='tangible_block' && !function_exists('tangible_block_editor')) {
-?>
-.page-title-action {
-  display: none;
-}
-<?php
-  }
-
-?>
-
 </style><?php
 
     return;

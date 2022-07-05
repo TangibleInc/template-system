@@ -55,6 +55,12 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
     'before'
   );
 
+  /**
+   * Action hook for Tangible Blocks
+   * @see tangible-blocks/includes/integrations/gutenberg/enqueue.php
+   */
+  do_action('tangible_enqueue_gutenberg_template_editor');
+
 };
 
 

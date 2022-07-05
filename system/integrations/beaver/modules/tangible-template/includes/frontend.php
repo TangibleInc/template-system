@@ -10,7 +10,7 @@
 
     $post = get_post( $settings->saved_template );
 
-    echo \tangible_loops_and_logic()->render_template_post( $post );
+    echo tangible_template_system()->render_template_post( $post );
   }
   ?>
 

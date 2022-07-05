@@ -1,15 +1,17 @@
 <?php
 
 $framework = tangible();
-$plugin    = tangible_blocks()->get_integration( 'wp_fusion' );
+$template_system = tangible_template_system();
+$plugin = $template_system->get_integration( 'wp_fusion' );
 if ( ! $plugin) return;
 
 $loop  = tangible_loop();
 $logic = tangible_logic();
 $html  = tangible_template();
 
-$tester = tangible_tester();
-$test   = $tester->start();
+$tester = $template_system->tester();
+
+$test   = $tester->start('WP Fusion');
 
 $wp_fusion = wp_fusion();
 

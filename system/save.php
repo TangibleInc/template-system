@@ -20,12 +20,12 @@ $plugin->save_template_post = function( $data = [] ) use ( $plugin, $html ) {
 
   if (empty( $id )) return new WP_Error(
     'save_error_id_required',
-    __( 'Property "id" is required', 'tangible_loops_and_logic' )
+    __( 'Property "id" is required', 'tangible_template_system' )
   );
 
   if (empty( $title )) return new WP_Error(
     'save_error_title_required',
-    __( 'Property "title" is required', 'tangible_loops_and_logic' )
+    __( 'Property "title" is required', 'tangible_template_system' )
   );
 
   $tax_input = [];
@@ -79,7 +79,7 @@ $plugin->save_template_post = function( $data = [] ) use ( $plugin, $html ) {
   if ( empty( $result ) ) {
 
     // Simplify error handling by ensuring an instance of WP_Error
-    $result = new WP_Error( 'save_error', __( 'Unknown error', 'tangible_loops_and_logic' ) );
+    $result = new WP_Error( 'save_error', __( 'Unknown error', 'tangible_template_system' ) );
 
   } elseif ( ! is_wp_error( $result ) ) {
 

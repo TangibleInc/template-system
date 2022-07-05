@@ -11,7 +11,7 @@ register_taxonomy(
   'tangible_template_category', // Slug
   $plugin->template_post_types, // Associated post type(s)
   [
-    'label'             => __( 'Template Categories', 'tangible_blocks' ),
+    'label'             => __( 'Template Categories', 'tangible_template_system' ),
     'hierarchical'      => true, // true is like category, false is like tags
 
     // Not used on the frontend
@@ -23,18 +23,18 @@ register_taxonomy(
     'show_in_menu'      => true,
     'show_in_rest'      => true,
     'labels'            => [
-      'singular_name'              => __( 'Template Category', 'tangible_blocks' ),
-      'all_items'                  => __( 'All Template Categories', 'tangible_blocks' ),
-      'edit_item'                  => __( 'Edit Template Category', 'tangible_blocks' ),
-      'view_item'                  => __( 'View Template Category', 'tangible_blocks' ),
-      'update_item'                => __( 'Update Template Category', 'tangible_blocks' ),
-      'add_new_item'               => __( 'Add New Template Category', 'tangible_blocks' ),
-      'new_item_name'              => __( 'New Template Category Name', 'tangible_blocks' ),
-      'search_items'               => __( 'Search Template Categories', 'tangible_blocks' ),
-      'popular_items'              => __( 'Popular Template Categories', 'tangible_blocks' ),
-      'separate_items_with_commas' => __( 'Separate authors with comma', 'tangible_blocks' ),
-      'choose_from_most_used'      => __( 'Choose from most used authors', 'tangible_blocks' ),
-      'not_found'                  => __( 'No template categories found', 'tangible_blocks' ),
+      'singular_name'              => __( 'Template Category', 'tangible_template_system' ),
+      'all_items'                  => __( 'All Template Categories', 'tangible_template_system' ),
+      'edit_item'                  => __( 'Edit Template Category', 'tangible_template_system' ),
+      'view_item'                  => __( 'View Template Category', 'tangible_template_system' ),
+      'update_item'                => __( 'Update Template Category', 'tangible_template_system' ),
+      'add_new_item'               => __( 'Add New Template Category', 'tangible_template_system' ),
+      'new_item_name'              => __( 'New Template Category Name', 'tangible_template_system' ),
+      'search_items'               => __( 'Search Template Categories', 'tangible_template_system' ),
+      'popular_items'              => __( 'Popular Template Categories', 'tangible_template_system' ),
+      'separate_items_with_commas' => __( 'Separate authors with comma', 'tangible_template_system' ),
+      'choose_from_most_used'      => __( 'Choose from most used authors', 'tangible_template_system' ),
+      'not_found'                  => __( 'No template categories found', 'tangible_template_system' ),
     ],
 
   ]

@@ -36,6 +36,13 @@ $plugin->enqueue_beaver_template_editor = function() use ( $plugin, $html ) {
    */
 
   $html->enqueue_dynamic_module_loader();
+
+  /**
+   * Action hook for Tangible Blocks
+   * @see tangible-blocks/includes/integrations/beaver/enqueue.php
+   */
+  do_action('tangible_enqueue_beaver_template_editor');
+
 };
 
 add_action('wp_enqueue_scripts', function() use ( $plugin ) {

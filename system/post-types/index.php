@@ -3,13 +3,13 @@
  * Template post type(s)
  */
 
-$plugin->template_post_types = [
+$plugin->template_post_types = apply_filters('tangible_template_post_types', [
   'tangible_template',
   'tangible_style',
   'tangible_script',
   'tangible_layout',
   'tangible_content',
-];
+]);
 
 /**
  * Post types with location rules editor
@@ -41,28 +41,28 @@ add_action('init', function() use ( $plugin ) {
     'post_type'   => 'tangible_template',
     'single'      => 'Template',
     'plural'      => 'Templates',
-    'description' => 'Templates for Loops & Logic',
+    'description' => 'Templates for Tangible Template System',
   ]);
 
   $plugin->register_template_post_type([
     'post_type'   => 'tangible_style',
     'single'      => 'Style',
     'plural'      => 'Styles',
-    'description' => 'Styles for Loops & Logic',
+    'description' => 'Styles for Tangible Template System',
   ]);
 
   $plugin->register_template_post_type([
     'post_type'   => 'tangible_script',
     'single'      => 'Script',
     'plural'      => 'Scripts',
-    'description' => 'Scripts for Loops & Logic',
+    'description' => 'Scripts for Tangible Template System',
   ]);
 
   $plugin->register_template_post_type([
     'post_type'   => 'tangible_layout',
     'single'      => 'Layout',
     'plural'      => 'Layouts',
-    'description' => 'Layouts for Loops & Logic',
+    'description' => 'Layouts for Tangible Template System',
   ]);
 
   // TODO: Content structure templates
@@ -71,7 +71,7 @@ add_action('init', function() use ( $plugin ) {
   // 'post_type'   => 'tangible_content',
   // 'single'      => 'Content',
   // 'plural'      => 'Content',
-  // 'description' => 'Content structure templates for Loops & Logic'
+  // 'description' => 'Content structure templates for Tangible Template System'
   // ]);
 
   require_once __DIR__ . '/taxonomy.php';

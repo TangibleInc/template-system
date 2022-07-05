@@ -5,7 +5,7 @@ if ( ! is_admin()) return;
 /**
  * AJAX action prefix must be the same as in: /assets/src/template-import-export
  */
-$prefix = 'tangible_loops_and_logic__template_import_export__';
+$prefix = 'tangible_template_import_export__';
 
 $ajax->add_action("{$prefix}export", function( $data ) use ( $ajax, $plugin ) {
 

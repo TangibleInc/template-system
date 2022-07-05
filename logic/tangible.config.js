@@ -9,5 +9,5 @@ module.exports = {
       dest: 'assets/build/tangible-logic.css',
     },
   ],
-  format: ['**/*.{php,json,js,scss}', '!assets/build'],
+  format: ['**/*.{php,js,json,scss}', '!assets/build'],
 }

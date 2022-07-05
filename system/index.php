@@ -8,13 +8,14 @@ new class {
   public $version = '20220630';
   public $url;
 
+  public $is_plugin = false;
+
   function __construct() {
     $name     = $this->name;
     $priority = 99999999 - absint( $this->version );
 
     // Ensure single instance of version
     remove_all_actions( $name, $priority );
-
     add_action( $name, [ $this, 'load' ], $priority );
 
     add_action('plugins_loaded', function() use ( $name ) {
@@ -62,8 +63,8 @@ new class {
 
       $loop      = $plugin->loop = tangible_loop();
       $logic     = $plugin->logic = tangible_logic();
-      $interface = $plugin->interface = tangible_interface();
       $html      = $plugin->html = tangible_template();
+      $interface = $plugin->interface = tangible_interface();
       $ajax      = $plugin->ajax = $framework->ajax();
 
       /**

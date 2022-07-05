@@ -85,7 +85,7 @@ add_action('elementor/dynamic_tags/register_tags', function( $dynamic_tags ) use
 
   // Creating tag group
   $dynamic_tags->register_group( 'loops-logic', [
-    'title' => 'Tangible Loops & Logic',
+    'title' => 'Tangible Blocks',
   ] );
 
   // Include Dynamic tag files

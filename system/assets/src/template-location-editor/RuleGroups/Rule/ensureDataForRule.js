@@ -4,7 +4,7 @@ const log = (...args) => debug && console.log('[ensureDataForRule]', ...args)
 const { ajax } = window.Tangible
 
 // AJAX action prefix must be the same as in includes/location/ajax/index.php
-const ajaxActionPrefix = 'tangible_loops_and_logic__template_location__'
+const ajaxActionPrefix = 'tangible_template_location__'
 
 const ensureDataForRule = ({
   rule,
