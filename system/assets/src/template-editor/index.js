@@ -162,10 +162,10 @@ jQuery(function ($) {
       if (labelTimer) clearTimeout(labelTimer)
       labelTimer = setTimeout(function () {
         $publishButton.val(previousLabel)
-      }, 4000)
+      }, 7000)
     }
 
-    $publishButton.val('Saving..')
+    // $publishButton.val('Saving..')
 
     ajax('tangible_template_editor_save', data)
       .then(function (res) {
@@ -183,10 +183,24 @@ jQuery(function ($) {
    * but after that the publish button can use AJAX save.
    */
   if (!templateMeta.isNewPost && templateMeta.postStatus === 'publish') {
+
+/**
+ * Disable AJAX save until following issues are resolved:
+ *
+ * - AJAX nonce expiring
+ * - Sometimes the post slug not saving?
+ * - Sometimes there's a confirmation dialog "information you've entered may not be saved"
+ */
+
+/*
     $publishButton.on('click', function (e) {
       e.preventDefault()
       save()
     })
+*/
+
+// window.onbeforeunload = function() {}
+
   }
 
   const sharedEditorOptions = {

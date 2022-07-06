@@ -39,6 +39,7 @@ $plugin->enqueue_template_style = function(
     $style = get_post_meta( $id, 'style', true );
 
     if ( ! empty( $style ) ) {
+
       $style = ! empty( $control_values )
         ? $plugin->replace_control_values( $style, $control_values, 'style' )
         : $style;

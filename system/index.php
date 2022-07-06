@@ -5,7 +5,7 @@ new class {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20220630';
+  public $version = '20220706';
   public $url;
 
   public $is_plugin = false;
@@ -86,7 +86,7 @@ new class {
       require_once __DIR__ . '/universal-id/index.php';
       require_once __DIR__ . '/import-export/index.php';
 
-      require_once __DIR__ . '/../features/index.php';
+      require_once __DIR__ . '/../extensions/index.php';
       require_once __DIR__ . '/integrations/index.php';
 
       // TODO: Convert to use Cloud Client module

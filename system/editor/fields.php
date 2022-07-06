@@ -78,8 +78,8 @@ add_action('admin_init', function() use ($framework, $plugin, $ajax) {
       $tabs = ['Script'];
     }
 
-    if ( $has_assets ) $tabs []= 'Assets';
     if ( $has_location ) $tabs []= 'Location';
+    if ( $has_assets ) $tabs []= 'Assets';
 
     $tabs = apply_filters( 'tangible_template_editor_tabs', $tabs, $post );
 
@@ -190,19 +190,19 @@ add_action('admin_init', function() use ($framework, $plugin, $ajax) {
         }
       }
 
-      if ($has_assets) {
-
-        // @see includes/template/assets/field.php
-
-        $plugin->render_assets_edit_field( $fields, $post_type );
-
-      }
-
       if ( $has_location ) {
 
         // @see includes/template/location/admin/fields.php
 
         $plugin->render_location_edit_fields( $fields, $post_type );
+
+      }
+
+      if ($has_assets) {
+
+        // @see includes/template/assets/field.php
+
+        $plugin->render_assets_edit_field( $fields, $post_type );
 
       }
 
@@ -232,7 +232,7 @@ add_action('admin_init', function() use ($framework, $plugin, $ajax) {
   <div style="display: flex; flex-wrap: wrap; align-items: center; line-height: 1.5rem;">
     <div style="padding-right: .5rem">
       <label for="name" style="vertical-align: middle; cursor: default;">Name</label>:
-      <input id="template-slug-input" type="text" name="name" value="<?php echo $post->post_name; ?>" />
+      <input id="template-slug-input" type="text" name="name" value="<?php echo $post->post_name; ?>" autocomplete="off" />
     </div>
     <div>
       <label for="id" style="vertical-align: inherit; cursor: default;">ID</label>:

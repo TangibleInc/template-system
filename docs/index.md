@@ -11,7 +11,7 @@ The module can be installed as a standalone plugin for development purpose. Upda
 
 ## Current
 
-- [ ] Provide extension hooks for L&L and Tangible Blocks
+- [x] Provide extension hooks for L&L and Tangible Blocks
 - [x] Convert core modules to use new builder tool
 - [x] Bundle CodeMirror module
 - [ ] Prepare base for CodeMirror 6
@@ -21,4 +21,5 @@ The module can be installed as a standalone plugin for development purpose. Upda
   - Date
   - HJSON
   - Post type extensions: Sortable, Duplicate Posts
+  - Plugin settings page
 

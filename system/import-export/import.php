@@ -166,6 +166,12 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
 
             // Overwrite existing post
             $id = $existing_posts[0];
+
+            /**
+             * Clear any cached field values
+             * @see ../save.php, maybe_save_style_compiled()
+             */
+            $fields['style_compiled'] = '';
           }
         } // Found existing post(s) with same name
       } // Not keep both
@@ -241,7 +247,7 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
       } // Has assets
 
       /**
-       * Create post
+       * Create/update post
        *
        * @see https://developer.wordpress.org/reference/functions/wp_insert_post/#parameters
        *

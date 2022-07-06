@@ -79,7 +79,7 @@ $plugin->evaluate_location_rule = function( $rule ) use ( $plugin, $html ) {
 
       if ( ! is_singular( $post_type ) ) return false;
 
-      if ( $operator === 'all' ) return true;
+      if ( empty($post_type) || $operator === 'all' ) return true;
 
       global $post;
 
