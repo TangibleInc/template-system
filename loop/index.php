@@ -6,7 +6,6 @@
  *
  * Depends on Date and HTML modules in the plugin framework.
  */
-
 if ( ! function_exists( 'tangible_loop' ) ) :
   function tangible_loop( $type = false, $args = [] ) {
     static $o;
@@ -75,6 +74,6 @@ return tangible_loop(new class {
        */
 
       do_action( 'tangible_loop_prepare', $loop );
-    }, 7); // After plugin framework
+    }, 8); // After plugin framework
   }
 });

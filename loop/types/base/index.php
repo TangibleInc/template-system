@@ -31,8 +31,6 @@ require_once __DIR__ . '/interface.php';
 
 class BaseLoop implements BaseLoopInterface {
 
-  use \TangibleObject;
-
   // Latest version instance of tangible_loop()
   static $loop;
 
@@ -183,6 +181,16 @@ class BaseLoop implements BaseLoopInterface {
 
   function __invoke( $fn ) {
     return $this->loop( $fn );
+  }
+
+  // Dynamic methods
+  function __call( $method = '', $args = [] ) {
+    if ( isset( $this->$method ) ) {
+      return call_user_func_array( $this->$method, $args );
+    }
+    $caller = current( debug_backtrace() );
+    $name = self::class;
+    echo "Warning: Undefined method \"$method\" for {$name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>";
   }
 
   // Loop type name

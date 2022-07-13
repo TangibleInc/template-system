@@ -5,7 +5,7 @@ new class {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20220706';
+  public $version = '20220711';
   public $url;
 
   public $is_plugin = false;
@@ -37,6 +37,11 @@ new class {
   }
 
   function load() {
+
+    // Requires plugin framework
+    if (!function_exists('tangible_loops_and_logic')
+      && !function_exists('tangible_blocks')
+    ) return;
 
     $name   = $this->name;
     $plugin = $system = $this;

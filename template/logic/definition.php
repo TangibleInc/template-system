@@ -183,4 +183,14 @@ $html->core_logic_rules = [
     'values'   => [],
   ],
 
+  // File
+
+  [
+  'name'       => 'file',
+    'label'    => 'File',
+    'field_2'  => [ 'type' => 'string' ],
+    'operands' => [],
+    'values'   => [],
+  ],
+
 ];

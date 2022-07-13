@@ -1,6 +1,6 @@
 <?php
 /**
- * Site folder paths, like <path child-theme>
+ * Site folder paths, like <Path child-theme>
  *
  * @see https://codex.wordpress.org/Determining_Plugin_and_Content_Directories
  */

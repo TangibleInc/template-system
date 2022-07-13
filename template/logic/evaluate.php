@@ -256,6 +256,10 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
       $condition = is_singular( $types );
     break;
 
+    case 'file':
+      $file = isset($rule['field_2']) ? $rule['field_2'] : '';
+      $condition = !empty($file) && file_exists($file);
+    break;
   }
 
   return $condition;

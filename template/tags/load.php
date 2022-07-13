@@ -232,9 +232,10 @@ $html->load_content_tag = function( $atts, $content = '' ) use ( $html ) {
     }
   }
 
-  if ( isset( $atts['from'] ) ) {
-
-    $path = $html->get_path( $atts['from'] );
+  // Alias for backward compatibility
+  if ( isset( $atts['from'] ) ) $atts['path'] = $atts['from'];
+  if ( isset( $atts['path'] ) ) {
+    $path = $html->get_path( $atts['path'] );
     if ( ! empty( $path ) ) {
       $asset = trailingslashit( $path ) . ltrim( $asset, '/' );
     }

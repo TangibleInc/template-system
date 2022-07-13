@@ -115,8 +115,14 @@ add_filter('template_include', function( $file_path ) use ( $plugin, $html, $log
   }
 
   // Load content template, if any
-  return ! empty( $content_template_id )
-    ? __DIR__ . '/content.php'
-    : $file_path;
+
+  if (empty( $content_template_id )) return $file_path;
+
+  // Always OK unless manually set by <Status>
+  global $wp_query;
+  $wp_query->is_404 = false;
+  status_header(200);
+
+  return __DIR__ . '/content.php';
 
 }, 1100, 1); // Ensure priority higher than Tangible Views (1000), Beaver Themer (999), ..

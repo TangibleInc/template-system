@@ -1,4 +1,4 @@
-# Template System - Architecture
+# Architecture
 
 ### Loop module
 
