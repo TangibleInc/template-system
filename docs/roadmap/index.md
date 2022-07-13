@@ -1,11 +1,15 @@
 
 ## Roadmap
 
+- [ ] Comment loop type and fields
+
+## Think
+
 - [ ] Template styles
   - [ ] Add tab/field for CSS editor
   - [ ] Deprecate Sass tab/field/editor
 
-- Update Sass module - template/modules/sass
+- [ ] Update Sass module - template/modules/sass
   - [ ] [SCSS PHP](https://github.com/scssphp/scssphp)
   - [ ] PHP Autoprefixer
   - [ ] CSS Parser
