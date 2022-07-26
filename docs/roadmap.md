@@ -2,6 +2,13 @@
 ## Roadmap
 
 - [ ] Comment loop type and fields
+- [ ] Import/Export
+  - [ ] Template type "Layout" should export textual description of location rules (displayed in the archive screen)
+  - [ ] Support package in ZIP format
+  - [ ] 
+- Pagination
+- Slider
+
 
 ## Think
 
