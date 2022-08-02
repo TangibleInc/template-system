@@ -1,0 +1,15 @@
+{
+  "name": "extension-mermaid",
+  "private": true,
+  "scripts": {
+    "dev": "roll dev",
+    "build": "roll build",
+    "format": "roll format"
+  },
+  "dependencies": {
+    "mermaid": "^9.1.3"
+  },
+  "devDependencies": {
+    "@tangible/roller": "1.x"
+  }
+}

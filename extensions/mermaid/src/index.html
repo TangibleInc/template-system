@@ -1,0 +1,124 @@
+<body>
+<script src='/mermaid.min.js'></script>
+<script>
+
+// Quick test page
+
+const { mermaid } = window.Tangible
+
+// console.log('mermaid', mermaid)
+
+mermaid.initialize({
+  theme: 'neutral', // base, forest, dark, default, neutral
+  startOnLoad: false,
+  // securityLevel: 'sandbox',
+  flowchartConfig: {
+    width: '100%'
+  }
+})
+
+const container = document.createElement('div')
+
+document.body.appendChild(container)
+
+function addDiagram(diagram) {
+
+  const el = document.createElement('div')
+  const id = ('mermaid'+Math.random()).replace('.', '')
+
+  const svg = mermaid.render(id, diagram)
+
+  el.innerHTML = svg
+  container.appendChild(el)
+}
+
+
+addDiagram(`flowchart LR
+id1(Start)-->id2(Stop)
+style id1 fill:#f9f,stroke:#333,stroke-width:4px
+style id2 fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
+`)
+
+addDiagram(`
+%%{init: { 'logLevel': 'debug', 'theme': 'neutral', 'gitGraph': {'rotateCommitLabel': false}} }%%
+    gitGraph
+       commit
+       commit
+       branch develop
+       commit
+       commit
+       commit
+       checkout main
+       commit
+       commit
+       merge develop
+       commit
+       commit
+`)
+
+addDiagram(`
+pie showData
+    title Key elements in Product X
+    "Calcium" : 42.96
+    "Potassium" : 50.05
+    "Magnesium" : 10.01
+    "Iron" :  5
+`)
+
+
+addDiagram(`classDiagram
+class BankAccount
+BankAccount : +String owner
+BankAccount : +Bigdecimal balance
+BankAccount : +deposit(amount)
+BankAccount : +withdrawal(amount)
+
+class Square~Shape~{
+    int id
+    List~int~ position
+    setPoints(List~int~ points)
+    getPoints() List~int~
+}
+
+Square: -List~string~ messages
+Square: +setMessages(List~string~ messages)
+Square: +getMessages() List~string~
+
+class Person
+Person: call( List~int~, points ) void
+`)
+
+
+addDiagram(`classDiagram
+classA --|> classB : Inheritance
+classC --* classD : Composition
+classE --o classF : Aggregation
+classG --> classH : Association
+classI -- classJ : Link(Solid)
+classK ..> classL : Dependency
+classM ..|> classN : Realization
+classO .. classP : Link(Dashed)
+`)
+
+addDiagram(`sequenceDiagram
+critical Establish a connection to the DB
+    Service-->DB: connect
+option Network timeout
+    Service-->Service: Log error
+option Credentials rejected
+    Service-->Service: Log different error
+end`)
+
+addDiagram(`stateDiagram
+direction LR
+[*] --> A
+A --> B
+B --> C
+state B {
+  direction LR
+  a --> b
+}
+B --> D`)
+
+</script>
+</body>
