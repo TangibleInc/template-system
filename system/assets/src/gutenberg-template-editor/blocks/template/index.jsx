@@ -117,6 +117,12 @@ class edit extends Component {
     super(props)
 
     /**
+     * Current post ID
+     * Used in integrations/gutenberg/enqueue to set loop context
+     */
+    this.props.attributes.current_post_id = gutenbergConfig.current_post_id
+
+    /**
      * Prepare template options
      */
 
