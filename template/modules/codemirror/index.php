@@ -24,6 +24,16 @@ $html->enqueue_codemirror = function( $options = [] ) use ( $html ) {
     );
   }
 
+  // Define raw tags whose content should not be parsed
+
+  $raw_tags_map = json_encode($html->raw_tags);
+
+  wp_add_inline_script(
+    'tangible-codemirror-htmlhint',
+    "if (window.Tangible && window.Tangible.HTMLHint && window.Tangible.HTMLHint.parser) { Object.assign(window.Tangible.HTMLHint.parser.mapCdataTags, $raw_tags_map) };"
+  );
+
+
   // CodeMirror
 
   wp_enqueue_script('tangible-codemirror',

@@ -19,7 +19,7 @@ module.exports = {
 
     // Minify vendor libraries
     {
-      src: 'lib/htmlhint.js',
+      src: 'lib/htmlhint/index.js',
       dest: 'vendor/htmlhint.min.js',
       map: false
     },
