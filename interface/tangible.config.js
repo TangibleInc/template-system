@@ -37,7 +37,7 @@ module.exports = {
       dest: 'assets/build/glider.min.css',
     },
 
-    // Prism syntax highlighter = Theme
+    // Prism syntax highlighter and theme
     {
       src: 'assets/src/prism/index.scss',
       dest: 'assets/build/prism.min.css',
