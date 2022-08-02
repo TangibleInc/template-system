@@ -79,11 +79,15 @@ $html->list_tag = function($atts, $nodes) use ($html) {
     $content = trim($html->render( $nodes ));
 
     if (!empty($content)) {
-      $json = $html->hjson($content);
+      $json = $html->hjson()->parse($content);
       if (is_array($json)) {
         $html->current_list = $json;
       }
     }
+
+  } elseif (isset($atts['items'])) {
+
+    $html->current_list = array_map('trim', explode(',', $atts['items']));
 
   } else {
     // Defined by Item tags

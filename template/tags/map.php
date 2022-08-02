@@ -105,7 +105,7 @@ $html->map_tag = function( $atts, $nodes ) use ( $html ) {
     $content = trim( $html->render( $nodes ) );
 
     if ( ! empty( $content ) ) {
-      $json = $html->hjson( $content );
+      $json = $html->hjson()->parse( $content );
       if ( is_array( $json ) ) {
         $html->current_map = $json;
       }
