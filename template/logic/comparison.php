@@ -129,17 +129,22 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
     case 'any_is_not':
       $not = $operand === 'any_is_not';
       if ( is_string( $current_value ) ) {
-
-        $c         = $current_value == $value; // Loose equal
-        $condition = $not ? ! $c : $c;
-
-      } elseif ( is_array( $current_value ) ) {
+        // Convert to list
+        $current_value = empty( $current_value )
+          ? []
+          : (isset( $current_value[0] ) && $current_value[0] === '['
+            ? $html->hjson()->parse( $current_value )
+            : array_map( 'trim', explode( ',', $current_value ) ) // Comma-separated list
+          )
+        ;
+      }
+      if ( is_array( $current_value ) ) {
 
         $condition = false;
         foreach ( $current_value as $each_value ) {
           $c         = $each_value == $value;
           $condition = $not ? ! $c : $c;
-          if ($condition === true ) break;
+          if ($condition === true ) break; // Any can be equal
         }
       } else {
         $condition = false;
@@ -148,19 +153,24 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
     case 'all_is':
     case 'all_is_not':
       $not = $operand === 'all_is_not';
-      if ( is_string( $current_value ) ) {
 
-        $c         = $current_value == $value; // Loose equal
-        $condition = $not ? ! $c : $c;
-      } elseif ( is_array( $current_value ) ) {
+      if ( is_string( $current_value ) ) {
+        // Convert to list
+        $current_value = empty( $current_value )
+          ? []
+          : (isset( $current_value[0] ) && $current_value[0] === '['
+            ? $html->hjson()->parse( $current_value )
+            : array_map( 'trim', explode( ',', $current_value ) ) // Comma-separated list
+          )
+        ;
+      }
+      if ( is_array( $current_value ) ) {
 
         $condition = false;
-
         foreach ( $current_value as $each_value ) {
           $c         = $each_value == $value;
           $condition = $not ? ! $c : $c;
-
-          if ($condition === false) break;
+          if ($condition === false) break; // All must be equal
         }
       } else {
         $condition = false;
@@ -169,7 +179,7 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
 
     case '':
       /**
-       * Empty operand means "exists", unless there are attributes that define operators with value
+       * Empty operand means "exists", unless there's an attribute that defines an **operator with value**
        */
 
       // Populate helper map as needed
@@ -198,7 +208,8 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         $condition               = $condition && $html->evaluate_logic_comparison(
           $operand_key, $operand_value, $current_value
         );
-        if ( ! $condition) break; // All must be true
+
+        if ( ! $condition ) break; // All must be true
       }
 
       if ($has_operator_with_value) return $condition;
@@ -238,13 +249,29 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         break;
 
     case 'starts_with':
+      if ( is_string( $current_value ) ) {
+        $condition = substr( $current_value, 0, strlen( $value ) ) === $value;
+      } elseif ( is_array( $current_value ) ) {
+        // First item
+        $condition = $current_value[0] === $value;
+      } else {
+        $condition = false;
+      }
+        break;
+
     case 'any_starts_with':
     case 'all_starts_with':
       if ( is_string( $current_value ) ) {
-
-        $condition = substr( $current_value, 0, strlen( $value ) ) === $value;
-
-      } elseif ( is_array( $current_value ) ) {
+        // Convert to list
+        $current_value = empty( $current_value )
+          ? []
+          : (isset( $current_value[0] ) && $current_value[0] === '['
+            ? $html->hjson()->parse( $current_value )
+            : array_map( 'trim', explode( ',', $current_value ) ) // Comma-separated list
+          )
+        ;
+      }
+      if ( is_array( $current_value ) ) {
 
         $condition = false;
         $match_all = $operand === 'all_starts_with';
@@ -255,23 +282,42 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
           }
           if ($match_all
             ? $condition === false // All must be true
-            : $condition === true  // Any must be true
+            : $condition === true  // Any can be true
           ) break;
         }
       } else {
         $condition = false;
       }
         break;
+
     case 'ends_with':
+      $length = strlen( $value );
+
+      if ( is_string( $current_value ) ) {
+        $condition = substr( $current_value, -$length ) === $value;
+      } elseif ( is_array( $current_value ) ) {
+        // Last item (without modifying the array)
+        $condition = $current_value[ count($current_value)-1 ] === $value;
+      } else {
+        $condition = false;
+      }
+        break;
+
     case 'any_ends_with':
     case 'all_ends_with':
       $length = strlen( $value );
 
       if ( is_string( $current_value ) ) {
-
-        $condition = substr( $current_value, -$length ) === $value;
-
-      } elseif ( is_array( $current_value ) ) {
+        // Convert to list
+        $current_value = empty( $current_value )
+          ? []
+          : (isset( $current_value[0] ) && $current_value[0] === '['
+            ? $html->hjson()->parse( $current_value )
+            : array_map( 'trim', explode( ',', $current_value ) ) // Comma-separated list
+          )
+        ;
+      }
+      if ( is_array( $current_value ) ) {
 
         $condition = false;
         $match_all = $operand === 'all_ends_with';
@@ -282,36 +328,55 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
           }
           if ($match_all
             ? $condition === false // All must be true
-            : $condition === true  // Any must be true
+            : $condition === true  // Any can be true
           ) break;
         }
       } else {
         $condition = false;
       }
         break;
+
     case 'in':
     case 'not_in':
-      $values = isset( $atts['list'] )
-        ? $html->get_list( $atts['list'] ) // List variable - See ../tags/list.php
-        : ( is_array( $value )
-          ? $value
-          : (
-            isset( $value[0] ) && $value[0] === '['
-              ? $framework->hjson()->parse( $value )
-              : array_map( 'trim', explode( ',', $value ) ) // Comma-separated list
-          )
-        );
 
+      if (is_array( $value )) {
+        $values = $value;
+      } elseif (isset( $atts['list'] )) {
+        /**
+         * Handle special case for backward compatibility:
+         *
+         * <If value=1 in list=items>
+         *
+         * This syntax is deprecated in favor of:
+         *
+         * <If list=items includes=1>
+         */
+
+        // List variable - See ../tags/list.php
+        $values = $html->get_list( $atts['list'] );
+      } else {
+        // Convert to list
+        $values = isset( $value[0] ) && $value[0] === '['
+          ? $html->hjson()->parse( $value )
+          : array_map( 'trim', explode( ',', $value ) ) // Comma-separated list
+        ;
+      }
+
+      // needle in haystack
       $condition = in_array( $current_value, $values );
 
       if ($operand === 'not_in') $condition = ! $condition;
 
         break;
+
     case 'includes':
     case 'not_includes':
       if ( is_string( $current_value ) ) {
+
         $condition = strpos( $current_value, $value ) !== false;
+
       } elseif ( is_array( $current_value ) ) {
+        // needle in haystack
         $condition = array_search( $value, $current_value ) !== false;
       } else {
         $condition = false;
@@ -321,6 +386,7 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         $condition = ! $condition;
       }
         break;
+
     case 'any_includes':
     case 'any_not_includes':
       $not = $operand === 'any_not_includes';
@@ -328,6 +394,7 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
 
         $c         = strpos( $current_value, $value ) !== false;
         $condition = $not ? ! $c : $c;
+
       } elseif ( is_array( $current_value ) ) {
 
         $condition = false;
