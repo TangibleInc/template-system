@@ -30,8 +30,10 @@ $html->core_logic_rules = [
   'name'       => 'list',
     'label'    => 'List variable type',
     'field_2'  => [ 'type' => 'string' ],
-    'operands' => [],
-    'values'   => [],
+    'operands' => $html->logic_comparisons,
+    'values'   => [
+      'type' => 'string',
+    ],
   ],
 
   // Loop

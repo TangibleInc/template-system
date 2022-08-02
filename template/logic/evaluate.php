@@ -17,11 +17,9 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
 
     case 'check':
       $current_value = isset($rule['field_2']) ? $rule['field_2'] : '';
-
       // Date comparison: Returns true/false or null for unknown operand (pass through)
       $condition = $html->evaluate_date_comparison($value, $current_value, $atts);
       if (is_bool($condition)) return $condition;
-
       $condition = $html->evaluate_logic_comparison($operand, $value, $current_value, $atts);
     break;
     case 'logic':
@@ -39,19 +37,20 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
     case 'list':
       $current_value = isset($rule['field_2']) ? $rule['field_2'] : '';
       if (empty($current_value)) {
-        $condition = false;
+        // Pass through
       } elseif ($current_value[0]==='[') {
+        // JSON
         try {
-          $current_value = json_decode($current_value);
-          $condition = !empty($current_value);
+          $current_value = $html->hjson()->parse($current_value);
         } catch (\Throwable $th) {
-          $condition = false;
+          $current_value = [];
         }
       } else {
-        $condition = !empty(
-          $html->get_variable_type('list', $current_value)
-        );
+        // List variable
+        $current_value = $html->get_variable_type('list', $current_value);
       }
+
+      $condition = $html->evaluate_logic_comparison($operand, $value, $current_value, $atts);
     break;
 
     // Loop state
