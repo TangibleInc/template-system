@@ -115,8 +115,8 @@ return tangible_template(new class {
     require_once __DIR__ . '/ajax/index.php';
 
     // Modules
-    require_once __DIR__ . '/modules/index.php';
     require_once __DIR__ . '/module-loader/index.php';
+    require_once __DIR__ . '/modules/index.php';
 
     // Integrations
     require_once __DIR__ . '/integrations/index.php';

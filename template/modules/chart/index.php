@@ -45,7 +45,7 @@ $html->add_open_tag('Chart', function( $atts, $nodes ) use ( $framework, $interf
     'tooltipValues'   => [],
   ];
 
-  $hjson = $framework->hjson();
+  $hjson = $html->hjson();
 
   foreach ( $atts as $key => $value ) {
 

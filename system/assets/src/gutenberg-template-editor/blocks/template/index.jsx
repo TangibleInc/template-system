@@ -1,4 +1,6 @@
-const { wp, Tangible, HTMLHint } = window
+import ServerSideRender from './ServerSideRender'
+
+const { wp, Tangible, lodash } = window
 const {
   element: { Component },
   blockEditor: { BlockControls, InspectorControls },
@@ -19,9 +21,20 @@ const {
   },
   i18n: { __ },
   keycodes: { rawShortcut },
-  serverSideRender: ServerSideRender,
+  // serverSideRender: ServerSideRender,
 } = wp
-const { CodeMirror, createCodeEditor, gutenbergConfig } = Tangible
+const {
+  CodeMirror,
+  createCodeEditor,
+  gutenbergConfig,
+  moduleLoader
+} = Tangible
+
+/**
+ * Pass it to Tangible Blocks
+ * @see tangible-blocks/assets/src/gutenberg-integration/blocks
+ */
+Tangible.ServerSideRender = ServerSideRender
 
 /**
  * Workaround for Gutenberg issue with keyboard shortcuts
@@ -208,6 +221,9 @@ class edit extends Component {
             attributes={attributes}
             EmptyResponsePlaceholder={EmptyTemplate}
             LoadingResponsePlaceholder={EmptyTemplate}
+            onFetchResponseRendered={el => {
+              moduleLoader(el)
+            }}
           />
         ) : this.canEditTemplate && currentTab === 'editor' ? (
           <TemplateEditor

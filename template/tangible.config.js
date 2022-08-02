@@ -1,3 +1,8 @@
+const submodules = [
+  'module-loader',
+  // 'modules/'
+]
+
 module.exports = {
   build: [
     // CodeMirror
@@ -30,11 +35,17 @@ module.exports = {
       dest: 'assets/build/dynamic-table.min.js',
     },
 
-    // Module loader - Support loading scripts and styles when page builders fetch and insert HTML
-    {
-      src: 'assets/src/module-loader/index.js',
-      dest: 'assets/build/module-loader.min.js',
-    },
+    ...submodules.reduce((tasks, key) => {
+      tasks.push(
+        ...require(`./${key}/tangible.config.js`).build
+        .map(task => ({
+          ...task,
+          src: task.src && `./${key}/${task.src}`,
+          dest: task.dest && `./${key}/${task.dest}`,
+        }))
+      )
+      return tasks
+    }, []),
 
     // Async render - Asynchronously render templates
     {

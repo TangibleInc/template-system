@@ -14,7 +14,9 @@ $html->add_open_tag('Slider', function( $atts, $nodes ) use ( $framework, $html,
 
   $tag_atts = [
 
-    'class'                        => 'tangible-slider' . ( isset( $atts['class'] ) ? ' ' . $atts['class'] : '' ),
+    'class' => 'tangible-slider'
+      . ( isset( $atts['class'] ) ? ' ' . $atts['class'] : '' )
+    ,
 
     /**
      * Support for page builders with dynamic HTML fetch & insert

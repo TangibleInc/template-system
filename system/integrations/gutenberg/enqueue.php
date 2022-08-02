@@ -30,16 +30,18 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
     $plugin->url . 'assets/build/gutenberg-template-editor.min.js',
     [
       'wp-block-editor',
-  'wp-blocks',
-  'wp-element',
-  'wp-i18n',
-  'wp-polyfill',
-  'wp-server-side-render',
+      'wp-blocks',
+      'wp-element',
+      'wp-i18n',
+      'wp-polyfill',
+      'wp-server-side-render',
+      'jquery',
+      'wp-components',
+      'wp-editor',
+
       'tangible-codemirror',
-  'jquery',
-  'wp-components',
-  'wp-editor',
-  'tangible-ajax',
+      'tangible-ajax',
+      'tangible-module-loader'
     ],
     $plugin->version
   );
@@ -47,6 +49,7 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
   $config = [
     'templateOptions' => $plugin->get_all_template_options(),
     'canEditTemplate' => current_user_can( 'manage_options' ),
+    'current_post_id' => get_the_ID(),
   ];
 
   wp_add_inline_script(
