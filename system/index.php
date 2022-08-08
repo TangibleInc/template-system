@@ -5,7 +5,7 @@ new class {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20220728';
+  public $version = '20220808';
   public $url;
 
   public $is_plugin = false;
@@ -97,7 +97,10 @@ new class {
       // TODO: Convert to use Cloud Client module
       // require_once __DIR__.'/cloud/index.php';
 
-      do_action( "{$this->name}_ready", $plugin );
+      $ready_hook = "{$plugin->name}_ready";
+
+      do_action( $ready_hook, $plugin );
+      remove_all_actions( $ready_hook );
 
     }, 8); // Before plugins register
 
