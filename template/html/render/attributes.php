@@ -10,6 +10,30 @@ $html->render_attributes = function($atts, $options = []) use ($html) {
 
   $atts = apply_filters('tangible_template_render_attributes', $atts);
 
+  $render_attribute_value = $html->render_attribute_value;
+
+  if (isset($atts['tag-attributes'])) {
+
+    $value = $render_attribute_value('tag-attributes', $atts['tag-attributes']);
+    /**
+     * Parse as tag attributes to support key, key=value
+     */
+    $parsed = $html->parse('<div ' . $value . '></div>');
+
+    if (!empty($parsed) && !empty($parsed[0]['attributes'])) {
+      foreach ($parsed[0]['attributes'] as $key => $value) {
+        if ($key==='keys') {
+          if (!isset($atts['keys'])) $atts['keys'] = [];
+          $atts['keys'] = array_merge($value, $atts['keys']);
+          continue;
+        }
+        $atts[ $key ] = $value;
+      }
+    }
+
+    unset($atts['tag-attributes']);
+  }
+
   if (isset($atts['keys'])) {
     // Attributes without values
     foreach ($atts['keys'] as $key) {
@@ -19,8 +43,6 @@ $html->render_attributes = function($atts, $options = []) use ($html) {
     }
     unset($atts['keys']);
   }
-
-  $render_attribute_value = $html->render_attribute_value;
 
   foreach ($atts as $key => $value) {
 
@@ -57,6 +79,9 @@ $html->render_attributes_to_array = function($atts, $options = []) use ($html) {
 
   foreach ($atts as $key => $value) {
     if ($key === 'keys') continue;
+    if ($key === 'tag-attributes') {
+
+    }
     $atts[ $key ] = $render_attribute_value($key, $value, $options);
   }
 
