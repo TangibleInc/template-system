@@ -1,66 +1,63 @@
 import assetLoader from './assetLoader'
 
-const $ = jQuery
+const $ = window.jQuery
 const Tangible = window.Tangible = window.Tangible || {}
+const modules = Tangible.modules = Tangible.modules || {}
 
 function moduleLoader(element) {
-
-  const modules = Tangible.modules || {}
 
   let moduleIndex = 0
 
   $(element)
-    .find('[data-tangible-dynamic-module]')
+    .find('.tangible-dynamic-module')
     .each(function () {
       const el = this
       const $el = $(el)
       const moduleName = $el.data('tangibleDynamicModule')
-      const moduleOptions = $el.data('tangibleDynamicModuleOptions') || {}
+      const options = $el.data('tangibleDynamicModuleOptions') || {}
 
       if (!modules[ moduleName ]) {
         console.warn('Unknown dynamic module', moduleName)
+        console.log(modules)
         return
       }
 
+      const { assets = [], callback } = modules[ moduleName ]
+
       moduleIndex++
 
-      assetLoader( modules[ moduleName ].assets || [] )
+      assetLoader( assets )
         .then(function() {
+
+          if (callback) {
+            callback(el, options)
+            return
+          }
+
           switch (moduleName) {
-
-            // TODO: glider, embed, pagination, table, ..
-
             case 'chart':
-              if ($.fn.tangibleChart) {
-                $el.tangibleChart()
-              }
+              $.fn.tangibleChart && $el.tangibleChart()
+              break
+            case 'embed-dynamic': // TODO:
+              break
+            case 'glider':
+              $.fn.tangibleGlider && $el.tangibleGlider()
               break
             case 'mermaid':
-              if (el._mermaidRendered) return
-              el._mermaidRendered = true
-              const code = $el.find('code').text()
-              try {
-                Tangible.mermaid.render(
-                  'tangible-mermaid-'+moduleIndex,
-                  code,
-                  function(svg) {
-                    el.innerHTML = svg
-                    el.style.display = 'block'
-                  }
-                )
-              } catch(e) {
-                console.error('Tangible.mermaid', e.message)
-                // el.innerText = e.message
-                // el.style.display = 'block'
-              }
+              Tangible.mermaid && Tangible.mermaid.activateElement(el, options)
+              break
+            case 'paginator': // TODO:
+              break
+            case 'prism':
+              Prism && Prism.highlightAllUnder && Prism.highlightAllUnder(el)
               break
             case 'slider':
-              if ($.fn.tangibleSlider) {
-                $el.tangibleSlider()
-              }
+              $.fn.tangibleSlider && $el.tangibleSlider()
+              break
+            case 'table': // TODO:
               break
             default:
-              console.log('No initializer for module', moduleName)
+              console.warn('No initializer for module', moduleName)
               break
           }
         })
@@ -71,10 +68,22 @@ function moduleLoader(element) {
 }
 
 function registerModule(name, config) {
-  modules[name] = config // { assets, callback }
+  if (!modules[name]) {
+    modules[name] = {
+      assets: [],
+      // callback
+    }
+  }
+  Object.assign(modules[name], config)
 }
 
 Object.assign(Tangible, {
   moduleLoader,
   registerModule
 })
+
+/*
+$(document).ready(function() {
+  moduleLoader(document.body)
+})
+*/

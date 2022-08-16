@@ -14,13 +14,12 @@ $html->add_open_tag('Slider', function( $atts, $nodes ) use ( $framework, $html,
 
   $tag_atts = [
 
-    'class' => 'tangible-slider'
+    'class' => 'tangible-slider tangible-dynamic-module'
       . ( isset( $atts['class'] ) ? ' ' . $atts['class'] : '' )
     ,
 
     /**
      * Support for page builders with dynamic HTML fetch & insert
-     *
      * @see /module-loader in Template module
      */
     'data-tangible-dynamic-module' => 'slider',

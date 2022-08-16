@@ -12,7 +12,8 @@ $html->add_open_tag('Chart', function( $atts, $nodes ) use ( $framework, $interf
 
   $tag_atts = [
 
-    'class'                        => 'tangible-chart' . ( isset( $atts['class'] ) ? ' ' . $atts['class'] : '' ),
+    'class'                        => 'tangible-chart tangible-dynamic-module'
+      . ( isset( $atts['class'] ) ? ' ' . $atts['class'] : '' ),
 
     /**
      * Support for page builders with dynamic HTML fetch & insert

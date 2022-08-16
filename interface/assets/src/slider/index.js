@@ -89,8 +89,8 @@ $.fn.tangibleSlider = function (options = {}) {
     return this
   }
 
-  if (this.tangibleSliderLoaded) return
-  this.tangibleSliderLoaded = true
+  if (this[0].tangibleSliderLoaded) return
+  this[0].tangibleSliderLoaded = true
 
   // Support options from element's data attribtue
 

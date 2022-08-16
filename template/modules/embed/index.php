@@ -62,9 +62,11 @@ $html->add_open_tag('Embed', function( $atts, $nodes ) use ( $html, $interface )
 
   return $html->render_tag('div', array_merge($atts, [
     'class' => ( $is_dynamic
-        ? 'tangible-embed-dynamic' // Dynamic aspect ratio requires JS
+        ? 'tangible-embed-dynamic tangible-dynamic-module' // Dynamic aspect ratio requires JS
         : 'tangible-embed'         // CSS-only solution
       )
-      . ( isset( $atts['class'] ) ? ' ' . $atts['class'] : '' ),
+      . ( isset( $atts['class'] ) ? ' ' . $atts['class'] : '' )
+    ,
+    'data-tangible-dynamic-module' => 'embed-dynamic',
   ]), $content);
 });

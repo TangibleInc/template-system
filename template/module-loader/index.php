@@ -2,15 +2,27 @@
 /**
  * Module loader
  *
- * Supports loading scripts and styles when page builders fetch and insert dynamic HTML
+ * Supports dynamically loading module assets (scripts and styles),
+ * for example when page builders fetch and insert HTML for preview.
+ *
+ * Dynamic modules are expected to:
+ * - Render an element with
+ *   - class="tangible-dynamic-module"
+ *   - data-tangible-dynamic-module="$module-name"
+ * - Register script and style under tangible-{$module-name}
  */
 
-wp_register_script(
-  'tangible-module-loader',
-  "{$html->url}module-loader/build/module-loader.min.js",
-  [ 'jquery' ],
-  $html->version
-);
+$html->register_module_loader_script = function() use ( $html ) {
+  wp_register_script(
+    'tangible-module-loader',
+    "{$html->url}module-loader/build/module-loader.min.js",
+    [ 'jquery' ],
+    $html->version
+  );
+};
+
+add_action( 'wp_enqueue_scripts', $html->register_module_loader_script, 0 );
+add_action( 'admin_enqueue_scripts', $html->register_module_loader_script, 0 );
 
 $html->dynamic_modules = [
   // name: { assets: string | string[], depend?: [] }
@@ -36,9 +48,7 @@ $html->module_loader_data_enqueued = false;
 
 $html->enqueue_module_loader_data = function() use ( $html ) {
 
-  if (//!$html->module_loader_enqueued ||
-    $html->module_loader_data_enqueued
-  ) return;
+  if ($html->module_loader_data_enqueued) return;
   $html->module_loader_data_enqueued = true;
 
   // Automatically register Interface modules
@@ -105,7 +115,7 @@ $html->enqueue_module_loader_data = function() use ( $html ) {
   wp_add_inline_script(
     'tangible-module-loader',
     'window.Tangible = window.Tangible || {}; window.Tangible.modules = ' . json_encode( $html->dynamic_modules ),
-    'after'
+    'before'
   );
 };
 

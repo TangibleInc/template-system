@@ -25,7 +25,14 @@ $html->table_tag = function($atts, $nodes = []) use ($ajax, $html) {
 
   $table_atts = [
     'id' => isset($atts['id']) ? $atts['id'] : 'tangible-table-'.uniqid(),
-    'class' => 'table tangible-table' .(isset($atts['class']) ? ' '.$atts['class'] : ''),
+    'class' => 'table tangible-table tangible-dynamic-module'
+      .(isset($atts['class']) ? ' '.$atts['class'] : '')
+    ,
+    /**
+     * Support for page builders with dynamic HTML
+     * @see /module-loader in Template module
+     */
+    'data-tangible-dynamic-module' => 'table',
   ];
 
   $name = isset($atts['name']) ? $atts['name'] : '';

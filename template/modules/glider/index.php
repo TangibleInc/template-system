@@ -13,7 +13,14 @@ $html->add_open_tag('Glider', function( $atts, $nodes ) use ( $html, $interface 
   if (in_array( 'enqueue', $atts['keys'] )) return;
 
   return $html->render_tag('div', array_merge($atts, [
-    'class' => 'tangible-glider' . ( isset( $atts['class'] ) ? ' ' . $atts['class'] : '' ),
+    'class' => 'tangible-glider tangible-dynamic-module'
+      . ( isset( $atts['class'] ) ? ' ' . $atts['class'] : '' )
+    ,
+    /**
+     * Support for page builders with dynamic HTML
+     * @see /module-loader in Template module
+     */
+    'data-tangible-dynamic-module' => 'glider',
   ]), $nodes);
 });
 

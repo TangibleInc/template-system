@@ -47,6 +47,7 @@ $html->paginated_loop_tag = function( $current_loop, $atts, $nodes, $result ) us
   ];
 
   $tag_attributes = [
+    'data-tangible-dynamic-module' => 'paginator',
     'data-tangible-paginator-target-id'   => $current_loop->paginator_target_id,
     'data-tangible-paginator-target-data' => json_encode([
       'state'        => [
@@ -62,7 +63,7 @@ $html->paginated_loop_tag = function( $current_loop, $atts, $nodes, $result ) us
     ]),
   ];
 
-  $tag_attributes['class'] = 'tangible-paginator-target' . (
+  $tag_attributes['class'] = 'tangible-paginator-target tangible-dynamic-module' . (
     isset( $atts['class'] ) ? ' ' . $atts['class'] : ''
   );
 

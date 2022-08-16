@@ -25,7 +25,14 @@ $html->add_raw_tag('Prism', function($atts, $content) use ($html, $interface) {
     $content = mb_substr($content, 1);
   }
 
-  return $html->render_raw_tag('pre', [],
+  return $html->render_raw_tag('pre', [
+    /**
+     * Support for page builders with dynamic HTML
+     * @see /module-loader in Template module
+     */
+    'class' => 'tangible-prism tangible-dynamic-module',
+    'data-tangible-dynamic-module' => 'prism',
+  ],
     $html->render_raw_tag('code', [
       'class' => "language-$language",
     ], htmlspecialchars($content))
