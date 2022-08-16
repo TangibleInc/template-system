@@ -200,5 +200,9 @@ return [
     'name'  => 'not_found',
     'label' => '404 Not Found',
   ],
+  [
+    'name'  => 'none',
+    'label' => 'Nowhere',
+  ],
 
 ];

@@ -40,6 +40,9 @@ $plugin->evaluate_location_rule = function( $rule ) use ( $plugin, $html ) {
     case 'all':
         return true; // Entire site
 
+    case 'none':
+        return false; // Nowhere
+
     case 'home':
         return is_home();
 
