@@ -18,12 +18,16 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
 
   $html->enqueue_codemirror();
 
+/*
   wp_enqueue_style(
     'tangible-gutenberg-template-editor',
     $plugin->url . 'assets/build/gutenberg-template-editor.min.css',
     [ 'wp-edit-blocks', 'tangible-codemirror' ],
     $plugin->version
   );
+*/
+
+  wp_enqueue_style('tangible-codemirror');
 
   wp_enqueue_script(
     'tangible-gutenberg-template-editor',
