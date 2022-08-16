@@ -35,7 +35,7 @@ $plugin->enqueue_beaver_template_editor = function() use ( $plugin, $html ) {
    * Module loader - Support loading scripts and styles when page builders fetch and insert HTML
    */
 
-  $html->enqueue_dynamic_module_loader();
+  $html->enqueue_module_loader();
 
   /**
    * Action hook for Tangible Blocks

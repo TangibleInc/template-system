@@ -14,6 +14,9 @@ $plugin->enqueue_elementor_template_editor = function() use ( $plugin, $html ) {
 
   $html->enqueue_codemirror(); // See Template module /modules/codemirror
 
+  // Module loader - Support loading scripts and styles when page builders fetch and insert HTML
+  $html->enqueue_module_loader();
+
   wp_enqueue_script(
     'tangible-elementor-template-editor',
     $plugin->url . 'assets/build/elementor-template-editor.min.js',
@@ -27,9 +30,6 @@ $plugin->enqueue_elementor_template_editor = function() use ( $plugin, $html ) {
     [],
     $plugin->version
   );
-
-  // Module loader - Support loading scripts and styles when page builders fetch and insert HTML
-  $html->enqueue_dynamic_module_loader();
 
   /**
    * Action hook for Tangible Blocks

@@ -26,7 +26,7 @@ return tangible_logic(new class {
       return call_user_func_array( $this->$method, $args );
     }
     $caller = current( debug_backtrace() );
-    echo "Warning: Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>";
+    trigger_error("Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>", E_WARNING);
   }
 
   function load() {

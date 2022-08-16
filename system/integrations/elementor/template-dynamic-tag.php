@@ -31,7 +31,7 @@ class Template_DynamicTag extends \Elementor\Core\DynamicTags\Tag {
     $this->add_control(
       'template',
       [
-        'label'   => __( 'Choose one', 'tangible-loops-and-logic' ),
+        'label'   => __( 'Choose one', 'tangible-template-system' ),
         'type'    => \Elementor\Controls_Manager::SELECT,
         'default' => array_keys( $options )[0], // At least one option exists even if no templates
         'options' => $options,
@@ -45,9 +45,30 @@ class Template_DynamicTag extends \Elementor\Core\DynamicTags\Tag {
 
     if (empty( $id )) return;
 
-    $post = get_post( $id );
+    // Ensure default loop context with current post
+    global $post;
 
-    echo self::$plugin->render_template_post( $post );
+    $loop = self::$plugin->loop;
+
+    $did_push_default_context = false;
+
+    if (!empty($post)) {
+      $did_push_default_context = true;
+      $loop->push_context(
+        $loop($post->post_type, [
+          'id' => $post->ID
+        ])
+      );
+      // Prevent infinite loop by not displaying post content inside content
+      $loop->currently_inside_post_content_ids []= $post->ID;
+    }
+
+    $template = get_post( $id );
+    echo self::$plugin->render_template_post( $template );
+
+    if ($did_push_default_context) {
+      array_pop($loop->currently_inside_post_content_ids);
+    }
   }
 }
 

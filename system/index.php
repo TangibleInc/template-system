@@ -5,7 +5,7 @@ new class {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20220813';
+  public $version = '20220815';
   public $url;
 
   public $is_plugin = false;
@@ -32,10 +32,7 @@ new class {
       return call_user_func_array( $this->$method, $args );
     }
     $caller = current( debug_backtrace() );
-    trigger_error(
-      "Warning: Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>",
-      E_WARNING
-    );
+    trigger_error("Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>", E_WARNING);
   }
 
   function load() {

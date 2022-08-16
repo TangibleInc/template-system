@@ -12,7 +12,10 @@
  * - Register script and style under tangible-{$module-name}
  */
 
+$html->module_loader_script_registered = false;
+
 $html->register_module_loader_script = function() use ( $html ) {
+  $html->module_loader_script_registered = true;
   wp_register_script(
     'tangible-module-loader',
     "{$html->url}module-loader/build/module-loader.min.js",
@@ -40,6 +43,9 @@ $html->enqueue_module_loader = function() use ( $html, $interface ) {
 
   if ($html->module_loader_enqueued) return;
   $html->module_loader_enqueued = true;
+  if (!$html->module_loader_script_registered) {
+    $html->register_module_loader_script();
+  }
 
   wp_enqueue_script('tangible-module-loader');
 };

@@ -53,7 +53,7 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
       'html',
       [
                 'type'       => Template_Editor_Control::CONTROL_TYPE,
-        'label'              => __( 'HTML', 'tangible-loops-and-logic' ),
+        'label'              => __( 'HTML', 'tangible-template-system' ),
                 'default'    => '',
                 'show_label' => false,
         'condition'          => [ 'toggle-type' => 'editor' ],
@@ -82,10 +82,28 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
 
     $settings = $this->get_settings_for_display();
 
+    // Ensure default loop context with current post
+    global $post;
+
+    $loop = self::$plugin->loop;
+
+    $did_push_default_context = false;
+
+    if (!empty($post)) {
+      $did_push_default_context = true;
+      $loop->push_context(
+        $loop($post->post_type, [
+          'id' => $post->ID
+        ])
+      );
+      // Prevent infinite loop by not displaying post content inside content
+      $loop->currently_inside_post_content_ids []= $post->ID;
+    }
+
     if ( ! empty( $settings['template'] ) ) {
 
-      $post = get_post( $settings['template'] );
-      echo self::$plugin->render_template_post( $post );
+      $template = get_post( $settings['template'] );
+      echo self::$plugin->render_template_post( $template );
 
     } elseif ( ! empty( $settings['html'] ) ) {
 
@@ -94,6 +112,10 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
     } else {
       // White space prevents widget preview from collapsing
       echo ' ';
+    }
+
+    if ($did_push_default_context) {
+      array_pop($loop->currently_inside_post_content_ids);
     }
   }
 
