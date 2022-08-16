@@ -807,6 +807,11 @@ class PostLoop extends BaseLoop {
 
     } elseif (isset($query_args['orderby_field_number'])) {
 
+      /**
+       * Order by custom field whose value is number or date in format "yyyymmdd"
+       * Otherwise, use sort_field and sort_type=date, supported in BaseLoop
+       */
+
       $field = $query_args['orderby_field_number'];
       unset($query_args['orderby_field_number']);
 
@@ -1096,6 +1101,21 @@ class PostLoop extends BaseLoop {
       ];
 
     } // End query by custom field
+
+    /**
+     * Custom query parameters
+     */
+    if (isset($this->args['custom_query'])) {
+
+      $custom_query = $this->args['custom_query'];
+      if (is_string($custom_query)) {
+        $custom_query = self::$html->hjson()->parse( $custom_query );
+      }
+
+      if (is_array($custom_query)) {
+        $query_args = array_merge($query_args, $custom_query);
+      }
+    }
 
     // tgbl()->see( $query_args );
 

@@ -71,6 +71,7 @@ $html->map_key_tag = function( $atts, $nodes ) use ( $html ) {
 
 $html->map_tag = function( $atts, $nodes ) use ( $html ) {
 
+  if (!isset($atts['keys'])) $atts['keys'] = [];
   $name = isset( $atts['name'] ) ? $atts['name'] : array_shift( $atts['keys'] );
 
   // Create map

@@ -4,6 +4,7 @@
  */
 
 // These define their own tags
+require_once __DIR__ . '/comment/index.php';
 require_once __DIR__ . '/content/index.php';
 require_once __DIR__ . '/context.php';
 require_once __DIR__ . '/exit.php';
@@ -53,7 +54,7 @@ foreach ( [
 }
 
 /**
- * Raw tags with unrendered content
+ * Raw tags - With unrendered content
  */
 foreach ( [
   // These filter native HTML tags for enqueue

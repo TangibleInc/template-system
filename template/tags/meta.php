@@ -160,7 +160,7 @@ $html->render_scheduled_meta = function( $buffer = false ) use ( $html ) {
   echo $rendered;
 };
 
-$html->schedule_meta = function( $name, $atts = [] ) use ( $html ) {
+$html->schedule_meta = function( $name, $atts = [], $overwrite = true ) use ( $html ) {
 
   if ( is_array( $name ) ) {
     $atts = $name;
@@ -179,7 +179,10 @@ $html->schedule_meta = function( $name, $atts = [] ) use ( $html ) {
     }
 
     $html->scheduled_meta_tags['raw'] [] = $atts;
-  } else {
+  } elseif (
+    !isset($html->scheduled_meta_tags[ $name ])
+    || $overwrite
+  ) {
     $html->scheduled_meta_tags[ $name ] = $atts;
   }
 

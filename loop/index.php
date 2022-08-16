@@ -53,10 +53,6 @@ return tangible_loop(new class {
     require_once __DIR__ . '/utils/index.php';
     require_once __DIR__ . '/context/index.php';
 
-    require_once __DIR__ . '/type/index.php';
-    require_once __DIR__ . '/types/index.php';
-    require_once __DIR__ . '/field/index.php';
-
     add_action('plugins_loaded', function() use ( $loop ) {
 
       /**
@@ -65,6 +61,10 @@ return tangible_loop(new class {
        */
       $loop->html = tangible_template();
       $loop->date = tangible_date();
+
+      require_once __DIR__ . '/type/index.php';
+      require_once __DIR__ . '/types/index.php';
+      require_once __DIR__ . '/field/index.php';
 
       require_once __DIR__ . '/types/calendar/index.php';
 

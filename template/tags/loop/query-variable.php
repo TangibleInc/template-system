@@ -11,9 +11,26 @@ $html->register_variable_type('query', [
 
     unset( $atts['query'] ); // Don't pass variable name
 
-    $loop_instance = $html->loop_tag($atts + [
+    $loop_atts = $atts + [
       'instance' => true,
-    ], []);
+    ];
+
+    if (!empty($content)) {
+      // Create a map and merge into loop attributes
+      $html->render([
+        [
+          'tag' => 'Map',
+          'attributes' => [ 'name' => '_query' ],
+          'children' => $content
+        ]
+      ]);
+      $custom_query = $html->get_map('_query');
+      if (is_array($custom_query) && !empty($custom_query)) {
+        $loop_atts = array_merge($loop_atts, $custom_query);
+      }
+    }
+
+    $loop_instance = $html->loop_tag($loop_atts, []);
 
     $memory[ $name ] = &$loop_instance;
 
