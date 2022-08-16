@@ -57,7 +57,7 @@ $plugin->render_assets_documentation = function() use ( $plugin ) {
 
   <h3>Use assets from stylesheet</h3>
 
-  <p>Each asset is available as a Sass variable, with prefix <code>asset_</code> followed by the asset name.</p>
+  <p>Each asset is available as a local Sass variable, with prefix <code>asset_</code> followed by the asset name.</p>
 
   <p>If the name is "example", it can be accessed as <code>$asset_example</code>.</p>
   <p>It is a map, so you can use <code>map-get()</code> to get an asset field.</p>
@@ -68,7 +68,7 @@ $plugin->render_assets_documentation = function() use ( $plugin ) {
 
   <h3>Use assets from script</h3>
 
-  <p>Each asset is available as a JavaScript variable, with prefix <code>asset_</code> followed by the asset name.</p>
+  <p>Each asset is available as a local JavaScript variable, with prefix <code>asset_</code> followed by the asset name.</p>
 
   <p>If the name contains a dash <code>-</code>, it will be replaced with underscore <code>_</code>.</p>
 

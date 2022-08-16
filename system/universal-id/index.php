@@ -25,23 +25,23 @@
  * For backward compatibility, blocks fall back to use post ID (internally called
  * "content_id") if universal ID doesn't exist.
  *
- * @see /includes/template/controls/data.php, get_block_data()
+ * @see /system/template/controls/data.php, get_block_data()
  *
- * @see /includes/integrations/beaver/dynamic/utils.php
- * @see /includes/integrations/beaver/dynamic/tangible-base/tangible-base.php
+ * @see /system/integrations/beaver/dynamic/utils.php
+ * @see /system/integrations/beaver/dynamic/tangible-base/tangible-base.php
  *
- * @see /includes/integrations/elementor/dynamic/widgets/base.php
- * @see /includes/integrations/elementor/dynamic/widgets/utils.php
+ * @see /system/integrations/elementor/dynamic/widgets/base.php
+ * @see /system/integrations/elementor/dynamic/widgets/utils.php
  *
- * @see /includes/integrations/gutenberg/dynamic/utils.php
+ * @see /system/integrations/gutenberg/dynamic/utils.php
  *
  * ---
  *
  * Universal ID is used during template import process to check if the same
  * template exists on the site already.
  *
- * @see /includes/template/fields.php
- * @see /includes/template/import-export/import.php, export.php
+ * @see /system/template/fields.php
+ * @see /system/template/import-export/import.php, export.php
  *
  * This is also relevant for Tangible Cloud, where sites can export/import templates.
  */

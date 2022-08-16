@@ -4,12 +4,12 @@
  */
 
 $plugin->template_post_types = apply_filters('tangible_template_post_types', [
-  'tangible_template',
-  'tangible_style',
-  'tangible_script',
-  'tangible_layout',
+  'tangible_block',
   'tangible_content',
-  'tangible_block'
+  'tangible_layout',
+  'tangible_script',
+  'tangible_style',
+  'tangible_template'
 ]);
 
 /**
@@ -46,6 +46,13 @@ add_action('init', function() use ( $plugin ) {
   ]);
 
   $plugin->register_template_post_type([
+    'post_type'   => 'tangible_layout',
+    'single'      => 'Layout',
+    'plural'      => 'Layouts',
+    'description' => 'Layouts for Tangible Template System',
+  ]);
+
+  $plugin->register_template_post_type([
     'post_type'   => 'tangible_style',
     'single'      => 'Style',
     'plural'      => 'Styles',
@@ -57,13 +64,6 @@ add_action('init', function() use ( $plugin ) {
     'single'      => 'Script',
     'plural'      => 'Scripts',
     'description' => 'Scripts for Tangible Template System',
-  ]);
-
-  $plugin->register_template_post_type([
-    'post_type'   => 'tangible_layout',
-    'single'      => 'Layout',
-    'plural'      => 'Layouts',
-    'description' => 'Layouts for Tangible Template System',
   ]);
 
   // TODO: Content structure templates

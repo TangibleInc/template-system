@@ -5,7 +5,7 @@ new class {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20220808';
+  public $version = '20220813';
   public $url;
 
   public $is_plugin = false;
@@ -14,8 +14,7 @@ new class {
     $name     = $this->name;
     $priority = 99999999 - absint( $this->version );
 
-    // Ensure single instance of version
-    remove_all_actions( $name, $priority );
+    remove_all_actions( $name, $priority ); // Ensure single instance of version
     add_action( $name, [ $this, 'load' ], $priority );
 
     add_action('plugins_loaded', function() use ( $name ) {
@@ -33,7 +32,10 @@ new class {
       return call_user_func_array( $this->$method, $args );
     }
     $caller = current( debug_backtrace() );
-    echo "Warning: Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>";
+    trigger_error(
+      "Warning: Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>",
+      E_WARNING
+    );
   }
 
   function load() {

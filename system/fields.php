@@ -99,5 +99,10 @@ $plugin->get_template_fields = function( $post ) use ( $plugin ) {
     $fields[ $field_name ] = $value;
   }
 
+  /**
+   * Keep post order to ensure template location rules are applied in the correct order
+   */
+  $fields['menu_order'] = $post->menu_order;
+
   return $fields;
 };
