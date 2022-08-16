@@ -188,6 +188,16 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
     }
   }
 
+  $field_atts = $atts;
+
+  // Exclude these to prevent recursion in Field tag
+  foreach ( [
+    'name',
+    'type',
+  ] as $key ) {
+    unset( $field_atts[ $key ] );
+  }
+
   /**
    * Loop type shortcut - Get a field from new loop
    */
@@ -211,16 +221,7 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
 
       $loop_atts[ $loop_type_key ] = $atts[ $loop_type_key ];
 
-      $field_atts = $atts;
-
-      // Exclude these to prevent recursion in Field tag
-      foreach ( [
-        'name',
-        'type',
-        $loop_type_key,
-      ] as $key ) {
-        unset( $field_atts[ $key ] );
-      }
+      unset( $field_atts[ $loop_type_key ] );
     }
 
     $current_loop = $html->loop_tag([
@@ -268,10 +269,11 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
 
     $subfield = isset( $atts['field'] ) ? $atts['field'] : '';
 
+
     $acf_field_options = [
       // Format for display, instead of raw value
       'display'        => empty( $subfield ) && $format_type !== 'date',
-      'tag_attributes' => $atts,
+      'tag_attributes' => $field_atts,
     ];
 
     if ( isset( $atts['from'] ) ) {
@@ -290,7 +292,7 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
         if ( $current_loop->has_next() ) {
 
           $current_loop->next();
-          $value = $current_loop->get_field( $subfield );
+          $value = $current_loop->get_field( $subfield, $field_atts );
           $current_loop->reset();
 
         } else {
@@ -314,6 +316,7 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
         $value = null;
       }
     }
+
   } else {
 
     /**

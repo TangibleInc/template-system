@@ -78,10 +78,10 @@ $loop->get_attachment_field = function( $attachment, $field_name, $args = [] ) u
 
         $image_size = $args['size'];
         $sources    = wp_get_attachment_image_src( $id, $image_size );
-
         if ( isset( $sources[0] ) ) {
           $value = $sources[0];
         }
+
       } else {
         // Full size
         $value = wp_get_attachment_url( $id );
