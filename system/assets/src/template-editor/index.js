@@ -2,6 +2,34 @@
  * Editor for template post type
  */
 
+/**
+ * Remember state in local storage
+ */
+
+const memoryKey = 'tangibleTemplateEditorState'
+
+const memory = Object.assign({
+  tab: undefined // Default tab
+}, getMemory() || {})
+
+function setMemory(state) {
+  if (!window.localStorage) return
+  window.localStorage.setItem(memoryKey, JSON.stringify(state))
+  Object.assign(memory, state)
+}
+
+function getMemory() {
+  if (!window.localStorage) return
+  let state = window.localStorage.getItem(memoryKey)
+  if (!state) return
+  try {
+    state = JSON.parse(state)
+    return state
+  } catch (e) {
+    /* Ignore */
+  }
+}
+
 jQuery(function ($) {
   const $postForm = $('#post')
 
@@ -184,22 +212,22 @@ jQuery(function ($) {
    */
   if (!templateMeta.isNewPost && templateMeta.postStatus === 'publish') {
 
-/**
- * Disable AJAX save until following issues are resolved:
- *
- * - AJAX nonce expiring
- * - Sometimes the post slug not saving?
- * - Sometimes there's a confirmation dialog "information you've entered may not be saved"
- */
+    /**
+     * Disable AJAX save until following issues are resolved:
+     *
+     * - AJAX nonce expiring
+     * - Sometimes the post slug not saving?
+     * - Sometimes there's a confirmation dialog "information you've entered may not be saved"
+     */
 
-/*
-    $publishButton.on('click', function (e) {
-      e.preventDefault()
-      save()
-    })
-*/
+    /*
+        $publishButton.on('click', function (e) {
+          e.preventDefault()
+          save()
+        })
+    */
 
-// window.onbeforeunload = function() {}
+    // window.onbeforeunload = function() {}
 
   }
 
@@ -292,8 +320,8 @@ jQuery(function ($) {
       const $tabEditor = $tab.find('[data-tangible-template-editor-type]')
       const editorInstance = $tabEditor.length
         ? editorInstances[
-            $tabEditor.attr('name') // By field name
-          ]
+        $tabEditor.attr('name') // By field name
+        ]
         : false
 
       if (!tabEditorActivated[index]) {
@@ -308,11 +336,17 @@ jQuery(function ($) {
       if (editorInstance) {
         editorInstance.focus()
       }
+
+      setMemory({
+        tab: $tabSelector.data('tabName'),
+        postId
+      })
+
     }) // End for each tab selector
   }) // End on click tab selector
 
   /**
-   * For development: Set default tab from URL query parameter
+   * Set default tab from URL query parameter
    */
 
   const query = window.location.search
@@ -324,17 +358,20 @@ jQuery(function ($) {
       return obj
     }, {})
 
-  if (query.tab) {
+  const gotoTab = query.tab || (memory.postId===postId && memory.tab)
+
+  if (gotoTab) {
     // Switch to tab
 
     const $activeTabSelector = $tabSelectors.filter(
-      `[data-tab-name="${query.tab}"]`
+      `[data-tab-name="${gotoTab}"]`
     )
 
     if ($activeTabSelector.length) {
       $activeTabSelector.eq(0).click()
     } else {
-      console.warn('Tab not found', query.tab)
+      // Ignore if tab not found
+      // console.log('Tab not found', gotoTab)
     }
   }
 })
