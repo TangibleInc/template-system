@@ -303,7 +303,7 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
 
     case 'multi_select':
     case 'checkbox':
-        return $display ? $value : $loop( 'list', $value );
+        return $display ? $value : $loop( 'list', is_array($value) ? $value : [$value] );
 
     case 'true_false':
         return $display ? ( ! empty( $value ) ? 'TRUE' : '' ) : ! empty( $value );
