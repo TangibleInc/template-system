@@ -76,6 +76,9 @@ class TemplateEditor extends Component {
       resizable: true,
     })
 
+    // Full height - Prevent width resize, scroll instead
+    editor.setSize(null, '100%')
+
     // editor.focus() // Don't focus, since there can be multiple Template blocks
 
     this.editor = editor
@@ -214,18 +217,20 @@ class edit extends Component {
           </ToolbarGroup>
         </BlockControls>
 
-        {currentTab === 'preview' ? (
+        {currentTab === 'preview' ?
+          /**
+           * Note: Ensure props are "equal" on every render - for example,
+           * don't create new function here - because it fetches on prop change.
+           */
           <ServerSideRender
             block="tangible/template"
             className={className}
             attributes={attributes}
             EmptyResponsePlaceholder={EmptyTemplate}
             LoadingResponsePlaceholder={EmptyTemplate}
-            onFetchResponseRendered={el => {
-              moduleLoader(el)
-            }}
+            onFetchResponseRendered={moduleLoader}
           />
-        ) : this.canEditTemplate && currentTab === 'editor' ? (
+        : this.canEditTemplate && currentTab === 'editor' ? (
           <TemplateEditor
             value={attributes.template}
             onChange={(val) =>
