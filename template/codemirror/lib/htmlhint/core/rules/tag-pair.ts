@@ -11,7 +11,7 @@ export default {
     ) //HTML 4.01 + HTML 5
 
     parser.addListener('tagstart', (event) => {
-      const tagName = event.tagName.toLowerCase()
+      const tagName = event.tagName // .toLowerCase()
       if (mapEmptyTags[tagName] === undefined && !event.close) {
         stack.push({
           tagName: tagName,
@@ -22,7 +22,7 @@ export default {
     })
 
     parser.addListener('tagend', (event) => {
-      const tagName = event.tagName.toLowerCase()
+      const tagName = event.tagName // .toLowerCase()
 
       // Look up the matching start tag
       let pos
