@@ -46,12 +46,12 @@ foreach ($plugin->template_post_types_with_location as $post_type) {
         $value = null;
 
         try {
-          $location = get_post_meta( $post_id , 'location' , true );
-          if (is_string($location)) {
-            $value = json_decode( $location, true );
+          $value = get_post_meta( $post_id , 'location' , true );
+          if (is_string($value)) {
+            $value = json_decode( $value, true );
           }
         } catch (\Throwable $e) {
-          // OK
+          $value = null;
         }
 
         if (empty($value) || empty($value['description'])) {
