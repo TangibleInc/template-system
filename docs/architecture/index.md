@@ -1,6 +1,6 @@
 # Architecture
 
-The Template System is made of the following sub-modules.
+The template system is made of the following sub-modules.
 
 These used to be separate repositories, but are now consolidated for ease of development and cross-integration.
 
