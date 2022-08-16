@@ -171,7 +171,7 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
              * Clear any cached field values
              * @see ../save.php, maybe_save_style_compiled()
              */
-            $fields['style_compiled'] = '';
+            $fields['style_compiled'] = false;
           }
         } // Found existing post(s) with same name
       } // Not keep both
@@ -278,6 +278,10 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
         'meta_input'   => $fields,
       ];
 
+      if ($menu_order !== false) {
+        $post_data['menu_order'] = $menu_order;
+      }
+
       $post_id = wp_insert_post( $post_data );
 
       if ( empty( $post_id ) || is_wp_error( $post_id ) ) {
@@ -292,10 +296,18 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
       $result['old_to_new_id'][ $old_id ] = $post_id;
 
       /**
-       * Give post a new universal ID if it's a duplicate
+       * Duplicate post must be given a new universal ID
        */
       if ( $handle_duplicates === 'keep_both' && ! empty( $fields['universal_id'] ) ) {
         $plugin->set_universal_id( $post_id );
+      }
+
+      /**
+       * When overwriting existing template, any cached field values like compiled CSS must cleared
+       * @see ../save.php, maybe_save_style_compiled()
+       */
+      if ( $handle_duplicates === 'overwrite' && $fields['style_compiled'] === false ) {
+        delete_post_meta( $post_id, 'style_compiled' );
       }
 
       /**
