@@ -247,6 +247,20 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
       } // Has assets
 
       /**
+       * Keep post order, internally called "menu_order"
+       *
+       * This is a special field, like "post_name", which can't be updated as
+       * custom field using udpate_post_meta().
+       */
+
+      $menu_order = false;
+
+      if (isset($fields['menu_order'])) {
+        $menu_order = $fields['menu_order'];
+        unset($fields['menu_order']);
+      }
+
+      /**
        * Create/update post
        *
        * @see https://developer.wordpress.org/reference/functions/wp_insert_post/#parameters

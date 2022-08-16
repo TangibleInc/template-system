@@ -1,7 +1,7 @@
 /**
  * Template import/export
  *
- * @see /includes/template/import-export/ajax.php, view.php
+ * @see /template/import-export/ajax.php, view.php
  */
 
 import Importer from './Importer'

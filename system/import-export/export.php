@@ -75,7 +75,7 @@ $plugin->export_templates = function($data) use ($plugin) {
     $query_args = [
       'post_type' => $post_type,
       'posts_per_page' => -1,
-      'orderby' => 'title',
+      'orderby' => 'menu_order',
       'order' => 'ASC',
 
       'ignore_sticky_posts' => true,
@@ -104,14 +104,14 @@ $plugin->export_templates = function($data) use ($plugin) {
 
       /**
        * Get all template fields
-       * @see /includes/template/fields.php
+       * @see ../fields.php
        */
       $fields = $plugin->get_template_fields( $post_id );
 
       /**
        * Export assets as base64 string
        *
-       * TODO: Consider using ZIP format to export a bundle of files
+       * TODO: Use ZIP format to export a bundle of files
        */
       if (!empty($fields['assets']) && is_array($fields['assets'])) {
 
