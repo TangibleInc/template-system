@@ -7,8 +7,7 @@
     "deployType": "module"
   },
   "scripts": {
-    "--- Modules: admin, interface, logic, loop, template": "",
-    "--- Run commands below with name of module, like: npm run build admin": "",
+    "--- Commands below can be run with module name, like: npm run build admin": "",
     "dev": "roll dev",
     "build": "roll build",
     "format": "roll format",
