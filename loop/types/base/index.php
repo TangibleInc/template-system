@@ -33,6 +33,7 @@ class BaseLoop implements BaseLoopInterface {
 
   // Latest version instance of tangible_loop()
   static $loop;
+  static $html;
 
   // Required config
   static $config = [
@@ -599,8 +600,29 @@ class BaseLoop implements BaseLoopInterface {
       switch ( $sort_type ) {
 
         case 'date':
-          $a_value = strtotime( $a_value );
-          $b_value = strtotime( $b_value );
+
+          if (isset($this->args['sort_date_format'])) {
+
+            // Convert from date format using Date module
+            $format = $this->args['sort_date_format'];
+            try {
+              $a_value = self::$loop->date()
+                ->createFromFormat( $format, $a_value )
+                ->format( 'U' );
+              $b_value = self::$loop->date()
+                ->createFromFormat( $format, $b_value )
+                ->format( 'U' );
+
+            } catch ( \Throwable $th ) {
+              $a_value = 0;
+              $b_value = 0;
+            }
+
+          } else {
+            $a_value = strtotime( $a_value );
+            $b_value = strtotime( $b_value );
+          }
+
           // Fall through
 
         case 'number':
@@ -676,5 +698,9 @@ class BaseLoop implements BaseLoopInterface {
 
 }
 
-// Pass Loop module instance to all child classes
+/**
+ * Provide Loop and Template module instances as static properties of all loop type classes
+ */
+
 BaseLoop::$loop = $loop; // tangible_loop()
+BaseLoop::$html = $loop->html; // tangible_template()
