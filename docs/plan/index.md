@@ -33,8 +33,15 @@
   <Field acf_image=cc_taxonomy_image field=url size=medium />
   ```
 
+- [x] PHP 8.1 compatibility - Deprecation warnings in plugin framework
+
+
 <a name=features></a>
 ### Features 
+
+- [x] [A way to copy template ID from template archive screen](https://app.clickup.com/t/2t28jt9)
+
+  - [x] Move Sortable Post Type library from framework
 
 - [ ] Dynamic module assets loader
   - [ ] chart
@@ -46,13 +53,13 @@
   - [x] slider
   - [ ] table
 
-- [ ] [Add orderby_field_date as loop query parameter](https://app.clickup.com/t/mryg89)
+- [x] [Add orderby_field_date as loop query parameter](https://app.clickup.com/t/mryg89) (Not added)
 
-  Use orderby_field_number for format "yyyymmdd", or sort
+  Use `orderby_field_number` for format "yyyymmdd", or sort
 
   https://loop.tangible.one/tags/loop/filter#sort-by-field
 
-  - [ ] Support `date_format` attribute for sort by field when using sort_type=date
+  - [x] Support `sort_date_format` attribute for sort by field when using `sort_type=date`
 
     `/loop/types/base/index.php` sort_by_field()
 
@@ -63,9 +70,15 @@
   <div tag-attributes="selected">
   ```
 
-- [ ] [A way to set any arbitrary query parameter for WP_Query](https://app.clickup.com/t/2epyw36)
+- [x] [A way to set any arbitrary query parameter for WP_Query](https://app.clickup.com/t/2epyw36)
 
-  Post loop: Support `custom_query` parameter
+  Post loop: Add `custom_query` parameter
+
+  ```html
+  <Loop type=post custom_query="{ parameter: 1 }">
+  ```
+
+- [ ] Local variables in nested templates
 
 - [ ] [Taxonomy term loop: Order by random](https://app.clickup.com/t/2epyw3d)
 
@@ -115,7 +128,7 @@
 
 - [x] [Restore current tab after save and page reload](https://app.clickup.com/t/2qaj91n)
 
-- [ ] Remember and restore editor height when template editor resized
+- [x] Template editor keeps full height of template
 
 - [ ] [Option to see editor and preview side-by-side](https://app.clickup.com/t/2qajc6d)
 
@@ -143,7 +156,7 @@
 
   - [ ] Export single template from its edit screen
 
-  - [ ] Export/import tangible-export-config.json
+  - [ ] Export/import export config JSON
 
   - [ ] Sync: Push/pull templates between sites, including locally hosted
 
@@ -175,14 +188,43 @@
   - first/last
   - next/previous
 
-  - Text `First Previous 1 2 3 4 5 Next Last`
-  - Icons `<< < 1 2 3 4 5 > >>`
+  - Text: `First Previous 1 2 3 4 5 Next Last`
+  - Icons: `<< < 1 2 3 4 5 > >>`
 
-  - ? What attributes we should add to the PaginateButtons tags to make this the most flexible
+  - ? What attributes we should add to the `PaginateButtons` tags to make this the most flexible
 
-- Option to update the URL on page navigation
-- Support using Paginate Buttons before the loop
-- Option to load more posts (automatically or by button)
+    ```html
+    <PaginateButtons name=loop_name>     
+      <PaginateButton type=first />
+      <PaginateButton type=previous><i class="chevron-left"></i> Previous Page</PaginateButton>
+      <ul>
+        <Loop type=paginate_pages>
+          <li><PaginateButton type=page>Page <Get loop=count /></PaginateButton><li>
+        </Loop>
+      </ul>
+      <PaginateButton type=next />
+      <PaginateButton type=last>My last page text</PaginateButton>
+    </PaginateButtons>
+    ```
+
+    It would be fantastic if users could
+    
+    - Create multiple pieces of pagination (before and after loops), associated with loops via some kind of **unique name**
+
+    ```html
+    <PaginateButtons name=loop_name> 
+      <ul>
+        <PaginateButton type=page>
+          <li>Page <Field page_number /></li>
+        </PaginateButton>
+      </ul>
+    </PaginateButtons>
+    ```
+
+- [ ] Support using PaginateButtons **before** the loop
+- [ ] Option to update the URL on page navigation
+- [ ] Option to load more posts (automatically or by button)
+
 
 <a name=slider></a>
 
@@ -204,7 +246,10 @@
 
 ### Beaver Integration
 
-- [ ] [Issue with Beaver Builder preview and current post](https://app.clickup.com/t/2epyw3b)
+- [x] [Issue with Beaver Builder preview and current post](https://app.clickup.com/t/2epyw3b)
+
+- [x] Themer layout: Set default loop context of template to current post, not current layout
+
 
 - [ ] [Issues when using templates in a Custom Post Layout in Beaver Themer](https://app.clickup.com/t/2f7jgrg)
 
@@ -240,7 +285,7 @@
 
 ### Elementor Integration
 
-- [ ] [L&L code editor not appearing in Elementor](https://app.clickup.com/t/2k5gumm)
+- [x] [L&L code editor not appearing in Elementor](https://app.clickup.com/t/2k5gumm)
 
 
 <a name=documentation></a>
@@ -261,7 +306,7 @@
 
   - [ ] Does Field excerpt auto=true always display an auto-generated excerpt, or only when there isn't a manual excerpt?
 
-  - [ ] What's the difference between a module and a tag?
+  - [x] What's the difference between a module and a tag?
     
     A "feature module", such as the Table or Chart module, usually includes a PHP/JS/CSS library, with one main tag and sometimes local tags inside it.
 
@@ -269,7 +314,8 @@
 
     From: 
 
-  - [ ] Loop features -> Query: rename this page to "Filter"
+  - [ ] Loop -> Query
+    - [x] Rename page to "Filter"
 
     - [ ] Explain how it works internally, the performance implications of doing filter/sort by field after query, and showing how to do them as direct queries where possible
 
