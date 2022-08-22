@@ -1,0 +1,14 @@
+
+/* Show cursor move except when Quick Edit is open */
+.ui-sortable tr:not(.quick-edit-row):hover {
+	cursor: move;
+}
+.ui-sortable tr.ui-sortable-helper {
+
+  /* This ensures table row displays correctly while being dragged */
+  display: table;
+
+	background-color: #F9F9F9;
+	border-top: 1px solid #DFDFDF;
+	border-bottom: 1px solid #DFDFDF;
+}

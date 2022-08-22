@@ -15,9 +15,9 @@ foreach ($plugin->template_post_types as $post_type) {
 
   /**
    * Make template post type sortable by drag-and-drop
-   * @see vendor/tangible/plugin-framework/modules/sortable-post-type
+   * @see ./sortable-post-type
    */
-  $framework->register_sortable_post_type( $post_type );
+  $plugin->register_sortable_post_type( $post_type );
 
   /**
    * Increase posts per page
@@ -86,8 +86,10 @@ foreach ($plugin->template_post_types as $post_type) {
           >&bigstar;</a>
         <?php
       }
-
-      echo esc_html($post_id);
+      ?><a title="Post ID: <?php echo esc_attr($post_id); ?>">
+        <?php echo esc_html($post_id); ?>
+      </a>
+      <?php
     }
 
   }, 10, 2);
