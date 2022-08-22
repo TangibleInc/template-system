@@ -141,3 +141,45 @@ $loop->get_default_context = function() use ($loop) {
 
 $loop->get_current = $loop->get_context;
 $loop->get_previous = $loop->get_last_context;
+
+/**
+ * Current post context
+ * 
+ * This ensures the current post is the default loop context in shortcodes and page builder previews.
+ * 
+ * It's needed to handle situations where the default loop context can be incorrectly set to
+ * the builder's template or theme layout, as well as inside builder-specific post loops.
+ * 
+ * Caller must make a corresponding call to $loop->pop_current_post_context().
+ * 
+ * @see /system/tag.php, template shortcode
+ * @see /system/integrations/gutenberg/blocks.php
+ * @see /system/integrations/beaver/modules/tangible-template/includes/frontend.php
+ * @see /system/integrations/elementor/template-editor-widget.php
+ */
+$loop->push_current_post_context = function($given_post = false) use ($loop) {
+
+  if ($given_post===false) {
+    global $post;
+    $given_post = &$post;
+  }
+
+  if (empty($given_post)) {
+    // In case there's no current post
+    $loop->currently_inside_post_content_ids []= 0;
+    return;
+  }
+
+  $id = $given_post->ID;
+  $type = $given_post->post_type;
+
+  $loop->push_context(
+    $loop($type, [ 'id' => $id ])
+  );
+
+  $loop->currently_inside_post_content_ids []= $id; // Prevent infinite loop
+};
+
+$loop->pop_current_post_context = function() use ($loop) {
+  array_pop($loop->currently_inside_post_content_ids);
+};

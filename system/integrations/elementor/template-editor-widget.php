@@ -81,24 +81,13 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
   protected function render() {
 
     $settings = $this->get_settings_for_display();
-
-    // Ensure default loop context with current post
-    global $post;
-
     $loop = self::$plugin->loop;
 
-    $did_push_default_context = false;
-
-    if (!empty($post)) {
-      $did_push_default_context = true;
-      $loop->push_context(
-        $loop($post->post_type, [
-          'id' => $post->ID
-        ])
-      );
-      // Prevent infinite loop by not displaying post content inside content
-      $loop->currently_inside_post_content_ids []= $post->ID;
-    }
+    /**
+     * Ensure default loop context is set to current post
+     * @see /loop/context/index.php
+     */
+    $loop->push_current_post_context();
 
     if ( ! empty( $settings['template'] ) ) {
 
@@ -114,9 +103,7 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
       echo ' ';
     }
 
-    if ($did_push_default_context) {
-      array_pop($loop->currently_inside_post_content_ids);
-    }
+    $loop->pop_current_post_context();
   }
 
 }

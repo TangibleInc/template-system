@@ -104,7 +104,20 @@ $html->add_closed_tag('Template', $plugin->template_tag_and_shortcode);
 /**
  * [template] shortcode
  */
-add_shortcode('template', $plugin->template_tag_and_shortcode);
+add_shortcode('template', function($atts, $content) use ($plugin, $loop, $html) {
+
+  /**
+   * Ensure default loop context is set to current post
+   * @see /loop/context/index.php
+   */
+  $loop->push_current_post_context();
+
+  $content = $plugin->template_tag_and_shortcode($atts, $content);
+
+  $loop->pop_current_post_context();
+
+  return $content;
+});
 
 /**
  * Alias under tangible_template()

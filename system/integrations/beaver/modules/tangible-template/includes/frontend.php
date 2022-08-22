@@ -1,17 +1,41 @@
+<?php
 
-<div>
+if (!class_exists('FLBuilderModel')
+  || !function_exists('tangible_template_system')
+) return;
 
-  <?php
+?><div><?php
+
+  /**
+   * When inside Beaver Builder preview
+   * 
+   * - FLBuilderModel::is_builder_active()
+   * - FLBuilderModel::get_post_id() - Template or theme layout ID
+   * - FLBuilderAJAX::doing_ajax()
+   * @see bb-plugin/classes/class-fl-builder.php, FLBuilder::init_ui()
+   */
+
+  $template_system = tangible_template_system();
+  $loop = $template_system->loop;
+  $html = $template_system->html;
+
+  /**
+   * Ensure default loop context is set to current post
+   * @see /loop/context/index.php
+   */
+  $loop->push_current_post_context();
+
   if ( $settings->toggle_type == 'editor' ) {
 
-    echo tangible_template( $settings->html );
+    echo $html->render_with_catch_exit( $settings->html );
 
   } elseif ( ! empty( $settings->saved_template ) ) {
 
     $post = get_post( $settings->saved_template );
 
-    echo tangible_template_system()->render_template_post( $post );
+    echo $template_system->render_template_post( $post );
   }
-  ?>
 
+  $loop->pop_current_post_context();
+?>
 </div>

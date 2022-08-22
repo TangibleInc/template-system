@@ -35,6 +35,12 @@ add_action( 'init', function() use ( $plugin, $html, $loop ) {
          */
         $plugin->start_disable_links_inside_gutenberg_editor();
 
+        /**
+         * Ensure default loop context is set to current post
+         * @see /loop/context/index.php
+         */
+        $loop->push_current_post_context();
+
         if ( ! empty( $attr['template_selected'] ) ) {
 
           $post    = get_post( $attr['template_selected'] );
@@ -43,33 +49,23 @@ add_action( 'init', function() use ( $plugin, $html, $loop ) {
         } else {
 
           /**
-           * Set current post as default loop context
+           * Ensure default loop context is set to current post
            * @see /loop/context/index.php
-           * @see /loop/types/post/field.php
            */
-          $should_set_default_context = $plugin->is_inside_gutenberg_editor() && isset($attr['current_post_id']);
-          if ($should_set_default_context) {
-
-            $post = get_post( $attr['current_post_id'] );
-            $loop->push_context(
-              $loop($post->post_type, [
-                'id' => $post->ID
-              ])
-            );
-
-            // Prevent infinite loop by not displaying post content inside content
-            $loop->currently_inside_post_content_ids []= $post->ID;
+          if ($plugin->is_inside_gutenberg_editor()
+            && isset($attr['current_post_id'])
+            && !empty($post = get_post( $attr['current_post_id'] ))
+          ) {
+            $loop->pop_current_post_context();
+            $loop->push_current_post_context($post);
           }
 
           ob_start();
           $content = $html->render( $attr['template'] );
           $content = ob_get_clean() . $content;
-
-          if ($should_set_default_context) {
-            array_pop($loop->currently_inside_post_content_ids);
-          }
         }
 
+        $loop->pop_current_post_context();
         $plugin->stop_disable_links_inside_gutenberg_editor();
 
         return $content;
