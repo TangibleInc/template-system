@@ -18,6 +18,7 @@
 - Import/Export
   - Clear any cached field values such as compiled CSS when overwriting an existing template
   - Export all template types with orderby=menu_order, to ensure that location rules are applied in the correct priority
+  - Support templates with post status other than publish: draft, future, pending, private (skip auto-draft, inherit/revision, and trash)
 - Improve compatibility with PHP 8.1
 - Layout template type
   - Add location rule "Nowhere" to disable loading

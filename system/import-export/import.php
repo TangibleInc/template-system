@@ -91,6 +91,7 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
       $name       = '';
       $title      = '';
       $content    = '';
+      $status     = 'publish';
       $fields     = [];
       $taxonomies = [];
 
@@ -246,13 +247,20 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
 
       } // Has assets
 
-      /**
-       * Keep post order, internally called "menu_order"
-       *
-       * This is a special field, like "post_name", which can't be updated as
-       * custom field using udpate_post_meta().
-       */
 
+      // Handle special fields that can't be updated with udpate_post_meta()
+
+      /**
+       * Post status
+       */
+      if (isset($fields['post_status'])) {
+        $status = $fields['post_status'];
+        unset($fields['post_status']);
+      }
+
+      /**
+       * Post order, internally called "menu_order"
+       */
       $menu_order = false;
 
       if (isset($fields['menu_order'])) {
@@ -274,7 +282,7 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
         'post_name'    => $name,
         'post_title'   => $title,
         'post_content' => $content,
-        'post_status'  => 'publish',
+        'post_status'  => $status,
         'meta_input'   => $fields,
       ];
 

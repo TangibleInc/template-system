@@ -12,6 +12,14 @@ $ajax->add_action("{$prefix}get_template_type_item_options", function($data) use
 
   $posts = get_posts([
     'post_type' => $post_type,
+      // Same as ../export.php
+      'post_status' => [
+        'publish',
+        'pending',
+        'draft',
+        'future',
+        'private',
+      ],
     'posts_per_page' => -1,
     'orderby' => 'title',
     'order' => 'ASC',

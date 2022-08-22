@@ -43,6 +43,10 @@
 
   - [x] Move Sortable Post Type library from framework
 
+- [x] [Support templates with post status other than publish](https://app.clickup.com/t/1rjafaj)
+
+  - draft, future, pending, private (skip auto-draft, inherit/revision, and trash)
+
 - [ ] Dynamic module assets loader
   - [ ] chart
   - [x] embed

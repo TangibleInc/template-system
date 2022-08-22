@@ -74,6 +74,16 @@ $plugin->export_templates = function($data) use ($plugin) {
 
     $query_args = [
       'post_type' => $post_type,
+      'post_status' => [
+        'publish',    // Published post or page
+        'pending',    // Pending review
+        'draft',      // Draft status
+        // 'auto-draft', // Newly created post, with no content
+        'future',     // To publish in the future
+        'private',    // Only visible to users who are logged in
+        // 'inherit',    // A revision
+        // 'trash',      // In trash
+      ],
       'posts_per_page' => -1,
       'orderby' => 'menu_order',
       'order' => 'ASC',
@@ -107,6 +117,9 @@ $plugin->export_templates = function($data) use ($plugin) {
        * @see ../fields.php
        */
       $fields = $plugin->get_template_fields( $post_id );
+
+      // Post status
+      $fields['post_status'] = get_post_status( $post_id );
 
       /**
        * Export assets as base64 string
