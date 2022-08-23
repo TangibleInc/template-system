@@ -5,7 +5,7 @@
  * @see tangible-blocks-pro/includes/integrations/index.php
  */
 
-add_action('tangible_template_system_ready', function( $template_system ) use ( $framework, $plugin ) {
+add_action('tangible_template_system_ready', function( $template_system ) use ( $framework, $plugin, $loop, $logic, $html ) {
 
   $key = 'wp-fusion';
   $config = [

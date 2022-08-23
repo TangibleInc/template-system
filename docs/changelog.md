@@ -1,5 +1,5 @@
 
-# L&L version 3.0.0
+# L&L and Tangible Blocks version 3.0.0
 
 - ACF select: Support looping field with single select value
 - ACF image url field: Support size attribute

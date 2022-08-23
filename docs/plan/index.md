@@ -33,8 +33,8 @@
   <Field acf_image=cc_taxonomy_image field=url size=medium />
   ```
 
-- [x] PHP 8.1 compatibility - Deprecation warnings in plugin framework
-
+- [x] PHP 8.1 compatibility - Deprecation warnings in plugin framework, BetterDash
+  - https://discourse.tangible.one/t/debug-errors-on-site/706
 
 <a name=features></a>
 ### Features 
