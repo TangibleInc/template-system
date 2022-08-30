@@ -33,12 +33,7 @@ $plugin->render_template_post = function(
    * @see /includes/template/assets/variable.php
    */
   $assets_map = $plugin->prepare_template_assets_map( $post->ID );
-
-
-  if ( ! empty( $control_values ) ) {
-    $content = $plugin->replace_control_values( $content, $control_values, 'template' );
-  }
-
+  
   /**
    * Content supports Exit tag - Previously used $html->render()
    *
@@ -102,6 +97,5 @@ $plugin->render_template_post = function(
   return $before_content . $content . $after_content;
 };
 
-require_once __DIR__ . '/control.php';
 require_once __DIR__ . '/style.php';
 require_once __DIR__ . '/script.php';
