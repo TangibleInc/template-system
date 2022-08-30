@@ -34,6 +34,7 @@ $plugin->render_template_post = function(
    */
   $assets_map = $plugin->prepare_template_assets_map( $post->ID );
 
+
   if ( ! empty( $control_values ) ) {
     $content = $plugin->replace_control_values( $content, $control_values, 'template' );
   }
@@ -54,7 +55,7 @@ $plugin->render_template_post = function(
 
   $sass_variables = $html->get_sass_variables();
   $js_variables   = $html->get_js_variables();
-
+  
   /**
    * Pass assets map as Sass and JS variables
    */
@@ -82,7 +83,7 @@ $plugin->render_template_post = function(
 
   }
 
-  $plugin->enqueue_template_style( $post, $control_values, $sass_variables );
+  $plugin->enqueue_template_style( $post, $sass_variables );
 
   // Ensure any template script comes after content
 

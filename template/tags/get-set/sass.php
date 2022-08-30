@@ -39,6 +39,10 @@ $html->get_sass_variables = function() use ( $html ) {
   return $html->variable_type_memory['sass'];
 };
 
+$html->set_sass_variables = function( $name, $content, $atts = [] ) use ( $html ) {
+  return $html->set_variable_type( 'sass', $name, $content, $atts );
+};
+
 $html->clear_sass_variables = function() use ( $html ) {
   $html->variable_type_memory['sass'] = [];
 };
