@@ -40,7 +40,7 @@ add_action('wp_head', function() use ( $plugin, $logic ) {
     $plugin->enqueue_template_style( $template['id'] );
   }
 
-}, 11); // Later than default priority 10
+}, 9); // Earlier than default priority 10
 
 
 /**
