@@ -111,22 +111,35 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
       $roles = $loop->get_user_field('roles');
       if (empty($roles)) $roles = [];
 
-      $is_excludes = $operand==='excludes';
+      // Syntax: If user_role=administrator
+      if (!empty($rule['field_2'])) $value = $rule['field_2'];
+      
+      if (empty($operand)) $operand = 'includes';
+      if ($operand==='excludes') $operand = 'not_includes'; // Backward compatibility
 
-      // Support multiple values
-      $values = array_map('trim', explode(',', $value));
-
-      foreach ($values as $check_role) {
-        if ($check_role==='admin') $check_role = 'administrator';
-        $condition = in_array($check_role, $roles);
-        if (!$is_excludes) {
-          if ($condition) break; // For includes, condition is true if any is true
-        } else {
-          $condition = ! $condition;
-          if (!$condition) break; // For excludes, all must true
+      // Multiple values
+      if (is_string($value)) {
+        if (strpos($value, ',')!==false) {
+          $value = array_map('trim', explode(',', $value));
+        } elseif ($value==='admin') {
+          $value = 'administrator';
+        }
+      } elseif (is_array($value)) {
+        foreach ($value as $key => $val) {
+          if ($val==='admin') $val = 'administrator';
+          $value[$key] = $val;
         }
       }
 
+      // Support all common comparison operators
+      $condition = $html->evaluate_core_logic_rule([
+        'field' => 'check',
+        'field_2' => $roles,
+        'operand' => $operand,
+        'value' => $value,
+      ], $atts);
+
+// tangible()->see($rule, 'check', $roles, $operand, $value, '===', $condition);
     break;
 
     // Route
