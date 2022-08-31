@@ -32,8 +32,9 @@ $html->register_variable_type('local', [
       : $html->render( $content );
   },
   'get' => function( $name, $atts = [] ) use ( $html ) {
-    if ( isset( $html->local_variable_scopes[0][ $name ] ) ) {
-      return $html->local_variable_scopes[0][ $name ];
+    // Current scope -> parent -> parent..
+    foreach ($html->local_variable_scopes as $scope) {
+      if ( isset( $scope[ $name ] ) ) return $scope[ $name ];
     }
   },
 ]);
