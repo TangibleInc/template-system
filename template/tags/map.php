@@ -48,18 +48,29 @@ $html->map_key_tag = function( $atts, $nodes ) use ( $html ) {
 
   if ( isset( $atts['type'] ) ) {
 
+    // Value type - Default is 'string'
+
+    if ( $atts['type'] === 'number' ) {
+      $content = $html->render( $nodes );
+      $html->current_map[ $key ] = intval( $content );
+      return;
+    }
+    if ( $atts['type'] === 'boolean' ) {
+      $content = $html->render( $nodes );
+      $html->current_map[ $key ] = $content===true || strtolower( $content )==='true';
+      return;
+    }
+
     // Named list or map sets key to current map
 
     if ( $atts['type'] === 'list' ) {
-
-    $html->render_tag('List', [
+      $html->render_tag('List', [
         'name' => $key,
       ], $nodes);
       return;
-
-    } elseif ( $atts['type'] === 'map' ) {
-
-    $html->render_tag('Map', [
+    }
+    if ( $atts['type'] === 'map' ) {
+      $html->render_tag('Map', [
         'name' => $key,
       ], $nodes);
       return;
