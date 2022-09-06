@@ -25,8 +25,8 @@ $plugin->enqueue_template_import_export = function() use ( $plugin ) {
 
   wp_add_inline_script(
     'tangible-template-import-export',
-    'window.Tangible = window.Tangible || {}; window.Tangible.isTangibleBlockEditorInstalled = '
-      . ( function_exists( 'tangible_block_editor' ) ? 'true' : 'false' ),
+    'window.Tangible = window.Tangible || {}; window.Tangible.templateSystemHasPlugin = '
+      . json_encode($plugin->has_plugin),
     'before'
   );
 

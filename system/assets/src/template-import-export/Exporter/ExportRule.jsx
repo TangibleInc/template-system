@@ -2,9 +2,9 @@ import Select from '../../common/Select'
 
 /**
  * Check for Block Editor plugin
- * @see /includes/template/import-export/enqueue.php
+ * @see /template/import-export/enqueue.php
  */
-const { isTangibleBlockEditorInstalled = false } = window.Tangible
+const { templateSystemHasPlugin = {} } = window.Tangible
 
 const ExportRule = ({
   rule,
@@ -22,17 +22,22 @@ const ExportRule = ({
         {...{
           labelForEmptyValue: 'Select template type',
           options: [
-            { label: 'Template', value: 'tangible_template' },
-            { label: 'Style', value: 'tangible_style' },
-            { label: 'Script', value: 'tangible_script' },
-            { label: 'Layout', value: 'tangible_layout' },
 
             /**
-             * Enable block export only when Block Editor is active
+             * Enable block export only when Blocks & Editor is active
              */
-            ...(isTangibleBlockEditorInstalled
+            ...((templateSystemHasPlugin['blocks'] && templateSystemHasPlugin['blocks_editor'])
               ? [{ label: 'Block', value: 'tangible_block' }]
               : []),
+            ...(templateSystemHasPlugin['loops']
+              ? [
+                { label: 'Template', value: 'tangible_template' },
+                { label: 'Style', value: 'tangible_style' },
+                { label: 'Script', value: 'tangible_script' },
+                { label: 'Layout', value: 'tangible_layout' },
+              ]
+              : []
+            )
           ],
           value: rule.field,
           onChange(field) {
