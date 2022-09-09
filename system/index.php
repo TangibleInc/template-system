@@ -5,7 +5,7 @@ new class {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20220823';
+  public $version = '20220905';
   public $url;
 
   public $is_plugin = false;
@@ -28,22 +28,27 @@ new class {
 
   // Dynamic methods
   function __call( $method = '', $args = [] ) {
-    if ( isset( $this->$method ) ) {
-      return call_user_func_array( $this->$method, $args );
-    }
+    if ( isset( $this->$method ) ) return call_user_func_array( $this->$method, $args );
     $caller = current( debug_backtrace() );
-    trigger_error("Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>", E_WARNING);
+    trigger_error("Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>", E_USER_WARNING);
   }
 
   function load() {
 
+    $this->has_plugin = [
+      'loops'  => function_exists('tangible_loops_and_logic'),
+      'loops_pro'  => function_exists('tangible_loops_and_logic_pro'),
+      'blocks' => function_exists('tangible_blocks'),
+      'blocks_editor' => function_exists('tangible_blocks_editor'),
+      'blocks_pro' => function_exists('tangible_blocks_pro'),
+      'template_system' => $this->is_plugin, // This module installed as plugin
+    ];
+
     // Requires plugin framework
-    if (!function_exists('tangible_loops_and_logic')
-      && !function_exists('tangible_blocks')
-    ) return;
+    if (!$this->has_plugin['loops'] && !$this->has_plugin['blocks']) return;
 
     $name   = $this->name;
-    $plugin = $system = $this;
+    $plugin = $this;
 
     remove_all_actions( $name ); // First one to load wins
     tangible_template_system( $this );

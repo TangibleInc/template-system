@@ -29,8 +29,13 @@ $plugin->render_location_edit_fields = function( $fields, $post_type ) use ( $pl
   if ( $is_style || $is_script ) {
 
     // Remove first rule definition for "Entire Site", since it's the default
-
     array_shift( $rule_definitions );
+
+    // Add rule for Nowhere to disable loading
+    $rule_definitions []= [
+      'name'  => 'none',
+      'label' => 'Nowhere',
+    ];
   }
 
   ?>

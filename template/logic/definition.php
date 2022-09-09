@@ -125,16 +125,8 @@ $html->core_logic_rules = [
   [
   'name'       => 'user_role',
     'label'    => 'User role',
-    'operands' => [
-      [
-  'name'  => 'includes',
-  'label' => 'includes',
-      ],
-      [
-      'name'  => 'excludes',
-      'label' => 'excludes',
-      ],
-    ],
+    'field_2'  => [ 'type' => 'string' ],
+    'operands' => $html->logic_comparisons,
     'values'   => [ 'type' => 'string' ],
   ],
 

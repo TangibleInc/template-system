@@ -376,8 +376,14 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         $condition = strpos( $current_value, $value ) !== false;
 
       } elseif ( is_array( $current_value ) ) {
-        // needle in haystack
-        $condition = array_search( $value, $current_value ) !== false;
+        if (is_array($value)) {
+          foreach ($value as $val) {
+            $condition = array_search( $val, $current_value ) !== false;
+            if ($condition) break;
+          }
+        } else {
+          $condition = array_search( $value, $current_value ) !== false;
+        }
       } else {
         $condition = false;
       }

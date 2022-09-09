@@ -39,7 +39,14 @@ add_action( 'init', function() use ( $plugin, $html, $loop ) {
          * Ensure default loop context is set to current post
          * @see /loop/context/index.php
          */
-        $loop->push_current_post_context();
+        if ($plugin->is_inside_gutenberg_editor()
+          && isset($attr['current_post_id'])
+          && !empty($post = get_post( $attr['current_post_id'] ))
+        ) {
+          $loop->push_current_post_context($post);
+        } else {
+          $loop->push_current_post_context();
+        }
 
         if ( ! empty( $attr['template_selected'] ) ) {
 
@@ -47,18 +54,6 @@ add_action( 'init', function() use ( $plugin, $html, $loop ) {
           $content = $plugin->render_template_post( $post );
 
         } else {
-
-          /**
-           * Ensure default loop context is set to current post
-           * @see /loop/context/index.php
-           */
-          if ($plugin->is_inside_gutenberg_editor()
-            && isset($attr['current_post_id'])
-            && !empty($post = get_post( $attr['current_post_id'] ))
-          ) {
-            $loop->pop_current_post_context();
-            $loop->push_current_post_context($post);
-          }
 
           ob_start();
           $content = $html->render( $attr['template'] );

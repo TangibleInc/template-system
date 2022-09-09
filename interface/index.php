@@ -21,11 +21,9 @@ return tangible_interface(new class {
 
   // Dynamic methods
   function __call( $method = '', $args = [] ) {
-    if ( isset( $this->$method ) ) {
-      return call_user_func_array( $this->$method, $args );
-    }
+    if ( isset( $this->$method ) ) return call_user_func_array( $this->$method, $args );
     $caller = current( debug_backtrace() );
-    trigger_error("Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>", E_WARNING);
+    trigger_error("Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>", E_USER_WARNING);
   }
 
   function load() {

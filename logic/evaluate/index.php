@@ -93,6 +93,13 @@ $logic->evaluate_rule_by_field = function( $rule, $context = [] ) use ( $logic )
 
     $evaluate_rule = $field['evaluator'];
 
+    /**
+     * TODO: Extend evaluator return type
+     * 
+     * The evaluator should return true/false for known fields.
+     * Otherwise, it should return null to pass through to the next evaluator.
+     */
+
     if ( is_array( $evaluate_rule ) ) {
 
       foreach ( array_reverse( $evaluate_rule ) as $evaluator ) {
