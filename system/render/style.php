@@ -36,7 +36,8 @@ $plugin->enqueue_template_style = function(
   if ( is_null( $css ) || $css === false ) {
 
     $style = get_post_meta( $id, 'style', true );
-    
+    $style = apply_filters( 'tangible_template_post_style', $style, $post );
+
     if ( ! empty( $style ) ) {
       $css = $html->sass($style, [
         'variables' => $sass_variables, // Pass Sass variables

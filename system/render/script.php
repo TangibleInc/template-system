@@ -22,6 +22,7 @@ $plugin->enqueue_template_script = function(
   $plugin->template_script_enqueued[ $id ] = true;
 
   $script = get_post_meta( $id, 'script', true );
+  $script = apply_filters( 'tangible_template_post_script', $script, $post ); 
 
   if (empty( $script )) return;
 
