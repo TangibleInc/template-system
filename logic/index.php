@@ -16,7 +16,9 @@ return tangible_logic(new class {
   public $state   = [];
 
   function __construct() {
-    $this->version = tangible_template_system()->version;
+    $system = tangible_template_system();
+    $this->version = $system->version;
+    $system->logic = $this;
     $this->load();
   }
 
@@ -42,7 +44,5 @@ return tangible_logic(new class {
     require __DIR__ . '/enqueue.php';
     require __DIR__ . '/evaluate/index.php';
     require __DIR__ . '/rules/index.php';
-
-    require __DIR__ . '/v1/index.php';
   }
 });

@@ -5,7 +5,7 @@ new class {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20220905';
+  public $version = '20220913';
   public $url;
 
   public $is_plugin = false;
@@ -48,7 +48,7 @@ new class {
     if (!$this->has_plugin['loops'] && !$this->has_plugin['blocks']) return;
 
     $name   = $this->name;
-    $plugin = $this;
+    $plugin = $system = $this;
 
     remove_all_actions( $name ); // First one to load wins
     tangible_template_system( $this );
@@ -71,7 +71,7 @@ new class {
       $framework = tangible();
 
       $loop      = $plugin->loop = tangible_loop();
-      $logic     = $plugin->logic = tangible_logic();
+      $logic     = $plugin->logic; // tangible_logic()
       $html      = $plugin->html = tangible_template();
       $interface = $plugin->interface = tangible_interface();
       $ajax      = $plugin->ajax = $framework->ajax();
