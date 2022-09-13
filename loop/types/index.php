@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/base/index.php';
 
+require_once __DIR__ . '/control/index.php';
 require_once __DIR__ . '/list/index.php';
 require_once __DIR__ . '/map/index.php';
 require_once __DIR__ . '/field/index.php';

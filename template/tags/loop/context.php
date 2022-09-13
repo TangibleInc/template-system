@@ -7,6 +7,7 @@
  */
 $html->loop_tag_attributes_for_type = [
   'calendar',
+  'control',
   'field',
   'field_keys',
   'items', // Shortcut for type=list items=".."
