@@ -16,6 +16,7 @@ $html->register_variable_type('sass', [
     elseif (is_bool($content)) $content = $content ? 'true' : 'false';
 
     $type = isset( $atts['type'] ) ? $atts['type'] : 'string';
+    
     switch ( $type ) {
       case 'string':
         // Wrap in quotes
@@ -47,3 +48,8 @@ $html->get_sass_variables = function() use ( $html ) {
 $html->clear_sass_variables = function() use ( $html ) {
   $html->variable_type_memory['sass'] = [];
 };
+
+$html->set_sass_variable = function( $name, $content, $atts = [] ) use ( $html ) {
+  return $html->set_variable_type( 'sass', $name, $content, $atts );
+};
+

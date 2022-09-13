@@ -22,12 +22,9 @@ $plugin->enqueue_template_script = function(
   $plugin->template_script_enqueued[ $id ] = true;
 
   $script = get_post_meta( $id, 'script', true );
+  $script = apply_filters( 'tangible_template_post_script', $script, $post ); 
 
   if (empty( $script )) return;
-
-  if ( ! empty( $control_values ) ) {
-    $script = $plugin->replace_control_values( $script, $control_values, 'script' );
-  }
 
   /**
    * Pass JS variables - Wrap in function closure for local scope
@@ -42,7 +39,7 @@ $plugin->enqueue_template_script = function(
       . $script
     . "\n})()";
   }
-
+  
   /**
    * Scripts are consolidated and placed in document foot.
    */

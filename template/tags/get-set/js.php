@@ -41,3 +41,7 @@ $html->get_js_variables = function() use ($html) {
 $html->clear_js_variables = function() use ($html) {
   $html->variable_type_memory['js'] = [];
 };
+
+$html->set_js_variable = function( $name, $content, $atts = [] ) use ( $html ) {
+  return $html->set_variable_type( 'js', $name, $content, $atts );
+};

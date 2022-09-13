@@ -8,7 +8,6 @@ $plugin->template_style_enqueued = [
 
 $plugin->enqueue_template_style = function(
   $post,
-  $control_values = false,
   $sass_variables = []
 ) use ( $plugin, $html ) {
 
@@ -37,19 +36,15 @@ $plugin->enqueue_template_style = function(
   if ( is_null( $css ) || $css === false ) {
 
     $style = get_post_meta( $id, 'style', true );
+    $style = apply_filters( 'tangible_template_post_style', $style, $post );
 
     if ( ! empty( $style ) ) {
-
-      $style = ! empty( $control_values )
-        ? $plugin->replace_control_values( $style, $control_values, 'style' )
-        : $style;
-
       $css = $html->sass($style, [
         'variables' => $sass_variables, // Pass Sass variables
       ]);
     }
   }
-
+  
   if (empty( $css )) return;
 
   /**
@@ -58,3 +53,4 @@ $plugin->enqueue_template_style = function(
    */
   $html->enqueue_inline_style( $css );
 };
+
