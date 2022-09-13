@@ -2,6 +2,7 @@
 
 /**
  * Variable type "sass"
+ * @see https://sass-lang.com/documentation/values
  */
 $html->register_variable_type('sass', [
   'set' => function( $name, $atts, $content, &$memory ) use ( $html ) {
@@ -9,7 +10,10 @@ $html->register_variable_type('sass', [
     // Ensure valid variable name
     $name = preg_replace( '/[^a-zA-Z0-9_\-]+/i', '', $name );
 
-    $content = $html->render( $content );
+    // Support dynamic tags in Sass value
+    if (is_string($content)) $content = $html->render( $content );
+    // Boolean
+    elseif (is_bool($content)) $content = $content ? 'true' : 'false';
 
     $type = isset( $atts['type'] ) ? $atts['type'] : 'string';
     switch ( $type ) {
@@ -18,6 +22,7 @@ $html->register_variable_type('sass', [
         $content = '"' . str_replace( '"', '\"', $content ) . '"';
           break;
       // case 'number':
+      // case 'boolean':
       // case 'color':
       // case 'map':
       // case 'object':

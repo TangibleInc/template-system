@@ -8,7 +8,7 @@ $html->parser = require_once __DIR__ . '/parser/index.php';
 
 $html->parse = function( $content, $options = [] ) use ( $html ) {
 
-  if (empty( $content )) return [];
+  if (empty( $content ) && $content !== '0') return [];
 
   $tree        = [];
   $parser      = $html->parser;
