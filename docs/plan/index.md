@@ -21,7 +21,8 @@
 
 ## Current
 
-- [ ] Test update server
+- [ ] VidStack Player - Bundle or plugin?
+
 
 - [ ] [January contains no week data in calendar loops](https://app.clickup.com/t/2x01e9w)
 
@@ -42,8 +43,31 @@
 
 
 - [ ] If tag: add logic to test count in loops
+
+  - Add `count` attribute
+
+    ```html
+    <If count=even>..</If>
+    <If count=odd>..</If>
+    <If count="3n + 1">..</If>
+    ```
+  
+  - Add `math` attribute
+
+    ```html
+    <If math="{Get loop=count} % 3 === 0">
+    ```
+
   - Even and Odd
+  
   - Support for interval and offset like CSS nth-child selector ie. 3n + 1
+
+
+- Layout template
+
+  When layout matches and admin user is logged in, add **Edit Layout action** in the frontend admin menu
+
+
 
 
 ### Pagination
@@ -53,7 +77,6 @@
   https://discourse.tangible.one/t/pagination-svg-asset-disappearing-after-page-change/724
 
   The solution is probably to pass template asset ID(s) to the paginator, so it can add it to every request; and the server side can set up the asset variable type before rendering the page template.
-
 
 
 <a name=template-system></a>
@@ -82,10 +105,11 @@
 
 - [ ] [A way to create shortcode from template](https://app.clickup.com/t/2epyw21)
 
-
 - [ ] Markdown block
 
 - [ ] Prism block - Select language
+
+- [ ] Support "custom_query" attribute for Post Type, Taxonomy, and User loop types
 
 
 - [ ] [Site content structure](https://app.clickup.com/t/2kwfp1t) 
@@ -244,7 +268,8 @@
   - [ ] Move Chart documentation to core - From?
 
   - [ ] Loop -> Query
-    - [ ] Explain how it works internally, the performance implications of doing filter/sort by field after query, and showing how to do them as direct queries where possible
+
+    - [ ] Explain advantage and disadvantage (performance implications) of **filter/sort by field** after query - how it works internally. Show how to convert them to direct queries where possible.
 
 
 <a name=long-term></a>
