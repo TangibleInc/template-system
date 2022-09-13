@@ -18,10 +18,15 @@ class ControlLoop extends BaseLoop {
   ];
 
   function run_query( $args ) {
-    return ! empty($args['control'])
-      ? [ self::$html->get_control_variable( $args['control'] ) ] 
-      : []
-    ;
+    
+    if( empty($args['control']) ) return [];
+
+    $control_values = self::$html->get_control_variable( 
+      $args['control'], 
+      [ 'field' => 'all' ] 
+    );
+
+    return [ $control_values ];
   }
 
   function get_item_field($item, $name, $atts = []) {

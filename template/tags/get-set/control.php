@@ -2,7 +2,7 @@
 /**
  * Control variables
  *
- * Create a control scope of variables for each block post
+ * Create a control variables (used only in block for now)
  *
  * Used in /template/tags/loop/context.php
  */
@@ -12,7 +12,11 @@ $html->register_variable_type('control', [
     $memory[ $name ] = is_array($content) ? $content : [ 'value' => $content ];
   },
   'get' => function( $name, $atts = [], &$memory ) use ( $html ) {
+
     $field = $atts['field'] ?? 'value';
+
+    if( $field === 'all' ) return $memory[ $name ] ?? [];
+
     return $memory[ $name ][ $field ] ?? '';
   },
 ]);
