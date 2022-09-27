@@ -18,7 +18,7 @@ class ControlLoop extends BaseLoop {
   ];
 
   function run_query( $args ) {
-
+    
     if( empty($args['control']) ) return [];
 
     $control_values = self::$html->get_control_variable( 
@@ -26,13 +26,53 @@ class ControlLoop extends BaseLoop {
       [ 'field' => 'all' ] 
     );
     
-    $has_multiple_items = is_array($control_values) && ! isset($control_values['value']); 
-   
-    return $has_multiple_items ? $control_values : [ $control_values ];
+    $has_multiple_items = is_array($control_values) && ! isset($control_values['value']);
+
+    return $has_multiple_items 
+      ? $control_values
+      : [ $control_values ]
+    ;
+  }
+
+  function get_items_from_query( $items ) {
+
+    $this->controls = $items;
+    $fields = [];
+
+    foreach( $items as $item ) {  
+      $fields []= array_map(function($item) {
+        return is_array($item) ? ($item['value'] ?? '') : $item; 
+      }, $item); 
+    }
+    
+    return $fields;
+  }
+
+  function next() {
+    
+    $response = parent::next();
+
+    if( $response === null ) return $response;
+    
+    if( $this->index !== 0 ) {
+      self::$html->pop_control_variable_scope();
+    }
+
+    self::$html->push_control_variable_scope();
+
+    $child_controls = $this->controls[ $this->index ];
+
+    foreach( $child_controls as $name => $control ) {
+      self::$html->set_control_variable( $name, $control );
+    }
+    
+    return $response;
   }
 
   function get_item_field($item, $name, $atts = []) {
+    
     if( empty($name) ) $name = 'value';
+    
     return parent::get_item_field($item, $name, $atts);
   }
 

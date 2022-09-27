@@ -7,17 +7,42 @@
  * Used in /template/tags/loop/context.php
  */
 
+// Current scope -> parent -> parent..
+$html->control_variable_scopes = [
+  [],
+];
+
+$html->push_control_variable_scope = function( $scope = [] ) use ( $html ) {
+  array_unshift( $html->control_variable_scopes, $scope );
+};
+
+$html->pop_control_variable_scope = function() use ( $html ) {
+  array_shift( $html->control_variable_scopes );
+  if ( empty( $html->control_variable_scopes ) ) {
+    // Ensure there's at least one scope
+    $html->control_variable_scopes = [];
+  }
+};
+
 $html->register_variable_type('control', [
-  'set' => function( $name, $atts, $content, &$memory ) use ( $html ) {
-    $memory[ $name ] = is_array($content) ? $content : [ 'value' => $content ];
+  'set' => function( $name, $atts, $content ) use ( $html ) {
+    $scope          = &$html->control_variable_scopes[0];
+    $scope[ $name ] = is_array($content) ? $content : [ 'value' => $content ];
   },
-  'get' => function( $name, $atts = [], &$memory ) use ( $html ) {
+  'get' => function( $name, $atts = [] ) use ( $html ) {
+    
+    foreach ($html->control_variable_scopes as $scope) {
+      if ( ! isset($scope[ $name ]) ) continue;
+      $control = $scope[ $name ];
+      break;
+    }
 
     $field = $atts['field'] ?? 'value';
 
-    if( $field === 'all' ) return $memory[ $name ] ?? [];
-
-    return $memory[ $name ][ $field ] ?? '';
+    if( $field === 'all' ) return $control ?? [];
+    if( ! isset($control) ) return '';
+    
+    return $control[ $field ] ?? '';
   },
 ]);
 
