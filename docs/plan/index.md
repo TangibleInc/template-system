@@ -21,25 +21,91 @@
 
 ## Current
 
-- [ ] VidStack Player - Bundle or plugin?
+- [?] [FacetWP integration: Set default loop context on search result pages](https://app.clickup.com/t/2zg5y8a)
 
+  https://discourse.tangible.one/t/loop-search-results-with-3-0/745/5
+  https://discourse.tangible.one/t/undefined-loop-not-pulling-results-in-3-0/759
 
-- [ ] [January contains no week data in calendar loops](https://app.clickup.com/t/2x01e9w)
-
-  No weeks output for `<Loop field=weekday>` in calendar_month or field=month loops
-
-
-- [ ] [Taxonomy term loop: Order by random](https://app.clickup.com/t/2epyw3d)
-
-  [WP_Term_Query](https://developer.wordpress.org/reference/classes/WP_Term_Query/__construct/#parameters) does not support orderby random
-
-- [ ] Taxonomy term loop: Support multiple posts for post attribute
+  Working:
 
   ```html
-  <Loop type=taxonomy_term taxonomy=category post="1,26,31,34,83">
-    <Field title /><br />
-  </Loop>
+  <h4>Search results</h4>
+  <If loop exists>
+    <Loop>
+      - <Field title /><br>
+    </Loop>
+  <Else />
+    Nothing found.
+  </If>
   ```
+
+  The search query for Loop tag should require specifying the post type(s) to search. (Don't use any  for default because it's bad for performance.) 
+
+  For use with search query, the type parameter needs to be handled specially and accept multiple types. Create an instance of the Post loop type, and separately pass the post types to search.
+
+  template-system/template/tags/loop/context.php
+
+  `$html->create_loop_tag_context()`
+
+
+- Third-party plugin integrations
+
+  - [?] [Jobs for WordPress: Get posts of custom post type Jobs](https://app.clickup.com/t/30r81mu)
+
+    https://wordpress.org/support/topic/looping-of-custom-post-type-not-working/
+
+    https://wordpress.org/plugins/job-postings/
+
+  - [ ] [Divi integration: Issue with the_content filter](https://app.clickup.com/t/2znwhdm)
+
+  - [ ] Divi compatibility? Paragraph tags in content field
+
+    https://discourse.tangible.one/t/paragraph-tags-in-content-field-with-divi-editor-lint-error-with-shortcode-tag/743/3
+
+
+- Taxonomy term loop
+
+  - [ ] [Taxonomy term archive: Issue with "children" field loop](https://app.clickup.com/t/2znx50w)
+
+    https://discourse.tangible.one/t/using-l-l-inside-a-category-archive/593/39
+
+    ```html
+    <Loop field=archive_term>
+      <div>Archive Children Count: <Field count/></div>
+      <Loop field=children>
+        <br>
+        <div>Loop Count: <Field count/> </div>
+        <h2><Field title /></h2>
+        <Loop field=posts>
+          - <Field title /><br>
+        </Loop>
+      </Loop>
+    </Loop>
+    ```
+
+
+  - [ ] [Taxonomy term loop: Order by random](https://app.clickup.com/t/2epyw3d)
+
+    [WP_Term_Query](https://developer.wordpress.org/reference/classes/WP_Term_Query/__construct/#parameters) does not support orderby random
+
+  - [ ] [Taxonomy term loop: Support multiple posts for post attribute](](https://app.clickup.com/t/2x5tgm7))
+
+    ```html
+    <Loop type=taxonomy_term taxonomy=category post="1,26,31,34,83">
+      <Field title /><br />
+    </Loop>
+    ```
+
+
+- [ ] [Allow assets to be displayed beyond the first page of a paginated loop](https://app.clickup.com/t/2vxve68)
+
+
+- [ ] [Issue with RowLoop in the Table tag not working with the acf_relationship loop](https://app.clickup.com/t/2unqzek)
+
+
+---
+
+- [ ] VidStack Player - Bundle or plugin?
 
 
 - [ ] If tag: add logic to test count in loops
