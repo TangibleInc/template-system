@@ -174,7 +174,10 @@ $loop->push_current_post_context = function($given_post = false) use ($loop) {
   $type = $given_post->post_type;
 
   $loop->push_context(
-    $loop($type, [ 'id' => $id ])
+    $loop($type, [
+      'id' => $id,
+      'status' => 'all' // Support post status other than publish
+    ])
   );
 
   $loop->currently_inside_post_content_ids []= $id; // Prevent infinite loop
