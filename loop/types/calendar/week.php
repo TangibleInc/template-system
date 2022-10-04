@@ -109,13 +109,37 @@ class CalendarWeekLoop extends BaseLoop {
     }
 
     if ( isset( $args['from'] ) ) {
+
       $from = $args['from'] === 'current' ? $now->format( 'W' ) : $args['from'];
+
       if ( isset( $args['to'] ) ) {
         $to = $args['to'];
       } else {
         // Get last week of this year
         $last_day_of_year = self::$date->create( $year, 12, 31 );
         $to               = $last_day_of_year->format( 'W' );
+      }
+
+      /**
+       * Add exception for January which can have a week that starts in the
+       * previous year - for example, from week 52 to week 5.
+       */
+      if ($from > $to) {
+
+        $previous_year = $year - 1;
+        $last_week_of_previous_year = self::$date->create( $previous_year, 12, 31 )->format('W');
+
+        // Push weeks in previous year
+
+        for ( $week = $from; $week <= $last_week_of_previous_year; $week++ ) {
+          $items [] = [
+            'year' => $previous_year,
+            'week' => $week,
+          ];
+        }
+
+        // Push rest of weeks in current year
+        $from = 1;
       }
 
       for ( $week = $from; $week <= $to; $week++ ) {
