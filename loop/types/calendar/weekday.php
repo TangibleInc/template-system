@@ -37,6 +37,9 @@ class CalendarWeekDayLoop extends BaseLoop {
     $from = $week->startOfWeek()->format( 'Y-m-d' );
     $to   = $week->endOfWeek()->format( 'Y-m-d' );
 
+    // Catch if Date library throws error
+    try {
+
     if ( isset( $args['start'] ) ) {
 
       // Option to start week from different day than Monday
@@ -55,6 +58,10 @@ class CalendarWeekDayLoop extends BaseLoop {
 
     foreach ( $period as $day ) {
       $items [] = $day;
+    }
+
+    } catch (\Throwable $th) {
+      // No items for invalid values
     }
 
     return $items;

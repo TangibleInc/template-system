@@ -2,7 +2,9 @@ Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
 # 3.0.1
 
-- Calendar week loop: Correctly handle January which can have a week row that starts in the previous year
+- Calendar loop types
+  - Improve handling in case invalid values are passed
+  - Week loop: Correctly handle January which can have a week row that starts in the previous year
 - HTML Hint: Add exception for Shortcode tag to allow self-closing raw tag
 - Loop and Field tags: Get current post context inside builder preview when post status is other than publish
 - Template editor: Improve compatibility with Beaver Builder's CSS

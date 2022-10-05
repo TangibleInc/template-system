@@ -32,6 +32,9 @@ class CalendarWeekLoop extends BaseLoop {
     $year                          = isset( $args['year'] ) ? $args['year'] : 'current';
     if ($year === 'current') $year = $now->format( 'Y' );
 
+    // Catch if Date library throws error
+    try {
+
     if ( isset( $args['year'] ) && ! isset( $args['month'] ) ) {
 
       // All weeks of this year
@@ -162,6 +165,10 @@ class CalendarWeekLoop extends BaseLoop {
       'year' => $year,
       'week' => $week,
     ];
+
+    } catch (\Throwable $th) {
+      // No items for invalid values
+    }
 
     return $items;
   }
