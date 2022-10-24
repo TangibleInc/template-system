@@ -152,6 +152,8 @@ $loop->get_previous = $loop->get_last_context;
  * 
  * Caller must make a corresponding call to $loop->pop_current_post_context().
  * 
+ * To balance push/pop, a dummy post ID "0" is used for exceptions.
+ * 
  * @see /system/tag.php, template shortcode
  * @see /system/integrations/gutenberg/blocks.php
  * @see /system/integrations/beaver/modules/tangible-template/includes/frontend.php
@@ -160,12 +162,22 @@ $loop->get_previous = $loop->get_last_context;
 $loop->push_current_post_context = function($given_post = false) use ($loop) {
 
   if ($given_post===false) {
-    global $post;
+
+    global $post, $wp_query;
+
+    // Skip if default query already contains current post
+    if (!empty($wp_query) && !empty($wp_query->posts)
+      && array_search($post, $wp_query->posts)!==false
+    ) {
+      $loop->currently_inside_post_content_ids []= 0;
+      return;
+    }
+
     $given_post = &$post;
   }
 
+  // No current post
   if (empty($given_post)) {
-    // In case there's no current post
     $loop->currently_inside_post_content_ids []= 0;
     return;
   }
