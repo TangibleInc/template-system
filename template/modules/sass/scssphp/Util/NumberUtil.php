@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Util;
+namespace Tangible\ScssPhp\Util;
 
-use ScssPhp\ScssPhp\Value\SassNumber;
+use Tangible\ScssPhp\Value\SassNumber;
 
 /**
  * Utilities to deal with numbers with fuzziness for the Sass precision

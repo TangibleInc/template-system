@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Selector;
+namespace Tangible\ScssPhp\Ast\Selector;
 
-use ScssPhp\ScssPhp\Visitor\SelectorVisitor;
+use Tangible\ScssPhp\Visitor\SelectorVisitor;
 
 /**
  * An ID selector.

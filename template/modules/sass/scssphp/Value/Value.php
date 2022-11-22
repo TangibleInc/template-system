@@ -10,17 +10,17 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Value;
+namespace Tangible\ScssPhp\Value;
 
-use ScssPhp\ScssPhp\Ast\Selector\ComplexSelector;
-use ScssPhp\ScssPhp\Ast\Selector\CompoundSelector;
-use ScssPhp\ScssPhp\Ast\Selector\SelectorList;
-use ScssPhp\ScssPhp\Ast\Selector\SimpleSelector;
-use ScssPhp\ScssPhp\Exception\SassFormatException;
-use ScssPhp\ScssPhp\Exception\SassScriptException;
-use ScssPhp\ScssPhp\Serializer\Serializer;
-use ScssPhp\ScssPhp\Util\Equatable;
-use ScssPhp\ScssPhp\Visitor\ValueVisitor;
+use Tangible\ScssPhp\Ast\Selector\ComplexSelector;
+use Tangible\ScssPhp\Ast\Selector\CompoundSelector;
+use Tangible\ScssPhp\Ast\Selector\SelectorList;
+use Tangible\ScssPhp\Ast\Selector\SimpleSelector;
+use Tangible\ScssPhp\Exception\SassFormatException;
+use Tangible\ScssPhp\Exception\SassScriptException;
+use Tangible\ScssPhp\Serializer\Serializer;
+use Tangible\ScssPhp\Util\Equatable;
+use Tangible\ScssPhp\Visitor\ValueVisitor;
 
 /**
  * A SassScript value.

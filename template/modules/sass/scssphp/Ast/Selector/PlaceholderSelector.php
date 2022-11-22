@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Selector;
+namespace Tangible\ScssPhp\Ast\Selector;
 
-use ScssPhp\ScssPhp\Util\Character;
-use ScssPhp\ScssPhp\Visitor\SelectorVisitor;
+use Tangible\ScssPhp\Util\Character;
+use Tangible\ScssPhp\Visitor\SelectorVisitor;
 
 /**
  * A placeholder selector.

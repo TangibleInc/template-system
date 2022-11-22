@@ -10,13 +10,13 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass;
+namespace Tangible\ScssPhp\Ast\Sass;
 
-use ScssPhp\ScssPhp\Exception\SassFormatException;
-use ScssPhp\ScssPhp\Exception\SassScriptException;
-use ScssPhp\ScssPhp\Logger\LoggerInterface;
-use ScssPhp\ScssPhp\Parser\ScssParser;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Exception\SassFormatException;
+use Tangible\ScssPhp\Exception\SassScriptException;
+use Tangible\ScssPhp\Logger\LoggerInterface;
+use Tangible\ScssPhp\Parser\ScssParser;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * An argument declaration, as for a function or mixin definition.

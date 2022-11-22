@@ -10,7 +10,7 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Exception;
+namespace Tangible\ScssPhp\Exception;
 
 /**
  * Range exception

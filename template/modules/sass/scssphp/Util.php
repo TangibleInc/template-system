@@ -10,13 +10,13 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp;
+namespace Tangible\ScssPhp;
 
-use ScssPhp\ScssPhp\Base\Range;
-use ScssPhp\ScssPhp\Exception\RangeException;
-use ScssPhp\ScssPhp\Node\Number;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\Util\StringUtil;
+use Tangible\ScssPhp\Base\Range;
+use Tangible\ScssPhp\Exception\RangeException;
+use Tangible\ScssPhp\Node\Number;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Util\StringUtil;
 
 /**
  * Utility functions

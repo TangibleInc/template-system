@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Parser;
+namespace Tangible\ScssPhp\Parser;
 
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * @internal

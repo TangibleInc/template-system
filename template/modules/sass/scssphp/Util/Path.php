@@ -1,6 +1,6 @@
 <?php
 
-namespace ScssPhp\ScssPhp\Util;
+namespace Tangible\ScssPhp\Util;
 
 /**
  * @internal

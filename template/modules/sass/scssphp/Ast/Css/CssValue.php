@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Css;
+namespace Tangible\ScssPhp\Ast\Css;
 
-use ScssPhp\ScssPhp\Ast\AstNode;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Ast\AstNode;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * A value in a plain CSS tree.

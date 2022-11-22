@@ -10,14 +10,14 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Expression;
+namespace Tangible\ScssPhp\Ast\Sass\Expression;
 
-use ScssPhp\ScssPhp\Ast\Sass\ArgumentInvocation;
-use ScssPhp\ScssPhp\Ast\Sass\CallableInvocation;
-use ScssPhp\ScssPhp\Ast\Sass\Expression;
-use ScssPhp\ScssPhp\Ast\Sass\Interpolation;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\Visitor\ExpressionVisitor;
+use Tangible\ScssPhp\Ast\Sass\ArgumentInvocation;
+use Tangible\ScssPhp\Ast\Sass\CallableInvocation;
+use Tangible\ScssPhp\Ast\Sass\Expression;
+use Tangible\ScssPhp\Ast\Sass\Interpolation;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Visitor\ExpressionVisitor;
 
 /**
  * An interpolated function invocation.

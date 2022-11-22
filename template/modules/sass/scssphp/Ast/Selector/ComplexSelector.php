@@ -10,15 +10,15 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Selector;
+namespace Tangible\ScssPhp\Ast\Selector;
 
-use ScssPhp\ScssPhp\Exception\SassFormatException;
-use ScssPhp\ScssPhp\Extend\ExtendUtil;
-use ScssPhp\ScssPhp\Logger\LoggerInterface;
-use ScssPhp\ScssPhp\Parser\SelectorParser;
-use ScssPhp\ScssPhp\Util\EquatableUtil;
-use ScssPhp\ScssPhp\Util\ListUtil;
-use ScssPhp\ScssPhp\Visitor\SelectorVisitor;
+use Tangible\ScssPhp\Exception\SassFormatException;
+use Tangible\ScssPhp\Extend\ExtendUtil;
+use Tangible\ScssPhp\Logger\LoggerInterface;
+use Tangible\ScssPhp\Parser\SelectorParser;
+use Tangible\ScssPhp\Util\EquatableUtil;
+use Tangible\ScssPhp\Util\ListUtil;
+use Tangible\ScssPhp\Visitor\SelectorVisitor;
 
 /**
  * A complex selector.

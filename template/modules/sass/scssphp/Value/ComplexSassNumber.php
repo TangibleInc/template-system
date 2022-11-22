@@ -10,7 +10,7 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Value;
+namespace Tangible\ScssPhp\Value;
 
 /**
  * A specialized subclass of {@see SassNumber} for numbers that are neither {@see UnitlessSassNumber} nor {@see SingleUnitSassNumber}.

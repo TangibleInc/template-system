@@ -10,17 +10,17 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Visitor;
+namespace Tangible\ScssPhp\Visitor;
 
-use ScssPhp\ScssPhp\Ast\Css\ModifiableCssAtRule;
-use ScssPhp\ScssPhp\Ast\Css\ModifiableCssComment;
-use ScssPhp\ScssPhp\Ast\Css\ModifiableCssDeclaration;
-use ScssPhp\ScssPhp\Ast\Css\ModifiableCssImport;
-use ScssPhp\ScssPhp\Ast\Css\ModifiableCssKeyframeBlock;
-use ScssPhp\ScssPhp\Ast\Css\ModifiableCssMediaRule;
-use ScssPhp\ScssPhp\Ast\Css\ModifiableCssStyleRule;
-use ScssPhp\ScssPhp\Ast\Css\ModifiableCssStylesheet;
-use ScssPhp\ScssPhp\Ast\Css\ModifiableCssSupportsRule;
+use Tangible\ScssPhp\Ast\Css\ModifiableCssAtRule;
+use Tangible\ScssPhp\Ast\Css\ModifiableCssComment;
+use Tangible\ScssPhp\Ast\Css\ModifiableCssDeclaration;
+use Tangible\ScssPhp\Ast\Css\ModifiableCssImport;
+use Tangible\ScssPhp\Ast\Css\ModifiableCssKeyframeBlock;
+use Tangible\ScssPhp\Ast\Css\ModifiableCssMediaRule;
+use Tangible\ScssPhp\Ast\Css\ModifiableCssStyleRule;
+use Tangible\ScssPhp\Ast\Css\ModifiableCssStylesheet;
+use Tangible\ScssPhp\Ast\Css\ModifiableCssSupportsRule;
 
 /**
  * An interface for visitors that traverse CSS statements.

@@ -10,7 +10,7 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Statement;
+namespace Tangible\ScssPhp\Ast\Sass\Statement;
 
 /**
  * An `@else` clause in an `@if` rule.

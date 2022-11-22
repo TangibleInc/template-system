@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Css;
+namespace Tangible\ScssPhp\Ast\Css;
 
-use ScssPhp\ScssPhp\Ast\Selector\SelectorList;
+use Tangible\ScssPhp\Ast\Selector\SelectorList;
 
 /**
  * A plain CSS style rule.

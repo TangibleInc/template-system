@@ -10,7 +10,7 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\StackTrace;
+namespace Tangible\ScssPhp\StackTrace;
 
 /**
  * A stack trace, comprised of a list of stack frames.

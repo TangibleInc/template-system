@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Selector;
+namespace Tangible\ScssPhp\Ast\Selector;
 
-use ScssPhp\ScssPhp\Util\Equatable;
+use Tangible\ScssPhp\Util\Equatable;
 
 /**
  * A [qualified name][].

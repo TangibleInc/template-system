@@ -10,16 +10,16 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass;
+namespace Tangible\ScssPhp\Ast\Sass;
 
-use ScssPhp\ScssPhp\Ast\Css\CssAtRule;
-use ScssPhp\ScssPhp\Ast\Css\CssMediaRule;
-use ScssPhp\ScssPhp\Ast\Css\CssParentNode;
-use ScssPhp\ScssPhp\Ast\Css\CssStyleRule;
-use ScssPhp\ScssPhp\Ast\Css\CssSupportsRule;
-use ScssPhp\ScssPhp\Exception\SassFormatException;
-use ScssPhp\ScssPhp\Logger\LoggerInterface;
-use ScssPhp\ScssPhp\Parser\AtRootQueryParser;
+use Tangible\ScssPhp\Ast\Css\CssAtRule;
+use Tangible\ScssPhp\Ast\Css\CssMediaRule;
+use Tangible\ScssPhp\Ast\Css\CssParentNode;
+use Tangible\ScssPhp\Ast\Css\CssStyleRule;
+use Tangible\ScssPhp\Ast\Css\CssSupportsRule;
+use Tangible\ScssPhp\Exception\SassFormatException;
+use Tangible\ScssPhp\Logger\LoggerInterface;
+use Tangible\ScssPhp\Parser\AtRootQueryParser;
 
 /**
  * A query for the `@at-root` rule.

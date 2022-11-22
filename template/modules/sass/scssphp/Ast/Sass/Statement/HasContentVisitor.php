@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Statement;
+namespace Tangible\ScssPhp\Ast\Sass\Statement;
 
-use ScssPhp\ScssPhp\Visitor\StatementSearchVisitor;
+use Tangible\ScssPhp\Visitor\StatementSearchVisitor;
 
 /**
  * A visitor for determining whether a {@see MixinRule} recursively contains a

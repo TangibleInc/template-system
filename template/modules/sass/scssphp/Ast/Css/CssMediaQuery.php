@@ -10,11 +10,11 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Css;
+namespace Tangible\ScssPhp\Ast\Css;
 
-use ScssPhp\ScssPhp\Exception\SassFormatException;
-use ScssPhp\ScssPhp\Logger\LoggerInterface;
-use ScssPhp\ScssPhp\Parser\MediaQueryParser;
+use Tangible\ScssPhp\Exception\SassFormatException;
+use Tangible\ScssPhp\Logger\LoggerInterface;
+use Tangible\ScssPhp\Parser\MediaQueryParser;
 
 /**
  * A plain CSS media query, as used in `@media` and `@import`.

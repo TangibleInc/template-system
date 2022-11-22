@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast;
+namespace Tangible\ScssPhp\Ast;
 
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * A node in an abstract syntax tree.

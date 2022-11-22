@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\SourceSpan;
+namespace Tangible\ScssPhp\SourceSpan;
 
-use ScssPhp\ScssPhp\Util\ErrorUtil;
-use ScssPhp\ScssPhp\Util\Path;
+use Tangible\ScssPhp\Util\ErrorUtil;
+use Tangible\ScssPhp\Util\Path;
 
 /**
  * @internal

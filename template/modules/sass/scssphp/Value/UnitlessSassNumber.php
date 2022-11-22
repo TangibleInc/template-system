@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Value;
+namespace Tangible\ScssPhp\Value;
 
-use ScssPhp\ScssPhp\Util\NumberUtil;
+use Tangible\ScssPhp\Util\NumberUtil;
 
 /**
  * A specialized subclass of {@see SassNumber} for numbers that have no units.

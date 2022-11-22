@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Css;
+namespace Tangible\ScssPhp\Ast\Css;
 
-use ScssPhp\ScssPhp\Ast\Selector\SelectorList;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Ast\Selector\SelectorList;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * A modifiable version of {@see CssStyleRule} for use in the evaluation step.

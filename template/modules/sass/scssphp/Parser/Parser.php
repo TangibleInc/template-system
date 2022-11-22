@@ -10,17 +10,17 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Parser;
+namespace Tangible\ScssPhp\Parser;
 
-use ScssPhp\ScssPhp\Exception\SassFormatException;
-use ScssPhp\ScssPhp\Logger\AdaptingLogger;
-use ScssPhp\ScssPhp\Logger\LocationAwareLoggerInterface;
-use ScssPhp\ScssPhp\Logger\LoggerInterface;
-use ScssPhp\ScssPhp\Logger\QuietLogger;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\Util;
-use ScssPhp\ScssPhp\Util\Character;
-use ScssPhp\ScssPhp\Util\ParserUtil;
+use Tangible\ScssPhp\Exception\SassFormatException;
+use Tangible\ScssPhp\Logger\AdaptingLogger;
+use Tangible\ScssPhp\Logger\LocationAwareLoggerInterface;
+use Tangible\ScssPhp\Logger\LoggerInterface;
+use Tangible\ScssPhp\Logger\QuietLogger;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Util;
+use Tangible\ScssPhp\Util\Character;
+use Tangible\ScssPhp\Util\ParserUtil;
 
 /**
  * @internal

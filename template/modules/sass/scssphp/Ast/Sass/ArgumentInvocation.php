@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass;
+namespace Tangible\ScssPhp\Ast\Sass;
 
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * A set of arguments passed in to a function or mixin.

@@ -10,12 +10,12 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Parser;
+namespace Tangible\ScssPhp\Parser;
 
-use ScssPhp\ScssPhp\Ast\Sass\Interpolation;
-use ScssPhp\ScssPhp\Ast\Sass\Statement\LoudComment;
-use ScssPhp\ScssPhp\Ast\Sass\Statement\SilentComment;
-use ScssPhp\ScssPhp\Util\Character;
+use Tangible\ScssPhp\Ast\Sass\Interpolation;
+use Tangible\ScssPhp\Ast\Sass\Statement\LoudComment;
+use Tangible\ScssPhp\Ast\Sass\Statement\SilentComment;
+use Tangible\ScssPhp\Util\Character;
 
 /**
  * A parser for the CSS-compatible syntax.

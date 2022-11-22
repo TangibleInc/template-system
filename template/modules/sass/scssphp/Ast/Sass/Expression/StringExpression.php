@@ -10,14 +10,14 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Expression;
+namespace Tangible\ScssPhp\Ast\Sass\Expression;
 
-use ScssPhp\ScssPhp\Ast\Sass\Expression;
-use ScssPhp\ScssPhp\Ast\Sass\Interpolation;
-use ScssPhp\ScssPhp\Parser\InterpolationBuffer;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\Util\Character;
-use ScssPhp\ScssPhp\Visitor\ExpressionVisitor;
+use Tangible\ScssPhp\Ast\Sass\Expression;
+use Tangible\ScssPhp\Ast\Sass\Interpolation;
+use Tangible\ScssPhp\Parser\InterpolationBuffer;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Util\Character;
+use Tangible\ScssPhp\Visitor\ExpressionVisitor;
 
 /**
  * A string literal.

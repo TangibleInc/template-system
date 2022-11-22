@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Parser;
+namespace Tangible\ScssPhp\Parser;
 
-use ScssPhp\ScssPhp\Ast\Css\CssMediaQuery;
-use ScssPhp\ScssPhp\Exception\SassFormatException;
+use Tangible\ScssPhp\Ast\Css\CssMediaQuery;
+use Tangible\ScssPhp\Exception\SassFormatException;
 
 /**
  * A parser for `@media` queries.

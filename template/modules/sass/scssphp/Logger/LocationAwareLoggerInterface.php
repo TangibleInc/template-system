@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Logger;
+namespace Tangible\ScssPhp\Logger;
 
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\StackTrace\Trace;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\StackTrace\Trace;
 
 /**
  * Interface implemented by loggers for warnings and debug messages.

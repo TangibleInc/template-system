@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Statement;
+namespace Tangible\ScssPhp\Ast\Sass\Statement;
 
-use ScssPhp\ScssPhp\Ast\Sass\Import\DynamicImport;
-use ScssPhp\ScssPhp\Ast\Sass\Statement;
+use Tangible\ScssPhp\Ast\Sass\Import\DynamicImport;
+use Tangible\ScssPhp\Ast\Sass\Statement;
 
 /**
  * A {@see Statement} that can have child statements.

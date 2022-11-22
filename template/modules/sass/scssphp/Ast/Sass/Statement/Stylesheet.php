@@ -10,17 +10,17 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Statement;
+namespace Tangible\ScssPhp\Ast\Sass\Statement;
 
-use ScssPhp\ScssPhp\Ast\Sass\Statement;
-use ScssPhp\ScssPhp\Exception\SassFormatException;
-use ScssPhp\ScssPhp\Logger\LoggerInterface;
-use ScssPhp\ScssPhp\Parser\CssParser;
-use ScssPhp\ScssPhp\Parser\ScssParser;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\SourceSpan\SourceFile;
-use ScssPhp\ScssPhp\Syntax;
-use ScssPhp\ScssPhp\Visitor\StatementVisitor;
+use Tangible\ScssPhp\Ast\Sass\Statement;
+use Tangible\ScssPhp\Exception\SassFormatException;
+use Tangible\ScssPhp\Logger\LoggerInterface;
+use Tangible\ScssPhp\Parser\CssParser;
+use Tangible\ScssPhp\Parser\ScssParser;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\SourceSpan\SourceFile;
+use Tangible\ScssPhp\Syntax;
+use Tangible\ScssPhp\Visitor\StatementVisitor;
 
 /**
  * A Sass stylesheet.

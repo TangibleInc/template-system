@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Selector;
+namespace Tangible\ScssPhp\Ast\Selector;
 
-use ScssPhp\ScssPhp\Visitor\AnySelectorVisitor;
+use Tangible\ScssPhp\Visitor\AnySelectorVisitor;
 
 /**
  * The visitor used to implement {@see Selector::isUseless}.

@@ -10,7 +10,7 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass;
+namespace Tangible\ScssPhp\Ast\Sass;
 
 /**
  * An interface for different types of import.

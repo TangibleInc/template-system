@@ -10,7 +10,7 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Value;
+namespace Tangible\ScssPhp\Value;
 
 /**
  * An enumeration of possible operators for {@see CalculationOperation}.

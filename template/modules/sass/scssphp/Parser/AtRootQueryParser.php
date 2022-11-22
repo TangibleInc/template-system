@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Parser;
+namespace Tangible\ScssPhp\Parser;
 
-use ScssPhp\ScssPhp\Ast\Sass\AtRootQuery;
-use ScssPhp\ScssPhp\Exception\SassFormatException;
+use Tangible\ScssPhp\Ast\Sass\AtRootQuery;
+use Tangible\ScssPhp\Exception\SassFormatException;
 
 /**
  * A parser for `@at-root` queries.

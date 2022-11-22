@@ -10,11 +10,11 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Import;
+namespace Tangible\ScssPhp\Ast\Sass\Import;
 
-use ScssPhp\ScssPhp\Ast\Sass\Import;
-use ScssPhp\ScssPhp\Ast\Sass\Interpolation;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Ast\Sass\Import;
+use Tangible\ScssPhp\Ast\Sass\Interpolation;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * An import that produces a plain CSS `@import` rule.

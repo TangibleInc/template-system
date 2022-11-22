@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp;
+namespace Tangible\ScssPhp;
 
-use ScssPhp\ScssPhp\Value\SassColor;
+use Tangible\ScssPhp\Value\SassColor;
 
 /**
  * CSS Colors

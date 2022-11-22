@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Value;
+namespace Tangible\ScssPhp\Value;
 
-use ScssPhp\ScssPhp\Visitor\ValueVisitor;
+use Tangible\ScssPhp\Visitor\ValueVisitor;
 
 /**
  * A SassScript list.

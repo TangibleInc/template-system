@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Collection;
+namespace Tangible\ScssPhp\Collection;
 
-use ScssPhp\ScssPhp\Value\Value;
+use Tangible\ScssPhp\Value\Value;
 
 /**
  * A map using Sass values as keys based on Value::equals.

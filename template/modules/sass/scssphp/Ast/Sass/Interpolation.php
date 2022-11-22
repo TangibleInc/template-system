@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass;
+namespace Tangible\ScssPhp\Ast\Sass;
 
-use ScssPhp\ScssPhp\Parser\InterpolationBuffer;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Parser\InterpolationBuffer;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * Plain text interpolated with Sass expressions.

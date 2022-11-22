@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Parser;
+namespace Tangible\ScssPhp\Parser;
 
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\SourceSpan\SourceFile;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\SourceSpan\SourceFile;
 
 /**
  * A port of Dart's string_scanner package to be used by the parser.

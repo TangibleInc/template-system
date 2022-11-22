@@ -10,7 +10,7 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Css;
+namespace Tangible\ScssPhp\Ast\Css;
 
 /**
  * A plain CSS `@media` rule.

@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Css;
+namespace Tangible\ScssPhp\Ast\Css;
 
-use ScssPhp\ScssPhp\Serializer\Serializer;
-use ScssPhp\ScssPhp\Visitor\ModifiableCssVisitor;
+use Tangible\ScssPhp\Serializer\Serializer;
+use Tangible\ScssPhp\Visitor\ModifiableCssVisitor;
 
 /**
  * A modifiable version of {@see CssNode}.

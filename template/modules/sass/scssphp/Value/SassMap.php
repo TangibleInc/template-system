@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Value;
+namespace Tangible\ScssPhp\Value;
 
-use ScssPhp\ScssPhp\Collection\Map;
-use ScssPhp\ScssPhp\Visitor\ValueVisitor;
+use Tangible\ScssPhp\Collection\Map;
+use Tangible\ScssPhp\Visitor\ValueVisitor;
 
 /**
  * A SassScript map.

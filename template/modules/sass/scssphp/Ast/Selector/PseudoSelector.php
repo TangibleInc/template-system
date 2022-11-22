@@ -10,11 +10,11 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Selector;
+namespace Tangible\ScssPhp\Ast\Selector;
 
-use ScssPhp\ScssPhp\Util;
-use ScssPhp\ScssPhp\Util\EquatableUtil;
-use ScssPhp\ScssPhp\Visitor\SelectorVisitor;
+use Tangible\ScssPhp\Util;
+use Tangible\ScssPhp\Util\EquatableUtil;
+use Tangible\ScssPhp\Visitor\SelectorVisitor;
 
 /**
  * A pseudo-class or pseudo-element selector.

@@ -10,14 +10,14 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Serializer;
+namespace Tangible\ScssPhp\Serializer;
 
-use ScssPhp\ScssPhp\Ast\Css\CssNode;
-use ScssPhp\ScssPhp\Ast\Selector\Selector;
-use ScssPhp\ScssPhp\Exception\SassScriptException;
-use ScssPhp\ScssPhp\OutputStyle;
-use ScssPhp\ScssPhp\Util;
-use ScssPhp\ScssPhp\Value\Value;
+use Tangible\ScssPhp\Ast\Css\CssNode;
+use Tangible\ScssPhp\Ast\Selector\Selector;
+use Tangible\ScssPhp\Exception\SassScriptException;
+use Tangible\ScssPhp\OutputStyle;
+use Tangible\ScssPhp\Util;
+use Tangible\ScssPhp\Value\Value;
 
 /**
  * @internal

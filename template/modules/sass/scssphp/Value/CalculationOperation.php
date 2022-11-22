@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Value;
+namespace Tangible\ScssPhp\Value;
 
-use ScssPhp\ScssPhp\Util\Equatable;
+use Tangible\ScssPhp\Util\Equatable;
 
 /**
  * A binary operation that can appear in a {@see SassCalculation}.

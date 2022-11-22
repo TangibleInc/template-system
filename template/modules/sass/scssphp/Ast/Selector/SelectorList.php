@@ -10,19 +10,19 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Selector;
+namespace Tangible\ScssPhp\Ast\Selector;
 
-use ScssPhp\ScssPhp\Exception\SassFormatException;
-use ScssPhp\ScssPhp\Exception\SassScriptException;
-use ScssPhp\ScssPhp\Extend\ExtendUtil;
-use ScssPhp\ScssPhp\Logger\LoggerInterface;
-use ScssPhp\ScssPhp\Parser\SelectorParser;
-use ScssPhp\ScssPhp\Util\EquatableUtil;
-use ScssPhp\ScssPhp\Util\ListUtil;
-use ScssPhp\ScssPhp\Value\ListSeparator;
-use ScssPhp\ScssPhp\Value\SassList;
-use ScssPhp\ScssPhp\Value\SassString;
-use ScssPhp\ScssPhp\Visitor\SelectorVisitor;
+use Tangible\ScssPhp\Exception\SassFormatException;
+use Tangible\ScssPhp\Exception\SassScriptException;
+use Tangible\ScssPhp\Extend\ExtendUtil;
+use Tangible\ScssPhp\Logger\LoggerInterface;
+use Tangible\ScssPhp\Parser\SelectorParser;
+use Tangible\ScssPhp\Util\EquatableUtil;
+use Tangible\ScssPhp\Util\ListUtil;
+use Tangible\ScssPhp\Value\ListSeparator;
+use Tangible\ScssPhp\Value\SassList;
+use Tangible\ScssPhp\Value\SassString;
+use Tangible\ScssPhp\Visitor\SelectorVisitor;
 
 /**
  * A selector list.

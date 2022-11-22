@@ -10,7 +10,7 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Expression;
+namespace Tangible\ScssPhp\Ast\Sass\Expression;
 
 /**
  * @internal

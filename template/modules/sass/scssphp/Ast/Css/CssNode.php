@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Css;
+namespace Tangible\ScssPhp\Ast\Css;
 
-use ScssPhp\ScssPhp\Ast\AstNode;
-use ScssPhp\ScssPhp\Visitor\CssVisitor;
+use Tangible\ScssPhp\Ast\AstNode;
+use Tangible\ScssPhp\Visitor\CssVisitor;
 
 /**
  * A statement in a plain CSS syntax tree.

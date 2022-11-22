@@ -10,11 +10,11 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\SupportsCondition;
+namespace Tangible\ScssPhp\Ast\Sass\SupportsCondition;
 
-use ScssPhp\ScssPhp\Ast\Sass\Interpolation;
-use ScssPhp\ScssPhp\Ast\Sass\SupportsCondition;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Ast\Sass\Interpolation;
+use Tangible\ScssPhp\Ast\Sass\SupportsCondition;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * A supports condition that represents the forwards-compatible

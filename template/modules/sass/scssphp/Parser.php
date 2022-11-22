@@ -10,24 +10,24 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp;
+namespace Tangible\ScssPhp;
 
-use ScssPhp\ScssPhp\Block\AtRootBlock;
-use ScssPhp\ScssPhp\Block\CallableBlock;
-use ScssPhp\ScssPhp\Block\ContentBlock;
-use ScssPhp\ScssPhp\Block\DirectiveBlock;
-use ScssPhp\ScssPhp\Block\EachBlock;
-use ScssPhp\ScssPhp\Block\ElseBlock;
-use ScssPhp\ScssPhp\Block\ElseifBlock;
-use ScssPhp\ScssPhp\Block\ForBlock;
-use ScssPhp\ScssPhp\Block\IfBlock;
-use ScssPhp\ScssPhp\Block\MediaBlock;
-use ScssPhp\ScssPhp\Block\NestedPropertyBlock;
-use ScssPhp\ScssPhp\Block\WhileBlock;
-use ScssPhp\ScssPhp\Exception\ParserException;
-use ScssPhp\ScssPhp\Logger\LoggerInterface;
-use ScssPhp\ScssPhp\Logger\QuietLogger;
-use ScssPhp\ScssPhp\Node\Number;
+use Tangible\ScssPhp\Block\AtRootBlock;
+use Tangible\ScssPhp\Block\CallableBlock;
+use Tangible\ScssPhp\Block\ContentBlock;
+use Tangible\ScssPhp\Block\DirectiveBlock;
+use Tangible\ScssPhp\Block\EachBlock;
+use Tangible\ScssPhp\Block\ElseBlock;
+use Tangible\ScssPhp\Block\ElseifBlock;
+use Tangible\ScssPhp\Block\ForBlock;
+use Tangible\ScssPhp\Block\IfBlock;
+use Tangible\ScssPhp\Block\MediaBlock;
+use Tangible\ScssPhp\Block\NestedPropertyBlock;
+use Tangible\ScssPhp\Block\WhileBlock;
+use Tangible\ScssPhp\Exception\ParserException;
+use Tangible\ScssPhp\Logger\LoggerInterface;
+use Tangible\ScssPhp\Logger\QuietLogger;
+use Tangible\ScssPhp\Node\Number;
 
 /**
  * Parser

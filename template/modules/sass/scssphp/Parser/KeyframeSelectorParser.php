@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Parser;
+namespace Tangible\ScssPhp\Parser;
 
-use ScssPhp\ScssPhp\Exception\SassFormatException;
-use ScssPhp\ScssPhp\Util\Character;
+use Tangible\ScssPhp\Exception\SassFormatException;
+use Tangible\ScssPhp\Util\Character;
 
 /**
  * A parser for `@keyframes` block selectors.

@@ -10,14 +10,14 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Statement;
+namespace Tangible\ScssPhp\Ast\Sass\Statement;
 
-use ScssPhp\ScssPhp\Ast\Sass\Expression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\StringExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Interpolation;
-use ScssPhp\ScssPhp\Ast\Sass\Statement;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\Visitor\StatementVisitor;
+use Tangible\ScssPhp\Ast\Sass\Expression;
+use Tangible\ScssPhp\Ast\Sass\Expression\StringExpression;
+use Tangible\ScssPhp\Ast\Sass\Interpolation;
+use Tangible\ScssPhp\Ast\Sass\Statement;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Visitor\StatementVisitor;
 
 /**
  * A declaration (that is, a `name: value` pair).

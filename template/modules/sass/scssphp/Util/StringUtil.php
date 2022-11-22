@@ -10,7 +10,7 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Util;
+namespace Tangible\ScssPhp\Util;
 
 /**
  * @internal

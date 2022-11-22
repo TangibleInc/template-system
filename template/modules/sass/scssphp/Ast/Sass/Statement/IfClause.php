@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Statement;
+namespace Tangible\ScssPhp\Ast\Sass\Statement;
 
-use ScssPhp\ScssPhp\Ast\Sass\Expression;
-use ScssPhp\ScssPhp\Ast\Sass\Statement;
+use Tangible\ScssPhp\Ast\Sass\Expression;
+use Tangible\ScssPhp\Ast\Sass\Statement;
 
 /**
  * An `@if` or `@else if` clause in an `@if` rule.

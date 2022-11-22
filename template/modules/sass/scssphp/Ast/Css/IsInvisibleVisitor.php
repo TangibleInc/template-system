@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Css;
+namespace Tangible\ScssPhp\Ast\Css;
 
-use ScssPhp\ScssPhp\Visitor\EveryCssVisitor;
+use Tangible\ScssPhp\Visitor\EveryCssVisitor;
 
 /**
  * The visitor used to implement {@see CssNode::isInvisible}

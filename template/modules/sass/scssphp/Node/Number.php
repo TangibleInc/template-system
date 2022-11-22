@@ -10,15 +10,15 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Node;
+namespace Tangible\ScssPhp\Node;
 
-use ScssPhp\ScssPhp\Base\Range;
-use ScssPhp\ScssPhp\Compiler;
-use ScssPhp\ScssPhp\Exception\RangeException;
-use ScssPhp\ScssPhp\Exception\SassScriptException;
-use ScssPhp\ScssPhp\Node;
-use ScssPhp\ScssPhp\Type;
-use ScssPhp\ScssPhp\Util;
+use Tangible\ScssPhp\Base\Range;
+use Tangible\ScssPhp\Compiler;
+use Tangible\ScssPhp\Exception\RangeException;
+use Tangible\ScssPhp\Exception\SassScriptException;
+use Tangible\ScssPhp\Node;
+use Tangible\ScssPhp\Type;
+use Tangible\ScssPhp\Util;
 
 /**
  * Dimension + optional units

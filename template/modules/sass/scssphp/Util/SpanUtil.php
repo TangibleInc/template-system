@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Util;
+namespace Tangible\ScssPhp\Util;
 
-use ScssPhp\ScssPhp\Parser\StringScanner;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Parser\StringScanner;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * @internal

@@ -10,13 +10,13 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Expression;
+namespace Tangible\ScssPhp\Ast\Sass\Expression;
 
-use ScssPhp\ScssPhp\Ast\Sass\Expression;
-use ScssPhp\ScssPhp\Ast\Sass\SassReference;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\Util\SpanUtil;
-use ScssPhp\ScssPhp\Visitor\ExpressionVisitor;
+use Tangible\ScssPhp\Ast\Sass\Expression;
+use Tangible\ScssPhp\Ast\Sass\SassReference;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Util\SpanUtil;
+use Tangible\ScssPhp\Visitor\ExpressionVisitor;
 
 /**
  * A Sass variable.

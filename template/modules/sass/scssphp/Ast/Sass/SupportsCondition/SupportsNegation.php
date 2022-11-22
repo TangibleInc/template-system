@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\SupportsCondition;
+namespace Tangible\ScssPhp\Ast\Sass\SupportsCondition;
 
-use ScssPhp\ScssPhp\Ast\Sass\SupportsCondition;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Ast\Sass\SupportsCondition;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * A negated condition.

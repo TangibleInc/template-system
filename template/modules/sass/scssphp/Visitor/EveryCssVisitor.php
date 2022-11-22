@@ -10,7 +10,7 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Visitor;
+namespace Tangible\ScssPhp\Visitor;
 
 /**
  * A visitor that visits each statements in a CSS AST and returns `true` if all

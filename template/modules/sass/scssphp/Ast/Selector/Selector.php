@@ -10,12 +10,12 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Selector;
+namespace Tangible\ScssPhp\Ast\Selector;
 
-use ScssPhp\ScssPhp\Serializer\Serializer;
-use ScssPhp\ScssPhp\Util\Equatable;
-use ScssPhp\ScssPhp\Visitor\SelectorVisitor;
-use ScssPhp\ScssPhp\Warn;
+use Tangible\ScssPhp\Serializer\Serializer;
+use Tangible\ScssPhp\Util\Equatable;
+use Tangible\ScssPhp\Visitor\SelectorVisitor;
+use Tangible\ScssPhp\Warn;
 
 /**
  * A node in the abstract syntax tree for a selector.

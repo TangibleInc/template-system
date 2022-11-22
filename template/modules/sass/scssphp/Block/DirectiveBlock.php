@@ -10,10 +10,10 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Block;
+namespace Tangible\ScssPhp\Block;
 
-use ScssPhp\ScssPhp\Block;
-use ScssPhp\ScssPhp\Type;
+use Tangible\ScssPhp\Block;
+use Tangible\ScssPhp\Type;
 
 /**
  * @internal

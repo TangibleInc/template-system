@@ -10,11 +10,11 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Statement;
+namespace Tangible\ScssPhp\Ast\Sass\Statement;
 
-use ScssPhp\ScssPhp\Ast\Sass\ArgumentDeclaration;
-use ScssPhp\ScssPhp\Ast\Sass\Statement;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Ast\Sass\ArgumentDeclaration;
+use Tangible\ScssPhp\Ast\Sass\Statement;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * An abstract class for callables (functions or mixins) that are declared in

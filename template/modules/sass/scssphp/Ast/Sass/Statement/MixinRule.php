@@ -10,14 +10,14 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Statement;
+namespace Tangible\ScssPhp\Ast\Sass\Statement;
 
-use ScssPhp\ScssPhp\Ast\Sass\ArgumentDeclaration;
-use ScssPhp\ScssPhp\Ast\Sass\SassDeclaration;
-use ScssPhp\ScssPhp\Ast\Sass\Statement;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\Util\SpanUtil;
-use ScssPhp\ScssPhp\Visitor\StatementVisitor;
+use Tangible\ScssPhp\Ast\Sass\ArgumentDeclaration;
+use Tangible\ScssPhp\Ast\Sass\SassDeclaration;
+use Tangible\ScssPhp\Ast\Sass\Statement;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Util\SpanUtil;
+use Tangible\ScssPhp\Visitor\StatementVisitor;
 
 /**
  * A mixin declaration.

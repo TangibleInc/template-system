@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\StackTrace;
+namespace Tangible\ScssPhp\StackTrace;
 
-use ScssPhp\ScssPhp\Util\Path;
+use Tangible\ScssPhp\Util\Path;
 
 /**
  * A single stack frame. Each frame points to a precise location in Sass code.

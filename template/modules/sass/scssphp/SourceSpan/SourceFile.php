@@ -10,7 +10,7 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\SourceSpan;
+namespace Tangible\ScssPhp\SourceSpan;
 
 /**
  * @internal

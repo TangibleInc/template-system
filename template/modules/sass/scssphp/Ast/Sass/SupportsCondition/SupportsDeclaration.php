@@ -10,13 +10,13 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\SupportsCondition;
+namespace Tangible\ScssPhp\Ast\Sass\SupportsCondition;
 
-use ScssPhp\ScssPhp\Ast\Sass\Expression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\StringExpression;
-use ScssPhp\ScssPhp\Ast\Sass\SupportsCondition;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\Util\StringUtil;
+use Tangible\ScssPhp\Ast\Sass\Expression;
+use Tangible\ScssPhp\Ast\Sass\Expression\StringExpression;
+use Tangible\ScssPhp\Ast\Sass\SupportsCondition;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Util\StringUtil;
 
 /**
  * A condition that selects for browsers where a given declaration is

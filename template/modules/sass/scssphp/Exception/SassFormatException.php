@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Exception;
+namespace Tangible\ScssPhp\Exception;
 
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 
 /**
  * @internal

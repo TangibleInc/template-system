@@ -10,19 +10,19 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Visitor;
+namespace Tangible\ScssPhp\Visitor;
 
-use ScssPhp\ScssPhp\Ast\Selector\AttributeSelector;
-use ScssPhp\ScssPhp\Ast\Selector\ClassSelector;
-use ScssPhp\ScssPhp\Ast\Selector\ComplexSelector;
-use ScssPhp\ScssPhp\Ast\Selector\CompoundSelector;
-use ScssPhp\ScssPhp\Ast\Selector\IDSelector;
-use ScssPhp\ScssPhp\Ast\Selector\ParentSelector;
-use ScssPhp\ScssPhp\Ast\Selector\PlaceholderSelector;
-use ScssPhp\ScssPhp\Ast\Selector\PseudoSelector;
-use ScssPhp\ScssPhp\Ast\Selector\SelectorList;
-use ScssPhp\ScssPhp\Ast\Selector\TypeSelector;
-use ScssPhp\ScssPhp\Ast\Selector\UniversalSelector;
+use Tangible\ScssPhp\Ast\Selector\AttributeSelector;
+use Tangible\ScssPhp\Ast\Selector\ClassSelector;
+use Tangible\ScssPhp\Ast\Selector\ComplexSelector;
+use Tangible\ScssPhp\Ast\Selector\CompoundSelector;
+use Tangible\ScssPhp\Ast\Selector\IDSelector;
+use Tangible\ScssPhp\Ast\Selector\ParentSelector;
+use Tangible\ScssPhp\Ast\Selector\PlaceholderSelector;
+use Tangible\ScssPhp\Ast\Selector\PseudoSelector;
+use Tangible\ScssPhp\Ast\Selector\SelectorList;
+use Tangible\ScssPhp\Ast\Selector\TypeSelector;
+use Tangible\ScssPhp\Ast\Selector\UniversalSelector;
 
 /**
  * A visitor that visits each selector in a Sass selector AST and returns

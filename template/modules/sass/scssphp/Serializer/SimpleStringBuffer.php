@@ -10,7 +10,7 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Serializer;
+namespace Tangible\ScssPhp\Serializer;
 
 /**
  * @internal

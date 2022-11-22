@@ -10,12 +10,12 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Statement;
+namespace Tangible\ScssPhp\Ast\Sass\Statement;
 
-use ScssPhp\ScssPhp\Ast\Sass\ArgumentDeclaration;
-use ScssPhp\ScssPhp\Ast\Sass\Statement;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\Visitor\StatementVisitor;
+use Tangible\ScssPhp\Ast\Sass\ArgumentDeclaration;
+use Tangible\ScssPhp\Ast\Sass\Statement;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Visitor\StatementVisitor;
 
 /**
  * An anonymous block of code that's invoked for a {@see ContentRule}.

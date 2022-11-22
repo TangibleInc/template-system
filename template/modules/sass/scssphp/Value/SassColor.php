@@ -10,12 +10,12 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Value;
+namespace Tangible\ScssPhp\Value;
 
-use ScssPhp\ScssPhp\Exception\SassScriptException;
-use ScssPhp\ScssPhp\Util\ErrorUtil;
-use ScssPhp\ScssPhp\Util\NumberUtil;
-use ScssPhp\ScssPhp\Visitor\ValueVisitor;
+use Tangible\ScssPhp\Exception\SassScriptException;
+use Tangible\ScssPhp\Util\ErrorUtil;
+use Tangible\ScssPhp\Util\NumberUtil;
+use Tangible\ScssPhp\Visitor\ValueVisitor;
 
 /**
  * A SassScript color.

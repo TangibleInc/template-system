@@ -10,17 +10,17 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Parser;
+namespace Tangible\ScssPhp\Parser;
 
-use ScssPhp\ScssPhp\Ast\Sass\ArgumentInvocation;
-use ScssPhp\ScssPhp\Ast\Sass\Expression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\InterpolatedFunctionExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\StringExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Import\StaticImport;
-use ScssPhp\ScssPhp\Ast\Sass\Interpolation;
-use ScssPhp\ScssPhp\Ast\Sass\Statement;
-use ScssPhp\ScssPhp\Ast\Sass\Statement\ImportRule;
-use ScssPhp\ScssPhp\Compiler;
+use Tangible\ScssPhp\Ast\Sass\ArgumentInvocation;
+use Tangible\ScssPhp\Ast\Sass\Expression;
+use Tangible\ScssPhp\Ast\Sass\Expression\InterpolatedFunctionExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\StringExpression;
+use Tangible\ScssPhp\Ast\Sass\Import\StaticImport;
+use Tangible\ScssPhp\Ast\Sass\Interpolation;
+use Tangible\ScssPhp\Ast\Sass\Statement;
+use Tangible\ScssPhp\Ast\Sass\Statement\ImportRule;
+use Tangible\ScssPhp\Compiler;
 
 /**
  * A parser for imported CSS files.

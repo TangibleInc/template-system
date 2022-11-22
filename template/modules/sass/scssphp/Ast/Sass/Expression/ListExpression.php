@@ -10,12 +10,12 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass\Expression;
+namespace Tangible\ScssPhp\Ast\Sass\Expression;
 
-use ScssPhp\ScssPhp\Ast\Sass\Expression;
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\Value\ListSeparator;
-use ScssPhp\ScssPhp\Visitor\ExpressionVisitor;
+use Tangible\ScssPhp\Ast\Sass\Expression;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Value\ListSeparator;
+use Tangible\ScssPhp\Visitor\ExpressionVisitor;
 
 /**
  * A list literal.

@@ -10,12 +10,12 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Logger;
+namespace Tangible\ScssPhp\Logger;
 
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\StackTrace\Trace;
-use ScssPhp\ScssPhp\Util;
-use ScssPhp\ScssPhp\Util\Path;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\StackTrace\Trace;
+use Tangible\ScssPhp\Util;
+use Tangible\ScssPhp\Util\Path;
 
 /**
  * @internal

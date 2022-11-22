@@ -10,16 +10,16 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Visitor;
+namespace Tangible\ScssPhp\Visitor;
 
-use ScssPhp\ScssPhp\Value\SassBoolean;
-use ScssPhp\ScssPhp\Value\SassCalculation;
-use ScssPhp\ScssPhp\Value\SassColor;
-use ScssPhp\ScssPhp\Value\SassFunction;
-use ScssPhp\ScssPhp\Value\SassList;
-use ScssPhp\ScssPhp\Value\SassMap;
-use ScssPhp\ScssPhp\Value\SassNumber;
-use ScssPhp\ScssPhp\Value\SassString;
+use Tangible\ScssPhp\Value\SassBoolean;
+use Tangible\ScssPhp\Value\SassCalculation;
+use Tangible\ScssPhp\Value\SassColor;
+use Tangible\ScssPhp\Value\SassFunction;
+use Tangible\ScssPhp\Value\SassList;
+use Tangible\ScssPhp\Value\SassMap;
+use Tangible\ScssPhp\Value\SassNumber;
+use Tangible\ScssPhp\Value\SassString;
 
 /**
  * An interface for visitors that traverse SassScript $values.

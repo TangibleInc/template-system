@@ -10,11 +10,11 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass;
+namespace Tangible\ScssPhp\Ast\Sass;
 
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\Util;
-use ScssPhp\ScssPhp\Util\SpanUtil;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Util;
+use Tangible\ScssPhp\Util\SpanUtil;
 
 /**
  * An argument declared as part of an {@see ArgumentDeclaration}.

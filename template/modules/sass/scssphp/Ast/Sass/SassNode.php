@@ -10,9 +10,9 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Sass;
+namespace Tangible\ScssPhp\Ast\Sass;
 
-use ScssPhp\ScssPhp\Ast\AstNode;
+use Tangible\ScssPhp\Ast\AstNode;
 
 /**
  * A node in the abstract syntax tree for an unevaluated Sass file.

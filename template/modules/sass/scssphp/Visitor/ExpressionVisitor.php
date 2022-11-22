@@ -10,26 +10,26 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Visitor;
+namespace Tangible\ScssPhp\Visitor;
 
-use ScssPhp\ScssPhp\Ast\Sass\Expression\BinaryOperationExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\BooleanExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\CalculationExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\ColorExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\FunctionExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\IfExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\InterpolatedFunctionExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\ListExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\MapExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\NullExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\NumberExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\ParenthesizedExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\SelectorExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\StringExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\SupportsExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\UnaryOperationExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\ValueExpression;
-use ScssPhp\ScssPhp\Ast\Sass\Expression\VariableExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\BinaryOperationExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\BooleanExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\CalculationExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\ColorExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\FunctionExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\IfExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\InterpolatedFunctionExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\ListExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\MapExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\NullExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\NumberExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\ParenthesizedExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\SelectorExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\StringExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\SupportsExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\UnaryOperationExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\ValueExpression;
+use Tangible\ScssPhp\Ast\Sass\Expression\VariableExpression;
 
 /**
  * An interface for visitors that traverse SassScript expressions.

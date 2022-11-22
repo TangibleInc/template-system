@@ -10,11 +10,11 @@
  * @link http://scssphp.github.io/scssphp
  */
 
-namespace ScssPhp\ScssPhp\Ast\Css;
+namespace Tangible\ScssPhp\Ast\Css;
 
-use ScssPhp\ScssPhp\SourceSpan\FileSpan;
-use ScssPhp\ScssPhp\Value\SassString;
-use ScssPhp\ScssPhp\Value\Value;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Value\SassString;
+use Tangible\ScssPhp\Value\Value;
 
 /**
  * A modifiable version of {@see CssDeclaration} for use in the evaluation step.
