@@ -1,20 +1,23 @@
 <?php
+
 /**
  * SCSSPHP
  *
- * @copyright 2012-2018 Leaf Corcoran
+ * @copyright 2012-2020 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
- * @link http://leafo.github.io/scssphp
+ * @link http://scssphp.github.io/scssphp
  */
 
-namespace Tangible\ScssPhp;
+namespace ScssPhp\ScssPhp;
 
 /**
  * Base node
  *
  * @author Anthon Pang <anthon.pang@gmail.com>
+ *
+ * @internal
  */
 abstract class Node
 {
@@ -24,17 +27,17 @@ abstract class Node
     public $type;
 
     /**
-     * @var integer
+     * @var int
      */
     public $sourceIndex;
 
     /**
-     * @var integer
+     * @var int|null
      */
     public $sourceLine;
 
     /**
-     * @var integer
+     * @var int|null
      */
     public $sourceColumn;
 }

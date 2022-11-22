@@ -1,17 +1,16 @@
 <?php
+
 /**
  * SCSSPHP
  *
- * @copyright 2012-2015 Leaf Corcoran
+ * @copyright 2012-2020 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
- * @link http://leafo.github.io/scssphp
+ * @link http://scssphp.github.io/scssphp
  */
 
-namespace Tangible\ScssPhp\SourceMap;
-
-use Tangible\ScssPhp\SourceMap\Base64;
+namespace ScssPhp\ScssPhp\SourceMap;
 
 /**
  * Base 64 VLQ
@@ -35,8 +34,10 @@ use Tangible\ScssPhp\SourceMap\Base64;
  *
  * @author John Lenz <johnlenz@google.com>
  * @author Anthon Pang <anthon.pang@gmail.com>
+ *
+ * @internal
  */
-class Base64VLQ
+final class Base64VLQ
 {
     // A Base64 VLQ digit can represent 5 bits, so it is base-32.
     const VLQ_BASE_SHIFT = 5;
@@ -50,7 +51,7 @@ class Base64VLQ
     /**
      * Returns the VLQ encoded value.
      *
-     * @param integer $value
+     * @param int $value
      *
      * @return string
      */
@@ -61,7 +62,9 @@ class Base64VLQ
 
         do {
             $digit = $vlq & self::VLQ_BASE_MASK;
-            $vlq >>= self::VLQ_BASE_SHIFT;
+
+            //$vlq >>>= self::VLQ_BASE_SHIFT; // unsigned right shift
+            $vlq = (($vlq >> 1) & PHP_INT_MAX) >> (self::VLQ_BASE_SHIFT - 1);
 
             if ($vlq > 0) {
                 $digit |= self::VLQ_CONTINUATION_BIT;
@@ -77,9 +80,9 @@ class Base64VLQ
      * Decodes VLQValue.
      *
      * @param string $str
-     * @param integer $index
+     * @param int    $index
      *
-     * @return integer
+     * @return int
      */
     public static function decode($str, &$index)
     {
@@ -104,9 +107,9 @@ class Base64VLQ
      *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
      *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
      *
-     * @param integer $value
+     * @param int $value
      *
-     * @return integer
+     * @return int
      */
     private static function toVLQSigned($value)
     {
@@ -123,15 +126,26 @@ class Base64VLQ
      *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
      *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
      *
-     * @param integer $value
+     * @param int $value
      *
-     * @return integer
+     * @return int
      */
     private static function fromVLQSigned($value)
     {
         $negate = ($value & 1) === 1;
-        $value = $value >> 1;
 
-        return $negate ? -$value : $value;
+        //$value >>>= 1; // unsigned right shift
+        $value = ($value >> 1) & PHP_INT_MAX;
+
+        if (! $negate) {
+            return $value;
+        }
+
+        // We need to OR 0x80000000 here to ensure the 32nd bit (the sign bit) is
+        // always set for negative numbers. If `value` were 1, (meaning `negate` is
+        // true and all other bits were zeros), `value` would now be 0. -0 is just
+        // 0, and doesn't flip the 32nd bit as intended. All positive numbers will
+        // successfully flip the 32nd bit without issue, so it's a noop for them.
+        return -$value | 0x80000000;
     }
 }

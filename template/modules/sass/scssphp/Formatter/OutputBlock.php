@@ -1,65 +1,68 @@
 <?php
+
 /**
  * SCSSPHP
  *
- * @copyright 2012-2018 Leaf Corcoran
+ * @copyright 2012-2020 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
- * @link http://leafo.github.io/scssphp
+ * @link http://scssphp.github.io/scssphp
  */
 
-namespace Tangible\ScssPhp\Formatter;
+namespace ScssPhp\ScssPhp\Formatter;
 
 /**
  * Output block
  *
  * @author Anthon Pang <anthon.pang@gmail.com>
+ *
+ * @internal
  */
-class OutputBlock
+final class OutputBlock
 {
     /**
-     * @var string
+     * @var string|null
      */
     public $type;
 
     /**
-     * @var integer
+     * @var int
      */
     public $depth;
 
     /**
-     * @var array
+     * @var array|null
      */
     public $selectors;
 
     /**
-     * @var array
+     * @var string[]
      */
     public $lines;
 
     /**
-     * @var array
+     * @var OutputBlock[]
      */
     public $children;
 
     /**
-     * @var \Tangible\ScssPhp\Formatter\OutputBlock
+     * @var OutputBlock|null
      */
     public $parent;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $sourceName;
 
     /**
-     * @var integer
+     * @var int|null
      */
     public $sourceLine;
 
     /**
-     * @var integer
+     * @var int|null
      */
     public $sourceColumn;
 }
