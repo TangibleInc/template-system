@@ -1,5 +1,12 @@
 Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
+# 3.0.2
+
+- Loop: Improve getting default loop context for search results archive
+- Sass module
+  - Upgrade compiler library to ScssPhp 1.11.0
+  - Remove Autoprefixer and its dependency CSS Parser
+
 # 3.0.1
 
 - Calendar loop types
