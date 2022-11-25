@@ -107,6 +107,9 @@ return tangible_template(new class {
     // Content structure
     require_once __DIR__ . '/content/index.php';
 
+    // Template/block controls
+    require_once __DIR__ . '/control/index.php';
+
     // Page life cycle
     require_once __DIR__ . '/enqueue/index.php';
     require_once __DIR__ . '/actions/index.php';
