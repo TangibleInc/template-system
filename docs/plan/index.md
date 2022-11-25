@@ -21,25 +21,94 @@
 
 ## Current
 
+- Third-party plugin integrations
+
+  - [ ] [Divi integration: Issue with the_content filter](https://app.clickup.com/t/2znwhdm)
+
+  - [ ] Divi compatibility? Paragraph tags in content field
+
+    https://discourse.tangible.one/t/paragraph-tags-in-content-field-with-divi-editor-lint-error-with-shortcode-tag/743/3
+
+  - [?] [Jobs for WordPress: Get posts of custom post type Jobs](https://app.clickup.com/t/30r81mu)
+
+    https://wordpress.org/support/topic/looping-of-custom-post-type-not-working/
+
+    https://wordpress.org/plugins/job-postings/
+
+  - [?] [FacetWP integration: Set default loop context on search result pages](https://app.clickup.com/t/2zg5y8a)
+
+    https://discourse.tangible.one/t/loop-search-results-with-3-0/745/5
+    https://discourse.tangible.one/t/undefined-loop-not-pulling-results-in-3-0/759
+
+    Working:
+
+    ```html
+    <h4>Search results</h4>
+    <If loop exists>
+      <Loop>
+        - <Field title /><br>
+      </Loop>
+    <Else />
+      Nothing found.
+    </If>
+    ```
+
+    The search query for Loop tag should require specifying the post type(s) to search. (Don't use any  for default because it's bad for performance.) 
+
+    For use with search query, the type parameter needs to be handled specially and accept multiple types. Create an instance of the Post loop type, and separately pass the post types to search.
+
+    template-system/template/tags/loop/context.php
+
+    `$html->create_loop_tag_context()`
+
+
+- Taxonomy term loop
+
+  - [ ] [Taxonomy term archive: Issue with "children" field loop](https://app.clickup.com/t/2znx50w)
+
+    https://discourse.tangible.one/t/using-l-l-inside-a-category-archive/593/39
+
+    ```html
+    <Loop field=archive_term>
+      <div>Archive Children Count: <Field count/></div>
+      <Loop field=children>
+        <br>
+        <div>Loop Count: <Field count/> </div>
+        <h2><Field title /></h2>
+        <Loop field=posts>
+          - <Field title /><br>
+        </Loop>
+      </Loop>
+    </Loop>
+    ```
+
+
+  - [ ] [Taxonomy term loop: Order by random](https://app.clickup.com/t/2epyw3d)
+
+    [WP_Term_Query](https://developer.wordpress.org/reference/classes/WP_Term_Query/__construct/#parameters) does not support orderby random
+
+  - [ ] [Taxonomy term loop: Support multiple posts for post attribute](](https://app.clickup.com/t/2x5tgm7))
+
+    ```html
+    <Loop type=taxonomy_term taxonomy=category post="1,26,31,34,83">
+      <Field title /><br />
+    </Loop>
+    ```
+
+
+- [ ] [Allow assets to be displayed beyond the first page of a paginated loop](https://app.clickup.com/t/2vxve68)
+
+  https://discourse.tangible.one/t/pagination-svg-asset-disappearing-after-page-change/724
+
+  The solution is probably to pass template asset ID(s) to the paginator, so it can add it to every request; and the server side can set up the asset variable type before rendering the page template.
+
+
+- [ ] [Issue with RowLoop in the Table tag not working with the acf_relationship loop](https://app.clickup.com/t/2unqzek)
+
+
+---
+
 - [ ] VidStack Player - Bundle or plugin?
-
-
-- [ ] [January contains no week data in calendar loops](https://app.clickup.com/t/2x01e9w)
-
-  No weeks output for `<Loop field=weekday>` in calendar_month or field=month loops
-
-
-- [ ] [Taxonomy term loop: Order by random](https://app.clickup.com/t/2epyw3d)
-
-  [WP_Term_Query](https://developer.wordpress.org/reference/classes/WP_Term_Query/__construct/#parameters) does not support orderby random
-
-- [ ] Taxonomy term loop: Support multiple posts for post attribute
-
-  ```html
-  <Loop type=taxonomy_term taxonomy=category post="1,26,31,34,83">
-    <Field title /><br />
-  </Loop>
-  ```
 
 
 - [ ] If tag: add logic to test count in loops
@@ -67,16 +136,6 @@
 
   When layout matches and admin user is logged in, add **Edit Layout action** in the frontend admin menu
 
-
-
-
-### Pagination
-
-- [ ] [Allow assets to be displayed beyond the first page of a paginated loop](https://app.clickup.com/t/2vxve68?comment=996760856)
-
-  https://discourse.tangible.one/t/pagination-svg-asset-disappearing-after-page-change/724
-
-  The solution is probably to pass template asset ID(s) to the paginator, so it can add it to every request; and the server side can set up the asset variable type before rendering the page template.
 
 
 <a name=template-system></a>
@@ -140,9 +199,7 @@
 
 - [ ] [Option to see editor and preview side-by-side](https://app.clickup.com/t/2qajc6d)
 
-#### Long-term
-
-- [ ] Prepare base for CodeMirror 6
+- [ ] Upgrade editor to CodeMirror 6
 
 
 
@@ -171,10 +228,9 @@
 
 - [ ] Support uploading CSS/JS files to media library and multi-select to load by location rules
 
-- [ ] Update Sass module - template/modules/sass
-  - [ ] [SCSS PHP](https://github.com/scssphp/scssphp)
-  - [ ] PHP Autoprefixer
-  - [ ] CSS Parser
+- [x] Update Sass module - template/modules/sass
+  - [x] [SCSS PHP](https://github.com/scssphp/scssphp)
+  - [x] Remove Autoprefixer and CSS Parser
 
 - ? Deprecate Sass
   - [ ] Add tab/field for CSS editor

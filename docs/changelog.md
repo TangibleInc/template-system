@@ -1,5 +1,22 @@
+Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
-# L&L and Tangible Blocks version 3.0.0
+# 3.0.2
+
+- Loop: Improve getting default loop context for search results archive
+- Sass module
+  - Upgrade compiler library to ScssPhp 1.11.0
+  - Remove Autoprefixer and its dependency CSS Parser
+
+# 3.0.1
+
+- Calendar loop types
+  - Improve handling in case invalid values are passed
+  - Week loop: Correctly handle January which can have a week row that starts in the previous year
+- HTML Hint: Add exception for Shortcode tag to allow self-closing raw tag
+- Loop and Field tags: Get current post context inside builder preview when post status is other than publish
+- Template editor: Improve compatibility with Beaver Builder's CSS
+
+# 3.0.0
 
 - ACF select: Support looping field with single select value
 - ACF image url field: Support size attribute

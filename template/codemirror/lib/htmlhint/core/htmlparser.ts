@@ -88,6 +88,7 @@ export default class HTMLParser {
 
       return (
         mapCdataTags[tagName] &&
+        tagName!=='Shortcode' && // Exception: Allow self-closing raw tag
         attrType.value.indexOf('text/ng-template') === -1
       )
     }
@@ -129,7 +130,6 @@ export default class HTMLParser {
         }
       }
       lastIndex = regTag.lastIndex
-
       if ((tagName = match[1])) {
         if (tagCDATA && tagName === tagCDATA) {
           // Output CDATA before closing the label

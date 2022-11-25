@@ -21,6 +21,9 @@ class CalendarMonthLoop extends BaseLoop {
 
     $now = self::$now ? self::$now : (self::$now = self::$date->now()); // Cached now instance
 
+    // Catch if Date library throws error
+    try {
+
     // Year
 
     if (isset($args['year'])) {
@@ -59,8 +62,15 @@ class CalendarMonthLoop extends BaseLoop {
     $from = isset($args['from']) ? (int) $args['from'] : 1;
     $to   = isset($args['to']) ? (int) $args['to'] : 12;
 
-    for ($i = $from; $i <= $to; $i++) {
-      $items []= $i;
+    // Sanity check: Only pass valid month value
+    if ($from >=1 && $from <= 12 && $to >= 1 && $to <= 12) {
+      for ($i = $from; $i <= $to; $i++) {
+        $items []= $i;
+      }
+    }
+
+    } catch (\Throwable $th) {
+      // No items for invalid values
     }
 
     return $items;

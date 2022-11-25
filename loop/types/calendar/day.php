@@ -50,6 +50,9 @@ class CalendarDayLoop extends BaseLoop {
       }
     }
 
+    // Catch if Date library throws error
+    try {
+
     if ( isset( $args['week'] ) ) {
 
       $week = $args['week'];
@@ -95,10 +98,15 @@ class CalendarDayLoop extends BaseLoop {
       foreach ( $period as $day ) {
         $items [] = $day;
       }
+
     } else {
       // Today
       $items [] = $now;
       return $items;
+    }
+
+    } catch (\Throwable $th) {
+      // No items for invalid values
     }
 
     return $items;
