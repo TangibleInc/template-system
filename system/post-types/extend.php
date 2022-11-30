@@ -304,3 +304,23 @@ add_filter('parse_query', function($query) {
 
   return $query;
 });
+
+/**
+ * Remove default slug metabox in edit screen to support AJAX save
+ * 
+ * Related issue in WP core: [Can't change page permalink if slug metabox is removed](https://core.trac.wordpress.org/ticket/18523)
+ * 
+ * @see https://developer.wordpress.org/reference/functions/remove_meta_box/
+ */
+add_action( 'do_meta_boxes', function() use ($plugin) {
+
+  global $post;
+
+  // Single post edit screen
+  if (
+    empty($post) ||
+    !in_array($post->post_type, $plugin->template_post_types)
+  ) return;
+
+  remove_meta_box('slugdiv', null, 'normal');
+});
