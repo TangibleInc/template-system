@@ -162,7 +162,7 @@ $plugin->save_unique_template_post_slug = function( $post, $slug ) {
 
   global $wpdb;
 
-  $wpdb->update('wp_posts',
+  $wpdb->update($wpdb->prefix . 'posts',
     [
     'post_name' => wp_unique_post_slug(
         $slug,
