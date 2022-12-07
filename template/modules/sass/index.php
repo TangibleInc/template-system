@@ -1,25 +1,26 @@
 <?php
+
 /**
  * Sass compiler
  *
  * @see https://scssphp.github.io/scssphp/docs/
  */
 
-$html->sass = function($content = '', $options = []) use ($html) {
+$html->sass = function ($content = '', $options = []) use ($html) {
 
   static $sass;
 
-  if ( ! is_string($content) ) return;
+  if (!is_string($content)) return;
 
-  if ( ! $sass ) {
+  if (!$sass) {
 
-    require_once __DIR__.'/loader.php';
+    require_once __DIR__ . '/loader.php';
 
     $sass = new \Tangible\ScssPhp\Compiler();
   }
 
   // Minified output by default
-  $minify = !isset($options['minify']) || $options['minify']!==false;
+  $minify = !isset($options['minify']) || $options['minify'] !== false;
 
   $sass->setOutputStyle(
     $minify
@@ -34,20 +35,47 @@ $html->sass = function($content = '', $options = []) use ($html) {
   );
 
   /**
-   * Convert variable values for parser
+   * Pass variables to Sass compiler
+   * 
+   * Previously using $sass->addVariables( $vars ), but ScssPhp 1.x no longer
+   * accepts unprocessed values. Convert known types manually and pass
+   * as Sass variable declarations.
    * 
    * @see scssphp/Compiler.php, addVariables()
    * @see scssphp/ValueConverter.php, fromPhp()
    */
-  $vars = [];
-
   if (isset($options['variables'])) {
-    foreach ($options['variables'] as $key => $value) {
-      $vars[ $key ] = \Tangible\ScssPhp\ValueConverter::fromPhp( $value );
-    }  
-  }
 
-  $sass->replaceVariables( $vars );
+    $vars = '';
+
+    foreach ($options['variables'] as $key => $value) {
+
+      try {
+        if (is_string($value)) {
+          /**
+           * Quoted string, or other types (boolean, number, etc.) already
+           * converted to string
+           */
+        } elseif (is_array($value)) {
+          /**
+           * Convert to Sass map or list
+           */
+          $value = $html->convert_array_to_sass_map_or_list($value);
+        } else {
+          /**
+           * Convert other types: will throw error on invalid value 
+           */
+          $value = \Tangible\ScssPhp\ValueConverter::fromPhp($value);
+        }
+
+        $vars .= "\$$key: $value;\n";
+
+      } catch (\Exception $error) {
+        $vars .= $html->convert_error_message_to_css_comment($error, $options);
+      }
+    }
+    $content = $vars . $content;
+  }
 
   $css = '';
 
@@ -55,46 +83,67 @@ $html->sass = function($content = '', $options = []) use ($html) {
 
     $css = $sass->compileString($content)->getCss();
 
-  } catch (\Exception $e) {
-
-    if (!isset($options['error']) || $options['error']!==false) {
-
-      $message =  $e->getMessage();
-
-      if (!empty($current_path)) {
-        $message = str_replace('(stdin)', $current_path, $message);
-      }
-      trigger_error("Sass compiler error: {$error['message']}", E_USER_WARNING);
-    }
+  } catch (\Exception $error) {
+    $css = $html->convert_error_message_to_css_comment($error, $options);
   }
 
   return $css;
 };
 
+$html->convert_array_to_sass_map_or_list = function ($value) {
+  $value = json_encode($value);
+  $value = (!empty($value) && ($value[0] === '{' || $value[0] === '['
+  ))
+    ? '(' . substr($value, 1, strlen($value) - 2) . ')'
+    : '()' // Empty map
+  ;
+  return $value;
+};
+
+$html->convert_error_message_to_css_comment = function ($error, $options) {
+
+  $message = $error->getMessage();
+  $message = str_replace('(stdin) ', '', $message);
+
+  $source = isset($options['source'])
+    ? (is_a($options['source'], 'WP_Post')
+      ? "Error in \"{$options['source']->post_name}\" - Post type: {$options['source']->post_type}, ID: {$options['source']->ID}"
+      : (is_string($options['source'])
+        ? $options['source']
+        : ''
+      )
+    )
+    : (isset($options['path'])
+      ? $options['path'] // Template file
+      : ''
+    );
+
+  $css = "/**\n";
+  if (!empty($source)) $css .= " * $source\n";
+  $css .= " * $message\n";
+  $css .= " */\n";
+
+  return $css;
+};
 
 /**
  * <style type=sass>
  */
-$html->register_style_type('sass', function($content, $options = []) use ($html) {
+$html->register_style_type('sass', function ($content, $options = []) use ($html) {
 
   if (!isset($options['path'])) {
     $options['path'] = $html->get_current_context('path');
   }
 
-  $content = $html->sass( $content, $options );
+  $content = $html->sass($content, $options);
 
-  return isset($options['render']) ? $html->render( $content ) : $content;
+  return isset($options['render']) ? $html->render($content) : $content;
 });
 
 /**
  * Render and enqueue Sass file
- *
- * TODO:
- * - Option to save CSS and cache
- * - Add comment with source path and timestamp
  */
-
-$html->enqueue_sass_file = function($file_path_or_options = [], $args = []) use ($html) {
+$html->enqueue_sass_file = function ($file_path_or_options = [], $args = []) use ($html) {
 
   if (is_string($file_path_or_options)) {
     $options = [
@@ -112,13 +161,12 @@ $html->enqueue_sass_file = function($file_path_or_options = [], $args = []) use 
 
   try {
 
-    $css = $html->sass( file_get_contents( $src ), [
-      'path' => dirname( $src )
+    $css = $html->sass(file_get_contents($src), [
+      'path' => dirname($src)
     ]);
-
   } catch (\Throwable $th) {
     return;
   }
 
-  $html->enqueue_inline_style( $css );
+  $html->enqueue_inline_style($css);
 };

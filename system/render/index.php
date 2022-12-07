@@ -66,16 +66,11 @@ $plugin->render_template_post = function(
     // Cast ID to string so it's easier to use from Sass
     if (isset( $value['id'] )) $value['id'] = (string) $value['id'];
 
-    $value = json_encode( $value );
-
     $js_variable_name      = str_replace( '-', '_', $name );
-    $js_variables[ $name ] = $value;
+    $js_variables[ $js_variable_name ] = json_encode( $value );
 
     // Convert to Sass map
-    $sass_variables[ $name ] = ( ! empty( $value ) && $value[0] === '{' )
-      ? '(' . substr( $value, 1, strlen( $value ) - 2 ) . ')'
-      : '()'; // Empty map
-
+    $sass_variables[ $name ] = $html->convert_array_to_sass_map_or_list($value);
   }
 
   $plugin->enqueue_template_style( $post, $sass_variables );

@@ -202,7 +202,9 @@ $plugin->maybe_save_style_compiled = function( $post, $style ) use ( $html ) {
 
   $css = $html->sass(
     stripslashes( $style ),
-    [ 'error' => false ]
+    [
+      'source' => $post, // Extra info for any error message
+    ]
   );
 
   update_post_meta( $post->ID, 'style_compiled', $css );

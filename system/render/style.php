@@ -41,10 +41,11 @@ $plugin->enqueue_template_style = function(
     if ( ! empty( $style ) ) {
       $css = $html->sass($style, [
         'variables' => $sass_variables, // Pass Sass variables
+        'source' => $post, // Extra info for any error message
       ]);
     }
   }
-  
+
   if (empty( $css )) return;
 
   /**

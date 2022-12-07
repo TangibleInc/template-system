@@ -6,6 +6,8 @@ Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 - Sass module
   - Upgrade compiler library to ScssPhp 1.11.0
   - Remove Autoprefixer and its dependency CSS Parser
+  - Convert any compiler error message to CSS comment
+- Template edit screen: Support database prefix other than `wp_`
 - Template post types: Remove default slug metabox in edit screen to support AJAX save. Related issue in WP core: [Can't change page permalink if slug metabox is removed](https://core.trac.wordpress.org/ticket/18523)
 
 # 3.0.1

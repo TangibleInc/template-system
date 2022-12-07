@@ -10,13 +10,18 @@ $html->register_variable_type('sass', [
     // Ensure valid variable name
     $name = preg_replace( '/[^a-zA-Z0-9_\-]+/i', '', $name );
 
-    // Support dynamic tags in Sass value
-    if (is_string($content)) $content = $html->render( $content );
     // Boolean
-    elseif (is_bool($content)) $content = $content ? 'true' : 'false';
+    if (is_bool($content)) $content = $content ? 'true' : 'false';
+    // Support dynamic tags in Sass value
+    elseif (
+      (is_string($content) || is_array($content))
+      && ( !isset( $atts['render'] ) || $atts['render'] === 'true' )
+    ) {
+      $content = $html->render( $content );
+    }
 
     $type = isset( $atts['type'] ) ? $atts['type'] : 'string';
-    
+
     switch ( $type ) {
       case 'string':
         // Wrap in quotes
@@ -31,7 +36,7 @@ $html->register_variable_type('sass', [
       // case 'array':
       // case 'raw':
       default:
-        // No formatting
+        // No formatting - Pass directly as Sass value
     }
 
     $memory[ $name ] = $content;
