@@ -2,9 +2,9 @@
 
 Create React fields for use in:
 
-- page builders as **block controls**
-- admin screen as **custom fields**
-- on the frontend as **form fields**
+- Page builders as **block controls**
+- Admin screen as **custom fields**
+- Frontend as **form fields**
 
 For reference and comparison, the list of supported ACF field types:
 
