@@ -5,7 +5,7 @@ new class {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20221125';
+  public $version = '20221207';
   public $url;
 
   public $is_plugin = false;

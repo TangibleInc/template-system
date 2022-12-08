@@ -9,7 +9,7 @@ Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
   - Improve passing variables - Handle all known value types to be compatible with new compiler
   - Convert any compiler error message to CSS comment
 - Template post types
-  - Support any database prefix including `wp_`
+  - Support any database table prefix including `wp_`
   - Remove default slug metabox in edit screen to support AJAX save; Related issue in WP core: [Can't change page permalink if slug metabox is removed](https://core.trac.wordpress.org/ticket/18523)
 
 # 3.0.1
