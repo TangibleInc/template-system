@@ -11,7 +11,12 @@ $html->register_variable_type('js', [
 
     $content = $html->render( $content );
 
-    $type = isset($atts['type']) ? $atts['type'] : 'string';
+    /**
+     * Default value type is "raw" (unquoted), previously "string" (quoted)
+     * Same for Sass variable type - See ./js.php 
+     */
+    $type = isset( $atts['type'] ) ? $atts['type'] : 'raw';
+
     switch ($type) {
       case 'string':
         // Wrap in quotes
@@ -24,7 +29,7 @@ $html->register_variable_type('js', [
       // case 'array':
       // case 'raw':
       default:
-        // No formatting
+        // No formatting - Pass directly as JS value
     }
 
     $memory[ $name ] = $content;

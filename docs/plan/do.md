@@ -53,6 +53,10 @@
 
 - Third-party plugin integrations
 
+
+  - [ ] Embedding Elementor content using `<Field content />` breaks styling
+    https://app.clickup.com/t/3d8tpx9
+
   - [ ] [Divi integration: Issue with the_content filter](https://app.clickup.com/t/2znwhdm)
 
     Divi compatibility? Paragraph tags in content field

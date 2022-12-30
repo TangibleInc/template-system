@@ -20,7 +20,11 @@ $html->register_variable_type('sass', [
       $content = $html->render( $content );
     }
 
-    $type = isset( $atts['type'] ) ? $atts['type'] : 'string';
+    /**
+     * Default value type is "raw" (unquoted), previously "string" (quoted)
+     * Same for JS variable type - See ./js.php 
+     */
+    $type = isset( $atts['type'] ) ? $atts['type'] : 'raw';
 
     switch ( $type ) {
       case 'string':
