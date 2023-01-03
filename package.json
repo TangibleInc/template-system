@@ -7,13 +7,13 @@
     "deployType": "module"
   },
   "scripts": {
-    "--- Commands below can be run with module name, like: npm run build admin": "",
+    "-- Run commands below like: npm run build [module name]": "",
     "dev": "roll dev",
     "build": "roll build",
     "format": "roll format",
-    "---": "",
-    "build:all": "roll build admin; roll build interface; roll build logic; roll build template; roll build tester",
-    "format:all": "roll format; roll format admin; roll format interface; roll format logic; roll format template; roll format tester"
+    "--": "",
+    "build:all": "roll build interface; roll build logic; roll build template; roll build tester; roll build system",
+    "format:all": "roll format interface; roll format logic; roll format template; roll format tester; roll format system"
   },
   "dependencies": {},
   "devDependencies": {

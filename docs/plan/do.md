@@ -237,6 +237,12 @@
 
 - [ ] Upgrade editor to CodeMirror 6
 
+- [ ] Upgrade Parsedown to 2.0.0
+  
+  Waiting on pull requests
+
+  - https://github.com/erusev/parsedown/pull/708
+  - https://github.com/erusev/parsedown-extra/pull/172
 
 
 <a name=import-and-export></a>

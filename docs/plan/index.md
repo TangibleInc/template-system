@@ -5,17 +5,4 @@
 
 ## Current
 
-- [x] Sass variable causing error - https://app.clickup.com/t/3dtzka0
-
-```html
-<Set sass=color type=color>#ff0000</Set>
-<p>Here's some <span class=sass-color>red</span> text!</p>
-```
-
-```scss
-.sass-color {
-  color: $color;
-}
-```
-
-
+- New editor based on CodeMirror 6 - See `/next/editor`
