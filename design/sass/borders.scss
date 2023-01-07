@@ -1,0 +1,33 @@
+@function border-radius($value) {
+  @if index($border-radius, $value) != null {
+    @error "#{value} does not exist in $border-radius.";
+  }
+  @return map-get($border-radius, $value);
+}
+
+$border-radius: (
+  none: 0px,
+  sm: 0.125rem,
+  DEFAULT: 0.25rem,
+  md: 0.375rem,
+  lg: 0.5rem,
+  xl: 0.75rem,
+  2xl: 1rem,
+  3xl: 1.5rem,
+  full: 9999px,
+);
+
+@function border-width($value) {
+  @if index($border-width, $value) != null {
+    @error "#{value} does not exist in $border-width.";
+  }
+  @return map-get($border-width, $value);
+}
+
+$border-width: (
+  0: 0px,
+  2: 2px,
+  4: 4px,
+  8: 8px,
+  DEFAULT: 1px,
+);
