@@ -373,6 +373,8 @@
 <a name=long-term></a>
 ## Long-term
 
+- [ ] Separate sub-modules from Interface module
+
 - [ ] Remove dependency on plugin framework
 
   Move modules into template system

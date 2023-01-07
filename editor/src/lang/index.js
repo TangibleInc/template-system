@@ -4,7 +4,7 @@ import { javascript } from '@codemirror/lang-javascript'
 
 // Based on https://github.com/codemirror/lang-html
 import { html } from './html/html'
-import { sass } from './sass'
+import { sass } from './sass' // ~40Kb
 
 // import { colorPicker } from '../color-picker' // TODO: Support Sass
 

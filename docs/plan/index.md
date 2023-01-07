@@ -5,4 +5,13 @@
 
 ## Current
 
-- New editor based on CodeMirror 6 - See `/next/editor`
+- Update Pipeline v2 for zip to include symlinks and readme.md
+
+## Long term
+
+- New editor based on CodeMirror 6 - See `/editor`
+
+- Design system - See `/design`
+
+- Streaming HTML parser - See `/html`
+
