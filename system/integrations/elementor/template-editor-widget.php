@@ -52,11 +52,11 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
     $this->add_control(
       'html',
       [
-                'type'       => Template_Editor_Control::CONTROL_TYPE,
-        'label'              => __( 'HTML', 'tangible-template-system' ),
-                'default'    => '',
-                'show_label' => false,
-        'condition'          => [ 'toggle-type' => 'editor' ],
+        'type'       => Template_Editor_Control::CONTROL_TYPE,
+        'label'      => __( 'HTML', 'tangible-template-system' ),
+        'default'    => '',
+        'show_label' => false,
+        'condition'  => [ 'toggle-type' => 'editor' ],
       ]
     );
 
@@ -111,6 +111,6 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
 Template_Editor_Widget::$plugin = $plugin;
 Template_Editor_Widget::$html   = $html; // Template module instance
 
-$elementor->widgets_manager->register_widget_type(
+$widgets_manager->register(
   new Template_Editor_Widget()
 );

@@ -1,4 +1,7 @@
 <?php
+
+namespace Tangible\Template\Integrations\Elementor;
+
 /**
  * Integration with Elementor
  *
@@ -41,9 +44,7 @@ add_action( 'elementor/editor/footer', $html->footer_action, 99 );
  * https://developers.elementor.com/add-custom-functionality/#Registering_New_Widgets
  */
 
-add_action( 'elementor/widgets/widgets_registered', function() use ( $plugin, $html ) {
-
-  $elementor = \Elementor\Plugin::instance();
+add_action( 'elementor/widgets/register', function( $widgets_manager ) use ( $plugin, $html ) {
 
   require_once __DIR__ . '/template-editor-widget.php';
 
@@ -59,9 +60,7 @@ add_action( 'elementor/widgets/widgets_registered', function() use ( $plugin, $h
  * https://developers.elementor.com/add-custom-functionality/#Registering_New_Controls
  */
 
-add_action( 'elementor/controls/controls_registered', function() use ( $plugin, $html ) {
-
-  $elementor = \Elementor\Plugin::instance();
+add_action( 'elementor/controls/register', function( $controls_manager ) use ( $plugin, $html ) {
 
   require_once __DIR__ . '/template-editor-control.php';
 
@@ -81,7 +80,7 @@ add_action( 'elementor/elements/categories_registered', function( $elements_mana
 /**
  * Dynamic tags
  */
-add_action('elementor/dynamic_tags/register_tags', function( $dynamic_tags ) use ( $plugin, $html ) {
+add_action('elementor/dynamic_tags/register', function( $dynamic_tags ) use ( $plugin, $html ) {
 
   // Creating tag group
   $dynamic_tags->register_group( 'loops-logic', [
@@ -92,6 +91,6 @@ add_action('elementor/dynamic_tags/register_tags', function( $dynamic_tags ) use
   include_once __DIR__ . '/template-dynamic-tag.php';
 
   // Register tag
-  $dynamic_tags->register_tag( 'Tangible\\Template\\Integrations\\Elementor\\Template_DynamicTag' );
+  $dynamic_tags->register( new Template_DynamicTag() );
 
 });
