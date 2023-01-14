@@ -146,7 +146,7 @@ class TaxonomyTermLoop extends BaseLoop {
     if ( isset($args['post']) ) {
 
       if( ! is_array($args['post']) ) {
-        $args['post'] = [ $args['post'] ];
+        $args['post'] = explode(',', $args['post']);
       }
 
       foreach ($args['post'] as $index => $value) {
