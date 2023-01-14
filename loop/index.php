@@ -18,11 +18,18 @@ if ( ! function_exists( 'tangible_loop' ) ) :
   }
 endif;
 
-return tangible_loop(new class {
+return tangible_loop(new class extends stdClass {
 
   public $name    = 'tangible_loop';
   public $url     = '';
   public $state   = [];
+
+  public $version;
+  public $path;
+  public $file_path;
+
+  public $html;
+  public $date;
 
   function __construct() {
     $this->version = tangible_template_system()->version;

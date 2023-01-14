@@ -10,10 +10,15 @@ function tangible_logic( $module = false ) {
 }
 endif;
 
-return tangible_logic(new class {
+return tangible_logic(new class extends stdClass {
 
   public $name    = 'tangible_logic';
   public $state   = [];
+
+  public $version;
+  public $path;
+  public $file_path;
+  public $url;
 
   function __construct() {
     $system = tangible_template_system();

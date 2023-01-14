@@ -1,13 +1,16 @@
 <?php
 
-new class {
+new class extends stdClass {
 
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
   public $version = '20221207';
   public $url;
+  public $path;
+  public $file_path;
 
+  public $has_plugin = [];
   public $is_plugin = false;
 
   function __construct() {
