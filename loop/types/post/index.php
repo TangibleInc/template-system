@@ -964,7 +964,7 @@ class PostLoop extends BaseLoop {
     if (isset($query_args['custom_date_field']) && isset($query_args['custom_date_field_value'])) {
 
       $field = $query_args['custom_date_field'];
-      $value = $query_args['custom_date_field_value'];
+      $value = $query_args['custom_date_field_value'] === 'current' ? 'today' : $query_args['custom_date_field_value'];
 
       unset($query_args['custom_date_field']);
       unset($query_args['custom_date_field_value']);
