@@ -169,6 +169,12 @@ $loop->push_current_post_context = function($given_post = false) use ($loop) {
     if (!empty($wp_query) && !empty($wp_query->posts)
       && array_search($post, $wp_query->posts)!==false
     ) {
+      $loop->push_context(
+        $loop($post->post_type, [
+          'id' => $post->ID,
+          'status' => 'all'
+        ])
+      );
       $loop->currently_inside_post_content_ids []= 0;
       return;
     }
