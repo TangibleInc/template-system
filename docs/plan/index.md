@@ -5,7 +5,7 @@
 
 ## Current
 
-- Update Pipeline v2 for zip to include symlinks and readme.md
+
 
 ## Long term
 
@@ -14,4 +14,15 @@
 - Design system - See `/design`
 
 - Streaming HTML parser - See `/html`
+
+- Upgrade Carbon date library
+
+- Deprecate plugin framework
+
+  - Unbundle features into individual modules and Git repos
+
+    - Plugin settings page
+    - x Plugin updater using new cloud
+
+  - Deprecate `TangibleObject`
 
