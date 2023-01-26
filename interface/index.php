@@ -10,9 +10,14 @@ function tangible_interface( $module = false ) {
 }
 endif;
 
-return tangible_interface(new class {
+return tangible_interface(new class extends stdClass {
 
   public $name    = 'tangible_interface';
+  public $version;
+  public $path;
+  public $file_path;
+  public $url;
+  public $assets_url;
 
   function __construct() {
     $this->version = tangible_template_system()->version;

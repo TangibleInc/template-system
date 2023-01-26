@@ -17,10 +17,12 @@ if ( ! function_exists( 'tangible_template' ) ) :
   }
 endif;
 
-return tangible_template(new class {
+return tangible_template(new class extends stdClass {
 
   public $name    = 'tangible_template';
   public $version = '0';
+
+  public $html;
 
   function __construct() {
 

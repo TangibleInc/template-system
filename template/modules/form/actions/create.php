@@ -37,7 +37,7 @@ $html->form_actions['create'] = function( $attributes, $data ) use ( $html, $loo
     'status',
   ] as $key ) {
     if ( isset( $data[ $key ] ) ) {
-      $post_data[ "post_${key}" ] = wp_strip_all_tags( $data[ $key ] );
+      $post_data[ "post_{$key}" ] = wp_strip_all_tags( $data[ $key ] );
       unset( $data[ $key ] );
     }
   }

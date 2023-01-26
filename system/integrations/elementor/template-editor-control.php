@@ -13,7 +13,7 @@ class Template_Editor_Control extends \Elementor\Base_Data_Control {
     return self::CONTROL_TYPE;
   }
 
-  function enqueue() {
+  function enqueue() {  
 
     $plugin = self::$plugin;
 
@@ -70,7 +70,6 @@ class Template_Editor_Control extends \Elementor\Base_Data_Control {
 Template_Editor_Control::$plugin = $plugin;
 Template_Editor_Control::$html   = $html; // Template module instance
 
-$elementor->controls_manager->register_control(
-  Template_Editor_Control::CONTROL_TYPE,
+$controls_manager->register(
   new Template_Editor_Control()
 );
