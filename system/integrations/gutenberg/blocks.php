@@ -41,8 +41,9 @@ add_action( 'init', function() use ( $plugin, $html, $loop ) {
          */
         if ($plugin->is_inside_gutenberg_editor()
           && isset($attr['current_post_id'])
-          && !empty($post = get_post( $attr['current_post_id'] ))
         ) {
+          // Post ID passed from ./enqueue.php
+          $post = get_post( $attr['current_post_id'] );
           $loop->push_current_post_context($post);
         } else {
           $loop->push_current_post_context();

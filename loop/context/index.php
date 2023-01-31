@@ -143,64 +143,45 @@ $loop->get_current = $loop->get_context;
 $loop->get_previous = $loop->get_last_context;
 
 /**
- * Current post context
+ * Current post and loop context
  * 
- * This ensures the current post is the default loop context in shortcodes and page builder previews.
+ * This ensures the current post is set as the loop context for templates
+ * in shortcodes and page builder previews.
  * 
- * It's needed to handle situations where the default loop context can be incorrectly set to
- * the builder's template or theme layout, as well as inside builder-specific post loops.
+ * It's needed to handle situations where the loop context can be incorrectly
+ * set to the builder's template or theme layout, as well as inside builder-
+ * specific post loops.
  * 
  * Caller must make a corresponding call to $loop->pop_current_post_context().
- * 
- * To balance push/pop, a dummy post ID "0" is used for exceptions.
  * 
  * @see /system/tag.php, template shortcode
  * @see /system/integrations/gutenberg/blocks.php
  * @see /system/integrations/beaver/modules/tangible-template/includes/frontend.php
- * @see /system/integrations/elementor/template-editor-widget.php
+ * @see /system/integrations/elementor/template-editor-widget.php, template-dynamic-tag.php
  */
 $loop->push_current_post_context = function($given_post = false) use ($loop) {
 
+  global $post, $wp_query;
+
   if ($given_post===false) {
-
-    global $post, $wp_query;
-
-    // Skip if default query already contains current post
-    if (!empty($wp_query) && !empty($wp_query->posts)
-      && array_search($post, $wp_query->posts)!==false
-    ) {
-      $loop->push_context(
-        $loop($post->post_type, [
-          'id' => $post->ID,
-          'status' => 'all'
-        ])
-      );
-      $loop->currently_inside_post_content_ids []= 0;
-      return;
-    }
-
     $given_post = &$post;
   }
 
   // No current post
   if (empty($given_post)) {
-    $loop->currently_inside_post_content_ids []= 0;
+    $loop->push_context( $loop('list', []) ); // Empty loop
     return;
   }
 
-  $id = $given_post->ID;
-  $type = $given_post->post_type;
-
   $loop->push_context(
-    $loop($type, [
-      'id' => $id,
+    $loop($given_post->post_type, [
+      'id' => $given_post->ID,
       'status' => 'all' // Support post status other than publish
     ])
   );
-
-  $loop->currently_inside_post_content_ids []= $id; // Prevent infinite loop
 };
 
 $loop->pop_current_post_context = function() use ($loop) {
-  array_pop($loop->currently_inside_post_content_ids);
+  $loop->pop_context();
 };
+
