@@ -1,13 +1,25 @@
 Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
-# 3.1.0
+# 3.1.2
+
+- Improve compatibility with PHP 8.2
+- Loop: Improve logic to set current post as loop context for templates loaded inside shortcodes and builder-specific post loops, such as Elementor Loop Grid widget and Beaver Post Loop
+- Plugin framework: Fix invalid hook name of ready action specific to module and version
+- Post Loop: Add alias "current" (same as "today") for parameter "custom_date_field_value"
+- Taxonomy Term Loop: Support multiple IDs for parameter "post"
+
+# 3.1.1
 
 - Loop: Improve getting default loop context for search results archive
 - Sass module
   - Upgrade compiler library to ScssPhp 1.11.0
+    - Improve compatibility with newer CSS features such as variables, functions, selectors, media queries
+    - Improve compatibility with PHP 7 and 8
+    - Improve error handling
   - Remove Autoprefixer and its dependency CSS Parser; Internet Explorer no longer supported
-  - Improve passing variables - Handle all known value types to be compatible with new compiler
+  - Improve passing Sass variables - Handle all known value types to be compatible with new compiler
   - Convert any compiler error message to CSS comment
+- JavaScript and Sass variable types: Make default value type "raw" (unquoted) instead of "string" (quoted)
 - Template post types
   - Support any database table prefix including `wp_`
   - Remove default slug metabox in edit screen to support AJAX save; Related issue in WP core: [Can't change page permalink if slug metabox is removed](https://core.trac.wordpress.org/ticket/18523)
