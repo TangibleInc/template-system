@@ -37,7 +37,7 @@ add_filter('wp_grid_builder/settings/block_fields', function($settings) use($plu
         'type'    => 'select',
         'label'   => __('Tangible Template', 'tangible_template_system'),
         'options' =>  
-          [ 0 => 'None' ] +
+          [ 0 => __('None', 'tangible_template_system') ] +
           $plugin->get_all_template_options(),
         'conditional_logic' => [
           [

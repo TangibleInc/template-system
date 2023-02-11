@@ -31,7 +31,7 @@ add_filter('wp_grid_builder/blocks', function($blocks) use($loop, $plugin) {
         echo $plugin->render_template_post( $template_post );
       wpgb_block_end( $block, $action );
 
-      $loop->pop_current_post_context( $wpgb_post );
+      $loop->pop_current_post_context();
     },
   ];
 
