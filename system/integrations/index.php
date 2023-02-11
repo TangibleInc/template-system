@@ -13,6 +13,7 @@
 require_once __DIR__ . '/gutenberg/index.php';
 require_once __DIR__ . '/beaver/index.php';
 require_once __DIR__ . '/elementor/index.php';
+require_once __DIR__ . '/wp-grid-builder/index.php';
 
 /**
  * Third-party plugin integration API
