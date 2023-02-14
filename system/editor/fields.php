@@ -126,7 +126,7 @@ add_action('admin_init', function() use ($framework, $plugin, $ajax) {
                     : 'html' // tangible_template or tangible_content
                 );
               ?>"
-            ><?php echo esc_html( $fields['content'] ); ?></textarea>
+            ><?php echo esc_textarea( $fields['content'] ); ?></textarea>
           </div>
           <?php
         } else {
