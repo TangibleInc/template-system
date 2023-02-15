@@ -53,7 +53,12 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
   $config = [
     'templateOptions' => $plugin->get_all_template_options(),
     'canEditTemplate' => current_user_can( 'manage_options' ),
-    'current_post_id' => get_the_ID(),
+    /**
+     * Ensure this field is a number, as defined in the schema for
+     * register_block_type() in ./blocks.php. get_the_ID() can return false,
+     * which makes Gutenberg throw an error, "Invalid parameter(s): attributes".
+     */
+    'current_post_id' => get_the_ID() || 0,
   ];
 
   wp_add_inline_script(

@@ -83,13 +83,25 @@ class TemplateEditor extends Component {
 
     this.editor = editor
     this.editor.on('change', this.onEditorUpdate)
+
+    /**
+     * Workaround for Gutenburg full-site editor
+     *
+     * Without this, any template editor block that already exists on the page
+     * is not visible. Newly added template block is not affected by the issue.
+     */
+    if (wp.editSite) {
+      setTimeout(function() {
+        editor.refresh()
+      }, 120)
+    }
   }
 
   componentWillUnmount() {
     this.editor.off('change', this.onEditorUpdate)
   }
 
-  componentShouldUpdate() {
+  shouldComponentUpdate() {
     return false
   }
 
@@ -136,7 +148,7 @@ class edit extends Component {
      * Current post ID
      * Used in integrations/gutenberg/enqueue to set loop context
      */
-    this.props.attributes.current_post_id = gutenbergConfig.current_post_id
+    this.props.attributes.current_post_id = gutenbergConfig.current_post_id || 0
 
     /**
      * Prepare template options

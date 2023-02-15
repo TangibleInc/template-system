@@ -3,3 +3,16 @@
 .tangible-codemirror {
   font-size: 14px;
 }
+
+/**
+ * Workaround for Gutenberg full-site editor bug
+ *
+ * Block styles don't get loaded into the iframe unless it has a class name
+ * with `wp-block`. Also, the class style must not be empty to ensure it gets
+ * included in the final CSS bundle.
+ *
+ * @see https://github.com/WordPress/gutenberg/issues/46702
+ */
+.wp-block {
+  display: block;
+}

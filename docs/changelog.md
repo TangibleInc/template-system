@@ -1,5 +1,14 @@
 Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
+# 3.1.3
+
+- Add WP Grid Builder integration with Tangible Template widget
+- Gutenberg integration: Improve compatibility with Full-Site Editor, which is still in beta/experimental stage
+- Table module: Make column filter case-insensitive, and add support for multibyte characters
+- Template post types
+  - Add workaround for user option "Disable the visual editor when writing" to prevent it from filtering template post content
+  - Improve generating template slug from title, including converting em dash to regular dash
+
 # 3.1.2
 
 - Improve compatibility with PHP 8.2
