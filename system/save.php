@@ -89,7 +89,7 @@ $plugin->save_template_post = function( $data = [] ) use ( $plugin, $html ) {
 
     $post_name = sanitize_title_with_dashes(
       ! empty( $name ) ? $name
-        : ( ! empty( $title ) ? $title : 'no-title' )
+        : ( ! empty( $title ) ? $title : 'no-title' ), '', 'save'
     );
 
     $plugin->save_unique_template_post_slug( $post, $post_name );
@@ -115,11 +115,10 @@ add_action( 'wp_after_insert_post', function( $post_id, $post, $update ) use ( $
 
   // Update template slug
 
-  $post_name = sanitize_title_with_dashes(
-    ! empty( $_POST['name'] ) ? $_POST['name']
-      : ( ! empty( $post->post_title ) ? $post->post_title
-        : 'no-title'
-      )
+  $post_name = sanitize_title_with_dashes( ! empty( $_POST['name'] ) ? $_POST['name']
+    : ( ! empty( $post->post_title ) ? $post->post_title
+      : 'no-title'
+    ), '', 'save' 
   );
 
   $plugin->save_unique_template_post_slug( $post, $post_name );
@@ -147,6 +146,25 @@ add_action( 'wp_after_insert_post', function( $post_id, $post, $update ) use ( $
   }
 
 }, 10, 3 );
+
+/**
+ * Workaround for user option "Disable the visual editor when writing"
+ * to prevent it from filtering template post content
+ * 
+ * When the option is enabled, the content goes through format_to_edit() with
+ * second argument `rich_edit` set to `false`, which applies esc_textarea() to
+ * it. This workaround forces it to be true to ensure that post content is
+ * not processed.
+ * 
+ * @see https://developer.wordpress.org/reference/functions/format_to_edit/
+ * @see https://developer.wordpress.org/reference/hooks/replace_editor/
+ */
+
+add_action('replace_editor', function($replace, $post) use ( $plugin ) {
+   if (!empty( $post ) && in_array( $post->post_type, $plugin->template_post_types )) {
+    add_filter('user_can_richedit', '__return_true', 99);
+  }
+}, 10, 2);
 
 
 /**
