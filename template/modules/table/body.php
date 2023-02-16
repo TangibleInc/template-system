@@ -130,8 +130,7 @@ $html->table_body = function($row_loop = []) use ($loop, $html) {
         switch ($search_type) {
           case 'lowercase':
           case 'string':
-            $field_value = strtolower( $field_value );
-            if (stripos($field_value, $search_value)!==false) return true;
+            if (mb_stripos($field_value, $search_value)!==false) return true;
           break;
           case 'number':
             $field_value = strval($field_value);
