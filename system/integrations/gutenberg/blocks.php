@@ -64,9 +64,34 @@ add_action( 'init', function() use ( $plugin, $html, $loop ) {
         $loop->pop_current_post_context();
         $plugin->stop_disable_links_inside_gutenberg_editor();
 
-        return $content;
+        return $plugin->wrap_gutenberg_block_html($content);
       },
     ]
   );
 
+});
+
+
+/**
+ * Workaround to protect block HTML from Gutenberg
+ * 
+ * Gutenberg applies content filters such as `wptexturize` and `do_shortcode`
+ * to the entire page after all blocks have been rendered, which can corrupt
+ * valid HTML and JSON. The dummy shortcode [twrap] prevents `do_shortcode`
+ * from processing its inner content.
+ * 
+ * @see https://github.com/WordPress/gutenberg/issues/37754#issuecomment-1433931297
+ * @see https://bitbucket.org/tangibleinc/template-system/issues/2/pagination-breaks-when-a-shortcode-is-in#comment-64843262
+ */
+$plugin->wrap_gutenberg_block_html = function($content) {
+  return '[twrap]'.$content.'[/twrap]';
+};
+
+add_shortcode('twrap', function($atts, $content) {
+  return $content;
+});
+
+add_filter('no_texturize_shortcodes', function($shortcodes) {
+  $shortcodes[] = 'twrap';
+  return $shortcodes;
 });
