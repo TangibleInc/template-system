@@ -116,7 +116,11 @@ add_shortcode('template', function($atts, $content) use ($plugin, $loop, $html) 
 
   $loop->pop_current_post_context();
 
-  return $content;
+  /**
+   * Apply workaround to protect the HTML result from Gutenberg if needed
+   * @see /system/integrations/gutenberg/utils.php
+   */
+  return $plugin->wrap_gutenberg_block_html( $content );
 });
 
 /**

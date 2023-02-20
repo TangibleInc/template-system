@@ -5,7 +5,7 @@ new class extends stdClass {
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20230217';
+  public $version = '20230220';
   public $url;
   public $path;
   public $file_path;
