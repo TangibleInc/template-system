@@ -10,7 +10,8 @@
   overflow: hidden;
   position: relative;
 
-  padding-top: 56.25%; // Default - 16:9 aspect ratio
+  // padding-top: 56.25%; // Default - 16:9 aspect ratio
+  aspect-ratio: 16 / 9;
 
   iframe {
     height: 100%;

@@ -19,12 +19,13 @@ jQuery(document).on('ready', function () {
     const width = !isNaN(widthAttr) ? widthAttr : iframe.clientWidth
     const height = !isNaN(heightAttr) ? heightAttr : iframe.clientHeight
 
-    const ratio = height / width
+    // const ratio = height / width
 
     // console.log('iframe aspect ratio', iframe, ratio)
 
     $el.css({
-      paddingTop: ratio * 100 + '%',
+      // paddingTop: ratio * 100 + '%',
+      aspectRatio: `${width} / ${height}`
     })
   }
 
