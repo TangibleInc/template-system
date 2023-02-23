@@ -17,6 +17,16 @@ $html->sass = function ($content = '', $options = []) use ($html) {
     require_once __DIR__ . '/loader.php';
 
     $sass = new \Tangible\ScssPhp\Compiler();
+
+    /**
+     * When the compiler detects a multibyte character in the Sass source code,
+     * it adds by default a @charset rule or "byte-order mark", which are only
+     * valid for CSS stylesheet as a file. The following option prevents it.
+     * 
+     * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@charset
+     * @see https://en.wikipedia.org/wiki/Byte_order_mark#UTF-8
+     */
+    $sass->setCharset(false);
   }
 
   // Minified output by default
