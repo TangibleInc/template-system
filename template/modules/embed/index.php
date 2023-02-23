@@ -49,15 +49,15 @@ $html->add_open_tag('Embed', function( $atts, $nodes ) use ( $html, $interface )
       $width  = $parts[0];
       $height = $parts[1];
 
-      $ratio = $height / $width * 100;
+      $ratio = "$width / $height";
 
     } else {
-      // Assume percentage given
+      $ratio = "100 / $ratio";
     }
 
     $atts['style'] =
       ( isset( $atts['style'] ) ? ( $atts['style'] . ';' ) : '' )
-      . 'padding-top:' . $ratio . '%;';
+      . 'aspect-ratio:' . $ratio;
   }
 
   return $html->render_tag('div', array_merge($atts, [
