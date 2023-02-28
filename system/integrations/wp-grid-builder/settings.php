@@ -51,6 +51,6 @@ add_filter('wp_grid_builder/settings/block_fields', function($settings) use($plu
           ],
         ]
       ]
-    ],
+    ]
   );
 });
