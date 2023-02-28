@@ -23,15 +23,14 @@ class CalendarMonthLoop extends BaseLoop {
 
     // Catch if Date library throws error
     try {
-
-    // Year
-
-    if (isset($args['year'])) {
-
-      $args['from'] = 1;
-      $args['to']   = 12;
-
-    } elseif (isset($args['quarter'])) {
+      
+      $year = $args['year'] ?? 'current';
+      
+      if ($year != 'current') {
+        $now->year($year);
+      }
+      
+    if (isset($args['quarter'])) {
 
       $quarter = $args['quarter'];
 
