@@ -64,7 +64,11 @@ $html->add_open_tag('Switch', function( $atts, $nodes ) use ( $html ) {
 
       // Otherwise, convert to <Else if .. />
 
+      $else_keys = $node['attributes']['keys'];
+
       $node['attributes']         = array_merge( $atts, $node['attributes'] );
+      $node['attributes']['keys'] = array_merge( $atts['keys'], $else_keys );
+
       array_unshift( $node['attributes']['keys'], 'if' );
     }
 
