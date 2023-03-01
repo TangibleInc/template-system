@@ -10,6 +10,8 @@ class CalendarMonthLoop extends BaseLoop {
   static $date;
   static $now;
 
+  public $year;
+
   static $config = [
     'name'       => 'calendar_month',
     'title'      => 'Calendar month',
@@ -23,15 +25,24 @@ class CalendarMonthLoop extends BaseLoop {
 
     // Catch if Date library throws error
     try {
-
-    // Year
-
+      
+    $this->year = $now->format('Y');
+      
     if (isset($args['year'])) {
 
-      $args['from'] = 1;
-      $args['to']   = 12;
+      // Months in given year
 
-    } elseif (isset($args['quarter'])) {
+      if ($args['year']!=='current') {
+        $this->year = (int) $args['year'];
+      }
+
+      // 1~12 by default
+      if (!isset($args['from'])) $args['from'] = 1;
+      }
+      
+    if (isset($args['quarter'])) {
+
+      // Months in quarter
 
       $quarter = $args['quarter'];
 
@@ -40,10 +51,19 @@ class CalendarMonthLoop extends BaseLoop {
         $quarter = floor( ($month-1) / 3 + 1 );
       }
 
-      $args['from'] = (($quarter - 1) * 3) + 1;
-      $args['to']   = $args['from'] + 2;
+      $from = (($quarter - 1) * 3) + 1;
+      $to   = $from + 2;
 
-    } elseif (!isset($args['from'])) {
+    } elseif (isset($args['from'])) {
+
+      // From/to months
+
+      $from = (int) $args['from'];
+      $to   = isset($args['to']) ? (int) $args['to'] : 12;
+
+    } else {
+
+      // Single month by default
 
       $month = isset($args['month']) ? $args['month'] : 'current';
 
@@ -53,14 +73,9 @@ class CalendarMonthLoop extends BaseLoop {
         $month = self::$date->parse("$month, 2000")->format('n');
       }
 
-      // $items []= (int) $month;
-
-      $args['from'] = $month;
-      $args['to']   = $month;
+      $from = $month;
+      $to   = $month;
     }
-
-    $from = isset($args['from']) ? (int) $args['from'] : 1;
-    $to   = isset($args['to']) ? (int) $args['to'] : 12;
 
     // Sanity check: Only pass valid month value
     if ($from >=1 && $from <= 12 && $to >= 1 && $to <= 12) {
@@ -78,9 +93,7 @@ class CalendarMonthLoop extends BaseLoop {
 
   function get_item_field( $item, $field_name, $args = [] ) {
 
-    $now = self::$now ? self::$now : (self::$now = self::$date->now()); // Cached now instance
-
-    $year = $now->format('Y');
+    $year = $this->year;
     $month = $item;
 
     $first_day_of_month = self::$date->create( $year, $month, 1 );
