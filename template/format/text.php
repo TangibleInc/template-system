@@ -107,14 +107,29 @@ $html->format_replace = function( $content, $options = [] ) {
 
   // Support multiple replaces
   for ( $i = 1; $i <= 3; $i++ ) {
+
     $postfix = $i === 1 ? '' : '_' . $i;
-    if ( ! isset( $options[ 'replace' . $postfix ] )
-      || ! isset( $options[ 'with' . $postfix ] )
+
+    $replace_key = 'replace' . $postfix;
+    $with_key = 'with' . $postfix;
+
+    if ( ! isset( $options[ $replace_key ] )
+      || ! isset( $options[ $with_key ] )
     ) break;
 
+    // Support replace/with string that includes HTML
+
+    foreach ([$replace_key, $with_key] as $key) {
+      if (strpos($options[ $key ], '{')===false) continue;
+      $options[ $key ] = str_replace(
+        ['<<', '>>'], ['{', '}'], // Escape using {{ and }}
+        str_replace(['{', '}'], ['<', '>'], $options[ $key ])
+      );
+    }
+
     $content = str_replace(
-      $options[ 'replace' . $postfix ],
-      $options[ 'with' . $postfix ],
+      $options[ $replace_key ],
+      $options[ $with_key ],
       $content
     );
   }
