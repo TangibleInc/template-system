@@ -140,5 +140,5 @@ $html->render_attribute_value = function($key, $value, $options = []) use ($html
     $options
   );
 
-  return $value; 
+  return str_replace($tag_pair, $pair, $value); // Restore unrendered tags
 };
