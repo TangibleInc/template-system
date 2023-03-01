@@ -91,8 +91,8 @@ class CalendarQuarterLoop extends BaseLoop {
           self::$date->create($year, $to_month, 1)->format('t') // Number of days in the given month
         );
 
-        $first_week = $first_day_of_from_month->format('W');
-        $last_week = $last_day_of_to_month->format('W');
+        $first_week = $first_day_of_from_month->isoWeek();
+        $last_week = $last_day_of_to_month->isoWeek();
 
         return self::$loop->create_type('calendar_week', [
           'from' => $first_week,

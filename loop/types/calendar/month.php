@@ -104,8 +104,8 @@ class CalendarMonthLoop extends BaseLoop {
         $last_day_of_month = self::$date->create( $year, $month, $first_day_of_month->format('t') );
 
         return self::$loop->create_type('calendar_week', [
-          'from' => $first_day_of_month->format('W'),
-          'to' => $last_day_of_month->format('W'),
+          'from' => $first_day_of_month->isoWeek(),
+          'to' => $last_day_of_month->isoWeek(),
         ]);
 
       case 'day':

@@ -42,7 +42,7 @@ class CalendarWeekLoop extends BaseLoop {
       $last_day_of_year = self::$date->create( $year, 12, 31 );
 
       $first_week = 1;
-      $last_week  = $last_day_of_year->format( 'W' );
+      $last_week  = $last_day_of_year->isoWeek();
 
       for ( $week = $first_week; $week <= $last_week; $week++ ) {
         $items [] = [
@@ -72,8 +72,8 @@ class CalendarWeekLoop extends BaseLoop {
         $last_day_of_last_month
       );
 
-      $first_week = $first_day_of_quarter->format( 'W' );
-      $last_week  = $last_day_of_quarter->format( 'W' );
+      $first_week = $first_day_of_quarter->isoWeek();
+      $last_week  = $last_day_of_quarter->isoWeek();
 
       for ( $week = $first_week; $week <= $last_week; $week++ ) {
         $items [] = [
@@ -98,8 +98,8 @@ class CalendarWeekLoop extends BaseLoop {
       $first_day_of_month = self::$date->create( $year, $month, 1 );
       $last_day_of_month  = self::$date->create( $year, $month, $now->format( 't' ) );
 
-      $first_week = $first_day_of_month->format( 'W' );
-      $last_week  = $last_day_of_month->format( 'W' );
+      $first_week = $first_day_of_month->isoWeek();
+      $last_week  = $last_day_of_month->isoWeek();
 
       for ( $week = $first_week; $week <= $last_week; $week++ ) {
         $items [] = [
@@ -113,14 +113,14 @@ class CalendarWeekLoop extends BaseLoop {
 
     if ( isset( $args['from'] ) ) {
 
-      $from = $args['from'] === 'current' ? $now->format( 'W' ) : $args['from'];
+      $from = $args['from'] === 'current' ? $now->isoWeek() : $args['from'];
 
       if ( isset( $args['to'] ) ) {
         $to = $args['to'];
       } else {
         // Get last week of this year
         $last_day_of_year = self::$date->create( $year, 12, 31 );
-        $to               = $last_day_of_year->format( 'W' );
+        $to               = $last_day_of_year->isoWeek();
       }
 
       /**
@@ -130,7 +130,7 @@ class CalendarWeekLoop extends BaseLoop {
       if ($from > $to) {
 
         $previous_year = $year - 1;
-        $last_week_of_previous_year = self::$date->create( $previous_year, 12, 31 )->format('W');
+        $last_week_of_previous_year = self::$date->create( $previous_year, 12, 31 )->isoWeek();
 
         // Push weeks in previous year
 
@@ -158,7 +158,7 @@ class CalendarWeekLoop extends BaseLoop {
     $week = isset( $args['week'] ) ? $args['week'] : 'current';
 
     if ( $week === 'current' ) {
-      $week = $now->format( 'W' ); // 1~53
+      $week = $now->isoWeek(); // 1~53
     }
 
     $items [] = [
