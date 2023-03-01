@@ -208,10 +208,11 @@ li#toplevel_page_tangible ul.wp-submenu > li:nth-child(<?php
 
 .tangible-template-tab,
 .tangible-template-tab p {
-  /* max-width: 620px; */
   font-size: 15px; /* WP admin style is 13px */
 }
-
+.tangible-template-tab p {
+  max-width: 620px;
+}
 </style><?php
 
 });
