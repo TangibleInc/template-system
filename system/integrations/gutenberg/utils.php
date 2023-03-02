@@ -12,8 +12,17 @@
  * Check if we're rendering inside Gutenberg editor, as opposed to site frontend
  */
 $plugin->is_inside_gutenberg_editor = function() {
-  return defined( 'REST_REQUEST' ) && REST_REQUEST
-    && ! empty( $_REQUEST['context'] ) && 'edit' === $_REQUEST['context'];
+  return (
+    // Inside REST API
+    defined( 'REST_REQUEST' ) && REST_REQUEST
+      && !empty( $_REQUEST['context'] ) && 'edit' === $_REQUEST['context']
+  ) || (
+    // Inside edit screen
+    is_admin()
+      && function_exists('get_current_screen') // Defined late after admin_init
+      && !empty($screen = get_current_screen())
+      && $screen->is_block_editor()
+  );
 };
 
 /**
