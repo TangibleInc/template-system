@@ -2,7 +2,11 @@
 
 $html->redirect_tag = function( $atts ) use ( $html ) {
 
-  if (empty( $atts['to'] )) return;
+  if (empty( $atts['to'] )
+    || $html->disable_redirect_tag
+    || wp_doing_ajax()
+    || wp_is_json_request()
+  ) return;
 
   $url = $html->absolute_or_relative_url( $atts['to'] );
 
@@ -10,5 +14,7 @@ $html->redirect_tag = function( $atts ) use ( $html ) {
   wp_redirect( $url );
   exit;
 };
+
+$html->disable_redirect_tag = false;
 
 return $html->redirect_tag;
