@@ -162,8 +162,9 @@ $plugin->is_doing_content_filter_before_do_shortcode = function () {
   global $wp_filter, $wp_current_filter;
 
   // Get last element of array, without changing its pointer like end() does
-  $action = array_pop(array_slice( $wp_current_filter, -1 ));
-
+  $last_filter = array_slice($wp_current_filter, -1);
+  $action = array_pop($last_filter);
+  
   $priority = isset($wp_filter[ $action ])
     ? $wp_filter[ $action ]->current_priority()
     : 0
