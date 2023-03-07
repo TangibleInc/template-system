@@ -185,14 +185,18 @@ $plugin->is_doing_content_filter_before_do_shortcode = function () {
   // Get last element of array, without changing its pointer like end() does
   $last_filter = array_slice($wp_current_filter, -1);
   $action = array_pop($last_filter);
-  
+
   $priority = isset($wp_filter[ $action ])
     ? $wp_filter[ $action ]->current_priority()
     : 0
   ;
 
+  $priority_of_do_shortcode = has_filter( $action, 'do_shortcode' );
+
   // do_blocks at 9, do_shortcode at 11
-  if ($priority < 11) return true;
+  if ($priority_of_do_shortcode!==false
+    && $priority < $priority_of_do_shortcode
+  ) return true;
 
   /**
    * Check if we're in a block theme running get_the_block_template_html().
