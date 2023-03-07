@@ -1,5 +1,9 @@
 Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
+# 3.1.7
+
+- Gutenberg integration: Improve workaround to protect template HTML from do_shortcode when using block theme
+
 # 3.1.5
 
 - Calendar loop types

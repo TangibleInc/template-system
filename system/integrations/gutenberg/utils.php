@@ -116,8 +116,18 @@ $plugin->stop_disable_links_inside_gutenberg_editor = function() use ( $plugin, 
  * 
  * Gutenberg applies content filters such as wptexturize and do_shortcode
  * to the entire page after all blocks have been rendered, which can corrupt
- * valid HTML and JSON. The dummy shortcode [twrap] prevents do_shortcode
- * from processing its inner content.
+ * valid HTML and JSON.
+ * 
+ * The dummy shortcode [twrap] prevents do_shortcode from processing its inner
+ * content. In addition, all square brackets need to be escaped and restored 
+ * to protect them from do_shortcodes_in_html_tags that runs on HTML attributes.
+ * 
+ * The problem is specifically in the following files where the post content is
+ * processed by do_blocks() then do_shortcode().
+ * 
+ * - /wp-includes/default-filters.php in the filter "the_content" and
+ * "widget_block_content"
+ * - /wp-includes/block-template.php in get_the_block_template_html()
  * 
  * This workaround can be removed if/when Gutenberg provides an option for
  * register_block_type() to opt-out of these content filters.
@@ -133,14 +143,18 @@ $plugin->wrap_gutenberg_block_html = function($content) use ($plugin) {
   if ( ! $plugin->is_inside_gutenberg_block_render()
     && $plugin->is_doing_content_filter_before_do_shortcode()
   ) {
-    return '[twrap]'.$content.'[/twrap]';
+    return '[twrap]'
+      // These escape codes are from /wp-includes/shortcodes.php
+      . str_replace(['[', ']'], ['&#091;', '&#093;'], $content)
+      .'[/twrap]'
+    ;
   }
 
   return $content;
 };
 
 add_shortcode('twrap', function($atts, $content) {
-  return $content;
+  return str_replace(['&#091;', '&#093;'], ['[', ']'], $content);
 });
 
 add_filter('no_texturize_shortcodes', function($shortcodes) {
@@ -152,8 +166,6 @@ add_filter('no_texturize_shortcodes', function($shortcodes) {
  * Detect if we're inside do_blocks as a content filter before do_shortcode
  * 
  * Used to determine if the Gutenberg workaround above is necessary.
- * 
- * @see wp-includes/default-filters.php
  */
 $plugin->is_doing_content_filter_before_do_shortcode = function () {
 
@@ -180,5 +192,19 @@ $plugin->is_doing_content_filter_before_do_shortcode = function () {
   ;
 
   // do_blocks at 9, do_shortcode at 11
-  return $priority < 11;
+  if ($priority < 11) return true;
+
+  /**
+   * Check if we're in a block theme running get_the_block_template_html().
+   * There is no action to detect this situation.
+   * 
+   * @see /wp-includes/template-canvas.php
+   * @see /wp-includes/block-template.php, locate_block_template()
+   */
+
+  global $template;
+
+  $template_canvas_path = ABSPATH . WPINC . '/template-canvas.php';
+
+  return $template===$template_canvas_path && !did_action('wp_head');
 };
