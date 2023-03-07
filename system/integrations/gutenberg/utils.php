@@ -66,7 +66,7 @@ $plugin->before_gutenberg_block_render = function($attributes) use ($plugin, $lo
    * Ensure default loop context is set to current post
    * @see /loop/context/index.php
    */
-  if (!empty($attributes['current_post_id'])) {
+  if ($plugin->is_inside_gutenberg_editor() && !empty($attributes['current_post_id'])) {
     // Post ID passed from ./enqueue.php
     $post = get_post( $attributes['current_post_id'] );
     $loop->push_current_post_context($post);
