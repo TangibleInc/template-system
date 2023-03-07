@@ -191,10 +191,13 @@ $plugin->is_doing_content_filter_before_do_shortcode = function () {
     : 0
   ;
 
+  $priority_of_do_blocks = has_filter( $action, 'do_blocks' );
   $priority_of_do_shortcode = has_filter( $action, 'do_shortcode' );
 
   // do_blocks at 9, do_shortcode at 11
-  if ($priority_of_do_shortcode!==false
+  if ($priority_of_do_blocks !== false
+    && $priority === $priority_of_do_blocks
+    && $priority_of_do_shortcode !== false
     && $priority < $priority_of_do_shortcode
   ) return true;
 
