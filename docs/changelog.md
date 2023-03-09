@@ -2,7 +2,11 @@ Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
 # 3.1.7
 
-- Gutenberg integration: Improve workaround to protect template HTML from do_shortcode when using block theme
+- Gutenberg integration
+  - Improve getting current post ID when inside builder
+  - Improve content filter logic to protect template HTML
+    - Support block themes
+    - Ensure it applies only when inside do_blocks before do_shortcode
 
 # 3.1.5
 
