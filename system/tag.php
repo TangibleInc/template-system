@@ -119,8 +119,16 @@ add_shortcode('template', function($atts, $content) use ($plugin, $loop, $html) 
   /**
    * Apply workaround to protect the HTML result from Gutenberg if needed
    * @see /system/integrations/gutenberg/utils.php
+   * 
+   * Handle edge case when a template is rendered inside an HTML attribute
+   * AND its content is a URL. The WP function do_shortcodes_in_html_tags runs
+   * wp_kses_one_attr on it, which removes it as invalid URL protocol.
+   * @see /wp-includes/shortcodes.php
    */
-  return $plugin->wrap_gutenberg_block_html( $content );
+  return (empty($atts['wrap']) && substr($content, 0, 4)!=='http')
+    ? $plugin->wrap_gutenberg_block_html( $content )
+    : $content
+  ;
 });
 
 /**
