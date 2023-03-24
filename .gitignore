@@ -8,3 +8,8 @@ node_modules
 composer.lock
 package-lock.json
 yarn.lock
+
+*.swp
+/coverage
+/.phpunit.cache
+/wordpress-develop
