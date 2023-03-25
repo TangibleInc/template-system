@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+         bootstrap="tests/phpunit/bootstrap.php"
+         cacheResultFile=".phpunit.cache/test-results"
+         executionOrder="depends,defects"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         convertDeprecationsToExceptions="true"
+         convertWarningsToExceptions="true"
+         failOnRisky="true"
+         colors="true"
+         failOnWarning="true"
+         verbose="true">
+    <testsuites>
+        <testsuite name="default">
+            <directory suffix=".php">tests/phpunit/cases</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <const name="DOING_TANGIBLE_TESTS" value="1" />
+    </php>
+
+    <coverage cacheDirectory=".phpunit.cache/code-coverage"
+              processUncoveredFiles="false">
+        <include>
+            <directory suffix=".php">.</directory>
+        </include>
+		<exclude>
+			<directory>tests</directory>
+			<directory>node_modules</directory>
+			<directory>vendor</directory>
+			<directory>wordpress-develop</directory>
+		</exclude>
+    </coverage>
+</phpunit>

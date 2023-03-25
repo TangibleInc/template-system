@@ -48,7 +48,13 @@ new class extends stdClass {
     ];
 
     // Requires plugin framework
-    if (!$this->has_plugin['loops'] && !$this->has_plugin['blocks']) return;
+    if (
+        !defined('DOING_TANGIBLE_TESTS')
+        && !$this->has_plugin['loops']
+        && !$this->has_plugin['blocks']
+    ) {
+        return;
+    }
 
     $name   = $this->name;
     $plugin = $system = $this;
