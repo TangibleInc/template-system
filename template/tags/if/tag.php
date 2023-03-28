@@ -57,7 +57,7 @@ $html->get_true_false_branches = function( $nodes, $else_tag = 'Else' ) use ( $h
 
   $split = $html->split_nodes_at_tag( $nodes, $else_tag );
 
-  $else_node    = $split['node'];
+  $else_node    = $split['node'] ? : [];
   $true_branch  = $split['before'];
   $false_branch = $split['after'];
 
