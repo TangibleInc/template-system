@@ -1,5 +1,5 @@
 <?php
-class Template_If_TestCase extends WP_UnitTestCase {
+class Template_Tags_If_TestCase extends WP_UnitTestCase {
 	/**
 	 * @link https://discourse.tangible.one/t/if-else-condition-in-html-attribute/954
 	 */
