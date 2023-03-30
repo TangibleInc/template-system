@@ -26,7 +26,7 @@ $html->register_variable_type('url', [
     $url = '';
 
     // For backward compatibility - Standardized to use underscore for field names
-    $name = str_replace( '-', '_', $name );
+    $name = str_replace( '-', '_', $name ? : '' );
 
     switch ( $name ) {
       case '':
