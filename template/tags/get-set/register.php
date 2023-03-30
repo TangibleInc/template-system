@@ -22,3 +22,7 @@ $html->get_variable_type_callbacks = function( $type = '' ) use ( $html ) {
     ? $html->variable_types[ $type ]
     : $html->variable_types['variable'];
 };
+
+$html->flush_variable_type_memory = function( $type ) use ( $html ) {
+  $html->variable_type_memory[ $type ] = [];
+};
