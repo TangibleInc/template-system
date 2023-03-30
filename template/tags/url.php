@@ -31,7 +31,7 @@ $html->register_variable_type('url', [
     switch ( $name ) {
       case '':
       case 'current':
-        $url = is_multisite() ? get_home_url( $wp->request ) : home_url( $wp->request );
+        $url = add_query_arg( $_GET, trailingslashit( is_multisite() ? get_home_url( $wp->request ) : home_url( $wp->request ) ) );
           break;
 
       case 'site':
