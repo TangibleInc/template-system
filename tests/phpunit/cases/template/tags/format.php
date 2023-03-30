@@ -43,7 +43,7 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
 				'Hornswaggle bowsprit six pounders sutler lateen sail parrel boatswain coxswain tackle warp. Line squiffy lass mizzenmast yard fathom clipper bucko barque cog. Jack starboard parley marooned bilge water hearties chandler heave to hands sloop.',
 				'Horns',
 			],
-			'minus-five' => [
+			'minus-one-hundred-fifty' => [
 				-150,
 				'Hornswaggle bowsprit six pounders sutler lateen sail parrel boatswain coxswain tackle warp. Line squiffy lass mizzenmast yard fathom clipper bucko barque cog. Jack starboard parley marooned bilge water hearties chandler heave to hands sloop.',
 				'Hornswaggle bowsprit six pounders sutler lateen sail parrel boatswain coxswain tackle warp.',
