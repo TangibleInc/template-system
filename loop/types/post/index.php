@@ -393,6 +393,8 @@ class PostLoop extends BaseLoop {
     ],
   ];
 
+  public $original_post;
+
   function __construct( $args = [] ) {
 
     global $post;

@@ -1,3 +1,12 @@
 {
-  "name": "tangible/template-system"
+  "name": "tangible/template-system",
+  "repositories": [{
+    "type": "vcs",
+    "url": "git@bitbucket.org:/tangibleinc/tangible-plugin-framework.git"
+  }],
+  "require-dev": {
+    "tangible/plugin-framework": "dev-master",
+    "phpunit/phpunit": "^9",
+    "yoast/phpunit-polyfills": "^1"
+  }
 }
