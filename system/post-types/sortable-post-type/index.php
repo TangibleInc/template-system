@@ -21,7 +21,7 @@ $plugin->register_sortable_post_type = function( $type ) use ($plugin) {
     require_once __DIR__ . '/class-sortable-post-type.php';
 
     $sortable_post_type = new SortablePostType(
-      $plugin->url . '/sortable-post-type',
+      $plugin->url . '/post-types/sortable-post-type',
       $plugin->version
     );
   }

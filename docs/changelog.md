@@ -1,5 +1,10 @@
 Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
+# 3.1.8
+
+- Template post types
+  - Fix drag-and-drop sort in post archive
+
 # 3.1.7
 
 - Gutenberg integration
