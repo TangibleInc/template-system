@@ -4,7 +4,8 @@ import {cssLanguage, css} from "@codemirror/lang-css"
 import {javascriptLanguage, typescriptLanguage, jsxLanguage, tsxLanguage, javascript} from "@codemirror/lang-javascript"
 import {EditorView} from "@codemirror/view"
 import {EditorSelection} from "@codemirror/state"
-import {LRLanguage, indentNodeProp, foldNodeProp, LanguageSupport, syntaxTree} from "@codemirror/language"
+import {LRLanguage, indentNodeProp, foldNodeProp, LanguageSupport, syntaxTree,
+        bracketMatchingHandle} from "@codemirror/language"
 import {elementName, htmlCompletionSourceWith, TagSpec, eventAttributes} from "./complete"
 export {htmlCompletionSource, TagSpec, htmlCompletionSourceWith} from "./complete"
 
@@ -51,7 +52,7 @@ const defaultAttrs: NestedAttr[] = [
 /// parser](https://github.com/lezer-parser/html), extended with the
 /// JavaScript and CSS parsers to parse the content of `<script>` and
 /// `<style>` tags.
-export const htmlLanguage = LRLanguage.define({
+export const htmlPlain = LRLanguage.define({
   name: "html",
   parser: parser.configure({
     props: [
@@ -84,15 +85,25 @@ export const htmlLanguage = LRLanguage.define({
           if (!first || first.name != "OpenTag") return null
           return {from: first.to, to: last.name == "CloseTag" ? last.from : node.to}
         }
+      }),
+      bracketMatchingHandle.add({
+        "OpenTag CloseTag": node => node.getChild("TagName")
       })
-    ],
-    wrap: configureNesting(defaultNesting, defaultAttrs)
+    ]
   }),
   languageData: {
     commentTokens: {block: {open: "<!--", close: "-->"}},
     indentOnInput: /^\s*<\/\w+\W$/,
     wordChars: "-._"
   }
+})
+
+/// A language provider based on the [Lezer HTML
+/// parser](https://github.com/lezer-parser/html), extended with the
+/// JavaScript and CSS parsers to parse the content of `<script>` and
+/// `<style>` tags.
+export const htmlLanguage = htmlPlain.configure({
+  wrap: configureNesting(defaultNesting, defaultAttrs)
 })
 
 /// Language support for HTML, including
@@ -130,7 +141,7 @@ export function html(config: {
       config.nestedAttributes && config.nestedAttributes.length)
     wrap = configureNesting((config.nestedLanguages || []).concat(defaultNesting),
                             (config.nestedAttributes || []).concat(defaultAttrs))
-  let lang = wrap || dialect ? htmlLanguage.configure({dialect, wrap}) : htmlLanguage
+  let lang = wrap ? htmlPlain.configure({wrap, dialect}) : dialect ? htmlLanguage.configure({dialect}) : htmlLanguage
   return new LanguageSupport(lang, [
     htmlLanguage.data.of({autocomplete: htmlCompletionSourceWith(config)}),
     config.autoCloseTags !== false ? autoCloseTags: [],
@@ -138,6 +149,9 @@ export function html(config: {
     css().support
   ])
 }
+
+const selfClosers = new Set(
+  "area base br col command embed frame hr img input keygen link meta param source track wbr menuitem".split(" "))
 
 /// Extension that will automatically insert close tags when a `>` or
 /// `/` is typed.
@@ -149,14 +163,18 @@ export const autoCloseTags = EditorView.inputHandler.of((view, from, to, text) =
     let {head} = range, around = syntaxTree(state).resolveInner(head, -1), name
     if (around.name == "TagName" || around.name == "StartTag") around = around.parent!
     if (text == ">" && around.name == "OpenTag") {
-      if (around.parent?.lastChild?.name != "CloseTag" && (name = elementName(state.doc, around.parent, head))) {
+      if (around.parent?.lastChild?.name != "CloseTag" &&
+          (name = elementName(state.doc, around.parent, head)) &&
+          !selfClosers.has(name)) {
         let hasRightBracket = view.state.doc.sliceString(head, head + 1) === ">";
         let insert = `${hasRightBracket ? "" : ">"}</${name}>`
         return {range: EditorSelection.cursor(head + 1), changes: {from: head + (hasRightBracket ? 1 : 0), insert}}
       }
     } else if (text == "/" && around.name == "OpenTag") {
       let empty = around.parent, base = empty?.parent
-      if (empty!.from == head - 1 && base!.lastChild?.name != "CloseTag" && (name = elementName(state.doc, base, head))) {
+      if (empty!.from == head - 1 && base!.lastChild?.name != "CloseTag" &&
+          (name = elementName(state.doc, base, head)) &&
+          !selfClosers.has(name)) {
         let hasRightBracket = view.state.doc.sliceString(head, head + 1) === ">"
         let insert = `/${name}${hasRightBracket ? "" : ">"}`
         let pos = head + insert.length + (hasRightBracket ? 1 : 0) 

@@ -2,8 +2,8 @@ import { EditorState, EditorSelection } from '@codemirror/state'
 import { EditorView, keymap } from '@codemirror/view'
 import type { ViewUpdate } from '@codemirror/view'
 import { getSetup } from './setup'
-// import { themeDark as theme } from './theme/dark'
-import { themeLight as theme } from './theme/light'
+import { themeDark as theme } from './theme/dark'
+// import { themeLight as theme } from './theme/light'
 
 export async function createEditor({
   el,
@@ -18,7 +18,7 @@ export async function createEditor({
     // https://codemirror.net/6/docs/ref/#view.ViewUpdate
     if (!v.docChanged) return
 
-    const code = view.state.doc.toString()
+    const code = v.state.doc.toString()
     onUpdate({
       code
     })
