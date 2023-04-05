@@ -139,6 +139,22 @@ $html->parse_if_tag_logic = function( $atts = [] ) use ( $framework, $logic ) {
   foreach ( $token_rule_groups as $group_index => $group ) {
     foreach ( $group as $rule_index => $rule ) {
 
+      // Convert "is_not" to "not" and "is" for backward compatibility
+      $pos = array_search( 'is_not', $rule );
+      if ( $pos !== false ) {
+
+        $rule[ $pos ] = 'is';
+
+        if ($rule[0]==='not') {
+          // Support the unlikely case of not + is_not = is
+          array_shift( $rule );
+        } else {
+          array_unshift( $rule, 'not' );
+        }
+        $token_rule_groups[ $group_index ][ $rule_index ] = $rule;
+        continue;
+      }
+
       $pos = array_search( 'not', $rule );
       if ( $pos !== false && $pos !== 0 ) {
 
