@@ -13,7 +13,7 @@ if ( ! function_exists( 'tangible_template' ) ) :
     static $html;
     return is_object( $arg )
       ? ( $html = $arg )
-      : ( $html && $arg !== false ? $html->render( $arg ) : $html );
+      : ( $html && $arg !== false ? $html->render_with_catch_exit( $arg ) : $html );
   }
 endif;
 
