@@ -1,9 +1,13 @@
 Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
-# 3.1.8
+# 3.1.9
 
-- Template post types
-  - Fix drag-and-drop sort in post archive
+- Format: Improve handling of spaces for kebab and snake case
+- If tag
+  - Deprecate "is_not" in favor of "not", which supports all condition types and operators including "is"
+  - Convert "is_not" to "not" and "is" for backward compatibility
+- Improve PHP 8.2 compatibility
+- Template post types: Fix drag-and-drop sort in post archive
 
 # 3.1.7
 
