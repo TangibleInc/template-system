@@ -13,10 +13,16 @@
     "format": "roll format",
     "--": "",
     "build:all": "roll build interface; roll build logic; roll build template; roll build tester; roll build system",
-    "format:all": "roll format interface; roll format logic; roll format template; roll format tester; roll format system"
+    "format:all": "roll format interface; roll format logic; roll format template; roll format tester; roll format system",
+    "-- Local environment --": "https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env",
+    "env": "wp-env",
+    "env:start": "wp-env start",
+    "env:test": "wp-env run tests-wordpress /var/www/html/wp-content/plugins/template-system/vendor/bin/phpunit -c /var/www/html/wp-content/plugins/template-system/phpunit.xml --verbose",
+    "env:stop": "wp-env stop",
+    "env:destroy": "wp-env destroy"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@tangible/roller": "1.x"
+    "@tangible/roller": "1.x",
+    "@wordpress/env": "^5.15.0"
   }
 }

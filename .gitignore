@@ -13,3 +13,6 @@ yarn.lock
 /coverage
 /.phpunit.cache
 /wordpress-develop
+
+# https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/#wp-env-override-json
+.wp-env.override.json
