@@ -18,6 +18,8 @@
     "env": "wp-env",
     "env:start": "wp-env start",
     "env:test": "wp-env run tests-wordpress /var/www/html/wp-content/plugins/template-system/vendor/bin/phpunit -c /var/www/html/wp-content/plugins/template-system/phpunit.xml --verbose",
+    "env:test:7.4": "WP_ENV_PHP_VERSION=7.4 wp-env start && npm run env:test", 
+    "env:test:8.2": "WP_ENV_PHP_VERSION=8.2 wp-env start && npm run env:test", 
     "env:stop": "wp-env stop",
     "env:destroy": "wp-env destroy"
   },
