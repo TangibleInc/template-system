@@ -1,0 +1,6 @@
+{
+  "core": "WordPress/WordPress",
+  "phpVersion": "8.2",
+  "plugins": ["."],
+  "themes": ["./tests/test-theme"]
+}

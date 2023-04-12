@@ -16,7 +16,7 @@ $html->format_case = function( $content, $options = [] ) {
     $content = strtolower(
         preg_replace('/\s+/', '_',
         preg_replace([ '/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/' ], '$1_$2',
-            preg_replace( '/[^a-zA-Z0-9]+/', '', $content )
+            preg_replace( '/[^a-zA-Z0-9]+/', ' ', $content )
           )
         )
       );
