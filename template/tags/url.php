@@ -31,8 +31,20 @@ $html->register_variable_type('url', [
     switch ( $name ) {
       case '':
       case 'current':
-        $url = add_query_arg( $_GET, trailingslashit( is_multisite() ? get_home_url( $wp->request ) : home_url( $wp->request ) ) );
-          break;
+
+        $url = is_multisite() ? get_home_url( $wp->request ) : home_url( $wp->request );
+
+        if (isset($atts['query']) && $atts['query']==='true') {
+          $query = $html->get_url_query('query', $atts);
+          if (!empty($query)) {
+            $url = trailingslashit( $url ) . '?' . $query;
+          }
+        } else {
+          $url = untrailingslashit( $url );
+        }
+
+        // Don't cache since value can change
+        return $url;
 
       case 'site':
         $url = is_multisite() ? get_site_url() : site_url();
@@ -110,11 +122,9 @@ $html->set_url = function( $name, $content, $atts = [] ) use ( $html ) {
 };
 
 // Query - The part after "?" in the URL
-$html->get_url_query = function( $name ) use ( $html ) {
+$html->get_url_query = function( $name = '', $atts = [] ) use ( $html ) {
 
-  static $memory;
-
-  if ( ! $memory) $memory = [];
+  $memory = &$html->variable_type_memory['url'];
 
   if ( isset( $memory['query'] ) ) {
     $query = $memory['query'];
@@ -124,9 +134,7 @@ $html->get_url_query = function( $name ) use ( $html ) {
     $memory['query'] = $query;
   }
 
-  if ( $name === 'query' || empty( $query ) ) {
-    return sanitize_text_field( urldecode( $query ) );
-  }
+  if ( empty( $query ) ) return '';
 
   if ( isset( $memory['queries'] ) ) {
     $queries = $memory['queries'];
@@ -134,6 +142,29 @@ $html->get_url_query = function( $name ) use ( $html ) {
     // Create array from query string
     parse_str( htmlspecialchars_decode( $query ), $queries );
     $memory['queries'] = $queries;
+  }
+
+  // Include/exclude keys
+
+  if (isset($atts['include'])) {
+    $keys = array_map('trim', explode(',', $atts['include']));
+    $included = [];
+    foreach ($keys as $key) {
+      if (isset($queries[$key])) $included[$key] = $queries[$key];
+    }
+    $queries = $included;
+  }
+
+  if (isset($atts['exclude'])) {
+    $keys = array_map('trim', explode(',', $atts['exclude']));
+    foreach ($keys as $key) {
+      if (isset($queries[$key])) unset($queries[$key]);
+    }
+  }
+
+  if ( empty( $name ) || $name === 'query' ) {
+    // All query parameters as one string
+    return sanitize_text_field( http_build_query( $queries ) );
   }
 
   return isset( $queries[ $name ] )
@@ -144,7 +175,10 @@ $html->get_url_query = function( $name ) use ( $html ) {
 $html->url_tag = function( $atts, $content ) use ( $html ) {
 
   // URL query parameter
-  if ( isset( $atts['query'] ) ) {
+  if ( isset( $atts['query'] )
+    // <Url query=true /> returns the current URL with query string
+    && $atts['query']!=='true'
+  ) {
     $key = $atts['query'];
     unset( $atts['query'] );
     return $html->get_url_query( $key );
