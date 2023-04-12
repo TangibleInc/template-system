@@ -49,6 +49,7 @@ class Template_DynamicTag extends \Elementor\Core\DynamicTags\Tag {
 
     /**
      * Ensure default loop context is set to current post
+     *
      * @see /loop/context/index.php
      */
     $loop->push_current_post_context();

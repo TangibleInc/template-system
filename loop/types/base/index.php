@@ -190,7 +190,7 @@ class BaseLoop implements BaseLoopInterface {
       return call_user_func_array( $this->$method, $args );
     }
     $caller = current( debug_backtrace() );
-    $name = self::class;
+    $name   = self::class;
     echo "Warning: Undefined method \"$method\" for {$name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>";
   }
 
@@ -600,8 +600,7 @@ class BaseLoop implements BaseLoopInterface {
       switch ( $sort_type ) {
 
         case 'date':
-
-          if (isset($this->args['sort_date_format'])) {
+          if ( isset( $this->args['sort_date_format'] ) ) {
 
             // Convert from date format using Date module
             $format = $this->args['sort_date_format'];
@@ -617,7 +616,6 @@ class BaseLoop implements BaseLoopInterface {
               $a_value = 0;
               $b_value = 0;
             }
-
           } else {
             $a_value = strtotime( $a_value );
             $b_value = strtotime( $b_value );

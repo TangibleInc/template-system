@@ -13,7 +13,7 @@
     "format": "roll format",
     "--": "",
     "build:all": "roll build interface; roll build logic; roll build template; roll build tester; roll build system",
-    "format:all": "roll format interface; roll format logic; roll format template; roll format tester; roll format system",
+    "format:all": "roll format; roll format interface; roll format logic; roll format loop; roll format template; roll format system",
     "-- Local environment --": "https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env",
     "env": "wp-env",
     "env:start": "wp-env start",

@@ -4,5 +4,5 @@ module.exports = {
       src: 'src/index.js',
       dest: 'build/module-loader.min.js',
     },
-  ]
+  ],
 }

@@ -15,22 +15,22 @@ $html->register_variable_type('query', [
       'instance' => true,
     ];
 
-    if (!empty($content)) {
+    if ( ! empty( $content ) ) {
       // Create a map and merge into loop attributes
-      $html->render([
+    $html->render([
         [
-          'tag' => 'Map',
+          'tag'        => 'Map',
           'attributes' => [ 'name' => '_query' ],
-          'children' => $content
-        ]
+          'children'   => $content,
+        ],
       ]);
-      $custom_query = $html->get_map('_query');
-      if (is_array($custom_query) && !empty($custom_query)) {
-        $loop_atts = array_merge($loop_atts, $custom_query);
+      $custom_query = $html->get_map( '_query' );
+      if ( is_array( $custom_query ) && ! empty( $custom_query ) ) {
+        $loop_atts = array_merge( $loop_atts, $custom_query );
       }
     }
 
-    $loop_instance = $html->loop_tag($loop_atts, []);
+    $loop_instance = $html->loop_tag( $loop_atts, [] );
 
     $memory[ $name ] = &$loop_instance;
 

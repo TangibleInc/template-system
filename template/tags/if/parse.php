@@ -145,7 +145,7 @@ $html->parse_if_tag_logic = function( $atts = [] ) use ( $framework, $logic ) {
 
         $rule[ $pos ] = 'is';
 
-        if ($rule[0]==='not') {
+        if ( $rule[0] === 'not' ) {
           // Support the unlikely case of not + is_not = is
           array_shift( $rule );
         } else {

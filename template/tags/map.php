@@ -51,26 +51,26 @@ $html->map_key_tag = function( $atts, $nodes ) use ( $html ) {
     // Value type - Default is 'string'
 
     if ( $atts['type'] === 'number' ) {
-      $content = $html->render( $nodes );
+      $content                   = $html->render( $nodes );
       $html->current_map[ $key ] = intval( $content );
       return;
     }
     if ( $atts['type'] === 'boolean' ) {
-      $content = $html->render( $nodes );
-      $html->current_map[ $key ] = $content===true || strtolower( $content )==='true';
+      $content                   = $html->render( $nodes );
+      $html->current_map[ $key ] = $content === true || strtolower( $content ) === 'true';
       return;
     }
 
     // Named list or map sets key to current map
 
     if ( $atts['type'] === 'list' ) {
-      $html->render_tag('List', [
+    $html->render_tag('List', [
         'name' => $key,
       ], $nodes);
       return;
     }
     if ( $atts['type'] === 'map' ) {
-      $html->render_tag('Map', [
+    $html->render_tag('Map', [
         'name' => $key,
       ], $nodes);
       return;
@@ -82,8 +82,8 @@ $html->map_key_tag = function( $atts, $nodes ) use ( $html ) {
 
 $html->map_tag = function( $atts, $nodes ) use ( $html ) {
 
-  if (!isset($atts['keys'])) $atts['keys'] = [];
-  $name = isset( $atts['name'] ) ? $atts['name'] : array_shift( $atts['keys'] );
+  if ( ! isset( $atts['keys'] )) $atts['keys'] = [];
+  $name                                        = isset( $atts['name'] ) ? $atts['name'] : array_shift( $atts['keys'] );
 
   // Create map
 

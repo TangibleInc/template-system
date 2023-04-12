@@ -8,9 +8,12 @@
 
 const memoryKey = 'tangibleTemplateEditorState'
 
-const memory = Object.assign({
-  tab: undefined // Default tab
-}, getMemory() || {})
+const memory = Object.assign(
+  {
+    tab: undefined, // Default tab
+  },
+  getMemory() || {}
+)
 
 function setMemory(state) {
   if (!window.localStorage) return
@@ -211,7 +214,6 @@ jQuery(function ($) {
    * but after that the publish button can use AJAX save.
    */
   if (!templateMeta.isNewPost && templateMeta.postStatus === 'publish') {
-
     /**
      * Disable AJAX save until following issues are resolved:
      *
@@ -219,16 +221,13 @@ jQuery(function ($) {
      * - Sometimes the post slug not saving?
      * - Sometimes there's a confirmation dialog "information you've entered may not be saved"
      */
-
     /*
         $publishButton.on('click', function (e) {
           e.preventDefault()
           save()
         })
     */
-
     // window.onbeforeunload = function() {}
-
   }
 
   const sharedEditorOptions = {
@@ -320,8 +319,8 @@ jQuery(function ($) {
       const $tabEditor = $tab.find('[data-tangible-template-editor-type]')
       const editorInstance = $tabEditor.length
         ? editorInstances[
-        $tabEditor.attr('name') // By field name
-        ]
+            $tabEditor.attr('name') // By field name
+          ]
         : false
 
       if (!tabEditorActivated[index]) {
@@ -339,9 +338,8 @@ jQuery(function ($) {
 
       setMemory({
         tab: $tabSelector.data('tabName'),
-        postId
+        postId,
       })
-
     }) // End for each tab selector
   }) // End on click tab selector
 
@@ -358,7 +356,7 @@ jQuery(function ($) {
       return obj
     }, {})
 
-  const gotoTab = query.tab || (memory.postId===postId && memory.tab)
+  const gotoTab = query.tab || (memory.postId === postId && memory.tab)
 
   if (gotoTab) {
     // Switch to tab

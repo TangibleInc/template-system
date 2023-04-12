@@ -3,7 +3,7 @@
 $system = tangible_template_system();
 $tester = $system->tester();
 
-$test = $tester->start('Template System');
+$test = $tester->start( 'Template System' );
 
 $test('Function tangible_template_system()', function( $it ) {
 
@@ -13,12 +13,12 @@ $test('Function tangible_template_system()', function( $it ) {
 
   $it( 'returns an object', is_object( $system ) );
 
-  foreach ([
+  foreach ( [
     'loop',
     'logic',
     'html',
-  ] as $key) {
-    $it( "has module ->{$key}", !empty( $system->$key ) );
+  ] as $key ) {
+    $it( "has module ->{$key}", ! empty( $system->$key ) );
   }
 
 });

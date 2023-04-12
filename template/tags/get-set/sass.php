@@ -2,6 +2,7 @@
 
 /**
  * Variable type "sass"
+ *
  * @see https://sass-lang.com/documentation/values
  */
 $html->register_variable_type('sass', [
@@ -11,18 +12,18 @@ $html->register_variable_type('sass', [
     $name = preg_replace( '/[^a-zA-Z0-9_\-]+/i', '', $name );
 
     // Boolean
-    if (is_bool($content)) $content = $content ? 'true' : 'false';
+    if (is_bool( $content )) $content = $content ? 'true' : 'false';
     // Support dynamic tags in Sass value
     elseif (
-      (is_string($content) || is_array($content))
-      && ( !isset( $atts['render'] ) || $atts['render'] === 'true' )
+      ( is_string( $content ) || is_array( $content ) )
+      && ( ! isset( $atts['render'] ) || $atts['render'] === 'true' )
     ) {
       $content = $html->render( $content );
     }
 
     /**
      * Default value type is "raw" (unquoted), previously "string" (quoted)
-     * Same for JS variable type - See ./js.php 
+     * Same for JS variable type - See ./js.php
      */
     $type = isset( $atts['type'] ) ? $atts['type'] : 'raw';
 

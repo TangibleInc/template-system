@@ -129,7 +129,7 @@ $loop->get_user_field = function( $user, $field_name = '', $args = [] ) use ( $l
        * NOTE: Assumes all loop types can accept array of IDs
        */
 
-      return empty( $post_ids ) ? $loop( 'list', [] ) : $loop->create_type( $loop_type, [
+        return empty( $post_ids ) ? $loop( 'list', [] ) : $loop->create_type( $loop_type, [
         'id' => $post_ids,
       ]);
 

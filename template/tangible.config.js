@@ -37,8 +37,7 @@ module.exports = {
 
     ...submodules.reduce((tasks, key) => {
       tasks.push(
-        ...require(`./${key}/tangible.config.js`).build
-        .map(task => ({
+        ...require(`./${key}/tangible.config.js`).build.map((task) => ({
           ...task,
           src: task.src && `./${key}/${task.src}`,
           dest: task.dest && `./${key}/${task.dest}`,

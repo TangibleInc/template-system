@@ -132,11 +132,10 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         // Convert to list
         $current_value = empty( $current_value )
           ? []
-          : (isset( $current_value[0] ) && $current_value[0] === '['
+          : ( isset( $current_value[0] ) && $current_value[0] === '['
             ? $html->hjson()->parse( $current_value )
             : array_map( 'trim', explode( ',', $current_value ) ) // Comma-separated list
-          )
-        ;
+          );
       }
       if ( is_array( $current_value ) ) {
 
@@ -158,11 +157,10 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         // Convert to list
         $current_value = empty( $current_value )
           ? []
-          : (isset( $current_value[0] ) && $current_value[0] === '['
+          : ( isset( $current_value[0] ) && $current_value[0] === '['
             ? $html->hjson()->parse( $current_value )
             : array_map( 'trim', explode( ',', $current_value ) ) // Comma-separated list
-          )
-        ;
+          );
       }
       if ( is_array( $current_value ) ) {
 
@@ -265,11 +263,10 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         // Convert to list
         $current_value = empty( $current_value )
           ? []
-          : (isset( $current_value[0] ) && $current_value[0] === '['
+          : ( isset( $current_value[0] ) && $current_value[0] === '['
             ? $html->hjson()->parse( $current_value )
             : array_map( 'trim', explode( ',', $current_value ) ) // Comma-separated list
-          )
-        ;
+          );
       }
       if ( is_array( $current_value ) ) {
 
@@ -297,7 +294,7 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         $condition = substr( $current_value, -$length ) === $value;
       } elseif ( is_array( $current_value ) ) {
         // Last item (without modifying the array)
-        $condition = $current_value[ count($current_value)-1 ] === $value;
+        $condition = $current_value[ count( $current_value ) - 1 ] === $value;
       } else {
         $condition = false;
       }
@@ -311,11 +308,10 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         // Convert to list
         $current_value = empty( $current_value )
           ? []
-          : (isset( $current_value[0] ) && $current_value[0] === '['
+          : ( isset( $current_value[0] ) && $current_value[0] === '['
             ? $html->hjson()->parse( $current_value )
             : array_map( 'trim', explode( ',', $current_value ) ) // Comma-separated list
-          )
-        ;
+          );
       }
       if ( is_array( $current_value ) ) {
 
@@ -338,10 +334,9 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
 
     case 'in':
     case 'not_in':
-
-      if (is_array( $value )) {
+      if ( is_array( $value ) ) {
         $values = $value;
-      } elseif (isset( $atts['list'] )) {
+      } elseif ( isset( $atts['list'] ) ) {
         /**
          * Handle special case for backward compatibility:
          *
@@ -358,8 +353,8 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         // Convert to list
         $values = isset( $value[0] ) && $value[0] === '['
           ? $html->hjson()->parse( $value )
-          : array_map( 'trim', explode( ',', $value ) ) // Comma-separated list
-        ;
+          : array_map( 'trim', explode( ',', $value ) ); // Comma-separated list
+
       }
 
       // needle in haystack
@@ -376,8 +371,8 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         $condition = strpos( $current_value, $value ) !== false;
 
       } elseif ( is_array( $current_value ) ) {
-        if (is_array($value)) {
-          foreach ($value as $val) {
+        if ( is_array( $value ) ) {
+          foreach ( $value as $val ) {
             $condition = array_search( $val, $current_value ) !== false;
             if ($condition) break;
           }

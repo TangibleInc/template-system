@@ -31,12 +31,11 @@ $html->register_variable_type('url', [
     switch ( $name ) {
       case '':
       case 'current':
-
         $url = is_multisite() ? get_home_url( $wp->request ) : home_url( $wp->request );
 
-        if (isset($atts['query']) && $atts['query']==='true') {
-          $query = $html->get_url_query('query', $atts);
-          if (!empty($query)) {
+        if ( isset( $atts['query'] ) && $atts['query'] === 'true' ) {
+          $query = $html->get_url_query( 'query', $atts );
+          if ( ! empty( $query ) ) {
             $url = trailingslashit( $url ) . '?' . $query;
           }
         } else {
@@ -44,7 +43,7 @@ $html->register_variable_type('url', [
         }
 
         // Don't cache since value can change
-        return $url;
+          return $url;
 
       case 'site':
         $url = is_multisite() ? get_site_url() : site_url();
@@ -146,19 +145,19 @@ $html->get_url_query = function( $name = '', $atts = [] ) use ( $html ) {
 
   // Include/exclude keys
 
-  if (isset($atts['include'])) {
-    $keys = array_map('trim', explode(',', $atts['include']));
+  if ( isset( $atts['include'] ) ) {
+    $keys     = array_map( 'trim', explode( ',', $atts['include'] ) );
     $included = [];
-    foreach ($keys as $key) {
-      if (isset($queries[$key])) $included[$key] = $queries[$key];
+    foreach ( $keys as $key ) {
+      if (isset( $queries[ $key ] )) $included[ $key ] = $queries[ $key ];
     }
     $queries = $included;
   }
 
-  if (isset($atts['exclude'])) {
-    $keys = array_map('trim', explode(',', $atts['exclude']));
-    foreach ($keys as $key) {
-      if (isset($queries[$key])) unset($queries[$key]);
+  if ( isset( $atts['exclude'] ) ) {
+    $keys = array_map( 'trim', explode( ',', $atts['exclude'] ) );
+    foreach ( $keys as $key ) {
+      if (isset( $queries[ $key ] )) unset( $queries[ $key ] );
     }
   }
 
@@ -177,7 +176,7 @@ $html->url_tag = function( $atts, $content ) use ( $html ) {
   // URL query parameter
   if ( isset( $atts['query'] )
     // <Url query=true /> returns the current URL with query string
-    && $atts['query']!=='true'
+    && $atts['query'] !== 'true'
   ) {
     $key = $atts['query'];
     unset( $atts['query'] );

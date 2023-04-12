@@ -4,15 +4,15 @@
  */
 
 if ( ! function_exists( 'tangible_interface' ) ) :
-function tangible_interface( $module = false ) {
-  static $o;
-  return is_object( $module ) ? ( $o = $module ) : $o;
-}
+  function tangible_interface( $module = false ) {
+    static $o;
+    return is_object( $module ) ? ( $o = $module ) : $o;
+  }
 endif;
 
 return tangible_interface(new class extends stdClass {
 
-  public $name    = 'tangible_interface';
+  public $name = 'tangible_interface';
   public $version;
   public $path;
   public $file_path;
@@ -28,7 +28,7 @@ return tangible_interface(new class extends stdClass {
   function __call( $method = '', $args = [] ) {
     if ( isset( $this->$method ) ) return call_user_func_array( $this->$method, $args );
     $caller = current( debug_backtrace() );
-    trigger_error("Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>", E_USER_WARNING);
+    trigger_error( "Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>", E_USER_WARNING );
   }
 
   function load() {

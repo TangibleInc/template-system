@@ -10,9 +10,10 @@ require_once __DIR__ . '/utils.php';
 
 /**
  * Let template system know when rendering preview inside builder
+ *
  * @see /system/integrations/index.php
  */
-add_action('current_screen', function() use ($plugin) {
+add_action('current_screen', function() use ( $plugin ) {
   $plugin->set_template_preview_state(
     $plugin->is_inside_gutenberg_editor()
   );

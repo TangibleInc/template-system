@@ -81,10 +81,11 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
   protected function render() {
 
     $settings = $this->get_settings_for_display();
-    $loop = self::$plugin->loop;
+    $loop     = self::$plugin->loop;
 
     /**
      * Ensure default loop context is set to current post
+     *
      * @see /loop/context/index.php
      */
     $loop->push_current_post_context();

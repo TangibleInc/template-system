@@ -22,21 +22,21 @@ $logic_methods = [
 $test('tangible_logic() methods', function( $it ) use ( $logic, $logic_methods ) {
 
   $it( '$logic exists', ! empty( $logic ) );
-/*
+  /*
   ?><ul><?php
-*/
+  */
 
-foreach ( $logic_methods as $key => $value ) {
+  foreach ( $logic_methods as $key => $value ) {
 
-  $title = "\$logic->{$key}";
-/*
-  ?><li><code><?php echo $title; ?></code> - <?php echo $value; ?></li><?php
-*/
+    $title = "\$logic->{$key}";
+    /*
+    ?><li><code><?php echo $title; ?></code> - <?php echo $value; ?></li><?php
+    */
 
-  $it( $title, is_callable( $logic->$key ) );
-}
-/*
-?></ul><?php
-*/
+    $it( $title, is_callable( $logic->$key ) );
+  }
+  /*
+  ?></ul><?php
+  */
 
 });

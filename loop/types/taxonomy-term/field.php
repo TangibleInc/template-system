@@ -124,7 +124,7 @@ $loop->get_taxonomy_term_field = function( $item, $field_name, $args = [] ) use 
     case 'posts':
       unset( $args['field'] ); // Remove field=posts
 
-      $loop_args = array_merge([
+    $loop_args = array_merge([
         'taxonomy' => $item->taxonomy,
         'term'     => $id,
       ], $args); // Other loop parameters

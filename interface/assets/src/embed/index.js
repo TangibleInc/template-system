@@ -25,7 +25,7 @@ jQuery(document).on('ready', function () {
 
     $el.css({
       // paddingTop: ratio * 100 + '%',
-      aspectRatio: `${width} / ${height}`
+      aspectRatio: `${width} / ${height}`,
     })
   }
 

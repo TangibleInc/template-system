@@ -16,8 +16,7 @@ class CommentLoop extends BaseLoop {
     'name'       => 'comment',
     'title'      => 'Comment',
     'category'   => 'core',
-    'query_args' => [
-    ],
+    'query_args' => [],
     'fields'     => [
       'title' => [ 'description' => 'Title' ],
     ],
@@ -38,15 +37,16 @@ class CommentLoop extends BaseLoop {
    */
   function get_item_field( $item, $field_name, $args = [] ) {
 
-    switch ($field_name) {
+    switch ( $field_name ) {
 
       case 'all':
         ob_start();
         ?><pre><code><?php print_r( $item ); ?></code></pre><?php
-        return ob_get_clean();
+          return ob_get_clean();
       break;
 
-      case 'name': return $item->name;
+      case 'name':
+          return $item->name;
     }
   }
 };

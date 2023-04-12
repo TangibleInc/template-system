@@ -1,16 +1,16 @@
 <?php
 
 $test('Frontend', function( $it ) use ( $logic ) {
-/*
+  /*
   ?>
-<h4>Enqueue UI script and style</h4>
-<p>
-<pre><code>add_action('wp_enqueue_scripts', function() {
+  <h4>Enqueue UI script and style</h4>
+  <p>
+  <pre><code>add_action('wp_enqueue_scripts', function() {
   $logic->enqueue();
-});</code></pre>
-</p>
+  });</code></pre>
+  </p>
   <?php
-*/
+  */
 
   $logic->enqueue();
 
@@ -18,16 +18,16 @@ $test('Frontend', function( $it ) use ( $logic ) {
 
   // TODO: Test from JS if it was enqueued
 
-/*
+  /*
   ?>
-<h4>Modal</h4>
+  <h4>Modal</h4>
 
-<p>Create button to open modal.</p>
+  <p>Create button to open modal.</p>
 
-<p>
-<?php
-*/
-?>
+  <p>
+  <?php
+  */
+  ?>
 <button data-tangible-logic="open">
   Open Conditional Logic Settings
 </button>
@@ -37,7 +37,7 @@ $test('Frontend', function( $it ) use ( $logic ) {
 
   // Get saved rule groups
   $field_value = get_post_meta( get_the_ID(), $field_name, true );
-  if (empty( $field_value )) {
+  if ( empty( $field_value ) ) {
     $field_value = [
       // Test HTML attribute escape
       [
@@ -47,7 +47,7 @@ $test('Frontend', function( $it ) use ( $logic ) {
           'value'   => '\'"<>',
         ],
       ],
-  ];
+    ];
   }
 
   // Conditions config
@@ -106,14 +106,14 @@ $test('Frontend', function( $it ) use ( $logic ) {
   data-tangible-logic-config='<?php echo esc_attr( json_encode( $config ) ); ?>'
   autocomplete="off"
 />
-<?php
-/*
-?>
-</p>
-
-<p>Create hidden input field with conditions config and stored field value.</p>
-<p>It must have the same parent element as the button.</p>
   <?php
-*/
+  /*
+  ?>
+  </p>
+
+  <p>Create hidden input field with conditions config and stored field value.</p>
+  <p>It must have the same parent element as the button.</p>
+  <?php
+  */
 
 });

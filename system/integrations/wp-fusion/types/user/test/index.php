@@ -1,8 +1,8 @@
 <?php
 
-$framework = tangible();
+$framework       = tangible();
 $template_system = tangible_template_system();
-$plugin = $template_system->get_integration( 'wp_fusion' );
+$plugin          = $template_system->get_integration( 'wp_fusion' );
 if ( ! $plugin) return;
 
 $loop  = tangible_loop();
@@ -11,7 +11,7 @@ $html  = tangible_template();
 
 $tester = $template_system->tester();
 
-$test   = $tester->start('WP Fusion');
+$test = $tester->start( 'WP Fusion' );
 
 $wp_fusion = wp_fusion();
 

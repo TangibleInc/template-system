@@ -111,7 +111,7 @@ $html->format_replace = function( $content, $options = [] ) {
     $postfix = $i === 1 ? '' : '_' . $i;
 
     $replace_key = 'replace' . $postfix;
-    $with_key = 'with' . $postfix;
+    $with_key    = 'with' . $postfix;
 
     if ( ! isset( $options[ $replace_key ] )
       || ! isset( $options[ $with_key ] )
@@ -119,11 +119,11 @@ $html->format_replace = function( $content, $options = [] ) {
 
     // Support replace/with string that includes HTML
 
-    foreach ([$replace_key, $with_key] as $key) {
-      if (strpos($options[ $key ], '{')===false) continue;
+    foreach ( [ $replace_key, $with_key ] as $key ) {
+      if (strpos( $options[ $key ], '{' ) === false) continue;
       $options[ $key ] = str_replace(
-        ['<<', '>>'], ['{', '}'], // Escape using {{ and }}
-        str_replace(['{', '}'], ['<', '>'], $options[ $key ])
+        [ '<<', '>>' ], [ '{', '}' ], // Escape using {{ and }}
+        str_replace( [ '{', '}' ], [ '<', '>' ], $options[ $key ] )
       );
     }
 

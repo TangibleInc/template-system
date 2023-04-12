@@ -67,10 +67,10 @@ add_action($plugin->is_multisite() ? 'network_admin_menu' : 'admin_menu',
  *
  * @see https://stackoverflow.com/questions/32984834/wordpress-show-taxonomy-under-custom-admin-menu
  */
-add_filter('parent_file', function($parent_file) {
+add_filter('parent_file', function( $parent_file ) {
   global $plugin_page, $submenu_file, $post_type, $taxonomy;
-  if ($taxonomy == 'tangible_template_category') {
-      $plugin_page = 'edit-tags.php?taxonomy=tangible_template_category'; // the submenu slug
+  if ( $taxonomy == 'tangible_template_category' ) {
+      $plugin_page  = 'edit-tags.php?taxonomy=tangible_template_category'; // the submenu slug
       $submenu_file = 'edit-tags.php?taxonomy=tangible_template_category';    // the submenu slug
   }
   return $parent_file;

@@ -40,27 +40,26 @@ class CalendarWeekDayLoop extends BaseLoop {
     // Catch if Date library throws error
     try {
 
-    if ( isset( $args['start'] ) ) {
+      if ( isset( $args['start'] ) ) {
 
-      // Option to start week from different day than Monday
+        // Option to start week from different day than Monday
 
-      $start = $args['start'];
+        $start = $args['start'];
 
-      if ( $start === 'sun' || $start === 'sunday' ) {
-        $from = self::$date->parse( $from )->sub( '1 day' )->format( 'Y-m-d' );
-        $to   = self::$date->parse( $to )->sub( '1 day' )->format( 'Y-m-d' );
+        if ( $start === 'sun' || $start === 'sunday' ) {
+          $from = self::$date->parse( $from )->sub( '1 day' )->format( 'Y-m-d' );
+          $to   = self::$date->parse( $to )->sub( '1 day' )->format( 'Y-m-d' );
+        }
       }
-    }
 
-    // Create period of days
+      // Create period of days
 
-    $period = self::$date->parse( $from )->range( $to );
+      $period = self::$date->parse( $from )->range( $to );
 
-    foreach ( $period as $day ) {
-      $items [] = $day;
-    }
-
-    } catch (\Throwable $th) {
+      foreach ( $period as $day ) {
+        $items [] = $day;
+      }
+    } catch ( \Throwable $th ) {
       // No items for invalid values
     }
 

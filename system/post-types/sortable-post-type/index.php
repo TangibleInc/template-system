@@ -8,11 +8,11 @@ namespace Tangible\TemplateSystem;
  * Adds support for drag-and-drop sort in any post type, corresponding to field "menu_order"
  *
  * Adapted from: https://github.com/ColorlibHQ/simple-custom-post-order
- * 
+ *
  * Moved from plugin framework
  */
 
-$plugin->register_sortable_post_type = function( $type ) use ($plugin) {
+$plugin->register_sortable_post_type = function( $type ) use ( $plugin ) {
 
   static $sortable_post_type = null;
 

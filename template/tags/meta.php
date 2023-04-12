@@ -180,7 +180,7 @@ $html->schedule_meta = function( $name, $atts = [], $overwrite = true ) use ( $h
 
     $html->scheduled_meta_tags['raw'] [] = $atts;
   } elseif (
-    !isset($html->scheduled_meta_tags[ $name ])
+    ! isset( $html->scheduled_meta_tags[ $name ] )
     || $overwrite
   ) {
     $html->scheduled_meta_tags[ $name ] = $atts;

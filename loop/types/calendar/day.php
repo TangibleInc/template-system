@@ -53,59 +53,57 @@ class CalendarDayLoop extends BaseLoop {
     // Catch if Date library throws error
     try {
 
-    if ( isset( $args['week'] ) ) {
+      if ( isset( $args['week'] ) ) {
 
-      $week = $args['week'];
+        $week = $args['week'];
 
-      if ( $week === 'current' ) {
-        $week = $now->format( 'W' ); // 1~53
+        if ( $week === 'current' ) {
+          $week = $now->format( 'W' ); // 1~53
+        }
+
+        $week = $now->setISODate( $year, $week );
+
+        $from = $week->startOfWeek()->format( 'Y-m-d' );
+        $to   = $week->endOfWeek()->format( 'Y-m-d' );
+
+      } elseif ( isset( $args['month'] ) ) {
+
+        $month = $args['month'];
+
+        if ( $month === 'current' ) {
+          $month = $now->format( 'n' ); // 1~12
+        } elseif ( ! is_numeric( $month ) ) {
+          $month = self::$date->parse( "$month, 2000" )->format( 'n' );
+        }
+
+        $from = self::$date->create( $year, $month, 1 )->format( 'Y-m-d' );
+
+        $days_of_month = $now->format( 't' );
+        $to            = self::$date->create( $year, $month, $days_of_month )->format( 'Y-m-d' );
       }
 
-      $week = $now->setISODate( $year, $week );
-
-      $from = $week->startOfWeek()->format( 'Y-m-d' );
-      $to   = $week->endOfWeek()->format( 'Y-m-d' );
-
-    } elseif ( isset( $args['month'] ) ) {
-
-      $month = $args['month'];
-
-      if ( $month === 'current' ) {
-        $month = $now->format( 'n' ); // 1~12
-      } elseif ( ! is_numeric( $month ) ) {
-        $month = self::$date->parse( "$month, 2000" )->format( 'n' );
+      if ( isset( $args['day'] ) ) {
+        if ( $args['day'] === 'first' ) {
+          $to = $from;
+        } elseif ( $args['day'] === 'last' ) {
+          $from = $to;
+        }
       }
 
-      $from = self::$date->create( $year, $month, 1 )->format( 'Y-m-d' );
+      if ( ! empty( $from ) && ! empty( $to ) ) {
 
-      $days_of_month = $now->format( 't' );
-      $to            = self::$date->create( $year, $month, $days_of_month )->format( 'Y-m-d' );
-    }
+        $from_date = self::$date->parse( $from );
+        $period    = $from_date->range( $to );
 
-    if ( isset( $args['day'] ) ) {
-      if ( $args['day'] === 'first' ) {
-        $to = $from;
-      } elseif ( $args['day'] === 'last' ) {
-        $from = $to;
+        foreach ( $period as $day ) {
+          $items [] = $day;
+        }
+      } else {
+        // Today
+        $items [] = $now;
+        return $items;
       }
-    }
-
-    if ( ! empty( $from ) && ! empty( $to ) ) {
-
-      $from_date = self::$date->parse( $from );
-      $period    = $from_date->range( $to );
-
-      foreach ( $period as $day ) {
-        $items [] = $day;
-      }
-
-    } else {
-      // Today
-      $items [] = $now;
-      return $items;
-    }
-
-    } catch (\Throwable $th) {
+    } catch ( \Throwable $th ) {
       // No items for invalid values
     }
 

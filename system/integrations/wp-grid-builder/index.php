@@ -1,24 +1,24 @@
 <?php
 
-if( ! defined('WPGB_VERSION') ) return;
+if ( ! defined( 'WPGB_VERSION' ) ) return;
 
 /**
  * Integration with WP Grid Builder
- * 
- * @see https://docs.wpgridbuilder.com/resources/ 
+ *
+ * @see https://docs.wpgridbuilder.com/resources/
  */
 
-add_filter('wp_grid_builder/block/types', function($types) {
+add_filter('wp_grid_builder/block/types', function( $types ) {
 
-  $types['tangible'] = __('Tangible', 'tangible_template_system');
+  $types['tangible'] = __( 'Tangible', 'tangible_template_system' );
 
   return $types;
 });
 
-add_filter('wp_grid_builder/block/sources', function($sources) {
+add_filter('wp_grid_builder/block/sources', function( $sources ) {
 
-  $sources['tangible'] = __('Tangible', 'tangible_template_system');
-  
+  $sources['tangible'] = __( 'Tangible', 'tangible_template_system' );
+
   return $sources;
 });
 

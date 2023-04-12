@@ -69,11 +69,11 @@ class UserLoop extends BaseLoop {
         'type'        => [ 'string', 'array' ],
       ],
 
-    // Important for handling large number of posts
-    'fields'         => [
-      'value' => 'ids',
+      // Important for handling large number of posts
+      'fields'   => [
+      'value'    => 'ids',
       'internal' => true, // Don't show in documentation
-    ],
+      ],
     ],
     'fields'     => [
       'id'                => [ 'description' => 'ID' ],

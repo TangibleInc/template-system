@@ -25,10 +25,11 @@ require_once __DIR__ . '/enqueue.php';
 
 /**
  * Let template system know when rendering preview inside builder
+ *
  * @see /system/integrations/index.php
  */
-add_action( 'elementor/editor/init', function() use ($plugin) {
-  $plugin->set_template_preview_state(true);
+add_action( 'elementor/editor/init', function() use ( $plugin ) {
+  $plugin->set_template_preview_state( true );
 }, 0 );
 
 

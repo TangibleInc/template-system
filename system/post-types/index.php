@@ -9,7 +9,7 @@ $plugin->template_post_types = apply_filters('tangible_template_post_types', [
   'tangible_layout',
   'tangible_script',
   'tangible_style',
-  'tangible_template'
+  'tangible_template',
 ]);
 
 /**

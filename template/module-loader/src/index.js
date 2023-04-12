@@ -1,11 +1,10 @@
 import assetLoader from './assetLoader'
 
 const $ = window.jQuery
-const Tangible = window.Tangible = window.Tangible || {}
-const modules = Tangible.modules = Tangible.modules || {}
+const Tangible = (window.Tangible = window.Tangible || {})
+const modules = (Tangible.modules = Tangible.modules || {})
 
 function moduleLoader(element) {
-
   let moduleIndex = 0
 
   $(element)
@@ -16,19 +15,18 @@ function moduleLoader(element) {
       const moduleName = $el.data('tangibleDynamicModule')
       const options = $el.data('tangibleDynamicModuleOptions') || {}
 
-      if (!modules[ moduleName ]) {
+      if (!modules[moduleName]) {
         console.warn('Unknown dynamic module', moduleName)
         console.log(modules)
         return
       }
 
-      const { assets = [], callback } = modules[ moduleName ]
+      const { assets = [], callback } = modules[moduleName]
 
       moduleIndex++
 
-      assetLoader( assets )
-        .then(function() {
-
+      assetLoader(assets)
+        .then(function () {
           if (callback) {
             callback(el, options)
             return
@@ -61,7 +59,7 @@ function moduleLoader(element) {
               break
           }
         })
-        .catch(function(e) {
+        .catch(function (e) {
           console.error('Tangible.moduleLoader', e)
         })
     })
@@ -79,7 +77,7 @@ function registerModule(name, config) {
 
 Object.assign(Tangible, {
   moduleLoader,
-  registerModule
+  registerModule,
 })
 
 /*

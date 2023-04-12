@@ -11,7 +11,7 @@ new class extends stdClass {
   public $file_path;
 
   public $has_plugin = [];
-  public $is_plugin = false;
+  public $is_plugin  = false;
 
   function __construct() {
     $name     = $this->name;
@@ -26,32 +26,32 @@ new class extends stdClass {
 
     $this->path      = __DIR__;
     $this->file_path = __FILE__;
-    $this->url = plugins_url( '/', realpath( __FILE__ ) );
+    $this->url       = plugins_url( '/', realpath( __FILE__ ) );
   }
 
   // Dynamic methods
   function __call( $method = '', $args = [] ) {
     if ( isset( $this->$method ) ) return call_user_func_array( $this->$method, $args );
     $caller = current( debug_backtrace() );
-    trigger_error("Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>", E_USER_WARNING);
+    trigger_error( "Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>", E_USER_WARNING );
   }
 
   function load() {
 
     $this->has_plugin = [
-      'loops'  => function_exists('tangible_loops_and_logic'),
-      'loops_pro'  => function_exists('tangible_loops_and_logic_pro'),
-      'blocks' => function_exists('tangible_blocks'),
-      'blocks_editor' => function_exists('tangible_blocks_editor'),
-      'blocks_pro' => function_exists('tangible_blocks_pro'),
+      'loops'           => function_exists( 'tangible_loops_and_logic' ),
+      'loops_pro'       => function_exists( 'tangible_loops_and_logic_pro' ),
+      'blocks'          => function_exists( 'tangible_blocks' ),
+      'blocks_editor'   => function_exists( 'tangible_blocks_editor' ),
+      'blocks_pro'      => function_exists( 'tangible_blocks_pro' ),
       'template_system' => $this->is_plugin, // This module installed as plugin
     ];
 
     // Requires plugin framework
     if (
-        !defined('DOING_TANGIBLE_TESTS')
-        && !$this->has_plugin['loops']
-        && !$this->has_plugin['blocks']
+        ! defined( 'DOING_TANGIBLE_TESTS' )
+        && ! $this->has_plugin['loops']
+        && ! $this->has_plugin['blocks']
     ) {
         return;
     }

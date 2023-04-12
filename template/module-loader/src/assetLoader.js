@@ -5,7 +5,6 @@ const loading = {} // name => Promise
 const loaded = {} // name => true
 
 async function assetLoader(assets) {
-
   if (!assets || !assets.length) return
   if (Array.isArray(assets)) {
     return await Promise.all(assets.map(assetLoader))

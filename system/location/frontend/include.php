@@ -121,7 +121,7 @@ add_filter('template_include', function( $file_path ) use ( $plugin, $html, $log
   // Always OK unless manually set by <Status>
   global $wp_query;
   $wp_query->is_404 = false;
-  status_header(200);
+  status_header( 200 );
 
   return __DIR__ . '/content.php';
 

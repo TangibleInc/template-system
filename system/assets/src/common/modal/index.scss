@@ -183,7 +183,9 @@ html.tangible-logic-hide-scrollbar,
   outline: 3px solid transparent;
 }
 .tangible-components-button.is-primary,
-.tangible-components-button.is-primary:not(:hover):not(:active):not(.has-background) {
+.tangible-components-button.is-primary:not(:hover):not(:active):not(
+    .has-background
+  ) {
   white-space: nowrap;
   background: var(--tangible-theme-color);
   color: #fff;
@@ -270,8 +272,12 @@ html.tangible-logic-hide-scrollbar,
 }
 .tangible-components-button.is-secondary,
 .tangible-components-button.is-tertiary,
-.tangible-components-button.is-secondary:not(:hover):not(:active):not(.has-background),
-.tangible-components-button.is-tertiary:not(:hover):not(:active):not(.has-background) {
+.tangible-components-button.is-secondary:not(:hover):not(:active):not(
+    .has-background
+  ),
+.tangible-components-button.is-tertiary:not(:hover):not(:active):not(
+    .has-background
+  ) {
   white-space: nowrap;
   color: var(--tangible-theme-color);
   background: transparent;
@@ -377,7 +383,9 @@ html.tangible-logic-hide-scrollbar,
   width: 24px;
 }
 .tangible-components-button.has-icon,
-.tangible-components-button.has-icon:not(:hover):not(:active):not(.has-background) {
+.tangible-components-button.has-icon:not(:hover):not(:active):not(
+    .has-background
+  ) {
   padding: 6px;
   min-width: 36px;
   justify-content: center;

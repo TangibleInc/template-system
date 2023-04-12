@@ -170,6 +170,7 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
 
             /**
              * Clear any cached field values
+             *
              * @see ../save.php, maybe_save_style_compiled()
              */
             $fields['style_compiled'] = false;
@@ -247,15 +248,14 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
 
       } // Has assets
 
-
       // Handle special fields that can't be updated with udpate_post_meta()
 
       /**
        * Post status
        */
-      if (isset($fields['post_status'])) {
+      if ( isset( $fields['post_status'] ) ) {
         $status = $fields['post_status'];
-        unset($fields['post_status']);
+        unset( $fields['post_status'] );
       }
 
       /**
@@ -263,9 +263,9 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
        */
       $menu_order = false;
 
-      if (isset($fields['menu_order'])) {
+      if ( isset( $fields['menu_order'] ) ) {
         $menu_order = $fields['menu_order'];
-        unset($fields['menu_order']);
+        unset( $fields['menu_order'] );
       }
 
       /**
@@ -286,7 +286,7 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
         'meta_input'   => $fields,
       ];
 
-      if ($menu_order !== false) {
+      if ( $menu_order !== false ) {
         $post_data['menu_order'] = $menu_order;
       }
 
@@ -312,6 +312,7 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
 
       /**
        * When overwriting existing template, any cached field values like compiled CSS must cleared
+       *
        * @see ../save.php, maybe_save_style_compiled()
        */
       if ( $handle_duplicates === 'overwrite' && $fields['style_compiled'] === false ) {

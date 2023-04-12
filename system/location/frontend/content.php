@@ -11,17 +11,17 @@ $plugin = tangible_template_system();
 
 $template_id = $plugin->layout_template_for_current_location;
 
-$_post  = get_post( $template_id );
+$_post = get_post( $template_id );
 
-$fields = $plugin->get_template_fields( $_post );
+$fields  = $plugin->get_template_fields( $_post );
 $content = $plugin->render_template_post( $_post );
 
 $theme_header = $fields['theme_header'];
 $theme_footer = $fields['theme_footer'];
 
 // Block theme - From WP 5.9
-if (function_exists('wp_is_block_theme') && wp_is_block_theme()) {
-  require_once __DIR__.'/block-theme-content.php';
+if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+  require_once __DIR__ . '/block-theme-content.php';
   return;
 }
 

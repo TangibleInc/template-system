@@ -18,16 +18,16 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
 
   $html->enqueue_codemirror();
 
-/*
+  /*
   wp_enqueue_style(
     'tangible-gutenberg-template-editor',
     $plugin->url . 'assets/build/gutenberg-template-editor.min.css',
     [ 'wp-edit-blocks', 'tangible-codemirror' ],
     $plugin->version
   );
-*/
+  */
 
-  wp_enqueue_style('tangible-codemirror');
+  wp_enqueue_style( 'tangible-codemirror' );
 
   wp_enqueue_script(
     'tangible-gutenberg-template-editor',
@@ -45,7 +45,7 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
 
       'tangible-codemirror',
       'tangible-ajax',
-      'tangible-module-loader'
+      'tangible-module-loader',
     ],
     $plugin->version
   );
@@ -55,8 +55,8 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
    * for register_block_type() in ./blocks.php. get_the_ID() can return false,
    * which makes Gutenberg throw an error, "Invalid parameter(s): attributes".
    */
-  $id = get_the_ID();
-  if ($id===false) $id = 0;
+  $id                    = get_the_ID();
+  if ($id === false) $id = 0;
 
   $config = [
     'templateOptions' => $plugin->get_all_template_options(),
@@ -72,9 +72,10 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
 
   /**
    * Action hook for Tangible Blocks
+   *
    * @see tangible-blocks/includes/integrations/gutenberg/enqueue.php
    */
-  do_action('tangible_enqueue_gutenberg_template_editor');
+  do_action( 'tangible_enqueue_gutenberg_template_editor' );
 
 };
 

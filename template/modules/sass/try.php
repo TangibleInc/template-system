@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/loader.php';
+require_once __DIR__ . '/loader.php';
 
 $sass = new \Tangible\ScssPhp\Compiler();
 

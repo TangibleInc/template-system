@@ -27,21 +27,21 @@ $html->pop_control_variable_scope = function() use ( $html ) {
 $html->register_variable_type('control', [
   'set' => function( $name, $atts, $content ) use ( $html ) {
     $scope          = &$html->control_variable_scopes[0];
-    $scope[ $name ] = is_array($content) ? $content : [ 'value' => $content ];
+    $scope[ $name ] = is_array( $content ) ? $content : [ 'value' => $content ];
   },
   'get' => function( $name, $atts = [] ) use ( $html ) {
-    
-    foreach ($html->control_variable_scopes as $scope) {
-      if ( ! isset($scope[ $name ]) ) continue;
+
+    foreach ( $html->control_variable_scopes as $scope ) {
+      if ( ! isset( $scope[ $name ] ) ) continue;
       $control = $scope[ $name ];
       break;
     }
 
     $field = $atts['field'] ?? 'value';
 
-    if( $field === 'all' ) return $control ?? [];
-    if( ! isset($control) ) return '';
-    
+    if ( $field === 'all' ) return $control ?? [];
+    if ( ! isset( $control ) ) return '';
+
     return $control[ $field ] ?? '';
   },
 ]);

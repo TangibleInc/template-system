@@ -13,7 +13,7 @@ class Template_Editor_Control extends \Elementor\Base_Data_Control {
     return self::CONTROL_TYPE;
   }
 
-  function enqueue() {  
+  function enqueue() {
 
     $plugin = self::$plugin;
 

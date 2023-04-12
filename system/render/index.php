@@ -33,7 +33,7 @@ $plugin->render_template_post = function(
    * @see /includes/template/assets/variable.php
    */
   $assets_map = $plugin->prepare_template_assets_map( $post->ID );
-  
+
   /**
    * Content supports Exit tag - Previously used $html->render()
    *
@@ -50,7 +50,7 @@ $plugin->render_template_post = function(
 
   $sass_variables = $html->get_sass_variables();
   $js_variables   = $html->get_js_variables();
-  
+
   /**
    * Pass assets map as Sass and JS variables
    */
@@ -66,11 +66,11 @@ $plugin->render_template_post = function(
     // Cast ID to string so it's easier to use from Sass
     if (isset( $value['id'] )) $value['id'] = (string) $value['id'];
 
-    $js_variable_name      = str_replace( '-', '_', $name );
+    $js_variable_name                  = str_replace( '-', '_', $name );
     $js_variables[ $js_variable_name ] = json_encode( $value );
 
     // Convert to Sass map
-    $sass_variables[ $name ] = $html->convert_array_to_sass_map_or_list($value);
+    $sass_variables[ $name ] = $html->convert_array_to_sass_map_or_list( $value );
   }
 
   $plugin->enqueue_template_style( $post, $sass_variables );

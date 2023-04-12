@@ -4,7 +4,7 @@ $framework = tangible();
 $loop      = tangible_loop();
 $html      = tangible_template();
 
-$test = $tester->start('Loop');
+$test = $tester->start( 'Loop' );
 
 $test('tangible_loop()', function( $it ) use ( $loop ) {
 
