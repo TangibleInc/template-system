@@ -17,6 +17,8 @@ $html->format_tag = function( $atts, $content ) use ( $html ) {
       'date',
       'length',
       'replace',
+      'start_slash',
+      'end_slash',
     ] as $check_type ) {
       if ( ! isset( $atts[ $check_type ] )) continue;
       $type = $check_type;

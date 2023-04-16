@@ -101,7 +101,7 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
       $template = '<Format capital_words>hello, world!</Format>';
       $this->assertEquals( 'Hello, World!', tangible_template( $template ) );
 
-      // UTF-8
+      // @todo UTF-8
       // $template = '<Format uppercase>Привет, Мир!</Format>';
       // $this->assertEquals('ПРИВЕТ, МИР!', tangible_template($template));
 
@@ -157,5 +157,35 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
       $this->assertEquals( '&amp;', tangible_template( $template ) );
   }
 
-    // @todo: date, embed
+  public function test_template_tags_format_slash() {
+    $this->assertEquals( '/test', tangible_template(
+      '<Format start_slash>test</Format>'
+    ) );
+
+    $this->assertEquals( '/test', tangible_template(
+      '<Format start_slash>//test</Format>'
+    ) );
+
+    $this->assertEquals( 'test/', tangible_template(
+      '<Format end_slash>test</Format>'
+    ) );
+
+    $this->assertEquals( 'test/', tangible_template(
+      '<Format end_slash>test//</Format>'
+    ) );
+
+    $this->assertEquals( '/test/', tangible_template(
+      '<Format start_slash end_slash>test</Format>'
+    ) );
+
+    $this->assertEquals( '/test', tangible_template(
+      '<Format start_slash end_slash=false>test//</Format>'
+    ) );
+
+    $this->assertEquals( 'test/', tangible_template(
+      '<Format end_slash start_slash=false>//test</Format>'
+    ) );
+  }
+
+  // @todo: date, embed
 }

@@ -147,3 +147,49 @@ $html->format_replace = function( $content, $options = [] ) {
 $html->format_url_query = function( $content, $options = [] ) {
   return rawurlencode( $content );
 };
+
+
+/**
+ * Start slash
+ */
+$html->format_start_slash = function( $content, $options = [] ) use ($html) {
+
+  // Trim first to prevent duplicate slashes
+  $content = ltrim( $content, '/' );
+
+  if (!(isset($options['start_slash']) && $options['start_slash']==='false')) {
+    $content = '/' . $content;
+  }
+
+  if ((!empty($options['keys']) &&  in_array('end_slash', $options['keys']))
+    || isset($options['end_slash'])
+  ) {
+    $content = $html->format_end_slash($content, $options);
+  }
+
+  return $content;
+};
+
+/**
+ * End slash
+ *
+ * Not using trailingslashit() because it unexpectedly removes backslash
+ * @see https://developer.wordpress.org/reference/functions/trailingslashit/
+ */
+$html->format_end_slash = function( $content, $options = [] ) use ($html) {
+
+  // Trim first to prevent duplicate slashes
+  $content = rtrim( $content, '/' );
+
+  if (!(isset($options['end_slash']) && $options['end_slash']==='false')) {
+    $content = $content . '/';
+  }
+
+  if ((!empty($options['keys']) && in_array('start_slash', $options['keys']))
+    || isset($options['start_slash'])
+  ) {
+    $content = $html->format_start_slash($content, $options);
+  }
+
+  return $content;
+};
