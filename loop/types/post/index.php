@@ -48,11 +48,6 @@ class PostLoop extends BaseLoop {
         'type'        => [ 'string', 'array' ],
         'default'     => 'publish',
       ],
-      'ignore_sticky_posts' => [
-        'description' => 'Ignore sticky posts',
-        'type'        => 'boolean',
-        'default'     => true,
-      ],
 
       // Include/exclude
 
@@ -64,6 +59,13 @@ class PostLoop extends BaseLoop {
       'exclude'         => [
         'description' => 'Exclude by ID or name',
         'type'        => ['string', 'array'],
+      ],
+
+      // Sticky
+      'sticky' => [
+        'description' => 'Control sticky posts',
+        'type' => 'string',
+        'default' => 'default',
       ],
 
       // Parents and children
@@ -437,6 +439,21 @@ class PostLoop extends BaseLoop {
     if (isset($query_args['include_children']) && ! $query_args['include_children'] ) {
       $query_args['post_parent'] = 0;
       unset($query_args['include_children']); // Not a native WP_Query parameter
+    }
+
+    // Sticky logic
+    if ( ! empty( $query_args['sticky'] ) ) {
+      switch ( $query_args['sticky'] ) {
+        case 'only':
+          $query_args['post__in'] = get_option( 'sticky_posts' ) ? : [];
+          break;
+        case 'hidden':
+          $query_args['post__not_in'] = get_option( 'sticky_posts' ) ? : [];
+          break;
+        case 'default':
+        default:
+      }
+      unset( $query_args['sticky'] );
     }
 
     /**
