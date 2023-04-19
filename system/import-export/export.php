@@ -172,7 +172,9 @@ $plugin->export_templates = function($data) use ($plugin) {
         }
       }
 
-      // Enable/disable new controls
+      /**
+       * Export enable/disable blocks new controls
+       */
       if ( $post_type == 'tangible_block' ) {
         $fields['use_new_controls'] = get_post_meta( $fields['id'], 'tangible_blocks_use_new_controls', true );
       }
