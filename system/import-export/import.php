@@ -357,6 +357,7 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
           wp_set_post_terms( $post_id, $term_ids, $taxonomy_slug );
         }
       }
+
     } // Each post
   } // Each post type
 
