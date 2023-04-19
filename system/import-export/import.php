@@ -358,13 +358,6 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
         }
       }
 
-      /**
-       * Import enable/disable Blocks new controls value
-       */
-      if ( $post_type == 'tangible_block' ){
-        add_post_meta( $post_id, 'tangible_blocks_use_new_controls', $post['use_new_controls'] );
-      }
-
     } // Each post
   } // Each post type
 

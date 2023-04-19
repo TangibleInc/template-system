@@ -122,6 +122,20 @@ $plugin->export_templates = function($data) use ($plugin) {
       $fields['post_status'] = get_post_status( $post_id );
 
       /**
+       * Export enable/disable blocks new controls
+       * 
+       * The field is saved during import by wp_insert_post(), as one of the
+       * fields under property "meta_input". Its value is "on" when enabled.
+       * 
+       * @see ./import.php
+       * @see tangible-blocks/includes/block/post-types/meta-boxes.php
+       */
+      if ( $post_type === 'tangible_block' ) {
+        $key = 'tangible_blocks_use_new_controls';
+        $fields[ $key ] = get_post_meta( $post_id, $key, true );
+      }
+
+      /**
        * Export assets as base64 string
        *
        * TODO: Use ZIP format to export a bundle of files
@@ -170,13 +184,6 @@ $plugin->export_templates = function($data) use ($plugin) {
         foreach ($term_names as $term_name) {
           $ensure_taxonomy_term_export( $taxonomy_slug, $term_name );
         }
-      }
-
-      /**
-       * Export enable/disable blocks new controls
-       */
-      if ( $post_type == 'tangible_block' ) {
-        $fields['use_new_controls'] = get_post_meta( $fields['id'], 'tangible_blocks_use_new_controls', true );
       }
 
       $posts []= $fields;
