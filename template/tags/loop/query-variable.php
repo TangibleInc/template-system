@@ -32,6 +32,12 @@ $html->register_variable_type('query', [
 
     $loop_instance = $html->loop_tag( $loop_atts, [] );
 
+    /**
+     * Restore original loop attributes so they can be passed via AJAX, such as
+     * for pagination
+     */
+    unset($loop_instance->args['instance']);
+
     $memory[ $name ] = &$loop_instance;
 
     // Default query
