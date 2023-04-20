@@ -59,7 +59,11 @@ foreach ( $group['hooks'] as $hook ) {
   ?>
 </select>
 
-<p>By default, the layout is applied to the Content position, which is the whole site page. For compatible themes, there will be a list of other positions, such as Header, Footer, or Sidebar.</p>
+<p>By default, the layout is applied to the <b>Content</b> position, which is the whole site page.
+</p><p>
+The Document <b>Head</b> position is useful for adding meta tags, <a href="https://json-ld.org/" target="_blank">JSON-LD</a> schema, or stylesheets. The Document <b>Foot</b> position is useful for adding scripts.
+</p><p>
+For compatible themes, there will be a list of other positions, such as <b>Header</b>, <b>Footer</b>, or <b>Sidebar</b>.</p>
 
 <h3>Loading theme files</h3>
 

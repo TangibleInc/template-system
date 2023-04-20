@@ -83,3 +83,24 @@ add_action('wp_footer', function() use ( $plugin, $logic ) {
   }
 
 }, 11); // Later than default priority 10
+
+
+
+/**
+ * Template type: Tangible Layout - Theme Position "Document Head"
+ * 
+ * @see /system/location/theme/index.php
+ */
+
+add_action('wp_head', function() use ( $plugin ) {
+  do_action('tangible_layout_document_head');
+}, 0);
+
+
+/**
+ * Template type: Tangible Layout - Theme Position "Document Foot"
+ */
+
+add_action('wp_footer', function() use ( $plugin ) {
+  do_action('tangible_layout_document_foot');
+}, 98);

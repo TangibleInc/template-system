@@ -54,7 +54,7 @@ return [
   [
     'name'        => 'route',
     'label'       => 'Route',
-    'description' => 'Enter route after site URL with starting slash <code>/</code>. Accepts wildcard: <code>?</code> for any character, <code>*</code> for any route part, and <code>**</code> for any multiple route parts',
+    'description' => 'Enter route after site URL with starting slash <code>/</code><br>Accepts wildcard: <code>?</code> for any character, <code>*</code> for any route part, and <code>**</code> for any multiple route parts',
     'field_2'     => [
       [
         'type' => 'input',

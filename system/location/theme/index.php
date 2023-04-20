@@ -20,7 +20,9 @@
  * Theme positions without grouping
  */
 $plugin->theme_positions = [
-  // [ 'name' => 'header', 'label' => 'Header' ]
+  [ 'name' => 'tangible_layout_document_head', 'label' => 'Document Head' ],
+  [ 'name' => 'tangible_layout_document_foot', 'label' => 'Document Foot' ],
+// [ 'name' => 'header', 'label' => 'Header' ]
 ];
 
 $plugin->get_theme_positions = function() use ($plugin) {

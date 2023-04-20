@@ -32,16 +32,11 @@ foreach ($plugin->template_post_types_with_location as $post_type) {
    * Render column
    */
   add_action("manage_{$post_type}_posts_custom_column", function( $column, $post_id )
-    use ($post_type)
+    use ($plugin, $post_type)
   {
 
     switch ( $column ) {
       case 'location' :
-
-        $theme_position = get_post_meta( $post_id , 'theme_position' , true );
-        if (!empty($theme_position)) {
-          echo 'Theme Position: <code>' . $theme_position . '</code><br>';
-        }
 
         $value = null;
 
@@ -55,16 +50,52 @@ foreach ($plugin->template_post_types_with_location as $post_type) {
         }
 
         if (empty($value) || empty($value['description'])) {
-
-          // These template types apply to entire site by default
-          if ($post_type==='tangible_style' || $post_type==='tangible_script') {
-            echo 'Entire Site';
-          }
-
-          return;
+          $value = [
+            'description' =>
+              // These template types apply to entire site by default
+              ($post_type==='tangible_style' || $post_type==='tangible_script')
+                ? 'Entire Site'
+                : ''
+          ];
         }
 
         echo $value['description'];
+
+        // Theme position
+
+        $theme_position = get_post_meta( $post_id , 'theme_position' , true );
+
+        if (empty($theme_position)) return;
+
+        $label = false;
+
+        /**
+         * Search for theme position label
+         * @see /system/location/theme/index.php
+         */
+        foreach ($plugin->theme_positions as $pos) {
+          if ($pos['name']===$theme_position) {
+            $label = $pos['label'];
+            break;
+          }
+        }
+        if (!$label) {
+          foreach ($plugin->theme_position_groups as $group_name => $group) {
+            foreach ($group['hooks'] as $pos) {
+              if ($pos['name']===$theme_position) {
+                $label = $pos['label'];
+                break;
+              }
+            }
+            if ($label) break;
+          }
+        }
+
+        // Fallback to hook name
+        if (!$label) $label = '<code>' . $theme_position . '</code>';
+
+        if (!empty($value['description'])) echo '<br>';
+        echo 'Theme Position: ' . $label;
 
       break;
     }
