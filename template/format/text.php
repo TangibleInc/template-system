@@ -103,7 +103,7 @@ $html->format_capital_words = function( $content, $options = [] ) {
 /**
  * Seach and replace
  */
-$html->format_replace = function( $content, $options = [] ) {
+$html->format_replace = function( $content, $options = [] ) use ($html) {
 
   // Support multiple replaces
   for ( $i = 1; $i <= 3; $i++ ) {
@@ -120,7 +120,9 @@ $html->format_replace = function( $content, $options = [] ) {
     // Support replace/with string that includes HTML
 
     foreach ( [ $replace_key, $with_key ] as $key ) {
-      if (strpos( $options[ $key ], '{' ) === false) continue;
+      if (strpos( $options[ $key ], '{' ) === false
+        || !$html->should_render_attribute($key, $options[ $key ])
+      ) continue;
       $options[ $key ] = str_replace(
         [ '<<', '>>' ], [ '{', '}' ], // Escape using {{ and }}
         str_replace( [ '{', '}' ], [ '<', '>' ], $options[ $key ] )

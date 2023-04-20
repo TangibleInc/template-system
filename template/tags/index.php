@@ -24,7 +24,7 @@ foreach ( [
   'Date'     => require_once __DIR__ . '/date.php',
   'Format'   => require_once __DIR__ . '/format.php',
   'Loop'     => require_once __DIR__ . '/loop/index.php',
-  'Meta'     => require_once __DIR__ . '/meta.php',
+  'Meta'     => require_once __DIR__ . '/meta/index.php',
   'Note'     => function() {},
   'Set'      => $html->set_variable_tag,
   'Taxonomy' => require_once __DIR__ . '/taxonomy.php',

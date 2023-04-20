@@ -14,6 +14,14 @@ $html->register_script_type = function( $type, $callback ) use ( $html ) {
  */
 $html->script_tag = function( $atts, $content ) use ( $html ) {
 
+  if (isset($atts['render'])) {
+    unset($atts['render']);
+  }
+
+  if (isset($atts['type']) && $atts['type']!=='text/javascript') {
+    return $html->render_raw_tag('script', $atts, $content);
+  }
+
   if ( isset( $atts['src'] ) ) {
 
     $views_root_path = $html->get_current_context( 'views_root_path' );

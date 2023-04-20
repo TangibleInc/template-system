@@ -50,7 +50,7 @@ add_action('wp_head', function() use ( $html ) {
 
   $html->meta_head_done = true;
 
-}, 0);
+}, 1); // Set aside 0 for scheduling meta
 
 $html->render_scheduled_meta = function( $buffer = false ) use ( $html ) {
 
@@ -201,7 +201,7 @@ $html->add_open_tag('title', function( $atts, $nodes ) use ( $html ) {
   $html->schedule_meta( 'browser_tab_title', $atts );
 
   // As og:title, twitter:title default
-  $html->schedule_meta( 'title', $atts );
+  return $html->schedule_meta( 'title', $atts );
 });
 
 $html->meta_tag = function( $atts, $nodes ) use ( $html ) {
@@ -230,7 +230,9 @@ $html->meta_tag = function( $atts, $nodes ) use ( $html ) {
     $atts['content'] = $html->render( $nodes );
   }
 
-  $html->schedule_meta( $name, $atts );
+  return $html->schedule_meta( $name, $atts );
 };
+
+require_once __DIR__.'/json-ld.php';
 
 return $html->meta_tag;

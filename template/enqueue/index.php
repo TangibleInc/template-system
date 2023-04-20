@@ -19,11 +19,11 @@ $html->clear_queue();
  * Enqueue style and script files
  */
 
-$html->enqueue_style_file = function( $url ) use ( $html ) {
+$html->enqueue_style_file = function( $url, $options = [] ) use ( $html ) {
   $html->enqueued_style_files [] = $url;
 };
 
-$html->enqueue_script_file = function( $url ) use ( $html ) {
+$html->enqueue_script_file = function( $url, $options = [] ) use ( $html ) {
   $html->enqueued_script_files [] = $url;
 };
 
