@@ -68,13 +68,6 @@ class PostLoop extends BaseLoop {
         'default' => 'default',
       ],
 
-      // For backward compatiblity
-      'ignore_sticky_posts' => [
-        'description' => 'Ignore sticky posts',
-        'type'        => 'boolean',
-        'default'     => true,
-      ],
-
       // Parents and children
 
       'parent' => [
@@ -521,10 +514,11 @@ class PostLoop extends BaseLoop {
      */
 
     // Backward compatiblity
-    if ( isset($query_args['ignore_sticky_posts'])) {
-      if ($query_args['ignore_sticky_posts']===false) {
+    if ( isset($this->args['ignore_sticky_posts'])) {
+      if ($this->args['ignore_sticky_posts']==='false') {
         $query_args['sticky'] = 'true';
       }
+      unset($this->args['ignore_sticky_posts']);
     }
 
     // Disable WP_Query's implementation

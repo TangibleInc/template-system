@@ -18,9 +18,16 @@ class Template_Tags_Loop_TestCase extends WP_UnitTestCase {
     );
 
     // With sticky=true, include sticky posts at the top
+    $expected = "[$sticky_id][$sticky_id_2][$post_id][$post_id_2]";
     $this->assertEquals(
-      "[$sticky_id][$sticky_id_2][$post_id][$post_id_2]",
+      $expected,
       tangible_template('<Loop type=post sticky=true>[<Field id>]</Loop>')
+    );
+
+    // Convert deprecated ignore_sticky_posts=false to behave as sticky=true
+    $this->assertEquals(
+      $expected,
+      tangible_template('<Loop type=post ignore_sticky_posts=false>[<Field id>]</Loop>')
     );
 
     // With sticky=false, exclude sticky posts
