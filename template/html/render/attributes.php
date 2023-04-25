@@ -77,10 +77,27 @@ $html->render_attributes_to_array = function($atts, $options = []) use ($html) {
 
   $render_attribute_value = $html->render_attribute_value;
 
-  foreach ($atts as $key => $value) {
-    if ($key === 'keys') continue;
-    if ($key === 'tag-attributes') {
+  if (isset($atts['tag-attributes'])) {
 
+    $value = $render_attribute_value('tag-attributes', $atts['tag-attributes']);
+    /**
+     * Parse as tag attributes to support key with/out value
+     */
+    $parsed = $html->parse('<div ' . $value . '></div>');
+
+    if (!empty($parsed) && !empty($parsed[0]['attributes'])) {
+      foreach ($parsed[0]['attributes'] as $key => $value) {
+        if ($key==='keys') {
+          if (!isset($atts['keys'])) $atts['keys'] = [];
+          $atts['keys'] = array_merge($value, $atts['keys']);
+          continue;
+        }
+        $atts[ $key ] = $value;
+      }
+    }
+
+    unset($atts['tag-attributes']);
+  }
 
   $skip_keys = $options['skip_render_keys'] ?? [];
 
