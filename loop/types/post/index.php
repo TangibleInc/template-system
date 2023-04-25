@@ -48,11 +48,6 @@ class PostLoop extends BaseLoop {
         'type'        => [ 'string', 'array' ],
         'default'     => 'publish',
       ],
-      'ignore_sticky_posts' => [
-        'description' => 'Ignore sticky posts',
-        'type'        => 'boolean',
-        'default'     => true,
-      ],
 
       // Include/exclude
 
@@ -64,6 +59,13 @@ class PostLoop extends BaseLoop {
       'exclude'         => [
         'description' => 'Exclude by ID or name',
         'type'        => ['string', 'array'],
+      ],
+
+      // Sticky
+      'sticky' => [
+        'description' => 'Include sticky posts: true, false, only',
+        'type' => 'string',
+        'default' => 'default',
       ],
 
       // Parents and children
@@ -500,6 +502,66 @@ class PostLoop extends BaseLoop {
           $query_args[ $key_for_slug ] []= $value;
         }
       }
+    }
+
+    /**
+     * Sticky posts
+     * 
+     * WP_Query's parameter "ignore_sticky_posts" only works on the
+     * home page: https://github.com/WordPress/wordpress-develop/blob/0f28f4cf1a38291664c238b6143fe68931787997/src/wp-includes/class-wp-query.php#L3442-L3443
+     * 
+     * For improved support, manually control sticky posts behavior.
+     */
+
+    // Backward compatiblity
+    if ( isset($this->args['ignore_sticky_posts'])) {
+      if ($this->args['ignore_sticky_posts']==='false') {
+        $query_args['sticky'] = 'true';
+      }
+      unset($this->args['ignore_sticky_posts']);
+    }
+
+    // Disable WP_Query's implementation
+    $query_args['ignore_sticky_posts'] = true;
+
+    if ( ! empty( $query_args['sticky'] ) ) {
+      switch ( $query_args['sticky'] ) {
+        case 'true':
+          // Include sticky posts at the top
+          $stick_post_ids = get_option( 'sticky_posts' ) ?: [];
+          if (!empty($stick_post_ids)) {
+
+            // Get a list of post IDs with all other query parameters applied
+
+            $args = $this->args;
+            unset($args['sticky']);
+            $post_loop = new PostLoop($args);
+            $post_ids = $post_loop->get_total_items();
+
+            $query_args['post__in'] = array_merge(
+              $stick_post_ids,
+              $post_ids
+            );
+          }
+          break;
+        case 'false':
+          // Exclude sticky posts
+          $stick_post_ids = get_option( 'sticky_posts' ) ?: [];
+          $query_args['post__not_in'] = isset($query_args['post__not_in'])
+            ? array_merge($query_args['post__not_in'], $stick_post_ids)
+            : $stick_post_ids
+          ;
+          break;
+        case 'only':
+          $stick_post_ids = get_option( 'sticky_posts' ) ?: [];
+          $query_args['post__in'] = $stick_post_ids;
+          break;
+        case 'default':
+        default:
+          // Include sticky posts but treat them as normal posts, not on top
+          break;
+      }
+      unset( $query_args['sticky'] );
     }
 
     // If no orderby set in original arguments
