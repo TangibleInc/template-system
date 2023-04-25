@@ -81,7 +81,11 @@ $html->render_attributes_to_array = function($atts, $options = []) use ($html) {
     if ($key === 'keys') continue;
     if ($key === 'tag-attributes') {
 
-    }
+
+  $skip_keys = $options['skip_render_keys'] ?? [];
+
+  foreach ($atts as $key => $value) {
+    if ($key === 'keys' || in_array($key, $skip_keys)) continue;
     $atts[ $key ] = $render_attribute_value($key, $value, $options);
   }
 
@@ -105,12 +109,12 @@ $html->should_render_attribute = function($key, $value) {
   $c = substr( $value, 0, 1 );
 
   if ($c === '{' || $c === '[') {
-    $c = substr( $value, 1, 1 );
+    $c2 = substr( $value, 1, 1 );
     $is_json =
       preg_match('/\s/', $c) // Match any whitespace character, including new line
-      || $c==='"' || $c==='&'
-      || $c==='[' || $c==='{'
-      || $c===']' || $c==='}'
+      || $c2==='"' || $c2==='&'
+      || ($c==='[' && ($c2==='{' || $c2==='[' || $c2===']'))
+      || ($c==='{' && $c2==='}')
     ;
     return !$is_json;
   }

@@ -117,15 +117,24 @@ $html->format_replace = function( $content, $options = [] ) use ($html) {
       || ! isset( $options[ $with_key ] )
     ) break;
 
-    // Support replace/with string that includes HTML
+    /**
+     * Support replace/with string that includes HTML
+     * The `with_*` attributes are specifically skipped from rendering in
+     * tag definition property `skip_render_keys`.
+     * 
+     * @see /template/tags/format.php
+     * @see /template/html/tag.php, attributes.php
+     */
 
     foreach ( [ $replace_key, $with_key ] as $key ) {
       if (strpos( $options[ $key ], '{' ) === false
         || !$html->should_render_attribute($key, $options[ $key ])
       ) continue;
-      $options[ $key ] = str_replace(
-        [ '<<', '>>' ], [ '{', '}' ], // Escape using {{ and }}
-        str_replace( [ '{', '}' ], [ '<', '>' ], $options[ $key ] )
+      $options[ $key ] = $html->render(
+        str_replace(
+          [ '<<', '>>' ], [ '{', '}' ], // Escape using {{ and }}
+          str_replace( [ '{', '}' ], [ '<', '>' ], $options[ $key ] )
+        )
       );
     }
 

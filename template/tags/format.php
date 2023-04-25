@@ -33,4 +33,6 @@ $html->format_tag = function( $atts, $content ) use ( $html ) {
   return $html->format( $type, $content, $atts );
 };
 
-return $html->format_tag;
+$html->add_open_tag( 'Format', $html->format_tag, [
+  'skip_render_keys' => ['with', 'with_2', 'with_3'],
+]);

@@ -136,7 +136,15 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
 
       $template = '<Format replace="world" with="{{Random /}}">Hello world</Format>';
       $this->assertEquals( 'Hello {Random /}', tangible_template( $template ) );
-  }
+
+      $link = '<a>Test</a>';
+
+      $template = '<Format replace="world" with="{a}Test{/a}">Hello world</Format>';
+      $this->assertEquals( 'Hello '.$link, tangible_template( $template ) );
+
+      $template = '<Set _><Raw>'.$link.'</Raw></Set><Format replace="world" with="{Get _}">Hello world</Format>';
+      $this->assertEquals( 'Hello '.$link, tangible_template( $template ) );
+    }
 
   public function test_template_tags_format_number() {
       $template = '<Format number>1987.2407</Format>';

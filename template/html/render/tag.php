@@ -67,6 +67,14 @@ $html->render_tag = function($tag, $atts, $children = [], $options = []) use ($h
       $render_attributes_to_array = $html->render_attributes_to_array;
       $render_nodes = $html->render_nodes;
 
+      /**
+       * Exception to not render specific attributes
+       */
+      $key = 'skip_render_keys';
+      if (isset($tag_config[$key])) {
+        $options[$key] = $tag_config[$key];        
+      }
+
       $attributes = $render_attributes_to_array($atts, $options);
       $content = $callback( $attributes, $children, $html->tag_context );
 

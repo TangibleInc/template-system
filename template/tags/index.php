@@ -8,6 +8,7 @@ require_once __DIR__ . '/comment/index.php';
 require_once __DIR__ . '/content/index.php';
 require_once __DIR__ . '/context.php';
 require_once __DIR__ . '/exit.php';
+require_once __DIR__ . '/format.php';
 require_once __DIR__ . '/get-set/index.php';
 require_once __DIR__ . '/if/index.php';
 require_once __DIR__ . '/link.php';
@@ -22,7 +23,6 @@ foreach ( [
   'Async'    => require_once __DIR__ . '/async/index.php',
   'Cache'    => require_once __DIR__ . '/cache/index.php',
   'Date'     => require_once __DIR__ . '/date.php',
-  'Format'   => require_once __DIR__ . '/format.php',
   'Loop'     => require_once __DIR__ . '/loop/index.php',
   'Meta'     => require_once __DIR__ . '/meta/index.php',
   'Note'     => function() {},
