@@ -1,34 +1,24 @@
 Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
-# 3.1.9
+# 3.2.0
 
-- Format: Improve handling of spaces for kebab and snake case
-- If tag
-  - Deprecate "is_not" in favor of "not", which supports all condition types and operators including "is"
-  - Convert "is_not" to "not" and "is" for backward compatibility
-- Improve PHP 8.2 compatibility
-- Template post types: Fix drag-and-drop sort in post archive
-
-# 3.1.7
-
-- Gutenberg integration
-  - Improve getting current post ID when inside builder
-  - Improve content filter logic to protect template HTML
-    - Support block themes
-    - Ensure it applies only when inside do_blocks before do_shortcode
-
-# 3.1.5
-
-- Calendar loop types
-  - For week number, use Carbon method isoWeek() instead of format('W') which adds unnecessary prefix "0" (zero)
-  - Month loop type: Ensure the "year" attribute is taken into consideration; Organize how the attributes "year", "quarter", "from" and "to" are handled
-- Format tag: Add support for replace/with string that includes HTML
-- Gutenberg integration
-  - Improve content filter logic
-  - Improve getting current post ID when inside builder
-  - Improve workaround for Full-Site Editor bug
-    https://github.com/WordPress/gutenberg/issues/46702
-- Redirect tag: Disable when inside page builder, AJAX, or REST API
-- Switch tag: Improve converting non-default "When" to "Else if"
-- Template post types: Remove max-width to let editor take up the full available width
-- WP Grid Builder integration: Improve compatibility for PHP version before 7.3
+- Add JSON-LD tag: Create a map and generate script tag for [JSON Linked Data](https://json-ld.org/)
+- Add Raw tag: Prevents parsing its inner content; Useful for passing literal text, such as HTML, to other tags and tag attributes
+- Format tag
+  - Add attributes "start_slash" and "end_slash" to add slash to URL or any string; Use "start_slash=false" and "end_slash=false" to remove slash; These can be combined in one tag
+  - Improve support for replace/with text that includes HTML
+- HTML module: Improve "tag-attributes" feature to support dynamic tags
+- Layout template type
+  - Add theme position "Document Head" for adding Meta tags, JSON-LD schema, or link tag to load CSS files
+  - Add theme position "Document Foot" for adding script tag to load JavaScript files
+- Loop tag
+  - Add attribute "sticky" for improved sticky posts support
+    - Without sticky set, treat sticky posts as normal posts; this is the default behavior (backward compatible)
+    - With sticky=true, put sticky posts at the top
+    - With sticky=false, exclude sticky posts
+    - With sticky=only, include sticky posts only
+  - Deprecate "ignore_sticky_posts" due to WP_Query applying it only on home page
+- Query variable type: Support passing loop attributes via AJAX, such as for pagination
+- Url tag
+  - Add attribute "query=true" to include all query parameters in current URL
+  - Add attributes "include" and "exclude" to selectively pass query parameters by name; Accepts comma-separated list for multiple names
