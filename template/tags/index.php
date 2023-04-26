@@ -62,7 +62,6 @@ foreach ( [
   'style'     => require_once __DIR__ . '/style.php',
 
   'Shortcode' => require_once __DIR__ . '/shortcode.php',
-  'Raw' => function($atts, $content) { return $content; },
 ] as $tag => $callback ) {
   $html->add_raw_tag( $tag, $callback );
 }
