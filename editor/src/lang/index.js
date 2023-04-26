@@ -19,7 +19,9 @@ import { sass } from './sass' // ~40Kb
 const langExtensionsCache = {}
 const langExtensionsGetters = {
   html: () => [
-    html(),
+    html({
+      selfClosingTags: true
+    }),
   ],
   css: () => [
     css(),

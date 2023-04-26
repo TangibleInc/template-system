@@ -5,7 +5,7 @@ import {
 // https://codemirror.net/examples/styling/#themes
 export const themeBase = EditorView.theme({
   '&': {
-    fontSize: '16px',
+    fontSize: '14px',
   },
   '.cm-content': {
     minHeight: '200px',

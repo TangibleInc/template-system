@@ -115,7 +115,10 @@ export const themeDarkTheme = EditorView.theme({
       color: ivory
     }
   }
-}, { dark: true })
+}, {
+  // This affects styling of other extensions, such as indent markers
+  dark: true
+})
 
 /// Highlight style
 export const themeDarkHighlightStyle = HighlightStyle.define([
@@ -187,4 +190,6 @@ export const themeDarkHighlightStyle = HighlightStyle.define([
   },
 ])
 
-export const themeDark: Extension = [themeDarkTheme, syntaxHighlighting(themeDarkHighlightStyle)]
+export const themeDark: Extension = [
+  themeDarkTheme, syntaxHighlighting(themeDarkHighlightStyle)
+]
