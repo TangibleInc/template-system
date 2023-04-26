@@ -10,11 +10,12 @@ This is the new editor based on CodeMirror 6, which will replace the existing te
 
 ## Feature ideas
 
+- Tag and attribute autocomplete
+
 - Linters
 
 - Export single template/block (HTML, CSS, JS) from edit screen
 - Import/export single template in Template block inside page builder
 
-- Tag and attribute autocomplete
 - Template patterns
 

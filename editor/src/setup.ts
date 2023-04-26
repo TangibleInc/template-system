@@ -17,8 +17,9 @@ import { lintKeymap, lintGutter } from '@codemirror/lint'
 // https://github.com/emmetio/codemirror6-plugin
 import { expandAbbreviation, abbreviationTracker } from '@emmetio/codemirror6-plugin' // ~90Kb
 
+import { indentationMarkers } from '@replit/codemirror-indentation-markers'
+
 import { vscodeKeymap } from './vscode-keymap'
-import { indentationMarkers } from './indentation-markers'
 import { themeBase } from './theme/base'
 
 import { getLangExtensions } from './lang'
@@ -48,7 +49,7 @@ const commonExtensions = [
   lintGutter(),
 
   bracketMatching(), // TODO: Better styling // #language.bracketMatching
-  // indentationMarkers(), // TODO: Align correctly on empty line
+  indentationMarkers(),
 
   themeBase,
 ]

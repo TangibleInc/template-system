@@ -1,12 +1,12 @@
 
 import { css } from '@codemirror/lang-css'
+import { sass } from '@codemirror/lang-sass'
 import { javascript } from '@codemirror/lang-javascript'
 
 // Based on https://github.com/codemirror/lang-html
 import { html } from './html/html'
-import { sass } from './sass' // ~40Kb
 
-// import { colorPicker } from '../color-picker' // TODO: Support Sass
+import { colorPicker } from '@replit/codemirror-css-color-picker'
 
 // import { json, jsonParseLinter } from '@codemirror/lang-json'
 // import { markdown } from '@codemirror/lang-markdown'
@@ -25,11 +25,11 @@ const langExtensionsGetters = {
   ],
   css: () => [
     css(),
-    // ...colorPicker
+    ...colorPicker
   ],
   sass: () => [
     sass(),
-    // ...colorPicker
+    ...colorPicker
   ],
   javascript: () => [javascript()],
 }
