@@ -63,9 +63,8 @@ class PostLoop extends BaseLoop {
 
       // Sticky
       'sticky' => [
-        'description' => 'Include sticky posts: true, false, only',
+        'description' => 'Sticky posts: true (stick to top), false (exclude them), only (exclude normal posts) - By default, they are treated the same as normal posts',
         'type' => 'string',
-        'default' => 'default',
       ],
 
       // Parents and children
@@ -534,7 +533,8 @@ class PostLoop extends BaseLoop {
             // Get a list of post IDs with all other query parameters applied
 
             $args = $this->args;
-            unset($args['sticky']);
+            $args['sticky'] = 'false';
+
             $post_loop = new PostLoop($args);
             $post_ids = $post_loop->get_total_items();
 
@@ -542,6 +542,9 @@ class PostLoop extends BaseLoop {
               $stick_post_ids,
               $post_ids
             );
+
+            // Ensure post order: non-sticky posts are already ordered
+            $query_args['orderby'] = 'post__in';
           }
           break;
         case 'false':
