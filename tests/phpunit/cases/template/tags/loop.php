@@ -17,11 +17,11 @@ class Template_Tags_Loop_TestCase extends WP_UnitTestCase {
       tangible_template('<Loop type=post>[<Field id>]</Loop>')
     );
 
-    // With sticky=true, include sticky posts at the top
+    // With sticky=true, include sticky posts at the top - regardless of orderby
     $expected = "[$sticky_id][$sticky_id_2][$post_id][$post_id_2]";
     $this->assertEquals(
       $expected,
-      tangible_template('<Loop type=post sticky=true>[<Field id>]</Loop>')
+      tangible_template('<Loop type=post sticky=true orderby=id>[<Field id>]</Loop>')
     );
 
     // Convert deprecated ignore_sticky_posts=false to behave as sticky=true
