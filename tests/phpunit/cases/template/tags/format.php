@@ -195,5 +195,11 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
     ) );
   }
 
+  public function test_template_tags_format_remove_html() {
+    $this->assertEquals( '123456', tangible_template(
+      '<Format remove_html><a href="example.com">123</a><script>alert("hi")</script><b>456</b></Format>'
+    ) );
+  }
+
   // @todo: date, embed
 }
