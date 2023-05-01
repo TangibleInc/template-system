@@ -7,7 +7,6 @@
  * - Remove dependency on image files
  *   Now using CSS background with URL data, but consider plain SVG for flexible styling
  */
-
 const $ = jQuery
 
 const defaults = {
@@ -207,7 +206,7 @@ $.fn.tangibleSlider = function (options = {}) {
           if (item !== settings.item) {
             scene = Math.round(
               slideValue /
-                ((slideWidth + settings.slideMargin) * settings.slideMove)
+              ((slideWidth + settings.slideMargin) * settings.slideMove)
             )
           }
         }
@@ -281,10 +280,10 @@ $.fn.tangibleSlider = function (options = {}) {
       if (!settings.controls) return
       $el.after(
         '<div class="tslider-action"><a class="tslider-prev">' +
-          settings.prevHtml +
-          '</a><a class="tslider-next">' +
-          settings.nextHtml +
-          '</a></div>'
+        settings.prevHtml +
+        '</a><a class="tslider-next">' +
+        settings.nextHtml +
+        '</a></div>'
       )
       if (!settings.autoWidth) {
         if (length <= settings.item) {
@@ -332,8 +331,8 @@ $.fn.tangibleSlider = function (options = {}) {
         .addClass('tslider')
         .wrap(
           '<div class="tslide-outer ' +
-            settings.addClass +
-            '"><div class="tslide-wrapper"></div></div>'
+          settings.addClass +
+          '"><div class="tslide-wrapper"></div></div>'
         )
       $slide = $el.parent('.tslide-wrapper')
       if (settings.rtl === true) {
@@ -1331,8 +1330,33 @@ $.fn.tangibleSlider = function (options = {}) {
   return this
 }
 
+
+function checkForElement() {
+  var elems = $('.tangible-slider')
+  if ( elems.length > 0 ) {
+    elems.each( function () {
+      $(this).tangibleSlider()
+    })
+
+    return true;
+  }
+  return false;
+}
+
 $(document).ready(function () {
   $('.tangible-slider').each(function () {
     $(this).tangibleSlider()
   })
+
+  // Editor mode
+  if ( window.elementor && !checkForElement() ) { // iff we are in editor mode
+    var observer = new MutationObserver(function(mutations) {
+      if ( checkForElement() ) {
+        // If the element is found, disconnect the observer to stop watching for changes
+        // observer.disconnect();
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
 })
