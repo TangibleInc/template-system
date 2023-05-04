@@ -2,8 +2,8 @@ import { EditorState, EditorSelection } from '@codemirror/state'
 import { EditorView, keymap } from '@codemirror/view'
 import type { ViewUpdate } from '@codemirror/view'
 import { getSetup } from './setup'
-import { themeDark as theme } from './theme/dark'
-// import { themeLight as theme } from './theme/light'
+// import { themeDark as theme } from './theme/dark'
+import { themeLight as theme } from './theme/light'
 
 export async function createEditor({
   el,
