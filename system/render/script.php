@@ -12,14 +12,20 @@ $plugin->enqueue_template_script = function(
   $js_variables = []
 ) use ( $plugin, $html ) {
 
-  $id = $post instanceof WP_Post ? $post->ID : $post;
+  $post = $post instanceof WP_Post ? $post : get_post( $post );
+
+  if (empty( $post )) return;
+
+  $id = $post->ID;
 
   // Already enqueued
   if ( isset( $plugin->template_script_enqueued[ $id ] )
     && $plugin->template_script_enqueued[ $id ]
   ) return;
 
-  $plugin->template_script_enqueued[ $id ] = true;
+  if ( $post->post_type !== 'tangible_block' ) {
+    $plugin->template_script_enqueued[ $id ] = true;
+  }
 
   $script = get_post_meta( $id, 'script', true );
   $script = apply_filters( 'tangible_template_post_script', $script, $post );
