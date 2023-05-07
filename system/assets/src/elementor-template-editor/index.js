@@ -6,19 +6,87 @@
  * https://developers.elementor.com/creating-a-new-control#Control_JS_file
  */
 
-const { jQuery, wp, Tangible } = window
+const { jQuery } = window
 
 jQuery(document).ready(function ($) {
-  const { Tangible, elementor } = window
 
-  const { CodeMirror, createCodeEditor, moduleLoader } = Tangible
+  const { Tangible, elementor } = window
+  const { createCodeEditor, moduleLoader } = Tangible
+
+  const previewLoaded = function (document) {
+
+    const { elementorFrontend = {}, elementorCommon } = window
+    const { $body } = elementorFrontend.elements || {}
+    if (!moduleLoader || !$body) return
+
+console.log('Preview loaded',
+elementor.previewView.$childViewContainer 
+// document.$element, document.$element.hasClass('elementor-edit-area-active')
+)
+
+const $editArea = $body.find('.elementor-edit-area')
+console.log('$editArea', $editArea[0])
+
+const $widgets = document.$element.find('.elementor-widget-container')
+    console.log('$widgets', $widgets)
+
+    $widgets.each(function () {
+      console.log('preview widget', this)
+      moduleLoader(this)
+    })
+
+  }
+
+  // elementor.on('elementor:loaded', previewLoaded)
+  // elementor.on('preview:loaded', previewLoaded)
+  // elementor.on('document:loaded', previewLoaded)
+
+function initPreview() {
+
+  const { elementorFrontend = {} } = window
+  
+  const previewWindow = elementor?.$preview[ 0 ]?.contentWindow
+  const previewModuleLoader = previewWindow?.Tangible?.moduleLoader
+  const $previewBody = elementorFrontend?.elements?.$body
+
+  if (!previewModuleLoader || !$previewBody || !$previewBody.length) return
+
+  const $modules = $previewBody.find('.tangible-dynamic-module')    
+  const key = '_tangibleDynamicModuleActivated'
+
+  $modules.each(function() {
+    if (this[key]) return
+    this[key] = true
+    previewModuleLoader(this)
+  })
+
+// console.log('elementorFrontend', elementorFrontend)
+
+  // const { $body } = elementorFrontend.elements || {}
+  //   if (!moduleLoader || !$body) return
+  
+  //   const $widgets = $body.find('.tangible-dynamic-module') // elementor-widget-container
+  
+  //   $widgets.each(function () {
+
+  //     if (this._modulesLoaded) return
+
+  //     console.log('Preview widget', this.innerHTML)
+  //     moduleLoader(this)
+  
+  //     this._modulesLoaded = true
+  //   })
+}
+
+setInterval(initPreview, 1000)
+
 
   /**
    * Keep track of preview element that corresponds to this widget panel's template editor.
    *
    * There's no action for "close editor", so the elements must be checked if they actually exist.
    *
-   * https://code.elementor.com/js-hooks/#panelopen_editorelementType
+   * https://developers.elementor.com/docs/hooks/js/#panel-open-editor-elementtype-elementname
    */
   let currentlyOpenWidget = null
 
@@ -36,15 +104,17 @@ jQuery(document).ready(function ($) {
       // console.log('Template editor control: Ready', this)
 
       this.unsubscribers = []
+      this.codeEditor = null
+      this.textarea = null
 
       // Create code editor instance
 
-      const textarea = this.$el.find(
+      const textarea = this.textarea = this.$el.find(
         '.tangible-elementor-template-editor-textarea'
       )[0]
       if (!textarea) return
 
-      const editor = createCodeEditor(textarea, {
+      const editor = this.codeEditor = createCodeEditor(textarea, {
         language: 'html',
         viewportMargin: Infinity, // With .CodeMirror height: auto or 100%
         resizable: false,
@@ -67,17 +137,17 @@ jQuery(document).ready(function ($) {
 
       // Preview refresh logic
 
-      let shouldRefresh = false
+      let shouldRefresh = false // Was false but now refresh on widget load
 
       editor.on('change', () => {
+
         shouldRefresh = true
 
         /**
          * Saving field value on every key press is too heavy, because the preview
          * is rendered server-side.
          */
-        // const value = editor.getValue()
-        // this.setValue( value )
+        // this.setValue( editor.getValue() )
       })
 
       /**
@@ -88,34 +158,58 @@ jQuery(document).ready(function ($) {
        * possible to always update the field value before save.
        */
       const refreshInterval = 1000
+
+      const previewElement = false
+      const previousPreviewElement = false
+
       const refreshTimer = setInterval(() => {
+
+        // console.log('Should refresh?', previewElement!==previousPreviewElement,
+        // previewElement,
+        // previousPreviewElement)
         if (!shouldRefresh) return
-        shouldRefresh = false
 
         // Update field value
-        const value = editor.getValue()
-        this.setValue(value)
+        this.setValue( editor.getValue() )
 
-        // Load dynamic modules for preview
-        if (
-          moduleLoader &&
-          currentlyOpenWidget &&
-          currentlyOpenWidget.view &&
-          currentlyOpenWidget.view.$el
-        ) {
-          const previewElement = currentlyOpenWidget.view.$el.find(
-            '.elementor-widget-container'
-          )[0]
-          if (!previewElement) return
+        // previewLoaded()
 
-          moduleLoader(previewElement)
-        }
+        //         // Load dynamic modules for preview
+        //         if (
+        //           moduleLoader &&
+        //           currentlyOpenWidget &&
+        //           currentlyOpenWidget.view &&
+        //           currentlyOpenWidget.view.$el
+        //         ) {
+
+
+        shouldRefresh = false
+
+
+        //           previousPreviewElement = previewElement
+        //           previewElement = currentlyOpenWidget.view.$el.find(
+        //             '.elementor-widget-container'
+        //           )[0]
+        // console.log('previewElement', previewElement)
+        //           if (!previewElement) return
+
+        //           moduleLoader(previewElement)
+        //         }
       }, refreshInterval)
+
+      console.log('ready')
 
       // Clean up
       this.unsubscribers.push(function () {
         clearInterval(refreshTimer)
       })
+    },
+
+    saveValue() {
+      console.log('saveValue')
+      this.setValue(
+        this.codeEditor ? this.codeEditor.getValue() : this.textarea.value
+      )
     },
 
     onBeforeDestroy: function () {
