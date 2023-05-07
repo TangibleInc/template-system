@@ -1,5 +1,12 @@
 Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
+
+# 3.2.1
+
+- Elementor integration: Ensure dynamic modules are activated inside preview iframe
+- Format tag: Add attribute "remove_html" to remove HTML and make plain text
+- Post loop: Improve sticky posts - Ensure "orderby" is only applied to non-sticky posts
+
 # 3.2.0
 
 - Add JSON-LD tag: Create a map and generate script tag for [JSON Linked Data](https://json-ld.org/)
