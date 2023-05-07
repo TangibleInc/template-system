@@ -23,9 +23,12 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
     return [ 'basic' ];
   }
 
-	function get_script_depends() {
-		return [ 'tangible-module-loader' ];
-	}
+  function get_script_depends() {
+    return \Elementor\Plugin::$instance->preview->is_preview_mode()
+      ? [ 'tangible-module-loader' ]
+      : []
+    ;
+  }
 
   protected function register_controls() {
 
