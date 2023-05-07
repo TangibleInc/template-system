@@ -23,6 +23,10 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
     return [ 'basic' ];
   }
 
+	function get_script_depends() {
+		return [ 'tangible-module-loader' ];
+	}
+
   protected function register_controls() {
 
     // Access control - @see /includes/template/editor/user.php

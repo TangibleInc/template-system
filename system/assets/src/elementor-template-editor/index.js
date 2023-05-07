@@ -6,34 +6,46 @@
  * https://developers.elementor.com/creating-a-new-control#Control_JS_file
  */
 
-const { jQuery, wp, Tangible } = window
+const { jQuery } = window
 
 jQuery(document).ready(function ($) {
   const { Tangible, elementor } = window
+  const { createCodeEditor } = Tangible
 
-  const { CodeMirror, createCodeEditor, moduleLoader } = Tangible
+  const refreshInterval = 1000
 
-  /**
-   * Keep track of preview element that corresponds to this widget panel's template editor.
-   *
-   * There's no action for "close editor", so the elements must be checked if they actually exist.
-   *
-   * https://code.elementor.com/js-hooks/#panelopen_editorelementType
-   */
-  let currentlyOpenWidget = null
+  elementor.once('preview:loaded', function () {
 
-  elementor.hooks.addAction(
-    'panel/open_editor/widget/tangible-template-editor',
-    function (panel, model, view) {
-      currentlyOpenWidget = { panel, model, view }
+    const { elementorFrontend = {} } = window
+
+    const previewWindow = elementor?.$preview[ 0 ]?.contentWindow
+    const $previewBody = elementorFrontend?.elements?.$body
+
+    function refreshPreview() {
+
+      const previewModuleLoader = previewWindow?.Tangible?.moduleLoader
+      if (!previewModuleLoader || !$previewBody || !$previewBody.length) return
+
+      const $modules = $previewBody.find('.tangible-dynamic-module')
+      const key = '_tangibleDynamicModuleActivated'
+
+      $modules.each(function () {
+        if (this[key]) return
+        this[key] = true
+        previewModuleLoader(this)
+      })
     }
-  )
+
+    setInterval(refreshPreview, refreshInterval)
+  })
+
 
   // Controls
   const templateEditorControl = elementor.modules.controls.BaseData.extend({
+
     onReady: function () {
+
       // this = { el, $el, model, ui, .. }
-      // console.log('Template editor control: Ready', this)
 
       this.unsubscribers = []
 
@@ -80,42 +92,28 @@ jQuery(document).ready(function ($) {
         // this.setValue( value )
       })
 
-      /**
-       * Refresh interval should be small, since the field value needs to be updated before
-       * user can click "Update" for the widget.
-       *
-       * Ideally, if Elementor has a *synchronous* hook for "before save" actions, it would be
-       * possible to always update the field value before save.
-       */
-      const refreshInterval = 1000
       const refreshTimer = setInterval(() => {
+
         if (!shouldRefresh) return
         shouldRefresh = false
 
         // Update field value
-        const value = editor.getValue()
-        this.setValue(value)
+        this.setValue(editor.getValue())
 
-        // Load dynamic modules for preview
-        if (
-          moduleLoader &&
-          currentlyOpenWidget &&
-          currentlyOpenWidget.view &&
-          currentlyOpenWidget.view.$el
-        ) {
-          const previewElement = currentlyOpenWidget.view.$el.find(
-            '.elementor-widget-container'
-          )[0]
-          if (!previewElement) return
+        shouldRefresh = false
 
-          moduleLoader(previewElement)
-        }
       }, refreshInterval)
 
       // Clean up
       this.unsubscribers.push(function () {
         clearInterval(refreshTimer)
       })
+    },
+
+    saveValue() {
+      this.setValue(
+        this.codeEditor ? this.codeEditor.getValue() : this.textarea.value
+      )
     },
 
     onBeforeDestroy: function () {
