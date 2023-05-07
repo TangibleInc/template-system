@@ -16,6 +16,7 @@ $plugin->enqueue_elementor_template_editor = function() use ( $plugin, $html ) {
 
   // Module loader - Support loading scripts and styles when page builders fetch and insert HTML
   $html->enqueue_module_loader();
+  $html->enqueue_module_loader_data();
 
   wp_enqueue_script(
     'tangible-elementor-template-editor',
