@@ -3,17 +3,18 @@
  * Template core tags
  */
 
+// Variable types
+require_once __DIR__ . '/get-set/index.php';
+
 // These define their own tags
 require_once __DIR__ . '/comment/index.php';
 require_once __DIR__ . '/content/index.php';
 require_once __DIR__ . '/context.php';
+require_once __DIR__ . '/data/index.php';
 require_once __DIR__ . '/exit.php';
 require_once __DIR__ . '/format.php';
-require_once __DIR__ . '/get-set/index.php';
 require_once __DIR__ . '/if/index.php';
 require_once __DIR__ . '/link.php';
-require_once __DIR__ . '/list.php';
-require_once __DIR__ . '/map.php';
 require_once __DIR__ . '/media/index.php';
 
 /**

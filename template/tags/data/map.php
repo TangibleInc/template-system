@@ -28,7 +28,30 @@ $html->map_key_tag = function( $atts, $nodes ) use ( $html ) {
   $key = isset( $atts['name'] ) ? $atts['name'] : array_shift( $atts['keys'] );
 
   // If value given, it should already be string and will not be rendered
-  if (isset( $atts['value'] )) $nodes = $atts['value'];
+  if (isset( $atts['value'] )) {
+    $nodes = $atts['value'];
+  } elseif (is_array($nodes)) {
+
+    // If there's a single anonymous Map or List inside, set it directly as item
+
+    $direct_node = false;
+
+    foreach ($nodes as $node) {
+      if (isset($node['tag']) && ($node['tag']==='List' || $node['tag']==='Map')) {
+        if ($direct_node===false) {
+          $direct_node = $node;
+        } else {
+          $direct_node = false;
+          break;
+        }
+      }
+    }
+
+    if ($direct_node!==false) {
+      $atts['type'] = strtolower($direct_node['tag']);
+      $nodes = $direct_node['children'];
+    }
+  }
 
   if ( empty( $key ) ) {
 
@@ -52,7 +75,7 @@ $html->map_key_tag = function( $atts, $nodes ) use ( $html ) {
 
     if ( $atts['type'] === 'number' ) {
       $content                   = $html->render( $nodes );
-      $html->current_map[ $key ] = intval( $content );
+      $html->current_map[ $key ] = floatval( $content );
       return;
     }
     if ( $atts['type'] === 'boolean' ) {
