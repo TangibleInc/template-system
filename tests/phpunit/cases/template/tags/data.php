@@ -75,6 +75,22 @@ class Data_Tags extends \WP_UnitTestCase {
       $html->render($nested_list)
     );
 
+    // Shorthand
+    $template = <<<HTML
+      <List>
+        <Item type=number value=3.14 />
+        <Item type=boolean value=true />
+      </List>
+    HTML;
+
+    $this->assertEquals(
+      json_encode([3.14, true]),
+      trim($html->render($template))
+    );
+
+
+    // Map
+
     // Mixed values
 
     $this->assertEquals(
@@ -88,6 +104,22 @@ class Data_Tags extends \WP_UnitTestCase {
         'nested_list' => $nested_list_value,
       ]),
       $html->render("<Map><Key 1>one</Key><Key 2 type=number>2</Key><Key 3 type=boolean>true</Key><Key 4 type=boolean>false</Key><Key string_list>{$string_list}</Key><List number_list>{$number_list_items}</List><Key nested_list>{$nested_list}</Key></Map>")
+    );
+
+    // Shorthand
+    $template = <<<HTML
+      <Map>
+        <Key name=pi type=number value=3.14 />
+        <Key name=option type=boolean value=true />
+      </Map>
+    HTML;
+
+    $this->assertEquals(
+      json_encode([
+        'pi' => 3.14,
+        'option' => true
+      ]),
+      trim($html->render($template))
     );
 
   }
