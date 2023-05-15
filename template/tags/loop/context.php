@@ -30,6 +30,16 @@ $html->create_loop_tag_context = function( $atts ) use ( $loop, $html ) {
 
   // Determine content type
 
+  /**
+   * Attribute "post_type" is now the recommended way to create a post loop
+   * of a given post type, to distinguish it from attribute "type" which is
+   * used for defined loop types and only falls back to post type if there is
+   * no loop type with the same name.
+   */
+  if ( empty( $type_name ) && isset($atts['post_type']) ) {
+    $type_name = 'post';
+  }
+
   if ( empty( $type_name ) ) {
 
     /**

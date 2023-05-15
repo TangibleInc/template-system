@@ -23,11 +23,9 @@ class PostLoop extends BaseLoop {
 
       // @see https://developer.wordpress.org/reference/classes/wp_query/
 
-      'type'          => [
-        'target_name' => 'post_type',
+      'post_type'          => [
         'description' => 'Post type(s)',
         'type'        => [ 'string', 'array' ],
-        'default'     => 'post',
       ],
 
       'id'         => [
@@ -401,6 +399,14 @@ class PostLoop extends BaseLoop {
     global $post;
     $this->original_post = $post;
 
+    // Alias and backward compatibility
+    if (isset($args['type'])) {
+      if (!isset($args['post_type'])) {
+        $args['post_type'] = $args['type'];
+      }
+      unset($args['type']);
+    }
+
     parent::__construct( $args );
 
     return $this;
@@ -586,7 +592,7 @@ class PostLoop extends BaseLoop {
      * no corresponding query parameters for WP_Query.
      */
 
-    $post_type = $query_args['post_type']; // Guaranteed to exist
+    $post_type = $query_args['post_type'];
 
     $author_query_fields = ['author__in', 'author__not_in'];
     $category_query_fields = ['category__in', 'category__not_in'];

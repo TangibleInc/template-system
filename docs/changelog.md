@@ -3,13 +3,17 @@ Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
 # 3.2.2
 
-- Elementor integration
-  - Ensure dynamic modules are activated inside preview iframe
-  - Enqueue dynamic module loader only when inside preview iframe
-- Format tag: Add attribute "remove_html" to remove HTML and make plain text
+- Elementor integration: Enqueue dynamic module loader only when inside preview iframe
 - List and Map tag
   - Add Item/Key tag attribute "type" for value type: number, boolean, list, map
   - Improve Item/Key tag to treat single List or Map inside as direct value, instead of converting it to string
+- Loop tag: Add attribute "post_type" as the recommended way to create a post loop with custom post type
+  This makes it distinct from attribute "type", which creates an instance of a loop type (such as "post" or "user") and only falls back to post loop if there's no loop type with the same name
+
+# 3.2.1
+
+- Elementor integration: Ensure dynamic modules are activated inside preview iframe
+- Format tag: Add attribute "remove_html" to remove HTML and make plain text
 - Post loop: Improve sticky posts - Ensure "orderby" is only applied to non-sticky posts
 
 # 3.2.0

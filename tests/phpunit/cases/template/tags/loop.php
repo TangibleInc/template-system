@@ -1,5 +1,47 @@
 <?php
 class Template_Tags_Loop_TestCase extends WP_UnitTestCase {
+  public function test_loop_post_type() {
+
+    [$post_1, $post_2, $post_3] = self::factory()->post->create_many(3, [
+      'post_type' => 'custom'
+    ]);
+
+    $this->assertEquals(
+      "[$post_1][$post_2][$post_3]",
+      tangible_template('<Loop type=custom>[<Field id>]</Loop>')
+    );
+
+    $this->assertEquals(
+      "[$post_1][$post_2][$post_3]",
+      tangible_template('<Loop type=post post_type=custom>[<Field id>]</Loop>')
+    );
+
+    /**
+     * Ensure attribute "post_type" can access a post type which has the same
+     * name as existing loop type.
+     */
+
+    [$post_1, $post_2, $post_3] = self::factory()->post->create_many(3, [
+      'post_type' => 'user'
+    ]);
+
+    $this->assertEquals(
+      "[$post_1][$post_2][$post_3]",
+      tangible_template('<Loop type=post post_type=user>[<Field id>]</Loop>')
+    );
+
+    $this->assertEquals(
+      "[$post_1][$post_2][$post_3]",
+      tangible_template('<Loop post_type=user>[<Field id>]</Loop>')
+    );
+
+    $this->assertNotEquals(
+      "[$post_1][$post_2][$post_3]",
+      tangible_template('<Loop type=user>[<Field id>]</Loop>')
+    );
+
+  }
+
   /**
    * Sticky posts
    * @see /loop/types/post/index.php, attribute "sticky"
