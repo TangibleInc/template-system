@@ -21,8 +21,6 @@ $html->paginated_loop_tag = function( $current_loop, $atts, $nodes, $result ) us
     unset( $atts['variable_types'] );
   }
 
-  $tag = isset( $atts['tag'] ) ? $atts['tag'] : 'div';
-
   // Passed to Loop tag via AJAX render - @see ../index.php, loop_tag()
   $template_attributes['paginator'] = true;
 
@@ -72,5 +70,5 @@ $html->paginated_loop_tag = function( $current_loop, $atts, $nodes, $result ) us
     if (isset( $atts[ $key ] )) $tag_attributes[ $key ] = $atts[ $key ];
   }
 
-  return $html->render_raw_tag( $tag, $tag_attributes, $result ); // Passing string, will not re-render
+  return $html->render_raw_tag( 'div', $tag_attributes, $result ); // Passing string, will not re-render
 };

@@ -189,6 +189,11 @@ add_filter('no_texturize_shortcodes', function( $shortcodes ) {
  */
 $plugin->should_apply_gutenberg_workaround = function () {
 
+  global $wp_version;
+
+  // This version removes the do_shortcode filter
+  if ( version_compare($wp_version, '6.2.1') >= 0) return false;
+
   /**
    * Check if inside a block theme running get_the_block_template_html().
    * There is no action to detect this situation.

@@ -10,3 +10,10 @@ Need tests to confirm feature parity of previous and current parsers.
 
 And a benchmark to measure performance improvement.
 
+#
+
+The L&L template language requires specific features from a parser beyond regular HTML.
+
+- Case-sensitive tag names: a typical HTML parser converts all tag names to upper/lowercase, but we need that information
+
+- Attributes without value, in the order that they were defined: most parsers do not maintain the order but we need that information, especially for the If tag
