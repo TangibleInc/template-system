@@ -155,6 +155,17 @@ $plugin->wrap_gutenberg_block_html = function( $content ) use ( $plugin ) {
   return $content;
 };
 
+/**
+ * In the following WP version, the call to do_shortcode was removed from
+ * get_the_block_template_html().
+ * 
+ * @see [Editor: Remove shortcode support from block templates](https://github.com/WordPress/wordpress-develop/commit/1cbfa03510f8dfd37a8d050b2640aa7ae1fb2ce6)
+ * 
+ * However, this may be reverted due to the number of users who were affected:
+ * https://core.trac.wordpress.org/ticket/58333#comment:59
+ */
+$plugin->gutenberg_block_theme_applies_do_shortcode = version_compare($GLOBALS['wp_version'], '6.2.1') < 0;
+
 add_shortcode('twrap', function( $atts, $content ) use ( $plugin ) {
   /**
    * In a block theme, the template HTML can go through do_shortcode *twice*.
@@ -170,7 +181,8 @@ add_shortcode('twrap', function( $atts, $content ) use ( $plugin ) {
    * @see /wp-includes/template-canvas.php
    * @see /wp-includes/blocks/post-content.php
    */
-  if ( $plugin->is_doing_core_post_content_block
+  if ( $plugin->gutenberg_block_theme_applies_do_shortcode
+    && $plugin->is_doing_core_post_content_block
     && doing_filter( 'the_content' )
   ) {
     return '[twrap]' . $content . '[/twrap]';
@@ -187,12 +199,7 @@ add_filter('no_texturize_shortcodes', function( $shortcodes ) {
 /**
  * Determine if the Gutenberg workaround above is necessary
  */
-$plugin->should_apply_gutenberg_workaround = function () {
-
-  global $wp_version;
-
-  // This version removes the do_shortcode filter
-  if ( version_compare($wp_version, '6.2.1') >= 0) return false;
+$plugin->should_apply_gutenberg_workaround = function () use ($plugin) {
 
   /**
    * Check if inside a block theme running get_the_block_template_html().
@@ -206,7 +213,9 @@ $plugin->should_apply_gutenberg_workaround = function () {
 
   $template_canvas_path = ABSPATH . WPINC . '/template-canvas.php';
 
-  if ( $template === $template_canvas_path && ! did_action( 'wp_head' ) ) {
+  if ( $plugin->gutenberg_block_theme_applies_do_shortcode
+    && $template === $template_canvas_path && ! did_action( 'wp_head' )
+  ) {
     return true;
   }
 
