@@ -41,11 +41,11 @@ add_action( 'elementor/editor/init', function() use ( $plugin ) {
  * @see vendor/tangible/template/actions/index.php
  * @see https://github.com/elementor/elementor/issues/7174#issuecomment-466746848
  */
-//add_action('elementor/editor/before_enqueue_scripts', $ajax->register_library, 1);
-add_action('elementor/editor/before_enqueue_scripts', $ajax->conditional_enqueue_library, 9999);
-
 add_action( 'elementor/editor/before_enqueue_scripts', $html->head_action, 99 );
 add_action( 'elementor/editor/footer', $html->footer_action, 99 );
+
+add_action('elementor/editor/before_enqueue_scripts', $ajax->register_library, 1);
+add_action('elementor/editor/before_enqueue_scripts', $ajax->conditional_enqueue_library, 9999);
 
 
 /**
