@@ -21,7 +21,7 @@ $plugin->enqueue_elementor_template_editor = function() use ( $plugin, $html ) {
   wp_enqueue_script(
     'tangible-elementor-template-editor',
     $plugin->url . 'assets/build/elementor-template-editor.min.js',
-    [ 'tangible-codemirror', 'tangible-module-loader', 'jquery', 'wp-element', 'tangible-ajax' ],
+    [ 'tangible-codemirror', 'tangible-module-loader', 'jquery', 'wp-element' ],
     $plugin->version
   );
 
