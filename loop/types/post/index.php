@@ -405,6 +405,8 @@ class PostLoop extends BaseLoop {
         $args['post_type'] = $args['type'];
       }
       unset($args['type']);
+    } elseif (!isset($args['post_type'])) {
+      $args['post_type'] = 'post';
     }
 
     parent::__construct( $args );

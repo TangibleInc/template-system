@@ -174,8 +174,9 @@ $loop->push_current_post_context = function($given_post = false) use ($loop) {
   }
 
   $loop->push_context(
-    $loop($given_post->post_type, [
+    $loop('post', [
       'id' => $given_post->ID,
+      'post_type' => $given_post->post_type,
       'status' => 'all' // Support post status other than publish
     ])
   );
