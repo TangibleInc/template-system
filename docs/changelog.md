@@ -1,5 +1,9 @@
 Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
+# 3.2.3
+
+- Elementor integration: Improve dynamic module loader by removing AJAX library from dependency list of Template Editor script
+- Post loop: Improve handling when called directly without "type" or "post_type" parameter
 
 # 3.2.2
 
