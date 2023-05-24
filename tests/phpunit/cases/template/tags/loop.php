@@ -47,21 +47,20 @@ class Template_Tags_Loop_TestCase extends WP_UnitTestCase {
    */
   public function test_loop_post_type_archive() {
 
-    register_post_type( 'custom', [
-      'has_archive' => true
-    ]);
-    
-    [$post_1, $post_2, $post_3] = self::factory()->post->create_many(3, [
-      'post_type' => 'custom'
-    ]);
+    $error = null;
 
-    $this->go_to( get_post_type_archive_link('custom') );
-
-    $errored = null;
-    set_error_handler(function( $errno, $errstr, ...$args ) use ( &$errored ) {
-      $errored = [ $errno, $errstr, $args ];
+    set_error_handler(function( $errno, $errstr, ...$args ) use ( &$error ) {
+      $error = [ $errno, $errstr, $args ];
       restore_error_handler();
     });
+
+    // Post archive
+
+    [$post_1, $post_2, $post_3] = self::factory()->post->create_many(3, [
+      'post_type' => 'post'
+    ]);
+
+    $this->go_to( get_post_type_archive_link('post') );
 
     // Posts are ordered by most recent
     $this->assertEquals(
@@ -70,7 +69,51 @@ class Template_Tags_Loop_TestCase extends WP_UnitTestCase {
     );
 
     // Ensure no warning for missing type or post_type attribute
-    $this->assertNull( $errored );
+    $this->assertNull( $error );
+
+
+    // Current loop context
+
+    $error = null;
+
+    $this->go_to( get_permalink( $post_1 ) );
+
+    $loop = tangible_loop();
+    $loop->push_current_post_context();
+
+    $this->assertEquals(
+      "[$post_1]",
+      tangible_template('<Loop>[<Field id>]</Loop>')
+    );
+
+    $this->assertNull( $error );
+
+    $loop->pop_current_post_context();
+
+
+    // Custom post type archive
+
+    $error = null;
+
+    register_post_type( 'custom', [
+      'has_archive' => true
+    ]);
+
+    [$post_1, $post_2, $post_3] = self::factory()->post->create_many(3, [
+      'post_type' => 'custom'
+    ]);
+
+    $this->go_to( get_post_type_archive_link('custom') );
+
+    // Posts are ordered by most recent
+    $this->assertEquals(
+      "[$post_3][$post_2][$post_1]",
+      tangible_template('<Loop>[<Field id>]</Loop>')
+    );
+
+    // Ensure no warning for missing type or post_type attribute
+    $this->assertNull( $error );
+
   }
 
   /**
