@@ -28,6 +28,13 @@ class PostLoop extends BaseLoop {
         'type'        => [ 'string', 'array' ],
       ],
 
+      // For backward compatibility - Use post_type instead
+      'type'          => [
+        'target_name' => 'post_type',
+        'internal'    => true,
+        'type'        => [ 'string', 'array' ],
+      ],
+
       'id'         => [
         'target_name' => 'include',
         'description' => 'ID',
