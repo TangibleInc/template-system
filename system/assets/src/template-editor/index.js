@@ -281,8 +281,8 @@ jQuery(function ($) {
     if (fieldName === 'post_content' && !templateMeta.isNewPost) editor.focus()
 
     // Provide public method to save
+    this.editor = editor
     editor.save = save
-    $editor[0].editor = editor
   })
 
   // Tabs
