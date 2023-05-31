@@ -113,9 +113,10 @@ $html->absolute_or_relative_url = function($route, $current_route = false, $base
  */
 $html->absolute_or_relative_views_url = function($route) use ($html) {
 
-  $views_root_path = $html->get_current_context('views_root_path');
+  $views_root_path = $html->get_current_context('views_root_path') ?? '';
+  $current_context_path = $html->get_current_context('path') ?? '';
 
-  $current_route = str_replace($views_root_path, '', $html->get_current_context('path'));
+  $current_route = str_replace($views_root_path, '', $current_context_path);
   $base_url = str_replace(ABSPATH, trailingslashit(site_url()), $views_root_path);
 
   // When outside of views template context
