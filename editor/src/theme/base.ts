@@ -24,5 +24,5 @@ export const themeBase = EditorView.theme({
   },
   '.cm-cursor': {
     borderLeftWidth: '2px',
-  }
+  },
 })

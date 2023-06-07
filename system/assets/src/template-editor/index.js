@@ -42,6 +42,20 @@ jQuery(function ($) {
     console.warn('No editor elements found for Tangible Template code editor')
   }
 
+  // Silence "Are you sure?" alert when leaving screen
+  // @see https://core.trac.wordpress.org/browser/branches/5.6/src/js/_enqueues/wp/autosave.js?rev=50366
+  const { wp } = window
+  if (wp && wp.autosave && wp.autosave.server && wp.autosave.server.postChanged) {
+
+    // console.log('Proxy wp.autosave.server.postChanged')
+
+    wp.autosave.server.postChanged = function () {
+      // console.log('postChanged', false)
+      return false
+    }
+  }
+
+
   const editorInstances = {
     // fieldName: editor instance
   }
@@ -323,8 +337,8 @@ jQuery(function ($) {
       const $tabEditor = $tab.find('[data-tangible-template-editor-type]')
       const editorInstance = $tabEditor.length
         ? editorInstances[
-            $tabEditor.attr('name') // By field name
-          ]
+          $tabEditor.attr('name') // By field name
+        ]
         : false
 
       if (!tabEditorActivated[index]) {
