@@ -9,7 +9,9 @@ $html->register_variable_type('js', [
     // Ensure valid variable name
     $name = preg_replace("/[^a-zA-Z0-9_]+/i", "", $name);
 
-    $content = $html->render( $content );
+    if ( ! isset( $atts['render'] ) || $atts['render'] === 'true' ) {
+      $content = $html->render( $content );
+    }
 
     /**
      * Default value type is "raw" (unquoted), previously "string" (quoted)
