@@ -15,7 +15,7 @@
 
 - A way for users to describe **reusable, composable behaviors**
 
-  Like what [React Aria](https://react-spectrum.adobe.com/react-aria/) and [Radix UI](https://www.radix-ui.com/) provide, but using HTML tags and attributes instead of JavaScript. With an "escape hatch" for developers to customize it from JS, if needed.
+  > Like what [React Aria](https://react-spectrum.adobe.com/react-aria/) and [Radix UI](https://www.radix-ui.com/) provide, but using HTML tags and attributes instead of JavaScript. With an "escape hatch" for developers to customize it from JS, if needed.
 
 - Library of **accessible primitives and patterns**
 

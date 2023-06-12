@@ -21,7 +21,7 @@ const base09 = '#81a1c1' // water blue
 const base0A = '#5e81ac' // deep blue
 
 // Aurora
-const base0b = '#bf616a' // red
+const base0B = '#bf616a' // red
 const base0C = '#d08770' // orange
 const base0D = '#ebcb8b' // yellow
 const base0E = '#a3be8c' // green
@@ -32,27 +32,29 @@ const darkBackground = '#252a33'
 const highlightBackground = base03
 const background = base00
 const tooltipBackground = base01
-const selection = base03
+const selection = base02
 const cursor = '#ffea00' // base04
 
-/// The editor theme styles for Nord.
+/// The editor theme styles
 export const darkTheme = EditorView.theme(
   {
     '&': {
       color: base04,
-      backgroundColor: background
+      backgroundColor: background,
     },
 
     '.cm-content': {
-      caretColor: cursor
+      caretColor: cursor,
     },
 
     '.cm-cursor, .cm-dropCursor': { borderLeftColor: cursor },
 
-    '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection':
-      { backgroundColor: selection },
+    '&.cm-focused  .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection':
+      {
+        backgroundColor: `${selection} !important`
+      },
 
-    '.cm-panels': { backgroundColor: darkBackground, color: base03 },
+    '.cm-panels': { backgroundColor: darkBackground, color: base05 },
     '.cm-panels.cm-panels-top': { borderBottom: '2px solid black' },
     '.cm-panels.cm-panels-bottom': { borderTop: '2px solid black' },
 
@@ -65,26 +67,29 @@ export const darkTheme = EditorView.theme(
       color: base00
     },
 
-    '.cm-activeLine': { backgroundColor: highlightBackground },
+    '.cm-activeLine': {
+      backgroundColor: darkBackground,
+    },
+
     '.cm-selectionMatch': {
-      backgroundColor: base05,
+      backgroundColor: base02,
       color: base01
     },
 
     '&.cm-focused .cm-matchingBracket, &.cm-focused .cm-nonmatchingBracket': {
       backgroundColor: 'transparent',
-      // backgroundColor: highlightBackground,
       borderBottom: `1px dotted ${base05}`,
     },
 
     '.cm-gutters': {
       backgroundColor: base00,
-      color: base03,
-      border: 'none'
+      color: base04, // 3
+      border: 'none',
+      borderRight: `1px solid ${darkBackground}`
     },
 
     '.cm-activeLineGutter': {
-      backgroundColor: highlightBackground,
+      backgroundColor: darkBackground, //highlightBackground,
       color: base04
     },
 
@@ -108,8 +113,8 @@ export const darkTheme = EditorView.theme(
     },
     '.cm-tooltip-autocomplete': {
       '& > ul > li[aria-selected]': {
-        backgroundColor: highlightBackground,
-        color: base03
+        backgroundColor: darkBackground, //highlightBackground,
+        color: base04
       }
     }
   },
@@ -154,7 +159,7 @@ export const darkHighlightStyle = HighlightStyle.define([
 
   {
     tag: [t.attributeName],
-    color: base0F
+    color: base0C
   },
 
   // {
@@ -169,12 +174,12 @@ export const darkHighlightStyle = HighlightStyle.define([
   },
   {
     tag: [t.angleBracket, t.operator, t.operatorKeyword, t.brace],
-    color: base0A // base0C
+    color: base09 // base0C
   },
 
   {
     tag: [t.squareBracket],
-    color: base0b
+    color: base0B
   },
 
   {
@@ -223,7 +228,7 @@ export const darkHighlightStyle = HighlightStyle.define([
     tag: [t.contentSeparator],
     color: base0D
   },
-  { tag: t.invalid, color: base02, borderBottom: `1px dotted ${invalid}` }
+  { tag: t.invalid, color: invalid, borderBottom: `1px dotted ${invalid}` }
 ])
 
 /// Extension with editor theme and highlight style

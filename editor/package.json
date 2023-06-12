@@ -25,7 +25,8 @@
     "@lezer/common": "^1.0.3",
     "@lezer/highlight": "^1.1.6",
     "@replit/codemirror-css-color-picker": "^6.0.0",
-    "@replit/codemirror-indentation-markers": "^6.4.2"
+    "@replit/codemirror-indentation-markers": "^6.4.2",
+    "prettier": "^2.8.8"
   },
   "devDependencies": {
     "@tangible/roller": "1.x"

@@ -1,9 +1,33 @@
 
-body {
+html, body {
   margin: 0;
   padding: 0;
 }
 
+body, .system-font-sans-serif {
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+}
+.system-font-serif {
+  font-family: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+}
+
+.system-font-mono {
+  font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+}
+
+.editor-section {
+  color: #d8dee9;
+  background-color: #252a33;
+  overflow: auto;
+  padding: 0 1rem;
+}
+
+h4 {
+  margin: 1rem 0 .5rem 0;
+}
+
 #html-editor, #sass-editor, #javascript-editor {
-  margin: 1rem;
+  margin: .5rem 0;
+  border-radius: 6px;
+  overflow: hidden;
 }

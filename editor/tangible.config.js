@@ -1,7 +1,7 @@
 const config = {
   build: [
     {
-      src: 'src/global.js',
+      src: 'src/global.ts',
       dest: 'build/editor.min.js'
     },
     // Test page

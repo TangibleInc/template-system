@@ -104,6 +104,9 @@ new class extends stdClass {
       require_once __DIR__ . '/universal-id/index.php';
       require_once __DIR__ . '/import-export/index.php';
 
+      // New template editor based on CodeMirror 6
+      require_once __DIR__ . '/../editor/index.php';
+
       require_once __DIR__ . '/../extensions/index.php';
       require_once __DIR__ . '/integrations/index.php';
 

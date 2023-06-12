@@ -1,1 +1,0 @@
-{"version":3,"sources":["../test/index.scss"],"names":[],"mappings":"AACA,KACE,QAAA,CACA,SAAF,CAGA,6CACE,WAAF","file":"test.min.css","sourcesContent":["\nbody {\n  margin: 0;\n  padding: 0;\n}\n\n#html-editor, #sass-editor, #javascript-editor {\n  margin: 1rem;\n}"]}

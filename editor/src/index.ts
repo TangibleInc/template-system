@@ -4,25 +4,28 @@ import type { ViewUpdate } from '@codemirror/view'
 import { getSetup } from './setup'
 
 import { dark as theme } from './theme/dark'
+// import { light as theme } from './theme/light'
 
-export async function createEditor({
+export { format } from './languages/format'
+
+export async function create({
   el,
   lang = 'html',
   content = '',
   onUpdate
 }) {
 
-  const updateListener = EditorView.updateListener.of((v: ViewUpdate) => {
+  const updateListener = EditorView.updateListener.of((view: ViewUpdate) => {
 
     // https://discuss.codemirror.net/t/codemirror-6-proper-way-to-listen-for-changes/2395/2
     // https://codemirror.net/6/docs/ref/#view.ViewUpdate
-    if (!v.docChanged) return
+    if (!view.docChanged) return
 
-    // const code = v.state.doc.toString()
+    // const code = view.state.doc.toString()
 
     onUpdate({
       // code
-      doc: v.state.doc // Defer toString until necessary
+      doc: view.state.doc // Defer toString until necessary
     })
   })
 

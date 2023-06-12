@@ -1,8 +1,12 @@
-const { createTemplateEditor: createEditor } = window.Tangible
+// import * as sass from 'sass' // 2 MB
+
+const { TemplateEditor } = window.Tangible
+
+// console.log('sass', sass)
 
 ;(async () => {
 
-  const htmlEditor = await createEditor({
+  const htmlEditor = await TemplateEditor.create({
     el: document.getElementById(`html-editor`),
     lang: 'html',
     content: `<Loop type=post>
@@ -12,7 +16,7 @@ const { createTemplateEditor: createEditor } = window.Tangible
 
   htmlEditor.view.focus()
 
-  await createEditor({
+  await TemplateEditor.create({
     el: document.getElementById(`sass-editor`),
     lang: 'sass',
     content: `$bg-color: #123;
@@ -21,7 +25,7 @@ const { createTemplateEditor: createEditor } = window.Tangible
 }`
   })
 
-  await createEditor({
+  await TemplateEditor.create({
     el: document.getElementById(`javascript-editor`),
     lang: 'javascript',
     content: `console.log('hi')`

@@ -59,7 +59,7 @@ foreach ( $group['hooks'] as $hook ) {
   ?>
 </select>
 
-<p>By default, the layout is applied to the <b>Content</b> position, which is the whole site page.
+<p>By default, the layout is applied to the <b>Content</b> position. This replaces the theme template for the matching location, such as <code>index.php</code>, with a minimal wrapper that loads: the theme header, the layout template as main content, and the theme footer. 
 </p><p>
 The Document <b>Head</b> position is useful for adding meta tags, <a href="https://json-ld.org/" target="_blank">JSON-LD</a> schema, or stylesheets. The Document <b>Foot</b> position is useful for adding scripts.
 </p><p>

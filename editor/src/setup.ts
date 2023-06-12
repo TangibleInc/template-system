@@ -14,41 +14,41 @@ import { searchKeymap, highlightSelectionMatches } from '@codemirror/search'
 import { autocompletion, completionKeymap, closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete'
 import { lintKeymap, lintGutter } from '@codemirror/lint'
 
-// https://github.com/emmetio/codemirror6-plugin
-import { expandAbbreviation, abbreviationTracker } from '@emmetio/codemirror6-plugin' // ~90Kb
-
 import { indentationMarkers } from '@replit/codemirror-indentation-markers'
 
-import { vscodeKeymap } from './vscode-keymap'
+import { vscodeKeymap } from './extensions/vscode-keymap'
+import { getLangExtensions } from './languages'
 import { themeBase } from './theme/base'
 
-import { getLangExtensions } from './lang'
 
 // Based on https://github.com/codemirror/basic-setup/blob/main/src/codemirror.ts
-
+// https://codemirror.net/docs/extensions/
 const commonExtensions = [
-  lineNumbers(), // #view.lineNumbers
-  highlightSpecialChars(), // #view.highlightSpecialChars
-  history(), // #commands.history
-  foldGutter(), // #language.foldGutter
-  drawSelection(), // #view.drawSelection
-  dropCursor(), // #view.dropCursor
-  EditorState.allowMultipleSelections.of(true), // #state.EditorState^allowMultipleSelections
-  indentOnInput(), // #language.indentOnInput
-  syntaxHighlighting(defaultHighlightStyle, { fallback: true }), // #language.defaultHighlightStyle
-  closeBrackets(), // #autocomplete.closeBrackets
-  autocompletion({ // #autocomplete.autocompletion
-    defaultKeymap: false // Needed for vscode-keymap
-  }),
-  rectangularSelection(), // #view.rectangularSelection
-  crosshairCursor(), // #view.crosshairCursor
-  // highlightActiveLine(), // #view.highlightActiveLine
-  highlightActiveLineGutter(), // #view.highlightActiveLineGutter
-  highlightSelectionMatches(), // #search.highlightSelectionMatches
+
+  EditorState.tabSize.of(2),
+
+  lineNumbers(), // https://codemirror.net/docs/ref/#view.lineNumbers
+  highlightSpecialChars(), // https://codemirror.net/docs/ref/#view.highlightSpecialChars
+  history(), // https://codemirror.net/docs/ref/#commands.history
+  foldGutter(), // https://codemirror.net/docs/ref/#language.foldGutter
+  drawSelection(), // https://codemirror.net/docs/ref/#view.drawSelection
+  dropCursor(), // https://codemirror.net/docs/ref/#view.dropCursor
+  EditorState.allowMultipleSelections.of(true), // https://codemirror.net/docs/ref/#state.EditorState^allowMultipleSelections
+  indentOnInput(), // https://codemirror.net/docs/ref/#language.indentOnInput
+
+  syntaxHighlighting(defaultHighlightStyle, { fallback: true }), // https://codemirror.net/docs/ref/#language.defaultHighlightStyle
+
+  closeBrackets(), // https://codemirror.net/docs/ref/#autocomplete.closeBrackets
+
+  rectangularSelection(), // https://codemirror.net/docs/ref/#view.rectangularSelection
+  crosshairCursor(), // https://codemirror.net/docs/ref/#view.crosshairCursor
+  // highlightActiveLine(), // https://codemirror.net/docs/ref/#view.highlightActiveLine
+  highlightActiveLineGutter(), // https://codemirror.net/docs/ref/#view.highlightActiveLineGutter
+  highlightSelectionMatches(), // https://codemirror.net/docs/ref/#search.highlightSelectionMatches
 
   lintGutter(),
 
-  bracketMatching(), // TODO: Better styling // #language.bracketMatching
+  bracketMatching(), // TODO: Better styling // https://codemirror.net/docs/ref/#language.bracketMatching
   indentationMarkers(),
 
   themeBase,
@@ -66,30 +66,24 @@ const commonKeyMaps = [
   indentWithTab,
 
   // ...defaultKeymap, // https://codemirror.net/docs/ref/#commands.defaultKeymap
-  ...searchKeymap, // #search.searchKeymap
+  ...searchKeymap, // https://codemirror.net/docs/ref/#search.searchKeymap
   ...historyKeymap,
   ...foldKeymap,
   ...completionKeymap,
-  ...lintKeymap, // #lint.lintKeymap
-  ...vscodeKeymap
+  // ...lintKeymap, // https://codemirror.net/docs/ref/#lint.lintKeymap
+  ...vscodeKeymap,
 ]
 
+/**
+ * Get language setup - Using async to support dynamic loading
+ */
 export async function getSetup(lang: string): Promise<Extension> {
 
   const langExtensions = await getLangExtensions(lang)
-  const hasEmmet = lang === 'html'
 
   return [
     ...commonExtensions,
+    keymap.of(commonKeyMaps),
     ...langExtensions,
-    ...(hasEmmet
-      ? [abbreviationTracker()]
-      : []),
-    keymap.of([
-      ...(hasEmmet
-        ? [{ key: 'Tab', run: expandAbbreviation }]
-        : []),
-      ...commonKeyMaps,
-    ])
   ]
 }
