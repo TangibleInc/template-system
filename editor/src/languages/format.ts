@@ -11,17 +11,21 @@ const prettierLanguageOptions = {
     parser: 'html',
     plugins: [parserHtml]
   },
-  js: {
+  sass: {
+    parser: 'scss',
+    plugins: [parserPostCSS]
+  },
+  javascript: {
     parser: 'espree',
-    plugins: [parserEspree]
+    plugins: [parserEspree],
+    singleQuote: true,
+    semi: false,
+    useTabs: false,
+    tabWidth: 2
   },
   json: {
     parser: 'json-stringify'
   },
-  scss: {
-    parser: 'scss',
-    plugins: [parserPostCSS]
-  }
 }
 
 export async function format({

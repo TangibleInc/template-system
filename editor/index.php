@@ -23,7 +23,7 @@ function enqueue() {
    * 
    * @todo Move them here from v5 editor /template/codemirror/lib
    */
-
+/*
   $linters = [];
 
   foreach ([
@@ -50,6 +50,7 @@ function enqueue() {
     'tangible-codemirror-htmlhint',
     "if (window.Tangible && window.Tangible.HTMLHint && window.Tangible.HTMLHint.parser) { Object.assign(window.Tangible.HTMLHint.parser.mapCdataTags, $raw_tags_map) };"
   );
+*/
 
   // Editor
 
@@ -59,7 +60,7 @@ function enqueue() {
   wp_enqueue_script(
     'tangible-template-system-editor',
     "{$editor_url}build/editor.min.js",
-    $linters,
+    [], // $linters,
     $editor_version,
     true
   );

@@ -8,6 +8,7 @@ const base00 = '#2e3440' // black
 const base01 = '#3b4252' // dark grey
 const base02 = '#434c5e'
 const base03 = '#4c566a' // grey
+// grey between #a5a9b0
 
 // Snow Storm
 const base04 = '#d8dee9' // grey

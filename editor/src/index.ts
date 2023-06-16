@@ -25,7 +25,7 @@ export async function create({
 
     onUpdate({
       // code
-      doc: view.state.doc // Defer toString until necessary
+      doc: view.state.doc // Defer toString() until necessary
     })
   })
 

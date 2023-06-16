@@ -10,6 +10,8 @@ import { colorPicker } from '@replit/codemirror-css-color-picker'
 // Based on https://github.com/codemirror/lang-html
 import { html } from './lang-html/html'
 import { createHtmlLinter } from './html-linter'
+import { createJavaScriptLinter } from './js-linter'
+import { createSassLinter } from './sass-linter'
 
 // import { json, jsonParseLinter } from '@codemirror/lang-json'
 // import { markdown } from '@codemirror/lang-markdown'
@@ -58,17 +60,15 @@ const createKeyMapFormatter = (lang) => keymap.of([
 
         const newSelection = {
           // Restore cursor to closest position
-          anchor: Math.min(currentPosition, lastPos - 1)
+          anchor: Math.min(currentPosition, formattedCode.length - 1)
         }
 
         view.dispatch({
           selection: newSelection
         })
 
-        // TODO: Restore cursor position
-
       })
-        .catch(console.error)
+        .catch(console.error) // TODO: Map error to lint gutter
 
       return true
     }
@@ -100,12 +100,14 @@ const langExtensionsGetters = {
   ],
   sass: () => [
     sass(),
+    createSassLinter(),
     createKeyMapFormatter('scss'),
     colorPicker,
     hyperLink
   ],
   javascript: () => [
     javascript(),
+    createJavaScriptLinter(),
     createKeyMapFormatter('js'),
     hyperLink
   ],
