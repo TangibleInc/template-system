@@ -91,7 +91,6 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
       // Date comparison: Returns true/false or null for unknown operand (pass through)
       $condition = $html->evaluate_date_comparison($value, $current_value, $atts);
       if (is_bool($condition)) return $condition;
-
       $condition = $html->evaluate_logic_comparison($operand, $value, $current_value);
     break;
 
