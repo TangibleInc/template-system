@@ -1,18 +1,13 @@
 <?php
-class Template_Tags_If_TestCase extends WP_UnitTestCase {
-    /**
-     * @link https://discourse.tangible.one/t/if-else-condition-in-html-attribute/954
-     */
-  public function test_template_tags_if_else_condition_in_html_attribute_954() {
-      $template  = '<Set href_value>home</Set>';
-      $template .= '<a href="{If variable=href_value value=home}{Url home /}{Else /}{Url current /}{/If}">Click here.</a>';
-    $this->assertEquals( '<a href="' . get_site_url() . '">Click here.</a>', tangible_template( $template ) );
-  }
+namespace Tests\Template\Tags;
+
+class If_Route_TestCase extends \WP_UnitTestCase {
 
     /**
+     * If current URL is is_singular() of specific post type
      * @link https://discourse.tangible.one/t/if-is-not-singular-of-a-specific-post-type/804
      */
-  public function test_template_tags_if_not_is_not_804() {
+  function test_if_not_is_not_804() {
       $template  = '<Set _type>one</Set>';
       $template .= '<If variable="_type" not value="two">ok</If>';
       $this->assertEquals( 'ok', tangible_template( $template ) );

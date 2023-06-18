@@ -11,9 +11,13 @@ $html->format = function( $type, $content, $options = [] ) use ( $html ) {
   return $html->$format_name( $content, $options );
 };
 
+require_once __DIR__ . '/case.php';
 require_once __DIR__ . '/code.php';
 require_once __DIR__ . '/date.php';
 require_once __DIR__ . '/embed.php';
 require_once __DIR__ . '/html.php';
+require_once __DIR__ . '/list.php';
 require_once __DIR__ . '/number.php';
 require_once __DIR__ . '/text.php';
+
+require_once __DIR__ . '/tag.php';

@@ -117,13 +117,23 @@ $html->list_tag = function( $atts, $nodes ) use ( $html ) {
         $html->current_list = $json;
       }
     }
+
   } elseif ( isset( $atts['items'] ) ) {
 
     $html->current_list = array_map( 'trim', explode( ',', $atts['items'] ) );
 
   } else {
+
     // Defined by Item tags
-    $html->render( $nodes );
+    $result = $html->render( $nodes );
+
+    // Or it can return a JSON string
+    if (!empty($result) && ($result = trim($result)) && $result[0]==='[') {
+      $json = $html->hjson()->parse( $result );
+      if ( is_array( $json ) ) {
+        $html->current_list = $json;
+      }
+    }
   }
 
   if ( ! empty( $name ) ) {
