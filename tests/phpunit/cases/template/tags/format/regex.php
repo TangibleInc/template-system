@@ -27,5 +27,16 @@ class Format_RegularExpression_TestCase extends \WP_UnitTestCase {
 
     $result = tangible_template( $template );
     $this->assertEquals( $expected, $result, $template );
+
+    $source = "https://example.com";
+    $replace = "/http(s?):\/\//";
+    $with = "";
+    $template = "<Format replace=\"{$replace}\" with=\"{$with}\">{$source}</Format>";
+
+    $expected = preg_replace($replace, $with, $source);
+
+    $result = tangible_template( $template );
+    $this->assertEquals( $expected, $result, $template );
+
   }
 }

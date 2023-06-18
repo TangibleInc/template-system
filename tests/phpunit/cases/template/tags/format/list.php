@@ -64,6 +64,7 @@ class Format_List_TestCase extends \WP_UnitTestCase {
     $result = tangible_template( $template );
     $this->assertEquals( $expected, $result, $template );
 
+
     // Matching string functions
 
     // Offset
@@ -71,7 +72,16 @@ class Format_List_TestCase extends \WP_UnitTestCase {
     $result = tangible_template( $template );
     $this->assertEquals( 'えお', $result, $template );
 
+    $template = '<Format offset=2>ABCDEF</Format>';
+    $result = tangible_template( $template );
+    $this->assertEquals( 'CDEF', $result, $template );
+
     // Negative offset
+
+    $template = '<Format offset=-2>ABCDEF</Format>';
+    $result = tangible_template( $template );
+    $this->assertEquals( 'EF', $result, $template );
+
     $template = '<Format offset=-3>あいうえお</Format>';
     $result = tangible_template( $template );
     $this->assertEquals( 'うえお', $result, $template );
@@ -94,6 +104,10 @@ class Format_List_TestCase extends \WP_UnitTestCase {
     $result = tangible_template( $template );
     $this->assertEquals( $expected, $result, $template );
 
+    $template = '<Format list index=1>[1,2,3]</Format>';
+    $result = tangible_template( $template );
+    $this->assertEquals( '2', $result, $template );
+
     // Negative index
     $template = "<Format list index=\"-2\">{$content}</Format>";
     $expected = json_encode( array_slice($value, -2, 1)[0] );
@@ -101,18 +115,39 @@ class Format_List_TestCase extends \WP_UnitTestCase {
     $result = tangible_template( $template );
     $this->assertEquals( $expected, $result, $template );
 
+    $template = '<Format list index=-1>[1,2,3]</Format>';
+    $result = tangible_template( $template );
+    $this->assertEquals( '3', $result, $template );
 
     // Matching string functions
 
     // Index starts from 0
+
+    $template = '<Format index=1>ABC</Format>';
+    $result = tangible_template( $template );
+    $this->assertEquals( 'B', $result, $template );
+
+    $template = '<Format index=1>Привет</Format>';
+    $result = tangible_template( $template );
+    $this->assertEquals( 'р', $result, $template );
+
     $template = '<Format index=1>あいうえお</Format>';
     $result = tangible_template( $template );
     $this->assertEquals( 'い', $result, $template );
 
     // Negative index
-    $template = '<Format index=-2>あいうえお</Format>';
+
+    $template = '<Format index=-1>ABC</Format>';
     $result = tangible_template( $template );
-    $this->assertEquals( 'え', $result, $template );
+    $this->assertEquals( 'C', $result, $template );
+
+    $template = '<Format index=-1>Привет</Format>';
+    $result = tangible_template( $template );
+    $this->assertEquals( 'т', $result, $template );
+
+    $template = '<Format index=-1>あいうえお</Format>';
+    $result = tangible_template( $template );
+    $this->assertEquals( 'お', $result, $template );
   }
 
   function test_format_list_trim() {

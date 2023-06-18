@@ -4,7 +4,7 @@ Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 # 3.2.8
 
 - Format tag
-  - Add list and substring functions: index, offset, length, split, join, trim
+  - Add list and substring functions: index, offset, length, split, join, trim, prefix, suffix
   - Support regular expressions - replace, match
   - Support multibyte string: uppercase, lowercase, capital, capital_words
   - Support format every item in a list
