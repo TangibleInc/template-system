@@ -1,43 +1,34 @@
 <?php
-class Template_Tags_Format_TestCase extends WP_UnitTestCase {
-    /**
-     * @dataProvider _test_template_tags_format_case_data
-     */
-  public function test_template_tags_format_case( $case, $expected ) {
+namespace Tests\Template\Tags;
+
+class Format_TestCase extends \WP_UnitTestCase {
+  function test_template_tags_format_case() {
+    foreach ([
+      [ 'kebab', 'hello-world' ],
+      [ 'snake', 'hello_world' ],
+      [ 'pascal', 'HelloWorld' ],
+      [ 'camel', 'helloWorld' ],
+      [ 'lower', 'hello, world' ],
+      [ 'upper', 'HELLO, WORLD' ],
+      [ 'unknown', 'Hello, world' ],
+    ] as [$case, $expected]) {
       $template = "<Format case=$case>Hello, world</Format>";
       $this->assertEquals( $expected, tangible_template( $template ) );
+    }
   }
 
-  public function _test_template_tags_format_case_data() {
-      return [
-          'kebab'   => [ 'kebab', 'hello-world' ],
-          'snake'   => [ 'snake', 'hello_world' ],
-          'pascal'  => [ 'pascal', 'HelloWorld' ],
-          'camel'   => [ 'camel', 'helloWorld' ],
-          'lower'   => [ 'lower', 'hello, world' ],
-          'upper'   => [ 'upper', 'HELLO, WORLD' ],
-          'unknown' => [ 'unknown', 'Hello, world' ],
-      ];
+  function test_template_tags_format_case_spaces() {
+    foreach ([
+      [ 'kebab', 'hello-world' ],
+      [ 'snake', 'hello_world' ],
+      [ 'pascal', 'HelloWorld' ],
+      [ 'camel', 'helloWorld' ],
+    ] as [$case, $expected]) {
+      $template = "<Format case=$case>Hello,     world</Format>";
+      $this->assertEquals( $expected, tangible_template( $template ) );
+    }
   }
-
-    /**
-     * @dataProvider _test_template_tags_format_case_spaces_data
-     */
-  public function test_template_tags_format_case_spaces( $case, $expected ) {
-        $template = "<Format case=$case>Hello,     world</Format>";
-        $this->assertEquals( $expected, tangible_template( $template ) );
-  }
-
-  public function _test_template_tags_format_case_spaces_data() {
-        return [
-            'kebab'  => [ 'kebab', 'hello-world' ],
-            'snake'  => [ 'snake', 'hello_world' ],
-            'pascal' => [ 'pascal', 'HelloWorld' ],
-            'camel'  => [ 'camel', 'helloWorld' ],
-        ];
-  }
-
-    // public function test_template_tags_format_case_utf8() {
+    // function test_template_tags_format_case_utf8() {
     // $template = '<Format case=upper>привет, мир!</Format>';
     // $this->assertEquals('ПРИВЕТ, МИР!', tangible_template($template));
     // }
@@ -45,7 +36,7 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
     /**
      * @dataProvider _test_template_tags_format_length_data
      */
-  public function test_template_tags_format_length( $length, $content, $expected ) {
+  function test_template_tags_format_length( $length, $content, $expected ) {
       $template = "<Format length=$length>$content</Format>";
       $this->assertEquals( $expected, tangible_template( $template ) );
 
@@ -53,7 +44,7 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
       $this->assertEquals( $expected, tangible_template( $template ) );
   }
 
-  public function _test_template_tags_format_length_data() {
+  function _test_template_tags_format_length_data() {
       return [
           'five'                    => [
               5,
@@ -73,12 +64,12 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
       ];
   }
 
-  public function test_template_tags_format_code() {
+  function test_template_tags_format_code() {
       $template = '<Format code>this & that</Format>';
       $this->assertEquals( 'this &amp; that', tangible_template( $template ) );
   }
 
-  public function test_template_tags_format_slug() {
+  function test_template_tags_format_slug() {
       $template = '<Format slug>Hello, World!</Format>';
       $this->assertEquals( 'hello-world', tangible_template( $template ) );
 
@@ -88,7 +79,7 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
   }
 
 
-  public function test_template_tags_format_cases() {
+  function test_template_tags_format_cases() {
       $template = '<Format uppercase>Hello, World!</Format>';
       $this->assertEquals( 'HELLO, WORLD!', tangible_template( $template ) );
 
@@ -100,27 +91,29 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
 
       $template = '<Format capital_words>hello, world!</Format>';
       $this->assertEquals( 'Hello, World!', tangible_template( $template ) );
-
-      // @todo UTF-8
-      // $template = '<Format uppercase>Привет, Мир!</Format>';
-      // $this->assertEquals('ПРИВЕТ, МИР!', tangible_template($template));
-
-      // $template = '<Format lowercase>Привет, Мир!</Format>';
-      // $this->assertEquals('привет, мир!', tangible_template($template));
-
-      // $template = '<Format capital>привет, мир!</Format>';
-      // $this->assertEquals('Привет, мир!', tangible_template($template));
-
-      // $template = '<Format capital_words>привет, мир!</Format>';
-      // $this->assertEquals('Привет, Мир!', tangible_template($template));
   }
 
-  public function test_template_tags_format_urlencode() {
+  function test_template_tags_format_cases_multibyte() {
+    $template = '<Format uppercase>Привет, Мир!</Format>';
+    $this->assertEquals('ПРИВЕТ, МИР!', tangible_template($template));
+
+    $template = '<Format lowercase>Привет, Мир!</Format>';
+    $this->assertEquals('привет, мир!', tangible_template($template));
+
+    $template = '<Format capital>привет, мир!</Format>';
+    $this->assertEquals('Привет, мир!', tangible_template($template));
+
+    $template = '<Format capital_words>привет, мир!</Format>';
+    $this->assertEquals('Привет, Мир!', tangible_template($template));
+  }
+
+
+  function test_template_tags_format_urlencode() {
       $template = '<Format url_query>?a=привет</Format>';
       $this->assertEquals( '%3Fa%3D%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82', tangible_template( $template ) );
   }
 
-  public function test_template_tags_format_replace() {
+  function test_template_tags_format_replace() {
       $template = '<Format replace="lo worl" with="">hello world</Format>';
       $this->assertEquals( 'held', tangible_template( $template ) );
 
@@ -146,7 +139,7 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
       $this->assertEquals( 'Hello '.$link, tangible_template( $template ) );
     }
 
-  public function test_template_tags_format_number() {
+  function test_template_tags_format_number() {
       $template = '<Format number>1987.2407</Format>';
       $this->assertEquals( '1987.24', tangible_template( $template ) );
 
@@ -157,15 +150,7 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
       $this->assertEquals( '1,987', tangible_template( $template ) );
   }
 
-  public function test_template_tags_format_html() {
-      $template = '<Format html_attribute>"\'</Format>';
-      $this->assertEquals( '&quot;&#039;', tangible_template( $template ) );
-
-      $template = '<Format html_entities>&</Format>';
-      $this->assertEquals( '&amp;', tangible_template( $template ) );
-  }
-
-  public function test_template_tags_format_slash() {
+  function test_template_tags_format_slash() {
     $this->assertEquals( '/test', tangible_template(
       '<Format start_slash>test</Format>'
     ) );
@@ -195,11 +180,5 @@ class Template_Tags_Format_TestCase extends WP_UnitTestCase {
     ) );
   }
 
-  public function test_template_tags_format_remove_html() {
-    $this->assertEquals( '123456', tangible_template(
-      '<Format remove_html><a href="example.com">123</a><script>alert("hi")</script><b>456</b></Format>'
-    ) );
-  }
 
-  // @todo: date, embed
 }

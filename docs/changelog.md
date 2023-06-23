@@ -1,5 +1,19 @@
 Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
+
+# 3.2.8
+
+- Format tag
+  - Add list and substring functions: index, offset, length, split, join, trim, prefix, suffix
+  - Support regular expressions - replace, match
+  - Support multibyte string: uppercase, lowercase, capital, capital_words
+  - Support format every item in a list
+  - Support nested list formats
+- If tag: Add comparison "matches" to match regular expression
+
+
+Format: Add list and substring functions - index, offset, length, split, join, trim; Support regular expressions - replace, match; Add If comparison "matches"; Support multibyte string: uppercase, lowercase, capital, capital_words; Support chained formats; Support applying format to every item in list
+
 # 3.2.5
 
 - Elementor integration: Improve dynamic module loader by removing AJAX library from dependency list of Template Editor script

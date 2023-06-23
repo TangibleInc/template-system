@@ -106,8 +106,12 @@ $html->logic_comparisons = [
   'label' => 'any not includes',
   ],
   [
-  'name'  => 'all_not_includes',
-  'label' => 'all not includes',
+    'name'  => 'all_not_includes',
+    'label' => 'all not includes',
+  ],
+  [
+    'name'  => 'matches',
+    'label' => 'matches regular expression',
   ],
 ];
 
@@ -465,6 +469,17 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         $condition = false;
       }
         break;
+
+    case 'matches':
+        if ( is_string( $value ) && $value[0]==='/') {
+        // Regular expression
+        $pattern = $value;
+        $subject = $current_value;
+        $condition = !empty( preg_match( $pattern, $subject ) );
+      } else {
+        $condition = false;
+      }
+      break;
 
     // Unknown operand
     default:
