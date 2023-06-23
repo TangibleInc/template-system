@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Template\Tags;
 
-class If_RegularExpression_TestCase extends \WP_UnitTestCase {
+class If_Pattern_TestCase extends \WP_UnitTestCase {
   /**
    * If value matches by regular expression
    * Also see ../format/regex.php

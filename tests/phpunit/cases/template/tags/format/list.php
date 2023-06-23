@@ -194,7 +194,7 @@ class Format_List_TestCase extends \WP_UnitTestCase {
     $pattern = '/[^a-zA-Z0-9_-]/s';
     $source = $items[0];
 
-    $template = "<Format replace=\"{$pattern}\" with=\"\">$source</Format>";
+    $template = "<Format replace_pattern=\"{$pattern}\" with=\"\">$source</Format>";
     
     $expected = preg_replace($pattern, '', $source);
 
@@ -203,7 +203,7 @@ class Format_List_TestCase extends \WP_UnitTestCase {
 
     // Split and list replace
 
-    $template = "<Format list replace=\"{$pattern}\" with=\"\">$split_template</Format>";
+    $template = "<Format list replace_pattern=\"{$pattern}\" with=\"\">$split_template</Format>";
 
     $trimmed_and_replaced_items = array_map(
       function($item) use ($pattern) {
@@ -272,7 +272,7 @@ class Format_List_TestCase extends \WP_UnitTestCase {
     <Format join=" ">
       <Format list prefix="color-">
         <Format list case=lower>
-          <Format list replace="/[^a-zA-Z0-9_-]/s" with="">
+          <Format list replace_pattern="/[^a-zA-Z0-9_-]/s" with="">
             <Format split="," trim>#Red*, !Green), @Blue(</Format>
           </Format>
         </Format>

@@ -21,8 +21,9 @@ $html->format_tag = function( $atts, $content ) use ( $html ) {
       'index', 'length', 'offset',
       'split', 'join',
 
+      'replace',
       // Regular expression
-      'replace', 'match',
+      'replace_pattern', 'match',
 
       // Start/end slash
       'start_slash', 'end_slash',

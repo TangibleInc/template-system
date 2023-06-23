@@ -5,12 +5,14 @@
  */
 $html->format_replace = function( $content, $options = [] ) use ($html) {
 
+  $is_pattern = $options['pattern'] ?? false;
+
   // Support multiple replaces
   for ( $i = 1; $i <= 3; $i++ ) {
 
     $postfix = $i === 1 ? '' : '_' . $i;
 
-    $replace_key = 'replace' . $postfix;
+    $replace_key = ($is_pattern ? 'replace_pattern' : 'replace') . $postfix;
     $with_key    = 'with' . $postfix;
 
     if ( ! isset( $options[ $replace_key ] )
@@ -25,14 +27,11 @@ $html->format_replace = function( $content, $options = [] ) use ($html) {
      * @see /template/tags/format.php
      * @see /template/html/tag.php, attributes.php
      */
-    $has_regex = false;
     foreach ( [ $replace_key, $with_key ] as $key ) {
-      if (!empty($options[ $key ]) && $options[ $key ][0]==='/') {
-        if ($key===$replace_key) {
-          $has_regex = true;
-        }
-        continue;
-      }
+
+      // Skip pattern
+      if ($key===$replace_key && $is_pattern) continue;
+
       if (strpos( $options[ $key ], '{' ) === false
         || !$html->should_render_attribute($key, $options[ $key ])
       ) continue;
@@ -44,7 +43,7 @@ $html->format_replace = function( $content, $options = [] ) use ($html) {
       );
     }
 
-    $content = $has_regex
+    $content = $is_pattern
       ? preg_replace(
         $options[ $replace_key ],
         $options[ $with_key ],
@@ -61,6 +60,16 @@ $html->format_replace = function( $content, $options = [] ) use ($html) {
 
   return $content;
 };
+
+/**
+ * Seach and replace regular expression pattern
+ */
+$html->format_replace_pattern = function( $content, $options = [] ) use ($html) {
+  return $html->format_replace( $content, $options+[
+    'pattern' => true
+  ] );
+};
+
 
 /**
  * Encode URL query using rawurlencode()
