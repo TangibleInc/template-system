@@ -10,6 +10,7 @@
  * a visual interface in the template edit screen to provide values.
  */
 
+require_once __DIR__ . '/logic.php';
 require_once __DIR__ . '/loop.php';
 require_once __DIR__ . '/variable.php';
 
