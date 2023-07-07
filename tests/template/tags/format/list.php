@@ -174,6 +174,16 @@ class Format_List_TestCase extends \WP_UnitTestCase {
     $this->assertEquals( $expected, $result, $template );
   }
 
+  function test_format_list_reverse() {
+    $list = [1, 2, 3];
+
+    $template = "<Format list reverse>".json_encode($list)."</Format>";
+    $this->assertEquals(
+      array_reverse($list),
+      json_decode(tangible_template( $template ))
+    );
+  }
+
   function test_format_list_chain_formats() {
 
     // Split

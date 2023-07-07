@@ -1,5 +1,48 @@
 <?php
 
+$html->list_format_types = [
+  'index',
+  'length',
+  'offset',
+  'join',
+  'reverse'
+];
+
+$html->format_types_without_value = [
+  'trim',
+  'trim_left',
+  'trim_right',
+  'reverse'
+];
+
+
+$html->format_type_attributes_with_value = [
+  'case',
+  'date',
+
+  // List/string functions
+  'index', 'length', 'offset', 'count',
+  'split', 'join',
+  'words',
+
+  'replace',
+  // Regular expression
+  'replace_pattern', 'match_pattern',
+
+  'start_slash', 'end_slash',
+  'prefix', 'suffix',
+
+
+  /**
+   * Trim is last because it can be standalone or combined with above
+   * attributes like "split"
+   */
+  'trim',
+  'trim_left',
+  'trim_right',
+
+];
+
 $html->format_tag = function( $atts, $content ) use ( $html ) {
 
   /**
@@ -13,35 +56,7 @@ $html->format_tag = function( $atts, $content ) use ( $html ) {
 
     // These attributes with value have same format type as its name
 
-    foreach ( [
-      'case',
-      'date',
-
-      // List/string functions
-      'index', 'length', 'offset',
-      'split', 'join',
-
-      'replace',
-
-      // Regular expression
-      'replace_pattern', 'match_pattern',
-
-      // Slash
-      'start_slash', 'end_slash',
-
-      'prefix', 'suffix',
-
-      'words',
-
-      /**
-       * Trim is last because it can be standalone or combined with above
-       * attributes like "split"
-       */
-      'trim',
-      'trim_left',
-      'trim_right',
-
-    ] as $check_type ) {
+    foreach ( $html->format_type_attributes_with_value as $check_type ) {
       if ( ! isset( $atts[ $check_type ] )) continue;
       $type = $check_type;
       break;
@@ -50,18 +65,26 @@ $html->format_tag = function( $atts, $content ) use ( $html ) {
 
   $first_key = !empty($atts['keys']) ? $atts['keys'][0] : '';
 
+  if ($first_key==='list') {
+
+    // Format list ..
+    $options['list'] = true;
+
+    array_shift($atts['keys']);
+    $first_key = $atts['keys'][0] ?? '';
+  }
+
   if (empty($type)) {
 
     $type = $first_key;
     array_shift($atts['keys']);
 
-    if (in_array($type, ['trim', 'trim_left', 'trim_right'])) {
+    /**
+     * These format types have no value, like: <Format trim>
+     */
+    if (in_array($type, $html->format_types_without_value)) {
       $options[ $type ] = true;
     }
-
-  } elseif ($first_key==='list') {
-    // Format list ..
-    $options['list'] = true;
   }
 
   $content = $html->render( $content );
@@ -97,9 +120,7 @@ $html->format_tag = function( $atts, $content ) use ( $html ) {
      * For format types that *do not* expect a list, apply
      * to every item in the list and return new list.
      */
-    if (is_array($content) && !in_array($type, [
-      'index', 'length', 'offset', 'join',
-    ])) {
+    if (is_array($content) && !in_array($type, $html->list_format_types)) {
 
       // Apply format to each item in the list
 

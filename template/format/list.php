@@ -1,6 +1,9 @@
 <?php
 /**
  * List functions
+ * 
+ * index, slice, length, offset, count
+ * split, join, reverse
  */
 
 /**
@@ -29,7 +32,14 @@ $html->format_slice = function( $content, $options = [] ) {
   $length = $options['length'] ?? $options['characters'] ?? null;
 
   if (is_string($content)) {
-    return mb_substr( $content, $offset, $length );
+
+    $result = mb_substr( $content, $offset, $length );
+
+    if (isset($options['words'])) {
+      return wp_trim_words( $result, (int) $options['words'], '' );
+    }
+
+    return $result;
   }
   if (is_array( $content )) {
     return array_slice( $content, $offset, $length );
@@ -39,7 +49,7 @@ $html->format_slice = function( $content, $options = [] ) {
 /**
  * Offset and length
  */
-$html->format_offset = $html->format_length = $html->format_slice;
+$html->format_offset = $html->format_length = $html->format_words = $html->format_slice;
 
 /**
  * Split string into list
@@ -55,7 +65,21 @@ $html->format_split = function( $content, $options = [] ) use ($html) {
 
     $items = explode( $split, $content );
 
-    if ($html->should_apply_trim_format($options)) {
+    $apply_trim = false;
+
+    foreach ([
+      'trim', 'trim_left', 'trim_right'
+    ] as $key) {
+      if (!empty($options['keys']) && in_array($key, $options['keys'])) {
+        $options[$key] = true;
+      }
+      if (isset($options[$key])) {
+        $apply_trim = true;
+        break;
+      }
+    }
+  
+    if ($apply_trim) {
       foreach ($items as $key => $value) {
         $items[ $key ] = $html->format_trim( $value, $options );
       }  
@@ -64,29 +88,11 @@ $html->format_split = function( $content, $options = [] ) use ($html) {
     return $items;
   }
 
-};
-
-$html->should_apply_trim_format = function($options) {
-
-  $apply_trim = false;
-
-  foreach ([
-    'trim', 'trim_left', 'trim_right'
-  ] as $key) {
-    if (!empty($options['keys']) && in_array($key, $options['keys'])) {
-      $options[$key] = true;
-    }
-    if (isset($options[$key])) {
-      $apply_trim = true;
-      break;
-    }
-  }
-
-  return $apply_trim;
+  return [];
 };
 
 /**
- * Join into into string
+ * Join into string
  */
 $html->format_join = function( $content, $options = [] ) {
 
@@ -97,5 +103,42 @@ $html->format_join = function( $content, $options = [] ) {
 
   if (is_array( $content )) {
     return implode($join, $content);
+  }
+};
+
+
+/**
+ * Count
+ */
+$html->format_count = function( $content, $options = [] ) {
+
+  $type = $options['count'] ?? 'length';
+
+  switch ($type) {
+    case 'length':
+      // Characters or items in a list
+      return is_array($content)
+        ? count($content)
+        : (is_string($content)
+          ? strlen($content)
+          : 0
+        )
+      ;
+      break;
+    case 'words':
+      return count(preg_split('~[^\p{L}\p{N}\']+~u', $content));
+      break;
+  }
+};
+
+/**
+ * Reverse
+ */
+$html->format_reverse = function( $content, $options = [] ) {
+  if (is_array( $content )) {
+    return array_reverse($content);
+  }
+  if (is_string( $content )) {
+    return strrev($content);
   }
 };

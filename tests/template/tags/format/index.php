@@ -2,7 +2,7 @@
 namespace Tests\Template\Tags;
 
 class Format_TestCase extends \WP_UnitTestCase {
-  function test_template_tags_format_case() {
+  function test_format_case() {
     foreach ([
       [ 'kebab', 'hello-world' ],
       [ 'snake', 'hello_world' ],
@@ -17,7 +17,7 @@ class Format_TestCase extends \WP_UnitTestCase {
     }
   }
 
-  function test_template_tags_format_case_spaces() {
+  function test_format_case_spaces() {
     foreach ([
       [ 'kebab', 'hello-world' ],
       [ 'snake', 'hello_world' ],
@@ -28,48 +28,70 @@ class Format_TestCase extends \WP_UnitTestCase {
       $this->assertEquals( $expected, tangible_template( $template ) );
     }
   }
-    // function test_template_tags_format_case_utf8() {
+    // function test_format_case_utf8() {
     // $template = '<Format case=upper>привет, мир!</Format>';
     // $this->assertEquals('ПРИВЕТ, МИР!', tangible_template($template));
     // }
 
-    /**
-     * @dataProvider _test_template_tags_format_length_data
-     */
-  function test_template_tags_format_length( $length, $content, $expected ) {
+  function test_format_length() {
+
+    $text = 'Hornswaggle bowsprit six pounders sutler lateen sail parrel boatswain coxswain tackle warp. Line squiffy lass mizzenmast yard fathom clipper bucko barque cog. Jack starboard parley marooned bilge water hearties chandler heave to hands sloop.';
+
+    foreach ([
+      [
+        5,
+        $text,
+        'Horns',
+      ],
+      [
+        -150,
+        $text,
+        substr($text, 0, -150),
+      ],
+      [
+        6,
+        'Привет, мир!',
+        'Привет',
+      ],
+    ] as [$length, $content, $expected]) {
+
       $template = "<Format length=$length>$content</Format>";
       $this->assertEquals( $expected, tangible_template( $template ) );
 
       $template = "<Format length characters=$length>$content</Format>";
       $this->assertEquals( $expected, tangible_template( $template ) );
+    }
   }
 
-  function _test_template_tags_format_length_data() {
-      return [
-          'five'                    => [
-              5,
-              'Hornswaggle bowsprit six pounders sutler lateen sail parrel boatswain coxswain tackle warp. Line squiffy lass mizzenmast yard fathom clipper bucko barque cog. Jack starboard parley marooned bilge water hearties chandler heave to hands sloop.',
-              'Horns',
-          ],
-          'minus-one-hundred-fifty' => [
-              -150,
-              'Hornswaggle bowsprit six pounders sutler lateen sail parrel boatswain coxswain tackle warp. Line squiffy lass mizzenmast yard fathom clipper bucko barque cog. Jack starboard parley marooned bilge water hearties chandler heave to hands sloop.',
-              'Hornswaggle bowsprit six pounders sutler lateen sail parrel boatswain coxswain tackle warp.',
-          ],
-          'utf8'                    => [
-              6,
-              'Привет, мир!',
-              'Привет',
-          ],
-      ];
+  function test_format_words() {
+
+    $text = 'Hornswaggle bowsprit six pounders sutler lateen sail parrel boatswain coxswain tackle warp. Line squiffy lass mizzenmast yard fathom clipper bucko barque cog. Jack starboard parley marooned bilge water hearties chandler heave to hands sloop.';
+
+    foreach ([
+      1, 5, 50
+    ] as $words) {
+      $template = "<Format words=$words>$content</Format>";
+      $this->assertEquals(
+        wp_trim_words($content, $words, ''),
+        tangible_template( $template ),
+        $template
+      );
+    }
   }
 
-  function test_template_tags_format_code() {
+  function test_format_reverse() {
+    $content = 'Hornswaggle';
+    
+    $template = "<Format reverse>$content</Format>";
+    $this->assertEquals( strrev($content), tangible_template( $template ) );
+  }
+
+  function test_format_code() {
       $template = '<Format code>this & that</Format>';
       $this->assertEquals( 'this &amp; that', tangible_template( $template ) );
   }
 
-  function test_template_tags_format_slug() {
+  function test_format_slug() {
       $template = '<Format slug>Hello, World!</Format>';
       $this->assertEquals( 'hello-world', tangible_template( $template ) );
 
@@ -79,7 +101,7 @@ class Format_TestCase extends \WP_UnitTestCase {
   }
 
 
-  function test_template_tags_format_cases() {
+  function test_format_cases() {
       $template = '<Format uppercase>Hello, World!</Format>';
       $this->assertEquals( 'HELLO, WORLD!', tangible_template( $template ) );
 
@@ -93,7 +115,7 @@ class Format_TestCase extends \WP_UnitTestCase {
       $this->assertEquals( 'Hello, World!', tangible_template( $template ) );
   }
 
-  function test_template_tags_format_cases_multibyte() {
+  function test_format_cases_multibyte() {
     $template = '<Format uppercase>Привет, Мир!</Format>';
     $this->assertEquals('ПРИВЕТ, МИР!', tangible_template($template));
 
@@ -108,12 +130,12 @@ class Format_TestCase extends \WP_UnitTestCase {
   }
 
 
-  function test_template_tags_format_urlencode() {
+  function test_format_urlencode() {
       $template = '<Format url_query>?a=привет</Format>';
       $this->assertEquals( '%3Fa%3D%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82', tangible_template( $template ) );
   }
 
-  function test_template_tags_format_replace() {
+  function test_format_replace() {
       $template = '<Format replace="lo worl" with="">hello world</Format>';
       $this->assertEquals( 'held', tangible_template( $template ) );
 
@@ -139,7 +161,7 @@ class Format_TestCase extends \WP_UnitTestCase {
       $this->assertEquals( 'Hello '.$link, tangible_template( $template ) );
     }
 
-  function test_template_tags_format_number() {
+  function test_format_number() {
       $template = '<Format number>1987.2407</Format>';
       $this->assertEquals( '1987.24', tangible_template( $template ) );
 
@@ -150,7 +172,7 @@ class Format_TestCase extends \WP_UnitTestCase {
       $this->assertEquals( '1,987', tangible_template( $template ) );
   }
 
-  function test_template_tags_format_slash() {
+  function test_format_slash() {
     $this->assertEquals( '/test', tangible_template(
       '<Format start_slash>test</Format>'
     ) );

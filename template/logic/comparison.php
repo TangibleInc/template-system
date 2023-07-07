@@ -110,7 +110,7 @@ $html->logic_comparisons = [
     'label' => 'all not includes',
   ],
   [
-    'name'  => 'matches',
+    'name'  => 'matches_pattern',
     'label' => 'matches regular expression',
   ],
 ];

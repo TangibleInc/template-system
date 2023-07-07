@@ -2,6 +2,7 @@
 
 /**
  * Format number
+ * @see https://www.php.net/manual/en/function.number-format.php
  */
 $html->format_number = function( $content, $options = [] ) {
 

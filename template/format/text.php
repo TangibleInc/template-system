@@ -1,5 +1,7 @@
 <?php
 
+// url_query, trim, prefix, suffix, start_slash, end_slash
+
 /**
  * Encode URL query using rawurlencode()
  *
