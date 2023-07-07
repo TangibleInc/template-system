@@ -12,7 +12,7 @@ require_once __DIR__ . '/content/index.php';
 require_once __DIR__ . '/context.php';
 require_once __DIR__ . '/data/index.php';
 require_once __DIR__ . '/exit.php';
-// require_once __DIR__ . '/format.php'; // See ../format
+// require_once __DIR__ . '/format.php'; // See ../format/tag.php
 require_once __DIR__ . '/if/index.php';
 require_once __DIR__ . '/link.php';
 require_once __DIR__ . '/media/index.php';

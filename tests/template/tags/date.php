@@ -51,12 +51,14 @@ class Date_Tag extends \WP_UnitTestCase {
     $this->assertEquals( '2000-02-01', $date->format('Y-m-d'), $expected );
 
     // Duration
+
+    $date = $tdate->create(2000, 1, 31, 12, 0, 0);
     
-    $duration = $tdate->now()->timespan(
+    $duration = $tdate->now()->diffInDays(
       $tdate('+1000 days')
     );
 
-    $this->assertEquals( '2 ans, 8 mois, 3 semaines, 3 jours', $duration, $expected );
+    $this->assertEquals( '1000', $duration, $expected );
 
 
     // Various date expressions

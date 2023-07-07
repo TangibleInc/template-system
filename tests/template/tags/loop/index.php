@@ -1,5 +1,7 @@
 <?php
-class Template_Tags_Loop_TestCase extends WP_UnitTestCase {
+namespace Tests\Template\Tags;
+
+class Loop_TestCase extends \WP_UnitTestCase {
   public function test_loop_post_type() {
 
     [$post_1, $post_2, $post_3] = self::factory()->post->create_many(3, [

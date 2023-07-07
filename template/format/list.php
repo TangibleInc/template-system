@@ -99,20 +99,3 @@ $html->format_join = function( $content, $options = [] ) {
     return implode($join, $content);
   }
 };
-
-/**
- * Match regular expression in string to list of values
- */
-$html->format_match = function( $content, $options = [] ) {
-
-  $match = $options['match'] ?? '';
-
-  if (is_string( $content )) {
-    preg_match_all($match, $content, $matches);
-    if ($matches) {
-      $matches = array_shift($matches) ?? [];
-      return $matches;
-    }
-  }
-  return [];
-};

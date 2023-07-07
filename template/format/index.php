@@ -18,6 +18,8 @@ require_once __DIR__ . '/embed.php';
 require_once __DIR__ . '/html.php';
 require_once __DIR__ . '/list.php';
 require_once __DIR__ . '/number.php';
+require_once __DIR__ . '/regex.php';
 require_once __DIR__ . '/text.php';
 
+// Format tag
 require_once __DIR__ . '/tag.php';

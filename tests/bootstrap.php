@@ -1,7 +1,7 @@
 <?php
 
 if ( ! $_WORDPRESS_DEVELOP_DIR = getenv( 'WORDPRESS_DEVELOP_DIR' ) ) {
-    $_WORDPRESS_DEVELOP_DIR = __DIR__ . '/../../wordpress-develop';
+    $_WORDPRESS_DEVELOP_DIR = __DIR__ . '/../wordpress-develop';
 }
 /**
  * Directory of PHPUnit test files
@@ -12,7 +12,7 @@ if ( ! $_WORDPRESS_TESTS_DIR = getenv( 'WP_TESTS_DIR' ) ) {
     $_WORDPRESS_TESTS_DIR = $_WORDPRESS_DEVELOP_DIR . '/tests/phpunit';
 }
 
-$_PLUGIN_ENTRYPOINT = __DIR__ . '/../../index.php';
+$_PLUGIN_ENTRYPOINT = __DIR__ . '/../index.php';
 
 require_once $_WORDPRESS_TESTS_DIR . '/includes/functions.php';
 

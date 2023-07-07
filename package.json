@@ -15,6 +15,7 @@
     "build:all": "roll build interface; roll build logic; roll build template; roll build tester; roll build system",
     "format:all": "roll format; roll format interface; roll format logic; roll format loop; roll format template; roll format system",
     "-- Local environment --": "https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env",
+    "test": "npm run env:test",
     "env": "wp-env",
     "env:start": "wp-env start",
     "env:test": "wp-env run tests-wordpress /var/www/html/wp-content/plugins/template-system/vendor/bin/phpunit -c /var/www/html/wp-content/plugins/template-system/phpunit.xml --verbose",
