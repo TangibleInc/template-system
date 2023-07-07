@@ -22,13 +22,16 @@ $html->format_tag = function( $atts, $content ) use ( $html ) {
       'split', 'join',
 
       'replace',
-      // Regular expression
-      'replace_pattern', 'match',
 
-      // Start/end slash
+      // Regular expression
+      'replace_pattern', 'match_pattern',
+
+      // Slash
       'start_slash', 'end_slash',
 
       'prefix', 'suffix',
+
+      'words',
 
       /**
        * Trim is last because it can be standalone or combined with above

@@ -3,16 +3,22 @@ Versions correspond to plugin release of Loops & Logic and Tangible Blocks.
 
 # 3.2.8
 
+- Date module: Upgrade Carbon date library to 2.68.1
 - Format tag
-  - Add list and substring functions: index, offset, length, split, join, trim, prefix, suffix
-  - Support regular expressions - replace, match
-  - Support multibyte string: uppercase, lowercase, capital, capital_words
-  - Support format every item in a list
-  - Support nested list formats
-- If tag: Add comparison "matches" to match regular expression
-
-
-Format: Add list and substring functions - index, offset, length, split, join, trim; Support regular expressions - replace, match; Add If comparison "matches"; Support multibyte string: uppercase, lowercase, capital, capital_words; Support chained formats; Support applying format to every item in list
+  - Add list and string format methods
+    - index, offset, length, words - Cut a piece of string by position
+    - split, join - Split string to list, and back
+    - trim, trim_left, trim_right - Remove whitespace or given characters from start/end 
+    - prefix, suffix - Add string before or after
+    - reverse - Reverse a list
+  - Regular expressions - replace_pattern, match_pattern
+  - Multibyte string: uppercase, lowercase, capital, capital_words
+  - Format list
+    - Format every item in a list
+    - Nested list formats
+- If tag
+  - Add comparison "match_pattern" to match value to regular expression
+  - Improve comparison "includes" to support a List loop instance, for example: `<If acf_checkbox=checkbox_field includes value=field_value>`
 
 # 3.2.5
 

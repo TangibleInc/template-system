@@ -15,7 +15,7 @@
 
 - Streaming HTML parser - See `/html`
 
-- Upgrade Carbon date library
+- x Upgrade Carbon date library
 
 - Deprecate plugin framework
 
