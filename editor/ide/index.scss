@@ -1,0 +1,131 @@
+@import "./flexlayout.scss";
+
+.system-font-sans-serif {
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+}
+
+.system-font-serif {
+  font-family: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+}
+
+.system-font-mono {
+  font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+}
+
+.ide {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.panes {
+  display: flex;
+  font-size: 16px;
+  background-color: #eee;
+}
+
+.pane {
+  width: 50%;
+  height: 100vh;
+}
+
+.pane-label {
+  padding: .25rem;
+  font-size: 12px;
+  /* text-transform: uppercase;
+  background-color: #abc; */
+}
+.pane-preview {
+  background-color: #eee;
+}
+.pane-editors {
+  color: #e5e9f0;
+  background-color: #252a33;
+}
+
+
+.editors {
+  color: #e5e9f0;
+  background-color: #252a33;
+  padding: .5rem;
+
+  .cm-editor { height: 100%; }
+  .cm-scroller { overflow: auto; }
+}
+
+
+.editor-tabs {
+  display: flex;
+  margin-bottom: .5rem;
+ }
+.editor-tab {
+  margin-right: 2px;
+  border-radius: 0;
+}
+
+.editor-tab, .editor-action {
+
+  margin: 0;
+  padding: .125rem 1rem;
+
+  color: #eceff4;
+  background-color: #3b4252;
+  font-size: 14px;
+  cursor: pointer;
+
+  border: 1px solid #434c5e;
+
+  transition: background-color .3s;  
+}
+
+.editor-tab:hover, .editor-tab:active {
+  color: #eceff4;
+  background-color: #4c566a; // 434c5e
+}
+.editor-tab.visible { background-color: #4c566a; }
+
+.editor-tab-target:not(.visible) {
+  display: none;
+}
+
+.editor-action {
+  background-color: #0d47a1;
+  font-size: 14px;
+}
+.editor-action:hover, .editor-action:active {
+  background-color: #0d47a1;
+}
+
+.editor {
+  margin-bottom: .25rem;
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: #a5a9b0;
+  fill: #a5a9b0;
+}
+.editor-tab-icons {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row-reverse;
+}
+.editor-tab-icon {
+  display: flex;
+  align-items: center;
+  padding: 0 .5rem;
+  font-size: 18px;
+  background-color: transparent !important;
+}
+.editor-tab-icon.visible .icon, .editor-tab-icon:focus .icon, .editor-tab-icon:active .icon {
+  stroke: #fff;
+  fill: #fff;
+}
+.editor-tab-target[data-area="info"] {
+  font-size: 14px;
+  padding: 0 .25rem;
+}

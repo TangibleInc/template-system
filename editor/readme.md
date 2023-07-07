@@ -1,6 +1,9 @@
-# Template system editor
+# Template System: Editor
 
-This is the new editor based on CodeMirror 6.
+This is the new code editor based on CodeMirror 6. It's a curated and customized set of features designed to integrate with the Loops & Logic template (extended HTML), style (Sass), and script (JavaScript).
+
+The goal is to grow into an integrated development environment (IDE) with the editor at its core.
+
 
 ## Upgrade from previous version
 
@@ -33,9 +36,11 @@ The script defines a global `Tangible.Editor`.
 
 - Language intelligence features
 
-  - Reference: VS Code
+  - Reference: Visual Studio Code
     - IntelliSense - https://code.visualstudio.com/docs/editor/intellisense
     - Code Navigation - https://code.visualstudio.com/docs/editor/editingevolved
+    - Snippets - https://code.visualstudio.com/docs/editor/userdefinedsnippets
+    - Emmet - https://code.visualstudio.com/docs/editor/emmet
 
   - Interface
     - ? Detect language syntax at cursor
@@ -43,6 +48,8 @@ The script defines a global `Tangible.Editor`.
       https://codemirror.net/docs/ref/#language.syntaxTree
 
     - Editor Panel - https://codemirror.net/examples/panel/
+
+      For example, contextual info from current cursor position
 
     - Tooltip - https://codemirror.net/examples/tooltip/
 

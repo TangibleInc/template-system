@@ -10,8 +10,9 @@ export function genericLinter(view) {
 
   const { state } = view
   const tree = syntaxTree(state)
+  const docLength = state.doc.length
 
-  if (tree.length === state.doc.length) {
+  if (docLength && tree.length === docLength) {
 
     let pos: number | null = null
 

@@ -114,7 +114,7 @@ export const darkTheme = EditorView.theme(
     },
     '.cm-tooltip-autocomplete': {
       '& > ul > li[aria-selected]': {
-        backgroundColor: darkBackground, //highlightBackground,
+        backgroundColor: highlightBackground, //darkBackground, //highlightBackground,
         color: base04
       }
     }

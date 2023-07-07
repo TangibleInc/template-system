@@ -1,17 +1,18 @@
 
 import { css } from '@codemirror/lang-css'
-import { sass } from '@codemirror/lang-sass'
-import { javascript } from '@codemirror/lang-javascript'
+import { sass, sassCompletionSource } from '@codemirror/lang-sass'
+import { javascript, localCompletionSource } from '@codemirror/lang-javascript'
+import { autocompletion } from '@codemirror/autocomplete'
 
 import { keymap } from '@codemirror/view'
 
 import { colorPicker } from '@replit/codemirror-css-color-picker'
 
 // Based on https://github.com/codemirror/lang-html
-import { html } from './lang-html/html'
-import { createHtmlLinter } from './html-linter'
-import { createJavaScriptLinter } from './js-linter'
-import { createSassLinter } from './sass-linter'
+import { html } from './html'
+import { createHtmlLinter } from './html/linter'
+import { createJavaScriptLinter } from './javascript/linter'
+import { createSassLinter } from './sass/linter'
 
 // import { json, jsonParseLinter } from '@codemirror/lang-json'
 // import { markdown } from '@codemirror/lang-markdown'
@@ -21,7 +22,7 @@ import { createSassLinter } from './sass-linter'
 // https://github.com/emmetio/codemirror6-plugin
 import { expandAbbreviation, abbreviationTracker } from '@emmetio/codemirror6-plugin' // ~90Kb
 
-import { getAutocompleteExtensions } from '../extensions/autocomplete'
+import { getAutocompleteExtensions } from './autocomplete'
 import { format } from './format'
 import { hyperLink } from '../extensions/hyperlink'
 
@@ -100,6 +101,12 @@ const langExtensionsGetters = {
   ],
   sass: () => [
     sass(),
+    autocompletion({ // https://codemirror.net/docs/ref/#autocomplete.autocompletion
+      defaultKeymap: false, // Needed for vscode-keymap
+      override: [
+        sassCompletionSource
+      ]
+    }),
     createSassLinter(),
     createKeyMapFormatter('scss'),
     colorPicker,
@@ -107,6 +114,12 @@ const langExtensionsGetters = {
   ],
   javascript: () => [
     javascript(),
+    autocompletion({ // https://codemirror.net/docs/ref/#autocomplete.autocompletion
+      defaultKeymap: false, // Needed for vscode-keymap
+      // override: [
+      //   localCompletionSource()
+      // ]
+    }),
     createJavaScriptLinter(),
     createKeyMapFormatter('js'),
     hyperLink

@@ -2,21 +2,20 @@
 /**
  * Code Editor
  */
-namespace Tangible\TemplateSystem\Editor;
+namespace Tangible\TemplateSystem\CodeEditor;
 
-class Editor {
+use Tangible\TemplateSystem\CodeEditor as editor;
 
-  static $version = '20230607';
-
+class state {
+  static $version = '20230707';
   static $html;
-  static $state = [];
+  static $url;
 }
 
-Editor::$html = $html; // tangible_template()
+editor\state::$html = $html; // tangible_template()
+editor\state::$url = trailingslashit( plugins_url( '/', __FILE__ ) );
 
 function enqueue() {
-
-  $html = &Editor::$html;
 
   /**
    * Linters
@@ -24,6 +23,9 @@ function enqueue() {
    * @todo Move them here from v5 editor /template/codemirror/lib
    */
 /*
+
+  $html = &CodeEditor::$html;
+
   $linters = [];
 
   foreach ([
@@ -52,17 +54,45 @@ function enqueue() {
   );
 */
 
-  // Editor
-
-  $editor_url = trailingslashit( plugins_url( '/', __FILE__ ) );
-  $editor_version = Editor::$version;
+  // CodeEditor
 
   wp_enqueue_script(
     'tangible-template-system-editor',
-    "{$editor_url}build/editor.min.js",
+    editor\state::$url . 'build/editor.min.js',
     [], // $linters,
-    $editor_version,
+    editor\state::$version,
     true
   );
 
+}
+
+function enqueue_ide() {
+
+  wp_enqueue_script(
+    'tangible-template-system-ide',
+    editor\state::$url . 'build/ide.min.js',
+    [
+      'tangible-ajax',
+      'tangible-module-loader',
+      'tangible-template-system-editor',
+      'wp-element',
+    ],
+    editor\state::$version,
+    true
+  );
+
+  wp_enqueue_style(
+    'tangible-template-system-ide',
+    editor\state::$url . 'build/ide.min.css',
+    [],
+    editor\state::$version
+  );
+}
+
+function load_ide() {
+
+  editor\enqueue();
+  editor\enqueue_ide();
+
+    // include __DIR__ . '/build/index.html';
 }

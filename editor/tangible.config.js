@@ -4,17 +4,18 @@ const config = {
       src: 'src/global.ts',
       dest: 'build/editor.min.js'
     },
-    // Test page
+    // IDE: Integrated development environment for Template, Style, Script
     {
-      src: 'test/index.ts',
-      dest: 'build/test.min.js'
+      src: 'ide/index.tsx',
+      dest: 'build/ide.min.js',
+      react: 'wp'
     },
     {
-      src: 'test/index.scss',
-      dest: 'build/test.min.css'
+      src: 'ide/index.scss',
+      dest: 'build/ide.min.css'
     },
     {
-      src: 'test/**/index.html',
+      src: 'ide/**/index.html',
       dest: 'build',
     },
   ],

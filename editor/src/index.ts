@@ -1,19 +1,27 @@
 import { EditorState, EditorSelection } from '@codemirror/state'
 import { EditorView, keymap } from '@codemirror/view'
 import type { ViewUpdate } from '@codemirror/view'
-import { getSetup } from './setup'
+import type { Text } from '@codemirror/state'
 
+import { getSetup } from './setup'
 import { dark as theme } from './theme/dark'
 // import { light as theme } from './theme/light'
 
 export { format } from './languages/format'
+
+export type CodeEditorOptions = {
+  el: HTMLElement
+  lang: string,
+  content: string,
+  onUpdate?: (updateCallbackProps: { doc: Text }) => void
+}
 
 export async function create({
   el,
   lang = 'html',
   content = '',
   onUpdate
-}) {
+}: CodeEditorOptions) {
 
   const updateListener = EditorView.updateListener.of((view: ViewUpdate) => {
 

@@ -42,7 +42,7 @@ const commonExtensions = [
 
   rectangularSelection(), // https://codemirror.net/docs/ref/#view.rectangularSelection
   crosshairCursor(), // https://codemirror.net/docs/ref/#view.crosshairCursor
-  // highlightActiveLine(), // https://codemirror.net/docs/ref/#view.highlightActiveLine
+  highlightActiveLine(), // https://codemirror.net/docs/ref/#view.highlightActiveLine
   highlightActiveLineGutter(), // https://codemirror.net/docs/ref/#view.highlightActiveLineGutter
   highlightSelectionMatches(), // https://codemirror.net/docs/ref/#search.highlightSelectionMatches
 

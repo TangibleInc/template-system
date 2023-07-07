@@ -1,7 +1,8 @@
-import * as TemplateEditor from './index'
+import * as CodeEditor from './index'
 
 window.Tangible = window.Tangible || {}
-window.Tangible.TemplateEditor = TemplateEditor
+window.Tangible.TemplateSystem = window.Tangible.TemplateSystem || {}
+window.Tangible.TemplateSystem.CodeEditor = CodeEditor
 
 /**
  * Previous version based on CodeMirror v5 is called:
