@@ -3,8 +3,6 @@
  * Control variables
  *
  * Create a control variables (used only in block for now)
- *
- * Used in /template/tags/loop/context.php
  */
 
 // Current scope -> parent -> parent..

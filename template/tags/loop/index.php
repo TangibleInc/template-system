@@ -32,9 +32,9 @@ $html->loop_tag = function($atts, $nodes = []) use ($loop, $html) {
   }
 
   /**
-   * Only return early if no loop context was created; otherwise, it's important to
-   * call $current_loop->loop() below even if the loop has no item, so that previous
-   * loop total is correctly set to 0.
+   * Only return early if no loop context was created; otherwise, it's
+   * important to call $current_loop->loop() below even if the loop has no
+   * item, so that the previous loop total is correctly set to 0.
    */
   if (empty($current_loop)) return;
 

@@ -6,7 +6,6 @@
 // Variable types
 require_once __DIR__ . '/get-set/index.php';
 
-// These define their own tags
 require_once __DIR__ . '/comment/index.php';
 require_once __DIR__ . '/content/index.php';
 require_once __DIR__ . '/context.php';

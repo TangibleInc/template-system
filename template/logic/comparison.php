@@ -470,8 +470,8 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
       }
         break;
 
-    case 'matches':
-        if ( is_string( $value ) && $value[0]==='/') {
+    case 'matches_pattern':
+      if ( is_string( $value ) && $value[0]==='/') {
         // Regular expression
         $pattern = $value;
         $subject = $current_value;

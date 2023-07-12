@@ -10,19 +10,19 @@ class If_Pattern_TestCase extends \WP_UnitTestCase {
     $check = "http://example.com";
     $match = '/http(s?):\/\//';
     $expected = "TRUE";
-    $template = "<If check=\"{$check}\" matches=\"{$match}\">TRUE<Else />FALSE</If>";
+    $template = "<If check=\"{$check}\" matches_pattern=\"{$match}\">TRUE<Else />FALSE</If>";
     $result = tangible_template( $template );
     $this->assertEquals( $expected, $result, $template );
 
     $check = "https://example.com";
     $expected = "TRUE";
-    $template = "<If check=\"{$check}\" matches=\"{$match}\">TRUE<Else />FALSE</If>";
+    $template = "<If check=\"{$check}\" matches_pattern=\"{$match}\">TRUE<Else />FALSE</If>";
     $result = tangible_template( $template );
     $this->assertEquals( $expected, $result, $template );
 
     $check = "example.com";
     $expected = "FALSE";
-    $template = "<If check=\"{$check}\" matches=\"{$match}\">TRUE<Else />FALSE</If>";
+    $template = "<If check=\"{$check}\" matches_pattern=\"{$match}\">TRUE<Else />FALSE</If>";
     $result = tangible_template( $template );
     $this->assertEquals( $expected, $result, $template );
   }
