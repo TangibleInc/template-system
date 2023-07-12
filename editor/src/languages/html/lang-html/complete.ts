@@ -24,7 +24,7 @@ const Bool = ["true", "false"]
 
 const S: TagSpec = {} // Empty tag spec
 
-const Tags: Record<string, TagSpec> = {
+export const Tags: Record<string, TagSpec> = {
   a: {
     attrs: {
       href: null, ping: null, type: null,
@@ -295,7 +295,7 @@ const Tags: Record<string, TagSpec> = {
   wbr: S
 }
 
-const GlobalAttrs: Record<string, null | readonly string[]> = {
+export const GlobalAttrs: Record<string, null | readonly string[]> = {
   accesskey: null,
   class: null,
   contenteditable: Bool,
@@ -387,7 +387,7 @@ export function elementName(doc: Text, tree: SyntaxNode | null | undefined, max 
   return name ? doc.sliceString(name.from, Math.min(name.to, max)) : ""
 }
 
-function findParentElement(tree: SyntaxNode | null, skip = false) {
+export function findParentElement(tree: SyntaxNode | null, skip = false) {
   for (; tree; tree = tree.parent) if (tree.name == "Element") {
     if (skip) skip = false
     else return tree
@@ -412,7 +412,7 @@ function openTags(doc: Text, tree: SyntaxNode) {
   return open
 }
 
-const identifier = /^[:\-\.\w\u00b7-\uffff]*$/
+export const identifier = /^[:\-\.\w\u00b7-\uffff]*$/
 
 function completeTag(state: EditorState, schema: Schema, tree: SyntaxNode, from: number, to: number) {
   let end = /\s*>/.test(state.sliceDoc(to, to + 5)) ? "" : ">"

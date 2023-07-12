@@ -3,6 +3,10 @@ import { Extension } from '@codemirror/state'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { tags as t } from '@lezer/highlight'
 
+/**
+ * Tangible Dark theme - Based on Nord and One Dark
+ */
+
 // Polar Night
 const base00 = '#2e3440' // black
 const base01 = '#3b4252' // dark grey
@@ -50,15 +54,20 @@ export const darkTheme = EditorView.theme(
 
     '.cm-cursor, .cm-dropCursor': { borderLeftColor: cursor },
 
-    '&.cm-focused  .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection':
+    '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, &.cm-focused .cm-content ::selection':
       {
         backgroundColor: `${selection} !important`
       },
 
-    '.cm-panels': { backgroundColor: darkBackground, color: base05 },
-    '.cm-panels.cm-panels-top': { borderBottom: '2px solid black' },
-    '.cm-panels.cm-panels-bottom': { borderTop: '2px solid black' },
-
+    '.cm-panels': {
+      backgroundColor: darkBackground,
+      color: base05,
+      fontSize: '12px',
+      padding: '.125rem .5rem',
+    },
+    // '.cm-panels.cm-panels-top': { borderBottom: '2px solid black' },
+    // '.cm-panels.cm-panels-bottom': { borderTop: '2px solid black' },
+  
     '.cm-searchMatch': {
       backgroundColor: 'transparent',
       outline: `1px solid ${base07}`
@@ -83,7 +92,7 @@ export const darkTheme = EditorView.theme(
     },
 
     '.cm-gutters': {
-      backgroundColor: base00,
+      backgroundColor: darkBackground, //base00,
       color: base04, // 3
       border: 'none',
       borderRight: `1px solid ${darkBackground}`

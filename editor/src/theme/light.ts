@@ -3,6 +3,17 @@ import { Extension } from '@codemirror/state'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { tags as t } from '@lezer/highlight'
 
+// Colors
+
+const blue = '#0000ff' // boolean, number
+const violet = '#a100b9' // function, parameter, plain
+const grayish = '#969896' 
+const green = '#4dbb00' // attribute value
+const yellow = '#f7af1f' // attribute name
+const orange = '#fd971f'
+const sky = '#0079bf'
+const slateGray = '#708090' // comment
+
 export const config = {
   name: 'light',
   dark: false,
@@ -14,6 +25,7 @@ export const config = {
   dropdownBorder: '#e1e4e8',
   activeLine: '#f6f8fa',
   matchingBracket: '#34d05840',
+
   keyword: '#d73a49',
   storage: '#d73a49',
   variable: '#e36209',
@@ -34,22 +46,20 @@ export const theme = EditorView.theme({
   '&': {
     color: config.foreground,
     backgroundColor: config.background,
-    border: '1px solid #c0c0c0',
+    // border: '1px solid #c0c0c0',
   },
 
   '.cm-content': {
     caretColor: config.cursor,
-    borderLeft: '1px solid #c0c0c0', // Light mode
   },
 
   '&.cm-focused .cm-cursor': {
     borderLeftColor: config.cursor
   },
-  '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, & ::selection': { backgroundColor: config.selection },
 
-  '.cm-panels': { backgroundColor: config.dropdownBackground, color: config.foreground },
-  '.cm-panels.cm-panels-top': { borderBottom: '2px solid black' },
-  '.cm-panels.cm-panels-bottom': { borderTop: '2px solid black' },
+  '&.cm-focused  .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection': {
+    backgroundColor: `${config.selection} !important`
+  },
 
   '.cm-searchMatch': {
     backgroundColor: config.dropdownBackground,
@@ -59,7 +69,9 @@ export const theme = EditorView.theme({
     backgroundColor: config.selection
   },
 
-  '.cm-activeLine': { backgroundColor: config.activeLine },
+  // '.cm-activeLine': { backgroundColor: config.activeLine },
+
+
   '.cm-selectionMatch': { backgroundColor: config.selection },
 
   '&.cm-focused .cm-matchingBracket, &.cm-focused .cm-nonmatchingBracket': {
@@ -70,9 +82,10 @@ export const theme = EditorView.theme({
   '.cm-gutters': {
     backgroundColor: config.background,
     color: config.foreground,
-    border: 'none'
+    // border: 'none'
+    borderRight: `1px solid ${config.activeLine}`, // Light mode
   },
-  '.cm-activeLineGutter': { backgroundColor: config.background },
+  '.cm-activeLineGutter': { backgroundColor: config.activeLine },
 
   '.cm-foldPlaceholder': {
     backgroundColor: 'transparent',

@@ -37,3 +37,20 @@ export function genericLinter(view) {
 
   return diagnostics
 }
+
+// const customLinter = linter((view) => {
+//   const diagnostics: any[] = []
+//   const code: string = view.state.doc.toString()
+//   try {
+//     // babelTranspile(code);
+//   } catch (e: any) {
+//     const line = view.state.doc.lineAt(e.loc.index)
+//     diagnostics.push({
+//       from: line.from,
+//       to: line.to,
+//       severity: 'error',
+//       message: e.message,
+//     })
+//   }
+//   return diagnostics
+// })

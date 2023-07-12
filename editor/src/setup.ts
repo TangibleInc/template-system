@@ -83,7 +83,7 @@ export async function getSetup(lang: string): Promise<Extension> {
 
   return [
     ...commonExtensions,
+    ...langExtensions, // Before common key maps to allow Emmet key map to take precedence
     keymap.of(commonKeyMaps),
-    ...langExtensions,
   ]
 }

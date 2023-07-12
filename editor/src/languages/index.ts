@@ -1,104 +1,69 @@
+import { html } from './html'
+import { createHtmlLinter } from './html/linter'
 
 import { css } from '@codemirror/lang-css'
 import { sass, sassCompletionSource } from '@codemirror/lang-sass'
-import { javascript, localCompletionSource } from '@codemirror/lang-javascript'
-import { autocompletion } from '@codemirror/autocomplete'
-
-import { keymap } from '@codemirror/view'
-
-import { colorPicker } from '@replit/codemirror-css-color-picker'
-
-// Based on https://github.com/codemirror/lang-html
-import { html } from './html'
-import { createHtmlLinter } from './html/linter'
-import { createJavaScriptLinter } from './javascript/linter'
 import { createSassLinter } from './sass/linter'
+
+import { javascript, localCompletionSource } from '@codemirror/lang-javascript'
+import { createJavaScriptLinter } from './javascript/linter'
 
 // import { json, jsonParseLinter } from '@codemirror/lang-json'
 // import { markdown } from '@codemirror/lang-markdown'
 // import { php } from '@codemirror/lang-php'
 
+import { keymap } from '@codemirror/view'
+
+import { autocompletion } from '@codemirror/autocomplete'
+import { getHTMLAutocomplete } from './html/autocomplete'
 
 // https://github.com/emmetio/codemirror6-plugin
-import { expandAbbreviation, abbreviationTracker } from '@emmetio/codemirror6-plugin' // ~90Kb
+import {
+  abbreviationTracker,
+  expandAbbreviation,
+} from '@emmetio/codemirror6-plugin' // ~90Kb
 
-import { getAutocompleteExtensions } from './autocomplete'
-import { format } from './format'
+import { createFormatKeyMap } from './format'
+
+import { colorPicker } from '@replit/codemirror-css-color-picker'
 import { hyperLink } from '../extensions/hyperlink'
-
-const createKeyMapFormatter = (lang) => keymap.of([
-  {
-    // Keyboard shortcut to format code with Prettier
-    key: 'Mod-Alt-f',
-    run(view) {
-
-      const content = view.state.doc.toString()
-
-      format({
-        lang,
-        content
-      }).then(formattedCode => {
-
-        const selection = view.state.selection
-        const currentPosition = selection.main.from || 0
-
-        /**
-         * Replace content
-         */
-        const lastPos = content.length
-        const transaction = view.state.update({
-          changes: {
-            from: 0,
-            to: lastPos,
-            insert: formattedCode
-          },
-        })
-
-        view.dispatch(transaction)
-
-        // Cannot map cursor because transaction replaces entire content
-        // const newSelection = selection.map(transaction.changes)
-
-        const newSelection = {
-          // Restore cursor to closest position
-          anchor: Math.min(currentPosition, formattedCode.length - 1)
-        }
-
-        view.dispatch({
-          selection: newSelection
-        })
-
-      })
-        .catch(console.error) // TODO: Map error to lint gutter
-
-      return true
-    }
-  },
-])
+import { infoPanelExtension } from './html/panel'
 
 /**
  * Load language extensions on demand
  */
 const langExtensionsCache = {}
 const langExtensionsGetters = {
+
   html: () => [
     html({
       selfClosingTags: true
     }),
-    createHtmlLinter(),
-    ...getAutocompleteExtensions(),
-    abbreviationTracker(),
+    createFormatKeyMap('html'),
+    abbreviationTracker({
+      syntax: 'html'
+    }),
     keymap.of([
       { key: 'Tab', run: expandAbbreviation }
     ]),
-    createKeyMapFormatter('html'),
-    hyperLink
+    createHtmlLinter(),
+    getHTMLAutocomplete(),
+    hyperLink,
+    infoPanelExtension()
   ],
+
   css: () => [
     css(),
     colorPicker,
+    abbreviationTracker({
+      syntax: 'css'
+    }),
+    keymap.of([
+      { key: 'Tab', run: expandAbbreviation }
+    ]),
     hyperLink
   ],
+
   sass: () => [
     sass(),
     autocompletion({ // https://codemirror.net/docs/ref/#autocomplete.autocompletion
@@ -107,21 +72,25 @@ const langExtensionsGetters = {
         sassCompletionSource
       ]
     }),
+    abbreviationTracker({
+      syntax: 'scss'
+    }),
+    keymap.of([
+      { key: 'Tab', run: expandAbbreviation }
+    ]),
     createSassLinter(),
-    createKeyMapFormatter('scss'),
+    createFormatKeyMap('scss'),
     colorPicker,
     hyperLink
   ],
+
   javascript: () => [
     javascript(),
     autocompletion({ // https://codemirror.net/docs/ref/#autocomplete.autocompletion
       defaultKeymap: false, // Needed for vscode-keymap
-      // override: [
-      //   localCompletionSource()
-      // ]
     }),
     createJavaScriptLinter(),
-    createKeyMapFormatter('js'),
+    createFormatKeyMap('js'),
     hyperLink
   ],
 }
@@ -133,20 +102,3 @@ export async function getLangExtensions(lang) {
       : []
   )
 }
-
-// const customLinter = linter((view) => {
-//   const diagnostics: any[] = []
-//   const code: string = view.state.doc.toString()
-//   try {
-//     // babelTranspile(code);
-//   } catch (e: any) {
-//     const line = view.state.doc.lineAt(e.loc.index)
-//     diagnostics.push({
-//       from: line.from,
-//       to: line.to,
-//       severity: 'error',
-//       message: e.message,
-//     })
-//   }
-//   return diagnostics
-// })

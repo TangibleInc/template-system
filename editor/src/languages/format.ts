@@ -5,6 +5,8 @@ import parserHtml from 'prettier/parser-html' // 158 KB
 import parserEspree from 'prettier/parser-espree' // 152 KB
 import parserPostCSS from 'prettier/parser-postcss' // 155 KB
 
+import { keymap } from '@codemirror/view'
+
 // https://prettier.io/docs/en/options.html#parser
 const prettierLanguageOptions = {
   html: {
@@ -40,3 +42,53 @@ export async function format({
       ...options
     })
 }
+
+export const createFormatKeyMap = (lang) => keymap.of([
+  {
+    // Keyboard shortcut to format code with Prettier
+    key: 'Mod-Alt-f',
+    run(view) {
+
+      const content = view.state.doc.toString()
+
+      format({
+        lang,
+        content
+      }).then(formattedCode => {
+
+        const selection = view.state.selection
+        const currentPosition = selection.main.from || 0
+
+        /**
+         * Replace content
+         */
+        const lastPos = content.length
+        const transaction = view.state.update({
+          changes: {
+            from: 0,
+            to: lastPos,
+            insert: formattedCode
+          },
+        })
+
+        view.dispatch(transaction)
+
+        // Cannot map cursor because transaction replaces entire content
+        // const newSelection = selection.map(transaction.changes)
+
+        const newSelection = {
+          // Restore cursor to closest position
+          anchor: Math.min(currentPosition, formattedCode.length - 1)
+        }
+
+        view.dispatch({
+          selection: newSelection
+        })
+
+      })
+        .catch(console.error) // TODO: Map error to lint gutter
+
+      return true
+    }
+  },
+])

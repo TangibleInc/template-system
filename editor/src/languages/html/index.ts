@@ -1,1 +1,1 @@
-export { html } from './lang-html/html'
+export { html, htmlCompletionSourceWith } from './lang-html/html'

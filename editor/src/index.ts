@@ -4,6 +4,7 @@ import type { ViewUpdate } from '@codemirror/view'
 import type { Text } from '@codemirror/state'
 
 import { getSetup } from './setup'
+
 import { dark as theme } from './theme/dark'
 // import { light as theme } from './theme/light'
 

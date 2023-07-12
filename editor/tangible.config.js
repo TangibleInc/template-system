@@ -14,16 +14,8 @@ const config = {
       src: 'ide/index.scss',
       dest: 'build/ide.min.css'
     },
-    {
-      src: 'ide/**/index.html',
-      dest: 'build',
-    },
   ],
-  format: 'src',
-  serve: {
-    dir: 'build',
-    port: 3000
-  }
+  format: ['src', 'ide'],
 }
 
 module.exports = config

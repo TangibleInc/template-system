@@ -1,88 +1,5 @@
-$color_text: #eeeeee !default;
-$color_background: black !default;
-$color_base: black !default;
-$color_1: scale_color($color_base, $lightness: 7%) !default;
-$color_2: scale_color($color_base, $lightness: 10%) !default;
-$color_3: scale_color($color_base, $lightness: 15%) !default;
-$color_4: scale_color($color_base, $lightness: 20%) !default;
-$color_5: scale_color($color_base, $lightness: 25%) !default;
-$color_6: scale_color($color_base, $lightness: 30%) !default;
-$color_drag1: rgb(207, 232, 255) !default;
-$color_drag2: rgb(183, 209, 181) !default;
-$color_drag1_background: rgba(128, 128, 128, 0.15) !default;
-$color_drag2_background: rgba(128, 128, 128, 0.15) !default;
 
-$font-size: medium !default;
-$font-family: Roboto, Arial, sans-serif !default;
-
-.flexlayout {
-  &__layout {
-    --color-text: #{$color_text};
-    --color-background: #{$color_background};
-    --color-base: #{$color_base};
-    --color-1: #{$color_1};
-    --color-2: #{$color_2};
-    --color-3: #{$color_3};
-    --color-4: #{$color_4};
-    --color-5: #{$color_5};
-    --color-6: #{$color_6};
-    --color-drag1: #{$color_drag1};
-    --color-drag2: #{$color_drag2};
-    --color-drag1-background: #{$color_drag1_background};
-    --color-drag2-background: #{$color_drag2_background};
-
-    --font-size: #{$font_size};
-    --font-family: #{$font_family};
-
-    --color-overflow: gray;
-    --color-icon: gray;
-
-    --color-tabset-background: var(--color-1);
-    --color-tabset-background-selected: var(--color-1);
-    --color-tabset-background-maximized: var(--color-6);
-    --color-tabset-divider-line: var(--color-4);
-
-    --color-tabset-header-background: var(--color-1);
-    --color-tabset-header: var(--color-text);
-
-    --color-border-background: var(--color-1);
-    --color-border-divider-line: var(--color-4);
-
-    --color-tab-selected: var(--color-text);
-    --color-tab-selected-background: var(--color-4);
-    --color-tab-unselected: gray;
-    --color-tab-unselected-background: transparent;
-    --color-tab-textbox: var(--color-text);
-    --color-tab-textbox-background: var(--color-3);
-
-    --color-border-tab-selected: var(--color-text);
-    --color-border-tab-selected-background: var(--color-4);
-    --color-border-tab-unselected: gray;
-    --color-border-tab-unselected-background: var(--color-2);
-
-    --color-splitter: var(--color-2);
-    --color-splitter-hover: var(--color-4);
-    --color-splitter-drag: var(--color-5);
-
-    --color-drag-rect-border: var(--color-4);
-    --color-drag-rect-background: var(--color-1);
-    --color-drag-rect: var(--color-text);
-
-    --color-popup-border: var(--color-6);
-    --color-popup-unselected: var(--color-text);
-    --color-popup-unselected-background: #{$color_background};
-    --color-popup-selected: var(--color-text);
-    --color-popup-selected-background: var(--color-4);
-
-    --color-edge-marker: gray;
-
-
-
-    --color-underline: rgb(65, 105, 225);
-    --color-underline-hover: #aaa;
-    --underline_height: 3px;
-  }
-}
+// Base
 
 @mixin tabset_mixin {}
 
@@ -93,7 +10,7 @@ $font-family: Roboto, Arial, sans-serif !default;
 @mixin tabset_selected_mixin {}
 
 @mixin tabset_header_mixin {
-  box-shadow: inset 0 0 3px 0 rgba(136, 136, 136, 0.54);
+  // box-shadow: inset 0 0 3px 0 rgba(136, 136, 136, 0.54);
 }
 
 @mixin tabset_selected_mixin {
@@ -105,19 +22,21 @@ $font-family: Roboto, Arial, sans-serif !default;
 }
 
 @mixin tab_top_mixin {
-  box-shadow: inset -2px 0px 5px rgba(0, 0, 0, 0.1);
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+  // box-shadow: inset -2px 0px 5px rgba(0, 0, 0, 0.1);
+  // border-top-left-radius: 3px;
+  // border-top-right-radius: 3px;
 }
 
 @mixin tab_bottom_mixin {
-  box-shadow: inset -2px 0px 5px rgba(0, 0, 0, 0.1);
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
+  // box-shadow: inset -2px 0px 5px rgba(0, 0, 0, 0.1);
+  // border-bottom-left-radius: 3px;
+  // border-bottom-right-radius: 3px;
 }
 
 @mixin tab_button_mixin {
   padding: 2px 0.5em calc(4px - var(--underline_height)) 0.5em;
+  // transition-property: color, border-color, background-color;
+  // transition-duration: .3s;
 }
 
 @mixin tab_button_selected_mixin {
@@ -125,16 +44,13 @@ $font-family: Roboto, Arial, sans-serif !default;
 }
 
 @mixin tab_button_unselected_mixin {
-  color: gray;
+  // color: gray;
   border-bottom: var(--underline_height) solid transparent;
 }
 
 @mixin tab_button_hovered_mixin {
   border-bottom: var(--underline_height) solid  var(--color-underline-hover);
 }
-
-
-
 
 @mixin border_mixin {}
 
@@ -179,9 +95,6 @@ $font-family: Roboto, Arial, sans-serif !default;
 
 @mixin border_tab_divider_mixin {}
 
-
-// Base
-
 @mixin absoluteFill {
   left: 0;
   top: 0;
@@ -194,6 +107,8 @@ $font-family: Roboto, Arial, sans-serif !default;
   &__layout {
     @include absoluteFill;
     overflow: hidden;
+    color: var(--color-text);
+    background-color: var(--color-background);
   }
 
   &__splitter {
@@ -286,7 +201,7 @@ $font-family: Roboto, Arial, sans-serif !default;
     @include tabset_mixin;
 
     &_tab_divider {
-      width: 4px;
+      // width: 4px;
       @include tabset_tab_divider_mixin;
     }
 
@@ -324,11 +239,11 @@ $font-family: Roboto, Arial, sans-serif !default;
       }
 
       &_outer_top {
-        border-bottom: 1px solid var(--color-tabset-divider-line);
+        // border-bottom: 1px solid var(--color-tabset-divider-line);
       }
 
       &_outer_bottom {
-        border-top: 1px solid var(--color-tabset-divider-line);
+        // border-top: 1px solid var(--color-tabset-divider-line);
       }
 
       &_inner {
@@ -350,11 +265,11 @@ $font-family: Roboto, Arial, sans-serif !default;
           width: 10000px;
 
           &_top {
-            border-top: 2px solid transparent; // if you change this, update the _sizer above
+            // border-top: 2px solid transparent; // if you change this, update the _sizer above
           }
 
           &_bottom {
-            border-bottom: 2px solid transparent;
+            // border-bottom: 2px solid transparent;
           }
         }
       }
@@ -396,24 +311,23 @@ $font-family: Roboto, Arial, sans-serif !default;
       cursor: pointer;
       @include tab_button_mixin;
 
-      &--selected {
-        background-color: var(--color-tab-selected-background);
-        color: var(--color-tab-selected);
-        @include tab_button_selected_mixin;
-      }
+      &--unselected {
+        // background-color: var(--color-tab-unselected-background);
+        color: var(--color-tab-unselected);
+        @include tab_button_unselected_mixin;
 
-      @media (hover: hover) {
-        &:hover {
+        &:hover, &:active {
           background-color: var(--color-tab-selected-background);
           color: var(--color-tab-selected);
+          
           @include tab_button_hovered_mixin;
         }
       }
 
-      &--unselected {
-        background-color: var(--color-tab-unselected-background);
-        color: var(--color-tab-unselected);
-        @include tab_button_unselected_mixin;
+      &--selected {
+        background-color: var(--color-tab-selected-background);
+        color: var(--color-tab-selected);
+        @include tab_button_selected_mixin;
       }
 
       &_top {
