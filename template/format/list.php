@@ -19,14 +19,19 @@ $html->format_index = function( $content, $options = [] ) use ($html) {
     return mb_substr( $content, $index, 1 );
   }
   if (is_array( $content )) {
-    return array_shift( array_slice($content, $index, 1) );
+    /**
+     * Temporary variable necessary for array_shift(), otherwise it throws a
+     * notice "Only variables should be passed by reference"
+     */
+    $slice = array_slice($content, $index, 1);
+    return array_shift( $slice );
   }
 };
 
 /**
  * Slice a part of string or list
  */
-$html->format_slice = function( $content, $options = [] ) {
+$html->format_slice = function( $content, $options = [] ) use ($html){
 
   $offset = $options['offset'] ?? 0;
   $length = $options['length'] ?? $options['characters'] ?? null;

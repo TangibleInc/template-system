@@ -70,9 +70,9 @@ class Format_TestCase extends \WP_UnitTestCase {
     foreach ([
       1, 5, 50
     ] as $words) {
-      $template = "<Format words=$words>$content</Format>";
+      $template = "<Format words=$words>$text</Format>";
       $this->assertEquals(
-        wp_trim_words($content, $words, ''),
+        wp_trim_words($text, $words, ''),
         tangible_template( $template ),
         $template
       );

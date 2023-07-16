@@ -16,6 +16,7 @@ class Format_List_TestCase extends \WP_UnitTestCase {
     $expected = json_encode( array_slice($value, 0, 2) );
 
     $result = tangible_template( $template );
+
     $this->assertEquals( $expected, $result, $template );
 
     // Negative length
@@ -97,12 +98,27 @@ class Format_List_TestCase extends \WP_UnitTestCase {
     $value = [1, 2, 3, 4, 5];
     $content = json_encode($value);
 
+    
+    $error = null;
+    
+    error_reporting(E_STRICT);
+    set_error_handler(function( $errno, $errstr, ...$args ) use ( &$error ) {
+      $error = [ $errno, $errstr, $args ];
+      restore_error_handler();
+    });
+
+
     // Index starts from 0
     $template = "<Format list index=1>{$content}</Format>";
     $expected = json_encode( $value[1] );
 
     $result = tangible_template( $template );
     $this->assertEquals( $expected, $result, $template );
+
+
+    // Ensure no warning
+    $this->assertNull( $error );
+
 
     $template = '<Format list index=1>[1,2,3]</Format>';
     $result = tangible_template( $template );
