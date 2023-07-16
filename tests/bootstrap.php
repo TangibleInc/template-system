@@ -9,7 +9,7 @@ if ( ! $_WORDPRESS_DEVELOP_DIR = getenv( 'WORDPRESS_DEVELOP_DIR' ) ) {
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/#using-included-wordpress-phpunit-test-files
  */
 if ( ! $_WORDPRESS_TESTS_DIR = getenv( 'WP_TESTS_DIR' ) ) {
-    $_WORDPRESS_TESTS_DIR = $_WORDPRESS_DEVELOP_DIR . '/tests/phpunit';
+    $_WORDPRESS_TESTS_DIR = $_WORDPRESS_DEVELOP_DIR . '/tests';
 }
 
 $_PLUGIN_ENTRYPOINT = __DIR__ . '/../index.php';
