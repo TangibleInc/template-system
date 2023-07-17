@@ -35,12 +35,16 @@ $html->format_replace = function( $content, $options = [] ) use ($html) {
 
     if ( ! isset( $options[ $replace_key ] )
       || ! isset( $options[ $with_key ] )
-    ) break;
+    ) continue; // Support mixing replace and replace_pattern
 
     /**
      * Support replace/with string that includes HTML
+     * 
      * The `with_*` attributes are specifically skipped from rendering in
-     * tag definition property `skip_render_keys`.
+     * tag definition property `skip_render_keys`. See ./tag.php
+     * 
+     * This whole feature of passing HTML in an HTML tag attribute using {} is
+     * questionable. A better solution may need to be developed.
      * 
      * @see /template/tags/format.php
      * @see /template/html/tag.php, attributes.php
@@ -61,19 +65,30 @@ $html->format_replace = function( $content, $options = [] ) use ($html) {
       );
     }
 
-    $content = $is_pattern
-      ? preg_replace(
+    if (!$is_pattern) {
+      $content = str_replace(
+        $options[ $replace_key ],
+        $options[ $with_key ],
+        $content
+      );
+      continue;
+    }
+
+    try {
+      $new_content = preg_replace(
         $options[ $replace_key ],
         $options[ $with_key ],
         $content,
         $options[ 'limit' . $postfix ] ?? -1
-      )
-      : str_replace(
-        $options[ $replace_key ],
-        $options[ $with_key ],
-        $content
-      )
-    ;
+      );
+      $content = $new_content;
+    } catch (\Throwable $th) {
+      /**
+       * preg_replace() can throw an error for invalid regex pattern, such as
+       * when encountering an unknown modifier. Convert it into a warning.
+       */
+       trigger_error($th->getMessage(), E_USER_NOTICE);
+    }
   }
 
   return $content;

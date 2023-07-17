@@ -148,5 +148,8 @@ $html->add_open_tag( 'Format', $html->format_tag, [
    * These attributes are skipped from rendering dynamic tags inside
    * @see ../html/parse
    */
-  'skip_render_keys' => ['with', 'with_2', 'with_3'],
+  'skip_render_keys' => [
+    'replace_pattern', 'replace_pattern_2', 'replace_pattern_3', 
+    'with', 'with_2', 'with_3'
+  ],
 ]);

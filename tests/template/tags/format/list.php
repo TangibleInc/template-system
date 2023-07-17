@@ -3,6 +3,19 @@ namespace Tests\Template\Tags;
 
 class Format_List_TestCase extends \WP_UnitTestCase {
 
+  function set_up() {
+    parent::set_up();
+    // Convert warnings into errors
+    set_error_handler(function ($severity, $message, $file, $line) {
+      throw new \ErrorException($message, $severity, $severity, $file, $line);
+    });    
+  }
+
+  function tear_down() {
+    parent::tear_down();
+    restore_error_handler();
+  }
+
   /**
    * Length
    */

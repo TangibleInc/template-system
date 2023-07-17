@@ -2,6 +2,20 @@
 namespace Tests\Template\Tags;
 
 class Format_Pattern_TestCase extends \WP_UnitTestCase {
+
+  function set_up() {
+    parent::set_up();
+    // Convert warnings into errors
+    set_error_handler(function ($severity, $message, $file, $line) {
+      throw new \ErrorException($message, $severity, $severity, $file, $line);
+    });    
+  }
+
+  function tear_down() {
+    parent::tear_down();
+    restore_error_handler();
+  }
+
   /**
    * Replace by regular expression
    * Also see ../if/regex.php
@@ -52,5 +66,16 @@ class Format_Pattern_TestCase extends \WP_UnitTestCase {
     $result = tangible_template( $template );
     $this->assertEquals( $expected, $result, $template );
 
+    // Capture group
+
+    $source = "1234567890";
+    $replace = "/(\d{3})(\d{3})(\d{4})/";
+    $with = '$1-$2-$3';
+    $template = "<Format replace_pattern=\"{$replace}\" with=\"{$with}\">{$source}</Format>";
+
+    $expected = preg_replace($replace, $with, $source);
+
+    $result = tangible_template( $template );
+    $this->assertEquals( $expected, $result, $template );
   }
 }
