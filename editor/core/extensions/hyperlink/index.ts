@@ -41,7 +41,9 @@ function hyperLinkDecorations(view: EditorView) {
       from: range.from,
       to: range.to,
       enter: ({ type, from, to }) => {
+
         const callExp: string = view.state.doc.sliceString(from, to);
+
         if (type.name === 'URL') {
           const widget = Decoration.widget({
             widget: new HyperLink({

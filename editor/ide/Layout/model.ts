@@ -1,3 +1,4 @@
+import { IBorderLocation } from ".";
 
 export default {
   global: {
@@ -10,16 +11,16 @@ export default {
     tabEnableRename: false,
     tabEnableFloat: false,
     tabEnableRenderOnDemand: true,
-
-    // tabEnableDrag: false,
+    tabEnableDrag: false,
 
     tabSetEnableClose: false,
     tabSetEnableMaximize: false,
+    tabSetEnableDrop: false,
   },
   borders: [
     {
       type: "border",
-      location: "right",
+      location: "right" as IBorderLocation,
       size: 320,
       barSize: -1, // Hide border tabset header
       // selected: 0, // Open
@@ -98,12 +99,6 @@ export default {
                 enableRename: false,
                 enableFloat: false
               },
-            ]
-          },
-          {
-            type: 'tabset',
-            weight: 100,
-            children: [
               {
                 type: 'tab',
                 name: 'Assets',
@@ -120,7 +115,13 @@ export default {
                 component: 'location',
               },
             ]
-          },    
+          },
+          // {
+          //   type: 'tabset',
+          //   weight: 100,
+          //   children: [
+          //   ]
+          // },    
         ]
       }
     ]

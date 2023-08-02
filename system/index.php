@@ -47,13 +47,18 @@ new class extends stdClass {
       'template_system' => $this->is_plugin, // This module installed as plugin
     ];
 
-    // Requires plugin framework
-    if (
-        ! defined( 'DOING_TANGIBLE_TESTS' )
-        && ! $this->has_plugin['loops']
-        && ! $this->has_plugin['blocks']
-    ) {
+    /**
+     * Requires plugin framework until we replace all occurrences of tangible()
+     * and $framework.
+     */
+    if ( !function_exists('tangible') ) {
+      // Support loading this module as a standalone plugin for development
+      $framework_path = __DIR__ . '/../vendor/tangible/plugin-framework/index.php';
+      if (file_exists($framework_path)) {
+        require_once $framework_path;
+      } else {
         return;
+      }
     }
 
     $name   = $this->name;
@@ -63,8 +68,8 @@ new class extends stdClass {
     tangible_template_system( $this );
 
     /**
-     * Currently consolidating all features to be internal to the template system,
-     * removing dependecy on plugin framework and external modules.
+     * Currently consolidating all features to be internal to the template
+     * system, removing dependecy on plugin framework and external modules.
      */
 
     require_once __DIR__ . '/../interface/index.php';
@@ -84,6 +89,8 @@ new class extends stdClass {
       $html      = $plugin->html = tangible_template();
       $interface = $plugin->interface = tangible_interface();
       $ajax      = $plugin->ajax = $framework->ajax();
+
+      $system = &$plugin;
 
       /**
        * Template post types and fields, editor, management

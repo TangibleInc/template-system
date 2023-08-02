@@ -1,6 +1,8 @@
 # Template System: Editor
 
-This is the new code editor based on CodeMirror 6. It's a curated and customized set of features designed to integrate with the Loops & Logic template (extended HTML), style (Sass), and script (JavaScript).
+This is the new code editor based on CodeMirror 6.
+
+It's a curated and customized set of features designed to integrate with the Loops & Logic template (extended HTML), style (Sass), and script (JavaScript).
 
 The goal is to grow into an integrated development environment (IDE) with the editor at its core.
 
@@ -22,12 +24,12 @@ Gradually replace the existing code editor in:
 Enqueue the code editor from PHP.
 
 ```php
-use Tangible\TemplateSystem\Editor;
+use Tangible\TemplateSystem\Editor as editor;
 
-Editor::enqueue();
+editor\enqueue_editor();
 ```
 
-The script defines a global `Tangible.Editor`.
+The script defines a global `Tangible.TemplateSystem.CodeEditor`.
 
 
 ## Feature ideas

@@ -31,7 +31,6 @@ require_once __DIR__ . '/menu.php';
 require_once __DIR__ . '/extend.php';
 require_once __DIR__ . '/register.php';
 
-
 /**
  * Register post types
  */

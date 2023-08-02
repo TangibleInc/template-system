@@ -1,21 +1,107 @@
 @import "./Layout/dark.scss";
 // @import "./Layout/light.scss";
 
+#wpwrap {
+  display: flex;
+  flex-direction: column;
+}
+#wpcontent {
+  padding-left: 0;
+  height: 100%;
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+#wpbody-content {
+  padding-bottom: 0;
+  float: none;
+}
+#wpbody {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-grow: 1;
+}
+
+body:not(.sticky-menu) {
+  // .sticky-menu #adminmenuwrap{position:fixed}
+  // Without sticky-menu
+
+  #wpwrap {
+    display: flex;
+    flex-direction: row;
+  }
+  #adminmenumain {}
+  #wpcontent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-grow: 1;
+    margin-left: 0;
+  }
+  #wpbody {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+  }
+  #wpbody-content {
+    padding-left: 160px;
+  }
+}
+
+@media screen and (max-width: 782px) {
+  #wpbody-content {
+    padding-left: 0 !important;
+  }
+}
+
+html.tangible-template-system-ide-expanded {
+  // It needs to be on html element to override html.wp-toolbar
+  padding-top: 0;
+
+  #adminmenumain, #wpadminbar {
+    display: none;
+  }
+  #wpcontent {
+    margin-left: 0;
+  }
+  #wpbody {
+    top: 0;
+  }
+  #wpbody-content {
+    padding-left: 0;
+  }
+}
+
 #tangible-template-system-ide {
 
-  position: absolute;
+  // position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
 
+  z-index: 1;
+
   display: flex;
   flex-direction: column;
   
-  color: #eeeeee;
   background-color: #2e3440;    
 
   font-size: 16px;
+
+  &, h1, h2, h3, h4,
+  .ide-header--action, .tab-action {
+    color: #eeeeee;
+  }
+
+  .flexlayout__border_left {
+    display: none;
+  }
+
 
   .ide-header {
     // font-size: 12px;
@@ -23,13 +109,23 @@
     padding: .25rem .75rem;
 
     display: flex;
+
+    input[type="text"] {
+      color: inherit;
+      background-color: transparent;
+      border: 0;
+      padding: 0 .5rem;
+      margin-left: -.5rem;
+    }
   }
   .ide-header--title {
     flex-grow: 1;
   }
   .ide-header--actions {
-
+    display: flex;
+    align-items: center;
   }
+
 
   .ide-main {
     position: relative;
@@ -37,6 +133,7 @@
   }
 
   .ide-component {
+
     padding: .25rem .5rem;
 
     & > header, h2 {
@@ -53,13 +150,19 @@
   }
 
   .ide-header--action, .tab-action {
+
     font-size: 12px;
     margin: .125rem;
     padding: .125rem .5rem;
-    border-radius: 4px;
+
+    color: #eeeeee;
     background-color: #252a33;
+    
     transition: background-color .3s;
     cursor: pointer;
+    
+    border-radius: 4px;
+    border: 1px solid #3b4252;
 
     &:hover {
       background-color: #2e3440;    
@@ -67,9 +170,23 @@
     &:active {
       background-color: #3b4252;    
     }
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 
-  .flexlayout__border_left {
-    display: none;
+  .ide-header--action-with-icon {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: .25rem;
+    svg {
+      width: 16px; height: 16px;
+    }
+  }
+
+  .ide-header--action-separator {
+    display: inline-block;
+    width: 0.5rem;
   }
 }

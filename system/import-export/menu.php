@@ -1,5 +1,7 @@
 <?php
 
+use Tangible\TemplateSystem\Editor as editor;
+
 /**
  * Add submenu item Tangible -> Import / Export
  */

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { createRoot, memo, useRef, useEffect } from 'react'
 import * as Layout from './Layout'
-import defaultModel from './defaultModel'
+import layoutModelData from './Layout/model'
 
 import { Editor, editorByType, typeToLang } from './Editor'
 import { Preview } from './Preview'
@@ -12,6 +12,8 @@ import { Location } from './Location'
 import { Library } from './Library'
 import { Support } from './Support'
 
+import { Header } from './Header'
+
 
 const { jQuery } = window
 
@@ -19,12 +21,14 @@ jQuery(document).ready(function ($) {
 
   const { CodeEditor } = window?.Tangible?.TemplateSystem
 
-  const ideElement = document.createElement('div')
+  let ideElement = document.getElementById('tangible-template-system-ide')
+  
+  if (!ideElement) {
+    ideElement = document.createElement('div')
+    ideElement.id = 'tangible-template-system-ide'
+    document.body.prepend(ideElement) // Prepend for absolute screen position    
+  }
 
-  ideElement.id = 'tangible-template-system-ide'
-
-  // Prepend for absolute screen position 
-  document.body.prepend(ideElement)
 
   const root = createRoot(ideElement)
 
@@ -32,11 +36,9 @@ jQuery(document).ready(function ($) {
     // content, style, script, controls, ..
   }
 
-  const layoutModel = Layout.Model.fromJson(defaultModel)
-
+  const layoutModel = Layout.Model.fromJson(layoutModelData)
 
   let selectedTabNodeId = ''
-
 
   const layoutComponents = {
     Library,
@@ -110,7 +112,7 @@ jQuery(document).ready(function ($) {
 
         if (getNodeId(editor.node) === nodeId) {
 
-          // Focus editor on next render, after tab is selected (and focused)
+          // Focus editor on next render, after tab is selected and focused
 
           setTimeout(() => {
             editor.view.focus()
@@ -226,43 +228,18 @@ jQuery(document).ready(function ($) {
   }
 
   root.render(<>
-    <div className='ide-header'>
-      <div className="ide-header--title">
-        Template name
-      </div>
-      <div className="ide-header--actions">
-        <button className='ide-header--action'>Save</button>
-        <button className='ide-header--action'
-        >Format</button>
-        <button className='ide-header--action'
-        >Export</button>
-        &nbsp;
-        &nbsp;
-        <button className='ide-header--action'
-          onClick={() => {
-            layoutModel.doAction(Layout.Actions.selectTab('library'))
-          }}
-        >Library</button>
-        <button className='ide-header--action'
-          onClick={() => {
-            layoutModel.doAction(Layout.Actions.selectTab('support'))
-          }}
-        >Support</button>
-        {/* <button className='ide-header--action'
-        >Import</button> */}
-      </div>
-    </div>
+    <Header layoutModel={layoutModel} ideElement={ideElement} />
     <div className='ide-main'>
-    <Layout.Layout
-      model={layoutModel}
-      factory={componentFactory}
-      onAction={onAction}
-      onModelChange={onModelChange}
-      onRenderTabSet={onRenderTabSet}
-      // https://github.com/caplin/FlexLayout#optional-props
-      realtimeResize={true}
-      supportsPopout={false}
-    />
+      <Layout.Layout
+        model={layoutModel}
+        factory={componentFactory}
+        onAction={onAction}
+        onModelChange={onModelChange}
+        onRenderTabSet={onRenderTabSet}
+        // https://github.com/caplin/FlexLayout#optional-props
+        realtimeResize={true}
+        supportsPopout={false}
+      />
     </div>
   </>)
 

@@ -1,5 +1,5 @@
-
-import prettier from 'prettier' // 427 KB
+// https://prettier.io/docs/en/browser.html
+import prettier from 'prettier/standalone' // 427 KB
 
 import parserHtml from 'prettier/parser-html' // 158 KB
 import parserEspree from 'prettier/parser-espree' // 152 KB

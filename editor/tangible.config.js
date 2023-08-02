@@ -1,7 +1,7 @@
 const config = {
   build: [
     {
-      src: 'src/global.ts',
+      src: 'core/global.ts',
       dest: 'build/editor.min.js'
     },
     // IDE: Integrated development environment for Template, Style, Script
@@ -15,7 +15,7 @@ const config = {
       dest: 'build/ide.min.css'
     },
   ],
-  format: ['src', 'ide'],
+  format: ['core', 'ide'],
 }
 
 module.exports = config
