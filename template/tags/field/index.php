@@ -43,26 +43,60 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
   $format_type    = isset( $atts['format'] ) ? $atts['format'] : '';
   $format_options = [];
 
-  if ( empty( $format_type ) ) {
-
-    if ( isset( $atts['replace'] ) ) {
-      $should_format  = true;
-      $format_type    = 'replace';
-      $format_options = [
-        'replace' => $atts['replace'],
-        'with'    => isset( $atts['with'] ) ? $atts['with'] : '',
-      ];
-
-      unset( $atts['replace'] );
-      unset( $atts['with'] );
-    }
-  } elseif ( isset( $atts['acf_date'] ) || isset( $atts['acf_date_time'] )
-     || isset( $atts['acf_time'] )
+  if (isset( $atts['acf_date'] ) || isset( $atts['acf_date_time'] )
+    || isset( $atts['acf_time'] )
   ) {
     // "format" attribute is desired date format
     $atts['format_date'] = $format_type;
     $format_type         = 'date';
     unset( $atts['format'] );
+  }
+
+  if ( empty( $format_type ) ) {
+
+      // Check other format type shortcuts
+
+    if (isset( $atts['replace'] ) || isset( $atts['replace_pattern'] )) {
+
+      foreach (['replace', 'replace_pattern'] as $check_key) {
+
+        if ( !isset( $atts[$check_key] ) ) continue;
+
+        $should_format  = true;
+        $format_type    = $check_key;
+        $format_options = [];
+
+        for ($i=0; $i < 3; $i++) {
+
+          $suffix = $i > 0 ? '_' . ($i+1) : '';
+
+          $key = $format_type . $suffix;
+          $key_with = 'with' . $suffix;
+
+          if (!isset($atts[ $key ]) || !isset($atts[ $key_with ])) {
+            break;
+          }
+
+          $format_options[ $key ] = $atts[ $key ];
+          $format_options[ $key_with ] = $atts[ $key_with ];
+
+          unset( $atts[ $key ] );
+          unset( $atts[ $key_with ] );
+        }
+
+        break;
+      }
+
+    } elseif (isset( $atts['join'] )) {
+
+      $should_format  = true;
+      $format_type    = 'join';
+      $format_options = [
+        'join' => $atts['join']
+      ];
+
+      unset( $atts['join'] );
+    }
   }
 
   /**
@@ -370,20 +404,6 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
     return $value ? 'TRUE' : '';
   }
 
-  if ( ! is_string( $value ) && ! is_null( $value ) ) {
-
-    if ( isset( $atts['format'] ) && $atts['format'] === 'join' ) {
-    return implode(
-        isset( $atts['glue'] ) ? $atts['glue'] : ', ',
-        $value
-      );
-    }
-
-    // Cast arrays and objects to JSON string
-
-    return json_encode( $value );
-  }
-
   if ( $should_format ) {
 
     // Template field
@@ -409,6 +429,21 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
     return $html->format( $format_type, $value, $format_options );
   }
 
+  if ( ! is_string( $value ) && ! is_null( $value ) ) {
+
+    // Deprecated <Field format=join /> in favor of <Field join />
+    if ( isset( $atts['format'] ) && $atts['format'] === 'join' ) {
+    return implode(
+        isset( $atts['glue'] ) ? $atts['glue'] : ', ',
+        $value
+      );
+    }
+
+    // Cast arrays and objects to JSON string
+
+    return json_encode( $value );
+  }
+  
   return $value;
 };
 
