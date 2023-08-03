@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Template System module loader
  * 

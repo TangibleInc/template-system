@@ -4,8 +4,8 @@
  *
  * Implements dynamic template tags with extensible content type loops and logic conditions.
  *
- * It integrates features from the Loop, Logic, Interface modules; as well as HTML and Date
- * modules in the plugin framework.
+ * It integrates features from the Loop, Logic, Interface modules; as well as
+ * HTML and Date modules in the plugin framework.
  */
 
 if ( ! function_exists( 'tangible_template' ) ) :

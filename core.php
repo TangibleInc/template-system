@@ -23,7 +23,7 @@ class TemplateSystem {
 }
 
 system::$state = (object) [
-  'version' => $system->version, // From loader: system/index.php
+  'version' => $system->version, // From version.php and system/index.php
   'path' => __DIR__,
   'url' => plugins_url( '/', realpath( __FILE__ ) ),
 ];

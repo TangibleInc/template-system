@@ -2,13 +2,16 @@
 /**
  * Module loader: When there are mulitple plugins with the same module, this
  * loads the newest version.
+ * 
+ * Currently moving all child modules out of /system into independent modules at
+ * project root, while removing dependencies on Plugin Framework, jQuery, etc.
+ * @see ../core
  */
 new class extends \stdClass {
 
   public $name = 'tangible_template_system';
 
-  // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20230802';
+  public $version;
 
   public $url;
   public $path;
@@ -18,6 +21,8 @@ new class extends \stdClass {
   public $is_plugin  = false;
 
   function __construct() {
+
+    $this->version = require_once __DIR__.'/../version.php';
 
     $name     = $this->name;
     $priority = 99999999 - absint( $this->version );

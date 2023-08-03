@@ -4,8 +4,11 @@
  * 
  * - [PHPUnit](https://github.com/sebastianbergmann/phpunit)
  * - [PHPUnit Polyfills](https://github.com/Yoast/PHPUnit-Polyfills)
- * - [WP_UnitTestCase](https://github.com/WordPress/wordpress-develop/blob/trunk/tests/phpunit/includes/abstract-testcase.php)
  * - [Assertions](https://docs.phpunit.de/en/10.2/assertions.html)
+ * 
+ * - [WP_UnitTestCase](https://github.com/WordPress/wordpress-develop/blob/trunk/tests/phpunit/includes/abstract-testcase.php)
+ *   - [WP_UnitTest_Factory](https://github.com/WordPress/wordpress-develop/blob/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory.php)
+ *   - [WP_UnitTest_Factory_For_Post](https://github.com/WordPress/wordpress-develop/blob/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory-for-post.php)
  */
 
 if ( ! $_WORDPRESS_DEVELOP_DIR = getenv( 'WORDPRESS_DEVELOP_DIR' ) ) {

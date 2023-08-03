@@ -2,6 +2,9 @@
 
 namespace Tangible\Loop;
 
+use Tangible\TemplateSystem as system;
+use Tangible\Loop as loop;
+
 /**
  * Post loop wrapping WP_Query
  *
@@ -1199,12 +1202,14 @@ class PostLoop extends BaseLoop {
       }
     }
 
-    // tgbl()->see( $query_args );
+    // if (isset($this->args['debug'])) system\see( $query_args );
 
     return new \WP_Query( $query_args );
   }
 
   function get_items_from_query( $query ) {
+
+    // if (isset($this->args['debug'])) system\see( $query );
 
     $this->items = $query->posts;
 

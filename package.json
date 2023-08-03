@@ -7,6 +7,7 @@
     "deployType": "module"
   },
   "scripts": {
+    "version": "sed -i \"s/return '[0-9]\\+'/return '$(date +\"%Y%m%d\")'/\" version.php",
     "-- Run commands below like: npm run build [module name]": "",
     "dev": "roll dev",
     "build": "roll build",
