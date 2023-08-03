@@ -14,7 +14,7 @@ const {
      * Check for installed plugins
      * @see /template/import-export/enqueue.php
      */
-    templateSystemHasPlugin = {}
+    templateSystemHasPlugin: hasPlugin = {}
   },
 } = window
 
@@ -24,8 +24,10 @@ el.addEventListener('submit', function (e) {
   e.preventDefault()
 })
 
-const hasExport = templateSystemHasPlugin['loops']
-  || templateSystemHasPlugin['blocks_editor']
+const hasExport =
+  hasPlugin['loops'] // Loop & Logic
+  || hasPlugin['blocks_editor'] // Tangible Blocks Editor
+  || hasPlugin['template_system'] // Template System module as standalone plugin
 
 Preact.render(
   <>

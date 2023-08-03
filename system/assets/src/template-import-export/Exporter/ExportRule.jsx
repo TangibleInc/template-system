@@ -4,7 +4,7 @@ import Select from '../../common/Select'
  * Check for Block Editor plugin
  * @see /template/import-export/enqueue.php
  */
-const { templateSystemHasPlugin = {} } = window.Tangible
+const { templateSystemHasPlugin: hasPlugin = {} } = window.Tangible
 
 const ExportRule = ({
   rule,
@@ -26,10 +26,10 @@ const ExportRule = ({
             /**
              * Enable block export only when Blocks & Editor is active
              */
-            ...((templateSystemHasPlugin['blocks'] && templateSystemHasPlugin['blocks_editor'])
+            ...((hasPlugin['blocks'] && hasPlugin['blocks_editor'])
               ? [{ label: 'Block', value: 'tangible_block' }]
               : []),
-            ...(templateSystemHasPlugin['loops']
+            ...(hasPlugin['loops'] || hasPlugin['template_system']
               ? [
                 { label: 'Template', value: 'tangible_template' },
                 { label: 'Style', value: 'tangible_style' },
