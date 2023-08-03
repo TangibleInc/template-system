@@ -42,17 +42,20 @@ $html->form_actions['create'] = function( $attributes, $data ) use ( $html, $loo
     }
   }
 
-  // TODO: Taxonomy
-
   foreach ( $data as $key => $value ) {
     /**
      * Add backslash \ escaping to compensate for the call to stripslashes()
-     * by update_post_meta() and wp_update_post().
+     * by wp_insert_post(), wp_update_post(), and update_post_meta().
      *
      * @see https://developer.wordpress.org/reference/functions/update_post_meta/#character-escaping
      */
-    $post_data['meta_input'][ $key ] = is_string( $value ) ? wp_slash( wp_strip_all_tags( $value ) ) : $value;
+    $post_data['meta_input'][ $key ] = is_string( $value )
+      ? wp_slash( wp_strip_all_tags( $value ) )
+      : $value
+    ;
   }
+
+  // TODO: Taxonomy
 
   /**
    * Create or update post

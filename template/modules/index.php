@@ -4,7 +4,6 @@
 require_once __DIR__ . '/chart/index.php';
 require_once __DIR__ . '/codemirror/index.php';
 require_once __DIR__ . '/embed/index.php';
-require_once __DIR__ . '/form/index.php';
 require_once __DIR__ . '/glider/index.php';
 require_once __DIR__ . '/markdown/index.php';
 require_once __DIR__ . '/math/index.php';

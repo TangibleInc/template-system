@@ -6,6 +6,8 @@ It's a curated and customized set of features designed to integrate with the Loo
 
 The goal is to grow into an integrated development environment (IDE) with the editor at its core.
 
+Ideally, the editor and IDE can run within and without WordPress, for example, as part of a React-based content management system (CMS).
+
 
 ## Upgrade from previous version
 

@@ -13,7 +13,7 @@ $html->enqueue_form = function( $form ) use ( $framework, $html ) {
   $framework->ajax()->enqueue();
 
   wp_enqueue_script('tangible-form',
-    "{$html->url}/assets/build/form.min.js",
+    "{$html->url}/form/build/form.min.js",
     [ 'jquery', 'tangible-ajax' ], $html->version, true
   );
 };

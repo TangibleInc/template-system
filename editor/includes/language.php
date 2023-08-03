@@ -6,7 +6,7 @@ use Tangible\TemplateSystem\Editor as editor;
 
 function get_language_definition() {
 
-  $html = &editor\state::$html;
+  $html = editor::$html;
 
   // TODO: These internal tags should define themselves as such
   $ignore_tags = [

@@ -91,6 +91,3 @@ $plugin->render_template_post = function(
 
   return $before_content . $content . $after_content;
 };
-
-require_once __DIR__ . '/style.php';
-require_once __DIR__ . '/script.php';

@@ -8,13 +8,16 @@ function enqueue_editor() {
 
   // $linters = editor\enqueue_linters();
 
+  $url = editor::$state->url;
+  $version = editor::$state->version;
+
   // Code Editor
 
   wp_enqueue_script(
     'tangible-template-system-editor',
-    editor\state::$url . 'build/editor.min.js',
+    $url . '/build/editor.min.js',
     [], // $linters,
-    editor\state::$version,
+    $version,
     true
   );
 }
@@ -31,24 +34,27 @@ function enqueue_ide() {
   editor\enqueue_editor();
   editor\enqueue_editor_language_definition();
 
+  $url = editor::$state->url;
+  $version = editor::$state->version;
+
   wp_enqueue_script(
     'tangible-template-system-ide',
-    editor\state::$url . 'build/ide.min.js',
+    $url . '/build/ide.min.js',
     [
-      'tangible-ajax', // TODO: Replace with new AJAX/REST Client module
+      // 'tangible-ajax', // TODO: Replace with new REST Client module
       'tangible-module-loader',
       'tangible-template-system-editor',
       'wp-element',
     ],
-    editor\state::$version,
+    $version,
     true
   );
 
   wp_enqueue_style(
     'tangible-template-system-ide',
-    editor\state::$url . 'build/ide.min.css',
+    $url . '/build/ide.min.css',
     [],
-    editor\state::$version
+    $version
   );
 }
 

@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Deprecated: Tester module
+ * 
+ * - Used in tests for [Template System Pro](https://bitucket.org/tangibleinc/template-system-pro)
+ * - TODO: Rewrite to use PHPUnit, [wp-env](https://github.com/WordPress/gutenberg/tree/trunk/packages/env), and maybe [Playwright](https://playwright.dev/)
+ */
 $plugin->tester = function() use ( $plugin ) {
   static $tester;
   if ($tester) return $tester;

@@ -101,13 +101,13 @@ export default {
               },
               {
                 type: 'tab',
-                name: 'Assets',
-                component: 'assets',
+                name: 'Controls',
+                component: 'editor',
               },
               {
                 type: 'tab',
-                name: 'Controls',
-                component: 'editor',
+                name: 'Assets',
+                component: 'assets',
               },
               {
                 type: 'tab',

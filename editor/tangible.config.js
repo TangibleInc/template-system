@@ -15,7 +15,7 @@ const config = {
       dest: 'build/ide.min.css'
     },
   ],
-  format: ['core', 'ide'],
+  format: ['**/*.{php,js,ts,jsx,tsx,json,scss}', '!build'],
 }
 
 module.exports = config

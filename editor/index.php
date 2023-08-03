@@ -1,21 +1,24 @@
 <?php
 /**
  * Code Editor
+ * 
+ * Organize under namespace as editor::$state and editor\action(), in the same
+ * pattern as System module.
  */
-namespace Tangible\TemplateSystem\Editor;
+namespace Tangible\TemplateSystem;
 
+use Tangible\TemplateSystem as system;
 use Tangible\TemplateSystem\Editor as editor;
 
-class state {
-  static $version = '20230707';
-  static $system;
+class Editor {
+  static $state;
   static $html;
-  static $url;
-  static $ignore_tags;
 }
 
-editor\state::$system = $system; // tangible_template_system()
-editor\state::$html = $html; // tangible_template()
-editor\state::$url = trailingslashit( plugins_url( '/', __FILE__ ) );
+editor::$html = tangible_template();
+editor::$state = (object) [
+  'version' => system::$state->version,
+  'url' => untrailingslashit( plugins_url('/', realpath(__FILE__)) ),
+];
 
 require_once __DIR__.'/includes/index.php';

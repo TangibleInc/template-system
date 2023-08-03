@@ -1,11 +1,15 @@
 <?php
-
-new class extends stdClass {
+/**
+ * Module loader: When there are mulitple plugins with the same module, this
+ * loads the newest version.
+ */
+new class extends \stdClass {
 
   public $name = 'tangible_template_system';
 
   // Remember to update the version - Expected format: YYYYMMDD
-  public $version = '20230712';
+  public $version = '20230802';
+
   public $url;
   public $path;
   public $file_path;
@@ -14,6 +18,7 @@ new class extends stdClass {
   public $is_plugin  = false;
 
   function __construct() {
+
     $name     = $this->name;
     $priority = 99999999 - absint( $this->version );
 
@@ -61,26 +66,28 @@ new class extends stdClass {
       }
     }
 
-    $name   = $this->name;
-    $plugin = $system = $this;
+    remove_all_actions( $this->name ); // First one to load wins
 
-    remove_all_actions( $name ); // First one to load wins
     tangible_template_system( $this );
 
+    $plugin = $system = $this;
+
     /**
-     * Currently consolidating all features to be internal to the template
-     * system, removing dependecy on plugin framework and external modules.
+     * Template System - New module organization
      */
+    require_once __DIR__.'/../core.php';
 
-    require_once __DIR__ . '/../interface/index.php';
-    require_once __DIR__ . '/../loop/index.php';
-    require_once __DIR__ . '/../logic/index.php';
-    require_once __DIR__ . '/../template/index.php';
 
-    require_once __DIR__ . '/../tester/index.php';
+    require_once __DIR__ . '/tester/index.php';
 
     // Wait for latest version of plugin framework
     add_action('plugins_loaded', function() use ( $plugin ) {
+
+      /**
+       * Template post types and fields, editor, management
+       * 
+       * TODO: Move to new module above as dependencies are removed or updated
+       */
 
       $framework = tangible();
 
@@ -92,33 +99,17 @@ new class extends stdClass {
 
       $system = &$plugin;
 
-      /**
-       * Template post types and fields, editor, management
-       */
-
-      require_once __DIR__ . '/post-types/index.php';
-
-      require_once __DIR__ . '/data.php';
       require_once __DIR__ . '/editor/index.php';
-      require_once __DIR__ . '/fields.php';
-      require_once __DIR__ . '/save.php';
-      require_once __DIR__ . '/render/index.php';
-      require_once __DIR__ . '/tag.php';
+      require_once __DIR__ . '/post-types/index.php';
+      require_once __DIR__ . '/template-post/index.php';
 
       require_once __DIR__ . '/template-assets/index.php';
       require_once __DIR__ . '/location/index.php';
-
       require_once __DIR__ . '/universal-id/index.php';
       require_once __DIR__ . '/import-export/index.php';
 
-      // New template editor based on CodeMirror 6
-      require_once __DIR__ . '/../editor/index.php';
-
       require_once __DIR__ . '/../extensions/index.php';
       require_once __DIR__ . '/integrations/index.php';
-
-      // TODO: Convert to use Cloud Client module
-      // require_once __DIR__.'/cloud/index.php';
 
       $ready_hook = "{$plugin->name}_ready";
 
@@ -140,10 +131,6 @@ new class extends stdClass {
       return $callback( $this );
     }
     add_action( "{$this->name}_ready", $callback );
-  }
-
-  function run_tests() {
-    include __DIR__ . '/../tests/index.php';
   }
 
   /**

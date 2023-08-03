@@ -1,9 +1,4 @@
 <?php
-
-namespace Tangible\TemplateSystem\Editor;
-
-use Tangible\TemplateSystem\Editor as editor;
-
 /**
  * Linters - Unused
  * 
@@ -17,9 +12,13 @@ use Tangible\TemplateSystem\Editor as editor;
  * 
  */
 
+namespace Tangible\TemplateSystem\Editor;
+
+use Tangible\TemplateSystem\Editor as editor;
+
  function load_linters() {
 
-  $html = &editor\state::$html;
+  $html = editor::$html;
 
   $linters = [];
 
