@@ -68,7 +68,7 @@ class Control_Variable_Type extends \WP_UnitTestCase {
     $template = '<If control=loop_type is_not value="">TRUE<Else />FALSE</If>';
     $this->assertEquals('FALSE', $html->render($template));
 
-    // Default comparison "exists"
+    // Default comparison "exists" == false
 
     $template = '<If control=loop_type>TRUE<Else />FALSE</If>';
     $this->assertEquals('FALSE', $html->render($template));
@@ -89,7 +89,7 @@ class Control_Variable_Type extends \WP_UnitTestCase {
     $template = '<If control=loop_type is value="">TRUE<Else />FALSE</If>';
     $this->assertEquals('FALSE', $html->render($template));
 
-    // "is_not" empty == false
+    // "is_not" empty == true
 
     $template = '<If check="{Get control=loop_type}" is_not value="">TRUE<Else />FALSE</If>';
     $this->assertEquals('TRUE', $html->render($template));
@@ -97,7 +97,7 @@ class Control_Variable_Type extends \WP_UnitTestCase {
     $template = '<If control=loop_type is_not value="">TRUE<Else />FALSE</If>';
     $this->assertEquals('TRUE', $html->render($template));
 
-    // Default comparison "exists"
+    // Default comparison "exists" == true
 
     $template = '<If control=loop_type>TRUE<Else />FALSE</If>';
     $this->assertEquals('TRUE', $html->render($template));
@@ -126,12 +126,42 @@ class Control_Variable_Type extends \WP_UnitTestCase {
     $template = '<If control=loop_type is_not value="">TRUE<Else />FALSE</If>';
     $this->assertEquals('FALSE', $html->render($template));
 
-    // Default comparison "exists"
+    // Default comparison "exists" == false
 
     $template = '<If control=loop_type>TRUE<Else />FALSE</If>';
     $this->assertEquals('FALSE', $html->render($template));
 
     $template = '<If not control=loop_type>TRUE<Else />FALSE</If>';
     $this->assertEquals('TRUE', $html->render($template));
+
+
+    // Number 0 is *not* empty, nor equal to empty string
+
+    $html->set_control_variable('loop_type', '0');
+
+    // "is" empty == false
+
+    $template = '<If check="{Get control=loop_type}" is value="">TRUE<Else />FALSE</If>';
+    $this->assertEquals('FALSE', $html->render($template));
+
+    $template = '<If control=loop_type is value="">TRUE<Else />FALSE</If>';
+    $this->assertEquals('FALSE', $html->render($template));
+
+    // "is_not" empty == true
+
+    $template = '<If check="{Get control=loop_type}" is_not value="">TRUE<Else />FALSE</If>';
+    $this->assertEquals('TRUE', $html->render($template));
+
+    $template = '<If control=loop_type is_not value="">TRUE<Else />FALSE</If>';
+    $this->assertEquals('TRUE', $html->render($template));
+
+    // Default comparison "exists" === true
+
+    $template = '<If control=loop_type>TRUE<Else />FALSE</If>';
+    $this->assertEquals('TRUE', $html->render($template));
+
+    $template = '<If not control=loop_type>TRUE<Else />FALSE</If>';
+    $this->assertEquals('FALSE', $html->render($template));
+
   }
 }
