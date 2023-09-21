@@ -92,7 +92,7 @@ class PostLoop extends BaseLoop {
       'include_children' => [
         'description' => 'Include children',
         'type'        => 'boolean',
-        'default'     => false,
+        'default'     => '',
       ],
 
       // Author
@@ -454,9 +454,18 @@ class PostLoop extends BaseLoop {
 
     // Top-level parents
     if (isset($query_args['include_children'])) {
-      if (!$query_args['include_children']) {
+      if ($query_args['include_children'] == '') {
+//        $query_args['post_parent'] = 0;
+      }
+
+      if($query_args['include_children'] === FALSE){
         $query_args['post_parent'] = 0;
       }
+
+      if($query_args['include_children'] === TRUE){
+//        $query_args['post_parent'] = 1;
+      }
+
       unset($query_args['include_children']); // Not a native WP_Query parameter
     }
 
