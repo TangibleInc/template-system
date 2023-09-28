@@ -145,6 +145,8 @@ $loop->get_taxonomy_term_field = function( $item, $field_name, $args = [] ) use 
        */
       if ( $loop->html->is_acf_active ) {
         return get_field( $field_name, "term_$id" );
+      }else{
+        return get_term_meta($id, $field_name, true);
       }
   }
 };
