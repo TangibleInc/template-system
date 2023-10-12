@@ -5,4 +5,4 @@
  * 
  * Shortcut to update this file: npm run version
  */
-return '20230803';
+return '20231012';

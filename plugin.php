@@ -6,8 +6,8 @@
 
 require_once __DIR__ . '/index.php';
 
+use Tangible\TemplateSystem as system;
+
 add_action('plugins_loaded', function() {
-
-  Tangible\TemplateSystem\is_plugin( true );
-
+  system\is_plugin( true );
 }, 1); // After latest module version loaded

@@ -1,8 +1,9 @@
 <?php
-
 /**
  * Enqueue style/script
  */
+
+use Tangible\TemplateSystem as system;
 
 $plugin->enqueue_template_import_export = function() use ( $plugin ) {
 
@@ -26,7 +27,7 @@ $plugin->enqueue_template_import_export = function() use ( $plugin ) {
   wp_add_inline_script(
     'tangible-template-import-export',
     'window.Tangible = window.Tangible || {}; window.Tangible.templateSystemHasPlugin = '
-      . json_encode($plugin->has_plugin),
+      . json_encode( system\get_active_plugins() ),
     'before'
   );
 

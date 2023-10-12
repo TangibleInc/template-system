@@ -3,6 +3,7 @@
 namespace Tangible\TemplateSystem;
 
 use Tangible\TemplateSystem as system;
+use Tangible\TemplateSystem\API as api;
 
 function get_settings_nonce() {
   return wp_create_nonce(
@@ -19,7 +20,7 @@ function verify_settings_nonce() {
 function ajax_save_settings() {
 
   if ( ! verify_settings_nonce() || !current_user_can('administrator') ) {
-    return system\send_error('Not allowed');
+    return api\error('Not allowed');
   }
 
   try {
@@ -35,11 +36,11 @@ function ajax_save_settings() {
     $result = system\set_settings($data);
 
 
-    system\send_success($result);  
+    return api\send($result);
 
   } catch (\Throwable $th) {
 
-    system\send_error( $th->getMessage() );
+    return api\error( $th->getMessage() );
   }
 }
 
@@ -48,17 +49,3 @@ add_action(
   'wp_ajax_' . system::$state->settings_key,
   __NAMESPACE__ . '\\ajax_save_settings'
 );
-
-function send_success($data = []) {
-  echo json_encode([
-    'data' => $data,
-  ]);
-  exit;
-};
-
-function send_error($data = []) {
-  echo json_encode([
-    'error' => is_string($data) ? [ 'message' => $data ] : $data,
-  ]);
-  exit;
-};

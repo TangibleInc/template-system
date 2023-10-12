@@ -12,12 +12,12 @@ system::$state->setting_fields = [
     'label' => 'Editor based on CodeMirror 6',
     'default_value' => false
   ],
-  [
-    'name' => 'ide',
-    'field_type' => 'checkbox',
-    'label' => 'Template System IDE - Integrated Development Environment',
-    'default_value' => false
-  ],
+  // [
+  //   'name' => 'ide',
+  //   'field_type' => 'checkbox',
+  //   'label' => 'IDE - Integrated Development Environment (Tangible -> Template System)',
+  //   'default_value' => false
+  // ],
 ];
 
 function get_setting_fields() {

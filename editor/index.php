@@ -2,7 +2,7 @@
 /**
  * Code Editor
  * 
- * Organize under namespace as editor::$state and editor\action(), in the same
+ * Organize features as editor::$state and editor\action(), in the same
  * pattern as System module.
  */
 namespace Tangible\TemplateSystem;

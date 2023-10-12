@@ -69,6 +69,7 @@ echo json_encode([
   'nonce' => system\get_settings_nonce(),
   'saveActionKey' => system::$state->settings_key,
 ]);
+
 ?>
 
 const $form = document.getElementById('tangible-settings-form')
@@ -146,6 +147,8 @@ $form.addEventListener('submit', function(e) {
 
   e.preventDefault()
 
+  scheduleFormMessage('Saving..')
+
   const data = new FormData()
 
   data.append('action', saveActionKey)
@@ -153,8 +156,6 @@ $form.addEventListener('submit', function(e) {
   data.append('data', JSON.stringify(
     getFormData($form)
   ))
-
-  scheduleFormMessage('Saving..')
 
   /**
    * Types of API errors

@@ -11,14 +11,16 @@ Ideally, the editor and IDE can run within and without WordPress, for example, a
 
 ## Upgrade from previous version
 
-Gradually replace the existing code editor in:
+Replace the existing use of code editor in:
+
+- `/system/editor` - Integrate with template post types in admin edit screen
+- `/system/integrations` - Template editor block in Beaver, Elementor, Gutenberg
+
+Then remove CodeMirror 5 entirely.
 
 - `/template/codemirror` - Heavily customized fork of CodeMirror 5 and extensions - It used to be a separate repository published as NPM package `@tangible/codemirror`
 - `/template/assets/src/codemirror` - Export Tangible.CodeMirror
 - `/template/modules/codemirror` - Enqueue a set of scripts and styles
-
-- `/system/editor` - Integrate with template post types in admin edit screen
-- `/system/integrations` - Template editor block in Beaver, Elementor, Gutenberg
 
 
 ## Usage

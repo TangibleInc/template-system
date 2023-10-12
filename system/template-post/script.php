@@ -33,7 +33,11 @@ $plugin->enqueue_template_script = function(
   if (empty( $script )) return;
 
   /**
-   * Pass JS variables - Wrap in function closure for local scope
+   * Pass JS variables
+   * 
+   * Using a pattern called [Immediately Invoked Function Expression](https://developer.mozilla.org/en-US/docs/Glossary/IIFE). It creates an anonymous
+   * function for locally scoped variables, to avoid affecting the global
+   * namespace (window).
    */
   if ( ! empty( $js_variables ) ) {
     $vars = '';

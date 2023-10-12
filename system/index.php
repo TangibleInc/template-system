@@ -1,4 +1,7 @@
 <?php
+
+use Tangible\TemplateSystem as system;
+
 /**
  * Module loader: When there are mulitple plugins with the same module, this
  * loads the newest version.
@@ -18,7 +21,6 @@ new class extends \stdClass {
   public $file_path;
 
   public $has_plugin = [];
-  public $is_plugin  = false;
 
   function __construct() {
 
@@ -48,15 +50,6 @@ new class extends \stdClass {
 
   function load() {
 
-    $this->has_plugin = [
-      'loops'           => function_exists( 'tangible_loops_and_logic' ),
-      'loops_pro'       => function_exists( 'tangible_loops_and_logic_pro' ),
-      'blocks'          => function_exists( 'tangible_blocks' ),
-      'blocks_editor'   => function_exists( 'tangible_blocks_editor' ),
-      'blocks_pro'      => function_exists( 'tangible_blocks_pro' ),
-      'template_system' => $this->is_plugin, // This module installed as plugin
-    ];
-
     /**
      * Requires plugin framework until we replace all occurrences of tangible()
      * and $framework.
@@ -82,7 +75,10 @@ new class extends \stdClass {
      */
     require_once __DIR__.'/../core.php';
 
+    // Backward compatibility
+    $system->has_plugin = system\get_active_plugins();
 
+    // Deprecated: Tester module
     require_once __DIR__ . '/tester/index.php';
 
     // Wait for latest version of plugin framework

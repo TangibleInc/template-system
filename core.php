@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Template System: New module organization
+ * Template System
  * 
- * Currently consolidating all features to remove dependencies, such as:
+ * Currently consolidating features to remove dependencies, such as:
  * 
  * - jQuery
  * - Tangible Plugin Framework
@@ -23,7 +23,7 @@ class TemplateSystem {
 }
 
 system::$state = (object) [
-  'version' => $system->version, // From version.php and system/index.php
+  'version' => require_once __DIR__.'/version.php',
   'path' => __DIR__,
   'url' => plugins_url( '/', realpath( __FILE__ ) ),
 ];
@@ -39,5 +39,6 @@ require_once __DIR__ . '/template/index.php';
 // Features depend on above modules
 
 require_once __DIR__ . '/admin/index.php';
+require_once __DIR__ . '/api/index.php';
 require_once __DIR__ . '/editor/index.php';
 require_once __DIR__ . '/cloud/index.php';

@@ -22,11 +22,11 @@ jQuery(document).ready(function ($) {
   const { CodeEditor } = window?.Tangible?.TemplateSystem
 
   let ideElement = document.getElementById('tangible-template-system-ide')
-  
+
   if (!ideElement) {
     ideElement = document.createElement('div')
     ideElement.id = 'tangible-template-system-ide'
-    document.body.prepend(ideElement) // Prepend for absolute screen position    
+    document.body.prepend(ideElement) // Prepend for absolute screen position
   }
 
 
@@ -81,7 +81,7 @@ jQuery(document).ready(function ($) {
         content={
           templatePost[ slug ] || ''
         }
-        focusOnMount={ nodeId===selectedTabNodeId }
+        focusOnMount={ nodeId === selectedTabNodeId }
       />
     }
 
@@ -96,8 +96,8 @@ jQuery(document).ready(function ($) {
     // console.log('onAction', action)
 
     const { type, data } = action
-    
-    if (type==='FlexLayout_SelectTab' && data.tabNode) {
+
+    if (type === 'FlexLayout_SelectTab' && data.tabNode) {
 
       const nodeId = data.tabNode
 
@@ -176,7 +176,7 @@ jQuery(document).ready(function ($) {
 
       break
     }
-  } 
+  }
 
   async function formatCode({
     lang,
