@@ -13,6 +13,7 @@ class RepeaterLoop extends ListLoop {
 
   static $loop;
   static $html;
+  protected $object_id;
   static $config = [
     'name'       => 'acf_repeater',
     'title'      => 'ACF repeater',

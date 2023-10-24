@@ -13,6 +13,7 @@ class FlexibleContentLoop extends ListLoop {
 
   static $loop;
   static $html;
+  protected $object_id;
   static $config = [
     'name'       => 'acf_flexible_content',
     'title'      => 'ACF flexible content',
