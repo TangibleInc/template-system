@@ -2,6 +2,8 @@
 
 namespace Tangible\TemplateSystem\API;
 
+use Tangible\TemplateSystem\API as api;
+
 const ok = 200;
 const bad_request = 400;
 const not_found = 404;

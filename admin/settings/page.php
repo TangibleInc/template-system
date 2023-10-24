@@ -1,57 +1,93 @@
 <?php
 
-namespace Tangible\TemplateSystem;
-
 use Tangible\TemplateSystem as system;
+
+$settings = system\get_settings();
+
+$render_field = function($field) use ($settings) {
+
+  $name = esc_attr($field['name']);
+  $field_type = esc_attr($field['field_type']);
+  $label = $field['label'];
+  $value = $settings[ $field['name'] ] ?? $field['default_value'];
+
+  $output_value = esc_attr(
+    is_string($value) ? $value : json_encode( $value )
+  );
+
+  ?>
+  <p><fieldset>
+    <label for="<?php echo $name; ?>">
+    <?php
+      if ($field['field_type']==='checkbox') {
+
+        // Checkbox
+
+        ?>
+        <input type="<?php echo $field_type; ?>" name="<?php echo $name; ?>" id="<?php echo $name; ?>" value="true"<?php
+          if ($value===true) echo ' checked';
+        ?> autocomplete="off">
+        <?php
+      } else {
+
+        // Other input types
+
+        ?>
+        <input type="<?php echo $field_type; ?>" name="<?php echo $name; ?>" id="<?php echo $name; ?>" value="<?php echo $value; ?>">
+        <?php
+      }
+    ?>
+    <?php echo $label; ?>
+    </label>
+    </fieldset>
+  </p>
+  <?php
+};
 
 ?>
 <h2>Settings</h2>
 <form id="tangible-settings-form" class="wrap">
-
-  <h3>Features in development</h3>
   <?php
 
-    $settings = system\get_settings();
+  $fields = system\get_setting_fields();
 
-    foreach (system\get_setting_fields() as $field) {
+  $beta = [];
+  $deprecated = [];
 
-      $name = esc_attr($field['name']);
-      $field_type = esc_attr($field['field_type']);
-      $label = $field['label'];
-      $value = $settings[ $field['name'] ] ?? $field['default_value'];
-
-      $output_value = esc_attr(
-        is_string($value) ? $value : json_encode( $value )
-      );
-
-      ?>
-      <p><fieldset>
-        <label for="<?php echo $name; ?>">
-        <?php
-          if ($field['field_type']==='checkbox') {
-            ?>
-            <input type="<?php echo $field_type; ?>" name="<?php echo $name; ?>" id="<?php echo $name; ?>" value="true"<?php
-              if ($value===true) echo ' checked';
-            ?> autocomplete="off">
-            <?php
-          } else {
-            ?>
-            <input type="<?php echo $field_type; ?>" name="<?php echo $name; ?>" id="<?php echo $name; ?>" value="<?php echo $value; ?>">
-            <?php
-          }
-        ?>
-        <?php echo $label; ?>
-        </label>
-        </fieldset>
-      </p>
-      <?php
+  foreach ($fields as $key => $field) {
+    if (!empty($field['beta'])) {
+      $beta []= $field;
+      unset($fields[ $key ]);
+    } elseif (!empty($field['deprecated'])) {
+      $deprecated []= $field;
+      unset($fields[ $key ]);
     }
+  }
+
+  foreach ($fields as $field) {
+    $render_field( $field );
+  }
+
+  if (!empty($beta)) {
+    ?><h3>Features in development</h3>
+    <p>These will be enabled by default in the next major version.</p>
+    <?php
+    foreach ($beta as $field) {
+      $render_field( $field );
+    }
+  }
+
+  if (!empty($deprecated)) {
+    ?><h3>Deprecated features</h3>
+    <p>These will be removed in the next major version.</p>
+    <?php
+    foreach ($deprecated as $field) {
+      $render_field( $field );
+    }
+  }
   ?>
-
   <p><button type="submit" class="button button-primary">Save</button></p>
-
   <p id="tangible-settings-form-message"></p>
-
 </form>
 
 <script>
@@ -190,7 +226,7 @@ $form.addEventListener('submit', function(e) {
       // console.error('Error', error)
 
       scheduleFormMessage(
-        'Save failed' + error.message ? `: ${error.message}` : ''
+        'Save failed' + (error.message ? `: ${error.message}` : '')
       )
     })
 })
