@@ -42,7 +42,6 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
       'jquery',
       'wp-components',
       'wp-editor',
-      'lodash',
       'tangible-codemirror',
       'tangible-ajax',
       'tangible-module-loader',

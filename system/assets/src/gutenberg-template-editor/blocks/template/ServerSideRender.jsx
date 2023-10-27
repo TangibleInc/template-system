@@ -3,9 +3,9 @@
  *
  * Forked to support callback onFetchResponseRendered, used by dynamic module loader
  */
+import fastDeepEqual from 'fast-deep-equal/es6'
 
-const { wp, lodash } = window
-const { isEqual } = lodash
+const { wp } = window
 const {
   apiFetch,
   blocks: {
@@ -19,12 +19,49 @@ const {
   url: { addQueryArgs }
 } = wp
 
+function Content({
+  className,
+  children,
+  onMount
+}) {
+  const ref = useRef()
+  useEffect(() => {
+    if (onMount) onMount(ref.current)
+  }, [])
+  return <div ref={ref} className="tangible-server-side-render">
+    <RawHTML className={ className }>{ children }</RawHTML>
+  </div>
+}
+
+const EMPTY_OBJECT = {};
+
 export function rendererPath( block, attributes = null, urlQueryArgs = {} ) {
 	return addQueryArgs( `/wp/v2/block-renderer/${ block }`, {
 		context: 'edit',
 		...( null !== attributes ? { attributes } : {} ),
 		...urlQueryArgs,
 	} );
+}
+
+export function removeBlockSupportAttributes( attributes ) {
+	const {
+		backgroundColor,
+		borderColor,
+		fontFamily,
+		fontSize,
+		gradient,
+		textColor,
+		className,
+		...restAttributes
+	} = attributes;
+
+	const { border, color, elements, spacing, typography, ...restStyles } =
+		attributes?.style || EMPTY_OBJECT;
+
+	return {
+		...restAttributes,
+		style: restStyles,
+	};
 }
 
 function DefaultEmptyResponsePlaceholder( { className } ) {
@@ -67,21 +104,6 @@ function DefaultLoadingResponsePlaceholder( { children, showLoader } ) {
 	);
 }
 
-function Content({
-  className,
-  children,
-  onMount
-}) {
-  const ref = useRef()
-  useEffect(() => {
-    if (onMount) onMount(ref.current)
-  }, [])
-  return <div ref={ref} className="tangible-server-side-render">
-    <RawHTML className={ className }>{ children }</RawHTML>
-  </div>
-}
-
-
 export default function ServerSideRender( props ) {
 	const {
 		attributes,
@@ -89,6 +111,7 @@ export default function ServerSideRender( props ) {
 		className,
 		httpMethod = 'GET',
 		urlQueryArgs,
+		skipBlockSupportAttributes = false,
 		EmptyResponsePlaceholder = DefaultEmptyResponsePlaceholder,
 		ErrorResponsePlaceholder = DefaultErrorResponsePlaceholder,
 		LoadingResponsePlaceholder = DefaultLoadingResponsePlaceholder,
@@ -109,9 +132,14 @@ export default function ServerSideRender( props ) {
 
 		setIsLoading( true );
 
-		const sanitizedAttributes =
+		let sanitizedAttributes =
 			attributes &&
-			(sanitizeBlockAttributes || __experimentalSanitizeBlockAttributes)( block, attributes );
+			__experimentalSanitizeBlockAttributes( block, attributes );
+
+		if ( skipBlockSupportAttributes ) {
+			sanitizedAttributes =
+				removeBlockSupportAttributes( sanitizedAttributes );
+		}
 
 		// If httpMethod is 'POST', send the attributes in the request body instead of the URL.
 		// This allows sending a larger attributes object than in a GET request, where the attributes are in the URL.
@@ -179,7 +207,7 @@ export default function ServerSideRender( props ) {
 		// shows data as soon as possible.
 		if ( prevProps === undefined ) {
 			fetchData();
-		} else if ( ! isEqual( prevProps, props ) ) {
+		} else if ( ! fastDeepEqual( prevProps, props ) ) {
 			debouncedFetchData();
 		}
 	} );
@@ -221,6 +249,7 @@ export default function ServerSideRender( props ) {
 		return <ErrorResponsePlaceholder response={ response } { ...props } />;
 	}
 
-	return <Content className={ className } onMount={onFetchResponseRendered}
+  return <Content className={ className } onMount={onFetchResponseRendered}
   >{ response }</Content>;
+;
 }

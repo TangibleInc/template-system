@@ -8,5 +8,8 @@
   },
   "devDependencies": {
     "@tangible/roller": "1.x"
+  },
+  "dependencies": {
+    "fast-deep-equal": "^3.1.3"
   }
 }
