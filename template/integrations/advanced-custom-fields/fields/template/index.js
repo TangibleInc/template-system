@@ -1,10 +1,20 @@
 jQuery(function ($) {
-  var Tangible = window.Tangible
-  var wp = window.wp
 
-  var $publish = $('#publish')
+  $(".tangible-template-acf-field-input-container textarea[name]:not([name*='[acfcloneindex]'])").tgbl_init_acf_codemirror();
 
-  $('.tangible-template-acf-field-input-container textarea').each(function () {
+  acf.addAction('append', function($el) {
+
+    $el.find('.tangible-template-acf-field-input-container textarea').tgbl_init_acf_codemirror();
+  });
+
+})
+
+// Extending jQuery
+jQuery.fn.tgbl_init_acf_codemirror = function() {
+
+  let Tangible = window.Tangible, wp = window.wp, $publish = jQuery('#publish')
+
+  return this.each(function() {
     function save() {
       if ($publish.length) {
         // Classic editor
@@ -46,5 +56,10 @@ jQuery(function ($) {
     setTimeout(() => {
       editor.refresh()
     }, 100)
-  })
-})
+  });
+};
+
+// Use the custom function
+/*
+$('.tangible-template-acf-field-input-container textarea').tgbl_init_acf_codemirror();
+*/
