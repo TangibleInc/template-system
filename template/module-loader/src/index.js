@@ -79,6 +79,7 @@ function registerModule(name, config) {
 }
 
 Object.assign(Tangible, {
+  assetLoader,
   moduleLoader,
   registerModule,
 })
