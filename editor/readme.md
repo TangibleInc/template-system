@@ -2,7 +2,7 @@
 
 This is the new code editor based on CodeMirror 6.
 
-It's a curated and customized set of features designed to integrate with the Loops & Logic template (extended HTML), style (Sass), and script (JavaScript).
+It's a curated and customized set of features designed to integrate with a template (extended HTML), style (Sass), and script (JavaScript).
 
 The goal is to grow into an integrated development environment (IDE) with the editor at its core.
 
@@ -35,8 +35,10 @@ editor\enqueue_editor();
 
 The script defines a global `Tangible.TemplateSystem.CodeEditor`.
 
+## Features
 
-## Feature ideas
+
+## Future ideas
 
 - Tag and attribute autocomplete
 
@@ -89,32 +91,3 @@ The script defines a global `Tangible.TemplateSystem.CodeEditor`.
 - Import/export single template in Template block inside page builder
 
 - Template patterns
-
-
-## Language support
-
-- HTML
-
-  https://github.com/codemirror/lang-html
-
-- Sass
-
-  - Dart Sass https://github.com/sass/dart-sass#dart-sass-in-the-browser
-
-  - ? Stylelint
-    Add support for running in a browser https://github.com/stylelint/stylelint/issues/3935
-    https://github.com/openstyles/stylelint-bundle/blob/master/rollup.config.js
-
-    https://github.com/stylelint-scss/stylelint-scss
-
-- ESLint
-  https://github.com/UziTech/eslint-linter-browserify
-
-- JSON
-  https://github.com/codemirror/lang-json/#user-content-jsonparselinter
-  https://github.com/codemirror/lang-json/blob/main/src/lint.ts
-
-- PHP
-  Old https://github.com/glayzzle/codemirror-linter
-  https://discuss.codemirror.net/t/new-php-linter-with-plain-js/1364/5
-
