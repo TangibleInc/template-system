@@ -70,17 +70,19 @@ $render_field = function($field) use ($settings) {
 
   if (!empty($beta)) {
     ?><h3>Features in development</h3>
-    <p>These will be enabled by default in the next major version.</p>
     <?php
-    foreach ($beta as $field) {
+//    <p>These will be enabled by default in the next major version.</p>
+
+  foreach ($beta as $field) {
       $render_field( $field );
     }
   }
 
   if (!empty($deprecated)) {
     ?><h3>Deprecated features</h3>
-    <p>These will be removed in the next major version.</p>
     <?php
+//    <p>These will be removed in the next major version.</p>
+
     foreach ($deprecated as $field) {
       $render_field( $field );
     }

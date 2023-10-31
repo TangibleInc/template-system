@@ -8,43 +8,28 @@ system::$state->settings_key = 'tangible_template_system_settings';
 system::$state->setting_fields = [
 
   [
-    'name' => 'allow_json_upload',
+    'name' => 'acf_template_field',
     'field_type' => 'checkbox',
-    'label' => 'Allow uploading JSON files - May be necessary on some site setups to import templates',
-    'default_value' => false,
-  ],
-  [
-    'name' => 'allow_svg_upload',
-    'field_type' => 'checkbox',
-    'label' => 'Allow uploading SVG files - May be necessary on some site setups to import template assets',
+    'label' => 'Enable ACF Template field - Custom field with template editor',
     'default_value' => false,
   ],
 
   // Features in development
 
-  // [
-  //   'name' => 'ide',
-  //   'field_type' => 'checkbox',
-  //   'label' => 'IDE - Integrated Development Environment (Tangible -> Template System)',
-  //   'default_value' => false,
-  //   'beta' => true,
-  // ],
-
-  // Deprecated features
-
   [
-    'name' => 'codemirror_5',
+    'name' => 'codemirror_6',
     'field_type' => 'checkbox',
-    'label' => 'Editor based on CodeMirror 5',
-    'default_value' => false,
-    'deprecated' => true
+    'label' => 'New template editor based on CodeMirror 6',
+    'default_value' => true,
+    'beta' => true
   ],
+
   [
-    'name' => 'acf_template_field',
+    'name' => 'ide',
     'field_type' => 'checkbox',
-    'label' => 'ACF Template field',
+    'label' => 'IDE prototype - Integrated Development Environment (See <i>Tangible -> Views</i>)',
     'default_value' => false,
-    'deprecated' => true
+    'beta' => true,
   ],
 ];
 

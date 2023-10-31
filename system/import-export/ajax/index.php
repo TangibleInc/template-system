@@ -20,6 +20,27 @@ $ajax->add_action("{$prefix}import", function( $data ) use ( $ajax, $plugin ) {
   if ( ! current_user_can( 'manage_options' )) return $ajax->error( 'Must be admin user' );
   if ( ! isset( $data['post_types'] )) return $ajax->error( 'Property "post_types" is required' );
 
+  /**
+   * Allow JSON and SVG file types during import
+   * 
+   * May be necessary on some site setups to import templates and assets.
+   * 
+   * On multisite setup, it may also be necessary to add to the list of
+   * allowed file types for sub-sites, under Network Admin -> Settings.
+   * 
+   * Note that PHP determines the MIME type of a JSON file to be "text/plain"
+   * instead of the correct one, "application/json".
+   * 
+   * @see /admin/settings
+   * @see https://stackoverflow.com/questions/63455255/allow-json-upload-file-in-wordpress
+   */
+
+  add_filter('upload_mimes', function($mimes) {
+    $mimes['json'] = 'text/plain';
+    $mimes['svg'] = 'image/svg+xml';
+    return $mimes;
+  });
+
   return $plugin->import_templates( $data );
 });
 
