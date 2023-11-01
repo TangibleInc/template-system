@@ -14,14 +14,17 @@ export type CodeEditorOptions = {
   el: HTMLElement
   lang: string,
   content: string,
-  onUpdate?: (updateCallbackProps: { doc: Text }) => void
+  onUpdate?: (updateCallbackProps: { doc: Text }) => void,
+  onSave?: () => void
 }
 
 export async function create({
   el,
   lang = 'html',
   content = '',
-  onUpdate
+  onUpdate,
+  onSave,
+  extensions = []
 }: CodeEditorOptions) {
 
   const updateListener = EditorView.updateListener.of((view: ViewUpdate) => {
@@ -38,7 +41,13 @@ export async function create({
     })
   })
 
-  const setup = await getSetup(lang)
+  const setup = await getSetup(lang, {
+    keymap: [
+      { key: 'Ctrl-s', mac: 'Cmd-s', run() {
+        onSave && onSave()
+      }, preventDefault: true }
+    ]
+  })
 
   const state = EditorState.create({
     doc: content,
@@ -47,6 +56,7 @@ export async function create({
       setup,
       theme,
       ...(onUpdate ? [updateListener] : []),
+      ...extensions
     ],
   })
 

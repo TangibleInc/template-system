@@ -49,7 +49,7 @@ const langExtensionsGetters = {
     createHtmlLinter(),
     getHTMLAutocomplete(),
     hyperLink,
-    infoPanelExtension()
+    // infoPanelExtension()
   ],
 
   css: () => [

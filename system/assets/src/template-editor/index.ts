@@ -2,6 +2,8 @@
  * Editor for template post type
  */
 
+import { createTemplateEditor } from './compat'
+
 /**
  * Remember state in local storage
  */
@@ -70,7 +72,11 @@ jQuery(function ($) {
   const templateMeta =
     $postForm.find('#tangible-template-editor-meta').data('json') || {}
 
-  const { ajax, createCodeEditor } = window.Tangible
+  const {
+    ajax,
+    // Provide new editor compatibility layer
+    createCodeEditor = createTemplateEditor
+  } = window.Tangible
 
   /**
    * Additional fields that are not editors
@@ -179,7 +185,10 @@ jQuery(function ($) {
     return data
   }
 
-  const save = function () {
+  /**
+   * Save via AJAX, except for new post which requires page reload
+   */
+  function save() {
     if (templateMeta.isNewPost) {
       $publishButton.click()
       return
@@ -245,6 +254,12 @@ jQuery(function ($) {
   }
 
   const sharedEditorOptions = {
+
+    // New editor
+    onSave: save,
+
+    // Legacy editor
+
     viewportMargin: Infinity, // With .CodeMirror height: auto or 100%
     resizable: false,
     lineWrapping: true,
@@ -260,7 +275,7 @@ jQuery(function ($) {
     },
   }
 
-  $editors.each(function () {
+  $editors.each(async function () {
     const $editor = $(this)
     const fieldName = $editor.attr('name')
     const type = $editor.data('tangibleTemplateEditorType') // html, sass, javascript, json
@@ -284,7 +299,7 @@ jQuery(function ($) {
       }
     }
 
-    const editor = (editorInstances[fieldName] = createCodeEditor(
+    const editor = (editorInstances[fieldName] = await createCodeEditor(
       this,
       editorOptions
     ))

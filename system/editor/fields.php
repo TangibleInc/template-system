@@ -1,12 +1,15 @@
 <?php
-
 /**
  * Template fields
  */
 
-add_action('admin_init', function() use ($framework, $plugin, $ajax) {
+use Tangible\TemplateSystem as system;
+use Tangible\TemplateSystem\Editor as editor;
+use Tangible\TemplateSystem\Format as format;
 
-  $info = $framework->get_admin_route_info(); // See Framework module, utils/admin.php
+add_action('admin_init', function() use ($plugin, $ajax) {
+
+  $info = system\get_admin_route_info();
 
   $is_template_edit_screen =
     in_array( $info['type'], $plugin->template_post_types )
@@ -17,11 +20,20 @@ add_action('admin_init', function() use ($framework, $plugin, $ajax) {
 
   // Enqueue
 
-  $plugin->enqueue_template_editor();
+  if (system\get_settings('codemirror_6')) {
+
+    editor\enqueue_editor();
+    editor\enqueue_editor_language_definition();
+    $plugin->enqueue_template_editor(6);
+
+  } else {
+    // Legacy
+    $plugin->enqueue_template_editor();
+  }
 
   // Render
 
-  add_action('edit_form_after_title', function($post) use ($framework, $plugin, $info) {
+  add_action('edit_form_after_title', function($post) use ($plugin, $info) {
 
     $post_type = $post->post_type;
 
@@ -81,6 +93,10 @@ add_action('admin_init', function() use ($framework, $plugin, $ajax) {
     if ( $has_location ) $tabs []= 'Location';
     if ( $has_assets ) $tabs []= 'Assets';
 
+    /**
+     * Tangible Blocks adds Controls tab
+     * @see tangible-blocks/includes/block/post-types/edit.php
+     */
     $tabs = apply_filters( 'tangible_template_editor_tabs', $tabs, $post );
 
     if (count($tabs) > 1) {
@@ -91,7 +107,7 @@ add_action('admin_init', function() use ($framework, $plugin, $ajax) {
             ?>
             <div class="tangible-template-tab-selector<?php echo $index===0 ? ' active' : ''; ?>"
               data-tab-name="<?php echo esc_attr(
-                $framework->kebab_case( $title )
+                format\kebab_case( $title )
               ); ?>"
             >
               <?php echo $title; ?>
@@ -206,10 +222,13 @@ add_action('admin_init', function() use ($framework, $plugin, $ajax) {
 
       }
 
+      /**
+       * Tangible Blocks renders Controls field
+       * @see tangible-blocks/includes/block/post-types/edit.php
+       */
       do_action( 'tangible_template_editor_after_tabs', $post, $fields );
 
       ?>
-
     </div>
     <?php
 

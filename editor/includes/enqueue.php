@@ -29,6 +29,10 @@ function enqueue_editor_language_definition() {
   wp_localize_script( 'tangible-template-system-editor', 'TangibleTemplateLanguage', get_language_definition() );
 }
 
+/**
+ * IDE
+ */
+
 function enqueue_ide() {
 
   editor\enqueue_editor();

@@ -20,14 +20,16 @@ system::$state->setting_fields = [
     'name' => 'codemirror_6',
     'field_type' => 'checkbox',
     'label' => 'New template editor based on CodeMirror 6',
-    'default_value' => true,
-    'beta' => true
+    'beta' => true,
+
+    // TODO: Switch default to true when new editor is ready
+    'default_value' => false,
   ],
 
   [
     'name' => 'ide',
     'field_type' => 'checkbox',
-    'label' => 'IDE prototype - Integrated Development Environment (See <i>Tangible -> Views</i>)',
+    'label' => 'IDE prototype - Integrated Development Environment (See <i>Tangible -> Template System</i>)',
     'default_value' => false,
     'beta' => true,
   ],

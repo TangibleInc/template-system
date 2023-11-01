@@ -52,6 +52,7 @@ const commonExtensions = [
   bracketMatching(), // TODO: Better styling // https://codemirror.net/docs/ref/#language.bracketMatching
   indentationMarkers(),
 
+  EditorView.lineWrapping,
   // hyperLinkExtension(),
 
   themeBase,
@@ -80,13 +81,21 @@ const commonKeyMaps = [
 /**
  * Get language setup - Using async to support dynamic loading
  */
-export async function getSetup(lang: string): Promise<Extension> {
+export async function getSetup(lang: string, options = {}): Promise<Extension> {
 
   const langExtensions = await getLangExtensions(lang)
 
-  return [
+  const setup = [
     ...commonExtensions,
     ...langExtensions, // Before common key maps to allow Emmet key map to take precedence
     keymap.of(commonKeyMaps),
   ]
+
+  if (options.keymap) {
+    setup.push(
+      keymap.of(options.keymap)
+    )
+  }
+
+  return setup
 }

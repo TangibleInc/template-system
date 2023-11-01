@@ -1,5 +1,6 @@
 {
   "name": "tangible-template-system",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "roll dev",

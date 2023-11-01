@@ -1,8 +1,9 @@
-module.exports = {
+export default {
   build: [
+
     // Template editor
     {
-      src: 'assets/src/template-editor/index.js',
+      src: 'assets/src/template-editor/index.ts',
       dest: 'assets/build/template-editor.min.js',
     },
     {
