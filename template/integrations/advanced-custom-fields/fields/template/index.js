@@ -1,20 +1,11 @@
 jQuery(function ($) {
+  const { Tangible, wp, acf } = window
 
-  $(".tangible-template-acf-field-input-container textarea[name]:not([name*='[acfcloneindex]'])").tgbl_init_acf_codemirror();
+  const $publish = $('#publish')
 
-  acf.addAction('append', function($el) {
+  function initAcfTemplateField() {
+    const textarea = this
 
-    $el.find('.tangible-template-acf-field-input-container textarea').tgbl_init_acf_codemirror();
-  });
-
-})
-
-// Extending jQuery
-jQuery.fn.tgbl_init_acf_codemirror = function() {
-
-  let Tangible = window.Tangible, wp = window.wp, $publish = jQuery('#publish')
-
-  return this.each(function() {
     function save() {
       if ($publish.length) {
         // Classic editor
@@ -28,9 +19,12 @@ jQuery.fn.tgbl_init_acf_codemirror = function() {
       wp.data.dispatch('core/editor').savePost()
     }
 
-    var textarea = this
-    var editor = Tangible.createCodeEditor(this, {
+    const editor = Tangible.createCodeEditor(textarea, {
       language: 'html',
+      onSave: save,
+
+      // Legacy editor options
+
       viewportMargin: Infinity, // With .CodeMirror height: auto or 100%
       resizable: false,
       lineWrapping: true,
@@ -56,10 +50,15 @@ jQuery.fn.tgbl_init_acf_codemirror = function() {
     setTimeout(() => {
       editor.refresh()
     }, 100)
-  });
-};
+  }
 
-// Use the custom function
-/*
-$('.tangible-template-acf-field-input-container textarea').tgbl_init_acf_codemirror();
-*/
+  const selector = '.tangible-template-acf-field-input-container textarea'
+
+  $(`${selector}[name]:not([name*='[acfcloneindex]'])`).each(
+    initAcfTemplateField
+  )
+
+  acf.addAction('append', function ($el) {
+    $el.find(selector).each(initAcfTemplateField)
+  })
+})
