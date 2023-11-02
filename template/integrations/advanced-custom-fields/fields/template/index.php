@@ -10,6 +10,7 @@
 namespace Tangible\Template;
 
 use acf_field;
+use Tangible\TemplateSystem as system;
 
 class TemplateField extends acf_field {
 
@@ -124,15 +125,30 @@ class TemplateField extends acf_field {
 
   function input_admin_enqueue_scripts() {
 
-    // Code editor incompatible with Custom HTML field in Customizer
-    // due to different versions of HTMLHint in global scope
-    global $wp_customize;
-    if ( isset( $wp_customize ) ) return;
+    $asset_name = 'tangible-codemirror';
 
-    tangible_template()->enqueue_codemirror();
+    if (system\get_settings('codemirror_6')) {
 
-    wp_add_inline_script( 'tangible-codemirror', file_get_contents( __DIR__ . '/index.js' ) );
-    wp_add_inline_style( 'tangible-codemirror', file_get_contents( __DIR__ . '/index.css' ) );
+      /**
+       * @see /system/editor/enqueue.php
+       */
+      tangible_template_system()->enqueue_template_editor_bridge();
+
+      $asset_name = 'tangible-template-editor-bridge';
+
+    } else {
+
+      // Code editor incompatible with Custom HTML field in Customizer
+      // due to different versions of HTMLHint in global scope
+      global $wp_customize;
+      if ( isset( $wp_customize ) ) return;
+
+      tangible_template()->enqueue_codemirror();
+    }
+
+    wp_add_inline_script( $asset_name, file_get_contents( __DIR__ . '/index.js' ) );
+    wp_add_inline_style( $asset_name, file_get_contents( __DIR__ . '/index.css' ) );
+
   }
 
 
