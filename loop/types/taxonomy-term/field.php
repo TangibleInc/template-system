@@ -48,7 +48,7 @@ $loop->get_taxonomy_term_field = function( $item, $field_name, $args = [] ) use 
       ob_start();
       ?><pre><code><?php
       print_r( $defined_fields );
-?></code></pre><?php
+      ?></code></pre><?php
       $value = ob_get_clean();
         break;
 
@@ -145,6 +145,9 @@ $loop->get_taxonomy_term_field = function( $item, $field_name, $args = [] ) use 
        */
       if ( $loop->html->is_acf_active ) {
         return get_field( $field_name, "term_$id" );
+      } else {
+        // Fallback to support PODS
+        return get_term_meta($id, $field_name, true);
       }
   }
 };
