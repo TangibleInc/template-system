@@ -23,12 +23,13 @@ function is_plugin( $set = null ) {
  */
 function get_active_plugins() {
   static $has_plugins;
-  return $has_plugins ?? ($has_plugins = [
+  return array_merge($has_plugins ?? ($has_plugins = [
     'loops'           => function_exists( 'tangible_loops_and_logic' ),
     'loops_pro'       => function_exists( 'tangible_loops_and_logic_pro' ),
     'blocks'          => function_exists( 'tangible_blocks' ),
     'blocks_editor'   => function_exists( 'tangible_blocks_editor' ),
     'blocks_pro'      => function_exists( 'tangible_blocks_pro' ),
+  ]), [
     'template_system' => system\is_plugin(), // This module installed as plugin
   ]);
 }

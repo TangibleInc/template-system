@@ -5,6 +5,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react'
+import { decode as decodeImageBuffer } from 'png-compressor'
 import handleDuplicates from './handleDuplicates'
 
 import { ajax, ajaxActionPrefix } from '../common'
@@ -138,13 +139,15 @@ const Importer = ({
             type="file"
             hidden
             ref={fileInputRef}
-            accept=".json,text/json"
+            accept=".json,text/json,.png,image/png"
             onChange={({ target: { files } }) => {
               // File upload
 
               // log('File upload state', files)
 
               const file = files[0]
+
+              const isImage = file.name.endsWith('.png')
 
               const reader = new FileReader()
 
@@ -154,6 +157,18 @@ const Importer = ({
                 const content = e.target.result
 
                 // File upload complete
+
+                if (isImage) {
+                  decodeImageBuffer(content)
+                    .then((data) => {
+                      importJSON(data)
+                    })
+                    .catch((error) => {
+                      console.error(error)
+                      onError(error.message)
+                    })
+                  return
+                }
 
                 try {
                   const data = JSON.parse(content)
@@ -172,14 +187,18 @@ const Importer = ({
                 onError(e.message)
               }
 
-              reader.readAsText(file)
+              if (isImage) {
+                reader.readAsArrayBuffer(file)
+              } else {
+                reader.readAsText(file)
+              }
             }}
           />
           <button
             type="button"
             className="button button-primary"
-            disabled={inputState.importing}
             onClick={() => {
+              if (inputState.importing) return
               fileInputRef.current && fileInputRef.current.click()
             }}
           >

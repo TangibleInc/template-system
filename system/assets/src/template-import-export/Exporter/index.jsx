@@ -2,7 +2,9 @@
  * Template exporter
  */
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useCallback, useRef, useState } from 'react'
+import { encodeToBlob, downloadImage } from 'png-compressor'
+
 import ExportRule from './ExportRule'
 import {
   saveStateToLocalStorage,
@@ -106,6 +108,81 @@ const Exporter = () => {
     })
   }
 
+  const runExport = useCallback((exportType = 'json') => {
+    const packageName =
+      (exportNameRef.current && exportNameRef.current.value) ||
+      defaultPackageName
+
+    saveStateToLocalStorage({
+      name: packageName,
+      rules: exportRulesRef.current,
+    })
+
+    // Export
+
+    log('Export start', exportRulesRef.current)
+
+    setExportState({
+      exporting: true,
+      message: 'Exporting..',
+    })
+
+    function handleError(error) {
+      console.error(error)
+      setExportState({
+        exporting: false,
+        message: 'Error: ' + error.message,
+      })
+    }
+
+    ajax(ajaxActionPrefix + 'export', {
+      export_rules: exportRulesRef.current,
+    })
+      .then((result) => {
+        console.log('Export success', result)
+
+        setExportState({
+          exporting: false,
+          message: 'Export success',
+          // json: JSON.stringify(result, null, 2)
+        })
+
+        // Download JSON file
+
+        const data = {
+          package_name: packageName,
+          ...result,
+        }
+
+        const timestamp = new Date()
+          .toISOString()
+          .slice(0, 10)
+          .replace(/-/g, '') // Ymd
+
+        if (exportType === 'png') {
+          encodeToBlob(data)
+            .then(blob => {
+              downloadImage(blob, `${packageName}-${timestamp}.png`)
+            })
+            .catch(handleError)
+          return
+        }
+
+        const a = document.createElement('a')
+
+        a.href =
+          'data:text/json;charset=utf-8,' +
+          encodeURIComponent(JSON.stringify(data, null, 2))
+        a.download = `${packageName}-${timestamp}.json`
+        a.style.display = 'none'
+
+        document.body.appendChild(a)
+
+        a.click()
+      })
+      .catch(handleError)
+  })
+
   return (
     <div id="exporter">
       <div className="export-name">
@@ -161,77 +238,28 @@ const Exporter = () => {
           <button
             type="button"
             className="button button-primary"
-            disabled={exportState.exporting}
             onClick={() => {
-              const packageName =
-                (exportNameRef.current && exportNameRef.current.value) ||
-                defaultPackageName
-
-              saveStateToLocalStorage({
-                name: packageName,
-                rules: exportRulesRef.current,
-              })
-
-              // Export
-
-              log('Export start', exportRulesRef.current)
-
-              setExportState({
-                exporting: true,
-                message: 'Exporting..',
-              })
-
-              ajax(ajaxActionPrefix + 'export', {
-                export_rules: exportRulesRef.current,
-              })
-                .then((result) => {
-                  console.log('Export success', result)
-
-                  setExportState({
-                    exporting: false,
-                    message: '',
-                    // json: JSON.stringify(result, null, 2)
-                  })
-
-                  // Download JSON file
-
-                  const data = {
-                    package_name: packageName,
-                    ...result,
-                  }
-
-                  const timestamp = new Date()
-                    .toISOString()
-                    .slice(0, 10)
-                    .replace(/-/g, '') // Ymd
-
-                  const a = document.createElement('a')
-
-                  a.href =
-                    'data:text/json;charset=utf-8,' +
-                    encodeURIComponent(JSON.stringify(data, null, 2))
-                  a.download = `${packageName}-${timestamp}.json`
-                  a.style.display = 'none'
-
-                  document.body.appendChild(a)
-
-                  a.click()
-                })
-                .catch((error) => {
-                  console.error(error)
-
-                  setExportState({
-                    exporting: false,
-                    message: 'Error: ' + error.message,
-                  })
-                })
+              if (exportState.exporting) return
+              runExport()
             }}
           >
             Export
           </button>
 
+          <a
+            href="#"
+            style="margin-left: 1rem"
+            onClick={(e) => {
+              e.preventDefault()
+              if (exportState.exporting) return
+              runExport('png')
+            }}
+          >
+            Export as image
+          </a>
+
           {exportState.message && (
-            <span style={{ paddingLeft: '1rem' }}>{exportState.message}</span>
+            <div style={{ padding: '.5rem 0' }}>{exportState.message}</div>
           )}
         </p>
       )}

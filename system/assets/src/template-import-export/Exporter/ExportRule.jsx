@@ -5,7 +5,7 @@ import Select from '../../common/Select'
  * @see /template/import-export/enqueue.php
  */
 const { templateSystemHasPlugin: hasPlugin = {} } = window.Tangible
-
+console.log('hasPlugin', hasPlugin)
 const ExportRule = ({
   rule,
   ruleIndex,
