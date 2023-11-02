@@ -1,10 +1,11 @@
 jQuery(function ($) {
-  var Tangible = window.Tangible
-  var wp = window.wp
+  const { Tangible, wp, acf } = window
 
-  var $publish = $('#publish')
+  const $publish = $('#publish')
 
-  $('.tangible-template-acf-field-input-container textarea').each(function () {
+  function initAcfTemplateField() {
+    const textarea = this
+
     function save() {
       if ($publish.length) {
         // Classic editor
@@ -18,9 +19,12 @@ jQuery(function ($) {
       wp.data.dispatch('core/editor').savePost()
     }
 
-    var textarea = this
-    var editor = Tangible.createCodeEditor(this, {
+    const editor = Tangible.createCodeEditor(textarea, {
       language: 'html',
+      onSave: save,
+
+      // Legacy editor options
+
       viewportMargin: Infinity, // With .CodeMirror height: auto or 100%
       resizable: false,
       lineWrapping: true,
@@ -46,5 +50,15 @@ jQuery(function ($) {
     setTimeout(() => {
       editor.refresh()
     }, 100)
+  }
+
+  const selector = '.tangible-template-acf-field-input-container textarea'
+
+  $(`${selector}[name]:not([name*='[acfcloneindex]'])`).each(
+    initAcfTemplateField
+  )
+
+  acf.addAction('append', function ($el) {
+    $el.find(selector).each(initAcfTemplateField)
   })
 })
