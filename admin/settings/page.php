@@ -94,7 +94,7 @@ $render_field = function($field) use ($settings) {
     }
   }
   ?>
-  <p><button type="submit" class="button button-primary">Save</button></p>
+  <p style="margin-top: 1.5rem"><button type="submit" class="button button-primary">Save</button></p>
   <p id="tangible-settings-form-message"></p>
 </form>
 

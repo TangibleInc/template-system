@@ -26,14 +26,14 @@ system::$state->setting_fields = [
     'default_value' => false,
   ],
 
-  [
-    'name' => 'ide',
-    'field_type' => 'checkbox',
-    'label' => 'IDE prototype - Integrated Development Environment (See <i>Tangible -> Template System</i>)',
-    'default_value' => false,
-    'beta' => true,
-    'reload' => true,
-  ],
+  // [
+  //   'name' => 'ide',
+  //   'field_type' => 'checkbox',
+  //   'label' => 'IDE prototype - Integrated Development Environment (See <i>Tangible -> Template System</i>)',
+  //   'default_value' => false,
+  //   'beta' => true,
+  //   'reload' => true,
+  // ],
 ];
 
 function get_setting_fields() {
