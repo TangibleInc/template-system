@@ -15,7 +15,15 @@ require_once __DIR__ . '/tag.php';
 
 require_once __DIR__ . '/switch.php';
 
-$html->add_open_tag( 'If', $html->if_tag );
+$html->add_open_tag( 'If', $html->if_tag, [
+  /**
+   * These attributes are skipped from rendering dynamic tags inside
+   * @see ../html/parse
+   */
+  'skip_render_keys' => [
+    'matches_pattern'
+  ],
+] );
 
 /**
  * Shortcut to call from PHP

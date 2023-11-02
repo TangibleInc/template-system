@@ -25,5 +25,20 @@ class If_Pattern_TestCase extends \WP_UnitTestCase {
     $template = "<If check=\"{$check}\" matches_pattern=\"{$match}\">TRUE<Else />FALSE</If>";
     $result = tangible_template( $template );
     $this->assertEquals( $expected, $result, $template );
+
+    // Pattern with curly braces
+    $match = '/.{4,}/'; // Repetition
+
+    $check = "123abc";
+    $expected = "TRUE";
+    $template = "<If check=\"{$check}\" matches_pattern=\"{$match}\">TRUE<Else />FALSE</If>";
+    $result = tangible_template( $template );
+    $this->assertEquals( $expected, $result, $template );
+
+    $check = "123";
+    $expected = "FALSE";
+    $template = "<If check=\"{$check}\" matches_pattern=\"{$match}\">TRUE<Else />FALSE</If>";
+    $result = tangible_template( $template );
+    $this->assertEquals( $expected, $result, $template );
   }
 }
