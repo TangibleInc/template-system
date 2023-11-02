@@ -27,6 +27,7 @@ class If_Pattern_TestCase extends \WP_UnitTestCase {
     $this->assertEquals( $expected, $result, $template );
 
     // Pattern with curly braces
+
     $match = '/.{4,}/'; // Repetition
 
     $check = "123abc";
@@ -40,5 +41,29 @@ class If_Pattern_TestCase extends \WP_UnitTestCase {
     $template = "<If check=\"{$check}\" matches_pattern=\"{$match}\">TRUE<Else />FALSE</If>";
     $result = tangible_template( $template );
     $this->assertEquals( $expected, $result, $template );
+ 
+    // Support dynamic tags (only without delimiters)
+
+    $check = "123abc";
+    $expected = "TRUE";
+    $template = "<Set pattern>{$match}</Set><If check=\"{$check}\" matches_pattern=\"{Get pattern}\">TRUE<Else />FALSE</If>";
+    $result = tangible_template( $template );
+    $this->assertEquals( $expected, $result, $template );
+
+    // Invalid pattern
+
+    $error = null;
+    set_error_handler(function( $errno, $errstr, ...$args ) use ( &$error ) {
+      $error = [ $errno, $errstr, $args ];
+      restore_error_handler();
+    });
+
+    $result = tangible_template('<If check="test" matches_pattern="/.{}"></If>');
+
+    $this->assertNotNull( $error );
+    [$errno, $errstr, $args] = $error;
+
+    // Correctly throws warning, but inside test it's an erro 
+    // $this->assertEquals( E_USER_WARNING, $errno );
   }
 }

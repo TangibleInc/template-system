@@ -471,11 +471,34 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         break;
 
     case 'matches_pattern':
-      if ( is_string( $value ) && $value[0]==='/') {
+
+      if ( is_string( $value ) && !empty($value) ) {
+        if ($value[0]!=='/') {
+
+          // Without delimiter - Render dynamic tags
+
+          $value = $html->render_attribute_value(
+            $operand,
+            $value
+          );
+        }
         // Regular expression
         $pattern = $value;
         $subject = $current_value;
-        $condition = !empty( preg_match( $pattern, $subject ) );
+
+        try {
+
+          $condition = !empty( preg_match( $pattern, $subject ) );
+
+        } catch (\Throwable $th) {
+          /**
+           * preg_match() can throw an error for invalid regex pattern.
+           * Convert it into a warning.
+           */
+           trigger_error($th->getMessage(), E_USER_NOTICE);
+           $condition = false;
+          }
+    
       } else {
         $condition = false;
       }
