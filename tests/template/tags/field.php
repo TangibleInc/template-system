@@ -5,6 +5,72 @@ use Tangible\TemplateSystem as system;
 
 class Field_TestCase extends \WP_UnitTestCase {
 
+  public function test_field_author() {
+
+    $user_id = (string) self::factory()->user->create_object([
+      'user_login' => 'test1',
+      'user_pass' => 'test',
+    ]);
+    $this->assertTrue( !empty($user_id) );
+
+    $post_id = self::factory()->post->create_object([
+      'post_author' => $user_id,
+      'post_type' => 'post',
+      'post_title' => 'ABC123',
+      'post_status'  => 'publish', // Important for Loop tag
+    ]);
+
+    $this->assertTrue( !empty($post_id) );
+
+    $post = self::factory()->post->get_object_by_id( $post_id );
+
+    $this->assertTrue( !empty($post) );
+
+    $post_author = $post->post_author;
+    $this->assertTrue( !($post_author===false || $post_author==='') );
+
+
+    $html = tangible_template();
+
+    $this->assertEquals((string) $post_author, trim($html->render(<<<HTML
+      <Loop type=user id=$post_author><Field id /></Loop>
+    HTML)));
+
+    $html->render(<<<HTML
+      <Set query=default type=post id=$post_id />
+    HTML);
+
+    $this->assertEquals((string) $post_author, trim($html->render(<<<HTML
+      <Field author_id />
+    HTML)));
+
+    $this->assertEquals((string) $post_author, trim($html->render(<<<HTML
+      <Loop field=author><Field id /></Loop>
+    HTML)));
+
+    // Modified author
+
+    $another_user_id = (string) self::factory()->user->create_object([
+      'user_login' => 'test2',
+      'user_pass' => 'test',
+    ]);
+    $this->assertTrue( !empty($another_user_id) );
+
+    update_post_meta( $post_id, '_edit_last', $another_user_id );
+
+    $html->render(<<<HTML
+      <Set query=default type=post id=$post_id />
+    HTML);
+
+    $this->assertEquals((string) $another_user_id, trim($html->render(<<<HTML
+      <Field modified_author_id />
+    HTML)));
+
+    $this->assertEquals((string) $another_user_id, trim($html->render(<<<HTML
+      <Loop field=modified_author><Field id /></Loop>
+    HTML)));
+  }
+
   public function test_format_shortcuts() {
 
     $text = 'ABC123';

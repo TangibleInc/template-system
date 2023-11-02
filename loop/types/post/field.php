@@ -62,12 +62,30 @@ $loop->get_post_field = function( $post, $field_name, $args = [] ) use ( $loop )
     case 'author':
       $author_id   = $post->post_author;
       $author_loop = $loop->create_type( 'user', [ 'id' => $author_id ] );
-
+  
       if (empty( $subfield )) return $author_loop;
 
       $author_loop->next();
+      return $author_loop->get_field( $subfield, $args );
 
-        return $author_loop->get_field( $subfield, $args );
+    case 'modified':
+      // https://developer.wordpress.org/reference/functions/the_modified_author/
+      if (($parts[1] ?? '')==='author') {
+
+        $author_id   = get_post_meta( $id, '_edit_last', true );
+
+        $author_loop = ($author_id===false || $author_id==='')
+          ? $loop( 'list', [] )
+          : $loop->create_type( 'user', [ 'id' => $author_id ] )
+        ;
+
+        $subfield = implode( '_', array_slice( $parts, 2 ) );
+        if (empty( $subfield )) return $author_loop;
+
+        $author_loop->next();
+        return $author_loop->get_field( $subfield, $args );  
+      }
+      break;
 
     case 'parent':
       if ($subfield === 'ids') return get_post_ancestors( $id );
@@ -136,7 +154,7 @@ $loop->get_post_field = function( $post, $field_name, $args = [] ) use ( $loop )
       ob_start();
       ?><pre><code><?php
       print_r( $defined_fields );
-?></code></pre><?php
+      ?></code></pre><?php
       $value = ob_get_clean();
         break;
 

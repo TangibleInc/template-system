@@ -384,6 +384,9 @@ class PostLoop extends BaseLoop {
       'author'  => [ 'type' => 'user', 'description' => 'Author' ],
       'author_*'  => [ 'type' => 'user', 'description' => 'Author\'s user field' ],
 
+      'modified_author'  => [ 'type' => 'user', 'description' => 'Modified author' ],
+      'author_*'  => [ 'type' => 'user', 'description' => 'Modified author\'s user field' ],
+
       'parent'  => [ 'type' => 'current', 'description' => 'Parent' ],
       'parent_*'  => [ 'type' => 'current', 'description' => 'Parent field' ],
       'parent_ids' => [ 'description' => 'All parent IDs from current to top' ],
