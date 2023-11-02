@@ -453,10 +453,8 @@ class PostLoop extends BaseLoop {
     }
 
     // Top-level parents
-    if (isset($query_args['include_children'])) {
-      if (!$query_args['include_children']) {
-        $query_args['post_parent'] = 0;
-      }
+    if (isset($query_args['include_children']) && ! $query_args['include_children'] ) {
+      $query_args['post_parent'] = 0;
       unset($query_args['include_children']); // Not a native WP_Query parameter
     }
 
