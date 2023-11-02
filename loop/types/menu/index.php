@@ -84,6 +84,9 @@ class MenuLoop extends BaseLoop {
       // ID => Menu post
     ];
 
+    // Menu can be false if not found
+    if (!is_array($list)) return $items;
+
     foreach ($list as $item) {
 
       $parent_id = (int) $item->menu_item_parent; // Cast string to integer
