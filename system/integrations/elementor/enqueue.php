@@ -4,6 +4,8 @@
  * Enqueue for Elementor
  */
 
+use Tangible\TemplateSystem as system;
+
 $plugin->elementor_template_editor_enqueued = false;
 
 $plugin->enqueue_elementor_template_editor = function() use ( $plugin, $html ) {
@@ -12,7 +14,24 @@ $plugin->enqueue_elementor_template_editor = function() use ( $plugin, $html ) {
 
   $plugin->elementor_template_editor_enqueued = true;
 
-  $html->enqueue_codemirror(); // See Template module /modules/codemirror
+  $js_deps = [
+    'tangible-module-loader',
+    'jquery',
+    'wp-element'
+  ];
+
+  if (system\get_settings('codemirror_6')) {
+
+    $plugin->enqueue_template_editor_bridge();
+    $js_deps []= 'tangible-template-editor-bridge';
+
+  } else {
+
+    $html->enqueue_codemirror(); // See Template module /modules/codemirror
+    $js_deps []= 'tangible-codemirror';
+
+    wp_enqueue_style( 'tangible-codemirror' );
+  }
 
   // Module loader - Support loading scripts and styles when page builders fetch and insert HTML
   $html->enqueue_module_loader();
@@ -21,7 +40,7 @@ $plugin->enqueue_elementor_template_editor = function() use ( $plugin, $html ) {
   wp_enqueue_script(
     'tangible-elementor-template-editor',
     $plugin->url . 'assets/build/elementor-template-editor.min.js',
-    [ 'tangible-codemirror', 'tangible-module-loader', 'jquery', 'wp-element' ],
+    $js_deps,
     $plugin->version
   );
 

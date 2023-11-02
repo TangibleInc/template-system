@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Enqueue block assets for backend editor
  *
@@ -7,6 +6,8 @@
  * `wp-element`: includes the WordPress Element abstraction for describing the structure of your blocks.
  * `wp-i18n`: To internationalize the block's text.
  */
+
+use Tangible\TemplateSystem as system;
 
 $plugin->gutenberg_template_editor_enqueued = false;
 
@@ -16,7 +17,34 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
 
   $plugin->gutenberg_template_editor_enqueued = true;
 
-  $html->enqueue_codemirror();
+  $js_deps = [
+    'wp-block-editor',
+    'wp-blocks',
+    'wp-element',
+    'wp-i18n',
+    'wp-polyfill',
+    'wp-server-side-render',
+    'jquery',
+    'wp-components',
+    'wp-editor',
+    'tangible-ajax',
+    'tangible-module-loader',
+  ];
+
+  if (system\get_settings('codemirror_6')) {
+
+    $plugin->enqueue_template_editor_bridge();
+
+    $js_deps []= 'tangible-template-editor-bridge';
+
+  } else {
+
+    $html->enqueue_codemirror();
+    $js_deps []= 'tangible-codemirror';
+
+    wp_enqueue_style( 'tangible-codemirror' );
+  }
+
 
   /*
   wp_enqueue_style(
@@ -27,25 +55,10 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
   );
   */
 
-  wp_enqueue_style( 'tangible-codemirror' );
-
   wp_enqueue_script(
     'tangible-gutenberg-template-editor',
     $plugin->url . 'assets/build/gutenberg-template-editor.min.js',
-    [
-      'wp-block-editor',
-      'wp-blocks',
-      'wp-element',
-      'wp-i18n',
-      'wp-polyfill',
-      'wp-server-side-render',
-      'jquery',
-      'wp-components',
-      'wp-editor',
-      'tangible-codemirror',
-      'tangible-ajax',
-      'tangible-module-loader',
-    ],
+    $js_deps,
     $plugin->version
   );
 

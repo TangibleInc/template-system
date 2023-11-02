@@ -10,6 +10,14 @@ export default {
       src: 'assets/src/template-editor/index.scss',
       dest: 'assets/build/template-editor.min.css',
     },
+    {
+      src: 'assets/src/template-editor-bridge/global.js',
+      dest: 'assets/build/template-editor-bridge.min.js',
+    },
+    {
+      src: 'assets/src/template-editor-bridge/index.scss',
+      dest: 'assets/build/template-editor-bridge.min.css',
+    },
 
     // Template assets editor
     {

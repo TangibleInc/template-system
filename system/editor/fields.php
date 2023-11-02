@@ -22,8 +22,6 @@ add_action('admin_init', function() use ($plugin, $ajax) {
 
   if (system\get_settings('codemirror_6')) {
 
-    editor\enqueue_editor();
-    editor\enqueue_editor_language_definition();
     $plugin->enqueue_template_editor(6);
 
   } else {

@@ -32,6 +32,7 @@ system::$state->setting_fields = [
     'label' => 'IDE prototype - Integrated Development Environment (See <i>Tangible -> Template System</i>)',
     'default_value' => false,
     'beta' => true,
+    'reload' => true,
   ],
 ];
 

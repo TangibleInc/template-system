@@ -15,14 +15,12 @@ jQuery(document).ready(function ($) {
   const refreshInterval = 1000
 
   elementor.once('preview:loaded', function () {
-
     const { elementorFrontend = {} } = window
 
-    const previewWindow = elementor?.$preview[ 0 ]?.contentWindow
+    const previewWindow = elementor?.$preview[0]?.contentWindow
     const $previewBody = elementorFrontend?.elements?.$body
 
     function refreshPreview() {
-
       const previewModuleLoader = previewWindow?.Tangible?.moduleLoader
       if (!previewModuleLoader || !$previewBody || !$previewBody.length) return
 
@@ -39,12 +37,9 @@ jQuery(document).ready(function ($) {
     setInterval(refreshPreview, refreshInterval)
   })
 
-
   // Controls
   const templateEditorControl = elementor.modules.controls.BaseData.extend({
-
     onReady: function () {
-
       // this = { el, $el, model, ui, .. }
 
       this.unsubscribers = []
@@ -56,65 +51,70 @@ jQuery(document).ready(function ($) {
       )[0]
       if (!textarea) return
 
-      const editor = createCodeEditor(textarea, {
-        language: 'html',
-        viewportMargin: Infinity, // With .CodeMirror height: auto or 100%
-        resizable: false,
-        lineWrapping: true,
+      ;(async () => {
 
-        extraKeys: {
-          'Alt-F': 'findPersistent',
-          Enter: 'emmetInsertLineBreak',
-          'Ctrl-Space': 'autocomplete',
-        },
-      })
+        const editor = await createCodeEditor(textarea, {
+          language: 'html',
 
-      editor.setSize(null, '100%') // Prevent width resize, scroll instead
+          // Legacy options
 
-      // Trick to fix initial CodeMirror styling
-      setTimeout(function () {
-        editor.refresh()
-        editor.focus()
-      }, 0)
+          viewportMargin: Infinity, // With .CodeMirror height: auto or 100%
+          resizable: false,
+          lineWrapping: true,
 
-      // Preview refresh logic
+          extraKeys: {
+            'Alt-F': 'findPersistent',
+            Enter: 'emmetInsertLineBreak',
+            'Ctrl-Space': 'autocomplete',
+          },
+        })
 
-      let shouldRefresh = false
+        editor.setSize(null, '100%') // Prevent width resize, scroll instead
 
-      editor.on('change', () => {
-        shouldRefresh = true
+        // Trick to fix initial CodeMirror styling
+        setTimeout(function () {
+          editor.refresh()
+          editor.focus()
+        }, 0)
 
-        /**
-         * Saving field value on every key press is too heavy, because the preview
-         * is rendered server-side.
-         */
-        // const value = editor.getValue()
-        // this.setValue( value )
-      })
+        // Preview refresh logic
 
-      const refreshTimer = setInterval(() => {
+        let shouldRefresh = false
 
-        if (!shouldRefresh) return
-        shouldRefresh = false
+        editor.on('change', () => {
+          shouldRefresh = true
+          /**
+           * Saving field value on every key press is too heavy, because the preview
+           * is rendered server-side.
+           */
+          // const value = editor.getValue()
+          // this.setValue( value )
+        })
 
-        // Update field value
-        this.setValue(editor.getValue())
+        const refreshTimer = setInterval(() => {
+          if (!shouldRefresh) return
+          shouldRefresh = false
 
-        shouldRefresh = false
+          const value = editor.getValue()
 
-      }, refreshInterval)
+          // Update field value
+          this.setValue(value)
 
-      // Clean up
-      this.unsubscribers.push(function () {
-        clearInterval(refreshTimer)
-      })
+          shouldRefresh = false
+        }, refreshInterval)
+
+        // Clean up
+        this.unsubscribers.push(function () {
+          clearInterval(refreshTimer)
+        })
+      })().catch(console.error)
     },
 
-    saveValue() {
-      this.setValue(
-        this.codeEditor ? this.codeEditor.getValue() : this.textarea.value
-      )
-    },
+    // saveValue() {
+    //   this.setValue(
+    //     this.codeEditor ? this.codeEditor.getValue() : this.textarea.value
+    //   )
+    // },
 
     onBeforeDestroy: function () {
       this.unsubscribers.forEach((unsubscribe) => unsubscribe())

@@ -23,12 +23,7 @@ const {
   keycodes: { rawShortcut },
   // serverSideRender: ServerSideRender,
 } = wp
-const {
-  CodeMirror,
-  createCodeEditor,
-  gutenbergConfig,
-  moduleLoader
-} = Tangible
+const { createCodeEditor, gutenbergConfig, moduleLoader } = Tangible
 
 /**
  * Pass it to Tangible Blocks
@@ -71,30 +66,32 @@ const EmptyTemplate = () => <div>&nbsp;</div>
 
 class TemplateEditor extends Component {
   componentDidMount() {
-    const editor = createCodeEditor(this.el, {
-      language: 'html',
-      resizable: true,
-    })
+    ;(async () => {
+      const editor = await createCodeEditor(this.el, {
+        language: 'html',
+        resizable: true,
+      })
 
-    // Full height - Prevent width resize, scroll instead
-    editor.setSize(null, '100%')
+      // Full height - Prevent width resize, scroll instead
+      editor.setSize(null, '100%')
 
-    // editor.focus() // Don't focus, since there can be multiple Template blocks
+      // editor.focus() // Don't focus, since there can be multiple Template blocks
 
-    this.editor = editor
-    this.editor.on('change', this.onEditorUpdate)
+      this.editor = editor
+      this.editor.on('change', this.onEditorUpdate)
 
-    /**
-     * Workaround for Gutenburg full-site editor
-     *
-     * Without this, any template editor block that already exists on the page
-     * is not visible. Newly added template block is not affected by the issue.
-     */
-    if (wp.editSite) {
-      setTimeout(function() {
-        editor.refresh()
-      }, 120)
-    }
+      /**
+       * Workaround for Gutenburg full-site editor
+       *
+       * Without this, any template editor block that already exists on the page
+       * is not visible. Newly added template block is not affected by the issue.
+       */
+      if (wp.editSite) {
+        setTimeout(function () {
+          editor.refresh()
+        }, 120)
+      }
+    })().catch(console.error)
   }
 
   componentWillUnmount() {
@@ -120,6 +117,7 @@ class TemplateEditor extends Component {
           onChange={(e) => {
             onChange(e.target.value)
           }}
+          style={{ display: 'none' }}
           cols="30"
           rows="10"
         ></textarea>
@@ -229,7 +227,7 @@ class edit extends Component {
           </ToolbarGroup>
         </BlockControls>
 
-        {currentTab === 'preview' ?
+        {currentTab === 'preview' ? (
           /**
            * Note: Ensure props are "equal" on every render - for example,
            * don't create new function here - because it fetches on prop change.
@@ -242,7 +240,7 @@ class edit extends Component {
             LoadingResponsePlaceholder={EmptyTemplate}
             onFetchResponseRendered={moduleLoader}
           />
-        : this.canEditTemplate && currentTab === 'editor' ? (
+        ) : this.canEditTemplate && currentTab === 'editor' ? (
           <TemplateEditor
             value={attributes.template}
             onChange={(val) =>

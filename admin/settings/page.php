@@ -24,16 +24,22 @@ $render_field = function($field) use ($settings) {
         // Checkbox
 
         ?>
-        <input type="<?php echo $field_type; ?>" name="<?php echo $name; ?>" id="<?php echo $name; ?>" value="true"<?php
+        <input type="<?php echo $field_type; ?>" name="<?php echo $name; ?>"
+          id="<?php echo $name; ?>" value="true"<?php
           if ($value===true) echo ' checked';
-        ?> autocomplete="off">
+        ?> autocomplete="off"<?php
+          if (!empty($field['reload'])) {
+            echo ' data-reload-when-enabled="true"';
+          }
+        ?>>
         <?php
       } else {
 
         // Other input types
 
         ?>
-        <input type="<?php echo $field_type; ?>" name="<?php echo $name; ?>" id="<?php echo $name; ?>" value="<?php echo $value; ?>">
+        <input type="<?php echo $field_type; ?>" name="<?php echo $name; ?>"
+          id="<?php echo $name; ?>" value="<?php echo $value; ?>">
         <?php
       }
     ?>
@@ -179,6 +185,8 @@ function scheduleFormMessage(message) {
   lastMessageTime = now
 }
 
+const originalFields = getFormData($form)
+
 // Form submit
 
 $form.addEventListener('submit', function(e) {
@@ -189,10 +197,12 @@ $form.addEventListener('submit', function(e) {
 
   const data = new FormData()
 
+  const fields = getFormData($form)
+
   data.append('action', saveActionKey)
   data.append('nonce', nonce)
   data.append('data', JSON.stringify(
-    getFormData($form)
+    fields
   ))
 
   /**
@@ -222,6 +232,16 @@ $form.addEventListener('submit', function(e) {
       // console.log('Response', result)
 
       scheduleFormMessage('Saved')
+
+      for (const el of [...$form.querySelectorAll('[data-reload-when-enabled="true"]')]) {
+        // Reload page if setting field changed
+        if (
+          originalFields[ el.name ] !== fields[ el.name ]
+        ) {
+          window.location.reload(false)
+        }
+      }
+
     })
     .catch(error => {
 

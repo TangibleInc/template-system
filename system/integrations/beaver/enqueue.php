@@ -1,8 +1,9 @@
 <?php
-
 /**
  * Enqueue for Beaver Builder
  */
+
+use Tangible\TemplateSystem as system;
 
 $plugin->beaver_template_editor_enqueued = false;
 
@@ -14,7 +15,13 @@ $plugin->enqueue_beaver_template_editor = function() use ( $plugin, $html ) {
 
   $plugin->beaver_template_editor_enqueued = true;
 
-  $html->enqueue_codemirror();
+  if (system\get_settings('codemirror_6')) {
+
+    $plugin->enqueue_template_editor_bridge();
+
+  } else {
+    $html->enqueue_codemirror();
+  }
 
   wp_enqueue_style(
     'tangible-beaver-template-editor',
@@ -22,15 +29,9 @@ $plugin->enqueue_beaver_template_editor = function() use ( $plugin, $html ) {
     [],
     $plugin->version
   );
-  /*
-  wp_enqueue_script(
-    'tangible-beaver-template-editor',
-    $plugin->url . 'assets/build/beaver-template-editor.min.js',
-    ['jquery', 'wp-element', 'tangible-ajax', 'tangible-select'],
-    $plugin->version
-  );
-  */
 
+  // Script is at ./tangible-template/js/settings.js 
+  
   /**
    * Module loader - Support loading scripts and styles when page builders fetch and insert HTML
    */

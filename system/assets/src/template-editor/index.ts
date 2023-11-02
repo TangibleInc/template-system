@@ -2,8 +2,6 @@
  * Editor for template post type
  */
 
-import { createTemplateEditor } from './compat'
-
 /**
  * Remember state in local storage
  */
@@ -75,7 +73,7 @@ jQuery(function ($) {
   const {
     ajax,
     // Provide new editor compatibility layer
-    createCodeEditor = createTemplateEditor
+    createCodeEditor
   } = window.Tangible
 
   /**
