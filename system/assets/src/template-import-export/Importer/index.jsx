@@ -36,6 +36,9 @@ const Importer = ({
     duplicatesHandledMessage: '',
   })
 
+  const inputStateRef = useRef()
+  inputStateRef.current = inputState
+
   const preImport = () => {
     setInputState({
       ...inputStateRef.current,
@@ -125,9 +128,6 @@ const Importer = ({
     preImport()
     importJSON(directImportData) // Will correctly refresh when a new block json is installed
   }, [])
-
-  const inputStateRef = useRef()
-  inputStateRef.current = inputState
 
   const fileInputRef = useRef()
 

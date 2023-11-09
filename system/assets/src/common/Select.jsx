@@ -67,10 +67,10 @@ const Select = ({
       const currentValues = ref.current.$el.val()
       if (value.length !== currentValues.length && options.length) {
         // After select is rendered with options
-        setImmediate(function () {
+        setTimeout(function () {
           ref.current.$el.val(value)
           ref.current.$el.trigger('change')
-        })
+        }, 0)
       }
     } else if (ref.current.value !== value) {
       ref.current.$el.val(value)

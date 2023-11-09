@@ -116,7 +116,7 @@ add_action('admin_head', function() use ($plugin) {
     foreach ($submenu['tangible'] as $index => $menu_item) {
       if ($menu_item[2]==='tangible-template-system') {
         // Below Template System
-        $separator_positions []= $index + 2;        
+        $separator_positions []= $index + 2;
       } elseif (
         // Above Categories
         $menu_item[2]==='edit-tags.php?taxonomy=tangible_template_category'
