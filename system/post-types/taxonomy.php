@@ -40,7 +40,9 @@ register_taxonomy(
   ]
 );
 
-add_action($plugin->is_multisite() ? 'network_admin_menu' : 'admin_menu',
+add_action(
+  // $plugin->is_multisite() ? 'network_admin_menu' : 'admin_menu',
+  'admin_menu',
   function() {
 
     // https://wordpress.stackexchange.com/questions/83768/add-menu-and-submenu-in-admin-with-a-url-instead-of-slug

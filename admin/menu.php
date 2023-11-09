@@ -11,7 +11,8 @@ use Tangible\TemplateSystem as system;
  */
 
 add_action(
-  is_multisite() ? 'network_admin_menu' : 'admin_menu',
+  // is_multisite() ? 'network_admin_menu' : 'admin_menu',
+  'admin_menu',
   function() {
     add_menu_page(
       'Tangible', // Page title
@@ -29,7 +30,8 @@ add_action(
 );
 
 add_action(
-  is_multisite() ? 'network_admin_menu' : 'admin_menu',
+  // is_multisite() ? 'network_admin_menu' : 'admin_menu',
+  'admin_menu',
   function() {
     add_submenu_page(
       'tangible', // Parent menu slug
