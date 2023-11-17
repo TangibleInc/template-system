@@ -2,6 +2,7 @@
 
 namespace Tangible\Template\Integrations\Beaver;
 
+use Tangible\TemplateSystem as system;
 use FLBuilder, FLBuilderModule, FLPageData;
 
 class TemplateModule extends \FLBuilderModule {
@@ -94,8 +95,11 @@ FLBuilder::register_module(TemplateModule::class, [
             ]
           ],
           'html' =>
-            // Access control - @see /includes/template/editor/user.php
-            $plugin->can_user_edit_template()
+            /**
+             * Restrict editor to admins who are allowed to edit templates
+             * @see /admin/capability
+             */
+            system\can_user_edit_template()
               ? [
                 'type'  => 'tangible_template_editor',
                 'label' => __( 'HTML', 'fl-builder' ),

@@ -2,6 +2,8 @@
 
 namespace Tangible\Template\Integrations\Elementor;
 
+use Tangible\TemplateSystem as system;
+
 class Template_Editor_Widget extends \Elementor\Widget_Base {
 
   static $plugin;
@@ -32,9 +34,6 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
 
   protected function register_controls() {
 
-    // Access control - @see /includes/template/editor/user.php
-    if ( ! self::$plugin->can_user_edit_template() ) return;
-
     $this->start_controls_section(
       'content_section',
       [
@@ -56,16 +55,23 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
       ]
     );
 
-    $this->add_control(
-      'html',
-      [
-        'type'       => Template_Editor_Control::CONTROL_TYPE,
-        'label'      => __( 'HTML', 'tangible-template-system' ),
-        'default'    => '',
-        'show_label' => false,
-        'condition'  => [ 'toggle-type' => 'editor' ],
-      ]
-    );
+    /**
+     * Restrict editor to admins who are allowed to edit templates
+     * @see /admin/capability
+     */
+    if ( system\can_user_edit_template() ) {
+
+      $this->add_control(
+        'html',
+        [
+          'type'       => Template_Editor_Control::CONTROL_TYPE,
+          'label'      => __( 'HTML', 'tangible-template-system' ),
+          'default'    => '',
+          'show_label' => false,
+          'condition'  => [ 'toggle-type' => 'editor' ],
+        ]
+      );
+    }
 
     // Setting up the list of template options
 

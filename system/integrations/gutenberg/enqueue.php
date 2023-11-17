@@ -17,6 +17,13 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
 
   $plugin->gutenberg_template_editor_enqueued = true;
 
+  /**
+   * Restrict editor to admins who are allowed to edit templates
+   * @see /admin/capability
+   */
+  $can_edit = system\can_user_edit_template();
+  $legacy_editor = !system\get_settings('codemirror_6');
+
   $js_deps = [
     'wp-block-editor',
     'wp-blocks',
@@ -31,20 +38,22 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
     'tangible-module-loader',
   ];
 
-  if (system\get_settings('codemirror_6')) {
+  if ($can_edit) {
 
-    $plugin->enqueue_template_editor_bridge();
+    if ($legacy_editor) {
 
-    $js_deps []= 'tangible-template-editor-bridge';
-
-  } else {
-
-    $html->enqueue_codemirror();
-    $js_deps []= 'tangible-codemirror';
-
-    wp_enqueue_style( 'tangible-codemirror' );
+      $html->enqueue_codemirror();
+      $js_deps []= 'tangible-codemirror';
+  
+      wp_enqueue_style( 'tangible-codemirror' );
+  
+    } else {
+  
+      $plugin->enqueue_template_editor_bridge();
+  
+      $js_deps []= 'tangible-template-editor-bridge';
+    }  
   }
-
 
   /*
   wp_enqueue_style(
@@ -72,8 +81,12 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
 
   $config = [
     'templateOptions' => $plugin->get_all_template_options(),
-    'canEditTemplate' => current_user_can( 'manage_options' ),
     'current_post_id' => $id,
+    /**
+     * Restrict editor to admins who are allowed to edit templates
+     * @see /admin/capability
+     */
+    'canEditTemplate' => $can_edit,
   ];
 
   wp_add_inline_script(

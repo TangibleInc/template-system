@@ -5,6 +5,11 @@ namespace Tangible\TemplateSystem;
 use Tangible\TemplateSystem as system;
 
 /**
+ * Show menu only for admins who can edit templates
+ */
+if (!(is_admin() && system\can_user_edit_template())) return;
+
+/**
  * Admin menu
  * @see https://developer.wordpress.org/reference/functions/add_menu_page/
  * @see https://developer.wordpress.org/reference/functions/add_submenu_page/
