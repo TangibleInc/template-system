@@ -81,3 +81,13 @@ $html->add_open_tag('Switch', function( $atts, $nodes ) use ( $html ) {
 
   return $html->render( $if_node );
 });
+
+$html->add_closed_tag( 'When', function() {}, [
+  /**
+   * These attributes are skipped from rendering dynamic tags inside
+   * @see ../html/parse
+   */
+  'skip_render_keys' => [
+    'matches_pattern'
+  ],
+] );
