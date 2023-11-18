@@ -226,6 +226,7 @@ if (!is_admin()) return;
 
 /**
  * Remove extra metaboxes from WP core or other plugins
+ * @see https://developer.wordpress.org/reference/functions/add_meta_box/
  */
 add_action('add_meta_boxes', function($post_type) use ($plugin) {
 
@@ -236,7 +237,7 @@ add_action('add_meta_boxes', function($post_type) use ($plugin) {
   // "Custom Fields"
   remove_meta_box('postcustom', $post_type, 'normal');
 
-  foreach (['normal', 'side'] as $context) {
+  foreach (['advanced', 'normal', 'side'] as $context) {
     foreach (['high', /*'core',*/ 'default', 'low'] as $priority) {
       if (!empty($wp_meta_boxes[ $post_type ][ $context ][ $priority ])) {
 
@@ -244,7 +245,12 @@ add_action('add_meta_boxes', function($post_type) use ($plugin) {
 
         foreach ($wp_meta_boxes[ $post_type ][ $context ][ $priority ] as $id => $callback) {
 
-          // TODO: Allow "tangible_" metaboxes for future use?
+          /**
+           * Allow Tangible plugins to add metaboxes, such as setting fields
+           * @see tangible-blocks/includes/block/post-types/meta-boxes.php
+           */
+
+          if (str_starts_with($id, 'tangible')) continue;
 
           unset($wp_meta_boxes[ $post_type ][ $context ][ $priority ][ $id ]);
         }
