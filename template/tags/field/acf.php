@@ -67,7 +67,7 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
   }
 
   // Format these field types. All others get raw value regardless of return type
-  $format_field_types = [ 'oembed', 'wysiwyg' ];
+  $format_field_types = [ 'oembed', 'textarea', 'wysiwyg' ];
 
   $format_value = in_array( $acf_field_type, $format_field_types );
 
