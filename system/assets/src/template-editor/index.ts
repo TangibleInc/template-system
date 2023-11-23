@@ -329,8 +329,12 @@ jQuery(function ($) {
     // Show current tab, hide others
 
     $tabSelectors.each(function (index) {
+
       const $tabSelector = $(this)
+      const tabName = $tabSelector.data('tabName')
       const $tab = $tabs.eq(index)
+      // TODO: Each tab area should set its name
+      // .filter(`[data-tab-name="${tabName}"]`).first()
 
       if (this !== currentTabSelector) {
         // Hide
@@ -368,7 +372,7 @@ jQuery(function ($) {
       }
 
       setMemory({
-        tab: $tabSelector.data('tabName'),
+        tab: tabName,
         postId,
       })
     }) // End for each tab selector

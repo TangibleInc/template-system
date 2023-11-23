@@ -88,14 +88,14 @@ add_action('admin_init', function() use ($plugin, $ajax) {
       $tabs = ['Script'];
     }
 
-    if ( $has_location ) $tabs []= 'Location';
-    if ( $has_assets ) $tabs []= 'Assets';
-
     /**
      * Tangible Blocks adds Controls tab
      * @see tangible-blocks/includes/block/post-types/edit.php
      */
     $tabs = apply_filters( 'tangible_template_editor_tabs', $tabs, $post );
+
+    if ( $has_location ) $tabs []= 'Location';
+    if ( $has_assets ) $tabs []= 'Assets';
 
     if (count($tabs) > 1) {
       ?>
@@ -204,6 +204,12 @@ add_action('admin_init', function() use ($plugin, $ajax) {
         }
       }
 
+      /**
+       * Tangible Blocks renders Controls field
+       * @see tangible-blocks/includes/block/post-types/edit.php
+       */
+      do_action( 'tangible_template_editor_after_tabs', $post, $fields );
+
       if ( $has_location ) {
 
         // @see includes/template/location/admin/fields.php
@@ -219,12 +225,6 @@ add_action('admin_init', function() use ($plugin, $ajax) {
         $plugin->render_assets_edit_field( $fields, $post_type );
 
       }
-
-      /**
-       * Tangible Blocks renders Controls field
-       * @see tangible-blocks/includes/block/post-types/edit.php
-       */
-      do_action( 'tangible_template_editor_after_tabs', $post, $fields );
 
       ?>
     </div>
