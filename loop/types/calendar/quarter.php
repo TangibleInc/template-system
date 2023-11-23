@@ -12,6 +12,25 @@ class CalendarQuarterLoop extends BaseLoop {
   static $config = [
     'name'       => 'calendar_quarter',
     'title'      => 'Calendar quarter',
+    'query_args' => [
+      'quarter'       => [
+        'description' => 'Quarter (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'year'       => [
+        'description' => 'Year (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'locale'       => [
+        'description' => 'Locale',
+        'type'        => 'string',
+      ],
+    ],
+    'fields'     => [
+      'year' => [ 'description' => 'Year' ],
+      'month' => [ 'description' => 'Month loop for every month' ],
+      'week' => [ 'description' => 'Week loop for every week' ],
+    ],
   ];
 
   function get_items_from_query( $args ) {

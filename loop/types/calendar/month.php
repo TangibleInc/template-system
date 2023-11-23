@@ -15,6 +15,42 @@ class CalendarMonthLoop extends BaseLoop {
   static $config = [
     'name'       => 'calendar_month',
     'title'      => 'Calendar month',
+    'query_args' => [
+      'from'       => [
+        'description' => 'From month (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'to'       => [
+        'description' => 'To month (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'month'       => [
+        'description' => 'Month (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'quarter'       => [
+        'description' => 'Quarter (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'year'       => [
+        'description' => 'Year (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'locale'       => [
+        'description' => 'Locale',
+        'type'        => 'string',
+      ],
+    ],
+    'fields'     => [
+      'name' => [ 'description' => 'Name' ],
+      'short_name' => [ 'description' => 'Short name' ],
+      'year' => [ 'description' => 'Year' ],
+      'month' => [ 'description' => 'Month' ],
+      'month_with_zero' => [ 'description' => 'Month with leading zero' ],
+      'week' => [ 'description' => 'Week loop for every week' ],
+      'day' => [ 'description' => 'Day loop for every day' ],
+      'date' => [ 'description' => 'Date - Optionally use attribute "format"' ],
+    ]
   ];
 
   function get_items_from_query( $args ) {

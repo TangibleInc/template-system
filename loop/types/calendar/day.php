@@ -11,6 +11,47 @@ class CalendarDayLoop extends BaseLoop {
   static $config = [
     'name'  => 'calendar_day',
     'title' => 'Calendar day',
+    'query_args' => [
+      'from'       => [
+        'description' => 'From day (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'to'       => [
+        'description' => 'To day (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'day'       => [
+        'description' => 'Day (number), "first_of_week", "last_of_week", "first_of_month", "last_of_month", ',
+        'type'        => ['number', 'string'],
+      ],
+      'week'       => [
+        'description' => 'Week (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'month'       => [
+        'description' => 'Month (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'year'       => [
+        'description' => 'Year (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'locale'       => [
+        'description' => 'Locale',
+        'type'        => 'string',
+      ],
+    ],
+    'fields'     => [
+      'name' => [ 'description' => 'Name' ],
+      'short_name' => [ 'description' => 'Short name' ],
+      'year' => [ 'description' => 'Year' ],
+      'month' => [ 'description' => 'Month' ],
+      'month_with_zero' => [ 'description' => 'Month with leading zero' ],
+      'day' => [ 'description' => 'Day' ],
+      'day_with_zero' => [ 'description' => 'Day with leading zero' ],
+      'weekday' => [ 'description' => 'Day of week: 1 (Monday) ~ 7 (Sunday)' ],
+      'date' => [ 'description' => 'Date - Optionally use attribute "format"' ],
+    ]
   ];
 
   function get_items_from_query( $args ) {

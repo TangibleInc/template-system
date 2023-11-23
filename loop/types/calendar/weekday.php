@@ -12,6 +12,17 @@ class CalendarWeekDayLoop extends BaseLoop {
   static $config = [
     'name'  => 'calendar_weekday',
     'title' => 'Calendar week day',
+    'query_args' => [
+      'start'       => [
+        'description' => 'Set "sunday" to start the week on Sunday',
+        'type'        => 'string',
+      ],
+    ],
+    'fields'     => [
+      'name' => [ 'description' => 'Name' ],
+      'short_name' => [ 'description' => 'Short name' ],
+      'weekday' => [ 'description' => 'Day of week: 1 (Monday) ~ 7 (Sunday)' ],
+    ],
   ];
 
   function get_items_from_query( $args ) {

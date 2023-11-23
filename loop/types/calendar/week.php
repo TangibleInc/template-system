@@ -12,6 +12,32 @@ class CalendarWeekLoop extends BaseLoop {
   static $config = [
     'name'  => 'calendar_week',
     'title' => 'Calendar week',
+    'query_args' => [
+      'from'       => [
+        'description' => 'From week (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'to'       => [
+        'description' => 'To week (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'month'       => [
+        'description' => 'Month (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'quarter'       => [
+        'description' => 'Quarter (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'year'       => [
+        'description' => 'Year (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+    ],
+    'fields'     => [
+      'day' => [ 'description' => 'Day loop for every day' ],
+      'week' => [ 'description' => 'Week (number)' ],
+    ],
   ];
 
   function get_items_from_query( $args ) {

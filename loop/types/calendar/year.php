@@ -12,6 +12,21 @@ class CalendarYearLoop extends BaseLoop {
   static $config = [
     'name'       => 'calendar_year',
     'title'      => 'Calendar year',
+    'query_args' => [
+      'from'       => [
+        'description' => 'From year (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+      'to'       => [
+        'description' => 'To year (number), or "current"',
+        'type'        => ['number', 'string'],
+      ],
+    ],
+    'fields'     => [
+      'quarter' => [ 'description' => 'Quarter loop for every quarter' ],
+      'month' => [ 'description' => 'Month loop for every month' ],
+      'week' => [ 'description' => 'Week loop for every week' ],
+    ],
   ];
 
   function get_items_from_query( $args ) {
