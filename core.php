@@ -5,11 +5,12 @@
  * 
  * Currently consolidating features to remove dependencies, such as:
  * 
- * - jQuery
+ * - jQuery -> React or Vanilla JS
  * - Tangible Plugin Framework
- *   - AJAX module -> Use fetch instead of $.ajax()
- *   - Date  module
- *   - Logging utilities: see, trace, log -> core/log
+ *   - AJAX module  -> ./api - API module using fetch instead of $.ajax
+ *   - HJSON module -> ./hjson
+ *   - Date  module -> ./date
+ *   - Log module   -> ./log - Logging utilities: see, trace, log
  */
 
 namespace Tangible;
