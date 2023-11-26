@@ -21,6 +21,7 @@ function updateInfoPanel(el, view: EditorView | ViewUpdate) {
 
   const nodeName = node && node.type && node.type.name
 
+  el.style.padding = '.125rem .5rem'
   el.innerHTML = `<div style="float:left">
     Line ${lineNumber} Column ${column}
   </div><div style="float:right">${

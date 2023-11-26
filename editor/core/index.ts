@@ -1,21 +1,27 @@
-import { EditorState, EditorSelection } from '@codemirror/state'
+import { EditorState, EditorSelection, StateEffect } from '@codemirror/state'
 import { EditorView, keymap } from '@codemirror/view'
 import type { ViewUpdate } from '@codemirror/view'
-import type { Text } from '@codemirror/state'
+import type { Text, Extension } from '@codemirror/state'
 
 import { getSetup } from './setup'
+import { format } from '../languages/format'
+import { createEditorActionsPanel } from './panel'
 
-import { dark as theme } from './theme/dark'
+import { dark } from './theme/dark'
 // import { light as theme } from './theme/light'
+import themes from '../themes'
 
-export { format } from './languages/format'
+Object.assign(themes, { dark })
+
+export { format }
 
 export type CodeEditorOptions = {
   el: HTMLElement
-  lang: string,
-  content: string,
-  onUpdate?: (updateCallbackProps: { doc: Text }) => void,
+  lang: string
+  content: string
+  onUpdate?: (updateCallbackProps: { doc: Text }) => void
   onSave?: () => void
+  extensions?: Extension[]
 }
 
 export async function create({
@@ -24,11 +30,10 @@ export async function create({
   content = '',
   onUpdate,
   onSave,
-  extensions = []
+  extensions: userExtensions = [],
+  editorActionsPanel
 }: CodeEditorOptions) {
-
   const updateListener = EditorView.updateListener.of((view: ViewUpdate) => {
-
     // https://discuss.codemirror.net/t/codemirror-6-proper-way-to-listen-for-changes/2395/2
     // https://codemirror.net/6/docs/ref/#view.ViewUpdate
     if (!view.docChanged) return
@@ -37,27 +42,46 @@ export async function create({
 
     onUpdate({
       // code
-      doc: view.state.doc // Defer toString() until necessary
+      doc: view.state.doc, // Defer toString() until necessary
     })
   })
 
   const setup = await getSetup(lang, {
     keymap: [
-      { key: 'Ctrl-s', mac: 'Cmd-s', run() {
-        onSave && onSave()
-      }, preventDefault: true }
-    ]
+      {
+        key: 'Ctrl-s',
+        mac: 'Cmd-s',
+        run() {
+          onSave && onSave()
+        },
+        preventDefault: true,
+      },
+    ],
   })
+
+  const editor = {
+    themes,
+    extensions: [
+      // First extension is the theme
+      dark,
+      setup,
+      ...(onUpdate ? [updateListener] : []),
+      ...userExtensions,
+    ]
+  }
+
+  const extensions = editor.extensions
+
+  if (editorActionsPanel) {
+    extensions.push(
+      createEditorActionsPanel(editor, editorActionsPanel)
+    )
+  }
 
   const state = EditorState.create({
     doc: content,
     // selection: EditorSelection.cursor(0),
-    extensions: [
-      setup,
-      theme,
-      ...(onUpdate ? [updateListener] : []),
-      ...extensions
-    ],
+    extensions,
   })
 
   const view = new EditorView({
@@ -65,15 +89,38 @@ export async function create({
     parent: el,
   })
 
+  // Don't auto-focus because there can be multiple editors
   // view.focus()
 
-  // Dynamically switch theme/extension
-  // view.dispatch({
-  //   effects: StateEffect.reconfigure.of(extensions)
-  // })
-
-  return {
+  Object.assign(editor, {
+    el,
     state,
-    view
-  }
+    view,
+    extensions,
+    async format() {
+      const content = view.state.doc.toString()
+      const formattedCode = await format({
+        lang,
+        content
+      })
+
+      // Replace content
+      view.dispatch({
+        changes: {
+          from: 0,
+          to: content.length,
+          insert: formattedCode
+        }
+      })
+    },
+    setTheme(theme) {
+      // Dynamically switch theme
+      extensions[0] = theme
+      view.dispatch({
+        effects: StateEffect.reconfigure.of(extensions),
+      })
+    },
+  })
+
+  return editor
 }

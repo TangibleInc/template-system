@@ -22,6 +22,13 @@ $plugin->enqueue_template_editor = function($codemirror = 5) use ( $plugin, $htm
 
     $plugin->enqueue_template_editor_bridge();
     $js_deps []= 'tangible-template-editor-bridge';
+
+    $editor_url = editor::$state->url;
+    wp_add_inline_script( 'tangible-template-system-editor', <<<JS
+window.Tangible = window.Tangible || {}
+window.Tangible.editorUrl = "$editor_url"
+JS);
+
   }
 
   wp_enqueue_script(

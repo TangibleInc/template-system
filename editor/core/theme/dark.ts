@@ -62,8 +62,6 @@ export const darkTheme = EditorView.theme(
     '.cm-panels': {
       backgroundColor: darkBackground,
       color: base05,
-      fontSize: '12px',
-      padding: '.125rem .5rem',
     },
     // '.cm-panels.cm-panels-top': { borderBottom: '2px solid black' },
     // '.cm-panels.cm-panels-bottom': { borderTop: '2px solid black' },
@@ -78,7 +76,7 @@ export const darkTheme = EditorView.theme(
     },
 
     '.cm-activeLine': {
-      backgroundColor: background,
+      backgroundColor: darkBackground,
     },
 
     '.cm-selectionMatch': {
@@ -212,8 +210,10 @@ export const darkHighlightStyle = HighlightStyle.define([
     color: base07
   },
   { tag: [t.meta], color: base08 },
-  { tag: [t.monospace], color: base04, fontStyle: 'italic' },
-  { tag: [t.comment], color: base03, fontStyle: 'italic' },
+  { tag: [t.monospace], color: base04 }, // , fontStyle: 'italic'
+
+  { tag: [t.comment], color: base04 },
+
   { tag: t.strong, fontWeight: 'bold', color: base0A },
   { tag: t.emphasis, fontStyle: 'italic', color: base0A },
   { tag: t.strikethrough, textDecoration: 'line-through' },

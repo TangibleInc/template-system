@@ -47,9 +47,33 @@ export async function createTemplateEditor(
   const { language = 'html', onSave } = options
 
   const listeners = {}
-  let editor
+  
+  const editor = await CodeEditor.create({
+    // el,
+    lang: language,
+    content: textarea.value,
+    onUpdate(doc) {
+      if (listeners['change']) {
+        api.emit('change') // Caller gets value from editor
+      }
+    },
+    onSave() {
+      if (!onSave) return
+      updateTextarea()
+      onSave()
+    },
+    editorActionsPanel: options.editorActionsPanel
+  })
   
   const api = {
+
+    // New editor
+    
+    codeMirror6: editor,
+    updateTextarea,
+
+    // Legacy editor
+
     getValue() {
       if (!editor) return ''
       return editor.view.state.doc.toString()
@@ -80,9 +104,6 @@ export async function createTemplateEditor(
         )
       }
     },
-
-    // New editor
-    updateTextarea,
   }
   
   // const el = document.createElement('div')
@@ -92,22 +113,6 @@ export async function createTemplateEditor(
     // el.classList.add(containterClass)
     textarea.parentNode?.classList.add(containterClass)
   }
-
-  editor = await CodeEditor.create({
-    // el,
-    lang: language,
-    content: textarea.value,
-    onUpdate(doc) {
-      if (listeners['change']) {
-        api.emit('change') // Caller gets value from editor
-      }
-    },
-    onSave() {
-      if (!onSave) return
-      updateTextarea()
-      onSave()
-    },
-  })
 
   function updateTextarea() {
     textarea.value = editor.view.state.doc.toString()

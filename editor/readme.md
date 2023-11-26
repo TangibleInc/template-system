@@ -1,4 +1,4 @@
-# Template System: Editor
+# Template System Editor
 
 This is the new code editor based on CodeMirror 6.
 

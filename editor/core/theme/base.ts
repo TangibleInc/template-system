@@ -9,11 +9,14 @@ export const themeBase = EditorView.theme({
     fontSize: '14px',
   },
 
-  // '.cm-scroller': { overflow: 'auto' },
+  '.cm-scroller': {
+    margin: '.25rem',
+    lineHeight: 1.64
+  },
 
   '.cm-content, .cm-gutter': {
-    minHeight: '200px',
-    fontFamily: 'Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace',
+    minHeight: '500px',
+    fontFamily: 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
   },
   /**
    * Align open/closed markers for fold
@@ -25,10 +28,13 @@ export const themeBase = EditorView.theme({
     lineHeight: '1'
   },
   '.cm-cursor': {
-    borderLeftWidth: '2px',
-    transitionDuration: '100ms',
+    borderLeftWidth: '3px',
+    transitionDuration: '140ms',
   },
 
+  '.cm-panels': {
+    fontSize: '14px',
+  },
 
   // Max height: https://discuss.codemirror.net/t/how-to-set-max-height-of-the-editor/2882/6
   // '.cm-editor': { height: '100%' },

@@ -2,59 +2,48 @@
  * Editor for template post type
  */
 
-/**
- * Remember state in local storage
- */
+import { handleTabs } from './tabs'
+import { createEditors } from './editors'
 
-const memoryKey = 'tangibleTemplateEditorState'
-
-const memory = Object.assign(
-  {
-    tab: undefined, // Default tab
-  },
-  getMemory() || {}
-)
-
-function setMemory(state) {
-  if (!window.localStorage) return
-  window.localStorage.setItem(memoryKey, JSON.stringify(state))
-  Object.assign(memory, state)
-}
-
-function getMemory() {
-  if (!window.localStorage) return
-  let state = window.localStorage.getItem(memoryKey)
-  if (!state) return
-  try {
-    state = JSON.parse(state)
-    return state
-  } catch (e) {
-    /* Ignore */
+declare global {
+  interface Window {
+    jQuery: any,
+    wp: any,
+    Tangible: any
   }
 }
 
-jQuery(function ($) {
-  const $postForm = $('#post')
+window.jQuery(function ($) {
 
+  const $postForm = $('#post')
   const $editors = $postForm.find('[data-tangible-template-editor-type]')
 
   if (!$editors.length) {
     console.warn('No editor elements found for Tangible Template code editor')
+    return
   }
 
-  // Silence "Are you sure?" alert when leaving screen
-  // @see https://core.trac.wordpress.org/browser/branches/5.6/src/js/_enqueues/wp/autosave.js?rev=50366
+  /**
+   * Silence "Are you sure?" alert when leaving screen
+   * @see https://core.trac.wordpress.org/browser/branches/5.6/src/js/_enqueues/wp/autosave.js?rev=50366
+   */
   const { wp } = window
   if (wp && wp.autosave && wp.autosave.server && wp.autosave.server.postChanged) {
-
     // console.log('Proxy wp.autosave.server.postChanged')
-
     wp.autosave.server.postChanged = function () {
       // console.log('postChanged', false)
       return false
     }
   }
 
+  const { Tangible } = window
+  const {
+    ajax,
+    // Provide new editor compatibility layer
+    createCodeEditor
+  } = Tangible
+
+  Tangible.codeEditors = []
 
   const editorInstances = {
     // fieldName: editor instance
@@ -70,16 +59,9 @@ jQuery(function ($) {
   const templateMeta =
     $postForm.find('#tangible-template-editor-meta').data('json') || {}
 
-  const {
-    ajax,
-    // Provide new editor compatibility layer
-    createCodeEditor
-  } = window.Tangible
-
   /**
    * Additional fields that are not editors
-   *
-   * @see /includes/template/fields.php
+   * @see /system/editor/fields.php
    */
   const additionalFieldNames = [
     'name',
@@ -101,6 +83,8 @@ jQuery(function ($) {
       $additionalFields[fieldName] = $field
     }
   }
+
+  // Get taxonomy fields
 
   const taxonomyNames = ['tangible_template_category']
   const $taxonomyFields = {
@@ -128,7 +112,7 @@ jQuery(function ($) {
   /**
    * Show success/error message in publish button
    */
-  const updatePublishButton = function (newText, errorMessage) {
+  const updatePublishButton = function (newText, errorMessage = '') {
     $publishButton.val(newText)
 
     if (errorMessage) {
@@ -247,164 +231,25 @@ jQuery(function ($) {
           e.preventDefault()
           save()
         })
-    */
+    */// 
     // window.onbeforeunload = function() {}
   }
 
-  const sharedEditorOptions = {
-
-    // New editor
-    onSave: save,
-
-    // Legacy editor
-
-    viewportMargin: Infinity, // With .CodeMirror height: auto or 100%
-    resizable: false,
-    lineWrapping: true,
-
-    extraKeys: {
-      'Alt-F': 'findPersistent',
-      'Ctrl-S': save,
-      'Cmd-S': save,
-      Tab: 'emmetExpandAbbreviation',
-      Esc: 'emmetResetAbbreviation',
-      Enter: 'emmetInsertLineBreak',
-      'Ctrl-Space': 'autocomplete',
-    },
-  }
-
-  $editors.each(async function () {
-    const $editor = $(this)
-    const fieldName = $editor.attr('name')
-    const type = $editor.data('tangibleTemplateEditorType') // html, sass, javascript, json
-
-    const editorOptions = {
-      ...sharedEditorOptions,
-      language: type,
-    }
-
-    if (type === 'html') {
-      editorOptions.emmet = {
-        preview: false,
-        config: {
-          // TODO: Emmet custom abbreviations - Currently not working
-          // @see https://github.com/emmetio/codemirror-plugin#emmet-config
-          html: {
-            Loop: 'Loop[type]',
-            Field: 'Field/',
-          },
-        },
-      }
-    }
-
-    const editor = (editorInstances[fieldName] = await createCodeEditor(
-      this,
-      editorOptions
-    ))
-
-    editor.setSize(null, '100%')
-
-    // Focus on content if editing existing post
-    if (fieldName === 'post_content' && !templateMeta.isNewPost) editor.focus()
-
-    // Provide public method to save
-    this.editor = editor
-    editor.save = save
+  createEditors({
+    $,
+    save,
+    $editors,
+    editorInstances,
+    createCodeEditor,
+    templateMeta,
+    Tangible
   })
 
-  // Tabs
+  handleTabs({
+    $,
+    postId,
+    $postForm,
+    editorInstances,
+  })
 
-  const $tabSelectors = $postForm.find('.tangible-template-tab-selector')
-  const $tabs = $postForm.find('.tangible-template-tab')
-  const tabEditorActivated = [] // index => boolean
-
-  if (!$tabs.length) {
-    console.warn('No tabs elements found for Tangible Template code editor')
-    return
-  }
-
-  $tabSelectors.on('click', function () {
-    const currentTabSelector = this
-
-    // Show current tab, hide others
-
-    $tabSelectors.each(function (index) {
-
-      const $tabSelector = $(this)
-      const tabName = $tabSelector.data('tabName')
-      const $tab = $tabs.eq(index)
-      // TODO: Each tab area should set its name
-      // .filter(`[data-tab-name="${tabName}"]`).first()
-
-      if (this !== currentTabSelector) {
-        // Hide
-
-        $tabSelector.removeClass('active')
-        $tab.hide()
-
-        return
-      }
-
-      // Show
-
-      $tabSelector.addClass('active')
-      $tab.show()
-
-      // Find editor in tab, if any
-      const $tabEditor = $tab.find('[data-tangible-template-editor-type]')
-      const editorInstance = $tabEditor.length
-        ? editorInstances[
-          $tabEditor.attr('name') // By field name
-        ]
-        : false
-
-      if (!tabEditorActivated[index]) {
-        tabEditorActivated[index] = true
-
-        // Refresh editor once
-        if (editorInstance) {
-          editorInstance.refresh()
-        }
-      }
-
-      if (editorInstance) {
-        editorInstance.focus()
-      }
-
-      setMemory({
-        tab: tabName,
-        postId,
-      })
-    }) // End for each tab selector
-  }) // End on click tab selector
-
-  /**
-   * Set default tab from URL query parameter
-   */
-
-  const query = window.location.search
-    .substr(1)
-    .split('&')
-    .reduce(function (obj, pair) {
-      const [key, value] = pair.split('=')
-      obj[key] = value
-      return obj
-    }, {})
-
-  const gotoTab = query.tab || (memory.postId === postId && memory.tab)
-
-  if (gotoTab) {
-    // Switch to tab
-
-    const $activeTabSelector = $tabSelectors.filter(
-      `[data-tab-name="${gotoTab}"]`
-    )
-
-    if ($activeTabSelector.length) {
-      $activeTabSelector.eq(0).click()
-    } else {
-      // Ignore if tab not found
-      // console.log('Tab not found', gotoTab)
-    }
-  }
 })

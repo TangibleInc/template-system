@@ -16,9 +16,9 @@ import { lintKeymap, lintGutter } from '@codemirror/lint'
 
 import { indentationMarkers } from '@replit/codemirror-indentation-markers'
 
-import { getLangExtensions } from './languages'
+import { getLangExtensions } from '../languages'
 import { themeBase } from './theme/base'
-import { vscodeKeymap } from './extensions/vscode-keymap'
+import { vscodeKeymap } from '../extensions/vscode-keymap'
 
 // import { hyperLinkExtension } from './extensions/hyperlink'
 

@@ -4,6 +4,10 @@ const config = {
       src: 'core/global.ts',
       dest: 'build/editor.min.js'
     },
+    // {
+    //   src: 'core/index.scss',
+    //   dest: 'build/editor.min.css'
+    // },
     // IDE: Integrated development environment for Template, Style, Script
     {
       src: 'ide/index.tsx',
