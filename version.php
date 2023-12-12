@@ -1,8 +1,2 @@
 <?php
-/**
- * Update the version to ensure newest module is loaded when multiple plugins
- * include it. Expected format: YYYYMMDD
- * 
- * Shortcut to update this file: npm run version
- */
-return '20231102';
+return '20231212'; // Automatically updated with npm run version

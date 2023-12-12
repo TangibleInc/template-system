@@ -10,8 +10,11 @@ $plugin->enqueue_template_editor = function($codemirror = 5) use ( $plugin, $htm
   $js_deps = ['tangible-ajax'];
   $css_deps = [];
 
-  // Legacy code editor
   if ($codemirror === 5) {
+
+    /**
+     * Legacy code editor
+     */
 
     $html->enqueue_codemirror(); // See /template/codemirror
 
@@ -19,6 +22,10 @@ $plugin->enqueue_template_editor = function($codemirror = 5) use ( $plugin, $htm
     $css_deps []= 'tangible-codemirror';
 
   } elseif ($codemirror === 6) {
+
+    /**
+     * New editor with CodeMirror 6
+     */
 
     $plugin->enqueue_template_editor_bridge();
     $js_deps []= 'tangible-template-editor-bridge';

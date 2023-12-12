@@ -26,6 +26,7 @@ $plugin->template_post_types_with_location = [
 
 // Post type extensions
 require_once __DIR__ . '/sortable-post-type/index.php';
+require_once __DIR__ . '/duplicate-post/index.php';
 
 require_once __DIR__ . '/extend.php';
 require_once __DIR__ . '/register.php';

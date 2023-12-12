@@ -100,8 +100,19 @@ new class extends \stdClass {
 
       $system = &$plugin;
 
-      require_once __DIR__ . '/editor/index.php';
+      
+      /**
+       * Template post types
+       */
       require_once __DIR__ . '/post-types/index.php';
+
+      // Replace plugin framework modules until framework is removed
+      $framework->register_sortable_post_type =
+        $plugin->register_sortable_post_type;
+      $framework->register_post_type_with_duplicate_action =
+        $plugin->register_post_type_with_duplicate_action;
+
+      require_once __DIR__ . '/editor/index.php';
       require_once __DIR__ . '/template-post/index.php';
 
       require_once __DIR__ . '/template-assets/index.php';

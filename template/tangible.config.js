@@ -3,7 +3,7 @@ const submodules = [
   // 'modules/'
 ]
 
-module.exports = {
+export default {
   build: [
     // CodeMirror
     {

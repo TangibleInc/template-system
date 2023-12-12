@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   build: [
     {
       src: 'assets/src/tangible-logic.js',

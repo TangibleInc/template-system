@@ -28,8 +28,3 @@ $plugin->register_sortable_post_type = function( $type ) use ( $plugin ) {
 
   $sortable_post_type->register( $type );
 };
-
-/**
- * Replace plugin framework's module until framework is removed eventually
- */
-$framework->register_sortable_post_type = $plugin->register_sortable_post_type;

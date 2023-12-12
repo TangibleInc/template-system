@@ -82,14 +82,6 @@ export async function createEditors({
     if (type === 'html') {
       editorOptions.emmet = {
         preview: false,
-        config: {
-          // TODO: Emmet custom abbreviations - Currently not working
-          // @see https://github.com/emmetio/codemirror-plugin#emmet-config
-          html: {
-            Loop: 'Loop[type]',
-            Field: 'Field/',
-          },
-        },
       }
     }
 
@@ -147,7 +139,8 @@ const fonts = [
 
 const fontsLoaded = {}
 
-async function loadFont(fontName) {
+async function loadFont(fontName: string, fontsUrl: string) {
+
   if (fontsLoaded[fontName]) {
     // Being loaded
     if (fontsLoaded[fontName] instanceof Promise) {
@@ -157,13 +150,11 @@ async function loadFont(fontName) {
   }
 
   fontsLoaded[fontName] = (async () => {
-    const { editorUrl } = window.Tangible
-    if (!editorUrl) return
 
     for (const [label, value, file] of fonts) {
       if (fontName !== value) continue
 
-      const url = `${editorUrl}/fonts/${file}`
+      const url = `${fontsUrl}/${file}`
       const font = new FontFace(value, `url(${url})`)
 
       await font.load()
@@ -274,6 +265,14 @@ function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
     setSettingsVisibility(show)
   })
 
+  // Fade in while theme and font loads
+
+  view.dom.style.opacity = '0'
+  view.dom.style.transition = 'opacity .3s'
+  setTimeout(() => {
+    view.dom.style.opacity = '1'
+  }, 0)
+
   // Theme
   const $themeList = el.querySelector('[data-action=theme-list]')
 
@@ -299,8 +298,10 @@ function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
     selectTheme(theme)
   })
 
-  if (theme !== 'default') {
-    setTimeout(() => selectTheme(theme), 0)
+  if (theme !== 'dark') {
+    setTimeout(() => {
+      selectTheme(theme)
+    }, 0)
     // extensions[0] = theme
     // view.dispatch({
     //   effects: StateEffect.reconfigure.of(extensions),
@@ -313,13 +314,18 @@ function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
   const $fontList = el.querySelector('[data-action=font-list]')
   const $fontSize = el.querySelector('[data-action=font-size]')
 
+  // Editor assets URL from /system/editor/enqueue.php
+  const { editorUrl } = window.Tangible
+  
+  const fontsUrl = editorUrl && `${editorUrl}/fonts`
+
   async function selectFontFamily(fontFamily, broadcast = false) {
     const $content = view.dom.querySelector('.cm-content')
     if (!$content) return
     const isDefaultFont = fontFamily === 'default'
     try {
-      if (!isDefaultFont) {
-        await loadFont(fontFamily)
+      if (!isDefaultFont && fontsUrl) {
+        await loadFont(fontFamily, fontsUrl)
       }
     } catch (e) {
       return

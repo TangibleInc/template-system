@@ -1,5 +1,6 @@
 {
   "name": "tangible-loop-module",
+  "type": "module",
   "scripts": {
     "dev": "tgb dev",
     "build": "tgb build"

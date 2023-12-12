@@ -1,4 +1,4 @@
 # Template module
 
-This module defined the template language.
+This module defines the template language.
 

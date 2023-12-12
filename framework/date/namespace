@@ -1,0 +1,96 @@
+#!/bin/bash
+
+#
+# Replace namespace Carbon with Tangible\Carbon
+#
+# This avoids version conflict with other plugins that may load Carbon
+#
+
+OS="`uname`"
+
+namespace-files() {
+  for file in *.php; do
+    echo "File: $file";
+
+    if [ "$OS" == "Darwin" ]; then
+      # Options for sed - Specific to macOS
+      # @see https://stackoverflow.com/questions/5694228/sed-in-place-flag-that-works-both-on-mac-bsd-and-linux#22084103
+
+      sed -i '' -e 's/namespace\ Carbon/namespace\ Tangible\\Carbon/g' "$file"
+      sed -i '' -e 's/use\ Carbon/use\ Tangible\\Carbon/g' "$file"
+      sed -i '' -e "s/'Carbon/'Tangible\\\\\\\\Carbon/g" "$file"
+
+      sed -i '' -e 's/namespace\ Symfony/namespace\ Tangible\\Symfony/g' "$file"
+      sed -i '' -e 's/use\ Symfony/use\ Tangible\\Symfony/g' "$file"
+      sed -i '' -e "s/'Symfony/'Tangible\\\\\\\\Symfony/g" "$file"
+    else
+      # Assume Linux
+      sed -i -e 's/namespace\ Carbon/namespace\ Tangible\\Carbon/g' "$file"
+      sed -i -e 's/use\ Carbon/use\ Tangible\\Carbon/g' "$file"
+      sed -i -e "s/'Carbon/'Tangible\\\\\\\\Carbon/g" "$file"
+
+      sed -i -e 's/namespace\ Symfony/namespace\ Tangible\\Symfony/g' "$file"
+      sed -i -e 's/use\ Symfony/use\ Tangible\\Symfony/g' "$file"
+      sed -i -e "s/'Symfony/'Tangible\\\\\\\\Symfony/g" "$file"
+    fi
+  done
+}
+cd Carbon/src/Carbon
+
+namespace-files
+
+for folder in *; do
+  if [ -d $folder ]; then
+    echo "Folder: $folder"
+    cd $folder
+    namespace-files
+    cd ..
+  fi
+done
+
+cd ../.. # Back to ./Carbon
+
+cd lazy/Carbon
+namespace-files
+
+for folder in *; do
+  if [ -d $folder ]; then
+    echo "Folder: $folder"
+    cd $folder
+    namespace-files
+    cd ..
+  fi
+done
+
+cd ../..
+
+cd vendor/composer
+namespace-files
+
+cd ../symfony/translation
+namespace-files
+
+for folder in *; do
+  if [ -d $folder ]; then
+    echo "Folder: $folder"
+    cd $folder
+    namespace-files
+    cd ..
+  fi
+done
+
+cd ../symfony/translation-contracts
+namespace-files
+
+for folder in *; do
+  if [ -d $folder ]; then
+    echo "Folder: $folder"
+    cd $folder
+    namespace-files
+    cd ..
+  fi
+done
+
+cd ../../..
+
+

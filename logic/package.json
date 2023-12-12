@@ -1,5 +1,6 @@
 {
   "name": "tangible-logic-module",
+  "type": "module",
   "scripts": {
     "dev": "roll dev",
     "build": "roll build",

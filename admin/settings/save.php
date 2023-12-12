@@ -3,7 +3,7 @@
 namespace Tangible\TemplateSystem;
 
 use Tangible\TemplateSystem as system;
-use Tangible\TemplateSystem\API as api;
+use Tangible\API as api;
 
 function get_settings_nonce() {
   return wp_create_nonce(

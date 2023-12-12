@@ -9,18 +9,9 @@ The goal is to grow into an integrated development environment (IDE) with the ed
 Ideally, the editor and IDE can run within and without WordPress, for example, as part of a React-based content management system (CMS).
 
 
-## Upgrade from previous version
+## Features
 
-Replace the existing use of code editor in:
 
-- `/system/editor` - Integrate with template post types in admin edit screen
-- `/system/integrations` - Template editor block in Beaver, Elementor, Gutenberg
-
-Then remove CodeMirror 5 entirely.
-
-- `/template/codemirror` - Heavily customized fork of CodeMirror 5 and extensions - It used to be a separate repository published as NPM package `@tangible/codemirror`
-- `/template/assets/src/codemirror` - Export Tangible.CodeMirror
-- `/template/modules/codemirror` - Enqueue a set of scripts and styles
 
 
 ## Usage
@@ -35,7 +26,18 @@ editor\enqueue_editor();
 
 The script defines a global `Tangible.TemplateSystem.CodeEditor`.
 
-## Features
+## Upgrade from previous version
+
+Replace the existing use of code editor in:
+
+- `/system/editor` - Integrate with template post types in admin edit screen
+- `/system/integrations` - Template editor block in Beaver, Elementor, Gutenberg
+
+Then remove CodeMirror 5 entirely.
+
+- `/template/codemirror` - Heavily customized fork of CodeMirror 5 and extensions - It used to be a separate repository published as NPM package `@tangible/codemirror`
+- `/template/assets/src/codemirror` - Export Tangible.CodeMirror
+- `/template/modules/codemirror` - Enqueue a set of scripts and styles
 
 
 ## Future ideas

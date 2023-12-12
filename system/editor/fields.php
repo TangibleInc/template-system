@@ -5,7 +5,7 @@
 
 use Tangible\TemplateSystem as system;
 use Tangible\TemplateSystem\Editor as editor;
-use Tangible\TemplateSystem\Format as format;
+use Tangible\Format as format;
 
 add_action('admin_init', function() use ($plugin, $ajax) {
 

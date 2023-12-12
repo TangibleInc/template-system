@@ -1,35 +1,36 @@
-import { amy } from '../themes/amy'
-import { aura } from '../themes/aura'
-import { ayuLight } from '../themes/ayu-light'
-import { barf } from '../themes/barf'
-import { basicDark } from '../themes/basic-dark'
-import { basicLight } from '../themes/basic-light'
-import { bespin } from '../themes/bespin'
-import { birdsOfParadise } from '../themes/birds-of-paradise'
-import { boysAndGirls } from '../themes/boys-and-girls'
-import { clouds } from '../themes/clouds'
-import { cobalt } from '../themes/cobalt'
-import { coolGlow } from '../themes/cool-glow'
-import { dracula } from '../themes/dracula'
-import { duotoneSpaceDark } from '../themes/duotone-space-dark'
-import { espresso } from '../themes/espresso'
-import { githubDark } from '../themes/github-dark'
-import { githubLight } from '../themes/github-light'
-import { materialDark } from '../themes/material-dark'
-import { materialDarker } from '../themes/material-darker'
-import { materialPalenight } from '../themes/material-palenight'
-import { noctisLilac } from '../themes/noctis-lilac'
-import { nord } from '../themes/nord'
-import { rosePineDawn } from '../themes/rose-pine-dawn'
-import { smoothy } from '../themes/smoothy'
-import { solarizedDark } from '../themes/solarized-dark'
-import { solarizedLight } from '../themes/solarized-light'
-import { tokyoNight } from '../themes/tokyo-night'
-import { tokyoNightDay } from '../themes/tokyo-night-day'
-import { tomorrow } from '../themes/tomorrow'
+import { amy } from './amy'
+import { aura } from './aura'
+import { ayuLight } from './ayu-light'
+import { barf } from './barf'
+import { basicDark } from './basic-dark'
+import { basicLight } from './basic-light'
+import { bespin } from './bespin'
+import { birdsOfParadise } from './birds-of-paradise'
+import { boysAndGirls } from './boys-and-girls'
+import { clouds } from './clouds'
+import { cobalt } from './cobalt'
+import { coolGlow } from './cool-glow'
+import { dracula } from './dracula'
+import { duotoneSpaceDark } from './duotone-space-dark'
+import { espresso } from './espresso'
+import { githubDark } from './github-dark'
+import { githubLight } from './github-light'
+import { gruvboxDark } from './gruvbox-dark'
+import { gruvboxLight } from './gruvbox-light'
+import { materialDark } from './material-dark'
+import { materialDarker } from './material-darker'
+import { materialPalenight } from './material-palenight'
+import { noctisLilac } from './noctis-lilac'
+import { nord } from './nord'
+import { rosePineDawn } from './rose-pine-dawn'
+import { smoothy } from './smoothy'
+import { solarizedDark } from './solarized-dark'
+import { solarizedLight } from './solarized-light'
+import { tokyoNight } from './tokyo-night'
+import { tokyoNightDay } from './tokyo-night-day'
+import { tomorrow } from './tomorrow'
 
 const themes = {
-  // light, // Find better
   amy,
   aura,
   ayuLight,
@@ -47,6 +48,8 @@ const themes = {
   espresso,
   githubDark,
   githubLight,
+  gruvboxDark,
+  gruvboxLight,
   materialDark,
   materialDarker,
   materialPalenight,

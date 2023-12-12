@@ -1,4 +1,4 @@
-const config = {
+export default {
   build: [
     {
       src: 'core/global.ts',
@@ -21,5 +21,3 @@ const config = {
   ],
   format: ['**/*.{php,js,ts,jsx,tsx,json,scss}', '!build'],
 }
-
-module.exports = config
