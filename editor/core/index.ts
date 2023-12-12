@@ -1,15 +1,17 @@
 import { EditorState, EditorSelection, StateEffect } from '@codemirror/state'
-import { EditorView, keymap } from '@codemirror/view'
-import type { ViewUpdate } from '@codemirror/view'
+import { EditorView, keymap, showPanel, ViewUpdate } from '@codemirror/view'
 import type { Text, Extension } from '@codemirror/state'
 
+import { eventHub } from './event'
 import { getSetup } from './setup'
 import { format } from '../languages/format'
-import { createEditorActionsPanel } from './panel'
+// import { createEditorActionsPanel } from './panel'
+import { editorActionsPanel } from '../extensions/editor-action-panel'
 
 import { dark } from './theme/dark'
 // import { light as theme } from './theme/light'
 import themes from '../themes'
+import { fonts, loadFont } from './fonts'
 
 Object.assign(themes, { dark })
 
@@ -31,7 +33,6 @@ export async function create({
   onUpdate,
   onSave,
   extensions: userExtensions = [],
-  editorActionsPanel
 }: CodeEditorOptions) {
   const updateListener = EditorView.updateListener.of((view: ViewUpdate) => {
     // https://discuss.codemirror.net/t/codemirror-6-proper-way-to-listen-for-changes/2395/2
@@ -60,23 +61,22 @@ export async function create({
   })
 
   const editor = {
+    eventHub,
     themes,
+    fonts,
+    loadFont,
     extensions: [
       // First extension is the theme
       dark,
       setup,
       ...(onUpdate ? [updateListener] : []),
       ...userExtensions,
-    ]
+    ],
   }
 
   const extensions = editor.extensions
 
-  if (editorActionsPanel) {
-    extensions.push(
-      createEditorActionsPanel(editor, editorActionsPanel)
-    )
-  }
+  extensions.push(showPanel.of((view) => editorActionsPanel(view, editor)))
 
   const state = EditorState.create({
     doc: content,
@@ -101,7 +101,7 @@ export async function create({
       const content = view.state.doc.toString()
       const formattedCode = await format({
         lang,
-        content
+        content,
       })
 
       // Replace content
@@ -109,8 +109,8 @@ export async function create({
         changes: {
           from: 0,
           to: content.length,
-          insert: formattedCode
-        }
+          insert: formattedCode,
+        },
       })
     },
     setTheme(theme) {
