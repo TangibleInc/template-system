@@ -161,7 +161,7 @@ const Exporter = () => {
 
         if (exportType === 'png') {
           encodeToBlob(data)
-            .then(blob => {
+            .then((blob) => {
               downloadImage(blob, `${packageName}-${timestamp}.png`)
             })
             .catch(handleError)
@@ -238,26 +238,25 @@ const Exporter = () => {
           <button
             type="button"
             className="button button-primary"
-            onClick={() => {
-              if (exportState.exporting) return
-              runExport()
-            }}
-          >
-            Export
-          </button>
-
-          <a
-            href="#"
-            style="margin-left: 1rem"
             onClick={(e) => {
               e.preventDefault()
               if (exportState.exporting) return
               runExport('png')
             }}
           >
-            Export as image
+            Export
+          </button>
+          <a
+            href="#"
+            style="margin: 0 1rem"
+            onClick={(e) => {
+              e.preventDefault()
+              if (exportState.exporting) return
+              runExport()
+            }}
+          >
+            Export as JSON (Uncompressed)
           </a>
-
           {exportState.message && (
             <div style={{ padding: '.5rem 0' }}>{exportState.message}</div>
           )}
