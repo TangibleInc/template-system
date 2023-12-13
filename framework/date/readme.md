@@ -6,7 +6,7 @@ Examples
 
 // Get interface
 
-$tdate = tangible_date();
+$tdate = tangible\date();
 
 // Set language
 

@@ -1,10 +1,12 @@
 <?php
 namespace Tests\Template\Tags;
 
+use tangible\date;
+
 class Date_Tag extends \WP_UnitTestCase {
   function test_date() {
 
-    $tdate = tangible_date();
+    $tdate = \tangible\date();
 
     $this->assertEquals( true, is_object($tdate), 'is object' );
     
@@ -76,33 +78,36 @@ class Date_Tag extends \WP_UnitTestCase {
     ] as $key => [
       $input, $expected, $locale, $format
     ]) {
-      $_locale     = tangible_date()->getLocale();
+      $_locale     = $tdate->getLocale();
       $date_format = get_option( 'date_format' );
 
-      tangible_date()->setTestNow( tangible_date()->create( -14159025 ) );
+      $tdate->setTestNow( $tdate->create( -14159025 ) );
       update_option( 'date_format', $format );
-      tangible_date()->setLocale( $locale );
+      $tdate->setLocale( $locale );
 
       $this->assertEquals( $expected, tangible_template( $input ), $input );
 
       // Reset.
-      tangible_date()->setTestNow();
-      tangible_date()->setLocale( $_locale );
+      $tdate->setTestNow();
+      $tdate->setLocale( $_locale );
       update_option( 'date_format', $date_format );
     }
   }
 
   function test_date_all_locale() {
-      $_locale = tangible_date()->getLocale();
-      tangible_date()->setLocale( 'en' );
-      tangible_date()->setTestNow( tangible_date()->create( -14159025 ) );
 
-      $this->assertEquals( 'en', tangible_template( '<Date all_locale />' ) );
-      $this->assertEmpty( tangible_template( '<Date all_locale="de">now</Date>' ) );
-      $this->assertEquals( 'de', tangible_template( '<Date all_locale />' ) );
-      $this->assertEquals( 'Juli 21, 1969', tangible_template( '<Date />' ) );
+    $tdate = \tangible\date();
 
-      tangible_date()->setTestNow();
-      tangible_date()->setLocale( $_locale );
+    $_locale = $tdate->getLocale();
+    $tdate->setLocale( 'en' );
+    $tdate->setTestNow( $tdate->create( -14159025 ) );
+
+    $this->assertEquals( 'en', tangible_template( '<Date all_locale />' ) );
+    $this->assertEmpty( tangible_template( '<Date all_locale="de">now</Date>' ) );
+    $this->assertEquals( 'de', tangible_template( '<Date all_locale />' ) );
+    $this->assertEquals( 'Juli 21, 1969', tangible_template( '<Date />' ) );
+
+    $tdate->setTestNow();
+    $tdate->setLocale( $_locale );
   }
 }

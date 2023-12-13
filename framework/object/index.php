@@ -25,4 +25,4 @@ function create_object( $props = [] ) {
   return $obj;
 }
 
-require_once __DIR__.'/global.php';
+require_once __DIR__.'/legacy.php';

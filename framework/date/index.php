@@ -16,6 +16,8 @@ function date( $arg = false ) {
   ;
 }
 
+require_once __DIR__.'/legacy.php';
+
 class DateCreator {
 
   function __construct() {
