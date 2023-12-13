@@ -1,12 +1,15 @@
 <?php
 
+use tangible\format;
+use tangible\hjson;
+
 /**
  * Chart tag
  *
  * @see https://www.chartjs.org/
  */
 
-$html->add_open_tag('Chart', function( $atts, $nodes ) use ( $framework, $interface, $html ) {
+$html->add_open_tag('Chart', function( $atts, $nodes ) use ( $interface, $html ) {
 
   $interface->enqueue( 'chart' );
 
@@ -46,14 +49,12 @@ $html->add_open_tag('Chart', function( $atts, $nodes ) use ( $framework, $interf
     'tooltipValues'   => [],
   ];
 
-  $hjson = $html->hjson();
-
   foreach ( $atts as $key => $value ) {
 
     // Shortcuts for data
     if ( $key === 'labels' || $key === 'datasets' ) {
 
-      $config['data'][ $key ] = $hjson->parse( $value );
+      $config['data'][ $key ] = hjson\parse( $value );
 
       continue;
     }
@@ -62,7 +63,7 @@ $html->add_open_tag('Chart', function( $atts, $nodes ) use ( $framework, $interf
 
     if ( $key === 'chart_title' || $key === 'chart_legend' || $key === 'axis_x' || $key === 'axis_y' ) {
 
-      $value = $hjson->parse( $value );
+      $value = hjson\parse( $value );
 
       /**
        * Workaround for map type options being passed as array
@@ -87,7 +88,7 @@ $html->add_open_tag('Chart', function( $atts, $nodes ) use ( $framework, $interf
 
     if ( $key === 'tooltip' ) {
 
-      $value = $hjson->parse( $value );
+      $value = hjson\parse( $value );
 
       // Workaround
       if ( is_array( $value ) && isset( $value[0] ) ) {
@@ -103,7 +104,7 @@ $html->add_open_tag('Chart', function( $atts, $nodes ) use ( $framework, $interf
 
     if ( $key === 'tick_values' ) {
 
-      $value = $hjson->parse( $value );
+      $value = hjson\parse( $value );
 
       // Workaround
       if ( is_array( $value ) && isset( $value[0] ) ) {
@@ -119,7 +120,7 @@ $html->add_open_tag('Chart', function( $atts, $nodes ) use ( $framework, $interf
 
     if ( $key === 'tooltip_values' ) {
 
-      $value = $hjson->parse( $value );
+      $value = hjson\parse( $value );
 
       // Workaround
       if ( is_array( $value ) && isset( $value[0] ) ) {
@@ -135,7 +136,7 @@ $html->add_open_tag('Chart', function( $atts, $nodes ) use ( $framework, $interf
 
     if ( $key === 'datalabels' ) {
 
-      $value = $hjson->parse( $value );
+      $value = hjson\parse( $value );
 
       // Workaround
       if ( is_array( $value ) && isset( $value[0] ) ) {
@@ -156,7 +157,7 @@ $html->add_open_tag('Chart', function( $atts, $nodes ) use ( $framework, $interf
       continue;
     }
 
-    $js_key = $framework->camel_case( $key );
+    $js_key = format\camel_case( $key );
 
     if ( ! isset( $config[ $js_key ] ) ) continue;
 
@@ -173,7 +174,7 @@ $html->add_open_tag('Chart', function( $atts, $nodes ) use ( $framework, $interf
 
   foreach ( [ 'background_color', 'border_color' ] as $color_attribute ) {
     if ( isset( $atts[ $color_attribute ] ) ) {
-      $js_key            = $framework->camel_case( $color_attribute );
+      $js_key            = format\camel_case( $color_attribute );
       $config[ $js_key ] = $html->colors_string_to_array( $atts[ $color_attribute ] );
     }
   }

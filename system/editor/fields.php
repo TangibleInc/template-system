@@ -7,7 +7,7 @@ use tangible\template_system;
 use tangible\template_system\editor;
 use tangible\format;
 
-add_action('admin_init', function() use ($plugin, $ajax) {
+add_action('admin_init', function() use ($plugin) {
 
   $info = template_system\get_admin_route_info();
 

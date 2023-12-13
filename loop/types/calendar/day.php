@@ -1,13 +1,12 @@
 <?php
-
 namespace Tangible\Loop;
+use tangible\date;
 
 /**
  * Loop over calendar days
  */
 class CalendarDayLoop extends BaseLoop {
 
-  static $date;
   static $config = [
     'name'  => 'calendar_day',
     'title' => 'Calendar day',
@@ -67,7 +66,8 @@ class CalendarDayLoop extends BaseLoop {
 
     $items = []; // Each item: { year, month, day }
 
-    $now = self::$date->now();
+    $date = \tangible\date();
+    $now = $date->now();
 
     $from = isset( $args['from'] ) ? $args['from'] : '';
     $to   = isset( $args['to'] ) ? $args['to'] : '';
@@ -114,13 +114,13 @@ class CalendarDayLoop extends BaseLoop {
         if ( $month === 'current' ) {
           $month = $now->format( 'n' ); // 1~12
         } elseif ( ! is_numeric( $month ) ) {
-          $month = self::$date->parse( "$month, 2000" )->format( 'n' );
+          $month = $date->parse( "$month, 2000" )->format( 'n' );
         }
 
-        $from = self::$date->create( $year, $month, 1 )->format( 'Y-m-d' );
+        $from = $date->create( $year, $month, 1 )->format( 'Y-m-d' );
 
         $days_of_month = $now->format( 't' );
-        $to            = self::$date->create( $year, $month, $days_of_month )->format( 'Y-m-d' );
+        $to            = $date->create( $year, $month, $days_of_month )->format( 'Y-m-d' );
       }
 
       if ( isset( $args['day'] ) ) {
@@ -133,7 +133,7 @@ class CalendarDayLoop extends BaseLoop {
 
       if ( ! empty( $from ) && ! empty( $to ) ) {
 
-        $from_date = self::$date->parse( $from );
+        $from_date = $date->parse( $from );
         $period    = $from_date->range( $to );
 
         foreach ( $period as $day ) {
@@ -208,7 +208,5 @@ class CalendarDayLoop extends BaseLoop {
       }
   }
 };
-
-CalendarDayLoop::$date = $loop->date;
 
 $loop->register_type( CalendarDayLoop::class );

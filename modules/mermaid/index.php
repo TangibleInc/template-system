@@ -5,6 +5,8 @@
  * @see http://mermaid-js.github.io/mermaid/
  * @see https://github.com/mermaid-js/mermaid
  */
+namespace tangible\mermaid;
+use tangible\framework;
 
 $html->add_raw_tag('Mermaid', function($atts, $content) use ($html) {
   wp_enqueue_script('tangible-mermaid');
@@ -19,14 +21,18 @@ $html->add_raw_tag('Mermaid', function($atts, $content) use ($html) {
   );
 });
 
-$plugin->register_mermaid_script = function() use ( $plugin, $html ) {
+function register_mermaid_script() {
+
+  $url = plugins_url( '/', __FILE__ ) . '/build';
+  $version = framework::$state->version;
+
   wp_register_script(
     'tangible-mermaid',
-    "{$plugin->extensions_url}mermaid/build/mermaid.min.js",
+    "{$url}/mermaid.min.js",
     [],
-    $html->version
+    $version
   );
 };
 
-add_action( 'wp_enqueue_scripts', $plugin->register_mermaid_script, 0 );
-add_action( 'admin_enqueue_scripts', $plugin->register_mermaid_script, 0 );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\register_mermaid_script', 0 );
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\register_mermaid_script', 0 );

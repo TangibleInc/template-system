@@ -1,11 +1,15 @@
 <?php
+
+use tangible\format;
+use tangible\hjson;
+
 /**
  * Slider
  *
  * @see vendor/tangible/interface
  */
 
-$html->add_open_tag('Slider', function( $atts, $nodes ) use ( $framework, $html, $interface ) {
+$html->add_open_tag('Slider', function( $atts, $nodes ) use ( $html, $interface ) {
 
   $interface->enqueue( 'slider' );
 
@@ -50,7 +54,7 @@ $html->add_open_tag('Slider', function( $atts, $nodes ) use ( $framework, $html,
 
   foreach ( $atts as $key => $value ) {
 
-    $js_key = $framework->camel_case( $key );
+    $js_key = format\camel_case( $key );
 
     if ( ! isset( $options[ $js_key ] ) ) continue;
 
@@ -85,7 +89,7 @@ $html->add_open_tag('Slider', function( $atts, $nodes ) use ( $framework, $html,
 
     try {
 
-      $responsive_options = $html->hjson()->parse( $atts['responsive'], [
+      $responsive_options = hjson\parse( $atts['responsive'], [
         'throw' => true,
       ]);
 

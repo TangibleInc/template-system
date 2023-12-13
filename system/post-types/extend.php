@@ -1,4 +1,5 @@
 <?php
+use tangible\template_system;
 
 /**
  * Post type extensions
@@ -29,9 +30,9 @@ foreach ($plugin->template_post_types as $post_type) {
 
   /**
    * Add "Duplicate" action to single post edit screen and archive screen
-   * @see vendor/tangible/plugin-framework/modules/duplicate-post
+   * @see ./duplicate-post
    */
-  $framework->register_post_type_with_duplicate_action( $post_type );
+  $plugin->register_post_type_with_duplicate_action( $post_type );
 
   /**
    * Add column "ID"

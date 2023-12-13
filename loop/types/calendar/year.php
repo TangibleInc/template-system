@@ -1,13 +1,11 @@
 <?php
-
 namespace Tangible\Loop;
+use \tangible\date;
 
 /**
  * Loop over calendar years
  */
 class CalendarYearLoop extends BaseLoop {
-
-  static $date;
 
   static $config = [
     'name'       => 'calendar_year',
@@ -31,9 +29,11 @@ class CalendarYearLoop extends BaseLoop {
 
   function get_items_from_query( $args ) {
 
+    
     $items = [];
-
-    $now = self::$date->now();
+    
+    $date = \tangible\date();
+    $now = $date->now();
     $current_year = $now->format('Y');
 
     $from = (isset($args['from']) && is_numeric($args['from'])) ? $args['from'] : $current_year;
@@ -74,7 +74,5 @@ class CalendarYearLoop extends BaseLoop {
     }
   }
 };
-
-CalendarYearLoop::$date = $loop->date;
 
 $loop->register_type( CalendarYearLoop::class );

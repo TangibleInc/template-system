@@ -1,11 +1,12 @@
 <?php
+use tangible\ajax;
 
 /**
  * Get post types
  */
-$ajax->add_action("{$prefix}get_post_types", function( $data, $ajax ) {
+ajax\add_action("{$prefix}get_post_types", function( $data ) {
 
-  // if (false) return $ajax->error([ 'message' => 'An error message' ]);
+  // if (false) return ajax\error([ 'message' => 'An error message' ]);
 
   // @see https://developer.wordpress.org/reference/functions/get_post_types
   $post_types = get_post_types([
@@ -31,9 +32,9 @@ $ajax->add_action("{$prefix}get_post_types", function( $data, $ajax ) {
 /**
  * Get post type items
  */
-$ajax->add_action("{$prefix}get_post_type_items", function( $data, $ajax ) {
+ajax\add_action("{$prefix}get_post_type_items", function( $data ) {
 
-  if (empty( $data['post_type'] )) return $ajax->error([
+  if (empty( $data['post_type'] )) return ajax\error([
     'message' => 'Property "post_type" is required',
   ]);
 

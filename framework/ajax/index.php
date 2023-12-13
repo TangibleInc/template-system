@@ -12,3 +12,7 @@ ajax::$state = (object) [
   'path' => __DIR__,
   'url' => plugins_url( '/', __FILE__ ),
 ];
+
+require_once __DIR__.'/actions.php';
+require_once __DIR__.'/enqueue.php';
+require_once __DIR__.'/nonce.php';

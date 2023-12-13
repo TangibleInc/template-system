@@ -1,10 +1,11 @@
 <?php
 namespace tangible\template_system;
+use tangible\ajax;
 use tangible\template_system\editor;
 
-$plugin->enqueue_template_editor = function($codemirror = 5) use ( $plugin, $html, $ajax ) {
+$plugin->enqueue_template_editor = function($codemirror = 5) use ( $plugin, $html ) {
 
-  $ajax->enqueue();
+  ajax\enqueue();
 
   $js_deps = ['tangible-ajax'];
   $css_deps = [];

@@ -2,6 +2,8 @@
 
 namespace Tangible\Template\Integrations\Elementor;
 
+use tangible\ajax;
+
 /**
  * Integration with Elementor
  *
@@ -44,8 +46,8 @@ add_action( 'elementor/editor/init', function() use ( $plugin ) {
 add_action( 'elementor/editor/before_enqueue_scripts', $html->head_action, 99 );
 add_action( 'elementor/editor/footer', $html->footer_action, 99 );
 
-add_action('elementor/editor/before_enqueue_scripts', $ajax->register_library, 1);
-add_action('elementor/editor/before_enqueue_scripts', $ajax->conditional_enqueue_library, 9999);
+add_action('elementor/editor/before_enqueue_scripts', 'tangible\\ajax\\register_library', 1);
+add_action('elementor/editor/before_enqueue_scripts', 'tangible\\ajax\\conditional_enqueue_library', 9999);
 
 
 /**

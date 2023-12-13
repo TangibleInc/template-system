@@ -1,8 +1,9 @@
 <?php
+use tangible\see;
 
 // Tags
 
-$test('User logic: tags', function( $it ) use ( $framework, $plugin, $loop, $html ) {
+$test('User logic: tags', function( $it ) use ( $plugin, $loop, $html ) {
 
   $user_loop = $loop( 'user' );
   $user      = $user_loop->next();
@@ -21,7 +22,7 @@ $test('User logic: tags', function( $it ) use ( $framework, $plugin, $loop, $htm
   $correct = in_array( $tag_id, $tags );
 
   if ( ! $it( 'user field wp_fusion_tags includes tag', $correct === $check ) ) {
-    $framework->see( 'expected', $correct, 'got', $check );
+    tangible\see( 'expected', $correct, 'got', $check );
   }
 });
 

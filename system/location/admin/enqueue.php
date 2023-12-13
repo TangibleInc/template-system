@@ -1,8 +1,9 @@
 <?php
+use tangible\ajax;
 
-$plugin->enqueue_template_location_editor = function() use ( $plugin, $ajax ) {
+$plugin->enqueue_template_location_editor = function() use ( $plugin ) {
 
-  $ajax->enqueue();
+  ajax\enqueue();
 
   wp_enqueue_script(
     'tangible-template-location-editor',

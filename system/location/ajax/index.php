@@ -1,7 +1,5 @@
 <?php
 
-$ajax = $framework->ajax();
-
 /**
  * AJAX action prefix must be the same as in:
  * assets/src/template-location-editor/RuleGroups/Rule/ensureDataForRule.js

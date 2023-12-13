@@ -1,13 +1,11 @@
 <?php
-
 namespace Tangible\Loop;
+use tangible\date;
 
 /**
  * Loop over calendar weekdays
  */
 class CalendarWeekDayLoop extends BaseLoop {
-
-  static $date;
 
   static $config = [
     'name'  => 'calendar_weekday',
@@ -37,8 +35,8 @@ class CalendarWeekDayLoop extends BaseLoop {
   function _get_items_from_query( $args ) {
 
     $items = [];
-
-    $now = self::$date->now();
+    $date = \tangible\date();
+    $now = $date->now();
 
     $week = $now->setISODate(
       $now->format( 'Y' ),
@@ -58,14 +56,14 @@ class CalendarWeekDayLoop extends BaseLoop {
         $start = $args['start'];
 
         if ( $start === 'sun' || $start === 'sunday' ) {
-          $from = self::$date->parse( $from )->sub( '1 day' )->format( 'Y-m-d' );
-          $to   = self::$date->parse( $to )->sub( '1 day' )->format( 'Y-m-d' );
+          $from = $date->parse( $from )->sub( '1 day' )->format( 'Y-m-d' );
+          $to   = $date->parse( $to )->sub( '1 day' )->format( 'Y-m-d' );
         }
       }
 
       // Create period of days
 
-      $period = self::$date->parse( $from )->range( $to );
+      $period = $date->parse( $from )->range( $to );
 
       foreach ( $period as $day ) {
         $items [] = $day;
@@ -79,7 +77,7 @@ class CalendarWeekDayLoop extends BaseLoop {
 
   function get_field( $field_name, $args = [] ) {
     if ( empty( $field_name ) ) {
-      return self::$date->now()->format( 'l' );
+      return \tangible\date()->now()->format( 'l' );
     }
     return parent::get_field( $field_name, $args );
   }
@@ -113,7 +111,5 @@ class CalendarWeekDayLoop extends BaseLoop {
     }
   }
 };
-
-CalendarWeekDayLoop::$date = $loop->date;
 
 $loop->register_type( CalendarWeekDayLoop::class );

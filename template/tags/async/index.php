@@ -1,4 +1,6 @@
 <?php
+use tangible\ajax;
+
 /**
  * Async tag renders its inner template via AJAX after page load
  */
@@ -14,7 +16,7 @@ $html->register_async_render = function() use ( $html ) {
 
 $html->enqueue_async_render = function() use ( $html ) {
 
-  tangible()->ajax()->enqueue();
+  ajax\enqueue();
 
   $html->register_async_render();
 

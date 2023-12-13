@@ -44,17 +44,18 @@ new class {
     framework::$state->version = $this->version;
     framework::$state->path = __DIR__;
     framework::$state->url = plugins_url( '/', realpath( __FILE__ ) );
-  
-    // require_once __DIR__ . '/admin/index.php';
-    // require_once __DIR__ . '/ajax/index.php';
+
+    require_once __DIR__ . '/admin/index.php';
+    require_once __DIR__ . '/ajax/index.php';
     require_once __DIR__ . '/api/index.php';
-    // require_once __DIR__ . '/auth/index.php';
-    // require_once __DIR__ . '/date/index.php';
+    require_once __DIR__ . '/auth/index.php';
+    require_once __DIR__ . '/date/index.php';
     require_once __DIR__ . '/format/index.php';
-    // require_once __DIR__ . '/hjson/index.php';
-    // require_once __DIR__ . '/html/index.php';
+    require_once __DIR__ . '/hjson/index.php';
+    require_once __DIR__ . '/html/index.php';
     require_once __DIR__ . '/log/index.php';
-    // require_once __DIR__ . '/plugin/index.php';
+    require_once __DIR__ . '/object/index.php';
+    require_once __DIR__ . '/plugin/index.php';
 
     do_action($this->name . '_ready');
   }

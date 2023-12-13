@@ -5,8 +5,6 @@
 
 $html->current_table = [];
 
-$ajax = $framework->ajax();
-
 require_once __DIR__.'/body.php';
 require_once __DIR__.'/head.php';
 require_once __DIR__.'/foot.php';
@@ -21,7 +19,7 @@ require_once __DIR__.'/empty.php';
 require_once __DIR__.'/filter.php';
 require_once __DIR__.'/paginate.php';
 
-$html->table_tag = function($atts, $nodes = []) use ($ajax, $html) {
+$html->table_tag = function($atts, $nodes = []) use ($html) {
 
   $table_atts = [
     'id' => isset($atts['id']) ? $atts['id'] : 'tangible-table-'.uniqid(),
@@ -200,9 +198,8 @@ $html->table_tag = function($atts, $nodes = []) use ($ajax, $html) {
 
   } else {
 
-    // Enqueue AJAX and Tangible Table modules
+    // Enqueue Tangible Table module
 
-    $ajax->enqueue();
     $html->enqueue_table(); // See ./enqueue.php
   }
 

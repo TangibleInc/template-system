@@ -1,5 +1,5 @@
 {
-  "name": "extension-mermaid",
+  "name": "@tangible/mermaid",
   "private": true,
   "scripts": {
     "dev": "roll dev",

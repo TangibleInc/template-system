@@ -21,7 +21,7 @@ class ControlLoop extends BaseLoop {
     
     if( empty($args['control']) ) return [];
 
-    $control_values = self::$html->get_control_variable( 
+    $control_values = tangible_template()->get_control_variable( 
       $args['control'], 
       [ 'field' => 'all' ] 
     );
@@ -53,17 +53,19 @@ class ControlLoop extends BaseLoop {
     $response = parent::next();
 
     if( $response === null ) return $response;
-    
+
+    $html = tangible_template();
+
     if( $this->index !== 0 ) {
-      self::$html->pop_control_variable_scope();
+      $html->pop_control_variable_scope();
     }
 
-    self::$html->push_control_variable_scope();
+    $html->push_control_variable_scope();
 
     $child_controls = $this->controls[ $this->index ];
 
     foreach( $child_controls as $name => $control ) {
-      self::$html->set_control_variable( $name, $control );
+      $html->set_control_variable( $name, $control );
     }
     
     return $response;

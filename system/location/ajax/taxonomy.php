@@ -1,9 +1,10 @@
 <?php
+use tangible\ajax;
 
 /**
  * Get taxonomies
  */
-$ajax->add_action("{$prefix}get_taxonomies", function( $data, $ajax ) {
+ajax\add_action("{$prefix}get_taxonomies", function( $data ) {
 
   // @see https://developer.wordpress.org/reference/functions/get_taxonomies
 
@@ -36,9 +37,9 @@ $ajax->add_action("{$prefix}get_taxonomies", function( $data, $ajax ) {
 /**
  * Get taxonomy items
  */
-$ajax->add_action("{$prefix}get_taxonomy_items", function( $data, $ajax ) {
+ajax\add_action("{$prefix}get_taxonomy_items", function( $data ) {
 
-  if (empty( $data['taxonomy'] )) return $ajax->error([
+  if (empty( $data['taxonomy'] )) return ajax\error([
     'message' => 'Property "taxonomy" is required',
   ]);
 

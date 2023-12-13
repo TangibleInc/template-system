@@ -110,7 +110,7 @@ class Template_Editor_Widget extends \Elementor\Widget_Base {
 
     } elseif ( ! empty( $settings['html'] ) ) {
 
-      echo self::$html->render( $settings['html'] );
+      echo tangible_template()->render( $settings['html'] );
 
     } else {
       // White space prevents widget preview from collapsing

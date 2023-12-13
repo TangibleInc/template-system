@@ -1,8 +1,9 @@
 <?php
-
 /**
  * Generic loop paginator using AJAX
  */
+
+use tangible\ajax;
 
 $html->paginator_scripts_registered = false;
 
@@ -30,7 +31,7 @@ add_action( 'wp_enqueue_scripts', $html->register_paginator_scripts );
 
 $html->enqueue_paginator = function() use ( $html ) {
 
-  tangible()->ajax()->enqueue();
+  ajax\enqueue();
 
   $html->register_paginator_scripts();
 

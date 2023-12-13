@@ -1,6 +1,7 @@
 <?php
+use tangible\plugin;
 
-return function() use ( $framework, $plugin ) {
+return function() use ( $plugin ) {
 
   $integrations_enabled = $plugin->get_settings_for_integrations_enabled();
 
@@ -47,8 +48,8 @@ return function() use ( $framework, $plugin ) {
           $value = ! isset( $integrations_enabled[ $slug ] )
             || $integrations_enabled[ $slug ] === 'true';
 
-          // @see vendor/tangible/plugin-framework/settings/fields/render.php
-        echo $framework->render_setting_field_checkbox([
+          // @see /framework/plugin/settings.php
+          echo plugin\render_setting_field_checkbox([
             'name'  => 'integrations_enabled[' . $slug . ']',
             'value' => $value ? 'true' : 'false',
             'label' => $config['title']

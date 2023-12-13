@@ -1,5 +1,7 @@
 <?php
 
+use tangible\ajax;
+
 $html->is_table_enqueued     = false;
 $html->is_table_enqueue_done = false;
 
@@ -29,6 +31,8 @@ $html->enqueue_table_hook = function() use ( $html ) {
   $html->is_table_enqueue_done = true;
 
   if ( ! $html->is_table_enqueued ) return;
+
+  ajax\enqueue();
 
   wp_enqueue_style( 'tangible-table' );
   wp_enqueue_script( 'tangible-dynamic-table' );

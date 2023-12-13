@@ -1,5 +1,7 @@
 <?php
 
+use tangible\ajax;
+
 $test('tangible_logic()', function( $it ) {
 
   $it( 'exists', function_exists( 'tangible_logic' ) );
@@ -94,7 +96,7 @@ Evaluated: <b data-tangible-logic-test="evaluateResult"></b>
 // JavaScript tests
 
 $tester->enqueue();
-$framework->ajax()->enqueue();
+ajax\enqueue();
 
 // Ensure frontend test runs *after* Logic module's script
 

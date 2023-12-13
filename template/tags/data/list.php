@@ -1,5 +1,7 @@
 <?php
 
+use tangible\hjson;
+
 // List, Item
 
 $html->register_variable_type('list', [
@@ -112,7 +114,7 @@ $html->list_tag = function( $atts, $nodes ) use ( $html ) {
     $content = trim( $html->render( $nodes ) );
 
     if ( ! empty( $content ) ) {
-      $json = $html->hjson()->parse( $content );
+      $json = hjson\parse( $content );
       if ( is_array( $json ) ) {
         $html->current_list = $json;
       }
@@ -129,7 +131,7 @@ $html->list_tag = function( $atts, $nodes ) use ( $html ) {
 
     // Or it can return a JSON string
     if (!empty($result) && ($result = trim($result)) && $result[0]==='[') {
-      $json = $html->hjson()->parse( $result );
+      $json = hjson\parse( $result );
       if ( is_array( $json ) ) {
         $html->current_list = $json;
       }

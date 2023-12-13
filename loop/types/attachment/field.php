@@ -163,7 +163,7 @@ $loop->get_attachment_field = function( $attachment, $field_name, $args = [] ) u
         $image_attributes[ $key ] = $args[ $key ];
       }
 
-      $value = $loop->html->render_tag( 'img', $image_attributes );
+      $value = tangible_template()->render_tag( 'img', $image_attributes );
 
         break;
     default:

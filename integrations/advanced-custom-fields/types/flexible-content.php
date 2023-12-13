@@ -39,7 +39,7 @@ class FlexibleContentLoop extends ListLoop {
     $parent_loop = self::$loop->get_context();
     $loop_type   = $parent_loop->get_name();
 
-    if ( self::$html->is_acf_field_type_with_sub_field( $loop_type ) ) {
+    if ( tangible_template()->is_acf_field_type_with_sub_field( $loop_type ) ) {
       $items = get_sub_field( $args['field'], false );
     } else {
       $items = get_field( $args['field'], $id, false );

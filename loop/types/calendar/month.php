@@ -2,12 +2,13 @@
 
 namespace Tangible\Loop;
 
+use tangible\date;
+
 /**
  * Loop over calendar months
  */
 class CalendarMonthLoop extends BaseLoop {
 
-  static $date;
   static $now;
 
   public $year;
@@ -55,9 +56,10 @@ class CalendarMonthLoop extends BaseLoop {
 
   function get_items_from_query( $args ) {
 
-    $items = [];
+    $date = \tangible\date();
 
-    $now = self::$now ? self::$now : (self::$now = self::$date->now()); // Cached now instance
+    $items = [];
+    $now = self::$now ? self::$now : (self::$now = $date->now()); // Cached now instance
 
     // Catch if Date library throws error
     try {
@@ -106,7 +108,7 @@ class CalendarMonthLoop extends BaseLoop {
       if ($month==='current') {
         $month = $now->format('n'); // 1~12
       } elseif (!is_numeric($month)) {
-        $month = self::$date->parse("$month, 2000")->format('n');
+        $month = $date->parse("$month, 2000")->format('n');
       }
 
       $from = $month;
@@ -129,10 +131,11 @@ class CalendarMonthLoop extends BaseLoop {
 
   function get_item_field( $item, $field_name, $args = [] ) {
 
+    $date = \tangible\date();
+
     $year = $this->year;
     $month = $item;
-
-    $first_day_of_month = self::$date->create( $year, $month, 1 );
+    $first_day_of_month = $date->create( $year, $month, 1 );
 
     // Support "locale" attribute on Field or Loop
     if (($field_name==='name'|| $field_name==='short_name')
@@ -150,7 +153,7 @@ class CalendarMonthLoop extends BaseLoop {
 
       case 'week':
 
-        $last_day_of_month = self::$date->create( $year, $month, $first_day_of_month->format('t') );
+        $last_day_of_month = $date->create( $year, $month, $first_day_of_month->format('t') );
 
         return self::$loop->create_type('calendar_week', [
           'from' => $first_day_of_month->isoWeek(),
@@ -159,7 +162,7 @@ class CalendarMonthLoop extends BaseLoop {
 
       case 'day':
 
-        $last_day_of_month = self::$date->create( $year, $month, $first_day_of_month->format('t') );
+        $last_day_of_month = $date->create( $year, $month, $first_day_of_month->format('t') );
 
         return self::$loop->create_type('calendar_day', [
           'from' => $first_day_of_month->format('Y-m-d'),
@@ -171,7 +174,5 @@ class CalendarMonthLoop extends BaseLoop {
     }
   }
 };
-
-CalendarMonthLoop::$date = $loop->date;
 
 $loop->register_type( CalendarMonthLoop::class );

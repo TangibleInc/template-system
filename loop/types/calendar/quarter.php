@@ -1,6 +1,6 @@
 <?php
-
 namespace Tangible\Loop;
+use tangible\date;
 
 /**
  * Loop over calendar quarters
@@ -37,7 +37,8 @@ class CalendarQuarterLoop extends BaseLoop {
 
     $items = [];
 
-    $now = self::$date->now();
+    $date = \tangible\date();
+    $now = $date->now();
 
     if (isset($args['year'])) {
 
@@ -85,6 +86,8 @@ class CalendarQuarterLoop extends BaseLoop {
 
   function get_item_field( $item, $field_name, $args = [] ) {
 
+    $date = \tangible\date();
+
     $year = $item['year'];
     $quarter = $item['quarter']; // 1~4
 
@@ -105,9 +108,9 @@ class CalendarQuarterLoop extends BaseLoop {
         $from_month = (($quarter - 1) * 3) + 1;
         $to_month = $from_month + 2;
 
-        $first_day_of_from_month = self::$date->create($year, $from_month, 1);
-        $last_day_of_to_month = self::$date->create($year, $from_month,
-          self::$date->create($year, $to_month, 1)->format('t') // Number of days in the given month
+        $first_day_of_from_month = $date->create($year, $from_month, 1);
+        $last_day_of_to_month = $date->create($year, $from_month,
+          $date->create($year, $to_month, 1)->format('t') // Number of days in the given month
         );
 
         $first_week = $first_day_of_from_month->isoWeek();
@@ -123,7 +126,5 @@ class CalendarQuarterLoop extends BaseLoop {
     }
   }
 };
-
-CalendarQuarterLoop::$date = $loop->date;
 
 $loop->register_type( CalendarQuarterLoop::class );

@@ -3,14 +3,15 @@
  * Mobile Detect
  * https://github.com/serbanghita/Mobile-Detect/wiki/Code-examples
  */
+namespace tangible;
 
-$plugin->get_mobile_detect = function() {
+function mobile_detect() {
   static $detect;
   if ( ! $detect ) {
     if ( ! class_exists( 'Tangible\Mobile_Detect' ) ) {
       require_once __DIR__ . '/Mobile_Detect.php';
     }
-    $detect = new Tangible\Mobile_Detect;
+    $detect = new \Tangible\Mobile_Detect;
   }
   return $detect;
 };
@@ -22,9 +23,9 @@ $html->register_variable_type('device', [
   'set' => function( $name, $atts, $content, &$memory ) {
     // Do nothing
   },
-  'get' => function( $name, $atts, &$memory ) use ( $plugin ) {
+  'get' => function( $name, $atts, &$memory ) {
 
-    $detect = $plugin->get_mobile_detect();
+    $detect = tangible\get_mobile_detect();
 
     $condition = false;
 

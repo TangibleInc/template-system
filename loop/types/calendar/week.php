@@ -1,13 +1,11 @@
 <?php
-
 namespace Tangible\Loop;
+use tangible\date;
 
 /**
  * Loop over calendar weeks
  */
 class CalendarWeekLoop extends BaseLoop {
-
-  static $date;
 
   static $config = [
     'name'  => 'calendar_week',
@@ -51,9 +49,10 @@ class CalendarWeekLoop extends BaseLoop {
 
   function _get_items_from_query( $args ) {
 
-    $items = []; // Each item: { year, week }
+    $date = \tangible\date();
+    $now = $date->now();
 
-    $now = self::$date->now();
+    $items = []; // Each item: { year, week }
 
     $year                          = isset( $args['year'] ) ? $args['year'] : 'current';
     if ($year === 'current') $year = $now->format( 'Y' );
@@ -65,7 +64,7 @@ class CalendarWeekLoop extends BaseLoop {
 
       // All weeks of this year
 
-      $last_day_of_year = self::$date->create( $year, 12, 31 );
+      $last_day_of_year = $date->create( $year, 12, 31 );
 
       $first_week = 1;
       $last_week  = $last_day_of_year->isoWeek();
@@ -91,10 +90,10 @@ class CalendarWeekLoop extends BaseLoop {
       $first_month_of_quarter = ( ( $quarter - 1 ) * 3 ) + 1;
       $last_month_of_quarter  = $first_month_of_quarter + 2;
 
-      $first_day_of_quarter = self::$date->create( $year, $first_month_of_quarter, 1 );
+      $first_day_of_quarter = $date->create( $year, $first_month_of_quarter, 1 );
 
-      $last_day_of_last_month = self::$date->create( $year, $last_month_of_quarter, 1 )->format( 't' );
-      $last_day_of_quarter      = self::$date->create($year, $last_month_of_quarter,
+      $last_day_of_last_month = $date->create( $year, $last_month_of_quarter, 1 )->format( 't' );
+      $last_day_of_quarter      = $date->create($year, $last_month_of_quarter,
         $last_day_of_last_month
       );
 
@@ -118,11 +117,11 @@ class CalendarWeekLoop extends BaseLoop {
       if ( $month === 'current' ) {
         $month = $now->format( 'n' ); // 1~12
       } elseif ( ! is_numeric( $month ) ) {
-        $month = self::$date->parse( "$month, 2000" )->format( 'n' );
+        $month = $date->parse( "$month, 2000" )->format( 'n' );
       }
 
-      $first_day_of_month = self::$date->create( $year, $month, 1 );
-      $last_day_of_month  = self::$date->create( $year, $month, $now->format( 't' ) );
+      $first_day_of_month = $date->create( $year, $month, 1 );
+      $last_day_of_month  = $date->create( $year, $month, $now->format( 't' ) );
 
       $first_week = $first_day_of_month->isoWeek();
       $last_week  = $last_day_of_month->isoWeek();
@@ -145,7 +144,7 @@ class CalendarWeekLoop extends BaseLoop {
         $to = $args['to'];
       } else {
         // Get last week of this year
-        $last_day_of_year = self::$date->create( $year, 12, 31 );
+        $last_day_of_year = $date->create( $year, 12, 31 );
         $to               = $last_day_of_year->isoWeek();
       }
 
@@ -156,7 +155,7 @@ class CalendarWeekLoop extends BaseLoop {
       if ($from > $to) {
 
         $previous_year = $year - 1;
-        $last_week_of_previous_year = self::$date->create( $previous_year, 12, 31 )->isoWeek();
+        $last_week_of_previous_year = $date->create( $previous_year, 12, 31 )->isoWeek();
 
         // Push weeks in previous year
 
@@ -205,10 +204,11 @@ class CalendarWeekLoop extends BaseLoop {
   }
 
   function get_item_field( $item, $field_name, $args = [] ) {
+    $date = \tangible\date();
 
     switch ( $field_name ) {
       case 'day': // Loop through each day of this week
-        $week = self::$date->now()->setISODate(
+        $week = $date->now()->setISODate(
           $item['year'],
           $item['week']
         );
@@ -227,7 +227,5 @@ class CalendarWeekLoop extends BaseLoop {
     }
   }
 };
-
-CalendarWeekLoop::$date = $loop->date;
 
 $loop->register_type( CalendarWeekLoop::class );

@@ -1,12 +1,14 @@
 <?php
 
+use tangible\ajax;
+
 /**
  * Template type item options - For include/exclude posts
  */
-$ajax->add_action("{$prefix}get_template_type_item_options", function($data) use ($ajax) {
+ajax\add_action("{$prefix}get_template_type_item_options", function($data) {
 
-  if (!current_user_can('manage_options')) return $ajax->error('Must be admin user');
-  if (!isset($data['post_type'])) return $ajax->error('Property "post_type" is required');
+  if (!current_user_can('manage_options')) return ajax\error('Must be admin user');
+  if (!isset($data['post_type'])) return ajax\error('Property "post_type" is required');
 
   $post_type = $data['post_type'];
 

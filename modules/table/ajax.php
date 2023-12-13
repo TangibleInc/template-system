@@ -3,7 +3,9 @@
  * Fetch table data via AJAX
  */
 
-$ajax->add_public_action('tangible_table_data', function( $request ) use ( $html ) {
+use tangible\ajax;
+
+ajax\add_public_action('tangible_table_data', function( $request ) use ( $html ) {
 
   $data = $html->render_tag( 'Table', $request );
 

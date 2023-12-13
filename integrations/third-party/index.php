@@ -10,7 +10,7 @@
 
 $plugin->integration_configs = []; // A list of configs
 
-$plugin->register_plugin_integration = function( $config ) use ( $plugin, $framework ) {
+$plugin->register_plugin_integration = function( $config ) use ( $plugin ) {
 
   foreach ( [
     'slug',
@@ -95,7 +95,7 @@ $plugin->is_integration_enabled = function( $slug ) use ( $plugin ) {
 /*
 add_action(
   $plugin->is_multisite() ? 'network_admin_menu' : 'admin_menu',
-  function() use ($framework, $plugin) {
+  function() use ($plugin) {
 
     if (empty($plugin->integration_configs)) return;
 

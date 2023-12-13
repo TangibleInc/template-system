@@ -1,8 +1,10 @@
 <?php
+use tangible\see;
+
 /**
  * Parse <if> attributes into tokens, grouped by rules
  */
-$html->parse_if_tag_logic = function( $atts = [] ) use ( $framework, $logic ) {
+$html->parse_if_tag_logic = function( $atts = [] ) use ( $logic ) {
 
   $tokens = $atts['keys'];
 
@@ -168,7 +170,7 @@ $html->parse_if_tag_logic = function( $atts = [] ) use ( $framework, $logic ) {
   }
 
   if ( isset( $atts['debug'] ) && $atts['debug'] ) {
-    $framework->see( 'if', $atts, 'parsed', $token_rule_groups );
+    tangible\see( 'if', $atts, 'parsed', $token_rule_groups );
   }
 
   return $token_rule_groups;

@@ -7,7 +7,7 @@ use tangible\template_system;
  */
 add_action(
   $plugin->is_multisite() ? 'network_admin_menu' : 'admin_menu',
-  function() use ( $framework, $plugin ) {
+  function() use ( $plugin ) {
 
     // https://developer.wordpress.org/reference/functions/add_submenu_page/
     add_submenu_page(

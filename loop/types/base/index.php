@@ -2,6 +2,8 @@
 
 namespace Tangible\Loop;
 
+use tangible\date;
+
 require_once __DIR__ . '/interface.php';
 
 /**
@@ -33,7 +35,6 @@ class BaseLoop implements BaseLoopInterface {
 
   // Latest version instance of tangible_loop()
   static $loop;
-  static $html;
 
   // Required config
   static $config = [
@@ -587,10 +588,10 @@ class BaseLoop implements BaseLoopInterface {
   function sort_by_field( $field_name, $order = 'asc', $sort_type = 'string' ) {
 
     $current = $this->current;
-
     $order = strtolower( $order ) === 'asc' ? 1 : -1;
+    $date = \tangible\date();
 
-    usort($this->total_items, function( $a, $b ) use ( $field_name, $order, $sort_type ) {
+    usort($this->total_items, function( $a, $b ) use ( $field_name, $order, $sort_type, $date ) {
 
       $this->current = $a;
       $a_value       = $this->get_field( $field_name );
@@ -605,10 +606,10 @@ class BaseLoop implements BaseLoopInterface {
             // Convert from date format using Date module
             $format = $this->args['sort_date_format'];
             try {
-              $a_value = self::$loop->date()
+              $a_value = $date
                 ->createFromFormat( $format, $a_value )
                 ->format( 'U' );
-              $b_value = self::$loop->date()
+              $b_value = $date
                 ->createFromFormat( $format, $b_value )
                 ->format( 'U' );
 
@@ -653,7 +654,7 @@ class BaseLoop implements BaseLoopInterface {
 
     $field_compare = strtolower( $field_compare );
 
-    $html = self::$loop->html;
+    $html = tangible_template();
 
     foreach ( $this->total_items as $item ) {
 
@@ -697,8 +698,6 @@ class BaseLoop implements BaseLoopInterface {
 }
 
 /**
- * Provide Loop and Template module instances as static properties of all loop type classes
+ * Provide Loop module as static property to all loop type classes
  */
-
 BaseLoop::$loop = $loop; // tangible_loop()
-BaseLoop::$html = $loop->html; // tangible_template()

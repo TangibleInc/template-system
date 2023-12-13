@@ -32,7 +32,8 @@ return tangible_loop(new class extends stdClass {
   public $date;
 
   function __construct() {
-    $this->version = tangible_template_system()->version;
+    $this->system = tangible_template_system();
+    $this->version = $this->system->version;
     $this->load();
   }
 
@@ -58,27 +59,16 @@ return tangible_loop(new class extends stdClass {
     require_once __DIR__ . '/utils/index.php';
     require_once __DIR__ . '/context/index.php';
 
-    add_action('plugins_loaded', function() use ( $loop ) {
+    require_once __DIR__ . '/type/index.php';
+    require_once __DIR__ . '/types/index.php';
+    require_once __DIR__ . '/field/index.php';
 
-      /**
-       * Some loop types' fields depend on HTML module to render, for example,
-       * image tags; and Date module for date formatting and conversions.
-       */
-      $loop->html = tangible_template();
-      $loop->date = tangible_date();
+    require_once __DIR__ . '/types/calendar/index.php';
 
-      require_once __DIR__ . '/type/index.php';
-      require_once __DIR__ . '/types/index.php';
-      require_once __DIR__ . '/field/index.php';
-
-      require_once __DIR__ . '/types/calendar/index.php';
-
-      /**
-       * Provide hook for plugins to register new loop types.
-       * Template module depends on this for its features.
-       */
-
-      do_action( 'tangible_loop_prepare', $loop );
-    }, 8); // After plugin framework
+    /**
+     * Provide hook for plugins to register new loop types.
+     * Template module depends on this for its features.
+     */
+    do_action( 'tangible_loop_prepare', $loop );
   }
 });

@@ -1,6 +1,6 @@
 <?php
-
 use tangible\template_system;
+use tangible\date;
 
 /**
  * Module loader: When there are mulitple plugins with the same module, this
@@ -64,50 +64,32 @@ new class extends \stdClass {
     // Backward compatibility
     $plugin->has_plugin = template_system\get_active_plugins();
 
-    // Wait for latest version of plugin framework
-    add_action('plugins_loaded', function() use ( $plugin ) {
+    /**
+     * Template post types and fields, editor, management
+     */
 
-      /**
-       * Template post types and fields, editor, management
-       */
+    $loop      = $plugin->loop;
+    $logic     = $plugin->logic;
+    $html      = $plugin->html;
+    $interface = $plugin->interface;
 
-      $loop      = $plugin->loop = tangible_loop();
-      $logic     = $plugin->logic = tangible_logic();
-      $html      = $plugin->html = tangible_template();
-      $interface = $plugin->interface = tangible_interface();
-      $ajax      = $plugin->ajax = $framework->ajax();
+    $system = &$plugin;
 
-      $system = &$plugin;
+    /**
+     * Template post types
+     */
+    require_once __DIR__ . '/post-types/index.php';
+    require_once __DIR__ . '/editor/index.php';
+    require_once __DIR__ . '/template-post/index.php';
+    require_once __DIR__ . '/template-assets/index.php';
+    require_once __DIR__ . '/location/index.php';
+    require_once __DIR__ . '/universal-id/index.php';
+    require_once __DIR__ . '/import-export/index.php';
 
-      
-      /**
-       * Template post types
-       */
-      require_once __DIR__ . '/post-types/index.php';
+    $ready_hook = "{$plugin->name}_ready";
 
-      // Replace plugin framework modules until framework is removed
-      $framework->register_sortable_post_type =
-        $plugin->register_sortable_post_type;
-      $framework->register_post_type_with_duplicate_action =
-        $plugin->register_post_type_with_duplicate_action;
-
-      require_once __DIR__ . '/editor/index.php';
-      require_once __DIR__ . '/template-post/index.php';
-
-      require_once __DIR__ . '/template-assets/index.php';
-      require_once __DIR__ . '/location/index.php';
-      require_once __DIR__ . '/universal-id/index.php';
-      require_once __DIR__ . '/import-export/index.php';
-
-      require_once __DIR__ . '/../extensions/index.php';
-      require_once __DIR__ . '/../integrations/index.php';
-
-      $ready_hook = "{$plugin->name}_ready";
-
-      do_action( $ready_hook, $plugin );
-      remove_all_actions( $ready_hook );
-
-    }, 8); // Before plugins register
+    do_action( $ready_hook, $plugin );
+    remove_all_actions( $ready_hook );
 
     add_action('plugins_loaded', function() use ( $plugin ) {
 

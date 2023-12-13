@@ -1,8 +1,8 @@
 <?php
 
-$ajax = $framework->ajax();
+use tangible\ajax;
 
-$ajax->add_public_action('tangible_template_render', function( $request, $ajax ) use ( $html ) {
+ajax\add_public_action('tangible_template_render', function( $request )  {
 
   $template = $request['template'];
   $hash     = $request['hash'];
@@ -14,7 +14,7 @@ $ajax->add_public_action('tangible_template_render', function( $request, $ajax )
       : $template,
     $hash
   ) ) {
-    return $ajax->error( [ 'message' => 'Invalid template hash' ] );
+    return ajax\error( [ 'message' => 'Invalid template hash' ] );
   }
 
   if ( isset( $request['context'] ) && isset( $request['context_hash'] ) ) {
@@ -34,7 +34,7 @@ $ajax->add_public_action('tangible_template_render', function( $request, $ajax )
     );
 
     if ( ! $html->verify_tag_attributes_hash( $context, $context_hash ) ) {
-      return $ajax->error( [
+      return ajax\error( [
       'message' => 'Invalid context hash',
       'context' => $context,
       ] );
@@ -62,6 +62,6 @@ $ajax->add_public_action('tangible_template_render', function( $request, $ajax )
   }
 });
 
-$ajax->add_public_action('tangible_template_logic_evaluate', function( $request ) use ( $html, $logic ) {
+ajax\add_public_action('tangible_template_logic_evaluate', function( $request ) use ( $logic ) {
   return $logic->evaluate( $request );
 });

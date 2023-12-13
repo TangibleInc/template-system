@@ -8,6 +8,8 @@
  * HTML and Date modules in the Tangible Framework.
  */
 
+use tangible\date;
+
 if ( ! function_exists( 'tangible_template' ) ) :
   function tangible_template( $arg = false ) {
     static $html;
@@ -23,13 +25,14 @@ return tangible_template(new class extends stdClass {
   public $version = '0';
 
   public $html;
+  public $system;
 
   function __construct() {
 
-    $this->version = tangible_template_system()->version;
+    $this->system = tangible_template_system();
+    $this->version = $this->system->version;
 
-    // Depends on Loop module - plugins_loaded, 8
-    add_action( 'tangible_loop_prepare', [ $this, 'load' ], 0 );
+    $this->load();
   }
 
   // Dynamic methods
@@ -55,16 +58,17 @@ return tangible_template(new class extends stdClass {
     require_once __DIR__ . '/html/index.php';
 
     /**
-     * Plugin framework is deprecated, and its modules are being replaced.
-     * @see ../framework
+     * Plugin framework is deprecated and replaced by modules in /framework
      */
-    $framework = tangible();
+    // $framework = tangible();
+    $system = $this->system;
 
-    $html->loop = $loop = tangible_loop();
-    $html->logic = $logic = tangible_logic();
-    $html->interface = $interface = tangible_interface();
-    $html->date = tangible_date();
-    $html->hjson = $framework->hjson;
+    $loop      = $system->loop =  $html->loop = tangible_loop();
+    $logic     = $system->logic = $html->logic = tangible_logic();
+    $interface = $system->interface = $html->interface = tangible_interface();
+
+    $system->html = $html;
+    $system->date = $html->date = tangible\date();
 
     /**
      * Template language
@@ -73,7 +77,6 @@ return tangible_template(new class extends stdClass {
     $html->path      = __DIR__;
     $html->file_path = __FILE__;
     $html->url       = plugins_url( '/', __FILE__ );
-
     $html->version = $this->version;
 
     require_once __DIR__ . '/utils/index.php';
@@ -90,10 +93,11 @@ return tangible_template(new class extends stdClass {
 
     // Modules
     require_once __DIR__ . '/module-loader/index.php';
+
     require_once __DIR__ . '/../modules/index.php';
 
-    // Integrations
-    require_once __DIR__ . '/../integrations/advanced-custom-fields/index.php';
+    $plugin = $system;
+    require_once __DIR__ . '/../integrations/index.php';
 
     // For themes: first action hook available after functions.php is loaded.
     add_action('after_setup_theme', function() use ( $html ) {

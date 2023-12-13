@@ -12,3 +12,5 @@ framework::$state->plugins = [];
 function register($plugin) {
   framework::$state->plugins []= $plugin;
 }
+
+require_once __DIR__.'/settings.php';

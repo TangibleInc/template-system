@@ -1,5 +1,7 @@
 <?php
 
+use tangible\hjson;
+
 $html->list_format_types = [
   'index',
   'length',
@@ -104,7 +106,7 @@ $html->format_tag = function( $atts, $content ) use ( $html ) {
       // JSON
 
       try {
-        $content = $html->hjson()->parse( $content );
+        $content = hjson\parse( $content );
       } catch (\Throwable $th) {
         $content = [];
       }

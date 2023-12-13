@@ -1,5 +1,7 @@
 <?php
 
+use tangible\hjson;
+
 $html->load_file = function( $file ) use ( $html ) {
   return $html->load_asset( $file );
 };
@@ -181,7 +183,7 @@ $html->load_asset = function( $asset_type, $asset = '', $options = [] ) use ( $h
            */
 
           try {
-            return $html->hjson()->parse( $content, $options + [
+            return hjson\parse( $content, $options + [
               'throw' => true,
             ] );
           } catch ( \Throwable $th ) {

@@ -74,7 +74,7 @@ $loop->get_taxonomy_term_field = function( $item, $field_name, $args = [] ) use 
         }
       }
 
-        return $loop->html->render_raw_tag( 'a', $link_atts, $item->name );
+        return tangible_template()->render_raw_tag( 'a', $link_atts, $item->name );
     case 'taxonomy':
       // Return instance of TaxonomyLoop
 
@@ -143,7 +143,7 @@ $loop->get_taxonomy_term_field = function( $item, $field_name, $args = [] ) use 
        *
        * @see vendor/tangible/template/tags/field/acf.php
        */
-      if ( $loop->html->is_acf_active ) {
+      if ( tangible_template()->is_acf_active ) {
         return get_field( $field_name, "term_$id" );
       } else {
         // Fallback to support PODS

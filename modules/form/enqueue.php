@@ -1,16 +1,18 @@
 <?php
 
+use tangible\ajax;
+
 $html->forms = [];
 
 $html->form_script_enqueued = false;
 
-$html->enqueue_form = function( $form ) use ( $framework, $html ) {
+$html->enqueue_form = function( $form ) use ( $html ) {
 
   $html->forms [] = $form;
 
   if ($html->form_script_enqueued) return;
 
-  $framework->ajax()->enqueue();
+  ajax\enqueue();
 
   $url = plugins_url( '/', __FILE__ ) . '/build';
   $version = $html->version;

@@ -1,6 +1,7 @@
 <?php
+use tangible\see;
 
-$html->shortcode_tag = function( $atts, $nodes ) use ( $html, $framework ) {
+$html->shortcode_tag = function( $atts, $nodes ) use ( $html ) {
 
   global $shortcode_tags;
 
@@ -35,7 +36,7 @@ $html->shortcode_tag = function( $atts, $nodes ) use ( $html, $framework ) {
 
     if (empty( $atts['keys'] )) unset( $atts['keys'] );
     ob_start();
-    $framework->see( 'Shortcode tag attributes', $atts );
+    tangible\see( 'Shortcode tag attributes', $atts );
     return ob_get_clean();
 
   } else {

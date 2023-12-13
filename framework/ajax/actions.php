@@ -35,7 +35,7 @@ function add_action($name, $fn, $options = []) {
     ajax\add_action($name, $fn, $options);
   }
 
-  add_action($action_name, function() use ($ajax, $fn) {
+  \add_action($action_name, function() use ($fn) {
 
     if (!ajax\verify_nonce()) {
       return ajax\error('Bad nonce');
@@ -44,13 +44,11 @@ function add_action($name, $fn, $options = []) {
     $data = isset($_POST['data']) ? stripslashes_deep($_POST['data']) : [];
 
     try {
-      return ajax\success($fn($data, $ajax));
+      return ajax\success($fn($data));
     } catch (\Throwable $err) {
       return ajax\error($err);
     }
   });
-
-  return $ajax;
 };
 
 function add_public_action($name, $fn, $options = []) {

@@ -1,6 +1,7 @@
 <?php
-
 namespace Tangible\Loop;
+
+use tangible\hjson;
 
 /**
  * Post loop wrapping WP_Query
@@ -1195,8 +1196,9 @@ class PostLoop extends BaseLoop {
     if (isset($this->args['custom_query'])) {
 
       $custom_query = $this->args['custom_query'];
+
       if (is_string($custom_query)) {
-        $custom_query = self::$html->hjson()->parse( $custom_query );
+        $custom_query = hjson\parse( $custom_query );
       }
 
       if (is_array($custom_query)) {

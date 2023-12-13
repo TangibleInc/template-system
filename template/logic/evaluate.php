@@ -1,5 +1,7 @@
 <?php
 
+use tangible\hjson;
+
 $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic, $html) {
 
   $condition = true;
@@ -41,7 +43,7 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
       } elseif ($current_value[0]==='[') {
         // JSON
         try {
-          $current_value = $html->hjson()->parse($current_value);
+          $current_value = hjson\parse($current_value);
         } catch (\Throwable $th) {
           $current_value = [];
         }

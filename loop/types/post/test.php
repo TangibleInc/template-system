@@ -1,6 +1,4 @@
 <?php
-
-use tangible;
 use Tangible\Loop\AttachmentLoop;
 use Tangible\Loop\ListLoop;
 use Tangible\Loop\PostLoop;

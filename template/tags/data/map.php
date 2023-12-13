@@ -1,5 +1,7 @@
 <?php
 
+use tangible\hjson;
+
 // Map, Key
 
 $html->register_variable_type('map', [
@@ -140,7 +142,7 @@ $html->map_tag = function( $atts, $nodes ) use ( $html ) {
     $content = trim( $html->render( $nodes ) );
 
     if ( ! empty( $content ) ) {
-      $json = $html->hjson()->parse( $content );
+      $json = hjson\parse( $content );
       if ( is_array( $json ) ) {
         $html->current_map = $json;
       }

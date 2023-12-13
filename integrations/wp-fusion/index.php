@@ -5,7 +5,9 @@
  * @see tangible-blocks-pro/includes/integrations/index.php
  */
 
-add_action('tangible_template_system_ready', function( $template_system ) use ( $framework, $plugin, $loop, $logic, $html ) {
+use tangible\create_object;
+
+add_action('tangible_template_system_ready', function( $template_system ) use ( $plugin, $loop, $logic, $html ) {
 
   $key = 'wp-fusion';
   $config = [
@@ -21,14 +23,14 @@ add_action('tangible_template_system_ready', function( $template_system ) use ( 
   // Each integration gets its own instance of $plugin
 
   $name = str_replace( '-', '_', $key );
-  $plugin = tangible_object([
+  $plugin = create_object([
     'name' => 'template_system_' . $name . '_integration',
     'config' => $config,
   ]);
 
   $wp_fusion = wp_fusion();
 
-  // local $framework, $plugin, $template_system, $wp_fusion, $loop, $logic, $html
+  // local $plugin, $template_system, $wp_fusion, $loop, $logic, $html
 
   require_once __DIR__ . '/types/index.php';
 
