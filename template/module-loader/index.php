@@ -82,7 +82,7 @@ $html->enqueue_module_loader_data = function() use ( $html ) {
   foreach ($wp_styles->registered as $slug => $style) {
     if (substr($slug, 0, 9)!=='tangible-') continue;
     $module_name = substr($slug, 9);
-    // tangible()->see( $module_name, $script );
+    // tangible\see( $module_name, $script );
     $asset = [
       'assets' => [ $style->src ],
       'version' => $style->ver
@@ -116,7 +116,7 @@ $html->enqueue_module_loader_data = function() use ( $html ) {
     }
   }
 
-  // tangible()->see($html->dynamic_modules);
+  // tangible\see($html->dynamic_modules);
 
   wp_add_inline_script(
     'tangible-module-loader',

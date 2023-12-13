@@ -49,7 +49,7 @@ add_filter('template_include', function( $file_path ) use ( $plugin, $html, $log
         $plugin->evaluate_location_rule
       );
 
-    // tangible()->see( 'Layout #' . $template['id'], $rule_groups, $is_matched );
+    // tangible\see( 'Layout #' . $template['id'], $rule_groups, $is_matched );
 
     if ( ! $is_matched) continue;
 

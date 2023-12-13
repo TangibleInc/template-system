@@ -1,8 +1,6 @@
 <?php
-
-namespace Tangible\API;
-
-use Tangible\API as api;
+namespace tangible\api;
+use tangible\api;
 
 // Client
 

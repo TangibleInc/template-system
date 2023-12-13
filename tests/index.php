@@ -27,11 +27,8 @@ $_PLUGIN_ENTRYPOINT = __DIR__ . '/../index.php';
 
 require_once $_WORDPRESS_TESTS_DIR . '/includes/functions.php';
 
-require __DIR__ . '/stubs.php';
-
 tests_add_filter('muplugins_loaded', function() use ( $_PLUGIN_ENTRYPOINT ) {
-    require_once dirname( $_PLUGIN_ENTRYPOINT ) . '/vendor/tangible/plugin-framework/index.php';
-    require $_PLUGIN_ENTRYPOINT;
+  require $_PLUGIN_ENTRYPOINT;
 });
 
 require $_WORDPRESS_TESTS_DIR . '/includes/bootstrap.php';

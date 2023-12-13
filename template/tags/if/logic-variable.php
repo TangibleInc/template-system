@@ -36,7 +36,7 @@ $html->register_variable_type('logic', [
     ;
 
     if (isset($atts['debug'])) {
-      tangible()->see(
+      tangible\see(
         'Logic variable: ' . $name,
         'Content: ' . $content,
         'Result: ' . ($condition ? 'TRUE' : 'FALSE')

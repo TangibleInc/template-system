@@ -1,6 +1,6 @@
 <?php
-namespace Tangible\API;
-use Tangible\API as api;
+namespace tangible\api;
+use tangible\api;
 
 const ok = 200;
 const bad_request = 400;

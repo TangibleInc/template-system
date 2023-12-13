@@ -6,19 +6,17 @@
  * @see https://github.com/briannesbitt/Carbon, https://carbon.nesbot.com/docs/
  * @see https://www.php.net/manual/en/datetime.format.php
  */
-
-namespace Tangible;
-use Tangible as tangible;
+namespace tangible;
 
 function date( $arg = false ) {
-  static $date = new DateAPI;
+  static $date = new DateCreator;
   return $arg !== false
     ? call_user_func_array($date, func_get_args())
     : $date
   ;
 }
 
-class DateAPI {
+class DateCreator {
 
   function __construct() {
 

@@ -138,7 +138,7 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
         'value' => $value,
       ], $atts);
 
-// tangible()->see($rule, 'check', $roles, $operand, $value, '===', $condition);
+// tangible\see($rule, 'check', $roles, $operand, $value, '===', $condition);
     break;
 
     // Route

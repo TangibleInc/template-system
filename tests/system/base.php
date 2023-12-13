@@ -1,5 +1,7 @@
 <?php
-class System_Usable_TestCase extends WP_UnitTestCase {
+namespace Tests\System;
+
+class System_Usable_TestCase extends \WP_UnitTestCase {
   public function test_template_system_module_is_loaded_and_usable() {
       $this->assertTrue( function_exists( 'tangible_template_system' ), 'tangible_template_system() is not defined' );
       $this->assertEquals( 'tangible_template_system', tangible_template_system()->name );

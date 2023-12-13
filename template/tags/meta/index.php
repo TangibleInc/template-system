@@ -153,7 +153,7 @@ $html->render_scheduled_meta = function( $buffer = false ) use ( $html ) {
   // Clear schedule
   $html->scheduled_meta_tags = [];
 
-  // tangible()->see($metas, $rendered);
+  // tangible\see($metas, $rendered);
 
   if ($buffer) return $rendered;
 

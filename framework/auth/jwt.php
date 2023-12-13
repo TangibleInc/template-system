@@ -1,6 +1,5 @@
 <?php
-
-namespace Tangible\JWT;
+namespace tangible\auth;
 
 // https://raw.githubusercontent.com/rmcdaniel/angular-codeigniter-seed/master/api/application/helpers/jwt_helper.php
 

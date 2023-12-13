@@ -1,15 +1,14 @@
 <?php
-namespace Tangible\TemplateSystem;
+namespace tangible\template_system;
+use tangible\template_system;
 
-use Tangible\TemplateSystem as system;
-
-system::$state->admin_route_info = null;
+template_system::$state->admin_route_info = null;
 
 function get_admin_route_info() {
 
   // Cached
-  if (!empty(system::$state->admin_route_info)) {
-    return system::$state->admin_route_info;
+  if (!empty(template_system::$state->admin_route_info)) {
+    return template_system::$state->admin_route_info;
   }
 
   global $pagenow;
@@ -51,5 +50,5 @@ function get_admin_route_info() {
     $info['archive'] = true;
   }
 
-  return system::$state->admin_route_info = $info;
+  return template_system::$state->admin_route_info = $info;
 };

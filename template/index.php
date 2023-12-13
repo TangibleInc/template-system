@@ -5,7 +5,7 @@
  * Implements dynamic template tags with extensible content type loops and logic conditions.
  *
  * It integrates features from the Loop, Logic, Interface modules; as well as
- * HTML and Date modules in the plugin framework.
+ * HTML and Date modules in the Tangible Framework.
  */
 
 if ( ! function_exists( 'tangible_template' ) ) :
@@ -28,7 +28,7 @@ return tangible_template(new class extends stdClass {
 
     $this->version = tangible_template_system()->version;
 
-    // Depends on Loop module
+    // Depends on Loop module - plugins_loaded, 8
     add_action( 'tangible_loop_prepare', [ $this, 'load' ], 0 );
   }
 
@@ -47,7 +47,7 @@ return tangible_template(new class extends stdClass {
      * It used to be bundled in the plugin framework, but was moved into
      * the Template System to remove dependency, and for ease of development.
      *
-     * Some features are being used by the Loop module, for example, to build
+     * HTML features are used by the Loop module, for example, to build
      * an image tag with attributes.
      */
     $this->html = $html = $this;
@@ -55,33 +55,15 @@ return tangible_template(new class extends stdClass {
     require_once __DIR__ . '/html/index.php';
 
     /**
-     * Plugin framework
-     *
-     * Using:
-     * - Case conversion utilities for format
-     * - AJAX module
-     * - HJSON module
-     * - Date module
-     *
-     * @see vendor/tangible/plugin-framework
-     * - utils/convert
-     * - modules/ajax, hjson, date
+     * Plugin framework is deprecated, and its modules are being replaced.
+     * @see ../framework
      */
-    $html->framework = $framework = tangible();
+    $framework = tangible();
 
-    // Loop module - Content type loops and fields
     $html->loop = $loop = tangible_loop();
-
-    // Logic module - Conditional rules registry, evaluator, UI
     $html->logic = $logic = tangible_logic();
-
-    // Interface module - Library of UI components
     $html->interface = $interface = tangible_interface();
-
-    // Date module
     $html->date = tangible_date();
-
-    // Human JSON module
     $html->hjson = $framework->hjson;
 
     /**
@@ -94,22 +76,11 @@ return tangible_template(new class extends stdClass {
 
     $html->version = $this->version;
 
-    // Utility functions
     require_once __DIR__ . '/utils/index.php';
-
-    // Dynamic tags
     require_once __DIR__ . '/tags/index.php';
-
-    // Format utilities
     require_once __DIR__ . '/format/index.php';
-
-    // Conditional logic rules
     require_once __DIR__ . '/logic/index.php';
-
-    // Content structure
     require_once __DIR__ . '/content/index.php';
-
-    // Template/block controls
     require_once __DIR__ . '/control/index.php';
 
     // Page life cycle
@@ -118,15 +89,11 @@ return tangible_template(new class extends stdClass {
     require_once __DIR__ . '/ajax/index.php';
 
     // Modules
-
     require_once __DIR__ . '/module-loader/index.php';
-    require_once __DIR__ . '/modules/index.php';
-
-    // Form module
-    require_once __DIR__ . '/form/index.php';
+    require_once __DIR__ . '/../modules/index.php';
 
     // Integrations
-    require_once __DIR__ . '/integrations/index.php';
+    require_once __DIR__ . '/../integrations/advanced-custom-fields/index.php';
 
     // For themes: first action hook available after functions.php is loaded.
     add_action('after_setup_theme', function() use ( $html ) {

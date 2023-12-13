@@ -1,0 +1,14 @@
+{
+  "name": "@tangible/api",
+  "type": "module",
+  "scripts": {
+    "dev": "roll dev",
+    "build": "roll build",
+    "clean": "rm -rf build"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@tangible/roller": "1.x"
+  }
+}

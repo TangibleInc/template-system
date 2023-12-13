@@ -71,14 +71,14 @@ $plugin->evaluate_location_rule = function( $rule ) use ( $plugin, $html ) {
     case 'post_type_archive':
       $post_type = $field_2;
 
-      // tangible()->see('Archive', $post_type, is_post_type_archive( $post_type ));
+      // tangible\see('Archive', $post_type, is_post_type_archive( $post_type ));
 
         return is_post_type_archive( $post_type );
 
     case 'post_type_singular':
       $post_type = $field_2;
 
-      // tangible()->see('Singular', $post_type, is_singular( $post_type ));
+      // tangible\see('Singular', $post_type, is_singular( $post_type ));
 
       if ( ! is_singular( $post_type ) ) return false;
 
@@ -121,7 +121,7 @@ $plugin->evaluate_location_rule = function( $rule ) use ( $plugin, $html ) {
         return is_tag();
       }
 
-      // tangible()->see('taxonomy_archive', $taxonomy, is_tax(), is_tax( $taxonomy ));
+      // tangible\see('taxonomy_archive', $taxonomy, is_tax(), is_tax( $taxonomy ));
 
       if ( $operator === 'include' ) return is_array( $value ) && is_tax( $taxonomy, $value );
       if ( $operator === 'exclude' ) return ! ( is_array( $value ) && is_tax( $taxonomy, $value ) );

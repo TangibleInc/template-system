@@ -76,7 +76,7 @@ $html->add_open_tag('Switch', function( $atts, $nodes ) use ( $html ) {
   }
 
   if ( $debug ) {
-    tangible()->see( 'Switch converted to:', $html->render_raw( $if_node ) );
+    tangible\see( 'Switch converted to:', $html->render_raw( $if_node ) );
   }
 
   return $html->render( $if_node );

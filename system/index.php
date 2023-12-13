@@ -1,6 +1,6 @@
 <?php
 
-use Tangible\TemplateSystem as system;
+use tangible\template_system;
 
 /**
  * Module loader: When there are mulitple plugins with the same module, this
@@ -24,7 +24,7 @@ new class extends \stdClass {
 
   function __construct() {
 
-    $this->version = require_once __DIR__.'/../version.php';
+    $this->version = include __DIR__.'/../version.php';
 
     $name     = $this->name;
     $priority = 99999999 - absint( $this->version );
@@ -50,25 +50,11 @@ new class extends \stdClass {
 
   function load() {
 
-    /**
-     * Requires plugin framework until we replace all occurrences of tangible()
-     * and $framework.
-     */
-    if ( !function_exists('tangible') ) {
-      // Support loading this module as a standalone plugin for development
-      $framework_path = __DIR__ . '/../vendor/tangible/plugin-framework/index.php';
-      if (file_exists($framework_path)) {
-        require_once $framework_path;
-      } else {
-        return;
-      }
-    }
-
     remove_all_actions( $this->name ); // First one to load wins
 
     tangible_template_system( $this );
 
-    $plugin = $system = $this;
+    $plugin = $this;
 
     /**
      * Template System - New module organization
@@ -76,24 +62,17 @@ new class extends \stdClass {
     require_once __DIR__.'/../core.php';
 
     // Backward compatibility
-    $system->has_plugin = system\get_active_plugins();
-
-    // Deprecated: Tester module
-    require_once __DIR__ . '/tester/index.php';
+    $plugin->has_plugin = template_system\get_active_plugins();
 
     // Wait for latest version of plugin framework
     add_action('plugins_loaded', function() use ( $plugin ) {
 
       /**
        * Template post types and fields, editor, management
-       * 
-       * TODO: Move to new module above as dependencies are removed or updated
        */
 
-      $framework = tangible();
-
       $loop      = $plugin->loop = tangible_loop();
-      $logic     = $plugin->logic; // tangible_logic()
+      $logic     = $plugin->logic = tangible_logic();
       $html      = $plugin->html = tangible_template();
       $interface = $plugin->interface = tangible_interface();
       $ajax      = $plugin->ajax = $framework->ajax();
@@ -121,7 +100,7 @@ new class extends \stdClass {
       require_once __DIR__ . '/import-export/index.php';
 
       require_once __DIR__ . '/../extensions/index.php';
-      require_once __DIR__ . '/integrations/index.php';
+      require_once __DIR__ . '/../integrations/index.php';
 
       $ready_hook = "{$plugin->name}_ready";
 

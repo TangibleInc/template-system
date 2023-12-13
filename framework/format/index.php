@@ -1,6 +1,6 @@
 <?php
-namespace Tangible\Format;
-use Tangible\Format as format;
+namespace tangible\format;
+use tangible\format;
 
 /**
  * Camel case: helloWorld - Used for JS object keys and variable names

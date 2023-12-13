@@ -5,20 +5,6 @@ const submodules = [
 
 export default {
   build: [
-    // CodeMirror
-    {
-      src: 'assets/src/codemirror/index.js',
-      dest: 'assets/build/codemirror.min.js',
-    },
-    {
-      src: 'assets/src/codemirror/index.scss',
-      dest: 'assets/build/codemirror.min.css',
-    },
-    {
-      src: 'assets/src/codemirror/theme-light.scss',
-      dest: 'assets/build/codemirror-theme-light.min.css',
-    },
-
     // Paginator
     {
       src: 'assets/src/paginator/index.js',
@@ -50,12 +36,6 @@ export default {
     {
       src: 'assets/src/async-render/index.js',
       dest: 'assets/build/async-render.min.js',
-    },
-
-    // Form
-    {
-      src: 'assets/src/form/index.js',
-      dest: 'assets/build/form.min.js',
     },
   ],
   format: ['**/*.{php,js,scss}', '!assets/build', '!codemirror'],

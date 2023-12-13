@@ -1,7 +1,14 @@
 <?php
-namespace Tangible;
-use Tangible as tangible;
+namespace tangible\plugin;
+use tangible\framework;
 
-function register_plugin($name) {
+framework::$state->plugins = [];
 
+/**
+ * Register a plugin
+ * 
+ * Call this from action `plugins_loaded`.
+ */
+function register($plugin) {
+  framework::$state->plugins []= $plugin;
 }

@@ -21,7 +21,7 @@ $html->create_tag_attributes_hash = function( $atts ) use ( $html ) {
     ) . ';';
   }
 
-  // tangible()->log( $content );
+  // tangible\log( $content );
 
   return wp_hash( $content );
 };

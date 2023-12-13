@@ -11,5 +11,3 @@ require_once __DIR__ . '/render/index.php';
 
 require_once __DIR__ . '/tags/index.php';
 require_once __DIR__ . '/utils/index.php';
-
-require_once __DIR__ . '/filters/index.php';

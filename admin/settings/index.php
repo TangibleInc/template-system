@@ -1,11 +1,9 @@
 <?php
+namespace tangible\template_system;
+use tangible\template_system;
 
-namespace Tangible\TemplateSystem;
-
-use Tangible\TemplateSystem as system;
-
-system::$state->settings_key = 'tangible_template_system_settings';
-system::$state->setting_fields = [
+template_system::$state->settings_key = 'tangible_template_system_settings';
+template_system::$state->setting_fields = [
 
   [
     'name' => 'acf_template_field',
@@ -37,16 +35,16 @@ system::$state->setting_fields = [
 ];
 
 function get_setting_fields() {
-  return system::$state->setting_fields;
+  return template_system::$state->setting_fields;
 }
 
 function get_settings( $field_name = null, $default_value = null ) {
 
-  $settings = get_option( system::$state->settings_key );
+  $settings = get_option( template_system::$state->settings_key );
   if (empty($settings)) $settings = [];
 
   // Provide defaults
-  foreach (system::$state->setting_fields as $field) {
+  foreach (template_system::$state->setting_fields as $field) {
     if (!isset( $settings[ $field['name'] ] )) {
       $settings[ $field['name'] ] = $field[ 'default_value' ] ?? null;
     }
@@ -61,7 +59,7 @@ function get_settings( $field_name = null, $default_value = null ) {
 
 function set_settings( $settings ) {
 
-  update_option( system::$state->settings_key, $settings );
+  update_option( template_system::$state->settings_key, $settings );
 
   return $settings;
 }

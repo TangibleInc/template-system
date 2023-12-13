@@ -1,5 +1,6 @@
 <?php
 
+use tangible;
 use Tangible\Loop\AttachmentLoop;
 use Tangible\Loop\ListLoop;
 use Tangible\Loop\PostLoop;
@@ -37,7 +38,7 @@ $test('Post loop', function( $it ) {
 
 });
 
-$test('Post loop: Field of another loop type', function( $it ) use ( $framework, $loop, $html ) {
+$test('Post loop: Field of another loop type', function( $it ) use ( $loop, $html ) {
 
   $page_loop = $loop( 'page' );
   $item      = $page_loop->next();
@@ -65,13 +66,13 @@ $test('Post loop: Field of another loop type', function( $it ) use ( $framework,
     } else {
 
       $it( "Field $field is an instance of known loop type", false );
-      $framework->see( 'Field of unknown loop type: ' . $field, $value );
+      tagible\see( 'Field of unknown loop type: ' . $field, $value );
       continue;
     }
 
     if ( ! $value->has_next() ) {
       $it( "$field is empty", true );
-      // $framework->see( 'Field: '.$field, $value );
+      // tagible\see( 'Field: '.$field, $value );
       continue;
     }
 
@@ -88,7 +89,7 @@ $test('Post loop: Field of another loop type', function( $it ) use ( $framework,
   }
 });
 
-$test('Post loop query', function( $it ) use ( $framework, $loop, $html ) {
+$test('Post loop query', function( $it ) use ( $loop, $html ) {
 
   // Author
 

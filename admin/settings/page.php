@@ -1,8 +1,8 @@
 <?php
+namespace tangible\template_system;
+use tangible\template_system;
 
-use Tangible\TemplateSystem as system;
-
-$settings = system\get_settings();
+$settings = template_system\get_settings();
 
 $render_field = function($field) use ($settings) {
 
@@ -55,7 +55,7 @@ $render_field = function($field) use ($settings) {
 <form id="tangible-settings-form" class="wrap">
   <?php
 
-  $fields = system\get_setting_fields();
+  $fields = template_system\get_setting_fields();
 
   $beta = [];
   $deprecated = [];
@@ -110,8 +110,8 @@ const {
 // Pass data
 echo json_encode([
   'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-  'nonce' => system\get_settings_nonce(),
-  'saveActionKey' => system::$state->settings_key,
+  'nonce' => template_system\get_settings_nonce(),
+  'saveActionKey' => template_system::$state->settings_key,
 ]);
 
 ?>

@@ -1,7 +1,6 @@
 <?php
-
-use Tangible\TemplateSystem as system;
-use Tangible\TemplateSystem\Editor as editor;
+namespace tangible\template_system;
+use tangible\template_system\editor;
 
 $plugin->enqueue_template_editor = function($codemirror = 5) use ( $plugin, $html, $ajax ) {
 
@@ -16,10 +15,10 @@ $plugin->enqueue_template_editor = function($codemirror = 5) use ( $plugin, $htm
      * Legacy code editor
      */
 
-    $html->enqueue_codemirror(); // See /template/codemirror
+    $html->enqueue_codemirror_v5(); // See /template/codemirror
 
-    $js_deps []= 'tangible-codemirror';
-    $css_deps []= 'tangible-codemirror';
+    $js_deps []= 'tangible-codemirror-v5';
+    $css_deps []= 'tangible-codemirror-v5';
 
   } elseif ($codemirror === 6) {
 

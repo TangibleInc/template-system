@@ -7,7 +7,6 @@
     "format": "roll format"
   },
   "dependencies": {
-    "@emmetio/codemirror-plugin": "^1.2.4"
   },
   "devDependencies": {
     "@tangible/roller": "1.x"

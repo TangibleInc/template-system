@@ -9,20 +9,20 @@
  * - Tangible Plugin Framework - See ./framework
  */
 
-namespace Tangible;
+namespace tangible;
 
-use Tangible\TemplateSystem as system;
+use tangible\template_system;
 
 // System
 
-class TemplateSystem {
+class template_system {
   static $state;
 }
 
-system::$state = (object) [
-  'version' => require_once __DIR__.'/version.php',
+template_system::$state = (object) [
+  'version' => include __DIR__.'/version.php',
   'path' => __DIR__,
-  'url' => plugins_url( '/', realpath( __FILE__ ) ),
+  'url' => plugins_url( '/', __FILE__ ),
 ];
 
 // Core modules

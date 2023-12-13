@@ -1,6 +1,5 @@
 <?php
-
-namespace Tangible\HJSON;
+namespace tangible\hjson;
 
 /**
  * NOTE: this may return an empty string at the end of the array when the input

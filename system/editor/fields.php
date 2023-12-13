@@ -3,13 +3,13 @@
  * Template fields
  */
 
-use Tangible\TemplateSystem as system;
-use Tangible\TemplateSystem\Editor as editor;
-use Tangible\Format as format;
+use tangible\template_system;
+use tangible\template_system\editor;
+use tangible\format;
 
 add_action('admin_init', function() use ($plugin, $ajax) {
 
-  $info = system\get_admin_route_info();
+  $info = template_system\get_admin_route_info();
 
   $is_template_edit_screen =
     in_array( $info['type'], $plugin->template_post_types )
@@ -20,7 +20,7 @@ add_action('admin_init', function() use ($plugin, $ajax) {
 
   // Enqueue
 
-  if (system\get_settings('codemirror_6')) {
+  if (template_system\get_settings('codemirror_6')) {
 
     $plugin->enqueue_template_editor(6);
 

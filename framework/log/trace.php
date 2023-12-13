@@ -1,6 +1,6 @@
 <?php
-namespace Tangible;
-use Tangible as tangible;
+namespace tangible;
+use tangible\log;
 
 function trace($depth = 0) {
 

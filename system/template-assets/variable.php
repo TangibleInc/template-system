@@ -27,7 +27,7 @@ $html->register_variable_type('asset', [
 
     $asset = $assets[ $name ];
 
-    // tangible()->see('asset', $name, $asset);
+    // tangible\see('asset', $name, $asset);
 
     $attachment_id = $asset['id'];
 

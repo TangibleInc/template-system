@@ -1,20 +1,22 @@
 <?php
+namespace tangible;
+use tangible\framework as framework;
 
-use Tangible as tangible;
-
-if (!class_exists('Tangible')) {
-  class Tangible {
+if (!class_exists('tangible\\framework')) {
+  class framework {
     static $state;
   };
-  tangible::$state = (object) [
-    'version' => '0'
-  ];
+  framework::$state = (object) [];
 }
 
+/**
+ * Module loader: Ensure newest version is loaded when multiple plugins bundle
+ * this module. Version number is automatically updated with `npm run version`.
+ */
 new class {
 
-  public $name = 'tangible';
-  public $version = '20231212'; // Automatically updated with npm run version
+  public $name = 'tangible_framework';
+  public $version = '20231212';
 
   function __construct() {
 
@@ -39,9 +41,12 @@ new class {
   function load() {
     remove_all_filters( $this->name ); // First one to load wins
 
-    tangible::$state->version = $this->version;
-
+    framework::$state->version = $this->version;
+    framework::$state->path = __DIR__;
+    framework::$state->url = plugins_url( '/', realpath( __FILE__ ) );
+  
     // require_once __DIR__ . '/admin/index.php';
+    // require_once __DIR__ . '/ajax/index.php';
     require_once __DIR__ . '/api/index.php';
     // require_once __DIR__ . '/auth/index.php';
     // require_once __DIR__ . '/date/index.php';
@@ -50,7 +55,6 @@ new class {
     // require_once __DIR__ . '/html/index.php';
     require_once __DIR__ . '/log/index.php';
     // require_once __DIR__ . '/plugin/index.php';
-    // require_once __DIR__ . '/rest/index.php';
 
     do_action($this->name . '_ready');
   }

@@ -2,18 +2,16 @@
 /**
  * Utilities
  */
-namespace Tangible\TemplateSystem;
+namespace tangible\template_system;
+use tangible\template_system;
 
-use Tangible\TemplateSystem as system;
-
-system::$state->is_plugin = false;
+template_system::$state->is_plugin = false;
 
 function is_plugin( $set = null ) {
-  $is_plugin = &system::$state->is_plugin;
   if (is_bool($set)) {
-    $is_plugin = $set;
+    template_system::$state->is_plugin = $set;
   }
-  return $is_plugin;
+  return template_system::$state->is_plugin;
 }
 
 /**
@@ -30,6 +28,6 @@ function get_active_plugins() {
     'blocks_editor'   => function_exists( 'tangible_blocks_editor' ),
     'blocks_pro'      => function_exists( 'tangible_blocks_pro' ),
   ]), [
-    'template_system' => system\is_plugin(), // This module installed as plugin
+    'template_system' => template_system\is_plugin(), // This module installed as plugin
   ]);
 }

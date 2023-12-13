@@ -6,11 +6,10 @@ It's a curated and customized set of features designed to integrate with a templ
 
 The goal is to grow into an integrated development environment (IDE) with the editor at its core.
 
-Ideally, the editor and IDE can run within and without WordPress, for example, as part of a React-based content management system (CMS).
+Ideally, the editor and IDE should be able to run independent of WordPress, for example as part of a React-based content management system (CMS).
 
 
 ## Features
-
 
 
 
@@ -19,7 +18,7 @@ Ideally, the editor and IDE can run within and without WordPress, for example, a
 Enqueue the code editor from PHP.
 
 ```php
-use Tangible\TemplateSystem\Editor as editor;
+use tangible\template_system\editor;
 
 editor\enqueue_editor();
 ```

@@ -163,7 +163,7 @@ $html->create_taxonomy = function( $name, $config ) use ( $html ) {
     }
   }
 
-  // tangible()->see('create_taxonomy', $name, $post_types, $config);
+  // tangible\see('create_taxonomy', $name, $post_types, $config);
 
   register_taxonomy( $name, $post_types, $config );
 };

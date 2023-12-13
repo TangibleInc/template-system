@@ -1,8 +1,5 @@
 <?php
-
-namespace Tangible\TemplateSystem;
-
-use Tangible\TemplateSystem as system;
+namespace tangible\template_system;
 
 /**
  * Admins without `unfiltered_html` capability cannot edit template post types

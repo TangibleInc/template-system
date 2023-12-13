@@ -1,6 +1,6 @@
 <?php
 
-namespace Tangible\TemplateSystem;
+namespace tangible\template_system;
 
 /**
  * Sortable post type

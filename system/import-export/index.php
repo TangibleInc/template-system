@@ -1,7 +1,5 @@
 <?php
 
-use Tangible\TemplateSystem as system;
-
 require_once __DIR__ . '/ajax/index.php';
 require_once __DIR__ . '/enqueue.php';
 require_once __DIR__ . '/export.php';

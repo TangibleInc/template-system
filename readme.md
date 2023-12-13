@@ -1,4 +1,4 @@
-# Template System module
+# Template System
 
 This is the template system shared by Tangible Blocks and Loops & Logic.
 
@@ -8,14 +8,20 @@ https://github.com/tangibleinc/template-system
 
 ## Overview
 
-- Loop
-- Logic
-- Template
-- System
+The codebase is organized as feature modules, each of which may contain their own modules.
+
+- Loop - Content type loops and fields
+- Logic - Conditional rules registry, evaluator, UI
+- Interface - Library of UI components
+- Template - Defines the template language and tags
+- Template System - Admin features such as template post types, editor, import/export, assets, locations, layouts, builder integrations
+- Framework - Features shrared across plugins, such as AJAX, Date, HJSON
+
+Each module should aim to be generally useful, clarify its dependencies internal and external, and ideally be documented and tested. Some are published as a Composer module or NPM package.
 
 ## Tests
 
-This modules comes with a suite of unit and integration tests.
+This module comes with a suite of unit and integration tests.
 
 ### Requirements
 

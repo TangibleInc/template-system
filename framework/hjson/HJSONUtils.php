@@ -1,6 +1,5 @@
 <?php
-
-namespace Tangible\HJSON;
+namespace tangible\hjson;
 
 class HJSONUtils
 {

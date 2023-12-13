@@ -1,9 +1,9 @@
 <?php
 
-namespace Tangible\TemplateSystem;
+namespace tangible\template_system;
 
 add_action("admin_action_{$plugin->duplicate_post_action_name}",
-  'Tangible\\TemplateSystem\\admin_action_duplicate_post'
+  'tangible\\template_system\\admin_action_duplicate_post'
 );
 
 /**

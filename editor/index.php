@@ -5,19 +5,18 @@
  * Organize features as editor::$state and editor\action(), in the same
  * pattern as System module.
  */
-namespace Tangible\TemplateSystem;
+namespace tangible\template_system;
+use tangible\template_system;
+use tangible\template_system\editor;
 
-use Tangible\TemplateSystem as system;
-use Tangible\TemplateSystem\Editor as editor;
-
-class Editor {
+class editor {
   static $state;
   static $html;
 }
 
 editor::$html = tangible_template();
 editor::$state = (object) [
-  'version' => system::$state->version,
+  'version' => template_system::$state->version,
   'url' => untrailingslashit( plugins_url('/', realpath(__FILE__)) ),
 ];
 

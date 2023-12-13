@@ -10,7 +10,7 @@
   "scripts": {
     "prepare:deps": "for module in editor interface logic template system; do cd $module; npm install --production; done",
     "version": "node tools/version.js",
-    "// npm run dev/build/format [..module names]": "",
+    "// Run npm run dev/build/format [module name]": "",
     "dev": "roll dev",
     "build": "roll build",
     "format": "roll format",

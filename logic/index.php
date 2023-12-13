@@ -23,7 +23,6 @@ return tangible_logic(new class extends stdClass {
   function __construct() {
     $system        = tangible_template_system();
     $this->version = $system->version;
-    $system->logic = $this;
     $this->load();
   }
 

@@ -1,8 +1,6 @@
 <?php
-
-namespace Tangible\TemplateSystem\Editor;
-
-use Tangible\TemplateSystem\Editor as editor;
+namespace tangible\template_system\editor;
+use tangible\template_system\editor;
 
 function get_language_definition() {
 
@@ -57,7 +55,7 @@ function get_language_definition() {
     'tags' => $tags,
   ];
 
-  // tangible()->see($language);
+  // tangible\see($language);
 
   return $language;
 }

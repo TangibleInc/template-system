@@ -32,7 +32,7 @@ $html->register_variable_type('loop', [
           )
           : $current_loop->get_field( $value );
 
-        // tangible()->see($key, $current_loop);
+        // tangible\see($key, $current_loop);
 
         break;
       }

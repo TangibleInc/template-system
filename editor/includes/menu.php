@@ -1,8 +1,6 @@
 <?php
-
-namespace Tangible\TemplateSystem\Editor;
-
-use Tangible\TemplateSystem\Editor as editor;
+namespace tangible\template_system\editor;
+use tangible\template_system\editor;
 
 function register_template_system_menu() {
 

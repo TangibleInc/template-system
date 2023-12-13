@@ -1,19 +1,35 @@
 <?php
-namespace Tangible\Auth;
-use Tangible\JWT as jwt;
-
-function load() {
-  if (!class_exists(__NAMESPACE__ . '\\JWT')) {
-    require_once __DIR__.'/jwt.php';
+namespace tangible {
+  use tangible\framework;
+  
+  class auth {
+    static $state;
   }
+  
+  auth::$state = (object) [
+    'version' => framework::$state->version,
+    'path' => __DIR__,
+    'url' => plugins_url( '/', __FILE__ ),    
+  ];    
 }
 
-function encode_jwt($data, $key = SECURE_AUTH_KEY) {
-  jwt\load();
-  return jwt::encode($data, $key);
-};
+namespace tangible\auth {
+  use tangible\auth;
+  use tangible\auth\JWT;
 
-function decode_jwt($token, $key = SECURE_AUTH_KEY) {
-  jwt\load();
-  return jwt::decode($token, $key);
-};
+  function load_jwt() {
+    if (!class_exists(__NAMESPACE__ . '\\JWT')) {
+      require_once __DIR__.'/jwt.php';
+    }
+  }
+  
+  function encode_jwt($data, $key = SECURE_AUTH_KEY) {
+    auth\load_jwt();
+    return JWT::encode($data, $key);
+  };
+  
+  function decode_jwt($token, $key = SECURE_AUTH_KEY) {
+    auth\load_jwt();
+    return JWT::decode($token, $key);
+  };  
+}

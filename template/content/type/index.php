@@ -220,7 +220,7 @@ $html->create_content_type = function($name, $config) use ($html) {
 
   unset($config['gutenberg']);
 
-  // tangible()->see('Create type', $name, $config);
+  // tangible\see('Create type', $name, $config);
 
   register_post_type($name, $config);
 };

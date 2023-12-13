@@ -1,32 +1,30 @@
 <?php
+namespace tangible\admin;
+use tangible\admin as admin;
 
-add_action('admin_enqueue_scripts', function () use ($framework) {
+add_action('admin_enqueue_scripts', function () {
 
-  if (!$framework->is_latest_version()) return;
+  $url = admin::$state->url;
+  $version = admin::$state->version;
 
-  $url = $framework->url;
-  $version = $framework->version;
+  $js = $url . '/notice/admin-notice.js';
 
-  $js = $url.'/assets/admin-notices.js';
-
-  wp_enqueue_script('tangible-admin-notices-js', $js, ['jquery'], $version);
+  wp_enqueue_script('tangible-admin-notice-js', $js, ['jquery'], $version);
 
   wp_localize_script(
-  	'tangible-admin-notices-js',
-  	'tangibleAdminNotice',
+  	'tangible-admin-notice-js',
+  	'tangibleAdminDismissNotice',
   	[
-      'nonce' => wp_create_nonce('tangible-dismiss-admin-notice')
+      'nonce' => wp_create_nonce('tangible-admin-dismiss-notice')
     ]
 	);
-
 });
 
-add_action('wp_ajax_tangible_dismiss_admin_notice', function() use ($framework) {
+add_action('wp_ajax_tangible_admin_dismiss_notice', function() {
 
-  if (!$framework->is_latest_version()) return;
-
-  check_ajax_referer('tangible-dismiss-admin-notice', 'nonce');
+  check_ajax_referer('tangible-admin-dismiss-notice', 'nonce');
   $name = sanitize_text_field($_POST['admin_notice_key']);
-  $framework->dismiss_admin_notice($name);
+
+  admin\dismiss_admin_notice($name);
   exit;
 });

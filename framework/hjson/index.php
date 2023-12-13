@@ -1,7 +1,5 @@
 <?php
-
-namespace Tangible\HJSON;
-use Tangible\HJSON as hjson;
+namespace tangible\hjson;
 
 function parse() {
   static $parser;

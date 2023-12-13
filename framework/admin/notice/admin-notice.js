@@ -11,12 +11,12 @@ jQuery(document).ready(function($) {
 
       e.preventDefault()
 
-      // See admin-notices/enqueue
+      // See ./enqueue
 
       var data = {
-        action: 'tangible_dismiss_admin_notice',
+        action: 'tangible_admin_dismiss_notice',
         admin_notice_key: key,
-        nonce: window.tangibleAdminNotice.nonce
+        nonce: window.tangibleAdminDismissNotice.nonce
       }
 
       $.post(window.ajaxurl, data)

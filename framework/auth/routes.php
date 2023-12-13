@@ -1,9 +1,8 @@
 <?php
-namespace Tangible\API;
-use Tangible\API as api;
-use Tangible\JWT as jwt;
+namespace tangible\auth;
+use tangible\auth;
 
-class Auth {
+class AuthRoutes {
     /**
      * The ID of this plugin.
      *
@@ -140,7 +139,10 @@ class Auth {
         );
 
         /** Let the user modify the token data before the sign. */
-        $token = JWT::encode(apply_filters('jwt_auth_token_before_sign', $token, $user), $secret_key);
+        $token = auth\encode_jwt(
+          apply_filters('jwt_auth_token_before_sign', $token, $user),
+          $secret_key
+        );
 
         /** The token is signed, now create the object with no sensible user data to the client*/
         $data = array(
@@ -274,7 +276,7 @@ class Auth {
 
         /** Try to decode the token */
         try {
-            $token = JWT::decode($token, $secret_key, array('HS256'));
+            $token = auth\decode_jwt($token, $secret_key, array('HS256'));
             /** The Token is decoded now validate the iss */
             if ($token->iss != get_bloginfo('url')) {
                 /** The iss do not match, return error */

@@ -1,6 +1,6 @@
 {
-  "name": "@tangible/template-editor",
-  "description": "Template editor based on CodeMirror 6",
+  "name": "@tangible/editor",
+  "description": "Code editor based on CodeMirror 6",
   "type": "module",
   "main": "index.js",
   "scripts": {

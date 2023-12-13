@@ -1,13 +1,11 @@
 <?php
-
-namespace Tangible\TemplateSystem;
-
-use Tangible\TemplateSystem as system;
+namespace tangible\template_system;
+use tangible\template_system;
 
 /**
  * Show menu only for admins who can edit templates
  */
-if (!(is_admin() && system\can_user_edit_template())) return;
+if (!(is_admin() && template_system\can_user_edit_template())) return;
 
 /**
  * Admin menu

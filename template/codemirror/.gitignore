@@ -1,6 +1,0 @@
-/lib/codemirror-src
-
-/build
-node_modules
-*.lock
-*-lock.json

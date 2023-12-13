@@ -1,8 +1,6 @@
 <?php
 namespace Tests\Template\Tags;
 
-use Tangible\TemplateSystem as system;
-
 class Field_TestCase extends \WP_UnitTestCase {
 
   public function test_field_author() {

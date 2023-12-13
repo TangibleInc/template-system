@@ -233,7 +233,7 @@ $html->create_loop_tag_context = function( $atts ) use ( $loop, $html ) {
 
       // TODO: Copy query parameters from $wp_query?
 
-      // tangible()->see($wp_query);
+      // tangible\see($wp_query);
 
       $current_context = $loop( $post_type, $atts );
     }

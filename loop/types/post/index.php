@@ -2,9 +2,6 @@
 
 namespace Tangible\Loop;
 
-use Tangible\TemplateSystem as system;
-use Tangible\Loop as loop;
-
 /**
  * Post loop wrapping WP_Query
  *

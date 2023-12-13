@@ -241,7 +241,7 @@ add_action('add_meta_boxes', function($post_type) use ($plugin) {
     foreach (['high', /*'core',*/ 'default', 'low'] as $priority) {
       if (!empty($wp_meta_boxes[ $post_type ][ $context ][ $priority ])) {
 
-        // tangible()->see($context . ' : ' . $priority, $wp_meta_boxes[ $post_type ][ $context ][ $priority ] );
+        // tangible\see($context . ' : ' . $priority, $wp_meta_boxes[ $post_type ][ $context ][ $priority ] );
 
         foreach ($wp_meta_boxes[ $post_type ][ $context ][ $priority ] as $id => $callback) {
 
