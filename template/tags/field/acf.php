@@ -12,7 +12,7 @@
 
 $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [] ) use ( $loop, $html ) {
 
-  if ( ! $html->is_acf_active) return;
+  if ( ! $html->is_acf_active ) return;
 
   $current_loop = isset( $options['loop'] )
     ? $options['loop']

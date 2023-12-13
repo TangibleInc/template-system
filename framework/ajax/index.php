@@ -16,3 +16,4 @@ ajax::$state = (object) [
 require_once __DIR__.'/actions.php';
 require_once __DIR__.'/enqueue.php';
 require_once __DIR__.'/nonce.php';
+require_once __DIR__.'/legacy.php';

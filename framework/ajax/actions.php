@@ -44,7 +44,7 @@ function add_action($name, $fn, $options = []) {
     $data = isset($_POST['data']) ? stripslashes_deep($_POST['data']) : [];
 
     try {
-      return ajax\success($fn($data));
+      return ajax\success($fn($data, null)); // Was $fn($data, $ajax)
     } catch (\Throwable $err) {
       return ajax\error($err);
     }

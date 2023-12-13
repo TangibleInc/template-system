@@ -9,6 +9,7 @@
  */
 
 use tangible\date;
+use tangible\ajax;
 
 if ( ! function_exists( 'tangible_template' ) ) :
   function tangible_template( $arg = false ) {
@@ -69,6 +70,7 @@ return tangible_template(new class extends stdClass {
 
     $system->html = $html;
     $system->date = $html->date = tangible\date();
+    $system->ajax = tangible\ajax\legacy();
 
     /**
      * Template language
