@@ -2,17 +2,17 @@
 
 This is the template system shared by Tangible Blocks and Loops & Logic.
 
-#### Source code
+**Source code**: https://github.com/tangibleinc/template-system
 
-https://github.com/tangibleinc/template-system
+**Documentation**: https://docs.loopsandlogic.com/reference/template-system/
 
 ## Overview
 
 The codebase is organized by feature areas, which are made up of modules.
 
-- [Language](language) - Defines the template language and tags
-- [Admin](admin) - Admin features such as template post types, editor, import/export, assets, locations, layouts, builder integrations
-- [Framework](../framework/) - Features shrared across plugins, such as AJAX, Date, HJSON
+- [Language](language/) - Defines the template language and tags
+- [Admin](admin/) - Admin features such as template post types, editor, import/export, assets, locations, layouts, builder integrations
+- [Framework](framework/) - Features shrared across plugins, such as AJAX, Date, HJSON
 - [Modules](modules/) - Additional template system features, such as Chart, Slider, Table
 - [Integrations](integrations/) - Features to integrate with third-party plugins
 
