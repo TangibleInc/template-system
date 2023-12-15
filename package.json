@@ -1,8 +1,8 @@
 {
   "name": "tangible-template-system",
   "description": "Template System module",
-  "homepage": "https://bitbucket.org/tangibleinc/template-system",
-  "repository": "git@bitbucket.org:tangibleinc/template-system.git",
+  "homepage": "https://github.com/tangibleinc/template-system",
+  "repository": "git@github.com:tangibleinc/template-system.git",
   "type": "module",
   "tangible": {
     "deployType": "module"

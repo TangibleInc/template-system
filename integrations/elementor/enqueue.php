@@ -1,7 +1,7 @@
 <?php
-
 /**
  * Enqueue for Elementor
+ * @see /system/editor
  */
 use tangible\template_system;
 
@@ -21,12 +21,12 @@ $plugin->enqueue_elementor_template_editor = function() use ( $plugin, $html ) {
 
   if (template_system\get_settings('codemirror_6')) {
 
-    $plugin->enqueue_template_editor_bridge();
-    $js_deps []= 'tangible-template-editor-bridge';
+    template_system\enqueue_codemirror_v6();
+    $js_deps []= 'tangible-codemirror-v6';
 
   } else {
 
-    $html->enqueue_codemirror_v5(); // See /modules/codemirror-v5
+    template_system\enqueue_codemirror_v5();
 
     $js_deps []= 'tangible-codemirror-v5';
     wp_enqueue_style( 'tangible-codemirror-v5' );

@@ -1,16 +1,23 @@
-# Tangible Framework
+# Framework
 
-The framework contains feature modules that are shared across plugins.
+This is a framework of feature modules for WordPress that are shared across plugins.
 
-- Admin
-- AJAX
-- API
-- Auth
-- Date
-- Format
-- HJSON
-- HTML
-- Log
-- Plugin
+Many of these were refactored from the deprecated [plugin framework v2](https://bitbucket.org/tangibleinc/tangible-plugin-framework).
 
-Many of these replace corresponding features in the deprecated [plugin framework v2]().
+#### Source code
+
+The framework is developed within the [Template System](https://github.com/tangibleinc/template-system). It is also published as [its own repository](https://github.com/tangibleinc/framework) to support plugins installing it as a Composer module.
+
+## Modules
+
+- [Admin](admin)
+- [AJAX](ajax)
+- [API](api)
+- [Auth](auth)
+- [Date](date)
+- [Format](format)
+- [HJSON](hjson)
+- [HTML](html)
+- [Log](log)
+- [Object](object)
+- [Plugin](plugin)

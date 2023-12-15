@@ -1,11 +1,4 @@
 <?php
-/**
- * Loop module
- *
- * Generic, extensible loops: post, user, taxonomy, items.
- *
- * Depends on Date and HTML modules in the plugin framework.
- */
 if ( ! function_exists( 'tangible_loop' ) ) :
   function tangible_loop( $type = false, $args = [] ) {
     static $o;

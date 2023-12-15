@@ -1,17 +1,38 @@
 <?php
-
-use tangible\format;
-use tangible\hjson;
-
 /**
  * Chart tag
  *
  * @see https://www.chartjs.org/
  */
+namespace tangible\chart;
+use tangible\chart;
+use tangible\format;
+use tangible\hjson;
+use tangible\template_system;
 
-$html->add_open_tag('Chart', function( $atts, $nodes ) use ( $interface, $html ) {
+function register() {
+  $url = template_system::$state->url . 'modules/chart';
+  $version = template_system::$state->version;
+  
+  wp_register_script(
+    'tangible-chart',
+    "{$url}/build/chart.min.js",
+    [ 'jquery' ],
+    $version,
+    true
+  );  
+}
 
-  $interface->enqueue( 'chart' );
+function enqueue() {
+  wp_enqueue_script('tangible-chart');
+}
+
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\register', 0 );
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\register', 0 );
+
+$html->add_open_tag('Chart', function( $atts, $nodes ) use ( $html ) {
+
+  chart\enqueue();
 
   $tag_atts = [
 

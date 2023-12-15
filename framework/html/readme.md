@@ -1,4 +1,4 @@
-# HTML module
+# HTML
 
 This is the foundation for a new streaming HTML parser based on the [SAX (Simple API for XML)](https://en.wikipedia.org/wiki/Simple_API_for_XML) parsing algorithm.
 

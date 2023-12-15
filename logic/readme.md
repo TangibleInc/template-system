@@ -1,25 +1,3 @@
-# Tangible Logic module
+# Logic
 
-## Install dependencies
-
-```sh
-npm install
-```
-
-## Develop
-
-Build, watch files and rebuild
-
-```sh
-npm run dev
-```
-
-## Build
-
-Build for production
-
-```sh
-npm run build
-```
-
-Make sure to build before Git commit and public release.
+Generic conditional logic rules, evaluator, and builder interface

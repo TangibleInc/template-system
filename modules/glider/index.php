@@ -1,13 +1,44 @@
 <?php
 /**
  * Glider - Fullscreen gallery slider
- *
- * @see vendor/tangible/interface
  */
+namespace tangible\template_system\glider;
 
-$html->add_open_tag('Glider', function( $atts, $nodes ) use ( $html, $interface ) {
+use tangible\template_system;
+use tangible\template_system\glider;
 
-  $interface->enqueue( 'glider' );
+function register() {
+  $url = template_system::$state->url . 'modules/glider';
+  $version = template_system::$state->version;
+  
+  wp_register_script(
+    'tangible-glider',
+    "{$url}/build/glider.min.js",
+    [ 'jquery' ],
+    $version,
+    true
+  );  
+
+  wp_register_style(
+    'tangible-glider',
+    "{$url}/build/glider.min.css",
+    [],
+    $version,
+  );  
+}
+
+function enqueue() {
+  wp_enqueue_script('tangible-glider');
+  wp_enqueue_style('tangible-glider');
+}
+
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\register', 0 );
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\register', 0 );
+
+
+$html->add_open_tag('Glider', function( $atts, $nodes ) use ( $html ) {
+
+  glider\enqueue();
 
   // <Glider enqueue />
   if (in_array( 'enqueue', $atts['keys'] )) return;
@@ -24,7 +55,7 @@ $html->add_open_tag('Glider', function( $atts, $nodes ) use ( $html, $interface 
   ]), $nodes);
 });
 
-$html->add_open_tag('Glide', function( $atts, $nodes ) use ( $html, $interface ) {
+$html->add_open_tag('Glide', function( $atts, $nodes ) use ( $html ) {
 
   // TODO: Image linked to thumbnail
 

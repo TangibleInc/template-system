@@ -1,6 +1,7 @@
 <?php
 /**
  * Enqueue for Beaver Builder
+ * @see /system/editor
  */
 
 use tangible\template_system;
@@ -14,14 +15,11 @@ $plugin->enqueue_beaver_template_editor = function() use ( $plugin, $html ) {
   ) return;
 
   $plugin->beaver_template_editor_enqueued = true;
-
+  
   if (template_system\get_settings('codemirror_6')) {
-
-    $plugin->enqueue_template_editor_bridge();
-
+    template_system\enqueue_codemirror_v6();
   } else {
-
-    $html->enqueue_codemirror_v5();
+    template_system\enqueue_codemirror_v5();
   }
 
   wp_enqueue_style(

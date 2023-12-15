@@ -1,45 +1,43 @@
 <?php
-
+namespace tangible\template_system\table;
 use tangible\ajax;
+use tangible\template_system;
+use tangible\template_system\table;
 
-$html->is_table_enqueued     = false;
-$html->is_table_enqueue_done = false;
-
-$html->register_table_script = function() use ( $html ) {
-
+function register() {
+  $url = template_system::$state->url . 'modules/table/build';
+  $version = template_system::$state->version;
+  
   wp_register_script(
-    'tangible-dynamic-table',
-    "{$html->url}assets/build/dynamic-table.min.js",
-    [ 'jquery', 'tangible-table', 'tangible-ajax' ],
-    $html->version,
+    'tangible-table',
+    "{$url}/table.min.js",
+    [ 'jquery' ],
+    $version,
     true
   );
 
-};
+  wp_register_style(
+    'tangible-table',
+    "{$url}/table.min.css",
+    [],
+    $version
+  );
 
-$html->enqueue_table = function() use ( $html ) {
+  wp_register_script(
+    'tangible-dynamic-table',
+    "{$url}/dynamic-table.min.js",
+    [ 'jquery', 'tangible-table', 'tangible-ajax' ],
+    $version,
+    true
+  );
 
-  $html->is_table_enqueued = true;
+}
 
-  if ( $html->is_table_enqueue_done ) {
-    $html->enqueue_table_hook();
-  }
-};
-
-$html->enqueue_table_hook = function() use ( $html ) {
-
-  $html->is_table_enqueue_done = true;
-
-  if ( ! $html->is_table_enqueued ) return;
-
+function enqueue() {
   ajax\enqueue();
-
   wp_enqueue_style( 'tangible-table' );
   wp_enqueue_script( 'tangible-dynamic-table' );
-};
+}
 
-add_action( 'wp_enqueue_scripts', $html->register_table_script, 0 );
-add_action( 'admin_enqueue_scripts', $html->register_table_script, 0 );
-
-add_action( 'wp_enqueue_scripts', $html->enqueue_table_hook, 99 );
-add_action( 'admin_enqueue_scripts', $html->enqueue_table_hook, 99 );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\register', 0 );
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\register', 0 );

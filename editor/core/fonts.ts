@@ -23,9 +23,8 @@ const fontsLoaded = {}
 export async function loadFont(fontName: string, fontsUrl: string) {
 
   if (fontsLoaded[fontName]) {
-    // Being loaded
     if (fontsLoaded[fontName] instanceof Promise) {
-      await fontsLoaded[fontName]
+      await fontsLoaded[fontName] // Being loaded
     }
     return
   }

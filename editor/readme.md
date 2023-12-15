@@ -1,31 +1,41 @@
-# Template System Editor
+# Editor
 
-This is the new code editor based on CodeMirror 6.
-
-It's a curated and customized set of features designed to integrate with a template (extended HTML), style (Sass), and script (JavaScript).
+This is a code editor based on CodeMirror 6, with a curated and customized set of features designed for the Loops & Logic template language and system.
 
 The goal is to grow into an integrated development environment (IDE) with the editor at its core.
 
-Ideally, the editor and IDE should be able to run independent of WordPress, for example as part of a React-based content management system (CMS).
-
+Ideally, the editor and IDE should run well within WordPress, as well as independently, for example as part of a React-based content management system (CMS).
 
 ## Features
 
+The main advantage of the new editor is that it's integrated with the template language definition. This allows smart editor features like code completion, hints, snippets, inline documentation.
+
+Another benefit is the extensibility of the editor interface, such as [info panel](https://codemirror.net/examples/panel/), [tooltip](https://codemirror.net/examples/tooltip/), [decoration](https://codemirror.net/examples/decoration/), [gutter](https://codemirror.net/examples/gutter/), and getting [language syntax at cursor position](https://codemirror.net/docs/ref/#language.syntaxTree).
+
+- Language modes
+  - Template - HTML extended
+  - Style - Sass
+  - Script - JavaScript
+- Syntax highlight
+- Keyboard shortcuts
+- Autocomplete tags and attributes, indent level, closing tag
+- [Emmet](https://docs.emmet.io/cheat-sheet/) - HTML shortcuts
+- Linter to highlight syntax errors
+- Formatter to beautify code style
+- Color picker
+- Themes and fonts
+- Editor settings - Global for the site and remembered in browser local storage
 
 
-## Usage
+## Upgrade from CodeMirror 5
 
-Enqueue the code editor from PHP.
+The previous version of the editor has been archived:
 
-```php
-use tangible\template_system\editor;
+https://github.com/tangibleinc/tangible-codemirror-v5
 
-editor\enqueue_editor();
-```
+The minified bundle is still in the Template System, so the old editor can be enabled by plugin setting until the new editor fully replaces it.
 
-The script defines a global `Tangible.TemplateSystem.CodeEditor`.
-
-## Upgrade from previous version
+### Migration
 
 Replace the existing use of code editor in:
 
@@ -41,54 +51,16 @@ Then remove CodeMirror 5 entirely.
 
 ## Future ideas
 
-- Tag and attribute autocomplete
+- Language definition: Tag attributes for autocomplete and documentation
 
-- Language intelligence features
-
-  - Reference: Visual Studio Code
-    - IntelliSense - https://code.visualstudio.com/docs/editor/intellisense
-    - Code Navigation - https://code.visualstudio.com/docs/editor/editingevolved
-    - Snippets - https://code.visualstudio.com/docs/editor/userdefinedsnippets
-    - Emmet - https://code.visualstudio.com/docs/editor/emmet
-
-  - Interface
-    - ? Detect language syntax at cursor
-
-      https://codemirror.net/docs/ref/#language.syntaxTree
-
-    - Editor Panel - https://codemirror.net/examples/panel/
-
-      For example, contextual info from current cursor position
-
-    - Tooltip - https://codemirror.net/examples/tooltip/
-
-      Hovers above the cursor
-
-    - Decoration - https://codemirror.net/examples/decoration/
-
-      Element in the editor
-
-    - Gutter - https://codemirror.net/examples/gutter/
-
-      Button to insert/edit tag?
-
-      - Dynamically change document: https://codemirror.net/examples/change/
-
-  - Linter
-    - Example - https://codemirror.net/examples/lint/
-    - Reference - https://codemirror.net/docs/ref/#lint
-
-  - Autocomplete - https://codemirror.net/examples/autocompletion/
-
-    - Emmet abbreviations
-
-  - Prettier autoformat
-
-    https://prettier.io/docs/en/browser.html
-
+- More language modes: JSON, Markdown
 
 - Export single template/block (HTML, CSS, JS) from edit screen
 
 - Import/export single template in Template block inside page builder
 
 - Template patterns
+
+- Action/button to insert and edit tag
+
+  - [How to dynamically change document](https://codemirror.net/examples/change/)

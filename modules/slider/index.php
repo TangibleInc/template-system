@@ -1,17 +1,46 @@
 <?php
+/**
+ * Slider
+ */
+namespace tangible\template_system\slider;
 
 use tangible\format;
 use tangible\hjson;
+use tangible\template_system;
+use tangible\template_system\slider;
 
-/**
- * Slider
- *
- * @see vendor/tangible/interface
- */
+function register() {
+  $url = template_system::$state->url . 'modules/slider/build';
+  $version = template_system::$state->version;
 
-$html->add_open_tag('Slider', function( $atts, $nodes ) use ( $html, $interface ) {
+  wp_register_script(
+    'tangible-slider',
+    "{$url}/slider.min.js",
+    [ 'jquery' ],
+    $version,
+    true
+  );
 
-  $interface->enqueue( 'slider' );
+  wp_register_style(
+    'tangible-slider',
+    "{$url}/slider.min.css",
+    [],
+    $version
+  );
+}
+
+function enqueue() {
+  wp_enqueue_script('tangible-slider');
+  wp_enqueue_style('tangible-slider');
+}
+
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\register', 0 );
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\register', 0 );
+
+
+$html->add_open_tag('Slider', function( $atts, $nodes ) use ( $html ) {
+
+  slider\enqueue();
 
   // <Slider enqueue />
   if (in_array( 'enqueue', $atts['keys'] )) return;
@@ -131,6 +160,6 @@ $html->add_open_tag('Slider', function( $atts, $nodes ) use ( $html, $interface 
   return $html->render_tag( 'div', $tag_atts, $nodes );
 });
 
-$html->add_open_tag('Slide', function( $atts, $nodes ) use ( $html, $interface ) {
+$html->add_open_tag('Slide', function( $atts, $nodes ) use ( $html ) {
   return $html->render_tag( 'div', $atts, $nodes );
 });

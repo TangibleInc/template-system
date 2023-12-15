@@ -1,7 +1,4 @@
 <?php
-/**
- * Generic conditional logic UI
- */
 
 if ( ! function_exists( 'tangible_logic' ) ) :
   function tangible_logic( $module = false ) {

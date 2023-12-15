@@ -1,4 +1,4 @@
-# Tangible Date module
+# Date
 
 Examples
 

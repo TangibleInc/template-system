@@ -4,14 +4,58 @@
  *
  * @see vendor/tangible/interface
  */
+namespace tangible\template_system\prism;
 
-$html->add_raw_tag('Prism', function($atts, $content) use ($html, $interface) {
+use tangible\template_system;
+use tangible\template_system\prism;
+
+function register() {
+  $url = template_system::$state->url . 'modules/prism';
+  $version = template_system::$state->version;
+
+  // Clipboard
+  // From: https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js
+  wp_register_script(
+    'tangible-clipboard',
+    "{$url}/vendor/clipboard.min.js",
+    [],
+    '2.0.0',
+    true
+  );
+
+  // From: https://prismjs.com/download.html#themes=prism-okaidia&languages=markup+css+clike+javascript+bash+json+markdown+markup-templating+php+php-extras+jsx+tsx+scss+typescript&plugins=toolbar+copy-to-clipboard
+  wp_register_script(
+    'tangible-prism',
+    "{$url}/vendor/prism.min.js",
+    [ 'tangible-clipboard' ],
+    '1.20.0',
+    true
+  );
+
+  // Prism: Theme
+  wp_register_style(
+    'tangible-prism',
+    "{$url}/build/prism.min.css",
+    [],
+    $version
+  );
+}
+
+function enqueue() {
+  wp_enqueue_script('tangible-prism');
+  wp_enqueue_style('tangible-prism');
+}
+
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\register', 0 );
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\register', 0 );
+ 
+$html->add_raw_tag('Prism', function($atts, $content) use ($html) {
 
   $language = isset($atts['language']) ? $atts['language'] : (
     isset($atts['lang']) ? $atts['lang'] : 'markup'
   );
 
-  $interface->enqueue('prism');
+  prism\enqueue();
 
   // <Prism enqueue />
   if (in_array('enqueue', $atts['keys'])) return;

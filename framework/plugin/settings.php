@@ -2,6 +2,22 @@
 namespace tangible\plugin;
 
 /**
+ * Register plugin settings - For compatibility with plugin framework
+ * 
+ * @param config - Plugin settings configuration
+ * @param config.css - CSS file URL
+ * @param config.title_callback - Function to display plugin title
+ * @param config.tabs - { [name: string]: { title: string, callback: Function } }
+ */
+function register_settings($config) {
+  [
+    'css' => $css,
+    'title_callback' => $title_callback,
+    'tabs' => $tabs
+  ] = $config;
+}
+
+/**
  * Render checkbox as a plugin setting field
  * 
  * This is here for backward compatibility with the deprecated plugin framework.

@@ -5,6 +5,8 @@
  * `wp-blocks`: includes block type registration and related functions.
  * `wp-element`: includes the WordPress Element abstraction for describing the structure of your blocks.
  * `wp-i18n`: To internationalize the block's text.
+ * 
+ * @see /system/editor
  */
 
 use tangible\template_system;
@@ -22,7 +24,7 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
    * @see /admin/capability
    */
   $can_edit = template_system\can_user_edit_template();
-  $legacy_editor = !template_system\get_settings('codemirror_6');
+  $new_editor = template_system\get_settings('codemirror_6');
 
   $js_deps = [
     'wp-block-editor',
@@ -40,18 +42,15 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
 
   if ($can_edit) {
 
-    if ($legacy_editor) {
+    if ($new_editor) {
 
-      $html->enqueue_codemirror_v5();
+      template_system\enqueue_codemirror_v6();
+      $js_deps []= 'tangible-codemirror-v6';
 
-      $js_deps []= 'tangible-codemirror-v5';
-      wp_enqueue_style( 'tangible-codemirror-v5' );
-  
     } else {
-  
-      $plugin->enqueue_template_editor_bridge();
-  
-      $js_deps []= 'tangible-template-editor-bridge';
+      template_system\enqueue_codemirror_v5();
+      $js_deps []= 'tangible-codemirror-v5';
+      wp_enqueue_style( 'tangible-codemirror-v5' );  
     }  
   }
 

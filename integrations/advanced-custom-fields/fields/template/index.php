@@ -125,27 +125,20 @@ class TemplateField extends acf_field {
 
   function input_admin_enqueue_scripts() {
 
-    $asset_name = 'tangible-codemirror-v5';
 
+    /**
+     * @see /system/editor
+     */
+
+    $asset_name = 'tangible-codemirror-v6';
+    
     if (template_system\get_settings('codemirror_6')) {
-
-      /**
-       * @see /system/editor/enqueue.php
-       */
-      tangible_template_system()->enqueue_template_editor_bridge();
-
-      $asset_name = 'tangible-template-editor-bridge';
-
-    } else {
-
-      // Code editor incompatible with Custom HTML field in Customizer
-      // due to different versions of HTMLHint in global scope
-      // Now that we removed the linter, this is no longer nececssary
-
-      // global $wp_customize;
-      // if ( isset( $wp_customize ) ) return;
-
-      tangible_template()->enqueue_codemirror_v5();
+      
+      template_system\enqueue_codemirror_v6();
+      
+    } else {      
+      template_system\enqueue_codemirror_v5();
+      $asset_name = 'tangible-codemirror-v5';
     }
 
     wp_add_inline_script( $asset_name, file_get_contents( __DIR__ . '/index.js' ) );
