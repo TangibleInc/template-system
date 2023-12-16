@@ -9,6 +9,7 @@ composer.lock
 package-lock.json
 yarn.lock
 
+/artifacts
 *.swp
 /coverage
 /.phpunit.cache
