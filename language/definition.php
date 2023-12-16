@@ -1,10 +1,11 @@
 <?php
-namespace tangible\template_system\editor;
-use tangible\template_system\editor;
+namespace tangible\template_system;
+
+use tangible\template_system;
 
 function get_language_definition() {
 
-  $html = editor::$html;
+  $html = template_system::$html;
 
   // TODO: These internal tags should define themselves as such
   $ignore_tags = [

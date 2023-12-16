@@ -7,10 +7,21 @@ namespace tangible;
 
 use tangible\template_system;
 
-// System
-
 class template_system {
+
   static $state;
+
+  /**
+   * Reference to previous style of code organization with global functions
+   * 
+   * These are being replaced by modules and methods defined in namespace
+   * `tangible`. Until fully replaced, these can be used instead of function
+   * calls.
+   */
+  static $system; // tangible_template_system()
+  static $loop;   // tangible_loop()
+  static $logic;  // tangible_logic()
+  static $html;   // tangible_template()
 }
 
 template_system::$state = (object) [
@@ -19,14 +30,14 @@ template_system::$state = (object) [
   'url' => plugins_url( '/', __FILE__ ),
 ];
 
-// Core modules
-
 require_once __DIR__ . '/framework/index.php';
-require_once __DIR__ . '/loop/index.php';
-require_once __DIR__ . '/logic/index.php';
-require_once __DIR__ . '/language/index.php';
 
-// Features depend on above modules
+template_system::$system = $system; // From /admin/system
+template_system::$loop   = require_once __DIR__ . '/loop/index.php';
+template_system::$logic  = require_once __DIR__ . '/logic/index.php';
+template_system::$html   = require_once __DIR__ . '/language/index.php';
+
+// Features depend on above core modules
 
 require_once __DIR__ . '/admin/index.php';
 require_once __DIR__ . '/editor/index.php';

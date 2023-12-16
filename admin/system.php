@@ -5,10 +5,6 @@ use tangible\date;
 /**
  * Module loader: When there are mulitple plugins with the same module, this
  * loads the newest version.
- * 
- * Currently moving all child modules out of /system into independent modules at
- * project root, while removing dependencies on Plugin Framework, jQuery, etc.
- * @see ../core
  */
 new class extends \stdClass {
 
@@ -60,20 +56,19 @@ new class extends \stdClass {
 
     tangible_template_system( $this );
 
-    $plugin = $this;
+    $system = $plugin = $this;
 
     /**
      * Template System - New module organization
      */
     require_once __DIR__.'/../core.php';
 
-    $system = &$plugin;
-    $loop      = $plugin->loop;
-    $logic     = $plugin->logic;
-    $html      = $plugin->html;
-    
+    $loop  = template_system::$loop;
+    $logic = template_system::$logic;
+    $html  = template_system::$html;
+
     // Backward compatibility
-    $plugin->has_plugin = template_system\get_active_plugins();
+    $system->has_plugin = template_system\get_active_plugins();
 
     require_once __DIR__ . '/post-types/index.php';
     require_once __DIR__ . '/editor/index.php';
@@ -83,15 +78,15 @@ new class extends \stdClass {
     require_once __DIR__ . '/universal-id/index.php';
     require_once __DIR__ . '/import-export/index.php';
 
-    $ready_hook = "{$plugin->name}_ready";
+    $ready_hook = "{$system->name}_ready";
 
-    do_action( $ready_hook, $plugin );
+    do_action( $ready_hook, $system );
     remove_all_actions( $ready_hook );
 
-    add_action('plugins_loaded', function() use ( $plugin ) {
+    add_action('plugins_loaded', function() use ( $system ) {
 
       // For any callbacks that registered later
-      do_action( "{$plugin->name}_ready", $plugin );
+      do_action( "{$system->name}_ready", $system );
 
     }, 12); // After plugins register
   }

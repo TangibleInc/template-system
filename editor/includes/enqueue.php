@@ -1,5 +1,7 @@
 <?php
 namespace tangible\template_system\editor;
+
+use tangible\template_system;
 use tangible\template_system\editor;
 
 function enqueue_editor() {
@@ -18,13 +20,14 @@ function enqueue_editor() {
     $version,
     true
   );
-}
-
-function enqueue_editor_language_definition() {
 
   // Pass language data
 
-  wp_localize_script( 'tangible-template-system-editor', 'TangibleTemplateLanguage', get_language_definition() );
+  wp_localize_script(
+    'tangible-template-system-editor',
+    'TangibleTemplateLanguage',
+    template_system\get_language_definition()
+  );
 }
 
 /**
@@ -34,7 +37,6 @@ function enqueue_editor_language_definition() {
 function enqueue_ide() {
 
   editor\enqueue_editor();
-  editor\enqueue_editor_language_definition();
 
   $url = editor::$state->url;
   $version = editor::$state->version;

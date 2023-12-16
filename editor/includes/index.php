@@ -3,7 +3,6 @@ namespace tangible\template_system;
 use tangible\template_system;
 use tangible\template_system\editor;
 
-require_once __DIR__.'/language.php';
 require_once __DIR__.'/enqueue.php';
 require_once __DIR__.'/menu.php';
 

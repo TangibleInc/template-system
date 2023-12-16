@@ -65,7 +65,8 @@ return tangible_template(new class extends stdClass {
      * preferred method of using features, instead of global functions or even
      * local variables like below.
      * 
-     * Feature modules in /framework replace the deprecated plugin framework.
+     * Features in /modules and /framework replace the deprecated plugin
+     * framework.
      */
     $system    = $this->system;
     $loop      = $system->loop =  $html->loop = tangible_loop();
@@ -95,6 +96,7 @@ return tangible_template(new class extends stdClass {
     require_once __DIR__ . '/format/index.php';
     require_once __DIR__ . '/logic/index.php';
     require_once __DIR__ . '/control/index.php';
+    require_once __DIR__ . '/definition.php';
 
     // Page life cycle
     require_once __DIR__ . '/enqueue/index.php';
