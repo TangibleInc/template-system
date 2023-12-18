@@ -2,9 +2,9 @@ export default {
   build: [
     // Form
     {
-      src: 'src/index.js',
+      src: 'src/index.ts',
       dest: 'build/form.min.js',
     },
   ],
-  format: ['**/*.{php,js,scss}', '!build'],
+  format: ['**/*.{php,ts,tsx,scss}', '!build'],
 }

@@ -6,7 +6,7 @@ namespace tangible\template_system\embed;
 use tangible\template_system;
 
 function register() {
-  $url = template_system::$state->url . 'modules/embed';
+  $url = template_system::$state->url . '/modules/embed';
   $version = template_system::$state->version;
   
   wp_register_script(

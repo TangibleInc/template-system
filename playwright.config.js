@@ -12,11 +12,9 @@ process.env.STORAGE_STATE_PATH ??= path.join(
 
 const config = defineConfig({
   /**
-   * Based on @wordpress/scripts/config/playwright.config.js
+   * Based on https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/config/playwright.config.js
    *
-   * Copied to avoid having to install @wordpress/script, which comes with many unnecessary dependencies.
-   *
-   * @see https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/config/playwright.config.js
+   * Copied to avoid having to install @wordpress/script which comes with many unnecessary dependencies.
    */
   reporter: process.env.CI ? [['github']] : [['list']],
   forbidOnly: !!process.env.CI,
@@ -50,12 +48,6 @@ const config = defineConfig({
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
   },
-  webServer: {
-    command: 'npm run wp-env start',
-    port: 8889,
-    timeout: 120_000, // 120 seconds.
-    reuseExistingServer: true,
-  },
   projects: [
     {
       name: 'chromium',
@@ -69,6 +61,12 @@ const config = defineConfig({
   testMatch: '**/*.js',
   testIgnore: 'playwright.setup.js',
   globalSetup: path.join(__dirname, 'tests/e2e/playwright.setup.js'),
+  webServer: {
+    command: 'npm run env:start',
+    port: 8889,
+    timeout: 120_000, // 120 seconds.
+    reuseExistingServer: true,
+  },
 })
 
 export default config

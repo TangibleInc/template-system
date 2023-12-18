@@ -17,6 +17,7 @@
     <testsuite name="default">
       <directory suffix=".php">tests</directory>
       <exclude>tests/index.php</exclude>
+      <exclude>tests/e2e</exclude>
     </testsuite>
   </testsuites>
   <php>

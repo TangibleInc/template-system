@@ -5,8 +5,5 @@ export default {
       dest: 'build/chart.min.js'
     },
   ],
-  format: [
-    'src',
-    '**/*.php',
-  ]
+  format: ['**/*.{php,ts,tsx,scss}', '!build'],
 }

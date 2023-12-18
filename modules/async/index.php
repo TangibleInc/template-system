@@ -8,7 +8,7 @@ use tangible\template_system;
 use tangible\template_system\async_render;
 
 function register() {
-  $url = template_system::$state->url . 'modules/async/build';
+  $url = template_system::$state->url . '/modules/async/build';
   $version = template_system::$state->version;
   
   wp_register_script(

@@ -9,7 +9,7 @@ namespace tangible\template_system\mermaid;
 use tangible\template_system;
 
 function register() {
-  $url = template_system::$state->url . 'modules/mermaid';
+  $url = template_system::$state->url . '/modules/mermaid';
   $version = template_system::$state->version;
   
   wp_register_script(
@@ -44,7 +44,7 @@ $html->add_raw_tag('Mermaid', function($atts, $content) use ($html) {
 
 function register_mermaid_script() {
 
-  $url = plugins_url( '/', __FILE__ ) . '/build';
+  $url = untrailingslashit(plugins_url('/', __FILE__)) . '/build';
   $version = template_system::$state->version;
 
   wp_register_script(

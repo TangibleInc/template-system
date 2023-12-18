@@ -3,7 +3,7 @@ namespace tangible\template_system;
 
 function enqueue_codemirror_v5( $options = [] ) {
 
-  $url     = plugins_url( '/', __FILE__ );
+  $url     = untrailingslashit(plugins_url('/', __FILE__));
   $version = '5';
 
   wp_enqueue_script('tangible-codemirror-v5',

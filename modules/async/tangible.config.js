@@ -5,8 +5,5 @@ export default {
       dest: 'build/async-render.min.js'
     },
   ],
-  format: [
-    'src',
-    '**/*.php',
-  ]
+  format: ['**/*.{php,ts,tsx,scss}', '!build'],
 }

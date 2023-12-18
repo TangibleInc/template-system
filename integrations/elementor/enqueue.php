@@ -1,7 +1,7 @@
 <?php
 /**
  * Enqueue for Elementor
- * @see /system/editor
+ * @see /admin/editor
  */
 use tangible\template_system;
 
@@ -36,16 +36,18 @@ $plugin->enqueue_elementor_template_editor = function() use ( $plugin, $html ) {
   $html->enqueue_module_loader();
   $html->enqueue_module_loader_data();
 
+  $url = template_system::$state->url . '/integrations/elementor/build';
+
   wp_enqueue_script(
     'tangible-elementor-template-editor',
-    $plugin->url . 'assets/build/elementor-template-editor.min.js',
+    $url . '/elementor-template-editor.min.js',
     $js_deps,
     $plugin->version
   );
 
   wp_enqueue_style(
     'tangible-elementor-template-editor',
-    $plugin->url . 'assets/build/elementor-template-editor.min.css',
+    $url . '/elementor-template-editor.min.css',
     [],
     $plugin->version
   );

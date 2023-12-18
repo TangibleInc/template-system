@@ -2,11 +2,8 @@ export default {
   build: [
     {
       src: 'src/index.ts',
-      dest: 'build/chart.min.js'
+      dest: 'build/glider.min.js'
     },
   ],
-  format: [
-    'src',
-    '**/*.php',
-  ]
+  format: ['**/*.{php,ts,tsx,scss}', '!build', '!vendor'],
 }

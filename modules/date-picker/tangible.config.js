@@ -9,8 +9,5 @@ export default {
       dest: 'build/date-picker.min.css'
     },
   ],
-  format: [
-    'src',
-    '**/*.php',
-  ]
+  format: ['**/*.{php,ts,tsx,scss}', '!build'],
 }

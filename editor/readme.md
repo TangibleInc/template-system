@@ -1,6 +1,6 @@
 # Editor
 
-This is a code editor based on CodeMirror 6, with a curated and customized set of features designed for the Loops & Logic template language and system.
+This is the code editor based on CodeMirror 6, with a curated and customized set of features designed for the Loops & Logic template language and system.
 
 The goal is to grow into an integrated development environment (IDE) with the editor at its core.
 
@@ -10,7 +10,9 @@ Ideally, the editor and IDE should run well within WordPress, as well as indepen
 
 The main advantage of the new editor is that it's integrated with the template language definition. This allows smart editor features like code completion, hints, snippets, inline documentation.
 
-Another benefit is the extensibility of the editor interface, such as [info panel](https://codemirror.net/examples/panel/), [tooltip](https://codemirror.net/examples/tooltip/), [decoration](https://codemirror.net/examples/decoration/), [gutter](https://codemirror.net/examples/gutter/), and getting [language syntax at cursor position](https://codemirror.net/docs/ref/#language.syntaxTree).
+Another benefit is the extensibility of the editor interface thanks to CodeMirror, such as [info panel](https://codemirror.net/examples/panel/), [tooltip](https://codemirror.net/examples/tooltip/), [decoration](https://codemirror.net/examples/decoration/), [gutter](https://codemirror.net/examples/gutter/), and getting [language syntax at cursor position](https://codemirror.net/docs/ref/#language.syntaxTree).
+
+The following features are integrated into the template editor.
 
 - Language modes
   - Template - HTML extended
@@ -29,11 +31,9 @@ Another benefit is the extensibility of the editor interface, such as [info pane
 
 ## Upgrade from CodeMirror 5
 
-The previous version of the editor has been archived:
+The previous version of the editor has been archived to [its own repository](https://github.com/tangibleinc/tangible-codemirror-v5).
 
-https://github.com/tangibleinc/tangible-codemirror-v5
-
-The minified bundle is still in the Template System, so the old editor can be enabled by plugin setting until the new editor fully replaces it.
+The minified bundle is still in the Template System (as [Codemirror v5 module](../modules/codemirror-v5/)). The old editor can be enabled by plugin setting until the new editor fully replaces it.
 
 ### Migration
 

@@ -1,18 +1,9 @@
 export default {
   build: [
     {
-      src: 'src/index.js',
-      dest: 'build/paginator.min.js',
-    },
-    {
       src: 'src/index.scss',
-      dest: 'build/paginator.min.css',
+      dest: 'build/prism.min.css',
     },
   ],
-  format: [
-    'src',
-    '**/*.php',
-    '!build',
-    '!vendor'
-  ]
+  format: ['**/*.{php,ts,tsx,scss}', '!build', '!vendor'],
 }

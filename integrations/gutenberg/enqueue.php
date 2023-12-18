@@ -36,6 +36,7 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
     'jquery',
     'wp-components',
     'wp-editor',
+
     'tangible-ajax',
     'tangible-module-loader',
   ];
@@ -48,27 +49,31 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
       $js_deps []= 'tangible-codemirror-v6';
 
     } else {
+
       template_system\enqueue_codemirror_v5();
       $js_deps []= 'tangible-codemirror-v5';
       wp_enqueue_style( 'tangible-codemirror-v5' );  
     }  
   }
 
-  /*
-  wp_enqueue_style(
-    'tangible-gutenberg-template-editor',
-    $plugin->url . 'assets/build/gutenberg-template-editor.min.css',
-    [ 'wp-edit-blocks', 'tangible-codemirror' ],
-    $plugin->version
-  );
-  */
+  $url = template_system::$state->url . '/integrations/gutenberg/build';
+  $version = template_system::$state->version;
 
   wp_enqueue_script(
     'tangible-gutenberg-template-editor',
-    $plugin->url . 'assets/build/gutenberg-template-editor.min.js',
+    $url . '/gutenberg-template-editor.min.js',
     $js_deps,
-    $plugin->version
+    $version
   );
+
+  /*
+  wp_enqueue_style(
+    'tangible-gutenberg-template-editor',
+    $url . '/gutenberg-template-editor.min.css',
+    [ 'wp-edit-blocks', 'tangible-codemirror' ],
+    $version
+  );
+  */
 
   /**
    * Ensure the field "current_post_id" is a number, as defined in the schema
@@ -116,17 +121,20 @@ add_action('enqueue_block_editor_assets', function() use ( $plugin ) {
 /*
 add_action('enqueue_block_assets', function() use ($plugin) {
 
+  $url = template_system::$state->url . '/integrations/gutenberg/build';
+  $version = template_system::$state->version;
+
   wp_enqueue_style(
     'tangible-loop-gutenberg-frontend',
-    $plugin->url . 'assets/build/gutenberg.frontend.min.css',
+    $url . '/gutenberg.frontend.min.css',
     [],
-    $plugin->version
+    $version
   );
 
   wp_enqueue_script(
     'tangible-loop-gutenberg-frontend',
-    $plugin->url . 'assets/build/gutenberg.frontend.min.js',
+    $url . '/gutenberg.frontend.min.js',
     ['jquery'],
-    $plugin->version
+    $version
   );
 });*/

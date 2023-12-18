@@ -45,5 +45,3 @@ Tangible.ajax = ajax
 
 // Backward compatibility
 Tangible.ajaxConfig = ajaxConfig
-
-export default ajax

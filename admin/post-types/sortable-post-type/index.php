@@ -1,6 +1,7 @@
 <?php
 
 namespace tangible\template_system;
+use tangible\template_system;
 
 /**
  * Sortable post type
@@ -18,11 +19,14 @@ $plugin->register_sortable_post_type = function( $type ) use ( $plugin ) {
 
   if ( ! $sortable_post_type ) {
 
+    $url = template_system::$state->url . '/admin';
+    $version = template_system::$state->version;
+  
     require_once __DIR__ . '/class-sortable-post-type.php';
 
     $sortable_post_type = new SortablePostType(
-      $plugin->url . '/post-types/sortable-post-type',
-      $plugin->version
+      $url . '/post-types/sortable-post-type',
+      $version
     );
   }
 

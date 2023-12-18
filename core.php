@@ -14,9 +14,8 @@ class template_system {
   /**
    * Reference to previous style of code organization with global functions
    * 
-   * These are being replaced by modules and methods defined in namespace
-   * `tangible`. Until fully replaced, these can be used instead of function
-   * calls.
+   * These are here to provide a backward-compatible "bridge", to be replaced
+   * by feature state and methods defined in namespace `tangible`.
    */
   static $system; // tangible_template_system()
   static $loop;   // tangible_loop()
@@ -27,7 +26,7 @@ class template_system {
 template_system::$state = (object) [
   'version' => include __DIR__.'/version.php',
   'path' => __DIR__,
-  'url' => plugins_url( '/', __FILE__ ),
+  'url' => untrailingslashit( plugins_url( '/', __FILE__ ) ),
 ];
 
 require_once __DIR__ . '/framework/index.php';

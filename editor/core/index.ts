@@ -34,6 +34,7 @@ export async function create({
   onSave,
   extensions: userExtensions = [],
 }: CodeEditorOptions) {
+
   const updateListener = EditorView.updateListener.of((view: ViewUpdate) => {
     // https://discuss.codemirror.net/t/codemirror-6-proper-way-to-listen-for-changes/2395/2
     // https://codemirror.net/6/docs/ref/#view.ViewUpdate

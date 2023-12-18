@@ -21,3 +21,4 @@ The framework is developed within the [Template System](https://github.com/tangi
 - [Log](log)
 - [Object](object)
 - [Plugin](plugin)
+- [Select](select)

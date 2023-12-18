@@ -34,7 +34,7 @@ return tangible_logic(new class extends stdClass {
 
     $this->path      = __DIR__;
     $this->file_path = __FILE__;
-    $this->url       = plugins_url( '/', __FILE__ );
+    $this->url       = untrailingslashit(plugins_url('/', __FILE__));
 
     // Backward compatibility
     $this->state['url']     = $this->url;

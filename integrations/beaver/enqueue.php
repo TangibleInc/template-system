@@ -22,11 +22,14 @@ $plugin->enqueue_beaver_template_editor = function() use ( $plugin, $html ) {
     template_system\enqueue_codemirror_v5();
   }
 
+  $url = template_system::$state->url . '/integrations/beaver/build';
+  $version = template_system::$state->version;
+
   wp_enqueue_style(
     'tangible-beaver-template-editor',
-    $plugin->url . 'assets/build/beaver-template-editor.min.css',
+    $url . '/beaver-template-editor.min.css',
     [],
-    $plugin->version
+    $version
   );
 
   // Script is at ./modules/tangible-template/js/settings.js 

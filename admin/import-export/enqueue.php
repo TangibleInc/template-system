@@ -8,20 +8,25 @@ use tangible\template_system;
 
 $plugin->enqueue_template_import_export = function() use ( $plugin ) {
 
-  $url     = $plugin->url;
-  $version = $plugin->version;
+  $url = template_system::$state->url . '/admin/build';
+  $version = template_system::$state->version;
 
   wp_enqueue_style(
     'tangible-template-import-export',
-    $url . 'assets/build/template-import-export.min.css',
+    $url . '/template-import-export.min.css',
     [ 'tangible-select' ],
     $version
   );
 
   wp_enqueue_script(
     'tangible-template-import-export',
-    $url . 'assets/build/template-import-export.min.js',
-    [ 'jquery', 'tangible-ajax', 'tangible-preact', 'tangible-select' ],
+    $url . '/template-import-export.min.js',
+    [
+      'jquery',
+      'tangible-ajax',
+      'wp-element', //'tangible-preact',
+      'tangible-select'
+    ],
     $version
   );
 

@@ -11,12 +11,12 @@ use tangible\hjson;
 use tangible\template_system;
 
 function register() {
-  $url = template_system::$state->url . 'modules/chart';
+  $url = template_system::$state->url . '/modules/chart/build';
   $version = template_system::$state->version;
   
   wp_register_script(
     'tangible-chart',
-    "{$url}/build/chart.min.js",
+    "{$url}/chart.min.js",
     [ 'jquery' ],
     $version,
     true

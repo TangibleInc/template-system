@@ -1,115 +1,30 @@
-export default {
-  build: [
+import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
 
-    // Template editor
-    {
-      src: 'assets/src/template-editor/index.ts',
-      dest: 'assets/build/template-editor.min.js',
-    },
-    {
-      src: 'assets/src/template-editor/index.scss',
-      dest: 'assets/build/template-editor.min.css',
-    },
-    {
-      src: 'assets/src/template-editor-bridge/global.js',
-      dest: 'assets/build/template-editor-bridge.min.js',
-    },
-    {
-      src: 'assets/src/template-editor-bridge/index.scss',
-      dest: 'assets/build/template-editor-bridge.min.css',
-    },
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
-    // Template assets editor
-    {
-      src: 'assets/src/template-assets-editor/index.jsx',
-      dest: 'assets/build/template-assets-editor.min.js',
-      alias: {
-        react: 'window.Tangible.Preact'
-      }
-    },
-    {
-      src: 'assets/src/template-assets-editor/index.scss',
-      dest: 'assets/build/template-assets-editor.min.css',
-    },
+export default async () => {
+  const build = []
 
-    // Template location editor
-    {
-      src: 'assets/src/template-location-editor/index.jsx',
-      dest: 'assets/build/template-location-editor.min.js',
-      alias: {
-        react: 'window.Tangible.Preact'
-      }
-    },
-    {
-      src: 'assets/src/template-location-editor/index.scss',
-      dest: 'assets/build/template-location-editor.min.css',
-    },
+  for (const name of [
+    'editor',
+    'template-assets',
+    'import-export',
+    'location',
+  ]) {
+    const tasks = (await import(`./${name}/tangible.config.js`)).default.build
+    build.push(
+      ...tasks.map((task) => ({
+        ...task,
+        name,
+        src: join(__dirname, name, task.src),
+        dest: join(__dirname, name, task.dest),
+      }))
+    )
+  }
 
-    // Template import/export
-    {
-      src: 'assets/src/template-import-export/index.jsx',
-      dest: 'assets/build/template-import-export.min.js',
-      alias: {
-        react: 'window.Tangible.Preact'
-      }
-    },
-    {
-      src: 'assets/src/template-import-export/index.scss',
-      dest: 'assets/build/template-import-export.min.css',
-    },
-
-    // Template cloud
-    /*
-    {
-      src: 'assets/src/template-cloud/index.jsx',
-      dest: 'assets/build/template-cloud.min.js',
-      alias: {
-        react: 'window.Tangible.Preact'
-      }
-    },
-    {
-      src: 'assets/src/template-cloud/index.scss',
-      dest: 'assets/build/template-cloud.min.css',
-    },
-    */
-
-    // Page buider integrations
-
-    // Gutenberg
-    {
-      src: 'assets/src/gutenberg-template-editor/index.jsx',
-      dest: 'assets/build/gutenberg-template-editor.min.js',
-      react: 'wp.element',
-    },
-    // {
-    //   src: 'assets/src/gutenberg-template-editor/index.scss',
-    //   dest: 'assets/build/gutenberg-template-editor.min.css',
-    // },
-
-    // Beaver Builder
-    {
-      src: 'assets/src/beaver-template-editor/index.js',
-      dest: 'assets/build/beaver-template-editor.min.js',
-      react: 'wp.element',
-    },
-    {
-      src: 'assets/src/beaver-template-editor/index.scss',
-      dest: 'assets/build/beaver-template-editor.min.css',
-    },
-
-    // Elementor
-    {
-      src: 'assets/src/elementor-template-editor/index.js',
-      dest: 'assets/build/elementor-template-editor.min.js',
-      react: 'wp.element',
-    },
-    {
-      src: 'assets/src/elementor-template-editor/index.scss',
-      dest: 'assets/build/elementor-template-editor.min.css',
-    },
-  ],
-  format: [
-    'assets/src',
-    '**/*.php',
-  ]
+  return {
+    build,
+    format: ['**/*.{php,ts,tsx,scss}', '!build'],
+  }
 }

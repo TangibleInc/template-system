@@ -1,7 +1,7 @@
 module.exports = {
   build: [
     {
-      src: 'src/index.js',
+      src: 'src/index.ts',
       dest: 'build/mermaid.min.js',
       map: false
     },
@@ -15,10 +15,7 @@ module.exports = {
       dest: 'build/index.html',
     }
   ],
-  format: [
-    'src',
-    '**/*.php',
-  ],
+  format: ['**/*.{php,ts,tsx,scss}', '!build'],
   serve: {
     dir: 'build'
   }

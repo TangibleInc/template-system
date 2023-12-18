@@ -8,12 +8,14 @@ use tangible\ajax;
 use tangible\template_system;
 
 function register() {
-  $url = template_system::$state->url . 'modules/paginator';
+  $url = template_system::$state->url . '/modules/paginator/build';
   $version = template_system::$state->version;
-  
+
+  ajax\enqueue();
+
   wp_register_script(
     'tangible-paginator',
-    "{$url}/build/paginator.min.js",
+    "{$url}/paginator.min.js",
     [ 'jquery', 'tangible-ajax' ],
     $version,
     true
@@ -21,7 +23,7 @@ function register() {
 
   wp_register_style(
     'tangible-paginator',
-    "{$url}/build/paginator.min.css",
+    "{$url}/paginator.min.css",
     [],
     $version,
   );

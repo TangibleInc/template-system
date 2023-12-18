@@ -27,27 +27,11 @@ return tangible_loop(new class extends stdClass {
   function __construct() {
     $this->system = tangible_template_system();
     $this->version = $this->system->version;
-    $this->load();
-  }
-
-  // Dynamic methods
-  function __call( $method = '', $args = [] ) {
-    if ( isset( $this->$method ) ) return call_user_func_array( $this->$method, $args );
-    $caller = current( debug_backtrace() );
-    trigger_error( "Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> in <b>{$caller['line']}</b><br>", E_USER_WARNING );
-  }
-
-  function __invoke( $type, $args = [] ) {
-    return $this->create_type( $type, $args );
-  }
-
-  function load() {
 
     $loop = $this;
-
     $loop->path      = __DIR__;
     $loop->file_path = __FILE__;
-    $loop->url       = plugins_url( '/', __FILE__ );
+    $loop->url       = untrailingslashit(plugins_url('/', __FILE__));
 
     require_once __DIR__ . '/utils/index.php';
     require_once __DIR__ . '/context/index.php';
@@ -57,11 +41,20 @@ return tangible_loop(new class extends stdClass {
     require_once __DIR__ . '/field/index.php';
 
     require_once __DIR__ . '/types/calendar/index.php';
+  }
+  
+  /**
+   * Dynamic methods - Deprecated in favor of functions under namespace
+   */
+  function __call( $method = '', $args = [] ) {
+    if ( isset( $this->$method ) ) {
+      return call_user_func_array( $this->$method, $args );
+    }
+    $caller = current( debug_backtrace() );
+    trigger_error( "Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> on line <b>{$caller['line']}</b><br>", E_USER_WARNING );
+  }
 
-    /**
-     * Provide hook for plugins to register new loop types.
-     * Template module depends on this for its features.
-     */
-    do_action( 'tangible_loop_prepare', $loop );
+  function __invoke( $type, $args = [] ) {
+    return $this->create_type( $type, $args );
   }
 });

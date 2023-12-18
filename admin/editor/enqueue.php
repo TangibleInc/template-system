@@ -4,7 +4,7 @@ use tangible\ajax;
 use tangible\template_system;
 use tangible\template_system\editor;
 
-function enqueue_template_editor($codemirror = 5) {
+function enqueue_template_editor($codemirror = 6) {
 
   ajax\enqueue();
 
@@ -40,7 +40,7 @@ JS);
 
   }
 
-  $url = template_system::$state->url . '/system/assets/build';
+  $url = template_system::$state->url . '/admin/build';
   $version = template_system::$state->version;
 
   wp_enqueue_script(
@@ -62,9 +62,8 @@ JS);
 function enqueue_codemirror_v6() {
 
   editor\enqueue_editor();
-  editor\enqueue_editor_language_definition();
 
-  $url = template_system::$state->url . '/system/assets/build';
+  $url = template_system::$state->url . '/admin/build';
   $version = template_system::$state->version;
 
   wp_enqueue_script(

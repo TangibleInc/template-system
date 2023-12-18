@@ -1,10 +1,14 @@
 <?php
+/**
+ * The System module is being replaced by new code organization based on
+ * feature state and actions under namespace `tangible`.
+ */
 use tangible\template_system;
 use tangible\date;
 
 /**
- * Module loader: When there are mulitple plugins with the same module, this
- * loads the newest version.
+ * Module loader: Ensure newest version is loaded when multiple plugins bundle
+ * this module. Version number is automatically updated with `npm run version`.
  */
 new class extends \stdClass {
 
@@ -38,7 +42,9 @@ new class extends \stdClass {
 
     $this->path      = __DIR__;
     $this->file_path = __FILE__;
-    $this->url       = plugins_url( '/', realpath( __FILE__ ) );
+
+    // Keep trailing slash for backward compatibility
+    $this->url       = plugins_url('/', __FILE__);
   }
 
   // Dynamic methods

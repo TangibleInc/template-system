@@ -10,7 +10,7 @@ use tangible\template_system;
 use tangible\template_system\prism;
 
 function register() {
-  $url = template_system::$state->url . 'modules/prism';
+  $url = template_system::$state->url . '/modules/prism';
   $version = template_system::$state->version;
 
   // Clipboard

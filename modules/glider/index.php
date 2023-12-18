@@ -8,7 +8,7 @@ use tangible\template_system;
 use tangible\template_system\glider;
 
 function register() {
-  $url = template_system::$state->url . 'modules/glider';
+  $url = template_system::$state->url . '/modules/glider';
   $version = template_system::$state->version;
   
   wp_register_script(

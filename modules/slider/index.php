@@ -10,7 +10,7 @@ use tangible\template_system;
 use tangible\template_system\slider;
 
 function register() {
-  $url = template_system::$state->url . 'modules/slider/build';
+  $url = template_system::$state->url . '/modules/slider/build';
   $version = template_system::$state->version;
 
   wp_register_script(

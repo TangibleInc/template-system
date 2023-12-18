@@ -3,7 +3,7 @@ namespace tangible\template_system\date_picker;
 use tangible\template_system;
 
 function register() {
-  $url = template_system::$state->url . 'modules/date-picker';
+  $url = template_system::$state->url . '/modules/date-picker';
   $version = template_system::$state->version;
   
   wp_register_script(

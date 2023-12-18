@@ -10,10 +10,10 @@ class ajax {
 ajax::$state = (object) [
   'version' => framework::$state->version,
   'path' => __DIR__,
-  'url' => plugins_url( '/', __FILE__ ),
+  'url' => untrailingslashit(plugins_url( '/', __FILE__ )),
 ];
 
-require_once __DIR__.'/actions.php';
 require_once __DIR__.'/enqueue.php';
 require_once __DIR__.'/nonce.php';
 require_once __DIR__.'/legacy.php';
+require_once __DIR__.'/actions.php';

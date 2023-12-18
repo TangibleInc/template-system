@@ -8,8 +8,8 @@ class api {
 
 api::$state = (object) [
   'version' => framework::$state->version,
-  'path' => __DIR__,
-  'url' => plugins_url( '/', __FILE__ ),  
+  'path'    => __DIR__,
+  'url'     => untrailingslashit(plugins_url('/', __FILE__)),  
 ];
 
 require_once __DIR__.'/action.php';

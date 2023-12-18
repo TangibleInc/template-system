@@ -1,12 +1,17 @@
 export default {
   build: [
     {
-      src: 'src/index.js',
+      src: 'dynamic-table/index.ts',
       dest: 'build/dynamic-table.min.js',
     },
+    {
+      src: 'table/index.ts',
+      dest: 'build/table.min.js',
+    },
+    {
+      src: 'table/index.scss',
+      dest: 'build/table.min.css',
+    },
   ],
-  format: [
-    'src',
-    '**/*.php',
-  ]
+  format: ['**/*.{php,ts,tsx,scss}', '!build', '!vendor'],
 }

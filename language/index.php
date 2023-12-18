@@ -1,11 +1,12 @@
 <?php
 /**
- * Tangible Template module
+ * Language module
+ * 
+ * Implements dynamic template tags with extensible content type loops and
+ * logic conditions. Previously called Template module.
  *
- * Implements dynamic template tags with extensible content type loops and logic conditions.
- *
- * It integrates features from the Loop, Logic, Interface modules; as well as
- * HTML and Date modules in the Tangible Framework.
+ * It integrates feature modules such as Loop, Logic, HTML, Date, and others
+ * from /framework and /modules.
  */
 
 use tangible\date;
@@ -14,16 +15,16 @@ use tangible\ajax;
 if ( ! function_exists( 'tangible_template' ) ) :
   function tangible_template( $arg = false ) {
     static $html;
-    return is_object( $arg )
+    return !$html
       ? ( $html = $arg )
-      : ( $html && $arg !== false ? $html->render_with_catch_exit( $arg ) : $html );
+      : ( $arg !== false ? $html->render_with_catch_exit( $arg ) : $html );
   }
 endif;
 
 return tangible_template(new class extends stdClass {
 
-  public $name    = 'tangible_template';
-  public $version = '0';
+  public $name = 'tangible_template';
+  public $version;
 
   public $html;
   public $system;
@@ -32,20 +33,6 @@ return tangible_template(new class extends stdClass {
 
     $this->system = tangible_template_system();
     $this->version = $this->system->version;
-
-    $this->load();
-  }
-
-  // Dynamic methods
-  function __call( $method = '', $args = [] ) {
-    if ( isset( $this->$method ) ) {
-      return call_user_func_array( $this->$method, $args );
-    }
-    $caller = current( debug_backtrace() );
-    trigger_error( "Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> on line <b>{$caller['line']}</b><br>", E_USER_WARNING );
-  }
-
-  function load() {
 
     /**
      * Template module base is called HTML module
@@ -60,10 +47,15 @@ return tangible_template(new class extends stdClass {
 
     require_once __DIR__ . '/html/index.php';
 
+    $html->path      = __DIR__;
+    $html->file_path = __FILE__;
+    $html->url       = untrailingslashit(plugins_url('/', __FILE__));
+    $html->version = $this->version;
+
     /**
      * In the new code organization, the use of namespace `tangible/*` is the
-     * preferred method of using features, instead of global functions or even
-     * local variables like below.
+     * preferred method of using features, instead of global functions or
+     * locally scoped variables like below.
      * 
      * Features in /modules and /framework replace the deprecated plugin
      * framework.
@@ -77,19 +69,14 @@ return tangible_template(new class extends stdClass {
     $system->ajax = tangible\ajax\legacy();
 
     /**
-     * Interface module removed
-     * Compatibility with existing plugins until they remove reference
+     * Interface module removed - This is for compatibility with existing
+     * plugins until they remove reference to it
      */
     $system->interface = null;
 
     /**
      * Template language
      */
-
-    $html->path      = __DIR__;
-    $html->file_path = __FILE__;
-    $html->url       = plugins_url( '/', __FILE__ );
-    $html->version = $this->version;
 
     require_once __DIR__ . '/utils/index.php';
     require_once __DIR__ . '/tags/index.php';
@@ -115,5 +102,16 @@ return tangible_template(new class extends stdClass {
       // Use this action to load templates
       do_action( 'tangible_templates_ready', $html );
     });
+  }
+
+  /**
+   * Dynamic methods - Deprecated in favor of functions under namespace
+   */
+  function __call( $method = '', $args = [] ) {
+    if ( isset( $this->$method ) ) {
+      return call_user_func_array( $this->$method, $args );
+    }
+    $caller = current( debug_backtrace() );
+    trigger_error( "Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> on line <b>{$caller['line']}</b><br>", E_USER_WARNING );
   }
 });

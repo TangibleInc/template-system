@@ -13,7 +13,7 @@ function enqueue() {
   ajax::$state->schedule_enqueue = true;
 };
 
-function register_library() {
+function register() {
 
   if (ajax::$state->registered) return;
 
@@ -37,11 +37,11 @@ function register_library() {
   ajax::$state->registered = true;
 };
 
-function conditional_enqueue_library() {
+function conditional_enqueue() {
 
   if (!ajax::$state->schedule_enqueue || ajax::$state->enqueued) return;
   if (!ajax::$state->registered) {
-    ajax\register_library();
+    ajax\register();
   }
 
   wp_enqueue_script('tangible-ajax');
@@ -50,11 +50,12 @@ function conditional_enqueue_library() {
   ajax::$state->enqueued = true; // Run only once
 };
 
-add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\register_library', 1);
-add_action('admin_enqueue_scripts', __NAMESPACE__ . '\\register_library', 1);
+// Register after priority 1, when plugin framework used to register
+add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\register', 2);
+add_action('admin_enqueue_scripts', __NAMESPACE__ . '\\register', 2);
 
-add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\conditional_enqueue_library', 999);
-add_action('admin_enqueue_scripts', __NAMESPACE__ . '\\conditional_enqueue_library', 999);
+add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\conditional_enqueue', 999);
+add_action('admin_enqueue_scripts', __NAMESPACE__ . '\\conditional_enqueue', 999);
 
-add_action('wp_footer', __NAMESPACE__ . '\\conditional_enqueue_library', 0);
-add_action('admin_footer', __NAMESPACE__ . '\\conditional_enqueue_library', 0);
+add_action('wp_footer', __NAMESPACE__ . '\\conditional_enqueue', 0);
+add_action('admin_footer', __NAMESPACE__ . '\\conditional_enqueue', 0);

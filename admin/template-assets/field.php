@@ -5,28 +5,18 @@
  * Called from ../../editor/fields.php
  */
 
+namespace tangible\template_system;
+use tangible\template_system;
+
 $plugin->render_assets_edit_field = function( $fields, $post_type ) use ( $plugin ) {
 
   /**
    * Media library
-   *
    * @see https://developer.wordpress.org/reference/functions/wp_enqueue_media/
    */
   wp_enqueue_media();
 
-  wp_enqueue_script(
-    'tangible-template-assets-editor',
-    $plugin->url . 'assets/build/template-assets-editor.min.js',
-    [ 'tangible-preact' ],
-    $plugin->version
-  );
-
-  wp_enqueue_style(
-    'tangible-template-assets-editor',
-    $plugin->url . 'assets/build/template-assets-editor.min.css',
-    [],
-    $plugin->version
-  );
+  template_system\enqueue_assets_editor();
 
   ?>
   <div class="tangible-template-tab tangible-template-tab--assets">
