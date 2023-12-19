@@ -4,18 +4,10 @@ import type { Text, Extension } from '@codemirror/state'
 
 import { eventHub } from './event'
 import { getSetup } from './setup'
-import { format } from '../languages/format'
 // import { createEditorActionsPanel } from './panel'
-import { editorActionsPanel } from '../extensions/editor-action-panel'
 
 import { dark } from './theme/dark'
 // import { light as theme } from './theme/light'
-import themes from '../themes'
-import { fonts, loadFont } from './fonts'
-
-Object.assign(themes, { dark })
-
-export { format }
 
 export type CodeEditorOptions = {
   el: HTMLElement
@@ -23,7 +15,13 @@ export type CodeEditorOptions = {
   content: string
   onUpdate?: (updateCallbackProps: { doc: Text }) => void
   onSave?: () => void
-  extensions?: Extension[]
+  extensions?: Extension[],
+
+  themes?: { [name: string]: Function },
+  fonts?: any[],
+  loadFont?: Function,
+  format?: Function,
+  editorActionsPanel?: Function,
 }
 
 export async function create({
@@ -33,6 +31,11 @@ export async function create({
   onUpdate,
   onSave,
   extensions: userExtensions = [],
+  themes = {},
+  fonts = [],
+  loadFont,
+  format,
+  editorActionsPanel,
 }: CodeEditorOptions) {
 
   const updateListener = EditorView.updateListener.of((view: ViewUpdate) => {
@@ -42,7 +45,7 @@ export async function create({
 
     // const code = view.state.doc.toString()
 
-    onUpdate({
+    onUpdate && onUpdate({
       // code
       doc: view.state.doc, // Defer toString() until necessary
     })
@@ -77,7 +80,9 @@ export async function create({
 
   const extensions = editor.extensions
 
-  extensions.push(showPanel.of((view) => editorActionsPanel(view, editor)))
+  if (editorActionsPanel) {
+    extensions.push(showPanel.of((view) => editorActionsPanel(view, editor)))
+  }
 
   const state = EditorState.create({
     doc: content,
@@ -99,6 +104,9 @@ export async function create({
     view,
     extensions,
     async format() {
+
+      if (!format) return
+
       const content = view.state.doc.toString()
       const formattedCode = await format({
         lang,

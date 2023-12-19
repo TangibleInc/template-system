@@ -15,7 +15,7 @@ export const themeBase = EditorView.theme({
   },
 
   '.cm-content, .cm-gutter': {
-    minHeight: '500px',
+    minHeight: '300px',
     fontFamily: 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
   },
   /**

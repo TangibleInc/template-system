@@ -7,7 +7,11 @@ function camelCaseToTitle(s: string) {
 
 const defaultFontFamily = `SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`
 
+/**
+ * Editor action panel
+ */
 export function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
+
   const el = document.createElement('div')
   const {
     themes = {},
@@ -29,17 +33,14 @@ export function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
     fontSize, // /editor/core/theme/base.ts
   } = memory
 
-  el.style.backgroundColor = '#4c566a'
-  el.style.color = '#fff'
-  el.style.padding = '.125rem .5rem'
-  el.style.display = 'flex'
-  el.style.userSelect = 'none'
+  el.classList.add('tangible-template-system--editor-actions-panel')
 
-  el.innerHTML = `<div style="flex-grow: 1;"></div><div style="display: flex; text-align:right">
-  <div data-action="settings-group" style="display: none; flex-grow: 1;">
+  el.innerHTML = `<div class="col-left"></div><div class="col-right">
+  <div class="settings-group" style="display: none">
 
-    <div data-action="font" style="margin: 0 4px">Font</div>
-    <select data-action="font-list" style="margin: 0; padding: 2px 4px; background-color: #2e3440; color: #fff; min-height: 0; border: 0; box-shadow: none; font-size: 12px; line-height: 1">
+    <div class="setting-label">Font</div>
+
+    <select data-action="font-list">
       <option value="default">Default</option>
       ${fonts.map(
         ([label, value]) =>
@@ -48,14 +49,16 @@ export function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
           }>${label}</option>`
       )}
     </select>
-    <div data-action="font-size" style="padding: 0 4px;">
-      <span data-action="font-size-minus" style="cursor: pointer; padding: 2px 4px">-</span>
+
+    <div data-action="font-size">
+      <span data-action="font-size-minus">-</span>
       <span data-action="font-size-display">${fontSize}</span>
-      <span data-action="font-size-plus" style="cursor: pointer; padding: 2px 4px">+</span>
+      <span data-action="font-size-plus">+</span>
     </div>
 
-    <div data-action="theme" style="margin: 0 4px">Theme</div>
-    <select data-action="theme-list" style="margin: 0; padding: 2px 4px; background-color: #2e3440; color: #fff; min-height: 0; border: 0; box-shadow: none; font-size: 12px; line-height: 1">
+    <div class="setting-label">Theme</div>
+
+    <select data-action="theme-list">
       <option value="dark">Default</option>
       ${themesByName.map(
         ({ label, value }) =>
@@ -66,8 +69,8 @@ export function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
     </select>
 
   </div>
-  <div data-action="settings" style="margin: 0 4px; cursor: pointer;">Settings</div>
-  <div data-action="format" style="margin: 0 4px; cursor: pointer">Format</div>
+  <div class="setting-label-button" data-action="settings">Settings</div>
+  <div class="setting-label-button" data-action="format">Format</div>
 </div>`
 
   // Format
@@ -78,7 +81,7 @@ export function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
     }
   )
 
-  const $settingsGroup = el.querySelector('[data-action=settings-group]')
+  const $settingsGroup = el.querySelector('.settings-group')
 
   function setSettingsVisibility(show, broadcast = false) {
     $settingsGroup.style.display = show ? 'flex' : 'none'
@@ -244,7 +247,7 @@ export function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
   // container.innerHTML = 'Open'
 
   return {
-    top: true,
+    // top: true,
     dom: el,
   }
 }

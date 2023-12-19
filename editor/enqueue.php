@@ -16,9 +16,16 @@ function enqueue_editor() {
   wp_enqueue_script(
     'tangible-template-system-editor',
     $url . '/build/editor.min.js',
-    [], // $linters,
+    [],
     $version,
     true
+  );
+
+  wp_enqueue_style(
+    'tangible-template-system-editor',
+    $url . '/build/editor.min.css',
+    [],
+    $version
   );
 
   // Pass language data

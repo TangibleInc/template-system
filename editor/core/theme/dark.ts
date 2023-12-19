@@ -59,10 +59,10 @@ export const darkTheme = EditorView.theme(
         backgroundColor: `${selection} !important`
       },
 
-    '.cm-panels': {
-      backgroundColor: darkBackground,
-      color: base05,
-    },
+    // '.cm-panels': {
+    //   backgroundColor: darkBackground,
+    //   color: base05,
+    // },
     // '.cm-panels.cm-panels-top': { borderBottom: '2px solid black' },
     // '.cm-panels.cm-panels-bottom': { borderTop: '2px solid black' },
   
