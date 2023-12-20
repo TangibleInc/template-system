@@ -1,4 +1,4 @@
-import Select from '../../common/Select'
+import Select from '../../../common/Select'
 
 /**
  * Check for Block Editor plugin

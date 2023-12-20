@@ -1,4 +1,4 @@
-import Select from '../../../common/Select'
+import Select from '../../../../common/Select'
 
 const Field = ({ rule, setRule, ruleProps, ensureData }) => {
   const { fieldOptions } = ruleProps

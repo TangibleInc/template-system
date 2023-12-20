@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react' // Aliased from Tangible.Preact || wp.element
+import { useEffect, useRef } from 'react'
 
 /**
  * Wrap Select2 module from vendor/tangible/interface
@@ -82,6 +82,7 @@ const Select = ({
     <select
       ref={ref}
       // onChange={e => onChange(e.target.value)}
+      defaultValue={value}
       autoComplete="off"
       multiple={multiSelect}
       style={{
@@ -91,7 +92,7 @@ const Select = ({
       }}
     >
       {labelForEmptyValue && (
-        <option value="" disabled={true} selected={value == null}>
+        <option value="" disabled={true}>
           {labelForEmptyValue}
         </option>
       )}
@@ -99,7 +100,6 @@ const Select = ({
         <option
           key={`option-${optionIndex}`}
           value={option.value}
-          selected={option.value === value}
         >
           {option.label}
         </option>

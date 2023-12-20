@@ -3,13 +3,13 @@
  *
  * @see /template/import-export/ajax.php, view.php
  */
-
+import React from 'react'
+import { createRoot } from 'react-dom'
 import Importer from './Importer'
 import Exporter from './Exporter'
 
 const {
   Tangible: {
-    Preact,
     /**
      * Check for installed plugins
      * @see /template/import-export/enqueue.php
@@ -29,7 +29,7 @@ const hasExport =
   || hasPlugin['blocks_editor'] // Tangible Blocks Editor
   || hasPlugin['template_system'] // Template System module as standalone plugin
 
-Preact.render(
+createRoot(el).render(
   <>
     <h1 className="wp-heading-inline">Import</h1>
 
@@ -41,6 +41,5 @@ Preact.render(
       <Exporter />
     </> 
     }
-  </>,
-  el
+  </>
 )

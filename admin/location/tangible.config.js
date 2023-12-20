@@ -3,9 +3,7 @@ export default {
     {
       src: 'template-location-editor/index.tsx',
       dest: '../build/template-location-editor.min.js',
-      alias: {
-        react: 'wp'
-      }
+      react: 'wp'
     },
     {
       src: 'template-location-editor/index.scss',

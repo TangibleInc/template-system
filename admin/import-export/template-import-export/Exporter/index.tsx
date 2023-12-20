@@ -248,7 +248,9 @@ const Exporter = () => {
           </button>
           <a
             href="#"
-            style="margin: 0 1rem"
+            style={{
+              margin: '0 1rem'
+            }}
             onClick={(e) => {
               e.preventDefault()
               if (exportState.exporting) return

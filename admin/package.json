@@ -1,5 +1,5 @@
 {
-  "name": "tangible-template-system",
+  "name": "@tangible/template-system-admin",
   "type": "module",
   "private": true,
   "scripts": {

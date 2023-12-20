@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
 import Field from './Field'
-import Select from '../../../common/Select'
+import Select from '../../../../common/Select'
 import ensureDataForRule from './ensureDataForRule'
 
 const debug = false // Set this to false for production
