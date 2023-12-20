@@ -10,12 +10,12 @@ process.env.STORAGE_STATE_PATH ??= path.join(
   'storage-states/admin.json'
 )
 
+/**
+ * Based on https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/config/playwright.config.js
+ *
+ * Copied to avoid having to install @wordpress/script which comes with many unnecessary dependencies.
+ */
 const config = defineConfig({
-  /**
-   * Based on https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/config/playwright.config.js
-   *
-   * Copied to avoid having to install @wordpress/script which comes with many unnecessary dependencies.
-   */
   reporter: process.env.CI ? [['github']] : [['list']],
   forbidOnly: !!process.env.CI,
   // fullyParallel: false,
@@ -43,7 +43,7 @@ const config = defineConfig({
       strictSelectors: true,
     },
     storageState: process.env.STORAGE_STATE_PATH,
-    actionTimeout: 10_000, // 10 seconds.
+    actionTimeout: 10_000, // 10 seconds
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',

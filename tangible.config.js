@@ -1,5 +1,5 @@
 export default {
   format: [
-    'tests/**/*.{php,js,json,ts,scss}'
+    'tests/**/*.{php,js,jsx,json,ts,tsx,scss}'
   ],
 }

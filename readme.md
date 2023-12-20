@@ -20,7 +20,7 @@ Each module should aim to be generally useful, clarify its dependencies internal
 
 ## Getting started
 
-Pre-requisites: [Node.js](https://nodejs.org/en/)
+Prerequisites: [Node.js](https://nodejs.org/en/)
 
 Clone the repo, and install dependencies.
 
@@ -32,37 +32,86 @@ npm install
 
 ## Develop
 
-#### Build for development
-
-Watch files for changes and rebuild. Press CTRL + C to stop the process.
-
-```sh
-npm run dev
-```
-
 #### Build for production
 
 Builds minified bundles with source maps.
 
 ```sh
-npm run build
+npm run build [module1 module2..]
+```
+
+The Template System is composed of modules which can be built individually. Specify which modules to build, for example:
+
+```sh
+npm run build editor integrations/gutenberg
+```
+
+See below for the list of modules with assets.
+
+#### Build for development
+
+Watch files for changes and rebuild. Press CTRL + C to stop the process.
+
+```sh
+npm run dev [module1 module2..]
 ```
 
 #### Format files
 
-Format files to code standard with Prettier and [PHP Beautify](https://github.com/tangibleinc/php-beautify).
+Format files to code standard with [Prettier](https://prettier.io) and [PHP Beautify](https://github.com/tangibleinc/php-beautify).
 
 ```sh
 npm run format
 ```
 
+## List of modules with assets
+
+Here is the complete list of modules with assets, which can be built with the `dev` and `build` commands.
+
+For example, `npm run build admin` will build all child modules of the `admin` module.
+
+- `admin`
+  - `admin/editor`
+  - `admin/import-export`
+  - `admin/location`
+  - `admin/template-assets`
+- `editor`
+  - `editor/ide`
+- `framework`
+  - `framework/api`
+  - `framework/preact`
+  - `framework/select`
+- `integrations/beaver`
+- `integrations/elementor`
+- `integrations/gutenberg`
+- `language`
+- `logic`
+- `loop`
+- `modules`
+  - `modules/async`
+  - `modules/chart`
+  - `modules/date-picker`
+  - `modules/embed`
+  - `modules/form`
+  - `modules/glider`
+  - `modules/mermaid`
+  - `modules/module-loader`
+  - `modules/paginator`
+  - `modules/prism`
+  - `modules/site-structure`
+  - `modules/slider`
+  - `modules/sortable`
+  - `modules/table`
+
+This list is generated from the codebase by running `npm run list`, which finds all config files `tangible.config.js` and lists the folder names.
+
 ## Test
 
-This module comes with a suite of unit and integration tests.
+There is a suite of unit and integration tests included.
 
 ### Requirements
 
-Pre-requisites: [Node.js](https://nodejs.org/en/), [PHP](https://www.php.net/), [Composer](https://getcomposer.org/), [Docker](https://docs.docker.com/get-started/overview/)
+Prerequisites: [Node.js](https://nodejs.org/en/), [PHP](https://www.php.net/), [Composer](https://getcomposer.org/), [Docker](https://docs.docker.com/get-started/overview/)
 
 To run the tests, we use [wp-env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/) to create a local test environment, optionally switching between PHP versions.
 
@@ -128,6 +177,19 @@ Usually it's enough to run `env:start` and `env:stop`. To completely remove the 
 npm run env:destroy
 ```
 
+#### Reference
+
+Relevant info for writing unit tests:
+
+- [PHPUnit](https://github.com/sebastianbergmann/phpunit)
+  - [PHPUnit Polyfills](https://github.com/Yoast/PHPUnit-Polyfills)
+  - [Assertions](https://docs.phpunit.de/en/10.2/assertions.html)
+
+- [WP_UnitTestCase](https://github.com/WordPress/wordpress-develop/blob/trunk/tests/phpunit/includes/abstract-testcase.php)
+  - [WP_UnitTest_Factory](https://github.com/WordPress/wordpress-develop/blob/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory.php)
+  - [WP_UnitTest_Factory_For_Post](https://github.com/WordPress/wordpress-develop/blob/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory-for-post.php)
+
+
 ### End-to-end tests
 
 The folder `/tests/e2e` contains end-to-end-tests using [Playwright](https://playwright.dev/docs/intro) and [WordPress E2E Testing Utils](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-e2e-test-utils-playwright/).
@@ -148,15 +210,14 @@ npx playwright install
 
 #### Watch mode
 
-There is a "Watch mode", where it will watch the tests files for changes and re-run them. Press CTRL + C to stop the process.
+There is a "Watch mode", where it will watch the test files for changes and re-run them. 
+This provides a helpful feedback loop when writing tests, as a kind of test-driven development. Press CTRL + C to stop the process.
 
 ```sh
-test:e2e:watch  # Shortcut: npm run tdd
+npm run test:e2e:watch  # Shortcut: npm run tdd
 ```
 
-This provides a helpful feedback loop when writing tests, as a kind of test-driven development.
-
-A common usage is to have terminal sessions open for `npm run dev` (build assets) and `npm run test:e2e:watch` (write and run tests).
+A common usage is to have terminal sessions open with `npm run dev` (build assets and watch to rebuild) and `npm run tdd` (run tests and watch to re-run).
 
 #### UI mode
 
@@ -178,7 +239,7 @@ Here are the common utilities used to write the tests.
 
 #### References
 
-For examples of how to write tests:
+Examples of how to write end-to-end tests:
 
 - WordPress E2E tests - https://github.com/WordPress/wordpress-develop/blob/trunk/tests/e2e
 - Gutenberg E2E tests - https://github.com/WordPress/gutenberg/tree/trunk/test/e2e
