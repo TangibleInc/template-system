@@ -102,22 +102,21 @@ fi
    */
   // console.log(JSON.stringify(files, null, 2))
 
-  const example = {
-    name: 'admin/location/enqueue.php',
-    warnings: [
-      {
-        line: 11,
-        column: 3,
-        type: 'WARNING',
-        code: 'WordPress.WP.EnqueuedResourceParameters.NotInFooter',
-        message:
-          'In footer ($in_footer) is not set explicitly wp_enqueue_script; It is recommended to load scripts in the footer. Please set this value to `true` to load it in the footer, or explicitly `false` if it should be loaded in the header.',
-      },
-    ],
+  /*
+  type FileInfo = {
+    name: string,
+    warnings: {
+      line: number,
+      column: number,
+      type: 'WARNING' | 'ERROR',
+      code: string,
+      message: string
+    }[]
   }
+  */
 
-  console.log('# Plugin check\n\n'+(files.length===0
-    ? 'OK\n'
+  console.log('# Plugin check\n\n'+(files.length === 0
+    ? 'Congratulations! There was no error or warning.\n'
     : files.map(file => `## ${file.name}\n\n${
     file.warnings.map(({ line, column, type, code, message }) => `- Line ${line} ${type[0].toUpperCase() + type.slice(1).toLowerCase()}: \`${code}\`${message ? `\n\n  ${message}\n` : ''}`).join('\n')
 
