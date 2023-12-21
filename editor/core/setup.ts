@@ -69,13 +69,13 @@ const commonKeyMaps = [
  */
   indentWithTab,
 
-  // ...defaultKeymap, // https://codemirror.net/docs/ref/#commands.defaultKeymap
+  ...defaultKeymap, // https://codemirror.net/docs/ref/#commands.defaultKeymap
   ...searchKeymap, // https://codemirror.net/docs/ref/#search.searchKeymap
   ...historyKeymap,
   ...foldKeymap,
   ...completionKeymap,
   // ...lintKeymap, // https://codemirror.net/docs/ref/#lint.lintKeymap
-  ...vscodeKeymap,
+  // ...vscodeKeymap,
 ]
 
 /**

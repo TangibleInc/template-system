@@ -1,26 +1,74 @@
+$background-color: #4c566a;
+$background-color-darker: #2e3440;
+$border-color: #848d9d;
+$font-size: 12px;
+
 .tangible-template-system--editor-actions-panel {
 
-  background-color: #4c566a;
+  background-color: $background-color;
   color: #fff;
 
   padding: 0;
   display: flex;
-  user-select: none;
+  flex-direction: column;
+
+  p {
+    margin: .5rem 0;
+  }
+
+  ul, li {
+    margin: 0;
+    padding: 0;
+  }
+  ul {
+    list-style: disc;
+    padding-left: 1rem;
+  }
+
+  > .main-row {
+
+    display: flex;
+    user-select: none;
+
+    > .col-left {
+      flex-grow: 1;
+    }
+  
+    > .col-right {
+      display: flex;
+      text-align: right;
+    }  
+  }
+
+  > .help-row {
+
+    padding: .5rem 1rem;
+    border-top: 1px solid $border-color;
+    background-color: $background-color-darker;
+
+    &, p {
+      font-size: 14px;
+    }
+    p:first-child { margin-top: 0; }
+
+    kbd {
+      font-size: $font-size;
+      padding: 2px 4px;
+      border: 1px solid $border-color;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .keyboard-shortcut {
+      line-height: 1.62;
+    }
+  }
 
   &,
   select[data-action="font-list"],
   select[data-action="theme-list"] {
-    font-size: 12px;
+    font-size: $font-size;
     line-height: 1;
-  }
-
-  > .col-left {
-    flex-grow: 1;
-  }
-
-  > .col-right {
-    display: flex;
-    text-align: right;
   }
 
   .settings-group {
@@ -33,13 +81,13 @@
   .setting-label-button {
     margin: .125rem 0;
     padding: .25rem .5rem;
-    border-left: 1px solid #848d9d;
+    border-left: 1px solid $border-color;
   }
 
   select[data-action="font-list"],
   select[data-action="theme-list"] {
     padding: 2px 4px;
-    background-color: #2e3440;
+    background-color: $background-color-darker;
     min-height: 0;
     border: 0;
     box-shadow: none;
@@ -57,7 +105,12 @@
   }
   [data-action="font-size-display"] {
   }
+
   .setting-label-button {
     cursor: pointer;
+    transition: background-color .1s;
+    &:active {
+      background-color: $background-color-darker;
+    }
   }
 }

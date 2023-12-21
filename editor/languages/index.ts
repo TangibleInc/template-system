@@ -28,6 +28,12 @@ import { createFormatKeyMap } from './format'
 import { colorPicker } from '@replit/codemirror-css-color-picker'
 import { hyperLink } from '../extensions/hyperlink'
 import { infoPanelExtension } from './html/panel'
+import {indentService} from "@codemirror/language"
+
+const indentPlainTextExtension = indentService.of((context, pos) => {
+  const previousLine = context.lineAt(pos, -1)
+  return previousLine.text.match(/^(\s)*/)[0].length
+})
 
 /**
  * Load language extensions on demand
@@ -49,7 +55,8 @@ const langExtensionsGetters = {
     createHtmlLinter(),
     getHTMLAutocomplete(),
     hyperLink,
-    // infoPanelExtension()
+    // infoPanelExtension(),
+    // indentPlainTextExtension,
   ],
 
   css: () => [

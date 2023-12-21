@@ -142,7 +142,6 @@ export function html(config: {
     wrap = configureNesting((config.nestedLanguages || []).concat(defaultNesting),
                             (config.nestedAttributes || []).concat(defaultAttrs))
   let lang = wrap ? htmlPlain.configure({wrap, dialect}) : dialect ? htmlLanguage.configure({dialect}) : htmlLanguage
-  console.log('dialect', dialect)
   return new LanguageSupport(lang, [
     htmlLanguage.data.of({autocomplete: htmlCompletionSourceWith(config)}),
     config.autoCloseTags !== false ? autoCloseTags: [],

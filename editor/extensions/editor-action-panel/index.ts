@@ -8,6 +8,48 @@ function camelCaseToTitle(s: string) {
 const defaultFontFamily = `SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`
 
 /**
+ * CodeMirror standard keymap
+ * @see https://codemirror.net/docs/ref/#commands.standardKeymap
+ */
+const keys = [
+  ['Arrow Left', 'Move cursor left'],
+  ['Arrow Right', 'Move cursor right'],
+  ['Arrow Up', 'Move cursor line up'],
+  ['Arrow Down', 'Move cursor line down'],
+  [['Page Up', 'Ctrl + Arrow Up'], 'Move cursor page up'],
+  [['Page Down', 'Ctrl + Arrow Down'], 'Move cursor page up'],
+  ['Home', 'Move to start of text, or to start of line'],
+  ['End', 'Move to end of line'],
+  ['Enter', 'Insert a new line and auto-indent'],
+  ['Backspace', 'Delete previous character'],
+  ['Ctrl + Backspace', 'Delete previous group of characters'],
+  ['Delete', 'Delete next character'],
+  ['Ctrl + Delete', 'Delete next group of characters'],
+  [['Ctrl + a', '⌘ + a'], 'Select all'],
+  [['Ctrl + s', '⌘ + s'], 'Save'],
+  [['Alt + Arrow Left', 'Ctrl + Arrow Left'], 'Move the cursor over the next syntactic element to the left'],
+  [['Alt + Arrow Right', 'Ctrl + Arrow Right'], 'Move the cursor over the next syntactic element to the right'],
+  ['Alt + Arrow Up', 'Move line up'],
+  ['Alt + Arrow Down', 'Move line down'],
+  ['Shift + Alt + Arrow Up', 'Copy line up'],
+  ['Shift + Alt + Arrow Down', 'Copy line down'],
+  ['Escape', 'Deselect if any text is selected'],
+  [['Ctrl + Enter', '⌘ + Enter'], 'Insert blank line'],
+  [['Alt + l', 'Ctrl + l'], 'Select line'],
+  [['Ctrl + [', '⌘ + ['], 'Indent less'],
+  [['Ctrl + ]', '⌘ + ]'], 'Indent more'],
+  /**
+   * TODO: Auto-indent not working with HTML - Must create indentService?
+   * @see https://discuss.codemirror.net/t/indentation-and-folding-without-a-language/3582/3
+   */
+  // [['Ctrl + Alt + \\', '⌘ + Alt + \\'], 'Auto-indent the selected lines'],
+  [['Ctrl + Alt + f', '⌘ + Alt + f'], 'Beautify document'],
+  [['Shift + Ctrl + k', 'Shift + ⌘ + k'], 'Delete line'],
+  [['Shift + Ctrl + \\', 'Shift + ⌘ + \\'], 'Move cursor to bracket matching the one it is currently on, if any'],
+  [['Ctrl + \\', '⌘ + \\'], 'Toggle comment'],
+]
+
+/**
  * Editor action panel
  */
 export function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
@@ -35,49 +77,78 @@ export function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
 
   el.classList.add('tangible-template-system--editor-actions-panel')
 
-  el.innerHTML = `<div class="col-left"></div><div class="col-right">
-  <div class="settings-group" style="display: none">
+  el.innerHTML = `<div class="main-row">
+  <div class="col-left"></div>
+  <div class="col-right">
+    <div class="settings-group" style="display: none">
 
-    <div class="setting-label">Font</div>
+      <div class="setting-label">Font</div>
 
-    <select data-action="font-list">
-      <option value="default">Default</option>
-      ${fonts.map(
-        ([label, value]) =>
-          `<option value="${value}"${
-            value === fontFamily ? ' selected' : ''
-          }>${label}</option>`
-      )}
-    </select>
+      <select data-action="font-list">
+        <option value="default">Default</option>
+        ${fonts.map(
+          ([label, value]) =>
+            `<option value="${value}"${
+              value === fontFamily ? ' selected' : ''
+            }>${label}</option>`
+        )}
+      </select>
 
-    <div data-action="font-size">
-      <span data-action="font-size-minus">-</span>
-      <span data-action="font-size-display">${fontSize}</span>
-      <span data-action="font-size-plus">+</span>
+      <div data-action="font-size">
+        <span data-action="font-size-minus">-</span>
+        <span data-action="font-size-display">${fontSize}</span>
+        <span data-action="font-size-plus">+</span>
+      </div>
+
+      <div class="setting-label">Theme</div>
+
+      <select data-action="theme-list">
+        <option value="dark">Default</option>
+        ${themesByName.map(
+          ({ label, value }) =>
+            `<option value="${value}"${
+              value === theme ? ' selected' : ''
+            }>${label}</option>`
+        )}
+      </select>
+
     </div>
-
-    <div class="setting-label">Theme</div>
-
-    <select data-action="theme-list">
-      <option value="dark">Default</option>
-      ${themesByName.map(
-        ({ label, value }) =>
-          `<option value="${value}"${
-            value === theme ? ' selected' : ''
-          }>${label}</option>`
-      )}
-    </select>
-
+    <div class="setting-label-button" data-action="settings">Settings</div>
+    <div class="setting-label-button" data-action="format">Format</div>
+    <div class="setting-label-button" data-action="help">Help</div>
   </div>
-  <div class="setting-label-button" data-action="settings">Settings</div>
-  <div class="setting-label-button" data-action="format">Format</div>
-</div>`
+</div>
+<div class="help-row" style="display: none">
+  <section class="keyboard-shortcuts">
+    <p><b><small>Keyboard Shortcuts</small></b></p>
+    ${keys.map(([key, label]) =>
+      `<p class="keyboard-shortcut">
+        ${Array.isArray(key)
+          ? `<kbd>${key[0]}</kbd>, <kbd>${key[1]}</kbd> <small>(macOS)</small>`
+          : `<kbd>${key}</kbd>`
+        } &nbsp; ${label}
+      </p>`
+    ).join('\n')}
+  </section>
+</div>
+`
 
   // Format
   el.querySelector('[data-action=format]')?.addEventListener(
     'click',
     function () {
       editor.format && editor.format()
+    }
+  )
+
+  const $helpRow = el.querySelector('.help-row')
+  // Help
+  el.querySelector('[data-action=help]')?.addEventListener(
+    'click',
+    function () {
+      $helpRow.style.display = $helpRow.style.display === 'none'
+        ? 'block'
+        : 'none'
     }
   )
 
