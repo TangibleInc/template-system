@@ -5,11 +5,19 @@ import util from 'node:util'
 import { exec as execSync } from 'node:child_process'
 import readline from 'node:readline'
 
-const exec = util.promisify(execSync)
+const execAsync = util.promisify(execSync)
+const exec = async (...args) => {
+  try {
+    const { stdout, stderr } = await execAsync(...args)
+    return [stdout, stderr]
+  } catch (e) {
+    return [null, e.message]
+  }
+}
 
 async function run(command, options) {
   console.log(command)
-  const { stdout, stderr } = await exec(command, options)
+  const [stdout, stderr] = await exec(command, options)
   console.log(stdout)
   if (stderr) {
     console.log(stderr)
@@ -37,53 +45,82 @@ function prompt(query) {
 }
 
 ;(async () => {
-  console.log('Plugin check')
+  // Ensure Plugin Check plugin is installed
+  let [stdout, stderr] = await exec(`npx wp-env --quiet run tests-cli bash -c "
+if [ -d wp-content/plugins/plugin-check ]; then
+  echo 'Plugin Check plugin is installed';
+  wp plugin activate plugin-check;
+else 
+  echo 'Installing Plugin Check plugin..';
+  curl -sL https://github.com/TangibleInc/plugin-check/archive/refs/heads/trunk.tar.gz | tar xz;
+  mv plugin-check-trunk plugin-check;
+  cd plugin-check;
+  composer install --no-dev;
+  wp plugin activate plugin-check;
+fi
+"`)
 
-  const pluginCheckPath = path.join(
-    process.cwd(),
-    'vendor/tangible/plugin-check'
-  )
+  // console.log(stderr || stdout)
+  // Continue either way because with wp-env, successful result still outputs to stderr
 
-  if (!existsSync(pluginCheckPath)) {
-    await fs.mkdir('vendor/tangible', {
-      recursive: true,
-    })
+  const cmd =
+    'npx wp-env run tests-cli wp plugin check template-system -- --format=json'
 
-    const confirm = async (cmd) => {
-      const answer = await prompt(
-        `Press enter to run the following command, or CTRL+C to cancel: ${cmd}\n`
-      )
-      console.log()
-      if (answer === false) {
-        // Cancelled
-        process.exit()
+  // console.log(cmd)
+  ;[stdout, stderr] = await exec(cmd)
+
+  // console.log(stdout)
+
+  const lines = (stdout || '').split('\n')
+  const files = []
+  const prefix = 'FILE: '
+
+  let index = 0
+  for (const line of lines) {
+    if (line.startsWith(prefix)) {
+      const name = line.replace(prefix, '')
+      let warnings = lines[index + 1]
+
+      try {
+        warnings = JSON.parse(warnings)
+      } catch (e) {
+        warnings = []
+      }
+      if (warnings.length) {
+        files.push({
+          name,
+          warnings,
+        })
       }
     }
 
-    let cmd = `git clone --depth 1 --single-branch --branch trunk https://github.com/WordPress/plugin-check`
-
-    await confirm(cmd)
-    await run(cmd, {
-      cwd: 'vendor/tangible',
-    })
-    console.log()
-
-    if (!existsSync(pluginCheckPath)) {
-      console.log('Failed to install')
-      process.exit()
-    }
-
-    // await run('composer install --ignore-platform-req=ext-mbstring', {
-    //   cwd: pluginCheckPath
-    // })
-    if (!existsSync(path.join(pluginCheckPath, 'vendor'))) {
-      console.log('Failed to install')
-      process.exit()
-    }
-
-    await run('npx wp-env run tests-cli bash -c "cd wp-content/plugins/ && ln -s template-system/vendor/tangible/plugin-check" && composer install && wp plugin activate plugin-check')
-
+    index++
   }
 
-  await run('npx wp-env run tests-cli wp plugin check template-system > check.md')
+  /**
+   * TODO: Option to output --json or --markdown
+   */
+  // console.log(JSON.stringify(files, null, 2))
+
+  const example = {
+    name: 'admin/location/enqueue.php',
+    warnings: [
+      {
+        line: 11,
+        column: 3,
+        type: 'WARNING',
+        code: 'WordPress.WP.EnqueuedResourceParameters.NotInFooter',
+        message:
+          'In footer ($in_footer) is not set explicitly wp_enqueue_script; It is recommended to load scripts in the footer. Please set this value to `true` to load it in the footer, or explicitly `false` if it should be loaded in the header.',
+      },
+    ],
+  }
+
+  console.log('# Plugin check\n\n'+(files.length===0
+    ? 'OK\n'
+    : files.map(file => `## ${file.name}\n\n${
+    file.warnings.map(({ line, column, type, code, message }) => `- Line ${line} ${type[0].toUpperCase() + type.slice(1).toLowerCase()}: \`${code}\`${message ? `\n\n  ${message}\n` : ''}`).join('\n')
+
+  }`).join('\n\n')))
+
 })().catch(console.error)
