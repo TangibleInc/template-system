@@ -64,46 +64,6 @@ Format files to code standard with [Prettier](https://prettier.io) and [PHP Beau
 npm run format
 ```
 
-## List of modules with assets
-
-Here is the complete list of modules with assets, which can be built with the `dev` and `build` commands.
-
-For example, `npm run build admin` will build all child modules of the `admin` module.
-
-- `admin`
-  - `admin/editor`
-  - `admin/import-export`
-  - `admin/location`
-  - `admin/template-assets`
-- `editor`
-  - `editor/ide`
-- `framework`
-  - `framework/api`
-  - `framework/preact`
-  - `framework/select`
-- `integrations/beaver`
-- `integrations/elementor`
-- `integrations/gutenberg`
-- `language`
-- `logic`
-- `loop`
-- `modules`
-  - `modules/async`
-  - `modules/chart`
-  - `modules/date-picker`
-  - `modules/embed`
-  - `modules/form`
-  - `modules/glider`
-  - `modules/mermaid`
-  - `modules/module-loader`
-  - `modules/paginator`
-  - `modules/prism`
-  - `modules/site-structure`
-  - `modules/slider`
-  - `modules/sortable`
-  - `modules/table`
-
-This list is generated from the codebase by running `npm run list`, which finds all config files `tangible.config.js` and lists the folder names.
 
 ## Test
 
@@ -243,3 +203,45 @@ Examples of how to write end-to-end tests:
 
 - WordPress E2E tests - https://github.com/WordPress/wordpress-develop/blob/trunk/tests/e2e
 - Gutenberg E2E tests - https://github.com/WordPress/gutenberg/tree/trunk/test/e2e
+
+
+## List of modules with assets
+
+Here is the complete list of modules with assets, which can be built with the `dev` and `build` commands.
+
+For example, `npm run build admin` will build all child modules of the `admin` module; or you can build an individual module like `npm run build admin/editor`.
+
+- `admin`
+  - `admin/editor`
+  - `admin/import-export`
+  - `admin/location`
+  - `admin/template-assets`
+- `editor`
+  - `editor/ide`
+- `framework`
+  - `framework/api`
+  - `framework/preact`
+  - `framework/select`
+- `integrations/beaver`
+- `integrations/elementor`
+- `integrations/gutenberg`
+- `language`
+- `logic`
+- `loop`
+- `modules`
+  - `modules/async`
+  - `modules/chart`
+  - `modules/date-picker`
+  - `modules/embed`
+  - `modules/form`
+  - `modules/glider`
+  - `modules/mermaid`
+  - `modules/module-loader`
+  - `modules/paginator`
+  - `modules/prism`
+  - `modules/site-structure`
+  - `modules/slider`
+  - `modules/sortable`
+  - `modules/table`
+
+This list is generated from the codebase by running `npm run list`, which finds all config files `tangible.config.js` and lists the folder names.
