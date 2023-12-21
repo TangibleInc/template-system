@@ -2,10 +2,11 @@
 
 import { linter, Diagnostic } from '@codemirror/lint'
 import { syntaxTree } from '@codemirror/language'
+import { HTMLHint } from './htmlhint/core/core'
 
 const defaultHTMLHintRules = {
   'tagname-lowercase': false,
-  'attr-lowercase': true,
+  'attr-lowercase': false,
   'attr-value-double-quotes': false,
   'doctype-first': false,
   'tag-pair': true,
@@ -20,11 +21,11 @@ export function createHtmlLinter() {
 
     const diagnostics: Diagnostic[] = []
 
-    if (!window.Tangible || !window.Tangible.HTMLHint) return diagnostics
+    // if (!window.Tangible || !window.Tangible.HTMLHint) return diagnostics
 
     const doc = view.state.doc
 
-    const { HTMLHint } = window.Tangible
+    // const { HTMLHint } = window.Tangible
     const content = doc.toString()
 
     const messages = HTMLHint.verify(content, defaultHTMLHintRules)

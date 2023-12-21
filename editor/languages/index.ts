@@ -1,5 +1,5 @@
 import { html } from './html'
-import { createHtmlLinter } from './html/linter'
+import { createHtmlLinter } from './html/linter-htmlhint'
 
 import { css } from '@codemirror/lang-css'
 import { sass, sassCompletionSource } from '@codemirror/lang-sass'
