@@ -1,3 +1,3 @@
 # Auth
 
-Authentication: JWT, REST routes
+Authentication via REST API

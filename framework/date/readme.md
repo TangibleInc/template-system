@@ -3,7 +3,6 @@
 Examples
 
 ```php
-
 // Get interface
 
 $tdate = tangible\date();
@@ -81,4 +80,3 @@ array (
     'Tangible\\Carbon\\' => 16,
 ),
 ```
-

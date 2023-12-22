@@ -1,1 +1,3 @@
 # Slider
+
+Responsive slider gallery
