@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.40.1",
-    "@tangible/roller": "^1.7.4",
+    "@tangible/roller": "^1.7.5",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "@wordpress/e2e-test-utils-playwright": "^0.16.0",
