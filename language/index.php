@@ -9,8 +9,9 @@
  * from /framework and /modules.
  */
 
-use tangible\date;
 use tangible\ajax;
+use tangible\date;
+use tangible\select;
 
 if ( ! function_exists( 'tangible_template' ) ) :
   function tangible_template( $arg = false ) {
@@ -53,26 +54,18 @@ return tangible_template(new class extends stdClass {
     $html->version = $this->version;
 
     /**
-     * In the new code organization, the use of namespace `tangible/*` is the
-     * preferred method of using features, instead of global functions or
-     * locally scoped variables like below.
-     * 
-     * Features in /modules and /framework replace the deprecated plugin
-     * framework.
+     * Deprecating the use of global functions or locally scoped variables like
+     * below. Use namespaced functions under `tangible`.
      */
     $system    = $this->system;
     $loop      = $system->loop =  $html->loop = tangible_loop();
     $logic     = $system->logic = $html->logic = tangible_logic();
-
     $system->html = $html;
+
+    // @see /framework
     $system->date = $html->date = tangible\date();
     $system->ajax = tangible\ajax\legacy();
-
-    /**
-     * Interface module removed - This is for compatibility with existing
-     * plugins until they remove reference to it
-     */
-    $system->interface = null;
+    $system->interface = tangible\interface\legacy();
 
     /**
      * Template language

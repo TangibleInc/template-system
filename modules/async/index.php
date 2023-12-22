@@ -53,3 +53,4 @@ $html->async_tag = function( $atts, $nodes ) use ( $html ) {
   ], []);
 };
 
+$html->add_open_tag('Async', $html->async_tag);

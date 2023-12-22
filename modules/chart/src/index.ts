@@ -1,10 +1,14 @@
 import ChartDataLabels from 'chartjs-plugin-datalabels'
+import { Chart } from 'chart.js'
+import get from 'lodash/get'
+import set from 'lodash/set'
 
 // Note: Had to convert these to require CommonJS-style, to avoid
 // issues inmporting their ESM modules
-const Chart = require('chart.js')
-const get = require('lodash/get')
-const set = require('lodash/set')
+// const Chart = require('chart.js')
+// const get = require('lodash/get')
+// const set = require('lodash/set')
+
 
 // Register the plugin to all charts:
 Chart.register(ChartDataLabels)

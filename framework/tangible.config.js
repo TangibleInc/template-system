@@ -8,6 +8,8 @@ export default async () => {
 
   for (const name of [
     'api',
+    'preact',
+    'select',
   ]) {
     const tasks = (await import(`./${name}/tangible.config.js`)).default.build
     build.push(

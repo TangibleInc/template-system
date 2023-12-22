@@ -2,7 +2,7 @@
  * Select2 - https://select2.org/
  */
 
-import createSelect2 from 'select2/dist/js/select2.full.js'
+import createSelect2 from './select2.full.js'
 
 const $ = window.jQuery
 

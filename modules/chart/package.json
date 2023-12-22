@@ -1,4 +1,10 @@
 {
   "name": "@tangible-template-system/chart",
-  "private": true
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "chart.js": "^4.4.1",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "lodash": "^4.17.21"
+  }
 }

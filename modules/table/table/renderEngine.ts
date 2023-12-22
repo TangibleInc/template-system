@@ -1,5 +1,7 @@
-import $ from 'jquery'
+// import $ from 'jquery'
 import * as utils from './utils'
+
+const $ = window.jQuery
 
 const constructNode = (node, attrs, children) => ({
   node,

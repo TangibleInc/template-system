@@ -56,7 +56,7 @@ function get_language_definition() {
     'tags' => $tags,
   ];
 
-  // tangible\see($language);
+  // \tangible\see($language);
 
   return $language;
 }

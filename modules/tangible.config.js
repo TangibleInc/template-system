@@ -8,7 +8,7 @@ export default async () => {
   const build = []
 
   for (const name of [
-    'async-render',
+    'async',
     'chart',
     'date-picker',
     'embed',
@@ -18,7 +18,6 @@ export default async () => {
     'module-loader',
     'paginator',
     'prism',
-    'select',
     'slider',
     'sortable',
     'table',

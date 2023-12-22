@@ -45,14 +45,14 @@ $loop->get_user_field = function( $user, $field_name = '', $args = [] ) use ( $l
       ob_start();
       ?><pre><code><?php
       print_r( $defined_fields );
-?></code></pre><?php
+      ?></code></pre><?php
       $value = ob_get_clean();
         break;
     case 'meta':
       ob_start();
       ?><pre><code><?php
       print_r( get_user_meta( $id, '', true ) );
-?></code></pre><?php
+      ?></code></pre><?php
       $value = ob_get_clean();
         break;
     case 'id':

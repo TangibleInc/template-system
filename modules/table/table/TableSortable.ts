@@ -3,11 +3,13 @@
  * TableSortable
  */
 
-import $ from 'jquery'
+// import $ from 'jquery'
 import DataSet from './DataSet'
 import Pret from './renderEngine'
 import * as Utils from './utils'
 import { generatePageRange } from './pagination'
+
+const $ = window.jQuery
 
 class TableSortable {
   _name = 'tableSortable'

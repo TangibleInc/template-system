@@ -2,16 +2,15 @@
 
 use tangible\ajax;
 
-ajax\add_public_action('tangible_template_render', function( $request )  {
+ajax\add_public_action('tangible_template_render', function( $request ) use ($html) {
 
   $template = $request['template'];
   $hash     = $request['hash'];
-
   // Verify hash @see /utils/hash.php
   if ( ! $html->verify_tag_attributes_hash(
     is_array( $template ) && isset( $template['attributes'] )
-      ? $template['attributes']
-      : $template,
+    ? $template['attributes']
+    : $template,
     $hash
   ) ) {
     return ajax\error( [ 'message' => 'Invalid template hash' ] );

@@ -1,0 +1,7 @@
+{
+  "name": "@tangible-template-system/sortable",
+  "type": "module",
+  "dependencies": {
+    "sortablejs": "^1.15.1"
+  }
+}

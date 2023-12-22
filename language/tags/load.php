@@ -243,6 +243,8 @@ $html->load_content_tag = function( $atts, $content = '' ) use ( $html ) {
     }
   }
 
+  if (empty($asset)) return;
+
   if ( in_array( 'render', $atts['keys'] ) ) {
     $atts['render'] = true;
   }

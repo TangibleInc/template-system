@@ -35,7 +35,8 @@ $html->add_closed_tag('Gallery', function( $atts ) use ( $html ) {
 });
 
 $html->gallery_type_callbacks = [
-  'default' => 'wp_gallery_shortcode',
+  // https://developer.wordpress.org/reference/functions/gallery_shortcode/
+  'default' => 'gallery_shortcode',
 ];
 
 $html->register_gallery_type = function( $type, $callback ) use ( $html ) {

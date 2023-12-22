@@ -16,7 +16,7 @@ if (!class_exists('tangible\\framework')) {
 new class {
 
   public $name = 'tangible_framework';
-  public $version = '20231218';
+  public $version = '20231222';
 
   function __construct() {
 
@@ -56,6 +56,7 @@ new class {
     require_once __DIR__ . '/format/index.php';
     require_once __DIR__ . '/hjson/index.php';
     require_once __DIR__ . '/html/index.php';
+    require_once __DIR__ . '/interface/index.php';
     require_once __DIR__ . '/object/index.php';
     require_once __DIR__ . '/plugin/index.php';
     require_once __DIR__ . '/preact/index.php';
