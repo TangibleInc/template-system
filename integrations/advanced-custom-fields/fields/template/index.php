@@ -131,11 +131,15 @@ class TemplateField extends acf_field {
      */
 
     $asset_name = 'tangible-codemirror-v6';
-    
-    if (template_system\get_settings('codemirror_6')) {
-      
+
+  /**
+   * ACF Template field has new editor enabled by default
+   * Keeping this logic in case we need to revert to old editor
+   */
+    $new_editor = true; // template_system\get_settings('codemirror_6');
+
+    if ($new_editor) {
       template_system\enqueue_codemirror_v6();
-      
     } else {      
       template_system\enqueue_codemirror_v5();
       $asset_name = 'tangible-codemirror-v5';

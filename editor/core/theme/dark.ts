@@ -90,14 +90,14 @@ export const darkTheme = EditorView.theme(
     },
 
     '.cm-gutters': {
-      backgroundColor: darkBackground, //base00,
+      backgroundColor: background, //base00,
       color: base04, // 3
       border: 'none',
       borderRight: `1px solid ${darkBackground}`
     },
 
     '.cm-activeLineGutter': {
-      backgroundColor: background, //highlightBackground,
+      backgroundColor: darkBackground, //highlightBackground,
       color: base04
     },
 

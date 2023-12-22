@@ -16,7 +16,7 @@ $render_field = function($field) use ($settings) {
   );
 
   ?>
-  <p><fieldset>
+  <p><fieldset style="max-width:520px">
     <label for="<?php echo $name; ?>">
     <?php
       if ($field['field_type']==='checkbox') {

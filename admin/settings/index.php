@@ -17,7 +17,7 @@ template_system::$state->setting_fields = [
   [
     'name' => 'codemirror_6',
     'field_type' => 'checkbox',
-    'label' => 'New template editor based on CodeMirror 6',
+    'label' => 'New template editor based on CodeMirror 6 - For Elementor and Beaver Builder, the editor is still under development.',
     'beta' => true,
 
     // TODO: Switch default to true when new editor is ready

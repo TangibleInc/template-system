@@ -24,7 +24,7 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
    * @see /admin/capability
    */
   $can_edit = template_system\can_user_edit_template();
-  $new_editor = template_system\get_settings('codemirror_6');
+  if (!$can_edit) return;
 
   $js_deps = [
     'wp-block-editor',
@@ -41,20 +41,23 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
     'tangible-module-loader',
   ];
 
-  if ($can_edit) {
+  /**
+   * Gutenberg has new editor enabled by default
+   * Keeping this logic in case we need to revert to old editor
+   */
+  $new_editor = true; // template_system\get_settings('codemirror_6');
 
-    if ($new_editor) {
+  if ($new_editor) {
 
-      template_system\enqueue_codemirror_v6();
-      $js_deps []= 'tangible-codemirror-v6';
+    template_system\enqueue_codemirror_v6();
+    $js_deps []= 'tangible-codemirror-v6';
 
-    } else {
+  } else {
 
-      template_system\enqueue_codemirror_v5();
-      $js_deps []= 'tangible-codemirror-v5';
-      wp_enqueue_style( 'tangible-codemirror-v5' );  
-    }  
-  }
+    template_system\enqueue_codemirror_v5();
+    $js_deps []= 'tangible-codemirror-v5';
+    wp_enqueue_style( 'tangible-codemirror-v5' );  
+  }  
 
   $url = template_system::$state->url . '/integrations/gutenberg/build';
   $version = template_system::$state->version;
