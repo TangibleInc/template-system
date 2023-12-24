@@ -10,11 +10,9 @@ namespace tangible\plugin;
  * @param config.tabs - { [name: string]: { title: string, callback: Function } }
  */
 function register_settings($config) {
-  [
-    'css' => $css,
-    'title_callback' => $title_callback,
-    'tabs' => $tabs
-  ] = $config;
+  $css = $config['css'] ?? '';
+  $title_callback = $config['title_callback'] ?? '';
+  $tabs = $config['tabs'] ?? [];
 }
 
 /**
