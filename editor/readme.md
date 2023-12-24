@@ -35,32 +35,3 @@ The previous version of the editor has been archived to [its own repository](htt
 
 The minified bundle is still in the Template System (as [Codemirror v5 module](../modules/codemirror-v5/)). The old editor can be enabled by plugin setting until the new editor fully replaces it.
 
-### Migration
-
-Replace the existing use of code editor in:
-
-- `/system/editor` - Integrate with template post types in admin edit screen
-- `/system/integrations` - Template editor block in Beaver, Elementor, Gutenberg
-
-Then remove CodeMirror 5 entirely.
-
-- `/template/codemirror` - Heavily customized fork of CodeMirror 5 and extensions - It used to be a separate repository published as NPM package `@tangible/codemirror`
-- `/template/assets/src/codemirror` - Export Tangible.CodeMirror
-- `/template/modules/codemirror` - Enqueue a set of scripts and styles
-
-
-## Future ideas
-
-- Language definition: Tag attributes for autocomplete and documentation
-
-- More language modes: JSON, Markdown
-
-- Export single template/block (HTML, CSS, JS) from edit screen
-
-- Import/export single template in Template block inside page builder
-
-- Template patterns
-
-- Action/button to insert and edit tag
-
-  - [How to dynamically change document](https://codemirror.net/examples/change/)

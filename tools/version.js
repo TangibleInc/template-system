@@ -7,7 +7,11 @@ import fs from 'node:fs/promises'
 
   console.log('Version', version)
 
-  for (const file of ['version.php', 'framework/index.php']) {
+  for (const file of [
+    'framework/index.php',
+    'plugin.php',
+    'version.php',
+  ]) {
 
     console.log('Update', file)
 
@@ -17,6 +21,7 @@ import fs from 'node:fs/promises'
       .replace(/return '[0-9]{8}'/, `return '${version}'`)
       .replace(/'version' => '[0-9]{8}'/, `'version' => '${version}'`)
       .replace(/\$version = '[0-9]{8}'/, `$version = '${version}'`)
+      .replace(/Version: [0-9]{8}/, `Version: ${version}`)
 
     // console.log(content)
 

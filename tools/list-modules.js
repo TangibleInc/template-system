@@ -34,10 +34,10 @@ import { globby } from 'globby'
       }
     }
 
-    console.log(`${' '.repeat(indent * 2)}- \`${
+    console.log(`${' '.repeat(indent * 2)}- ${
       parts.join('/')
       // parts.slice(indent).join('/')
-    }\``)
+    }`)
 
     if (indent === 0 && parts.length > 1) {
       /**

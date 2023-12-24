@@ -14,7 +14,7 @@ The codebase is organized by feature areas, which are made up of modules.
 - [Admin](admin/) - Admin features such as template post types, editor, import/export, assets, locations, layouts, builder integrations
 - [Modules](modules/) - Additional template system features, such as Chart, Slider, Table
 - [Integrations](integrations/) - Integrate with third-party plugins
-- [Framework](framework/) - Features shared across plugins, such as AJAX, Date, HJSON
+- [Framework](../framework/) - Features shared across plugins, such as AJAX, Date, HJSON
 
 Each module should aim to be generally useful, clarify its dependencies internal and external, and ideally be well-documented and tested. Some are published as NPM (JavaScript) or Composer (PHP) package.
 
@@ -22,7 +22,7 @@ Each module should aim to be generally useful, clarify its dependencies internal
 
 Prerequisites: [Node.js](https://nodejs.org/en/)
 
-Clone the repo, and install dependencies.
+Clone the repository, and install dependencies.
 
 ```sh
 git clone git@github.com:tangibleinc/template-system.git
@@ -46,8 +46,6 @@ The Template System is composed of modules which can be built individually. Spec
 npm run build editor integrations/gutenberg
 ```
 
-See below for the list of modules with assets.
-
 #### Build for development
 
 Watch files for changes and rebuild. Press CTRL + C to stop the process.
@@ -61,8 +59,58 @@ npm run dev [module1 module2..]
 Format files to code standard with [Prettier](https://prettier.io) and [PHP Beautify](https://github.com/tangibleinc/php-beautify).
 
 ```sh
-npm run format
+npm run format [module1 module2..]
 ```
+
+
+### List all modules with assets
+
+See the complete list of modules with assets.
+
+```sh
+npm run list
+```
+
+The list is generated from the codebase by finding all config files `tangible.config.js`, and gathering their folder names relative to the project root.
+
+```sh
+- admin
+  - admin/editor
+  - admin/import-export
+  - admin/location
+  - admin/template-assets
+- editor
+  - editor/ide
+- framework
+  - framework/api
+  - framework/preact
+  - framework/select
+- integrations/beaver
+- integrations/elementor
+- integrations/gutenberg
+- language
+- logic
+- loop
+- modules
+  - modules/async
+  - modules/chart
+  - modules/date-picker
+  - modules/embed
+  - modules/form
+  - modules/glider
+  - modules/mermaid
+  - modules/module-loader
+  - modules/paginator
+  - modules/prism
+  - modules/site-structure
+  - modules/slider
+  - modules/sortable
+  - modules/table
+```
+
+These can be built with the `dev` and `build` commands.
+
+For example, `npm run build admin` will build all child modules of the `admin` module; or you can build an individual module like `npm run build admin/editor`.
 
 
 ## Test
@@ -203,45 +251,3 @@ Examples of how to write end-to-end tests:
 
 - WordPress E2E tests - https://github.com/WordPress/wordpress-develop/blob/trunk/tests/e2e
 - Gutenberg E2E tests - https://github.com/WordPress/gutenberg/tree/trunk/test/e2e
-
-
-## List of modules with assets
-
-Here is the complete list of modules with assets, which can be built with the `dev` and `build` commands.
-
-For example, `npm run build admin` will build all child modules of the `admin` module; or you can build an individual module like `npm run build admin/editor`.
-
-- `admin`
-  - `admin/editor`
-  - `admin/import-export`
-  - `admin/location`
-  - `admin/template-assets`
-- `editor`
-  - `editor/ide`
-- `framework`
-  - `framework/api`
-  - `framework/preact`
-  - `framework/select`
-- `integrations/beaver`
-- `integrations/elementor`
-- `integrations/gutenberg`
-- `language`
-- `logic`
-- `loop`
-- `modules`
-  - `modules/async`
-  - `modules/chart`
-  - `modules/date-picker`
-  - `modules/embed`
-  - `modules/form`
-  - `modules/glider`
-  - `modules/mermaid`
-  - `modules/module-loader`
-  - `modules/paginator`
-  - `modules/prism`
-  - `modules/site-structure`
-  - `modules/slider`
-  - `modules/sortable`
-  - `modules/table`
-
-This list is generated from the codebase by running `npm run list`, which finds all config files `tangible.config.js` and lists the folder names.

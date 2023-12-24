@@ -2,6 +2,7 @@
 /**
  * Plugin Name: Tangible Module: Template System
  * Description: Template system shared by Tangible Blocks and Loops & Logic
+ * Version: 20231224
  */
 
 require_once __DIR__ . '/index.php';
