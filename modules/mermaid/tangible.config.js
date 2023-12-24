@@ -10,10 +10,10 @@ export default {
     //   dest: 'build/mermaid.min.css',
     // },
     // Test page
-    {
-      src: 'src/index.html',
-      dest: 'build/index.html',
-    }
+    // {
+    //   src: 'src/index.html',
+    //   dest: 'build/index.html',
+    // }
   ],
   format: ['**/*.{php,ts,tsx,scss}', '!build'],
   serve: {

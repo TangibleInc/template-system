@@ -3,12 +3,12 @@
  *
  * Depends on Tangible AJAX and Select modules
  */
-
+import { createRoot } from 'react-dom'
 import LocationEditor from './LocationEditor'
 
 const {
   jQuery: $,
-  Tangible: { Preact },
+  Tangible,
 } = window
 
 const $el = $('#post .template-location-editor')
@@ -21,12 +21,11 @@ data = typeof data === 'object' && !Array.isArray(data) ? data : {}
 
 const ruleDefinitions = $el.data('ruleDefinitions') || []
 
-Preact.render(
+createRoot(el).render(
   <LocationEditor
     {...{
       data,
       ruleDefinitions,
     }}
-  />,
-  el
+  />
 )

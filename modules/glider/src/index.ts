@@ -2,7 +2,7 @@ import './glider'
 import './thumbnail'
 //import './zoom'
 
-window.jQuery(function ($) {
+jQuery(function ($) {
   $('.tangible-glider').each(function () {
     $(this).tangibleGlider()
   })

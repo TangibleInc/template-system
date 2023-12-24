@@ -234,35 +234,39 @@ const Exporter = () => {
       </p>
 
       {exportRulesRef.current.length > 0 && (
-        <p>
-          <button
-            type="button"
-            className="button button-primary"
-            onClick={(e) => {
-              e.preventDefault()
-              if (exportState.exporting) return
-              runExport('png')
-            }}
-          >
-            Export
-          </button>
-          <a
-            href="#"
-            style={{
-              margin: '0 1rem'
-            }}
-            onClick={(e) => {
-              e.preventDefault()
-              if (exportState.exporting) return
-              runExport()
-            }}
-          >
-            Export as JSON (Uncompressed)
-          </a>
-          {exportState.message && (
-            <div style={{ padding: '.5rem 0' }}>{exportState.message}</div>
-          )}
-        </p>
+        <>
+          <p>
+            <button
+              type="button"
+              className="button button-primary"
+              onClick={(e) => {
+                e.preventDefault()
+                if (exportState.exporting) return
+                runExport('png')
+              }}
+            >
+              Export
+            </button>
+          </p>
+          <p>
+            <a
+              href="#"
+              style={{
+                // margin: '0 1rem',
+              }}
+              onClick={(e) => {
+                e.preventDefault()
+                if (exportState.exporting) return
+                runExport()
+              }}
+            >
+              Export as JSON (Uncompressed)
+            </a>
+          </p>
+          <p>
+            {exportState.message}
+          </p>
+        </>
       )}
     </div>
   )

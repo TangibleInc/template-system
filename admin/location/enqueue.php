@@ -1,5 +1,6 @@
 <?php
 use tangible\ajax;
+use tangible\template_system;
 
 $plugin->enqueue_template_location_editor = function() use ( $plugin ) {
 

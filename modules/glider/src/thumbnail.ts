@@ -153,8 +153,8 @@
           }
         } else if (isVideo.vimeo) {
           if (_this.core.s.loadVimeoThumbnail) {
-            thumbImg =
-              '//i.vimeocdn.com/video/error_' + vimeoErrorThumbSize + '.jpg'
+            // vimeoErrorThumbSize
+            thumbImg = `//i.vimeocdn.com/video/error_${640}.jpg`
             vimeoId = isVideo.vimeo[1]
           } else {
             thumbImg = thumb
@@ -504,4 +504,5 @@
   }
 
   $.fn.tangibleGlider.modules.Thumbnail = Thumbnail
+
 })(jQuery, window, document)

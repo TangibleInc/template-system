@@ -5,7 +5,7 @@
  * Called from ../../editor/fields.php
  */
 
-use tangible\template_system\select;
+use tangible\select;
 
  $plugin->render_location_edit_fields = function( $fields, $post_type ) use ( $plugin ) {
 
