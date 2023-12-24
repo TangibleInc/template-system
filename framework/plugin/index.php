@@ -13,7 +13,7 @@ framework::$state->plugins = [];
 function register($config) {
 
   // Object with dynamic properties and methods - See ../object
-  $plugin = tangible\create_object($config + [
+  $plugin = \tangible\create_object($config + [
 
     // Defaults
 

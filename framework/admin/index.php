@@ -12,3 +12,5 @@ admin::$state = (object) [
   'url'     => framework::$state->url . '/admin',
   'path'    => framework::$state->path . '/admin',
 ];
+
+require_once __DIR__ . '/notice/index.php';

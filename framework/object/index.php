@@ -8,7 +8,7 @@ namespace tangible;
  */
 function create_object( $props = [] ) {
 
-  $obj = new class extends stdClass {
+  $obj = new class extends \stdClass {
 
     public $name = 'tangible_object';
 
