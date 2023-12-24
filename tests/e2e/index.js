@@ -24,56 +24,68 @@ test.describe('Admin', () => {
     await expect(heading).toBeVisible()
   })
 
-  test('Template System installed', async ({ admin, page, requestUtils }) => {
-    // const plugins = await requestUtils.rest({
-    //   path: 'wp/v2/plugins',
-    // })
-    // console.log('plugins', plugins)
+  const plugins = [
+    ['Template System', 'template-system/plugin'],
+    ['Advanced Custom Fields', 'advanced-custom-fields/acf'],
+    ['Elementor', 'elementor/elementor'],
+    ['Beaver Builder', 'beaver-builder-lite-version/fl-builder'],
+  ]
 
-    const result = await requestUtils.rest({
-      path: 'wp/v2/plugins/template-system/plugin',
+  for (const [pluginTitle, pluginBasename] of plugins) {
+    test(`${pluginTitle} installed`, async ({ admin, page, requestUtils }) => {
+      await admin.visitAdminPage('/')
+
+      // const plugins = await requestUtils.rest({
+      //   path: 'wp/v2/plugins',
+      // })
+      // expect(plugins).toContain(pluginBasename)
+      // console.log('plugins', plugins)
+
+      const result = await requestUtils.rest({
+        path: `wp/v2/plugins/${pluginBasename}`,
+      })
+      // console.log('plugin', result)
+
+      expect(result.plugin).toBe(pluginBasename)
     })
-    // console.log('plugin', result)
 
-    expect(result.plugin).toBe('template-system/plugin')
-  })
+    test(`Activate ${pluginTitle}`, async ({ admin, page, request, requestUtils }) => {
+      await admin.visitAdminPage('plugins.php')
 
-  test('Activate plugin', async ({ admin, page, request, requestUtils }) => {
-    await admin.visitAdminPage('plugins.php')
-
-    // See if plugin is active or not
-    const pluginClasses = await page.evaluate(() => {
-      const $row = document.querySelector(
-        '[data-plugin="template-system/plugin.php"]'
-      )
-      return [...$row.classList]
-    })
-
-    if (!pluginClasses.includes('active')) {
-      await expect(pluginClasses).toContain('inactive')
-
-      // Find the Activate link
-
-      const activateLink = await page.evaluate(() => {
+      // See if plugin is active or not
+      const pluginClasses = await page.evaluate(({ pluginBasename }) => {
         const $row = document.querySelector(
-          '[data-plugin="template-system/plugin.php"]'
+          `[data-plugin="${pluginBasename}.php"]`
         )
-        const $activate = $row.querySelector('a.edit')
-        return $activate?.href
+        return [...$row.classList]
+      }, { pluginBasename })
+
+      if (!pluginClasses.includes('active')) {
+        await expect(pluginClasses).toContain('inactive')
+
+        // Find the Activate link
+
+        const activateLink = await page.evaluate(({ pluginBasename }) => {
+          const $row = document.querySelector(
+            `[data-plugin="${pluginBasename}.php"]`
+          )
+          const $activate = $row.querySelector('a.edit')
+          return $activate?.href
+        }, { pluginBasename })
+
+        await expect(activateLink).toBeTruthy()
+
+        // Make a POST request
+        await request.post(activateLink)
+      }
+
+      const plugin = await requestUtils.rest({
+        path: `wp/v2/plugins/${pluginBasename}`,
       })
 
-      await expect(activateLink).toBeTruthy()
-
-      // Make a POST request
-      await request.post(activateLink)
-    }
-
-    const plugin = await requestUtils.rest({
-      path: 'wp/v2/plugins/template-system/plugin',
+      expect(plugin.status).toBe('active')
     })
-
-    expect(plugin.status).toBe('active')
-  })
+  }
 })
 
 test.describe('Admin menu', () => {
