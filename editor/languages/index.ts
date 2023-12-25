@@ -14,7 +14,7 @@ import { createJavaScriptLinter } from './javascript/linter'
 
 import { keymap } from '@codemirror/view'
 
-import { autocompletion } from '@codemirror/autocomplete'
+import { autocompletion, acceptCompletion } from '@codemirror/autocomplete'
 import { getHTMLAutocomplete } from './html/autocomplete'
 
 // https://github.com/emmetio/codemirror6-plugin
@@ -50,7 +50,7 @@ const langExtensionsGetters = {
       syntax: 'html'
     }),
     keymap.of([
-      { key: 'Tab', run: expandAbbreviation }
+      { key: 'Tab', run: expandAbbreviation },
     ]),
     createHtmlLinter(),
     getHTMLAutocomplete(),

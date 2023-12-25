@@ -172,12 +172,11 @@ function completeTagAttributeValue(state: EditorState, tree: SyntaxNode, from: n
 
 
 const templateTagCompletionSource: CompletionSource = (context: CompletionContext) => {
-
   // Original HTML completion
   // return htmlCompletionSourceWith()(context)
-
+  
   // Reference: lang-html/complete.ts, htmlCompletionFor()
-
+  
   let {state, pos} = context
   let around = syntaxTree(state).resolveInner(pos)
   let tree = around.resolve(pos, -1)
@@ -248,7 +247,7 @@ const templateTagCompletionSource: CompletionSource = (context: CompletionContex
 
 export function getHTMLAutocomplete() {
   return autocompletion({
-      defaultKeymap: false, // Needed for vscode-keymap
+      // defaultKeymap: false, // Needed for vscode-keymap
       override: [
         templateTagCompletionSource
       ]

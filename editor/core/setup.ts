@@ -1,17 +1,37 @@
 import {
-  keymap, highlightSpecialChars, drawSelection, highlightActiveLine, dropCursor,
-  rectangularSelection, crosshairCursor,
-  lineNumbers, highlightActiveLineGutter,
-  EditorView
+  keymap,
+  highlightSpecialChars,
+  drawSelection,
+  highlightActiveLine,
+  dropCursor,
+  rectangularSelection,
+  crosshairCursor,
+  lineNumbers,
+  highlightActiveLineGutter,
+  EditorView,
 } from '@codemirror/view'
 import { Extension, EditorState } from '@codemirror/state'
 import {
-  defaultHighlightStyle, syntaxHighlighting, indentOnInput, bracketMatching,
-  foldGutter, foldKeymap
+  defaultHighlightStyle,
+  syntaxHighlighting,
+  indentOnInput,
+  bracketMatching,
+  foldGutter,
+  foldKeymap,
 } from '@codemirror/language'
-import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands'
+import {
+  defaultKeymap,
+  history,
+  historyKeymap,
+  indentWithTab,
+} from '@codemirror/commands'
 import { searchKeymap, highlightSelectionMatches } from '@codemirror/search'
-import { autocompletion, completionKeymap, closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete'
+import {
+  autocompletion,
+  completionKeymap,
+  closeBrackets,
+  closeBracketsKeymap,
+} from '@codemirror/autocomplete'
 import { lintKeymap, lintGutter } from '@codemirror/lint'
 
 import { indentationMarkers } from '@replit/codemirror-indentation-markers'
@@ -25,7 +45,6 @@ import { vscodeKeymap } from '../extensions/vscode-keymap'
 // Based on https://github.com/codemirror/basic-setup/blob/main/src/codemirror.ts
 // https://codemirror.net/docs/extensions/
 const commonExtensions = [
-
   EditorState.tabSize.of(2),
 
   lineNumbers(), // https://codemirror.net/docs/ref/#view.lineNumbers
@@ -62,11 +81,11 @@ const commonKeyMaps = [
   ...closeBracketsKeymap,
 
   /**
- * The keymap `indentWithTab` refers to the `tab` key, not tabs vs spaces.
- * It should be loaded after Emmet to ensure its completions takes precedence.
- *
- * TODO: Inform users about ESC + Tab https://codemirror.net/examples/tab/
- */
+   * The keymap `indentWithTab` refers to the `tab` key, not tabs vs spaces.
+   * It should be loaded after Emmet to ensure its completions takes precedence.
+   *
+   * TODO: Inform users about ESC + Tab https://codemirror.net/examples/tab/
+   */
   indentWithTab,
 
   ...defaultKeymap, // https://codemirror.net/docs/ref/#commands.defaultKeymap
@@ -82,7 +101,6 @@ const commonKeyMaps = [
  * Get language setup - Using async to support dynamic loading
  */
 export async function getSetup(lang: string, options = {}): Promise<Extension> {
-
   const langExtensions = await getLangExtensions(lang)
 
   const setup = [
@@ -92,9 +110,7 @@ export async function getSetup(lang: string, options = {}): Promise<Extension> {
   ]
 
   if (options.keymap) {
-    setup.push(
-      keymap.of(options.keymap)
-    )
+    setup.push(keymap.of(options.keymap))
   }
 
   return setup
