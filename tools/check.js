@@ -44,6 +44,7 @@ fi
   const prefix = 'FILE: '
 
   let index = 0
+
   for (const line of lines) {
     if (line.startsWith(prefix)) {
       const name = line.replace(prefix, '')
@@ -88,12 +89,21 @@ fi
     }[]
   }
   */
+  const total = { warning: 0, error: 0 }
 
   console.log('# Plugin check\n\n'+(files.length === 0
     ? 'Congratulations! There was no error or warning.\n'
     : files.map(file => `## ${file.name}\n\n${
-    file.warnings.map(({ line, column, type, code, message }) => `- Line ${line} ${type[0].toUpperCase() + type.slice(1).toLowerCase()}: \`${code}\`${message ? `\n\n  ${message}\n` : ''}`).join('\n')
-
+    file.warnings.map(({ line, column, type, code, message }) => {
+      total[type.toLowerCase()]++
+      return `- Line ${line} ${type[0].toUpperCase() + type.slice(1).toLowerCase()}: \`${code}\`${message ? `\n\n  ${message}\n` : ''}`
+    }).join('\n')
   }`).join('\n\n')))
+
+  console.log(`Total: ${
+    total.error ? `${total.warning ? ', ' : ''}${total.error} error${total.error > 1 ? 's' : ''}` : ''
+  }${
+    total.warning ? `${total.warning} warning${total.warning > 1 ? 's' : ''}` : ''
+  }`)
 
 })().catch(console.error)
