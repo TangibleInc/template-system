@@ -1,9 +1,5 @@
-import path from 'node:path'
-import fs from 'node:fs/promises'
-import { existsSync } from 'node:fs'
 import util from 'node:util'
 import { exec as execSync } from 'node:child_process'
-import readline from 'node:readline'
 
 const execAsync = util.promisify(execSync)
 const exec = async (...args) => {
@@ -15,36 +11,8 @@ const exec = async (...args) => {
   }
 }
 
-async function run(command, options) {
-  console.log(command)
-  const [stdout, stderr] = await exec(command, options)
-  console.log(stdout)
-  if (stderr) {
-    console.log(stderr)
-    return false
-  }
-  return true
-}
-
-function prompt(query) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  })
-
-  return new Promise((resolve) => {
-    rl.on('SIGINT', function () {
-      rl.close()
-      resolve(false) // Returns false on CTRL+C
-    })
-    rl.question(query, (answer) => {
-      rl.close()
-      resolve(answer)
-    })
-  })
-}
-
 ;(async () => {
+
   // Ensure Plugin Check plugin is installed
   let [stdout, stderr] = await exec(`npx wp-env --quiet run tests-cli bash -c "
 if [ -d wp-content/plugins/plugin-check ]; then
@@ -52,7 +20,11 @@ if [ -d wp-content/plugins/plugin-check ]; then
   wp plugin activate plugin-check;
 else 
   echo 'Installing Plugin Check plugin..';
+  cd wp-content/plugins;
   curl -sL https://github.com/TangibleInc/plugin-check/archive/refs/heads/trunk.tar.gz | tar xz;
+  if [ -d plugin-check ]; then
+    rm -rf plugin-check;
+  fi
   mv plugin-check-trunk plugin-check;
   cd plugin-check;
   composer install --no-dev;
@@ -63,13 +35,9 @@ fi
   // console.log(stderr || stdout)
   // Continue either way because with wp-env, successful result still outputs to stderr
 
-  const cmd =
-    'npx wp-env run tests-cli wp plugin check template-system -- --format=json'
+  ;[stdout, stderr] = await exec(`npx wp-env run tests-cli wp plugin check template-system -- --format=json`)
 
-  // console.log(cmd)
-  ;[stdout, stderr] = await exec(cmd)
-
-  // console.log(stdout)
+  // console.log(stderr || stdout)
 
   const lines = (stdout || '').split('\n')
   const files = []
@@ -98,9 +66,15 @@ fi
   }
 
   /**
-   * TODO: Option to output --json or --markdown
+   * Option to output --json
    */
-  // console.log(JSON.stringify(files, null, 2))
+
+  const args = process.argv.slice(2)
+
+  if (args.includes('--json')) {
+    console.log(JSON.stringify(files, null, 2))
+    process.exit()
+  }
 
   /*
   type FileInfo = {
