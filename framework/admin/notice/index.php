@@ -1,5 +1,5 @@
 <?php
-namespace tangible\admin;
+namespace tangible\framework;
 
 include __DIR__.'/enqueue.php';
 include __DIR__.'/fields.php';

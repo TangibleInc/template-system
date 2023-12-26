@@ -1,5 +1,5 @@
 <?php
-use tangible\plugin;
+use tangible\framework;
 
 return function() use ( $plugin ) {
 
@@ -49,7 +49,7 @@ return function() use ( $plugin ) {
             || $integrations_enabled[ $slug ] === 'true';
 
           // @see /framework/plugin/settings.php
-          echo plugin\render_setting_field_checkbox([
+          echo framework\render_setting_field_checkbox([
             'name'  => 'integrations_enabled[' . $slug . ']',
             'value' => $value ? 'true' : 'false',
             'label' => $config['title']

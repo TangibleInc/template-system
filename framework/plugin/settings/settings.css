@@ -1,0 +1,87 @@
+
+.tangible-plugin-settings-page,
+.tangible-plugin-settings-page p {
+  font-size: 14px;
+}
+
+.tangible-plugin-settings-page hr {
+  margin: 1rem 0;
+}
+
+
+.tangible-plugin-settings-page .tangible-plugin-store-link {
+  display: inline-block;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.tangible-plugin-settings-page .tangible-plugin-store-link a {
+  text-decoration: none;
+}
+
+.tangible-plugin-settings-page .plugin-title {
+  padding: 0 0 0 10px;
+}
+.tangible-plugin-settings-page .plugin-title h1 {
+  padding-top: 0;
+}
+.tangible-plugin-settings-page .plugin-title h2 {
+  margin-bottom: 5px;
+}
+
+.tangible-plugin-settings-tab {
+  padding: 0 15px;
+  max-width: 760px;
+}
+.tangible-plugin-settings-tab .success {
+  color: #1fd11f;
+}
+
+.tangible-plugin-settings-tab .error {
+  color: red;
+}
+
+.tangible-plugin-settings-tab .setting-row {
+  padding-bottom: 20px;
+}
+
+.tangible-plugin-settings-page .license-status {
+  display: inline;
+  font-weight: normal;
+}
+
+.tangible-plugin-settings-page .nav-tab-wrapper {
+  padding-left: 5px !important;
+}
+
+/* Code block */
+
+.tangible-plugin-settings-tab pre {
+  background-color: rgba(0, 0, 0, 0.07);
+
+  margin-top: 0;
+  margin-bottom: .5rem;
+  padding: .5rem .75rem;
+  /*overflow-x: auto;*/
+
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+.tangible-plugin-settings-tab code {
+  padding: 0.2em;
+}
+
+.tangible-plugin-settings-tab pre > code {
+  display: block;
+  padding: 0;
+  background-color: transparent;
+}
+
+.tangible-plugin-settings-tab p.submit {
+  margin-top: 0;
+  padding-top: 0;
+}

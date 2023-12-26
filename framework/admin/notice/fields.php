@@ -1,6 +1,6 @@
 <?php
-namespace tangible\admin;
-use tangible\admin as admin;
+namespace tangible\framework;
+use tangible\framework;
 
 function get_admin_notice_setting_key($name) {
   return "tangible_admin_notice_dismissed__{$name}";
@@ -8,7 +8,7 @@ function get_admin_notice_setting_key($name) {
 
 function is_admin_notice_dismissed($name) {
 
-  $key = admin\get_admin_notice_setting_key($name);
+  $key = framework\get_admin_notice_setting_key($name);
   $value = \is_multisite()
     ? get_network_option(null, $key, false)
     : get_option($key, false);
@@ -18,7 +18,7 @@ function is_admin_notice_dismissed($name) {
 
 function dismiss_admin_notice($name, $value = 'true') {
 
-  $key = admin\get_admin_notice_setting_key($name);
+  $key = framework\get_admin_notice_setting_key($name);
 
   return \is_multisite()
     ? update_network_option(null, $key, $value)
@@ -26,5 +26,5 @@ function dismiss_admin_notice($name, $value = 'true') {
 }
 
 function reset_admin_notice($name) {
-  return admin\dismiss_admin_notice($name, 'false');
+  return framework\dismiss_admin_notice($name, 'false');
 }

@@ -1,11 +1,11 @@
 <?php
-namespace tangible\admin;
-use tangible\admin as admin;
+namespace tangible\framework;
+use tangible\framework;
 
 add_action('admin_enqueue_scripts', function () {
 
-  $url = admin::$state->url;
-  $version = admin::$state->version;
+  $url = framework::$state->url . '/admin';
+  $version = framework::$state->version;
 
   $js = $url . '/notice/admin-notice.js';
 
