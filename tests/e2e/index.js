@@ -1,10 +1,7 @@
 import { test, expect } from '@wordpress/e2e-test-utils-playwright'
 
 /**
- * Basic tests to learn how to write tests with Playwright
- *
- * Keep adding tests to thoroughly exercise the frontend and admin features of
- * the Template System.
+ * Tests to exercise the frontend and admin features of the Template System.
  *
  * Note: To interact with pages, locate elements by user-visible locators like
  * accessible role, instead of CSS selectors which can change.
