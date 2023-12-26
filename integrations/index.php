@@ -8,6 +8,8 @@
 // ACF integration is loaded earlier by /template for backward compatibility
 require_once __DIR__ . '/advanced-custom-fields/index.php';
 
+// Tangible Fields
+require_once __DIR__ . '/tangible-fields/index.php';
 
 /**
  * Page builders
