@@ -14,19 +14,23 @@ use tangible\framework;
  * @param config.tabs - { [name: string]: { title: string, callback: Function } }
  */
 function register_plugin_settings($plugin, $config) {
+
   $is_multisite = is_multisite();
+  $url_base = $is_multisite
+    ? 'settings.php'
+    : 'options-general.php'
+  ;
+  $settings_page_slug = "{$plugin->name}-settings";
+  $url = "{$url_base}?page={$settings_page_slug}";
+  $settings_page_url = $is_multisite ? network_admin_url($url) : admin_url($url);
+
+  /**
+   * Add plugin settings page under admin menu "Settings"
+   */
   add_action(
     $is_multisite ? 'network_admin_menu' : 'admin_menu',
-    function() use ($plugin, $config, $is_multisite) {
-      $url_base = $is_multisite
-        ? 'settings.php'
-        : 'options-general.php'
-      ;
-      $settings_page_slug = "{$plugin->name}-settings";
-      /**
-       * Submenu page under Settings
-       * @see https://developer.wordpress.org/reference/functions/add_submenu_page
-       */
+    function() use ($plugin, $config, $is_multisite, $url_base, $settings_page_slug, $settings_page_url) {
+      /** @see https://developer.wordpress.org/reference/functions/add_submenu_page */
       add_submenu_page(
         $url_base,
         $plugin->title,
@@ -37,7 +41,7 @@ function register_plugin_settings($plugin, $config) {
           : 'manage_options'
         ,
         $settings_page_slug,
-        function() use ($plugin, $config, $is_multisite, $url_base, $settings_page_slug) {
+        function() use ($plugin, $config, $is_multisite, $url_base, $settings_page_slug, $settings_page_url) {
 
           $name = $plugin->name;
           $title = $plugin->title;
@@ -55,10 +59,10 @@ function register_plugin_settings($plugin, $config) {
 
           ?><style><?php require_once __DIR__ . '/settings.css'; ?></style><?php
           if (isset($config['css'])) {
-            ?><link rel="stylesheet" href="<?php echo $config['css']; ?>"><?php
+            ?><link rel="stylesheet" href="<?php echo esc_attr($config['css']); ?>"><?php
           }
           ?>
-          <div class="wrap tangible-plugin-settings-page <?php echo $name; ?>-settings">
+          <div class="wrap tangible-plugin-settings-page <?php echo esc_attr($settings_page_slug); ?>">
         
             <header>
               <div class="plugin-title">
@@ -82,8 +86,7 @@ function register_plugin_settings($plugin, $config) {
                 foreach ($tabs as $tab_slug => $tab) {
         
                   $tab_query = !empty($tab_slug) ? "&tab=$tab_slug" : '';
-                  $url = "{$url_base}?page={$settings_page_slug}{$tab_query}";
-                  $url = $is_multisite ? network_admin_url($url) : admin_url($url);
+                  $url = "{$settings_page_url}{$tab_query}";
 
                   $classname = 'nav-tab';
                   if ($tab_slug===$active_tab) $classname .= ' nav-tab-active';
@@ -111,12 +114,41 @@ function register_plugin_settings($plugin, $config) {
           </div>
           <?php
           if (isset($config['js'])) {
-            ?><script src="<?php echo $config['js']; ?>"></script><?php
+            ?><script src="<?php echo esc_attr($config['js']); ?>"></script><?php
           }
         } // Render settings page
       );
     }
-  );
+  ); // Add action admin menu
+
+  /**
+   * Add "Settings" link in plugins list
+   * @see https://codex.wordpress.org/Plugin_API/Filter_Reference/plugin_action_links_(plugin_file_name)
+   */
+
+  $basename = plugin_basename($plugin->file_path);
+
+  $filter = $is_multisite
+    ? "network_admin_plugin_action_links_$basename"
+    : "plugin_action_links_$basename"
+  ;
+
+  add_filter($filter, function($links) use ($plugin, $config, $settings_page_url) {
+
+    $url = $settings_page_url;
+    $label = 'Settings';
+
+    $links []= "<a href=\"$url\">$label</a>";
+
+    // Additional links, like Support
+    if (isset($plugin->action_links)) {
+      foreach ($plugin->action_links as $link) {
+        $links []= $link;
+      }
+    }
+
+    return $links;
+  }, 10, 1);
 }
 
 require_once __DIR__ . '/checkbox.php';
