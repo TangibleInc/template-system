@@ -53,6 +53,11 @@ add_action('admin_init', function() use ($plugin) {
     ]);
 
     /**
+     * If post type has Preview tab
+     */
+    $has_preview = $has_style_and_script;
+
+    /**
      * If post type has location rules builder
      * @see ../location and ../post-types/index.php
      */
@@ -87,8 +92,7 @@ add_action('admin_init', function() use ($plugin) {
      */
     $tabs = apply_filters( 'tangible_template_editor_tabs', $tabs, $post );
 
-    $tabs []= 'Preview';
-
+    if ( $has_preview ) $tabs []= 'Preview';
     if ( $has_location ) $tabs []= 'Location';
     if ( $has_assets ) $tabs []= 'Assets';
 
@@ -211,23 +215,18 @@ add_action('admin_init', function() use ($plugin) {
        */
       do_action( 'tangible_template_editor_after_tabs', $post, $fields );
 
-      // Preview
-      ?><div class="tangible-template-tab"  data-tab-name="preview"></div><?php
+      if ( $has_preview ) {
+        ?><div class="tangible-template-tab"  data-tab-name="preview"></div><?php
+      }
 
       if ( $has_location ) {
-
-        // @see includes/template/location/admin/fields.php
-
+        /** @see /admin/location/admin/fields.php */
         $plugin->render_location_edit_fields( $fields, $post_type );
-
       }
 
       if ($has_assets) {
-
-        // @see includes/template/assets/field.php
-
+        /** @see /admin/template-assets/field.php */
         $plugin->render_assets_edit_field( $fields, $post_type );
-
       }
 
       ?>
