@@ -8,9 +8,10 @@ import fs from 'node:fs/promises'
   console.log('Version', version)
 
   for (const file of [
+    'admin/system.php',
+    'core.php',
     'framework/index.php',
     'plugin.php',
-    'version.php',
   ]) {
 
     console.log('Update', file)

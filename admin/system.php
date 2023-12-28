@@ -13,8 +13,7 @@ use tangible\date;
 new class extends \stdClass {
 
   public $name = 'tangible_template_system';
-
-  public $version;
+  public $version = '20231228';
 
   public $url;
   public $path;
@@ -23,8 +22,6 @@ new class extends \stdClass {
   public $has_plugin = [];
 
   function __construct() {
-
-    $this->version = include __DIR__.'/../version.php';
 
     $name     = $this->name;
     $priority = 99999999 - absint( $this->version );

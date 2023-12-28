@@ -24,7 +24,7 @@ class template_system {
 }
 
 template_system::$state = (object) [
-  'version' => include __DIR__.'/version.php',
+  'version' => '20231228', // Automatically updated with npm run version
   'path' => __DIR__,
   'url' => untrailingslashit( plugins_url( '/', __FILE__ ) ),
 ];

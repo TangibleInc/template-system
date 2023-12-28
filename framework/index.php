@@ -16,7 +16,7 @@ if (!class_exists('tangible\\framework')) {
 new class {
 
   public $name = 'tangible_framework';
-  public $version = '20231224';
+  public $version = '20231228';
 
   function __construct() {
 
@@ -34,7 +34,7 @@ new class {
       $ensure_action();
     } else {
       add_action('plugins_loaded', $ensure_action, 0);
-      add_action('after_setup_theme', $ensure_action, 0);  
+      add_action('after_setup_theme', $ensure_action, 0);
     }
   }
 
