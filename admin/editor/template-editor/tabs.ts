@@ -10,6 +10,7 @@ export function handleTabs({
   postId,
   $postForm,
   editorInstances,
+  renderPreview
 }) {
   
   /**
@@ -35,8 +36,9 @@ export function handleTabs({
       const $tabSelector = $(this)
       const tabName = $tabSelector.data('tabName')
       const $tab = $tabs.eq(index)
+
       // TODO: Each tab area should set its name
-      // .filter(`[data-tab-name="${tabName}"]`).first()
+      // $tabs.filter(`[data-tab-name="${tabName}"]`).first()
 
       if (this !== currentTabSelector) {
         // Hide
@@ -71,6 +73,10 @@ export function handleTabs({
 
       if (editorInstance) {
         editorInstance.focus()
+      }
+
+      if (tabName==='preview') {
+        renderPreview($tab[0])
       }
 
       setMemory({

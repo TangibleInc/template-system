@@ -12,23 +12,34 @@ $plugin->enqueue_template_script = function(
   $js_variables = []
 ) use ( $plugin, $html ) {
 
-  $post = $post instanceof WP_Post ? $post : get_post( $post );
+  $is_post = true;
 
-  if (empty( $post )) return;
+  if (is_array($post)) {
 
-  $id = $post->ID;
+    $is_post = false;
 
-  // Already enqueued
-  if ( isset( $plugin->template_script_enqueued[ $id ] )
-    && $plugin->template_script_enqueued[ $id ]
-  ) return;
+  } else {
 
-  if ( $post->post_type !== 'tangible_block' ) {
+    $post = $post instanceof WP_Post ? $post : get_post( $post );
+    if (empty( $post )) return;
+    $id = $post->ID;
+  
+    // Already enqueued
+    if ( isset( $plugin->template_script_enqueued[ $id ] )
+      && $plugin->template_script_enqueued[ $id ]
+    ) return;  
+  }
+
+  if ( $is_post && $post->post_type !== 'tangible_block' ) {
     $plugin->template_script_enqueued[ $id ] = true;
   }
 
-  $script = get_post_meta( $id, 'script', true );
-  $script = apply_filters( 'tangible_template_post_script', $script, $post );
+  if ($is_post) {
+    $script = get_post_meta( $id, 'script', true );
+    $script = apply_filters( 'tangible_template_post_script', $script, $post );
+  } else {
+    $script = $post['script'] ?? '';
+  }
 
   if (empty( $script )) return;
 
@@ -36,7 +47,7 @@ $plugin->enqueue_template_script = function(
    * Pass JS variables
    * 
    * Using a pattern called [Immediately Invoked Function Expression](https://developer.mozilla.org/en-US/docs/Glossary/IIFE). It creates an anonymous
-   * function for locally scoped variables, to avoid affecting the global
+   * function for locally scoped variables to avoid affecting the global
    * namespace (window).
    */
   if ( ! empty( $js_variables ) ) {

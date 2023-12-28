@@ -1,21 +1,31 @@
 <?php
-
 /**
  * Render template and its fields
+ * 
+ * @see /admin/template-post/style
+ * @see /admin/template-post/script
+ * @see /admin/template-assets/variable
  */
 
 $plugin->render_template_post = function(
-  $post,
+  $post, // WP_Post or the post data array
   $control_values = false, // From /includes/integrations/gutenberg, elementor, beaver
   $local_scope = [] // From Template tag and shortcode /includes/template/tag.php
  ) use ( $plugin, $html ) {
 
-  if (is_numeric( $post )) $post = get_post( $post );
-  if ( ! is_a( $post, 'WP_Post' )) return;
+  $is_post = true;
 
-  // Handle template fields
+  // Direct post data
+  if (is_array($post) && isset($post['content'])) {
 
-  $content = $post->post_content;
+    $is_post = false;
+    $content = $post['content'] ?? '';
+
+  } else {
+    if (is_numeric( $post )) $post = get_post( $post );
+    if ( ! is_a( $post, 'WP_Post' )) return;
+    $content = $post->post_content;
+  }
 
   // Capture any style, script, or unexpected output
   ob_start();
@@ -23,16 +33,16 @@ $plugin->render_template_post = function(
   /**
    * Local variable scope
    *
-   * @see vendor/tangible/template/tags/get-set/local.php
+   * @see /language/tags/get-set/local.php
    */
   $html->push_local_variable_scope( $local_scope );
 
   /**
    * Assets map
-   *
-   * @see /includes/template/assets/variable.php
    */
-  $assets_map = $plugin->prepare_template_assets_map( $post->ID );
+  $assets_map = $plugin->prepare_template_assets_map(
+    $is_post ? $post->ID : ($post['assets'] ?? [])
+  );
 
   /**
    * Content supports Exit tag - Previously used $html->render()
@@ -45,7 +55,7 @@ $plugin->render_template_post = function(
    * Style and script
    * Moved to *after* content render, so templates can pass Sass/JS variables.
    *
-   * @see vendor/tangible/template/tags/get-set/js.php, sass.php
+   * @see /language/tags/get-set/js.php, sass.php
    */
 
   $sass_variables = $html->get_sass_variables();
@@ -59,7 +69,7 @@ $plugin->render_template_post = function(
     /**
      * Asset name is ensured to be valid format: alphanumeric, dash, and underscore.
      *
-     * @see /includes/template/fields.php, get_template_fields()
+     * @see /language/fields.php, get_template_fields()
      */
     $name = "asset_{$key}";
 
@@ -73,14 +83,14 @@ $plugin->render_template_post = function(
     $sass_variables[ $name ] = $html->convert_array_to_sass_map_or_list( $value );
   }
 
-  $plugin->enqueue_template_style( $post, $sass_variables );
+  $plugin->enqueue_template_style($post, $sass_variables );
 
   // Ensure any template script comes after content
 
   $before_content = ob_get_clean();
 
   ob_start();
-  $plugin->enqueue_template_script( $post, $control_values, $js_variables );
+  $plugin->enqueue_template_script($post, $control_values, $js_variables );
   $after_content = ob_get_clean();
 
   // End assets map

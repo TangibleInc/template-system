@@ -20,12 +20,7 @@ add_action('admin_init', function() use ($plugin) {
 
   // Enqueue
 
-  // if (template_system\get_settings('codemirror_6')) {
   template_system\enqueue_template_editor(6);
-  // } else {
-  //   // Legacy
-  //   template_system\enqueue_template_editor(5);
-  // }
 
   // Render
 
@@ -92,6 +87,8 @@ add_action('admin_init', function() use ($plugin) {
      */
     $tabs = apply_filters( 'tangible_template_editor_tabs', $tabs, $post );
 
+    $tabs []= 'Preview';
+
     if ( $has_location ) $tabs []= 'Location';
     if ( $has_assets ) $tabs []= 'Assets';
 
@@ -125,7 +122,9 @@ add_action('admin_init', function() use ($plugin) {
 
         if ( $is_editable ) {
           ?>
-          <div class="tangible-template-tab tangible-template-editor-container">
+          <div class="tangible-template-tab tangible-template-editor-container"
+            data-tab-name="template"
+          >
             <textarea
               name="post_content"
               style="display: none"
@@ -143,7 +142,7 @@ add_action('admin_init', function() use ($plugin) {
           <?php
         } else {
           ?>
-          <div class="tangible-template-tab">
+          <div class="tangible-template-tab" data-tab-name="template">
             <pre><code class="tangible-template-editor-locked"><?php
               echo esc_html( $fields['content'] );
             ?></code></pre>
@@ -158,7 +157,9 @@ add_action('admin_init', function() use ($plugin) {
 
         if ( $is_editable ) {
           ?>
-          <div class="tangible-template-tab tangible-template-editor-container">
+          <div class="tangible-template-tab tangible-template-editor-container"
+          data-tab-name="style"
+          >
             <textarea
               name="style"
               style="display: none"
@@ -168,7 +169,7 @@ add_action('admin_init', function() use ($plugin) {
           <?php
         } else {
           ?>
-          <div class="tangible-template-tab">
+          <div class="tangible-template-tab" data-tab-name="style">
             <pre><code class="tangible-template-editor-locked"><?php
               echo esc_html( $fields['style'] );
             ?></code></pre>
@@ -183,7 +184,9 @@ add_action('admin_init', function() use ($plugin) {
 
         if ( $is_editable ) {
           ?>
-          <div class="tangible-template-tab tangible-template-editor-container">
+          <div class="tangible-template-tab tangible-template-editor-container"
+            data-tab-name="script"
+          >
             <textarea
               name="script"
               style="display: none"
@@ -193,7 +196,7 @@ add_action('admin_init', function() use ($plugin) {
           <?php
         } else {
           ?>
-          <div class="tangible-template-tab">
+          <div class="tangible-template-tab" data-tab-name="script">
             <pre><code class="tangible-template-editor-locked"><?php
               echo esc_html( $fields['script'] );
             ?></code></pre>
@@ -207,6 +210,9 @@ add_action('admin_init', function() use ($plugin) {
        * @see tangible-blocks/includes/block/post-types/edit.php
        */
       do_action( 'tangible_template_editor_after_tabs', $post, $fields );
+
+      // Preview
+      ?><div class="tangible-template-tab"  data-tab-name="preview"></div><?php
 
       if ( $has_location ) {
 
@@ -253,11 +259,9 @@ add_action('admin_init', function() use ($plugin) {
       <label for="id" style="vertical-align: inherit; cursor: default;">ID</label>:
       <?php
         $post_id = $post->ID;
-
         echo $post_id;
-
+/*
         $universal_id = $plugin->get_universal_id($post_id);
-
         if (!empty($universal_id)) {
           ?> - Universal ID:
             <a title="<?php echo $universal_id; ?>"
@@ -269,6 +273,7 @@ add_action('admin_init', function() use ($plugin) {
             ?>" />
           <?php
         }
+*/
       ?>
     </div>
   </div>

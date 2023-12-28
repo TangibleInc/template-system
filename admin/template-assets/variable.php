@@ -66,13 +66,17 @@ $plugin->current_template_assets_map  = [
  */
 $plugin->prepare_template_assets_map = function( $post_id ) use ( $plugin ) {
 
-  $assets = get_post_meta( $post_id, 'assets', true );
+  $assets = is_numeric($post_id)
+    ? get_post_meta( $post_id, 'assets', true )
+    : $post_id // Can pass assets directly
+  ;
 
   if ( ! is_array( $assets ) ) {
     try {
       $assets = json_decode( $assets, true );
     } catch ( \Throwable $th ) {
-      /* OK */ }
+      return;
+    }
   }
 
   if (empty( $assets ) || ! is_array( $assets )) $assets = [];

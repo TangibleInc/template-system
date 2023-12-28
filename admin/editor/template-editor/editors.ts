@@ -35,8 +35,9 @@ export async function createEditors({
    * Create editors
    */
 
-  $editors.each(async function () {
-    const $editor = $(this)
+  async function create(el) {
+
+    const $editor = $(el)
     const fieldName = $editor.attr('name')
     const type = $editor.data('tangibleTemplateEditorType') // html, sass, javascript, json
 
@@ -54,7 +55,7 @@ export async function createEditors({
     }
 
     const editor = (editorInstances[fieldName] = await createCodeEditor(
-      this,
+      el,
       editorOptions
     ))
 
@@ -64,7 +65,7 @@ export async function createEditors({
     if (fieldName === 'post_content' && !templateMeta.isNewPost) editor.focus()
 
     // Provide public method to save
-    this.editor = editor
+    el.editor = editor
     editor.save = save
 
     if (!editor.codeMirror6) return
@@ -79,7 +80,15 @@ export async function createEditors({
     //   fieldName,
     //   type,
     // })
+  }
+
+  const promises: Promise<void>[] = []
+
+  $editors.each(function() {
+    promises.push(create(this))
   })
+
+  await Promise.all(promises)
 
   // await loadFonts()
 }

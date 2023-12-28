@@ -7,14 +7,13 @@ import { createEditors } from './editors'
 
 declare global {
   interface Window {
-    jQuery: any,
-    wp: any,
+    jQuery: any
+    wp: any
     Tangible: any
   }
 }
 
 window.jQuery(function ($) {
-
   const $postForm = $('#post')
   const $editors = $postForm.find('[data-tangible-template-editor-type]')
 
@@ -28,7 +27,12 @@ window.jQuery(function ($) {
    * @see https://core.trac.wordpress.org/browser/branches/5.6/src/js/_enqueues/wp/autosave.js?rev=50366
    */
   const { wp } = window
-  if (wp && wp.autosave && wp.autosave.server && wp.autosave.server.postChanged) {
+  if (
+    wp &&
+    wp.autosave &&
+    wp.autosave.server &&
+    wp.autosave.server.postChanged
+  ) {
     // console.log('Proxy wp.autosave.server.postChanged')
     wp.autosave.server.postChanged = function () {
       // console.log('postChanged', false)
@@ -40,7 +44,7 @@ window.jQuery(function ($) {
   const {
     ajax,
     // Provide new editor compatibility layer
-    createCodeEditor
+    createCodeEditor,
   } = Tangible
 
   Tangible.codeEditors = []
@@ -231,8 +235,46 @@ window.jQuery(function ($) {
           e.preventDefault()
           save()
         })
-    */// 
+    */
+    //
     // window.onbeforeunload = function() {}
+  }
+
+  function setIframeContent(iframe, content) {
+    // iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(content)
+    iframe.contentWindow.document
+    iframe.contentWindow.document.open()
+    iframe.contentWindow.document.write(content)
+    iframe.contentWindow.document.close()
+  }
+
+  async function renderPreview(el: HTMLElement) {
+    const data = {
+      id: postId,
+      content: '',
+      ...getEditorFields(),
+      ...getAdditionalFields(),
+    }
+
+    let iframe: HTMLIFrameElement = el.getElementsByTagName('iframe')[0]
+
+    if (!iframe) {
+      iframe = document.createElement('iframe')
+      iframe.style.width = '100%'
+      iframe.style.height = '100%'
+      iframe.style.minHeight = '380px'
+      el.style.resize = 'vertical'
+      el.style.overflowY = 'auto'
+      el.appendChild(iframe)
+    }
+
+    ajax('tangible_template_editor_render', data)
+      .then(function (res) {
+        setIframeContent(iframe, res.result)
+      })
+      .catch(function (e) {
+        setIframeContent(iframe, `<p>${e.message}</p>`)
+      })
   }
 
   createEditors({
@@ -242,14 +284,14 @@ window.jQuery(function ($) {
     editorInstances,
     createCodeEditor,
     templateMeta,
-    Tangible
+    Tangible,
+  }).finally(function () {
+    handleTabs({
+      $,
+      postId,
+      $postForm,
+      editorInstances,
+      renderPreview,
+    })
   })
-
-  handleTabs({
-    $,
-    postId,
-    $postForm,
-    editorInstances,
-  })
-
 })
