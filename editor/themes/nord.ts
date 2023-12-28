@@ -52,7 +52,7 @@ export const nordTheme = EditorView.theme(
     '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection':
       { backgroundColor: selection },
 
-    '.cm-panels': { backgroundColor: darkBackground, color: base03 },
+    '.cm-panels': { backgroundColor: darkBackground, color: base06 },
     '.cm-panels.cm-panels-top': { borderBottom: '2px solid black' },
     '.cm-panels.cm-panels-bottom': { borderTop: '2px solid black' },
 
@@ -65,19 +65,19 @@ export const nordTheme = EditorView.theme(
       color: base00
     },
 
-    '.cm-activeLine': { backgroundColor: highlightBackground },
+    '.cm-activeLine': { backgroundColor: 'transparent' },
     '.cm-selectionMatch': {
       backgroundColor: base05,
       color: base01
     },
 
-    '&.cm-focused .cm-matchingBracket, &.cm-focused .cm-nonmatchingBracket': {
+    '&.cm-focused .cm-nonmatchingBracket': {
       outline: `1px solid ${base07}`
     },
 
     '&.cm-focused .cm-matchingBracket': {
-      backgroundColor: base06,
-      color: base02
+      backgroundColor: highlightBackground,
+      color: base06 // base02
     },
 
     '.cm-gutters': {
@@ -213,7 +213,7 @@ export const nordHighlightStyle = HighlightStyle.define([
     tag: [t.contentSeparator],
     color: base0D
   },
-  { tag: t.invalid, color: base02, borderBottom: `1px dotted ${invalid}` }
+  { tag: t.invalid, color: base06, borderBottom: `1px dotted ${invalid}` }
 ])
 
 /// Extension to enable the Nord theme (both the editor theme and

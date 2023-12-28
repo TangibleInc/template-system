@@ -222,8 +222,8 @@ export function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
   const $fontList = el.querySelector('[data-action=font-list]')
   const $fontSize = el.querySelector('[data-action=font-size]')
 
-  // Editor assets URL from /admin/editor/enqueue.php
-  const { editorUrl } = window.Tangible
+  // Editor assets URL from /editor/enqueue.php
+  const { editorUrl } = window?.TangibleTemplateSystemEditor || {}
   
   const fontsUrl = editorUrl && `${editorUrl}/fonts`
 

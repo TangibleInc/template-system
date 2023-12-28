@@ -15,8 +15,11 @@ import type { SyntaxNode } from "@lezer/common"
 
 /**
  * Language definition from server side
+ * @see /editor/enqueue.php
  */
-const languageDefinition = window.TangibleTemplateLanguage || { tags: {} }
+const {
+  languageDefinition = { tags: {} }
+} = window?.TangibleTemplateSystemEditor || {}
 
 /* eslint-disable no-template-curly-in-string */
 

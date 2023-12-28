@@ -28,13 +28,24 @@ function enqueue_editor() {
     $version
   );
 
-  // Pass language data
-
   wp_localize_script(
     'tangible-template-system-editor',
-    'TangibleTemplateLanguage',
-    template_system\get_language_definition()
+    'TangibleTemplateSystemEditor',
+    [
+      /**
+       * Editor URL for themes and fonts
+       * @see extensions/editor-action-panel
+       */
+      'editorUrl' => editor::$state->url,
+      /**
+       * Language definition
+       * @see languages/html/autocomplete.ts
+       */
+      'languageDefinition' => template_system\get_language_definition(),
+    ]
+    
   );
+
 }
 
 /**

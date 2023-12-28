@@ -31,13 +31,6 @@ function enqueue_template_editor($codemirror = 6) {
     template_system\enqueue_codemirror_v6();
     $js_deps []= 'tangible-codemirror-v6';
 
-    $editor_url = editor::$state->url;
-
-    wp_add_inline_script( 'tangible-template-system-editor', <<<JS
-window.Tangible = window.Tangible || {}
-window.Tangible.editorUrl = "$editor_url"
-JS);
-
   }
 
   $url = template_system::$state->url . '/admin/build';
