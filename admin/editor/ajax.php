@@ -24,8 +24,12 @@ ajax\add_action('tangible_template_editor_render', function( $data = [] ) use ( 
   ]);
 
   /**
-   * @see /admin/template-post/render
+   * Set preview state to disable Redirect, etc.
+   * @see /integrations/index.php
    */
+  $plugin->set_template_preview_state( true );
+
+  /** @see /admin/template-post/render */
   $result = $plugin->render_template_post($data);
 
   return [
