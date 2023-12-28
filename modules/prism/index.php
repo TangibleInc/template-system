@@ -13,22 +13,12 @@ function register() {
   $url = template_system::$state->url . '/modules/prism';
   $version = template_system::$state->version;
 
-  // Clipboard
-  // From: https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js
-  wp_register_script(
-    'tangible-clipboard',
-    "{$url}/vendor/clipboard.min.js",
-    [],
-    '2.0.0',
-    true
-  );
-
   // From: https://prismjs.com/download.html#themes=prism-okaidia&languages=markup+css+clike+javascript+bash+json+markdown+markup-templating+php+php-extras+jsx+tsx+scss+typescript&plugins=toolbar+copy-to-clipboard
   wp_register_script(
     'tangible-prism',
     "{$url}/vendor/prism.min.js",
-    [ 'tangible-clipboard' ],
-    '1.20.0',
+    [],
+    '1.29.0',
     true
   );
 
