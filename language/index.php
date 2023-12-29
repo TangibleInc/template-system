@@ -65,7 +65,7 @@ return tangible_template(new class extends stdClass {
     // @see /framework
     $system->date = $html->date = tangible\date();
     $system->ajax = tangible\ajax\legacy();
-    $system->interface = tangible\interface\legacy();
+    $system->interface = tangible\interfaces\legacy();
 
     /**
      * Template language
