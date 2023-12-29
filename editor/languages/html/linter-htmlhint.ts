@@ -1,5 +1,3 @@
-// Unused
-
 import { linter, Diagnostic } from '@codemirror/lint'
 import { syntaxTree } from '@codemirror/language'
 import { HTMLHint } from './htmlhint/core/core'
@@ -20,12 +18,7 @@ export function createHtmlLinter() {
   return linter(view => {
 
     const diagnostics: Diagnostic[] = []
-
-    // if (!window.Tangible || !window.Tangible.HTMLHint) return diagnostics
-
     const doc = view.state.doc
-
-    // const { HTMLHint } = window.Tangible
     const content = doc.toString()
 
     const messages = HTMLHint.verify(content, defaultHTMLHintRules)

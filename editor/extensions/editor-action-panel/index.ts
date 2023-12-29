@@ -46,7 +46,7 @@ const keys = [
   [['Ctrl + Alt + f', '⌘ + Alt + f'], 'Beautify document'],
   [['Shift + Ctrl + k', 'Shift + ⌘ + k'], 'Delete line'],
   [['Shift + Ctrl + \\', 'Shift + ⌘ + \\'], 'Move cursor to bracket matching the one it is currently on, if any'],
-  [['Ctrl + \\', '⌘ + \\'], 'Toggle comment'],
+  [['Ctrl + /', '⌘ + /'], 'Toggle comment'],
 ]
 
 /**
@@ -141,8 +141,8 @@ export function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
     }
   )
 
-  const $helpRow = el.querySelector('.help-row')
   // Help
+  const $helpRow = el.querySelector('.help-row')
   el.querySelector('[data-action=help]')?.addEventListener(
     'click',
     function () {
@@ -151,6 +151,8 @@ export function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
         : 'none'
     }
   )
+
+  // Settings
 
   const $settingsGroup = el.querySelector('.settings-group')
 
@@ -200,6 +202,7 @@ export function editorActionsPanel(view /*: EditorView*/, editor) /*: Panel*/ {
     selectTheme(theme, true)
   })
 
+  // When another editor changes its theme
   editor.eventHub.on('theme', function (theme, source) {
     if (source === editor) return // Ignore self
     $themeList.value = theme

@@ -2,7 +2,7 @@
 /**
  * Idea: Ability to add metaboxes to a post type using template
  *
- * Implement input fields using Interface module
+ * Implement input fields using Fields module
  */
 
 $html->registered_metaboxes = []; // name => config

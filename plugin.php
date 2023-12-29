@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Tangible Module: Template System
+ * Plugin Name: Tangible Template System
  * Description: Template system shared by Tangible Blocks and Loops & Logic
  * Version: 20231228
  */

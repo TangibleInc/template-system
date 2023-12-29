@@ -1,9 +1,6 @@
 <?php
 /**
  * Code Editor
- * 
- * Organize features as editor::$state and editor\action(), in the same
- * pattern as System module.
  */
 namespace tangible\template_system;
 use tangible\template_system;
