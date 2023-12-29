@@ -29,7 +29,7 @@ export const themeBase = EditorView.theme({
   },
   '.cm-cursor': {
     borderLeftWidth: '3px',
-    transitionDuration: '140ms',
+    // transitionDuration: '140ms',
   },
 
   '.cm-panels': {
