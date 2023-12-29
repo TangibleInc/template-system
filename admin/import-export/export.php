@@ -102,6 +102,29 @@ $plugin->export_templates = function($data) use ($plugin) {
     } elseif ($operator==='exclude') {
 
       $query_args['post__not_in'] = array_map('intval', $values);
+
+    } elseif ($operator==='include_template_categories') {
+
+      /**
+       * tax_query takes an array of arrays
+       * @see https://developer.wordpress.org/reference/classes/wp_query/#taxonomy-parameters
+       */
+      $query_args['tax_query'] = [
+        [
+          'taxonomy' => 'tangible_template_category',
+          'terms' => array_map('intval', $values),
+        ]
+      ];
+
+    } elseif ($operator==='exclude_template_categories') {
+
+      $query_args['tax_query'] = [
+        [
+          'taxonomy' => 'tangible_template_category',
+          'terms' => array_map('intval', $values),
+          'operator' => 'NOT IN',
+        ]
+      ];
     }
 
     $post_ids = get_posts($query_args);

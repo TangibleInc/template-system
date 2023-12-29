@@ -263,6 +263,8 @@ window.jQuery(function ($) {
       iframe.style.width = '100%'
       iframe.style.height = '100%'
       iframe.style.minHeight = '380px'
+      iframe.style.border = 'none'
+
       el.style.resize = 'vertical'
       el.style.overflowY = 'auto'
       el.appendChild(iframe)

@@ -11,6 +11,18 @@ $plugin->enqueue_template_import_export = function() use ( $plugin ) {
   $url = template_system::$state->url . '/admin/build';
   $version = template_system::$state->version;
 
+  wp_enqueue_script(
+    'tangible-template-import-export',
+    $url . '/template-import-export.min.js',
+    [
+      'wp-element',
+      'jquery',
+      'tangible-ajax',
+      'tangible-select'
+    ],
+    $version
+  );
+
   wp_enqueue_style(
     'tangible-template-import-export',
     $url . '/template-import-export.min.css',
@@ -18,23 +30,29 @@ $plugin->enqueue_template_import_export = function() use ( $plugin ) {
     $version
   );
 
-  wp_enqueue_script(
-    'tangible-template-import-export',
-    $url . '/template-import-export.min.js',
-    [
-      'jquery',
-      'tangible-ajax',
-      'wp-element', //'tangible-preact',
-      'tangible-select'
-    ],
-    $version
-  );
+  $template_category_options = [];
+
+  $terms = get_terms([
+    'taxonomy' => 'tangible_template_category',
+    'hide_empty' => true,
+    'orderby' => 'name',
+    'order' => 'ASC'
+  ]);
+
+  foreach ($terms as $term) {
+    $template_category_options []= [
+      'label' => $term->name,
+      'value' => $term->term_id,
+    ];
+  }
 
   wp_add_inline_script(
     'tangible-template-import-export',
-    'window.Tangible = window.Tangible || {}; window.Tangible.templateSystemHasPlugin = '
-      . json_encode( template_system\get_active_plugins() ),
+    'window.TangibleTemplateImportExport = '
+      . json_encode([
+        'hasPlugin' => template_system\get_active_plugins(),
+        'templateCategoryOptions' => $template_category_options
+      ]),
     'before'
   );
-
 };

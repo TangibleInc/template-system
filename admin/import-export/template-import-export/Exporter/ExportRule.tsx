@@ -1,11 +1,5 @@
 import Select from '../../../common/Select'
 
-/**
- * Check for Block Editor plugin
- * @see /template/import-export/enqueue.php
- */
-const { templateSystemHasPlugin: hasPlugin = {} } = window.Tangible
-console.log('hasPlugin', hasPlugin)
 const ExportRule = ({
   rule,
   ruleIndex,
@@ -15,6 +9,8 @@ const ExportRule = ({
 
   templateTypeItemOptionsRef,
   ensureTemplateTypeItemOptions,
+  templateCategoryOptions,
+  hasPlugin
 }) => (
   <div className="export-rule">
     <div className="export-rule-part">
@@ -58,6 +54,8 @@ const ExportRule = ({
               { label: 'All', value: 'all' },
               { label: 'Include', value: 'include' },
               { label: 'Exclude', value: 'exclude' },
+              { label: 'Include category', value: 'include_template_categories' },
+              { label: 'Exclude category', value: 'exclude_template_categories' },
             ],
             value: rule.operator,
             onChange(operator) {
@@ -70,7 +68,7 @@ const ExportRule = ({
               exportRulesRef.current[ruleIndex] = rule
               setExportRules(exportRulesRef.current)
 
-              if (operator !== 'all') {
+              if (['include', 'exclude'].includes(operator)) {
                 ensureTemplateTypeItemOptions(rule.field)
               }
             },
@@ -82,6 +80,23 @@ const ExportRule = ({
 
     {rule.field &&
       rule.operator !== 'all' &&
+      (['include_template_categories', 'exclude_template_categories'].includes(rule.operator)
+      ? <div className="export-rule-part">
+          <Select
+            {...{
+              options: templateCategoryOptions,
+              value: rule.values,
+              onChange(values) {
+                rule.values = values
+                exportRulesRef.current[ruleIndex] = rule
+                setExportRules(exportRulesRef.current)
+              },
+              multiSelect: true,
+            }}
+          />
+        </div>
+      :
+      // Include/exclude post IDs
       templateTypeItemOptionsRef.current[rule.field] && (
         <div className="export-rule-part">
           <Select
@@ -104,7 +119,8 @@ const ExportRule = ({
             }}
           />
         </div>
-      )}
+      ))
+    }
 
     <div className="export-rule-part export-rule-part--remove-rule">
       <div

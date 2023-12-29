@@ -1,7 +1,7 @@
 /**
  * Template import/export
  *
- * @see /template/import-export/ajax.php, view.php
+ * @see ../ajax
  */
 import React from 'react'
 import { createRoot } from 'react-dom'
@@ -9,14 +9,13 @@ import Importer from './Importer'
 import Exporter from './Exporter'
 
 const {
-  Tangible: {
-    /**
-     * Check for installed plugins
-     * @see /template/import-export/enqueue.php
-     */
-    templateSystemHasPlugin: hasPlugin = {}
-  },
-} = window
+  /**
+   * Check for installed plugins
+   * @see ../enqueue.php
+   */
+  hasPlugin = {},
+  templateCategoryOptions = []
+} = window.TangibleTemplateImportExport
 
 const el = document.getElementById('tangible_template_import_export_form')
 
@@ -38,7 +37,10 @@ createRoot(el).render(
     { hasExport && <>
       <hr />
       <h1 className="wp-heading-inline">Export</h1>
-      <Exporter />
+      <Exporter {...{
+        templateCategoryOptions,
+        hasPlugin
+      }} />
     </> 
     }
   </>

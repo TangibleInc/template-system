@@ -10,7 +10,7 @@ import handleDuplicates from './handleDuplicates'
 
 import { ajax, ajaxActionPrefix } from '../common'
 
-const debug = true // Set this to false for production
+const debug = false // Set this to false for production
 const log = (...args) => debug && console.log('[Importer]', ...args)
 
 const { FileReader } = window

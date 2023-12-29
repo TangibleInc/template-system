@@ -28,7 +28,10 @@ const defaultExportRules = (savedState && savedState.rules) || [
   },
 ]
 
-const Exporter = () => {
+const Exporter = ({
+  templateCategoryOptions,
+  hasPlugin
+}) => {
   // Export package name
   const exportNameRef = useRef()
 
@@ -181,7 +184,7 @@ const Exporter = () => {
         a.click()
       })
       .catch(handleError)
-  })
+  }, [])
 
   return (
     <div id="exporter">
@@ -208,6 +211,8 @@ const Exporter = () => {
 
               templateTypeItemOptionsRef,
               ensureTemplateTypeItemOptions,
+              templateCategoryOptions,
+              hasPlugin
             }}
           />
         ))}
