@@ -9,7 +9,9 @@ use tangible\template_system;
  * - Add Columns: ID, Category
  * - Remove extra metaboxes
  * - Remove date filter
- * - Add filter for template category
+ * - Archive screen
+ *   - Add filter for template category
+ *   - Add bulk action to move selected posts to trash
  */
 
 foreach ($plugin->template_post_types as $post_type) {
@@ -94,6 +96,19 @@ foreach ($plugin->template_post_types as $post_type) {
     }
 
   }, 10, 2);
+
+  /**
+   * Bulk actions
+   * @see https://make.wordpress.org/core/2016/10/04/custom-bulk-actions/
+   */
+  add_filter( "bulk_actions-edit-{$post_type}", function($bulk_actions) {
+    /**
+     * Move to trash
+     * @see /wordpress/wp-admin/edit.php
+     */
+    $bulk_actions['trash'] = 'Move to trash';
+    return $bulk_actions;
+  });
 
 } // For every template post type
 
