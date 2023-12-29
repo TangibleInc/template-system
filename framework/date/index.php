@@ -9,7 +9,8 @@
 namespace tangible;
 
 function date( $arg = false ) {
-  static $date = new DateCreator;
+  static $date;
+  if (!$date) $date = new DateCreator;
   return $arg !== false
     ? call_user_func_array($date, func_get_args())
     : $date

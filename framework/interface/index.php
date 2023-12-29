@@ -3,7 +3,7 @@
  * Interface module removed - This is for compatibility with existing
  * plugins until they remove reference to it.
  */
-namespace tangible\interface;
+namespace tangible\interfaces;
 
 function legacy() {
   static $interface;

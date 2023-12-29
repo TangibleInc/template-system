@@ -11,10 +11,10 @@ function legacy() {
     $ajax = new class {
       function enqueue() { return ajax\enqueue(); }
       function register_library() {
-        return ajax\register_library();
+        return ajax\register();
       }
       function conditional_enqueue_library() {
-        return ajax\conditional_enqueue_library();
+        return ajax\conditional_enqueue();
       }
       function add_action($name, $fn, $options = []) {
         return ajax\add_action($name, $fn, $options);
