@@ -3,6 +3,7 @@
  * Plugin Name: Tangible Template System
  * Description: Template system shared by Tangible Blocks and Loops & Logic
  * Version: 20231228
+ * GitHub Plugin URI: https://github.com/tangible/template-system
  */
 
 require_once __DIR__ . '/index.php';
