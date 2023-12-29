@@ -46,8 +46,8 @@ add_action( 'elementor/editor/init', function() use ( $plugin ) {
 add_action( 'elementor/editor/before_enqueue_scripts', $html->head_action, 99 );
 add_action( 'elementor/editor/footer', $html->footer_action, 99 );
 
-add_action('elementor/editor/before_enqueue_scripts', 'tangible\\ajax\\register_library', 1);
-add_action('elementor/editor/before_enqueue_scripts', 'tangible\\ajax\\conditional_enqueue_library', 9999);
+add_action('elementor/editor/before_enqueue_scripts', 'tangible\\ajax\\register', 1);
+add_action('elementor/editor/before_enqueue_scripts', 'tangible\\ajax\\conditional_enqueue', 9999);
 
 
 /**
