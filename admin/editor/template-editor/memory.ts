@@ -12,6 +12,7 @@ export const memory = Object.assign(
     theme: 'default',
     fontFamily: 'default',
     fontSize: 14,
+    previewOpen: false
   },
   getMemory() || {}
 )

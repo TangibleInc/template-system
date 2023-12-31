@@ -4,6 +4,10 @@
 
 import { handleTabs } from './tabs'
 import { createEditors } from './editors'
+import {
+  memory,
+  setMemory
+} from './memory'
 
 declare global {
   interface Window {
@@ -304,17 +308,46 @@ window.jQuery(function ($) {
     '.tangible-template-tab-selector[data-tab-name=preview]'
   )
 
+  let isEditorActiveForPreview = true
+
   $previewButton.on('click', function () {
-    $preview.toggle()
-    if ($preview.is(':visible')) {
+
+    const isOpen = !$previewButton.hasClass('active')
+
+    if (isEditorActiveForPreview) {
+      $preview.toggle()
+    }
+
+    if (isOpen) {
       $previewButton.addClass('active')
       isPreviewVisible = true
-      renderPreview()
+
+      if (isEditorActiveForPreview) {
+        renderPreview()
+      }
     } else {
       $previewButton.removeClass('active')
       isPreviewVisible = false
     }
+
+    setMemory({
+      previewOpen: isOpen
+    })
+
   })
+
+  function setEditorActiveForPreview(open = true) {
+    isEditorActiveForPreview = open
+    if (open) {
+      if (isPreviewVisible && !$preview.is(':visible')) {
+        $preview.show()
+      }
+    } else {
+      if (isPreviewVisible && $preview.is(':visible')) {
+        $preview.hide()
+      }
+    }
+  }
 
   createEditors({
     $,
@@ -325,6 +358,10 @@ window.jQuery(function ($) {
     templateMeta,
     Tangible,
   }).finally(function () {
+
+    if (memory.previewOpen) {
+      $previewButton.click()
+    }
 
     /**
      * Schedule preview on editor change
@@ -338,6 +375,7 @@ window.jQuery(function ($) {
       postId,
       $postForm,
       editorInstances,
+      setEditorActiveForPreview
     })
   })
 })

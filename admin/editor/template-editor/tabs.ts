@@ -9,7 +9,8 @@ export function handleTabs({
   $,
   postId,
   $postForm,
-  editorInstances
+  editorInstances,
+  setEditorActiveForPreview
 }) {
   
   /**
@@ -31,7 +32,6 @@ export function handleTabs({
     if (tabName==='preview') return
 
     const currentTabSelector = this
-
 
     // Show current tab, hide others
 
@@ -79,6 +79,12 @@ export function handleTabs({
 
       if (editorInstance) {
         editorInstance.focus()
+        setEditorActiveForPreview()
+      } else {
+        /**
+         * Hide preview if non-editor tab is open
+         */
+        setEditorActiveForPreview(false)
       }
 
       setMemory({

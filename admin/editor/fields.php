@@ -92,9 +92,9 @@ add_action('admin_init', function() use ($plugin) {
      */
     $tabs = apply_filters( 'tangible_template_editor_tabs', $tabs, $post );
 
-    if ( $has_preview ) $tabs []= 'Preview';
     if ( $has_location ) $tabs []= 'Location';
     if ( $has_assets ) $tabs []= 'Assets';
+    if ( $has_preview ) $tabs []= 'Preview';
 
     if (count($tabs) > 1) {
       ?>
@@ -222,7 +222,7 @@ add_action('admin_init', function() use ($plugin) {
        * @see tangible-blocks/includes/block/post-types/edit.php
        */
       do_action( 'tangible_template_editor_after_tabs', $post, $fields );
-
+  
       if ( $has_location ) {
         /** @see /admin/location/admin/fields.php */
         $plugin->render_location_edit_fields( $fields, $post_type );
@@ -231,6 +231,10 @@ add_action('admin_init', function() use ($plugin) {
       if ($has_assets) {
         /** @see /admin/template-assets/field.php */
         $plugin->render_assets_edit_field( $fields, $post_type );
+      }
+
+      if ( $has_preview ) {
+        ?><div class="tangible-template-tab" style="display:none"></div><?php
       }
 
       ?>
