@@ -240,6 +240,8 @@ window.jQuery(function ($) {
     // window.onbeforeunload = function() {}
   }
 
+  const $preview = $postForm.find('.tangible-template-preview-pane')
+
   function setIframeContent(iframe, content) {
     // iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(content)
     iframe.contentWindow.document
@@ -248,7 +250,24 @@ window.jQuery(function ($) {
     iframe.contentWindow.document.close()
   }
 
-  async function renderPreview(el: HTMLElement) {
+  let isPreviewVisible = false
+  let isRenderPreviewScheduled = false
+
+  function scheduleRenderPreview() {
+    isRenderPreviewScheduled = true
+  }
+
+  setInterval(function () {
+    if (!isRenderPreviewScheduled) return
+    isRenderPreviewScheduled = false
+    if (isPreviewVisible) {
+      renderPreview()
+    }
+  }, 3000)
+
+  async function renderPreview() {
+    const el = $preview[0]
+
     const data = {
       id: postId,
       content: '',
@@ -262,8 +281,10 @@ window.jQuery(function ($) {
       iframe = document.createElement('iframe')
       iframe.style.width = '100%'
       iframe.style.height = '100%'
-      iframe.style.minHeight = '380px'
+      iframe.style.minHeight = '240px'
       iframe.style.border = 'none'
+      iframe.style.borderRadius = '.5rem'
+      iframe.style.backgroundColor = '#fff'
 
       el.style.resize = 'vertical'
       el.style.overflowY = 'auto'
@@ -279,6 +300,22 @@ window.jQuery(function ($) {
       })
   }
 
+  const $previewButton = $postForm.find(
+    '.tangible-template-tab-selector[data-tab-name=preview]'
+  )
+
+  $previewButton.on('click', function () {
+    $preview.toggle()
+    if ($preview.is(':visible')) {
+      $previewButton.addClass('active')
+      isPreviewVisible = true
+      renderPreview()
+    } else {
+      $previewButton.removeClass('active')
+      isPreviewVisible = false
+    }
+  })
+
   createEditors({
     $,
     save,
@@ -288,12 +325,19 @@ window.jQuery(function ($) {
     templateMeta,
     Tangible,
   }).finally(function () {
+
+    /**
+     * Schedule preview on editor change
+     */
+    for (const [key, editor] of Object.entries(editorInstances)) {
+      editor && editor.on('change', scheduleRenderPreview)
+    }
+
     handleTabs({
       $,
       postId,
       $postForm,
       editorInstances,
-      renderPreview,
     })
   })
 })

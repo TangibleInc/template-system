@@ -112,7 +112,7 @@ add_shortcode('template', function($atts, $content) use ($plugin, $loop, $html) 
    */
   $loop->push_current_post_context();
 
-  $content = $plugin->template_tag_and_shortcode($atts, $content);
+  $content = $plugin->template_tag_and_shortcode($atts, $content) ?? '';
 
   $loop->pop_current_post_context();
 

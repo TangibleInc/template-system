@@ -116,6 +116,14 @@ add_action('admin_init', function() use ($plugin) {
       <?php
     }
 
+    /**
+     * Preview pane
+     * @see /admin/editor/template-editor
+     */
+    if ( $has_preview ) {
+      ?><div class="tangible-template-preview-pane" style="display:none"></div><?php
+    }
+
     ?>
     <div class="tangible-template-tabs">
     <?php
@@ -215,10 +223,6 @@ add_action('admin_init', function() use ($plugin) {
        */
       do_action( 'tangible_template_editor_after_tabs', $post, $fields );
 
-      if ( $has_preview ) {
-        ?><div class="tangible-template-tab"  data-tab-name="preview"></div><?php
-      }
-
       if ( $has_location ) {
         /** @see /admin/location/admin/fields.php */
         $plugin->render_location_edit_fields( $fields, $post_type );
@@ -231,7 +235,7 @@ add_action('admin_init', function() use ($plugin) {
 
       ?>
     </div>
-    <?php
+    <?php // End tabs
 
   }); // add_action edit_form_after_title
 
@@ -279,6 +283,6 @@ add_action('admin_init', function() use ($plugin) {
 </div>
 <?php
 
-  }, 9, 1);
+  }, 9, 1); // post_submitbox_misc_actions
 
-});
+}); // admin_init
