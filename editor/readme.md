@@ -25,6 +25,7 @@ The following features are integrated into the template editor.
 - Linter to highlight syntax errors
 - Formatter to beautify code style
 - Color picker
+- Hyperlink - Clickable link icon next to a valid URL
 - Themes and fonts
 - Editor settings - Global for the site and remembered in browser local storage
 
