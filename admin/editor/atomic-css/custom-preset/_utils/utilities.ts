@@ -190,13 +190,13 @@ export function colorResolver(property: string, varName: string, key?: ThemeColo
 
     const css: CSSObject = {}
     if (cssColor) {
-      if (alpha != null) {
-        css[property] = colorToString(cssColor, alpha)
-      }
-      else {
-        css[`--un-${varName}-opacity`] = colorOpacityToString(cssColor)
-        css[property] = colorToString(cssColor, `var(--un-${varName}-opacity)`)
-      }
+      // if (alpha != null) {
+        css[property] = colorToString(cssColor, alpha || 1)
+      // }
+      // else {
+      //   css[`--un-${varName}-opacity`] = colorOpacityToString(cssColor)
+      //   css[property] = colorToString(cssColor, `var(--un-${varName}-opacity)`)
+      // }
     }
     else if (color) {
       css[property] = colorToString(color, alpha)

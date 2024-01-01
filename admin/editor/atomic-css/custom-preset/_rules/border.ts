@@ -59,25 +59,25 @@ function borderColorResolver(direction: string) {
     const { alpha, color, cssColor } = data
 
     if (cssColor) {
-      if (alpha != null) {
+      // if (alpha != null) {
         return {
-          [`border${direction}-color`]: colorToString(cssColor, alpha),
+          [`border${direction}-color`]: colorToString(cssColor, alpha || 1),
         }
-      }
-      if (direction === '') {
-        return {
-          '--un-border-opacity': colorOpacityToString(cssColor),
-          'border-color': colorToString(cssColor, 'var(--un-border-opacity)'),
-        }
-      }
-      else {
-        return {
-        // Separate this return since if `direction` is an empty string, the first key will be overwritten by the second.
-          '--un-border-opacity': colorOpacityToString(cssColor),
-          [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
-          [`border${direction}-color`]: colorToString(cssColor, `var(--un-border${direction}-opacity)`),
-        }
-      }
+      // }
+      // if (direction === '') {
+      //   return {
+      //     '--un-border-opacity': colorOpacityToString(cssColor),
+      //     'border-color': colorToString(cssColor, 'var(--un-border-opacity)'),
+      //   }
+      // }
+      // else {
+      //   return {
+      //   // Separate this return since if `direction` is an empty string, the first key will be overwritten by the second.
+      //     '--un-border-opacity': colorOpacityToString(cssColor),
+      //     [`--un-border${direction}-opacity`]: 'var(--un-border-opacity)',
+      //     [`border${direction}-color`]: colorToString(cssColor, `var(--un-border${direction}-opacity)`),
+      //   }
+      // }
     }
     else if (color) {
       return {
