@@ -1,10 +1,14 @@
 <?php
+namespace tangible\template_system\location;
+use tangible\template_system;
 
 /**
  * Template type: Tangible Style
  */
+function enqueue_style_templates() {
 
-add_action('wp_head', function() use ( $plugin, $logic ) {
+  $plugin = template_system::$system;
+  $logic = template_system::$logic;
 
   $templates = $plugin->get_all_templates(
     'tangible_style'
@@ -39,14 +43,18 @@ add_action('wp_head', function() use ( $plugin, $logic ) {
     // Load style - See ../../render.php
     $plugin->enqueue_template_style( $template['id'] );
   }
+}
 
-}, 9); // Earlier than default priority 10
+add_action('wp_head', __NAMESPACE__ . '\\enqueue_style_templates', 9); // Earlier than default priority 10
 
 
 /**
  * Template type: Tangible Script
  */
-add_action('wp_footer', function() use ( $plugin, $logic ) {
+function enqueue_script_templates() {
+
+  $plugin = template_system::$system;
+  $logic = template_system::$logic;
 
   $templates = $plugin->get_all_templates(
     'tangible_script'
@@ -82,8 +90,9 @@ add_action('wp_footer', function() use ( $plugin, $logic ) {
     $plugin->enqueue_template_script( $template['id'] );
   }
 
-}, 11); // Later than default priority 10
+}
 
+add_action('wp_footer', __NAMESPACE__ . '\\enqueue_script_templates', 11); // Later than default priority 10
 
 
 /**

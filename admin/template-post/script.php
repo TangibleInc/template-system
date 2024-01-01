@@ -43,23 +43,23 @@ $plugin->enqueue_template_script = function(
 
   if (empty( $script )) return;
 
+  // Pass JS variables
+  $vars = '';
+  if ( ! empty( $js_variables ) ) {
+    foreach ( $js_variables as $key => $value ) {
+      $vars .= "var $key = " . $value . ";\n";
+    }
+  }
+
   /**
-   * Pass JS variables
-   * 
    * Using a pattern called [Immediately Invoked Function Expression](https://developer.mozilla.org/en-US/docs/Glossary/IIFE). It creates an anonymous
    * function for locally scoped variables to avoid affecting the global
    * namespace (window).
    */
-  if ( ! empty( $js_variables ) ) {
-    $vars = '';
-    foreach ( $js_variables as $key => $value ) {
-      $vars .= "var $key = " . $value . ";\n";
-    }
-    $script = ";(function(){\n"
-      . $vars
-      . $script
-    . "\n})()";
-  }
+  $script = ";(function(){\n"
+    . $vars
+    . $script
+  . "\n})()";
 
   /**
    * Scripts are consolidated and placed in document foot.

@@ -22,6 +22,13 @@ add_action('admin_init', function() use ($plugin) {
 
   template_system\enqueue_template_editor(6);
 
+  add_action('admin_enqueue_script', function() {
+
+    wp_dequeue_script( 'wp-tinymce-root-js' );
+    wp_dequeue_script( 'wp-tinymce-js' );
+  
+  }, 999);
+
   // Render
 
   add_action('edit_form_after_title', function($post) use ($plugin, $info) {
