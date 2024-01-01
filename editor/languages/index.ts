@@ -26,7 +26,7 @@ import {
 import { createFormatKeyMap } from './format'
 
 import { colorPicker } from '@replit/codemirror-css-color-picker'
-import { hyperLink } from '../extensions/hyperlink'
+// import { hyperLink } from '../extensions/hyperlink'
 import { infoPanelExtension } from './html/panel'
 import {indentService} from "@codemirror/language"
 
@@ -54,7 +54,7 @@ const langExtensionsGetters = {
     ]),
     createHtmlLinter(),
     getHTMLAutocomplete(),
-    hyperLink,
+    // hyperLink,
     // infoPanelExtension(),
     // indentPlainTextExtension,
   ],
@@ -68,7 +68,7 @@ const langExtensionsGetters = {
     keymap.of([
       { key: 'Tab', run: expandAbbreviation }
     ]),
-    hyperLink
+    // hyperLink
   ],
 
   sass: () => [
@@ -88,7 +88,7 @@ const langExtensionsGetters = {
     createSassLinter(),
     createFormatKeyMap('scss'),
     colorPicker,
-    hyperLink
+    // hyperLink
   ],
 
   javascript: () => [
@@ -98,7 +98,7 @@ const langExtensionsGetters = {
     }),
     createJavaScriptLinter(),
     createFormatKeyMap('js'),
-    hyperLink
+    // hyperLink
   ],
 }
 
