@@ -13,11 +13,18 @@ template_system::$state->setting_fields = [
   ],
 
   // Features in development
+  [
+    'name' => 'atomic_css',
+    'field_type' => 'checkbox',
+    'label' => 'Atomic CSS: Generate CSS utility classes on demand - Experimental',
+    'beta' => true,
+    'default_value' => false,
+  ],
 
   [
     'name' => 'codemirror_6',
     'field_type' => 'checkbox',
-    'label' => 'New template editor based on CodeMirror 6 - For Elementor and Beaver Builder, the editor is still under development.',
+    'label' => 'CodeMirror 6: Enable the new editor for Elementor and Beaver Builder, where it\'s not ready yet.',
     'beta' => true,
 
     // TODO: Switch default to true when new editor is ready

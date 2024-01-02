@@ -18,7 +18,10 @@ export default {
       src: 'template-editor-bridge/index.scss',
       dest: '../build/template-editor-bridge.min.css',
     },
-
+    {
+      src: 'atomic-css/index.ts',
+      dest: '../build/atomic-css.min.js',
+    },
   ],
   format: [
     '**/*.{ts,scss}',

@@ -1,5 +1,5 @@
 import { createGenerator } from '@unocss/core'
-import createPreset from './custom-preset' // '@unocss/preset-mini'
+import createPreset from '@unocss/preset-mini'
 
 function createAtomicCssEngine() {
 
@@ -11,6 +11,7 @@ function createAtomicCssEngine() {
           arbitraryVariants: false,
         }),
       ],
+      
     },
     {
       // default options
@@ -19,11 +20,27 @@ function createAtomicCssEngine() {
 
   return {
     async parse(content) {
-      const { css } = await generator.generate(content)
-      return css
-        .replace('/* layer: default */\n', '')
-        .replace(/\\:/g, '-')
-        .replace(/\\\//g, '-')
+
+      const { css, matched } = await generator.generate(content, {
+        extendedInfo: true
+      })
+
+      const selectors = {}
+
+      // unocss/src/types, StringifiedUtil
+      for (const [key, value] of matched.entries()) {
+        const rules: (string | undefined)[][] = []
+        for (const [index, selector, body, parent] of value.data) {
+            rules.push([
+              selector?.replace(/\$\$ /g, ''), // unocss uses $$ internally
+              body,
+              parent // Media query
+            ])
+        }
+        selectors[key] = rules
+      }
+
+      return selectors
     }
   }
 }

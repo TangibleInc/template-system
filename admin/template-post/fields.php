@@ -21,6 +21,8 @@ $plugin->template_field_defaults = [
    * @see /includes/template/universal-id/index.php
    */
   'universal_id'      => '',
+
+  'atomic_css'        => '',
 ];
 
 $plugin->get_template_fields = function( $post ) use ( $plugin ) {

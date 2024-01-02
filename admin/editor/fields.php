@@ -22,13 +22,6 @@ add_action('admin_init', function() use ($plugin) {
 
   template_system\enqueue_template_editor(6);
 
-  add_action('admin_enqueue_script', function() {
-
-    wp_dequeue_script( 'wp-tinymce-root-js' );
-    wp_dequeue_script( 'wp-tinymce-js' );
-  
-  }, 999);
-
   // Render
 
   add_action('edit_form_after_title', function($post) use ($plugin, $info) {
@@ -248,7 +241,13 @@ add_action('admin_init', function() use ($plugin) {
     </div>
     <?php // End tabs
 
-  }); // add_action edit_form_after_title
+    if (template_system\get_settings('atomic_css')) {
+      ?><input type="hidden" name="atomic_css" value="<?php
+        echo esc_attr($fields['atomic_css'] ?? '{}');
+      ?>"><?php
+    }
+
+}); // add_action edit_form_after_title
 
 /**
  * Publish actions in the sidebar of single post edit screen

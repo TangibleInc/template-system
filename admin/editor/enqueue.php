@@ -4,7 +4,12 @@ use tangible\ajax;
 use tangible\template_system;
 use tangible\template_system\editor;
 
+template_system::$state->template_editor_enqueued = false;
+
 function enqueue_template_editor($codemirror = 6) {
+
+  if (template_system::$state->template_editor_enqueued) return;
+  template_system::$state->template_editor_enqueued = true;
 
   ajax\enqueue();
 
@@ -52,7 +57,12 @@ function enqueue_template_editor($codemirror = 6) {
 
 };
 
+template_system::$state->codemirror_v6_enqueued = false;
+
 function enqueue_codemirror_v6() {
+
+  if (template_system::$state->codemirror_v6_enqueued) return;
+  template_system::$state->codemirror_v6_enqueued = true;
 
   editor\enqueue_editor();
 
@@ -72,4 +82,13 @@ function enqueue_codemirror_v6() {
     [],
     $version
   );
+
+  if (template_system\get_settings('atomic_css')) {
+    wp_enqueue_script(
+      'tangible-atomic-css',
+      $url . '/atomic-css.min.js',
+      [],
+      $version
+    );  
+  }
 };
