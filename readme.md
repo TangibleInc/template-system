@@ -25,10 +25,12 @@ Prerequisites: [Node.js](https://nodejs.org/en/)
 Clone the repository, and install dependencies.
 
 ```sh
-git clone git@github.com:tangibleinc/template-system.git
+git clone https://github.com/tangibleinc/template-system
 cd template-system
 npm install
 ```
+
+If you want to contribute to the GitHub repo, [create a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests). Tangible team members can clone from `git@github.com:tangibleinc/template-system`, and pull request from a feature branch.
 
 ## Develop
 
@@ -73,41 +75,6 @@ npm run list
 
 The list is generated from the codebase by finding all config files `tangible.config.js`, and gathering their folder names relative to the project root.
 
-```sh
-- admin
-  - admin/editor
-  - admin/import-export
-  - admin/location
-  - admin/template-assets
-- editor
-  - editor/ide
-- framework
-  - framework/api
-  - framework/preact
-  - framework/select
-- integrations/beaver
-- integrations/elementor
-- integrations/gutenberg
-- language
-- logic
-- loop
-- modules
-  - modules/async
-  - modules/chart
-  - modules/date-picker
-  - modules/embed
-  - modules/form
-  - modules/glider
-  - modules/mermaid
-  - modules/module-loader
-  - modules/paginator
-  - modules/prism
-  - modules/site-structure
-  - modules/slider
-  - modules/sortable
-  - modules/table
-```
-
 These can be built with the `dev` and `build` commands.
 
 For example, `npm run build admin` will build all child modules of the `admin` module; or you can build an individual module like `npm run build admin/editor`.
@@ -119,23 +86,23 @@ There is a suite of unit and integration tests included.
 
 ### Requirements
 
-Prerequisites: [Node.js](https://nodejs.org/en/), [PHP](https://www.php.net/), [Composer](https://getcomposer.org/), [Docker](https://docs.docker.com/get-started/overview/)
+Prerequisites: [Docker](https://docs.docker.com/get-started/overview/)
 
 To run the tests, we use [wp-env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/) to create a local test environment, optionally switching between PHP versions.
 
-Please note that `wp-env` requires Docker to be installed. There are instructions available for installing it on [Windows](https://docs.docker.com/desktop/install/windows-install/), [macOS](https://docs.docker.com/desktop/install/mac-install/), and [Linux](https://docs.docker.com/desktop/install/linux-install/).
-
-If you're on Windows, you might have to use [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) to run the tests (see [this comment](https://bitbucket.org/tangibleinc/tangible-fields-module/pull-requests/30#comment-389568162)).
+Please note that `wp-env` requires Docker to be installed. There are instructions available for installing it on [Windows](https://docs.docker.com/desktop/install/windows-install/), [macOS](https://docs.docker.com/desktop/install/mac-install/), and [Linux](https://docs.docker.com/desktop/install/linux-install/). If you're on Windows, you might have to use [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) to run the tests (see [this comment](https://bitbucket.org/tangibleinc/tangible-fields-module/pull-requests/30#comment-389568162)).
 
 ### Prepare
 
-Install dependencies by running the following in the project directory. 
+Start the local server environment.
 
 ```sh
-npm install
+npm run start
 ```
 
-Install PHPUnit.
+After installing everything, it starts a local dev site at `http://localhost:8888`, and test site at `http://localhost:8889`.
+
+Install Composer dependencies for development and testing.
 
 ```sh
 composer install --dev
@@ -147,15 +114,8 @@ This repository includes NPM scripts to run the tests with PHP versions 7.4 and 
 
 **Note**: We need to maintain compatibility with PHP 7.4, as WordPress itself only has beta support for PHP 8.x. See [PHP Compatibility and WordPress versions](https://make.wordpress.org/core/handbook/references/php-compatibility-and-wordpress-versions/) and [Usage Statistics](https://wordpress.org/about/stats/).
 
-First, start the local server environment.
 
-```sh
-npm run env:start # Shortcut: npm run start
-```
-
-This serves a local dev site at `http://localhost:8888`, and test site at `http://localhost:8889`.
-
-Then run tests using a specific PHP version. This will tell `wp-env` to install it.
+Ensure a local environment is running, then run tests using a specific PHP version. This will tell `wp-env` to install it.
 
 ```sh
 npm run env:test:8.2
