@@ -25,8 +25,8 @@ import {
 
 import { createFormatKeyMap } from './format'
 
-import { colorPicker } from '@replit/codemirror-css-color-picker'
-// import { hyperLink } from '../extensions/hyperlink'
+import { colorPicker } from '../extensions/color-picker'
+
 import { infoPanelExtension } from './html/panel'
 import {indentService} from "@codemirror/language"
 
@@ -54,7 +54,6 @@ const langExtensionsGetters = {
     ]),
     createHtmlLinter(),
     getHTMLAutocomplete(),
-    // hyperLink,
     // infoPanelExtension(),
     // indentPlainTextExtension,
   ],
@@ -88,7 +87,6 @@ const langExtensionsGetters = {
     createSassLinter(),
     createFormatKeyMap('scss'),
     colorPicker,
-    // hyperLink
   ],
 
   javascript: () => [
@@ -98,7 +96,6 @@ const langExtensionsGetters = {
     }),
     createJavaScriptLinter(),
     createFormatKeyMap('js'),
-    // hyperLink
   ],
 }
 
