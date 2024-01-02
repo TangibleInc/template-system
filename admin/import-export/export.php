@@ -137,7 +137,7 @@ $plugin->export_templates = function($data) use ($plugin) {
 
       /**
        * Get all template fields
-       * @see ../fields.php
+       * @see ../template-post/fields.php
        */
       $fields = $plugin->get_template_fields( $post_id );
 

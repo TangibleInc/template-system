@@ -31,7 +31,7 @@ const openMediaModal = () => {
  * This is only applied for newly added asset, because if we apply it
  * while the user is editing the input field, the cursor jumps unexpectedly.
  *
- * Same logic on server side: /includes/template/fields.php, get_template_fields()
+ * Same logic on server side: /admin/template-post/fields.php, get_template_fields()
  */
 function withValidName(asset) {
   if (asset.name) {
@@ -86,7 +86,7 @@ const AssetsEditor = ({ assets }) => {
       // Previously accepted only one attachment
       // const attachment = mediaModal.state().get('selection').first().toJSON()
 
-      // console.log('Got attachments', attachments)
+      console.log('Got attachments', attachments)
 
       for (const attachment of attachments) {
         // Ensure the same attachment is added only once
@@ -101,14 +101,10 @@ const AssetsEditor = ({ assets }) => {
 
         /**
          * Extract attachment fields
-         *
-         * When adding a new field, update the documentation:
-         *
-         * - Internal: /includes/templates/assets/field.php
-         * - External: https://loop.tangible.one/tags/asset
          */
         const newAsset = [
           'id',
+          // 'url',
           'name',
           'title',
           'filename',
@@ -155,7 +151,6 @@ const AssetsEditor = ({ assets }) => {
                     }}
                   />
                 </div>
-
                 <div className="template-asset-field template-asset-field--attachment">
                   <div>
                     {isDuplicate && (
@@ -169,10 +164,8 @@ const AssetsEditor = ({ assets }) => {
                       target="_blank"
                     >
                       {asset.id}
-                    </a>
-                    <br />
-                    Title: {asset.title}
-                    <br />
+                    </a>, 
+                    Title: {asset.title}, 
                     File name: <code>{asset.filename}</code>
                     <br />
                     {/* MIME type: <code>{ asset.mime }</code> */}
