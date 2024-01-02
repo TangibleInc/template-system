@@ -8,8 +8,6 @@
  */
 use tangible\template_system;
 
-template_system::$state->atomic_css_rendered_selectors = [];
-
 $plugin->render_template_post = function(
   $post, // WP_Post or the post data array
   $control_values = false, // From /includes/integrations/gutenberg, elementor, beaver
@@ -47,50 +45,23 @@ $plugin->render_template_post = function(
     $is_post ? $post->ID : ($post['assets'] ?? [])
   );
 
+  /**
+   * Atomic CSS
+   * @see /editor/atomic-css
+   */
+
   $atomic_css = null;
+
   if ($is_post) {
-
     $atomic_css = get_post_meta( $post->ID, 'atomic_css', true );
-
   } else {
     $atomic_css = $post['atomic_css'] ?? null;
   }
   if (!empty($atomic_css)) {
     try {
-
       $atomic_css = json_decode($atomic_css);
-
-      $rendered = &template_system::$state->atomic_css_rendered_selectors;
-      $parents = [];
-      $css = '';
-      foreach ($atomic_css as $key => $rules) {
-
-        // Skip if rendered already
-        if (isset($rendered[$key])) continue;
-
-        foreach ($rules as $rule) {
-          [$selector, $body, $parent] = $rule
-            + [2 => null] // Provide default in case undefined
-          ;
-          if (!is_null($parent)) {
-            if (!isset($parents[$parent])) $parents[$parent] = [];
-            $parents[$parent] [] = [$selector, $body];
-          } else {
-            $css .= "{$selector} { {$body} }\n";
-          }
-        }
-      }
-      foreach ($parents as $parent => $rules) {
-        $css .= "{$parent} {\n";
-        foreach ($rules as $rule) {
-          [$selector, $body] = $rule;
-          $css .= "{$selector} { {$body} }\n";
-        }
-        $css .= "\n}";
-      }
-
+      $css = template_system\render_atomic_css_selectors($atomic_css);
       $html->enqueue_inline_style( $css );
-  
     } catch (\Throwable $th) {
       // Skip
     }

@@ -66,20 +66,8 @@ new class extends \stdClass {
      */
     require_once __DIR__.'/../core.php';
 
-    $loop  = template_system::$loop;
-    $logic = template_system::$logic;
-    $html  = template_system::$html;
-
     // Backward compatibility
     $system->has_plugin = template_system\get_active_plugins();
-
-    require_once __DIR__ . '/post-types/index.php';
-    require_once __DIR__ . '/editor/index.php';
-    require_once __DIR__ . '/template-post/index.php';
-    require_once __DIR__ . '/template-assets/index.php';
-    require_once __DIR__ . '/location/index.php';
-    require_once __DIR__ . '/universal-id/index.php';
-    require_once __DIR__ . '/import-export/index.php';
 
     $ready_hook = "{$system->name}_ready";
 
