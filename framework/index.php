@@ -16,7 +16,7 @@ if (!class_exists('tangible\\framework')) {
 new class {
 
   public $name = 'tangible_framework';
-  public $version = '20231228';
+  public $version = '20240102';
 
   function __construct() {
 
