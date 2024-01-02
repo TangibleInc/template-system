@@ -29,7 +29,7 @@ export function createPreviewPane({
     if (isPreviewVisible) {
       renderPreview()
     }
-  }, 3000)
+  }, 2000) // TODO: Adjustable refresh interval
 
   async function renderPreview() {
     const el = $preview[0]

@@ -4,10 +4,7 @@
 
 import { handleTabs } from './tabs'
 import { createEditors } from './editors'
-import {
-  memory,
-  setMemory
-} from './memory'
+import { memory, setMemory } from './memory'
 import { createPreviewPane } from './preview'
 
 declare global {
@@ -70,7 +67,8 @@ window.jQuery(function ($) {
 
   /**
    * Additional fields that are not editors
-   * @see /system/editor/fields.php
+   * @see /admin/editor/fields.php
+   * @see /admin/template-post/fields - NOTE: Add new fields here to make sure it gets saved
    */
   const additionalFieldNames = [
     'name',
@@ -80,6 +78,7 @@ window.jQuery(function ($) {
     'theme_header',
     'theme_footer',
     'universal_id',
+    'atomic_css'
   ]
 
   const $additionalFields = {
@@ -253,19 +252,17 @@ window.jQuery(function ($) {
   const $previewButton = $postForm.find(
     '.tangible-template-tab-selector[data-tab-name=preview]'
   )
-  
-  const {
-    scheduleRenderPreview,
-    setEditorActiveForPreview
-  } = createPreviewPane({
-    $preview,
-    $previewButton,
-    ajax,
-    postId,
-    getEditorFields,
-    getAdditionalFields,
-    setMemory  
-  })
+
+  const { scheduleRenderPreview, setEditorActiveForPreview } =
+    createPreviewPane({
+      $preview,
+      $previewButton,
+      ajax,
+      postId,
+      getEditorFields,
+      getAdditionalFields,
+      setMemory,
+    })
 
   createEditors({
     $,
@@ -277,15 +274,47 @@ window.jQuery(function ($) {
     Tangible,
   }).finally(function () {
 
-    if (memory.previewOpen) {
-      $previewButton.click()
+    /**
+     * Atomic CSS engine
+     */
+    const $atomicCss = $postForm.find(`[name="atomic_css"]`)
+    const cssEngine = window.Tangible.createAtomicCssEngine
+      ? window.Tangible.createAtomicCssEngine()
+      : null
+    const contentEditor = editorInstances.post_content
+
+    if (cssEngine && contentEditor && $atomicCss.length) {
+      contentEditor.generateCss = async function() {
+
+        const generated = await cssEngine.parse(contentEditor.getValue())
+
+        $atomicCss.val(JSON.stringify(generated))
+      }
+
+      contentEditor.generateCss()
+        .then(() => {
+          if (memory.previewOpen) {
+            $previewButton.click()
+          }    
+        })
+  
+    } else {
+      if (memory.previewOpen) {
+        $previewButton.click()
+      }  
     }
 
     /**
      * Schedule preview on editor change
      */
     for (const [key, editor] of Object.entries(editorInstances)) {
-      editor && editor.on('change', scheduleRenderPreview)
+      if (editor.generateCss) {
+        editor?.on('change', () => {
+          editor.generateCss().then(scheduleRenderPreview)
+        })
+      } else {
+        editor?.on('change', scheduleRenderPreview)
+      }
     }
 
     handleTabs({
@@ -293,7 +322,7 @@ window.jQuery(function ($) {
       postId,
       $postForm,
       editorInstances,
-      setEditorActiveForPreview
+      setEditorActiveForPreview,
     })
   })
 })

@@ -78,6 +78,18 @@ export async function createTemplateEditor(
       if (!editor) return ''
       return editor.view.state.doc.toString()
     },
+    setValue(value) {
+      if (!editor) return
+      const content = editor.view.state.doc.toString()
+      // Replace content
+      editor.view.dispatch({
+        changes: {
+          from: 0,
+          to: content.length,
+          insert: value,
+        },
+      })
+    },
     focus() {
       editor && editor.view.focus()
     },
