@@ -1,5 +1,5 @@
 import { createGenerator } from '@unocss/core'
-import createPreset from '@unocss/preset-mini'
+import createPreset from '@unocss/preset-wind'
 
 function createAtomicCssEngine() {
 

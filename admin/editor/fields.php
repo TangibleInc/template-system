@@ -124,6 +124,16 @@ add_action('admin_init', function() use ($plugin) {
       ?><div class="tangible-template-preview-pane" style="display:none"></div><?php
     }
 
+    /**
+     * Atomic CSS
+     * @see ./
+     */
+    if (template_system\get_settings('atomic_css')) {
+      ?><input type="hidden" name="atomic_css" value="<?php
+        echo esc_attr($fields['atomic_css'] ?? '{}');
+      ?>"><?php
+    }
+
     ?>
     <div class="tangible-template-tabs">
     <?php
@@ -240,12 +250,6 @@ add_action('admin_init', function() use ($plugin) {
       ?>
     </div>
     <?php // End tabs
-
-    if (template_system\get_settings('atomic_css')) {
-      ?><input type="hidden" name="atomic_css" value="<?php
-        echo esc_attr($fields['atomic_css'] ?? '{}');
-      ?>"><?php
-    }
 
 }); // add_action edit_form_after_title
 

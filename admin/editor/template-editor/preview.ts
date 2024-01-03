@@ -1,3 +1,5 @@
+import { memory, setMemory } from './memory'
+
 export function createPreviewPane({
   $preview,
   $previewButton,
@@ -45,16 +47,36 @@ export function createPreviewPane({
 
     if (!iframe) {
       iframe = document.createElement('iframe')
-      iframe.style.width = '100%'
-      iframe.style.height = '100%'
-      iframe.style.minHeight = '240px'
+      iframe.style.flex = '1';
       iframe.style.border = 'none'
       iframe.style.borderRadius = '.5rem'
+      iframe.style.padding = '.5rem'
       iframe.style.backgroundColor = '#fff'
 
       el.style.resize = 'vertical'
       el.style.overflowY = 'auto'
+      el.style.display = 'flex'
+      el.style.minHeight = '100px'
+
+      if (memory.previewHeight) {
+        el.style.height = `${memory.previewHeight}px`
+      }
+
       el.appendChild(iframe)
+
+      if (ResizeObserver) {
+        let timer
+        const resizeObserver = new ResizeObserver((entries) => {
+          if (timer) clearTimeout(timer)
+          timer = setTimeout(() => {
+            const previewHeight = el.offsetHeight
+            if (previewHeight) {
+              setMemory({ previewHeight })
+            }
+          }, 1000)  
+        })
+        resizeObserver.observe(el)
+      }
     }
 
     ajax('tangible_template_editor_render', data)

@@ -277,17 +277,15 @@ window.jQuery(function ($) {
     /**
      * Atomic CSS engine
      */
-    const $atomicCss = $postForm.find(`[name="atomic_css"]`)
     const cssEngine = window.Tangible.createAtomicCssEngine
       ? window.Tangible.createAtomicCssEngine()
       : null
+    const $atomicCss = $postForm.find(`[name="atomic_css"]`)
     const contentEditor = editorInstances.post_content
 
     if (cssEngine && contentEditor && $atomicCss.length) {
       contentEditor.generateCss = async function() {
-
         const generated = await cssEngine.parse(contentEditor.getValue())
-
         $atomicCss.val(JSON.stringify(generated))
       }
 
