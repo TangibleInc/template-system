@@ -9,6 +9,7 @@
  * from /framework and /modules.
  */
 
+use tangible\template_system;
 use tangible\ajax;
 use tangible\date;
 use tangible\select;
@@ -54,12 +55,12 @@ return tangible_template(new class extends stdClass {
     $html->version = $this->version;
 
     /**
-     * Deprecating the use of global functions or locally scoped variables like
+     * Deprecating use of global functions or locally scoped variables like
      * below. Use namespaced functions under `tangible`.
      */
     $system    = $this->system;
-    $loop      = $system->loop =  $html->loop = tangible_loop();
-    $logic     = $system->logic = $html->logic = tangible_logic();
+    $loop      = $system->loop  = $html->loop  = template_system::$loop;
+    $logic     = $system->logic = $html->logic = template_system::$logic;
     $system->html = $html;
 
     // @see /framework

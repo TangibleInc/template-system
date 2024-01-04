@@ -11,7 +11,7 @@ if ( ! function_exists( 'tangible_loop' ) ) :
   }
 endif;
 
-return tangible_loop(new class extends stdClass {
+return new class extends stdClass {
 
   public $name  = 'tangible_loop';
   public $url   = '';
@@ -32,6 +32,8 @@ return tangible_loop(new class extends stdClass {
     $loop->path      = __DIR__;
     $loop->file_path = __FILE__;
     $loop->url       = untrailingslashit(plugins_url('/', __FILE__));
+
+    tangible_loop( $this );
 
     require_once __DIR__ . '/utils/index.php';
     require_once __DIR__ . '/context/index.php';
@@ -57,4 +59,4 @@ return tangible_loop(new class extends stdClass {
   function __invoke( $type, $args = [] ) {
     return $this->create_type( $type, $args );
   }
-});
+};
