@@ -64,11 +64,13 @@ class Loop_TestCase extends \WP_UnitTestCase {
 
     $this->go_to( get_post_type_archive_link('post') );
 
-    // Posts are ordered by most recent
-    $this->assertEquals(
-      "[$post_3][$post_2][$post_1]",
-      tangible_template('<Loop>[<Field id>]</Loop>')
-    );
+    // NOTE: Post order is not guaranteed
+    $result = tangible_template('<Loop>[<Field id>]</Loop>');
+    foreach ([$post_1, $post_2, $post_3] as $id) {
+      $this->assertTrue(
+        \str_contains($result, "[$id]")
+      );
+    }
 
     // Ensure no warning for missing type or post_type attribute
     $this->assertNull( $error );
@@ -107,11 +109,13 @@ class Loop_TestCase extends \WP_UnitTestCase {
 
     $this->go_to( get_post_type_archive_link('custom') );
 
-    // Posts are ordered by most recent
-    $this->assertEquals(
-      "[$post_3][$post_2][$post_1]",
-      tangible_template('<Loop>[<Field id>]</Loop>')
-    );
+    // NOTE: Post order is not guaranteed
+    $result = tangible_template('<Loop>[<Field id>]</Loop>');
+    foreach ([$post_1, $post_2, $post_3] as $id) {
+      $this->assertTrue(
+        \str_contains($result, "[$id]")
+      );
+    }
 
     // Ensure no warning for missing type or post_type attribute
     $this->assertNull( $error );

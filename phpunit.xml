@@ -18,6 +18,7 @@
       <directory suffix=".php">tests</directory>
       <exclude>tests/index.php</exclude>
       <exclude>tests/e2e</exclude>
+      <exclude>tests/empty-block-theme</exclude>
     </testsuite>
   </testsuites>
   <php>
