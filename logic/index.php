@@ -7,7 +7,7 @@ if ( ! function_exists( 'tangible_logic' ) ) :
   }
 endif;
 
-return new class extends stdClass {
+return new class extends \stdClass {
 
   public $name  = 'tangible_logic';
   public $state = [];

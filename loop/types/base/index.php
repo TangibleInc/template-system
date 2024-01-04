@@ -31,7 +31,7 @@ require_once __DIR__ . '/interface.php';
  * ```
  */
 
-class BaseLoop implements BaseLoopInterface {
+class BaseLoop extends \StdClass implements BaseLoopInterface {
 
   // Latest version instance of tangible_loop()
   static $loop;
