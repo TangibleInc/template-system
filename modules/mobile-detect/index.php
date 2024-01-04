@@ -25,7 +25,7 @@ $html->register_variable_type('device', [
   },
   'get' => function( $name, $atts, &$memory ) {
 
-    $detect = tangible\get_mobile_detect();
+    $detect = \tangible\mobile_detect();
 
     $condition = false;
 
