@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Tangible Template System
  * Description: Template system shared by Tangible Blocks and Loops & Logic
- * Version: 20240102
+ * Version: 20240104
  * GitHub Plugin URI: https://github.com/tangible/template-system
  */
 
