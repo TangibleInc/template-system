@@ -102,6 +102,8 @@ npm run start
 
 After installing everything, it starts a local dev site at `http://localhost:8888`, and test site at `http://localhost:8889`. The default user is `admin` with `password`.
 
+Note that `wp-env` can only run one environment at a time. If you have another instance running, it must be stopped first.
+
 Install Composer dependencies for development and testing.
 
 ```sh
@@ -126,7 +128,7 @@ npm run env:test:8.2
 The version-specific command takes a while to start, but afterwards you can run the following to re-run tests in the same environment.
 
 ```sh
-npm run env:test # Shortcut: npm run test
+npm run test
 ```
 
 To switch the PHP version, run a different version-specific command.
@@ -138,13 +140,13 @@ npm run env:test:7.4
 To stop the Docker process:
 
 ```sh
-npm run env:stop # Shortcut: npm run stop
+npm run stop
 ```
 
-Usually it's enough to run `env:start` and `env:stop`. To completely remove the created Docker images and remove cache:
+Usually it's enough to run `start` and `stop`. To completely remove the created Docker images and remove cache:
 
 ```sh
-npm run env:destroy
+npm run destroy
 ```
 
 #### Reference
