@@ -100,13 +100,15 @@ Start the local server environment.
 npm run start
 ```
 
-After installing everything, it starts a local dev site at `http://localhost:8888`, and test site at `http://localhost:8889`.
+After installing everything, it starts a local dev site at `http://localhost:8888`, and test site at `http://localhost:8889`. The default user is `admin` with `password`.
 
 Install Composer dependencies for development and testing.
 
 ```sh
-composer install --dev
+npm run env:composer
 ```
+
+This runs `composer install` in the container.
 
 ### Run tests
 

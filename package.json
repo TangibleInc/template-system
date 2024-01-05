@@ -23,7 +23,7 @@
     "env:stop": "wp-env stop",
     "env:destroy": "wp-env destroy",
     "env:shell": "wp-env run cli bash",
-    "env:install:composer": "wp-env run cli bash -c 'cd wp-content/plugins/template-system && composer install --dev'",
+    "env:composer": "wp-env run cli bash -c 'cd wp-content/plugins/template-system && composer install'",
     "// Test": "",
     "test": "npm run env:test",
     "tdd": "npm run test:e2e:watch",
