@@ -324,17 +324,14 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
         'include' => $value,
       ];
 
-      // Pass sort/order/paged parameters to loop query
-      if ( isset( $options['tag_attributes'] ) ) {
-        foreach ( $options['tag_attributes'] as $key => $value ) {
-          $start = substr( $key, 0, 5 );
-          if ( $start === 'order' || $start === 'sort_' || $start === 'paged' ) {
-            $loop_args[ $key ] = $value;
-          }
+      // Pass any loop query parameters
+      foreach ( $tag_attributes as $key => $value ) {
+        if (substr( $key, 0, 4 )!=='acf_') {
+          $loop_args[ $key ] = $value;
         }
       }
 
-        return $loop(
+      return $loop(
         $post_type === 'any' ? 'post' : $post_type,
         $loop_args
       );
