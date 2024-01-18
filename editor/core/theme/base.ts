@@ -11,7 +11,8 @@ export const themeBase = EditorView.theme({
 
   '.cm-scroller': {
     margin: '.25rem',
-    lineHeight: 1.64
+    lineHeight: 1.64,
+    fontFamily: 'inherit'
   },
 
   '.cm-content, .cm-gutter': {
