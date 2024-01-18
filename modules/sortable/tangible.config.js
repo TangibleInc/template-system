@@ -2,7 +2,7 @@ export default {
   build: [
     {
       src: 'src/index.ts',
-      dest: 'build/chart.min.js'
+      dest: 'build/sortable.min.js'
     },
   ],
   format: [
