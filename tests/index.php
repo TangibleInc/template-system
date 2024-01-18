@@ -30,8 +30,12 @@ tests_add_filter('muplugins_loaded', function() {
     'advanced-custom-fields/acf.php',
     'beaver-builder-lite-version/fl-builder.php',
     'elementor/elementor.php',
-    'wp-fusion-lite/wp-fusion-lite.php',
   ];
+
+  // WP Fusion Lite is not yet compatible with PHP 8
+  if ( version_compare( PHP_VERSION, '8.0', '>=' ) ) {
+    $required_plugins []= 'wp-fusion-lite/wp-fusion-lite.php';
+  }
 
   foreach ($required_plugins as $entry_file) {
     if ( ! is_plugin_active( $entry_file ) ) {
