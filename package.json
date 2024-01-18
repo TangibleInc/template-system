@@ -25,7 +25,7 @@
     "env:shell": "wp-env run cli bash",
     "env:composer": "wp-env run cli bash -c 'cd wp-content/plugins/template-system && composer install'",
     "// Test": "",
-    "test": "npm run env:test",
+    "test": "npm run env:test && npm run test:e2e",
     "tdd": "npm run test:e2e:watch",
     "test:e2e": "playwright test",
     "test:e2e:watch": "chokidar 'tests/e2e/**/*.js' --initial -c 'playwright test -- --retries=0'",
