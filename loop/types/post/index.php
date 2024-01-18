@@ -497,8 +497,7 @@ class PostLoop extends BaseLoop {
 
         // Current post
         if ( $value==='current' ) {
-          // Current post
-          $value = get_queried_object_id();
+          $value = get_the_ID();
         }
 
         if (is_numeric( $value )) {
@@ -747,6 +746,24 @@ class PostLoop extends BaseLoop {
           $query_args[ $target_key ] []= $object->ID;
         }
       }
+    } // Extended query parameters
+
+    /**
+     * Support use of `exclude` and `include` together. By this point,
+     * any post slugs have been converted to IDs.
+     * 
+     * "You cannot combine post__in and post__not_in in the same query."
+     * @see https://developer.wordpress.org/reference/classes/wp_query/#post-page-parameters
+     */
+
+    if (isset($query_args['post__not_in']) && isset($query_args['post__in'])) {
+      $query_args['post__in'] = array_values( // Reindex
+        array_diff(
+          $query_args['post__in'],
+          $query_args['post__not_in'] // Remove
+        )
+      );
+
     }
 
     // Taxonomy
