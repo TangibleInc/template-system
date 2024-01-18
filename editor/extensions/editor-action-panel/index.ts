@@ -23,6 +23,8 @@ const keys = [
   ['Ctrl + Backspace', 'Delete previous group of characters'],
   ['Delete', 'Delete next character'],
   ['Ctrl + Delete', 'Delete next group of characters'],
+  ['Tab', 'Indent current line, or select autocomplete suggestion'],
+  ['Shift + Tab', 'Un-indent current line, or expand Emmet abbreviation'],
   [['Page Up', 'Ctrl + Arrow Up'], 'Move cursor page up'],
   [['Page Down', 'Ctrl + Arrow Down'], 'Move cursor page up'],
   [['Ctrl + a', '⌘ + a'], 'Select all'],

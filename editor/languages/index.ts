@@ -19,6 +19,7 @@ import { getHTMLAutocomplete } from './html/autocomplete'
 
 // https://github.com/emmetio/codemirror6-plugin
 import {
+  emmetConfig,
   abbreviationTracker,
   expandAbbreviation,
 } from '@emmetio/codemirror6-plugin' // ~90Kb
@@ -46,11 +47,13 @@ const langExtensionsGetters = {
       selfClosingTags: true
     }),
     createFormatKeyMap('html'),
-    abbreviationTracker({
-      syntax: 'html'
-    }),
+    // abbreviationTracker({
+    //   syntax: 'html',
+    // }),
+    emmetConfig.of({ syntax: 'html' }),
     keymap.of([
-      { key: 'Tab', run: expandAbbreviation },
+      { key: 'Tab', run: acceptCompletion },
+      { key: 'Shift-Tab', run: expandAbbreviation },
     ]),
     createHtmlLinter(),
     getHTMLAutocomplete(),
@@ -61,11 +64,13 @@ const langExtensionsGetters = {
   css: () => [
     css(),
     colorPicker,
-    abbreviationTracker({
-      syntax: 'css'
-    }),
+    // abbreviationTracker({
+    //   syntax: 'css'
+    // }),
+    emmetConfig.of({ syntax: 'css' }),
     keymap.of([
-      { key: 'Tab', run: expandAbbreviation }
+      { key: 'Tab', run: acceptCompletion },
+      { key: 'Shift-Tab', run: expandAbbreviation },
     ]),
     // hyperLink
   ],
@@ -73,16 +78,18 @@ const langExtensionsGetters = {
   sass: () => [
     sass(),
     autocompletion({ // https://codemirror.net/docs/ref/#autocomplete.autocompletion
-      defaultKeymap: false, // Needed for vscode-keymap
+      // defaultKeymap: false, // Needed for vscode-keymap
       override: [
         sassCompletionSource
       ]
     }),
-    abbreviationTracker({
-      syntax: 'scss'
-    }),
+    // abbreviationTracker({
+    //   syntax: 'scss'
+    // }),
+    emmetConfig.of({ syntax: 'scss' }),
     keymap.of([
-      { key: 'Tab', run: expandAbbreviation }
+      { key: 'Tab', run: acceptCompletion },
+      { key: 'Shift-Tab', run: expandAbbreviation },
     ]),
     createSassLinter(),
     createFormatKeyMap('scss'),
@@ -92,8 +99,12 @@ const langExtensionsGetters = {
   javascript: () => [
     javascript(),
     autocompletion({ // https://codemirror.net/docs/ref/#autocomplete.autocompletion
-      defaultKeymap: false, // Needed for vscode-keymap
+      // defaultKeymap: false, // Needed for vscode-keymap
     }),
+    keymap.of([
+      { key: 'Tab', run: acceptCompletion },
+      // { key: 'Shift-Tab', run: expandAbbreviation },
+    ]),
     createJavaScriptLinter(),
     createFormatKeyMap('js'),
   ],

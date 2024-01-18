@@ -95,7 +95,6 @@ const commonKeyMaps = [
   ...searchKeymap, // https://codemirror.net/docs/ref/#search.searchKeymap
   ...historyKeymap,
   ...foldKeymap,
-  ...completionKeymap,
   // ...lintKeymap, // https://codemirror.net/docs/ref/#lint.lintKeymap
   // ...vscodeKeymap,
 ]
@@ -108,6 +107,7 @@ export async function getSetup(lang: string, options = {}): Promise<Extension> {
 
   const setup = [
     ...commonExtensions,
+    keymap.of(completionKeymap), // Before Emmet
     ...langExtensions, // Before common key maps to allow Emmet key map to take precedence
     keymap.of(commonKeyMaps),
   ]
