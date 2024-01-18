@@ -10,7 +10,9 @@ use tangible\framework;
  * 
  * @param config - Plugin settings configuration
  * @param config.css - CSS file URL
+ * @param config.header - { logo: string, show_title: boolean }
  * @param config.title_callback - Function to display plugin title
+ * @param config.title_section - { title: string, description: boolean }
  * @param config.tabs - { [name: string]: { title: string, callback: Function } }
  */
 function register_plugin_settings($plugin, $config) {
@@ -46,7 +48,8 @@ function register_plugin_settings($plugin, $config) {
           $name = $plugin->name;
           $title = $plugin->title;
           $prefix = $plugin->setting_prefix ?? str_replace('-', '_', $name);
-        
+          $logos = $plugin->plugin_logos ?? [];
+
           // $settings_key = "{$prefix}_settings";
           // $settings = is_multisite() ? get_network_option(null, $settings_key, []) : get_option($settings_key, []);
         
@@ -55,6 +58,9 @@ function register_plugin_settings($plugin, $config) {
           $tabs = $config['tabs'] ?? [];
           $title_callback = $config['title_callback'] ?? '';
           
+          $header = $config['header'] ?? [];
+          $header_logo = $header['logo'] ?? false;
+
           $active_tab = $_GET['tab'] ?? array_keys($tabs)[0];
 
           ?><style><?php require_once __DIR__ . '/settings.css'; ?></style><?php
@@ -70,7 +76,23 @@ function register_plugin_settings($plugin, $config) {
                   <?php
                     if ($title_callback) {
                       $title_callback();
-                    } else {
+                    } elseif ($header_logo && isset($logos[ $header_logo ])) {
+                      ?>
+                    
+                      <div class="plugin-title-and-logo">
+                        <img class="plugin-logo<?php echo $header_logo === 'full' ? '-full' : '' ?>"
+                          alt="<?php echo esc_attr($title) ?> Logo"
+                          src="<?php echo esc_attr($logos[ $header_logo ]) ?>"
+                        />
+                        <?php
+                          if (!isset($header['show_title']) || $header['show_title'] !== false) {
+                            echo $title;
+                          }
+                        ?>
+                    </div>
+                  
+                    <?php
+                  } else {
                       ?><?php echo $title; ?><?php
                     }
                   ?>
@@ -95,22 +117,32 @@ function register_plugin_settings($plugin, $config) {
                 }
               ?>
             </h2>
-        
-            <form method="post"
-              class="tangible-plugin-settings-tab <?php echo $name; ?>-settings-tab <?php echo $name; ?>-settings-tab-<?php echo $active_tab; ?>"
-            >
-              <?php
 
-                // settings_fields($settings_key);
-                wp_nonce_field($nonce_key, $nonce_key);
-        
-                if (isset($tabs[$active_tab]) && isset($tabs[$active_tab]['callback'])) {
-        
-                  // Render tab
-                  $tabs[$active_tab]['callback']();
-                }
-              ?>
-            </form>
+            <div class="tangible-plugin-settings-section-wrapper">
+              <?php if (!empty($title_section = $tabs[$active_tab]['title_section'] ?? null)) { ?>
+                <div class="tangible-plugin-settings-title-section">
+                  <h2><?php echo $title_section['title'] ?? $tabs[$active_tab]['title'] ?></h2>
+                  <p><?php echo $title_section['description'] ?? '' ?></p>
+                </div>
+              <?php } ?>
+          
+              <form method="post"
+                class="tangible-plugin-settings-tab <?php echo $name; ?>-settings-tab <?php echo $name; ?>-settings-tab-<?php echo $active_tab; ?>"
+              >
+                <?php
+
+                  // settings_fields($settings_key);
+                  wp_nonce_field($nonce_key, $nonce_key);
+          
+                  if (isset($tabs[$active_tab]) && isset($tabs[$active_tab]['callback'])) {
+
+                    // Render tab
+                    $tabs[$active_tab]['callback']();
+                  }
+                ?>
+              </form>
+            </div>
+            
           </div>
           <?php
           if (isset($config['js'])) {
