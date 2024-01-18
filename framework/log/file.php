@@ -1,7 +1,7 @@
 <?php
-namespace tangible\log;
+namespace tangible;
 
-function to_file() {
+function log_to_file() {
 
   $args = func_get_args();
   if (empty($args)) return;
