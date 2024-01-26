@@ -16,7 +16,7 @@
     "check": "node tools/check.js",
     "version": "node tools/version.js",
     "list": "node tools/list-modules.js",
-    "subrepo": "./tools/git-subrepo/bin",
+    "subrepo": "./tools/git-subrepo/bin --verbose",
     "// Local environment": "",
     "env": "wp-env",
     "env:start": "wp-env start",

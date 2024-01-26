@@ -5,7 +5,7 @@
 ;
 [subrepo]
 	remote = git@github.com:TangibleInc/framework.git
-	branch = master
+	branch = main
 	commit = 
 	method = merge
 	cmdver = 0.4.6
