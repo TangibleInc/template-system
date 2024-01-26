@@ -6,6 +6,6 @@
 [subrepo]
 	remote = git@github.com:TangibleInc/framework.git
 	branch = main
-	commit = 
+	commit = 0ccb3e711c8f4ad6a5c2de5197a9690340eeaf73
 	method = merge
 	cmdver = 0.4.6
