@@ -22,7 +22,7 @@ SOURCE_DIR=$(dirname "$SOURCE")
 
 if [[ -z $GIT_SUBREPO_ROOT ]]; then
   # If `make install` installation used:
-  source "${SOURCE_DIR}/git-subrepo.d/bash+.bash"
+  source "${SOURCE_DIR}/bash+.bash"
 else
   # If `source .rc` method used:
   source "${SOURCE_DIR}/../ext/bashplus/lib/bash+.bash"
@@ -394,7 +394,7 @@ command:config() {
 
 # Launch the manpage viewer:
 command:help() {
-  source "${SOURCE_DIR}/git-subrepo.d/help-functions.bash"
+  source "${SOURCE_DIR}/help-functions.bash"
   local cmd=${command_arguments[0]}
   if [[ $cmd ]]; then
     if can "help:$cmd"; then
