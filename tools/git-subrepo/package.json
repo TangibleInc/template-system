@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Wrapper to use git-subrepo as NPM package and command",
   "homepage": "https://github.com/tangibleinc/git-subrepo",
-  "repository": "git@github.com:tangibleinc/git-subrepo.git",
+  "repository": {
+    "url": "git+ssh://git@github.com/tangibleinc/git-subrepo.git"
+  },
   "bin": {
     "git-subrepo": "bin"
   },
