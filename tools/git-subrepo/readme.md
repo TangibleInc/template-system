@@ -28,7 +28,7 @@ npx git-subrepo status example-folder
 ```sh
 {
   "scripts": {
-    "subrepo": "git-subrepo --verbose"
+    "subrepo": "git-subrepo"
   }
 }
 ```

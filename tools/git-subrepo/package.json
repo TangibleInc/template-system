@@ -2,7 +2,13 @@
   "name": "@tangible/git-subrepo",
   "version": "1.0.0",
   "description": "Wrapper to use git-subrepo as NPM package and command",
+  "homepage": "https://github.com/tangibleinc/git-subrepo",
+  "repository": "git@github.com:tangibleinc/git-subrepo.git",
   "bin": {
     "git-subrepo": "bin"
-  }
+  },
+  "scripts": {
+    "release": "npm publish --access public"
+  },
+  "license": "MIT"
 }
