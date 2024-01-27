@@ -1,0 +1,8 @@
+{
+  "name": "@tangible/git-subrepo",
+  "version": "1.0.0",
+  "description": "Wrapper to use git-subrepo as NPM package and command",
+  "bin": {
+    "git-subrepo": "bin"
+  }
+}
