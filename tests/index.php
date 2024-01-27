@@ -33,7 +33,7 @@ tests_add_filter('muplugins_loaded', function() {
   ];
 
   // WP Fusion Lite is not yet compatible with PHP 8
-  if ( version_compare( PHP_VERSION, '8.0', '>=' ) ) {
+  if ( version_compare( PHP_VERSION, '8.0', '<' ) ) {
     $required_plugins []= 'wp-fusion-lite/wp-fusion-lite.php';
   }
 
