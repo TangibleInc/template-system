@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:TangibleInc/git-subrepo.git
 	branch = main
-	commit = 56dfd737d4c9348dda8114afcf1a62a018f967f7
+	commit = 2dcc1d70c5fe2cd5b8b5c394c478149799cc0bb4
 	method = merge
 	cmdver = 0.4.6
-	parent = 978a8cc23b448244b92498b06d984ed620dd2fee
+	parent = 62bb5c66fe5469ab166995ff15c5efcd4427f8d7
