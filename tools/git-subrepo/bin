@@ -1786,9 +1786,9 @@ get-commit-message() {
   args+=("${commit_msg_args[@]}")
 
   # Find the specific git-subrepo code used:
-  local command_remote='???'
-  local command_commit='???'
-  get-command-info
+  # local command_remote='???'
+  # local command_commit='???'
+  # get-command-info
 
   local merged=none
   if git:rev-exists "$subrepo_commit_ref"; then
@@ -1817,9 +1817,10 @@ upstream:
   commit:   "$commit"
 git-subrepo:
   version:  "$VERSION"
-  origin:   "$command_remote"
-  commit:   "$command_commit"
 ...
+
+  # origin:   "$command_remote"
+  # commit:   "$command_commit"
 }
 
 # Get location and version info about the git-subrepo command itself. This
