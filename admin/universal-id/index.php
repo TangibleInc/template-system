@@ -63,14 +63,17 @@ $plugin->create_universal_id = function() {
   return str_replace( '-', '', wp_generate_uuid4() );
 };
 
-$plugin->set_universal_id = function( $post_id, $universal_id = true ) use ( $plugin ) {
-  update_post_meta(
-    $post_id,
-    'universal_id',
-    $universal_id === true
-      ? $plugin->create_universal_id()
-      : $universal_id
-  );
+$plugin->set_universal_id = function( $post_id, $universal_id = true )
+  use ( $plugin )
+{
+
+  if ($universal_id === true) {
+    $universal_id = $plugin->create_universal_id();
+  }
+
+  update_post_meta($post_id, 'universal_id', $universal_id );
+
+  return $universal_id;
 };
 
 $plugin->get_universal_id = function( $post_id ) {

@@ -159,7 +159,7 @@ $plugin->export_templates = function($data) use ($plugin) {
       }
 
       /**
-       * Export assets as base64 string
+       * Export assets as text or base64 string
        *
        * TODO: Use ZIP format to export a bundle of files
        */
@@ -181,18 +181,36 @@ $plugin->export_templates = function($data) use ($plugin) {
             continue;
           }
 
-          $url = wp_get_attachment_url($asset_id);
-          if (empty($url)) continue;
+          $file_path = get_attached_file($asset_id);
+          if (empty($file_path)) continue;
 
           try {
-            $data = base64_encode(file_get_contents($url));
+            $data = file_get_contents($file_path);
           } catch (\Throwable $th) {
             continue;
           }
 
-          $export_data['shared_assets'][ $asset_key ] = [
-            'base64' => $data
+          // Ensure universal ID
+          $universal_id = $plugin->get_universal_id( $asset_id );
+
+          $asset_data = [
+            'universal_id' => empty($universal_id)
+              ? $plugin->set_universal_id( $asset_id )
+              : $universal_id
           ];
+
+          $is_text = $asset['mime']==='text/css'
+            || $asset['mime']==='application/javascript';
+
+          if ($is_text) {
+            // Text
+            $asset_data['text'] = $data;
+          } else {
+            // Binary
+            $asset_data['base64'] = base64_encode($data);
+          }
+
+          $export_data['shared_assets'][ $asset_key ] = $asset_data;
         }
       }
 

@@ -192,7 +192,7 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
 
           /**
            * Create a non-numeric key to prevent JS/PHP confusion with array index.
-           * See same logic in ./export.php
+           * @see ./export.php
            */
           $asset_id  = $asset['id'];
           $asset_key = '_' . $asset_id;
@@ -201,30 +201,42 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
           if ( ! isset( $shared_assets[ $asset_key ] )) continue;
 
           $attachment_id = 0;
+          $universal_id = $shared_assets[ $asset_key ]['universal_id'] ?? false;
+          if (!empty($universal_id)) {
+            /**
+             * Pass to import_template_asset() below
+             * @see ../template-assets/import.php
+             */
+            $asset['universal_id'] = $universal_id;
+          }
 
           if ( isset( $shared_assets[ $asset_key ]['attachment_id'] ) ) {
 
             // Already imported
             $attachment_id = $shared_assets[ $asset_key ]['attachment_id'];
 
-          } elseif ( isset( $shared_assets[ $asset_key ]['base64'] ) ) {
+          } elseif (isset($shared_assets[ $asset_key ]['text'])) {
 
-            /**
-             * Decode data and create attachment file
-             *
-             * TODO: Use ZIP package to bundle attachments
-             */
+            // Text
+
+            $asset_data = $shared_assets[ $asset_key ]['text'];
+            $attachment_id = $plugin->import_template_asset( $asset, $asset_data );
+            $shared_assets[ $asset_key ]['attachment_id'] = $attachment_id;
+            
+          } elseif (isset( $shared_assets[ $asset_key ]['base64'] ) ) {
+
+            // Binary - Decode data and create attachment file
 
             try {
-              $asset_data = base64_decode( $shared_assets[ $asset_key ]['base64'] );
+              $asset_data = base64_decode(
+                $shared_assets[ $asset_key ]['base64']
+              );
             } catch ( \Throwable $th ) {
               // Invalid data
               continue;
             }
 
             $attachment_id = $plugin->import_template_asset( $asset, $asset_data );
-
-            // For other assets with same attachment
             $shared_assets[ $asset_key ]['attachment_id'] = $attachment_id;
           }
 

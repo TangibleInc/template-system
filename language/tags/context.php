@@ -31,10 +31,10 @@ $html->add_closed_tag('PopContext', function() use ( $html ) {
 
 $html->get_current_context = function( $key = false ) use ( $html ) {
   $pos = count( $html->contexts ) - 1;
-  if ($pos < 0) return $key ? null : [];
+  if ($pos < 0) return $key ? '' : [];
   return $key ? (
     isset( $html->contexts[ $pos ][ $key ] )
       ? $html->contexts[ $pos ][ $key ]
-      : null
+      : '' // Was null
   ) : $html->contexts[ $pos ];
 };

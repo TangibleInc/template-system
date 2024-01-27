@@ -76,6 +76,23 @@ $plugin->import_template_asset = function($asset, $asset_data) {
     'guid'           => $upload_dir['url'] . '/' . basename($attachment_file_path)
   ];
 
+  if (!empty($asset['universal_id'])) {
+    // Check for duplicate
+    $posts = get_posts([
+      'post_type'      => 'attachment',
+      'posts_per_page' => 1,
+      'fields'         => 'ids',
+      'post_status'    => 'any',
+      'meta_key'       => 'universal_id',
+      'meta_value'     => $asset['universal_id'],
+    ]);
+
+    // Overwrite
+    if ( ! empty( $posts ) ) {
+      $attachment['ID'] = $posts[0];
+    }
+  }
+
   $attachment_id = wp_insert_attachment($attachment, $attachment_file_path);
 
   if (empty($attachment_id)) return;

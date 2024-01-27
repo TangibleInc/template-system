@@ -13,7 +13,11 @@ ajax\add_action("{$prefix}export", function( $data ) use ( $plugin ) {
   if ( ! current_user_can( 'manage_options' )) return ajax\error( 'Must be admin user' );
   if ( ! isset( $data['export_rules'] )) return ajax\error( 'Property "export_rules" is required' );
 
-  return $plugin->export_templates( $data );
+  try {
+    return $plugin->export_templates( $data );
+  } catch (\Throwable $th) {
+    return ajax\error($th->getMessage());
+  }
 });
 
 ajax\add_action("{$prefix}import", function( $data ) use ( $plugin ) {

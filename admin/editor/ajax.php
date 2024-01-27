@@ -43,20 +43,22 @@ ajax\add_action('tangible_template_editor_render', function( $data = [] ) use ( 
     ], [] );
 
 
+  /** @see /admin/template-post/render */
+  $result = $plugin->render_template_post($data);
+
   /**
    * TODO: Render styles and scripts for this context
    */
 
   ob_start();
+  $html->load_all_enqueued_styles();
   template_system\location\enqueue_style_templates();
   $style = ob_get_clean();
   
   ob_start();
+  $html->load_all_enqueued_scripts();
   template_system\location\enqueue_script_templates();
   $script = ob_get_clean();
-
-  /** @see /admin/template-post/render */
-  $result = $plugin->render_template_post($data);
 
   return [
     'result' => $style . $result . $script,
