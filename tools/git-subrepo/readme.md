@@ -53,7 +53,7 @@ For the complete list, see: https://github.com/ingydotnet/git-subrepo/tree/maste
 
 ### Clone
 
-`git subrepo clone <repository> [<subdir>] [-b <branch>] [-f] [-m <msg>] [--file=<msg file>] [-e] [--method <merge|rebase>]`
+`git-subrepo clone <repository> [<subdir>] [-b <branch>] [-f] [-m <msg>] [--file=<msg file>] [-e] [--method <merge|rebase>]`
 
 Add a repository as a subrepo in a subdir of your repository.
 
@@ -80,7 +80,7 @@ and `--message=` options.
 
 ### Init
 
-`git subrepo init <subdir> [-r <remote>] [-b <branch>] [--method <merge|rebase>]`
+`git-subrepo init <subdir> [-r <remote>] [-b <branch>] [--method <merge|rebase>]`
 
 Turn an existing subdirectory into a subrepo.
 
@@ -93,12 +93,12 @@ your original repo will look exactly the same except that there will be a
 If you specify the `--remote` (and optionally the `--branch`) option, the
 values will be added to the `<subdir>/.gitrepo` file. The `--remote` option
 is the upstream URL, and the `--branch` option is the upstream branch to push
-to. These values will be needed to do a `git subrepo push` command, but they
+to. These values will be needed to do a `git-subrepo push` command, but they
 can be provided later on the `push` command (and saved to `<subdir>/.gitrepo`
 if you also specify the `--update` option).
 
 Note: You will need to create the empty upstream repo and push to it on your
-own, using `git subrepo push <subdir>`.
+own, using `git-subrepo push <subdir>`.
 
 The `--method` option will decide how the join process between branches
 are performed. The default option is merge.
