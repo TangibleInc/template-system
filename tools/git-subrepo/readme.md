@@ -51,33 +51,6 @@ Changes from the original:
 
 For the complete list, see: https://github.com/ingydotnet/git-subrepo/tree/master#commands
 
-### Clone
-
-`git-subrepo clone <repository> [<subdir>] [-b <branch>] [-f] [-m <msg>] [--file=<msg file>] [-e] [--method <merge|rebase>]`
-
-Add a repository as a subrepo in a subdir of your repository.
-
-This is similar in feel to `git clone`. You just specify the remote repo
-url, and optionally a sub-directory and/or branch name. The repo will be
-fetched and merged into the subdir.
-
-The subrepo history is /squashed/ into a single commit that contains the
-reference information. This information is also stored in a special file
-called `<subdir>/.gitrepo`. The presence of this file indicates that the
-directory is a subrepo.
-
-All subsequent commands refer to the subrepo by the name of the /subdir/.
-From the subdir, all the current information about the subrepo can be
-obtained.
-
-The `--force` option will "reclone" (completely replace) an existing subdir.
-
-The `--method` option will decide how the join process between branches are
-  performed. The default option is merge.
-
-The `clone` command accepts the `--branch=` `--edit`, `--file`, `--force`
-and `--message=` options.
-
 ### Init
 
 `git-subrepo init <subdir> [-r <remote>] [-b <branch>] [--method <merge|rebase>]`
@@ -182,3 +155,30 @@ the same commit as `FETCH_HEAD`. It will also create a remote called
 the subrepo `clean` command.
 
 The `fetch` command accepts the `--all`, `--branch=` and `--remote=` options.
+
+### Clone
+
+`git-subrepo clone <repository> [<subdir>] [-b <branch>] [-f] [-m <msg>] [--file=<msg file>] [-e] [--method <merge|rebase>]`
+
+Add a repository as a subrepo in a subdir of your repository.
+
+This is similar in feel to `git clone`. You just specify the remote repo
+url, and optionally a sub-directory and/or branch name. The repo will be
+fetched and merged into the subdir.
+
+The subrepo history is /squashed/ into a single commit that contains the
+reference information. This information is also stored in a special file
+called `<subdir>/.gitrepo`. The presence of this file indicates that the
+directory is a subrepo.
+
+All subsequent commands refer to the subrepo by the name of the /subdir/.
+From the subdir, all the current information about the subrepo can be
+obtained.
+
+The `--force` option will "reclone" (completely replace) an existing subdir.
+
+The `--method` option will decide how the join process between branches are
+  performed. The default option is merge.
+
+The `clone` command accepts the `--branch=` `--edit`, `--file`, `--force`
+and `--message=` options.
