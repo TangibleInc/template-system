@@ -41,9 +41,8 @@ import { globby } from 'globby'
 
     if (indent === 0 && parts.length > 1) {
       /**
-       * Handle exception when root-level folder has more than one path part.
+       * When root-level folder has more than one path part, do this:
        *
-       * Do this:
        * - integration/beaver
        * - integration/elementor
        *
