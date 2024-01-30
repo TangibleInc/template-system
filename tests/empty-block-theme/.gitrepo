@@ -6,6 +6,7 @@
 [subrepo]
 	remote = git@github.com:TangibleInc/empty-block-theme.git
 	branch = main
-	commit = 
+	commit = 7be40a5d034498ef46ff175467d209b72f434cb6
 	method = merge
 	cmdver = 0.4.6
+	parent = 53789fe60e9e8503ca4652dd8b78f6dbbee0b645
