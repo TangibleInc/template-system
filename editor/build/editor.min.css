@@ -1,2 +1,99 @@
-.tangible-template-system--editor-actions-panel{background-color:#4c566a;color:#fff;display:flex;flex-direction:column;padding:0}.tangible-template-system--editor-actions-panel p{margin:.5rem 0}.tangible-template-system--editor-actions-panel li,.tangible-template-system--editor-actions-panel ul{margin:0;padding:0}.tangible-template-system--editor-actions-panel ul{list-style:disc;padding-left:1rem}.tangible-template-system--editor-actions-panel>.main-row{display:flex;-webkit-user-select:none;-moz-user-select:none;user-select:none}.tangible-template-system--editor-actions-panel>.main-row>.col-left{flex-grow:1}.tangible-template-system--editor-actions-panel>.main-row>.col-right{display:flex;text-align:right}.tangible-template-system--editor-actions-panel>.help-row{background-color:#2e3440;border-top:1px solid #848d9d;padding:.5rem 1rem}.tangible-template-system--editor-actions-panel>.help-row,.tangible-template-system--editor-actions-panel>.help-row p{font-size:14px}.tangible-template-system--editor-actions-panel>.help-row p:first-child{margin-top:0}.tangible-template-system--editor-actions-panel>.help-row kbd{border:1px solid #848d9d;border-radius:4px;font-size:12px;padding:2px 4px;white-space:nowrap}.tangible-template-system--editor-actions-panel>.help-row .keyboard-shortcut{line-height:1.62}.tangible-template-system--editor-actions-panel,.tangible-template-system--editor-actions-panel select[data-action=font-list],.tangible-template-system--editor-actions-panel select[data-action=theme-list]{font-size:12px;line-height:1}.tangible-template-system--editor-actions-panel .settings-group{align-items:center;flex-grow:1;padding:0 .25rem}.tangible-template-system--editor-actions-panel .setting-label,.tangible-template-system--editor-actions-panel .setting-label-button{border-left:1px solid #848d9d;margin:.125rem 0;padding:.25rem .5rem}.tangible-template-system--editor-actions-panel select[data-action=font-list],.tangible-template-system--editor-actions-panel select[data-action=theme-list]{background-color:#2e3440;border:0;box-shadow:none;min-height:0;padding:2px 4px}.tangible-template-system--editor-actions-panel select[data-action=font-list],.tangible-template-system--editor-actions-panel select[data-action=font-list]:focus,.tangible-template-system--editor-actions-panel select[data-action=font-list]:hover,.tangible-template-system--editor-actions-panel select[data-action=theme-list],.tangible-template-system--editor-actions-panel select[data-action=theme-list]:focus,.tangible-template-system--editor-actions-panel select[data-action=theme-list]:hover{color:#fff}.tangible-template-system--editor-actions-panel [data-action=font-size]{padding:0 4px}.tangible-template-system--editor-actions-panel [data-action=font-size-minus],.tangible-template-system--editor-actions-panel [data-action=font-size-plus]{cursor:pointer;padding:4px}.tangible-template-system--editor-actions-panel .setting-label-button{cursor:pointer;transition:background-color .1s}.tangible-template-system--editor-actions-panel .setting-label-button:active{background-color:#2e3440}
+.tangible-template-system--editor-actions-panel {
+  background-color: #4c566a;
+  color: #fff;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.tangible-template-system--editor-actions-panel p {
+  margin: 0.5rem 0;
+}
+.tangible-template-system--editor-actions-panel ul, .tangible-template-system--editor-actions-panel li {
+  margin: 0;
+  padding: 0;
+}
+.tangible-template-system--editor-actions-panel ul {
+  list-style: disc;
+  padding-left: 1rem;
+}
+.tangible-template-system--editor-actions-panel > .main-row {
+  display: flex;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.tangible-template-system--editor-actions-panel > .main-row > .col-left {
+  flex-grow: 1;
+}
+.tangible-template-system--editor-actions-panel > .main-row > .col-right {
+  display: flex;
+  text-align: right;
+}
+.tangible-template-system--editor-actions-panel > .help-row {
+  padding: 0.5rem 1rem;
+  border-top: 1px solid #848d9d;
+  background-color: #2e3440;
+}
+.tangible-template-system--editor-actions-panel > .help-row, .tangible-template-system--editor-actions-panel > .help-row p {
+  font-size: 14px;
+}
+.tangible-template-system--editor-actions-panel > .help-row p:first-child {
+  margin-top: 0;
+}
+.tangible-template-system--editor-actions-panel > .help-row kbd {
+  font-size: 12px;
+  padding: 2px 4px;
+  border: 1px solid #848d9d;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.tangible-template-system--editor-actions-panel > .help-row .keyboard-shortcut {
+  line-height: 1.62;
+}
+.tangible-template-system--editor-actions-panel,
+.tangible-template-system--editor-actions-panel select[data-action=font-list],
+.tangible-template-system--editor-actions-panel select[data-action=theme-list] {
+  font-size: 12px;
+  line-height: 1;
+}
+.tangible-template-system--editor-actions-panel .settings-group {
+  flex-grow: 1;
+  align-items: center;
+  padding: 0 0.25rem;
+}
+.tangible-template-system--editor-actions-panel .setting-label,
+.tangible-template-system--editor-actions-panel .setting-label-button {
+  margin: 0.125rem 0;
+  padding: 0.25rem 0.5rem;
+  border-left: 1px solid #848d9d;
+}
+.tangible-template-system--editor-actions-panel select[data-action=font-list],
+.tangible-template-system--editor-actions-panel select[data-action=theme-list] {
+  padding: 2px 4px;
+  background-color: #2e3440;
+  min-height: 0;
+  border: 0;
+  box-shadow: none;
+}
+.tangible-template-system--editor-actions-panel select[data-action=font-list], .tangible-template-system--editor-actions-panel select[data-action=font-list]:hover, .tangible-template-system--editor-actions-panel select[data-action=font-list]:focus,
+.tangible-template-system--editor-actions-panel select[data-action=theme-list],
+.tangible-template-system--editor-actions-panel select[data-action=theme-list]:hover,
+.tangible-template-system--editor-actions-panel select[data-action=theme-list]:focus {
+  color: #fff;
+}
+.tangible-template-system--editor-actions-panel [data-action=font-size] {
+  padding: 0 4px;
+}
+.tangible-template-system--editor-actions-panel [data-action=font-size-minus],
+.tangible-template-system--editor-actions-panel [data-action=font-size-plus] {
+  padding: 4px 4px;
+  cursor: pointer;
+}
+.tangible-template-system--editor-actions-panel .setting-label-button {
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+.tangible-template-system--editor-actions-panel .setting-label-button:active {
+  background-color: #2e3440;
+}
 /*# sourceMappingURL=editor.min.css.map */
