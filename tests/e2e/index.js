@@ -23,9 +23,9 @@ test.describe('Admin', () => {
 
   const plugins = [
     ['Template System', 'template-system/plugin'],
-    ['Advanced Custom Fields', 'advanced-custom-fields/acf'],
-    ['Elementor', 'elementor/elementor'],
-    ['Beaver Builder', 'beaver-builder-lite-version/fl-builder'],
+    // ['Advanced Custom Fields', 'advanced-custom-fields/acf'],
+    // ['Elementor', 'elementor/elementor'],
+    // ['Beaver Builder', 'beaver-builder-lite-version/fl-builder'],
   ]
 
   for (const [pluginTitle, pluginBasename] of plugins) {

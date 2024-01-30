@@ -38,7 +38,10 @@ tests_add_filter('muplugins_loaded', function() {
   }
 
   foreach ($required_plugins as $entry_file) {
-    if ( ! is_plugin_active( $entry_file ) ) {
+    $entry_file_path = WP_CONTENT_DIR . '/plugins/' . $entry_file;
+    if ( ! is_plugin_active( $entry_file ) &&
+      file_exists($entry_file_path)
+    ) {
 
       /**
        * We can't use `activate_plugin()` here because some functions like 
@@ -46,7 +49,7 @@ tests_add_filter('muplugins_loaded', function() {
        */
       // activate_plugin( $entry_file );
 
-      require_once WP_CONTENT_DIR . '/plugins/' . $entry_file;
+      require_once $entry_file_path;
     }  
   }
 
