@@ -91,7 +91,13 @@ const commonKeyMaps = [
    */
   indentWithTab,
 
-  ...defaultKeymap, // https://codemirror.net/docs/ref/#commands.defaultKeymap
+  /**
+   * Default key map
+   * @see https://codemirror.net/docs/ref/#commands.defaultKeymap
+   * @see https://github.com/codemirror/commands/blob/main/src/commands.ts
+   */
+  ...defaultKeymap,
+
   ...searchKeymap, // https://codemirror.net/docs/ref/#search.searchKeymap
   ...historyKeymap,
   ...foldKeymap,

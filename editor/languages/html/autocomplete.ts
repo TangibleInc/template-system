@@ -55,12 +55,14 @@ const tagCompletions: TagCompletion[] = [
   ['hr', '<hr>\n'],  
   ['img', '<img src="${1}" alt="${2}">'],
   ['input', '<input type=${1}>'],
-  // label
-  // li
+  ['label', '<label>${1}</labelli>'],  
+  ['li', '<li>${1}</li>'],  
   // link
   // meta
   ['ol', '<ol${1}></ol>'],
   // optgroup, option
+
+  ['p', '<p>${2}</p>'],
   ['pre', '<pre${1}>${2}</pre>'],
   ['section', '<section${1}>\n  ${2}\n</section>'],
 
@@ -74,7 +76,6 @@ const tagCompletions: TagCompletion[] = [
   ['ul', '<ul${1}></ul>'],
   
   ['video', '<video${1}>${2}</video>'],
-  
 ]
 
 
@@ -174,7 +175,7 @@ function completeTagAttributeValue(state: EditorState, tree: SyntaxNode, from: n
 }
 
 
-const templateTagCompletionSource: CompletionSource = (context: CompletionContext) => {
+export const templateTagCompletionSource: CompletionSource = (context: CompletionContext) => {
   // Original HTML completion
   // return htmlCompletionSourceWith()(context)
   
@@ -251,6 +252,7 @@ const templateTagCompletionSource: CompletionSource = (context: CompletionContex
 export function getHTMLAutocomplete() {
   return autocompletion({
       // defaultKeymap: false, // Needed for vscode-keymap
+      // selectOnOpen: false, // https://github.com/codemirror/autocomplete/blob/ffe365dfcaaff9fc4218e0452fb8da55eebaa865/src/config.ts#L4
       override: [
         templateTagCompletionSource
       ]

@@ -45,8 +45,8 @@ const prettierLanguageOptions = {
 }
 
 export async function format({ lang = 'html', content, options = {} }) {
+
   if (lang === 'html') {
-    console.log('format', content)
     return HtmlBeautify.format(content)
   }
 

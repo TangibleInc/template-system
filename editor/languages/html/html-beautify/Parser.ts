@@ -121,7 +121,7 @@ export class Parser {
     private inTagWithRawBody = false;
     private lastTag = '';
 
-    constructor(readonly reader: Reader) { }
+    constructor(readonly reader: Reader, readonly options: FormatterOptions) { }
 
     parse(): ParserToken | undefined {
         if (this.reader.eof) {
@@ -332,7 +332,9 @@ export class Parser {
             this.reader.readOne();
         }
         this.reader.demandChar('>');
-        this.inTagWithRawBody = tagsWithRawBody.includes(tagName) && !hasTrailingSlash;
+        this.inTagWithRawBody =
+          (this.options ? this.options.rawTags : tagsWithRawBody)
+        .includes(tagName) && !hasTrailingSlash;
         this.lastTag = tagName;
         return new OpenTagToken(tagName, tagAttributes, hasTrailingSlash, trimsLeftWhitespace, trimsRightWhitespace);
     }

@@ -14,8 +14,9 @@ import { createJavaScriptLinter } from './javascript/linter'
 
 import { keymap } from '@codemirror/view'
 
-import { autocompletion, acceptCompletion } from '@codemirror/autocomplete'
-import { getHTMLAutocomplete } from './html/autocomplete'
+import { autocompletion, acceptCompletion, closeCompletion,
+  moveCompletionSelection, startCompletion } from '@codemirror/autocomplete'
+import { getHTMLAutocomplete, templateTagCompletionSource } from './html/autocomplete'
 
 // https://github.com/emmetio/codemirror6-plugin
 import {
@@ -36,6 +37,20 @@ const indentPlainTextExtension = indentService.of((context, pos) => {
   return previousLine.text.match(/^(\s)*/)[0].length
 })
 
+const sharedCompletionKeymap = keymap.of([
+  // {key: "Ctrl-Space", run: startCompletion},
+  {key: "Escape", run: closeCompletion},
+  {key: "ArrowDown", run: moveCompletionSelection(true)},
+  {key: "ArrowUp", run: moveCompletionSelection(false)},
+  {key: "PageDown", run: moveCompletionSelection(true, "page")},
+  {key: "PageUp", run: moveCompletionSelection(false, "page")},
+  {key: "Enter", run: acceptCompletion},
+
+  { key: 'Tab', run: acceptCompletion },
+  { key: 'Shift-Tab', run: expandAbbreviation },
+  { key: 'Shift-Enter', run: closeCompletion },
+])
+
 /**
  * Load language extensions on demand
  */
@@ -46,17 +61,21 @@ const langExtensionsGetters = {
     html({
       selfClosingTags: true
     }),
+    autocompletion({
+      defaultKeymap: false, // Needed for vscode-keymap
+      // selectOnOpen: false, // https://github.com/codemirror/autocomplete/blob/ffe365dfcaaff9fc4218e0452fb8da55eebaa865/src/config.ts#L4
+      override: [
+        templateTagCompletionSource
+      ]
+    }),
     createFormatKeyMap('html'),
     // abbreviationTracker({
     //   syntax: 'html',
     // }),
     emmetConfig.of({ syntax: 'html' }),
-    keymap.of([
-      { key: 'Tab', run: acceptCompletion },
-      { key: 'Shift-Tab', run: expandAbbreviation },
-    ]),
+    sharedCompletionKeymap,
     createHtmlLinter(),
-    getHTMLAutocomplete(),
+    // getHTMLAutocomplete(),
     // infoPanelExtension(),
     // indentPlainTextExtension,
   ],
@@ -68,17 +87,15 @@ const langExtensionsGetters = {
     //   syntax: 'css'
     // }),
     emmetConfig.of({ syntax: 'css' }),
-    keymap.of([
-      { key: 'Tab', run: acceptCompletion },
-      { key: 'Shift-Tab', run: expandAbbreviation },
-    ]),
+    sharedCompletionKeymap,
     // hyperLink
   ],
 
   sass: () => [
     sass(),
     autocompletion({ // https://codemirror.net/docs/ref/#autocomplete.autocompletion
-      // defaultKeymap: false, // Needed for vscode-keymap
+      defaultKeymap: false, // Needed for vscode-keymap
+      // selectOnOpen: false,
       override: [
         sassCompletionSource
       ]
@@ -87,10 +104,7 @@ const langExtensionsGetters = {
     //   syntax: 'scss'
     // }),
     emmetConfig.of({ syntax: 'scss' }),
-    keymap.of([
-      { key: 'Tab', run: acceptCompletion },
-      { key: 'Shift-Tab', run: expandAbbreviation },
-    ]),
+    sharedCompletionKeymap,
     createSassLinter(),
     createFormatKeyMap('scss'),
     colorPicker,
@@ -99,12 +113,10 @@ const langExtensionsGetters = {
   javascript: () => [
     javascript(),
     autocompletion({ // https://codemirror.net/docs/ref/#autocomplete.autocompletion
-      // defaultKeymap: false, // Needed for vscode-keymap
+      defaultKeymap: false, // Needed for vscode-keymap
+      // selectOnOpen: false,
     }),
-    keymap.of([
-      { key: 'Tab', run: acceptCompletion },
-      // { key: 'Shift-Tab', run: expandAbbreviation },
-    ]),
+    sharedCompletionKeymap,
     createJavaScriptLinter(),
     createFormatKeyMap('js'),
   ],

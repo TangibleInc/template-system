@@ -4,7 +4,7 @@ import { FormatOptions, VoidTagsTrailingSlashStyle, AttributeQuoteStyle } from "
 import { Parser, Attribute, RawAttribute, TokenAttribute, NameValueAttribute, AttributeValue, ParserToken, OpenTagToken, CloseTagToken, TextToken, ScriptToken, ServerSideCommentToken, ClientSideCommentToken, EOFToken } from "./Parser";
 
 export const defaultFormatOptions: FormatOptions = {
-    indentSize: 4,
+    indentSize: 2,
     nonIndentingTags: [
         "!doctype",
         "!DOCTYPE",
@@ -22,21 +22,12 @@ export const defaultFormatOptions: FormatOptions = {
         "source",
         "track",
         "wbr",
-        '_TMPL_INCLUDE',
-        "TMPL_INCLUDE",
-        "TMPL_INLINE",
-        "TMPL_V",
-        "TMPL_VAR",
-        "TMPL_WS"
     ],
     extraNonIndentingTags: [],
     sameLineTags: [
         "textarea",
-        "TMPL_WS",
     ],
     deIndentingTags: [
-        "TMPL_ELSE",
-        "TMPL_ELSIF"
     ],
     voidTags: [
         "area",
@@ -54,10 +45,28 @@ export const defaultFormatOptions: FormatOptions = {
         "track",
         "wbr"
     ],
+    rawTags: [
+      'script',
+      'style',
+      'Raw'
+    ],
     multilineAttributeThreshold: 4,
-    voidTagsTrailingSlashStyle: VoidTagsTrailingSlashStyle.Remove,
-    attributeQuoteStyle: AttributeQuoteStyle.Add
+    voidTagsTrailingSlashStyle: VoidTagsTrailingSlashStyle.Preserve, // Remove,
+    attributeQuoteStyle: AttributeQuoteStyle.Preserve, // Add
 };
+
+/**
+ * Customize formatter options based on language definition
+ */
+if (window.TangibleTemplateSystemEditor) {
+  const { languageDefinition } = window.TangibleTemplateSystemEditor
+  for (const [tagName, tagConfig] of Object.entries(languageDefinition.tags)) {
+    if (tagConfig.closed) defaultFormatOptions.nonIndentingTags.push(tagName)
+    if (tagConfig.raw) defaultFormatOptions.rawTags.push(tagName)
+  }
+
+  // console.log({languageDefinition, defaultFormatOptions})
+}
 
 enum State {
     Initial,
@@ -80,26 +89,27 @@ export class Formatter {
             ...defaultFormatOptions,
             ...overrideOptions
         };
-        this.parser = new Parser(new Reader(data));
+        this.parser = new Parser(new Reader(data), this.options);
         this.writer = new Writer(this.options.indentSize);
 
         for (let i = 0; i < this.options.nonIndentingTags.length; i++) {
             const element = this.options.nonIndentingTags[i];
-            this.nonIndentingTags.add(element.toUpperCase());
+            this.nonIndentingTags.add(element /* .toUpperCase() */);
         }
 
         for (let i = 0; i < this.options.extraNonIndentingTags.length; i++) {
             const element = this.options.extraNonIndentingTags[i];
-            this.nonIndentingTags.add(element.toUpperCase());
+            this.nonIndentingTags.add(element /* .toUpperCase() */);
         }
     }
 
     isNonIndentingTag(s: string): boolean {
-        return this.nonIndentingTags.has(s.toUpperCase());
+        return this.nonIndentingTags.has(s /* .toUpperCase() */);
     }
 
     isSameLineTag(s: string): boolean {
-        return this.options.sameLineTags.includes(s);
+        return this.options.sameLineTags.includes(s) ||
+          this.options.nonIndentingTags.includes(s);
     }
 
     isDeIndentingTag(s: string): boolean {
@@ -193,7 +203,7 @@ export class Formatter {
                 )
             );
         if (addTrailingSlash) {
-            this.writer.print('/');
+            this.writer.print(' /'); // Space before end slash
         }
 
         if (trimsRightWhitespace) {
@@ -227,7 +237,7 @@ export class Formatter {
                 result += a.tagAttributes.map(x => ` ${this.formatAttribute(a.tagName, x)}`).join('');
             }
             if (a.hasTrailingSlash) {
-                result += '/';
+                result += ' /'; // Space before ending slash
             }
             result += '>';
             return result;
@@ -255,7 +265,8 @@ export class Formatter {
         }
 
         let quote = attributeValue.quote;
-        if (this.options.attributeQuoteStyle === AttributeQuoteStyle.Add && !tagName.startsWith("TMPL_")) {
+
+        if (this.options.attributeQuoteStyle === AttributeQuoteStyle.Add) {
             if (formattedValue.indexOf('"') < 0) {
                 // does not contain ", safe to quote with "
                 quote = '"';

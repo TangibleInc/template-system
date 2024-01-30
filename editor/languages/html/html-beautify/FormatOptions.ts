@@ -57,7 +57,7 @@ export interface FormatOptions {
     sameLineTags: string[];
 
     /**
-     * A collection of tags that decrease the indentation level (e.g. TMPL_ELSE)
+     * A collection of tags that decrease the indentation level
      */
     deIndentingTags: string[];
 
@@ -66,6 +66,11 @@ export interface FormatOptions {
      * See https://html.spec.whatwg.org/multipage/syntax.html#void-elements
      */
     voidTags: string[];
+
+    /**
+     * Tags whose content should not be parsed
+     */
+    rawTags: string[],
 
     /**
      * The number of attributes, inclusive, after which attributes will be printed on separate lines.
