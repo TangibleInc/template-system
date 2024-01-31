@@ -11,11 +11,7 @@ export function createPreviewPane({
   setMemory
 }) {
   function setIframeContent(iframe, content) {
-    // iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(content)
-    iframe.contentWindow.document
-    iframe.contentWindow.document.open()
-    iframe.contentWindow.document.write(`<!DOCTYPE html>${content}`)
-    iframe.contentWindow.document.close()
+    iframe.srcdoc = `<!DOCTYPE html>${content}`
   }
 
   let isPreviewVisible = false
