@@ -46,10 +46,27 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
   if (isset( $atts['acf_date'] ) || isset( $atts['acf_date_time'] )
     || isset( $atts['acf_time'] )
   ) {
-    // "format" attribute is desired date format
-    $atts['format_date'] = $format_type;
-    $format_type         = 'date';
-    unset( $atts['format'] );
+
+    /**
+     * For ACF Date field, set default format from Settings -> General ->
+     * Date Format. For ACF Date/Time and Time fields, no format by default.
+     */
+    if (!empty($format_type)) {
+
+      $format_options['format'] = $format_type;
+      unset( $atts['format'] );
+
+    } if (isset( $atts['acf_date'] )) {
+      $format_options['format'] = get_option( 'date_format' );
+    }
+
+    // Set default locale from Settings -> General -> Site Language
+    if (!isset($atts['locale'])) {
+      $format_options['locale'] = get_locale();
+    }
+
+    $should_format = true;
+    $format_type = 'date';
   }
 
   if ( empty( $format_type ) ) {
@@ -417,6 +434,7 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
 
       // Pass date format options
       foreach ( [
+        'locale',
         'timezone',
         'from_format',
       ] as $key ) {

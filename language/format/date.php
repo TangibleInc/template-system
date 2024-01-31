@@ -56,12 +56,17 @@ $html->format_date = function( $content, $options = [] ) use ( $html ) {
   // Locale
 
   if ( isset( $options['locale'] ) ) {
+
     $previous_locale = $create_date->getLocale();
+
     if ( $previous_locale !== $options['locale'] ) {
-    $create_date->setLocale(
+      $create_date->setLocale(
         $options['locale']
       );
-    } else $previous_locale = '';
+    } else {
+      // No need to restore if unchanged
+      $previous_locale = '';
+    }
   }
 
   // Timezone - Ensure default and convert later as needed
