@@ -1,5 +1,5 @@
 <?php
-
+use tangible\format;
 use tangible\hjson;
 
 // List, Item
@@ -122,7 +122,7 @@ $html->list_tag = function( $atts, $nodes ) use ( $html ) {
 
   } elseif ( isset( $atts['items'] ) ) {
 
-    $html->current_list = array_map( 'trim', explode( ',', $atts['items'] ) );
+    $html->current_list = format\multiple_values($atts['items']);
 
   } else {
 

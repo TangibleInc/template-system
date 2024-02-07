@@ -1,6 +1,7 @@
 <?php
 namespace Tangible\Loop;
 
+use tangible\format;
 use tangible\hjson;
 
 /**
@@ -490,7 +491,7 @@ class PostLoop extends BaseLoop {
       unset($query_args[ $args_key ]);
 
       if (!is_array($values)) {
-        $values = array_map('trim', explode(',', $values));
+        $values = format\multiple_values($values);
       }
 
       foreach ($values as $value) {
@@ -1156,7 +1157,7 @@ class PostLoop extends BaseLoop {
           case 'between':
           case 'not between':
             $compare = strtoupper($compare);
-            $value = explode(',', $value);
+            $value = format\multiple_values($value);
           break;
         }
       }

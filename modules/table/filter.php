@@ -1,4 +1,5 @@
 <?php
+use tangible\format;
 
 $html->table_filter_tag = function($atts, $nodes) use ($html) {
 
@@ -41,7 +42,7 @@ $html->table_filter_tag_attributes_filter = function($atts) use ($html) {
 
     if (isset($atts['columns'])) {
       $atts['data-tangible-table-filter-columns'] = json_encode(
-        array_map('trim', explode(',', $atts['columns']))
+        format\multiple_values($atts['columns'])
       );
       unset($atts['columns']);
     }

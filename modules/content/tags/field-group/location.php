@@ -1,4 +1,5 @@
 <?php
+use tangible\format;
 
 /**
  * Location rule group
@@ -84,9 +85,11 @@ $html->content_field_group_location_rule_tag = function( $atts, $nodes ) use ( $
    * location rule groups to clarify "OR" (groups) and "AND" (rules in a group).
    */
 
-  if ( strpos( $rule['value'], ',' ) !== false ) {
+  if ( strpos( $rule['value'], ',' ) !== false
+    || (isset($rule['value'][0]) && $rule['value'][0]==='[')
+  ) {
 
-    $values = array_map( 'trim', explode( ',', $rule['value'] ) );
+    $values = format\multiple_values($rule['value']);
 
     // Each must be in its own group, as "OR"
 

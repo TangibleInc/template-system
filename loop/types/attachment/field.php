@@ -1,6 +1,7 @@
 <?php
-
 namespace Tangible\Loop;
+
+use tangible\format;
 
 $loop->get_attachment_field = function( $attachment, $field_name, $args = [] ) use ( $loop ) {
 
@@ -122,8 +123,8 @@ $loop->get_attachment_field = function( $attachment, $field_name, $args = [] ) u
       if ( strpos( $image_size, ',' ) !== false ) {
         // array of width and height
         $image_size = array_map(function( $size ) {
-          return (int) trim( $size );
-        }, explode( ',', $image_size ));
+          return (int) $size;
+        }, format\multiple_values($image_size));
       }
 
       $value                       = wp_get_attachment_image_srcset( $id, $image_size );
@@ -137,8 +138,8 @@ $loop->get_attachment_field = function( $attachment, $field_name, $args = [] ) u
       if ( strpos( $image_size, ',' ) !== false ) {
         // array of width and height
         $image_size = array_map(function( $size ) {
-          return (int) trim( $size );
-        }, explode( ',', $image_size ));
+          return (int) $size;
+        }, format\multiple_values($image_size));
       }
 
       $value                       = wp_get_attachment_image_sizes( $id, $image_size );

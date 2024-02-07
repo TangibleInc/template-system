@@ -1,5 +1,5 @@
 <?php
-
+use tangible\format;
 use tangible\hjson;
 
 $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic, $html) {
@@ -121,11 +121,12 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
       // Multiple values
       if (is_string($value)) {
         if (strpos($value, ',')!==false) {
-          $value = array_map('trim', explode(',', $value));
+          $value = format\multiple_values($value);
         } elseif ($value==='admin') {
           $value = 'administrator';
         }
-      } elseif (is_array($value)) {
+      }
+      if (is_array($value)) {
         foreach ($value as $key => $val) {
           if ($val==='admin') $val = 'administrator';
           $value[$key] = $val;
@@ -170,7 +171,7 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
         case 'category':
 
           $categories = isset($atts['category'])
-            ? array_map('trim', explode(',', $atts['category']))
+            ? format\multiple_values($atts['category'])
             : []
           ;
 
@@ -183,7 +184,7 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
         case 'tag':
 
           $tags = isset($atts['tag'])
-            ? array_map('trim', explode(',', $atts['tag']))
+            ? format\multiple_values($atts['tag'])
             : []
           ;
 
@@ -196,7 +197,7 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
         case 'taxonomy':
 
           $taxonomies = isset($atts['taxonomy'])
-            ? array_map('trim', explode(',', $atts['taxonomy']))
+            ? format\multiple_values($atts['taxonomy'])
             : []
           ;
 
@@ -209,7 +210,7 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
         case 'author':
 
           $authors = isset($atts['author'])
-            ? array_map('trim', explode(',', $atts['author']))
+            ? format\multiple_values($atts['author'])
             : []
           ;
 
@@ -229,7 +230,7 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
         default:
 
           $types = isset($atts['type'])
-            ? array_map('trim', explode(',', $atts['type']))
+            ? format\multiple_values($atts['type'])
             : []
           ;
 
@@ -252,7 +253,7 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
     case 'singular':
 
       $types = isset($atts['type'])
-        ? array_map('trim', explode(',', $atts['type']))
+        ? format\multiple_values($atts['type'])
         : []
       ;
 

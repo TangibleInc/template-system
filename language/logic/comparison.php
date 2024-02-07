@@ -1,5 +1,6 @@
 <?php
 
+use tangible\format;
 use tangible\hjson;
 
 use Tangible\Loop\BaseLoop;
@@ -219,10 +220,8 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         // Convert to list
         $current_value = empty( $current_value )
           ? []
-          : ( isset( $current_value[0] ) && $current_value[0] === '['
-            ? hjson\parse( $current_value )
-            : array_map( 'trim', explode( ',', $current_value ) ) // Comma-separated list
-          );
+          : format\multiple_values($current_value) // Comma-separated list
+        ;
       }
       if ( is_array( $current_value ) ) {
 
@@ -264,10 +263,8 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         // Convert to list
         $current_value = empty( $current_value )
           ? []
-          : ( isset( $current_value[0] ) && $current_value[0] === '['
-            ? hjson\parse( $current_value )
-            : array_map( 'trim', explode( ',', $current_value ) ) // Comma-separated list
-          );
+          : format\multiple_values($current_value) // Comma-separated list
+        ;
       }
       if ( is_array( $current_value ) ) {
 
@@ -296,10 +293,8 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         // Convert to list
         $current_value = empty( $current_value )
           ? []
-          : ( isset( $current_value[0] ) && $current_value[0] === '['
-            ? hjson\parse( $current_value )
-            : array_map( 'trim', explode( ',', $current_value ) ) // Comma-separated list
-          );
+          : format\multiple_values($current_value) // Comma-separated list
+        ;
       }
       if ( is_array( $current_value ) ) {
 
@@ -335,10 +330,7 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         // Convert to list
         $values = $loop->is_instance($value)
           ? $value->total_items
-          : (isset( $value[0] ) && $value[0] === '['
-            ? hjson\parse( $value )
-            : array_map( 'trim', explode( ',', $value ) ) // Comma-separated list
-          )
+          : format\multiple_values($value) // Comma-separated list
         ;
       }
 
@@ -372,10 +364,8 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         $current_value = empty( $current_value )
           ? []
           // Support JSON
-          : ( isset( $current_value[0] ) && $current_value[0] === '['
-          ? hjson\parse( $current_value )
-          : array_map( 'trim', explode( ',', $current_value ) ) // Comma-separated list
-        );
+          : format\multiple_values($current_value) // Comma-separated list
+        ;
       }
 
       $not = $operand === 'any_is_not';

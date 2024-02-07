@@ -1,4 +1,6 @@
 <?php
+use tangible\format;
+
 /**
  * Register post type
  *
@@ -204,7 +206,7 @@ $html->create_content_type = function($name, $config) use ($html) {
     } elseif (is_array($default_value)) {
       $config[ $key ] = is_array($config[ $key ])
         ? $config[ $key ]
-        : array_map('trim', explode(',', $config[ $key ]))
+        : format\multiple_values($config[ $key ])
       ;
     }
   }

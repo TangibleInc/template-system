@@ -1,4 +1,6 @@
 <?php
+use tangible\format;
+
 /**
  * <url> gets current URL, site home, uploads folder, ..
  *
@@ -146,7 +148,7 @@ $html->get_url_query = function( $name = '', $atts = [] ) use ( $html ) {
   // Include/exclude keys
 
   if ( isset( $atts['include'] ) ) {
-    $keys     = array_map( 'trim', explode( ',', $atts['include'] ) );
+    $keys     = format\multiple_values($atts['include']);
     $included = [];
     foreach ( $keys as $key ) {
       if (isset( $queries[ $key ] )) $included[ $key ] = $queries[ $key ];
@@ -155,7 +157,7 @@ $html->get_url_query = function( $name = '', $atts = [] ) use ( $html ) {
   }
 
   if ( isset( $atts['exclude'] ) ) {
-    $keys = array_map( 'trim', explode( ',', $atts['exclude'] ) );
+    $keys = format\multiple_values($atts['exclude']);
     foreach ( $keys as $key ) {
       if (isset( $queries[ $key ] )) unset( $queries[ $key ] );
     }

@@ -1,6 +1,7 @@
 <?php
-
 namespace Tangible\Loop;
+
+use tangible\format;
 
 require_once __DIR__ . '/field.php';
 
@@ -136,7 +137,7 @@ class UserLoop extends BaseLoop {
       unset( $query_args[ $key_for_id ] );
 
       if ( ! is_array( $values ) ) {
-        $values = array_map( 'trim', explode( ',', $values ) );
+        $values = format\multiple_values($values);
       }
 
       foreach ( $values as $value ) {

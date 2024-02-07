@@ -1,4 +1,5 @@
 <?php
+use tangible\format;
 
 /**
  * These attributes are of the same loop type as its name
@@ -270,7 +271,7 @@ $html->create_loop_tag_context = function( $atts ) use ( $loop, $html ) {
       }
     } elseif ( $type_name === 'list' && isset( $atts['items'] ) ) {
         return $loop->create_type($type_name,
-        array_map( 'trim', explode( ',', $atts['items'] ) )
+        format\multiple_values($atts['items'])
       );
     }
 

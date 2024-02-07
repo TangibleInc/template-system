@@ -1,6 +1,7 @@
 <?php
-
 namespace Tangible\Loop;
+
+use tangible\format;
 
 require_once __DIR__ . '/field.php';
 
@@ -198,7 +199,7 @@ class TaxonomyTermLoop extends BaseLoop {
     if ( isset($query_args['post']) ) {
 
       if( ! is_array($query_args['post']) ) {
-        $query_args['post'] = array_map('trim', explode(',', $query_args['post']));
+        $query_args['post'] = format\multiple_values($query_args['post']);
       }
 
       foreach ($query_args['post'] as $index => $value) {

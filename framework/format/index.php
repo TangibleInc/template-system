@@ -112,3 +112,20 @@ function php_to_js_keys($src, $options = []) {
 function slugify($string) {
   return sanitize_title_with_dashes($string, null, 'save');
 };
+
+/**
+ * Convert a string (comma-separated list or JSON array) into array of values
+ */
+function multiple_values($value) {
+  if (isset($value[0]) && $value[0]==='[') {
+    try {
+      $values = json_decode($value);
+      if (!is_array($values)) $values = [];
+      return $values;
+    } catch (\Throwable $th) {
+      return [];
+    }
+  }
+  $values = array_map('trim', explode(',', $value));
+  return $values;
+};

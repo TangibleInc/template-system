@@ -1,5 +1,5 @@
 <?php
-
+use tangible\format;
 use tangible\hjson;
 
 $html->load_file = function( $file ) use ( $html ) {
@@ -219,8 +219,10 @@ $html->load_content_tag = function( $atts, $content = '' ) use ( $html ) {
       $asset_type = $key;
 
       // Support multiple
-      if ( strpos( $asset, ',' ) !== false ) {
-        $assets = array_map( 'trim', explode( ',', $asset ) );
+      if ( strpos( $asset, ',' ) !== false
+        || (isset($asset[0]) && $asset[0]==='[')
+      ) {
+        $assets = format\multiple_values($asset);
         $result = '';
         foreach ( $assets as $each_asset ) {
         $result .= $html->load_content_tag(array_merge($atts, [

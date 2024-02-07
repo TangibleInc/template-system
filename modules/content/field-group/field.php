@@ -1,4 +1,5 @@
 <?php
+use tangible\format;
 
 /**
  * Field
@@ -138,7 +139,7 @@ $html->create_field_config = function( $config, $key_prefix = 'tangible_template
     $config['mime_types'] = implode(',',
       is_array( $config['extensions'] )
         ? $config['extensions']
-        : array_map( 'trim', explode( ',', $config['extensions'] ) )
+        : format\multiple_values($config['extensions'])
     );
     unset( $config['extensions'] );
   }
@@ -196,12 +197,12 @@ $html->create_field_config = function( $config, $key_prefix = 'tangible_template
 
       $char = substr( $config[ $key ], 0, 1 );
 
-      if ( $char === '[' || $char === '{' ) {
+      if ( $char === '{' ) {
         // JSON string
-        $config[ $key ] = json_decode( $config[ $key ], $char === '{' );
+        $config[ $key ] = json_decode( $config[ $key ], true );
       } else {
         // Comma-separated list
-        $config[ $key ] = array_map( 'trim', explode( ',', $config[ $key ] ) );
+        $config[ $key ] = format\multiple_values($config[ $key ]);
       }
     }
   }

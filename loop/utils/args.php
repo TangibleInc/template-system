@@ -1,4 +1,5 @@
 <?php
+use tangible\format;
 
 /**
  * Get arguments from config (array of parameter definitions with type and default value)
@@ -69,21 +70,9 @@ $loop->set_arg_from_config = function( $args, $given_args, $name, $field_config 
 
   if ( in_array( 'array', $field_types ) ) {
 
-    if ( is_string( $value ) && isset( $value[0] ) && $value[0] === '[' ) {
-      $orig_value = $value;
-      try {
-        $value = json_decode( $value );
-      } catch ( \Throwable $th ) {
-        $value = $orig_value;
-      }
+    if ( is_string( $value ) ) {
+      $value = format\multiple_values( $value );
     }
-
-    $value = is_string( $value )
-      ? array_map( 'trim', explode( ',', $value ) )
-      : ( ! is_array( $value )
-        ? [ $value ]
-        : $value
-      );
 
     // If key already exists, append to array
     if ( isset( $args[ $target_name ] ) ) {

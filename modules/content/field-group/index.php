@@ -1,4 +1,7 @@
 <?php
+
+use tangible\format;
+
 /**
  * Register field group and field types
  *
@@ -93,7 +96,7 @@ $html->create_field_group = function( $name, $config ) use ( $html ) {
   if ( isset( $config['show'] ) ) {
 
     $show_elements = is_array( $config['show'] ) ? $config['show']
-      : array_map( 'trim', explode( ',', $config['show'] ) );
+      : format\multiple_values($config['show']);
 
     unset( $config['show'] );
 
@@ -114,7 +117,7 @@ $html->create_field_group = function( $name, $config ) use ( $html ) {
       ? $config['hide']
       : ( $config['hide'] === 'all'
         ? $screen_elements
-        : array_map( 'trim', explode( ',', $config['hide'] ) )
+        : format\multiple_values($config['hide'])
       );
 
     unset( $config['hide'] );
@@ -140,7 +143,7 @@ $html->create_field_group = function( $name, $config ) use ( $html ) {
 
     $types = is_array( $config['post_type'] )
       ? $config['post_type']
-      : array_map( 'trim', explode( ',', $config['post_type'] ) );
+      : format\multiple_values($config['post_type']);
 
     foreach ( $types as $type ) {
       $html->add_post_type_to_field_group( $type, $name );

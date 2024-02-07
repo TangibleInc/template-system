@@ -1,4 +1,5 @@
 <?php
+use tangible\format;
 
 /**
  * Register taxonomy
@@ -14,7 +15,7 @@ $html->register_taxonomy = function( $name, $config ) use ( $html ) {
 
   if ( isset( $config['post_type'] ) ) {
     $config['post_type'] = ( is_array( $config['post_type'] ) ? $config['post_type']
-      : array_map( 'trim', explode( ',', $config['post_type'] ) )
+      : format\multiple_values($config['post_type'] )
     );
   } else {
     $config['post_type'] = [ 'post' ];
@@ -159,7 +160,7 @@ $html->create_taxonomy = function( $name, $config ) use ( $html ) {
     } elseif ( is_array( $default_value ) ) {
       $config[ $key ] = is_array( $config[ $key ] )
         ? $config[ $key ]
-        : array_map( 'trim', explode( ',', $config[ $key ] ) );
+        : format\multiple_values($config[ $key ]);
     }
   }
 

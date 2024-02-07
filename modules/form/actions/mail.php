@@ -1,4 +1,6 @@
 <?php
+use tangible\format;
+
 /**
  * Send mail
  */
@@ -68,7 +70,7 @@ $html->form_actions['mail'] = function($attributes, $data) use ($html) {
 
   if (isset($mail_variables['cc'])) {
     // Comma-separated list
-    $ccs = explode(',', $mail_variables['cc']);
+    $ccs = format\multiple_values($mail_variables['cc']);
     foreach ($ccs as $cc) {
       $headers []= 'Cc: '.trim($cc);
     }

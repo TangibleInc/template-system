@@ -1,4 +1,6 @@
 <?php
+use tangible\format;
+
 /**
  * Table - Loop type with pagination, sort, and filter via AJAX
  */
@@ -40,10 +42,9 @@ $html->table_tag = function($atts, $nodes = []) use ($html) {
   $search = isset($atts['search']) ? $atts['search'] : '';
   $search_columns = isset($atts['search_columns']) ? (
     is_string($atts['search_columns'])
-      ? array_map('trim', explode(',', $atts['search_columns']))
+      ? format\multiple_values($atts['search_columns'])
       : $atts['search_columns']
   ) : [];
-
 
   // Sorting
 
