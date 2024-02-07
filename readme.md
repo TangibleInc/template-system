@@ -122,7 +122,7 @@ This repository includes NPM scripts to run the tests with PHP versions 7.4 and 
 Ensure a local environment is running, then run tests using a specific PHP version. This will tell `wp-env` to install it.
 
 ```sh
-npm run env:test:8.2
+npm run test:8.2
 ```
 
 The version-specific command takes a while to start, but afterwards you can run the following to re-run tests in the same environment.
@@ -134,7 +134,7 @@ npm run test
 To switch the PHP version, run a different version-specific command.
 
 ```sh
-npm run env:test:7.4
+npm run test:7.4
 ```
 
 To stop the Docker process:
@@ -171,7 +171,7 @@ The folder `/tests/e2e` contains end-to-end-tests using [Playwright](https://pla
 Run the tests. This will start the local WordPress environment with `wp-env` as needed. Then Playwright starts a browser engine to interact with the test site.
 
 ```sh
-npm run test:e2e
+npm run e2e
 ```
 
 The first time you run it, it will prompt you to install the browser engine (Chromium).
@@ -186,17 +186,17 @@ There is a "Watch mode", where it will watch the test files for changes and re-r
 This provides a helpful feedback loop when writing tests, as a kind of test-driven development. Press CTRL + C to stop the process.
 
 ```sh
-npm run test:e2e:watch  # Shortcut: npm run tdd
+npm run e2e:watch
 ```
 
-A common usage is to have terminal sessions open with `npm run dev` (build assets and watch to rebuild) and `npm run tdd` (run tests and watch to re-run).
+A common usage is to have terminal sessions open with `npm run dev` (build assets and watch to rebuild) and `npm run e2e:watch` (run tests and watch to re-run).
 
 #### UI mode
 
 There's also "UI mode" that opens a browser interface to see the tests run.
 
 ```sh
-npm run test:e2e:ui
+npm run e2e:ui
 ```
 
 #### Utilities

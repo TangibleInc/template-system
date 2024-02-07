@@ -20,6 +20,15 @@
       <exclude>tests/e2e</exclude>
       <exclude>tests/empty-block-theme</exclude>
     </testsuite>
+    <testsuite name="beaver">
+      <directory>tests/integrations/beaver.php</directory>
+    </testsuite>
+    <testsuite name="elementor">
+      <directory>tests/integrations/elementor.php</directory>
+    </testsuite>
+    <testsuite name="wp-fusion">
+      <directory>tests/integrations/wp-fusion.php</directory>
+    </testsuite>
   </testsuites>
   <php>
     <const name="DOING_TANGIBLE_TESTS" value="1" />
