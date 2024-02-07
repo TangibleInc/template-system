@@ -29,7 +29,13 @@ $plugin->template_tag_and_shortcode = function($atts, $nodes = []) use ($plugin,
 
     // By name ("post slug")
 
-    $posts = get_posts([
+    /**
+     * WP_Query matches *any* post when query parameter "name" is an empty
+     * string. @see https://core.trac.wordpress.org/ticket/60468
+     */
+    $posts = empty($atts['name'])
+      ? []
+      : get_posts([
       'name' => $atts['name'],
       'post_type' => $post_type,
       'post_status' => 'publish',
