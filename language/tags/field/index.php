@@ -56,7 +56,7 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
       $format_options['format'] = $format_type;
       unset( $atts['format'] );
 
-    } if (isset( $atts['acf_date'] )) {
+    } elseif (isset( $atts['acf_date'] )) {
       $format_options['format'] = get_option( 'date_format' );
     }
 
