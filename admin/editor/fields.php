@@ -277,17 +277,19 @@ add_action('admin_init', function() use ($plugin) {
       <?php
         $post_id = $post->ID;
         echo $post_id;
+
+        $universal_id = template_system\ensure_universal_id($post_id);
+        ?>
+          <input type="hidden" name="universal_id" value="<?php
+            echo esc_attr($universal_id);
+          ?>" />
+        <?php
 /*
-        $universal_id = $plugin->get_universal_id($post_id);
         if (!empty($universal_id)) {
           ?> - Universal ID:
             <a title="<?php echo $universal_id; ?>"
               style="cursor: pointer"
             ><?php echo substr($universal_id, 0, 6); ?></a>
-
-            <input type="hidden" name="universal_id" value="<?php
-              echo $universal_id;
-            ?>" />
           <?php
         }
 */

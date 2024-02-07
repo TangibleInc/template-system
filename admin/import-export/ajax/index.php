@@ -1,5 +1,6 @@
 <?php
 use tangible\ajax;
+use tangible\template_system;
 
 if ( ! is_admin()) return;
 
@@ -8,19 +9,19 @@ if ( ! is_admin()) return;
  */
 $prefix = 'tangible_template_import_export__';
 
-ajax\add_action("{$prefix}export", function( $data ) use ( $plugin ) {
+ajax\add_action("{$prefix}export", function( $data ) {
 
   if ( ! current_user_can( 'manage_options' )) return ajax\error( 'Must be admin user' );
   if ( ! isset( $data['export_rules'] )) return ajax\error( 'Property "export_rules" is required' );
 
   try {
-    return $plugin->export_templates( $data );
+    return template_system\export_templates( $data );
   } catch (\Throwable $th) {
     return ajax\error($th->getMessage());
   }
 });
 
-ajax\add_action("{$prefix}import", function( $data ) use ( $plugin ) {
+ajax\add_action("{$prefix}import", function( $data ) {
 
   if ( ! current_user_can( 'manage_options' )) return ajax\error( 'Must be admin user' );
   if ( ! isset( $data['post_types'] )) return ajax\error( 'Property "post_types" is required' );
@@ -46,7 +47,7 @@ ajax\add_action("{$prefix}import", function( $data ) use ( $plugin ) {
     return $mimes;
   });
 
-  return $plugin->import_templates( $data );
+  return template_system\import_templates( $data );
 });
 
 require_once __DIR__ . '/item-options.php';

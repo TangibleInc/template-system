@@ -1,10 +1,14 @@
 <?php
+namespace tangible\template_system;
+use tangible\template_system;
 
 /**
  * Import
  */
 
-$plugin->import_templates = function( $data ) use ( $plugin ) {
+function import_templates($data) {
+
+  $plugin = template_system::$system;
 
   $result = [
     'message'           => 'Success',
@@ -375,3 +379,6 @@ $plugin->import_templates = function( $data ) use ( $plugin ) {
 
   return $result;
 };
+
+// Deprecated
+$plugin->import_templates = __NAMESPACE__ . '\\import_templates';

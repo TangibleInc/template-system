@@ -1,10 +1,14 @@
 <?php
+namespace tangible\template_system;
+use tangible\template_system;
 
 /**
  * Export
  */
 
-$plugin->export_templates = function($data) use ($plugin) {
+function export_templates($data) {
+
+  $plugin = template_system::$system;
 
   $export_data = [
     'post_types' => [
@@ -144,6 +148,11 @@ $plugin->export_templates = function($data) use ($plugin) {
       // Post status
       $fields['post_status'] = get_post_status( $post_id );
 
+      // Ensure universal ID
+      if (empty($fields['universal_id'])) {
+        $fields['universal_id'] = template_system\set_universal_id($post_id);
+      }
+
       /**
        * Export enable/disable blocks new controls
        * 
@@ -191,12 +200,10 @@ $plugin->export_templates = function($data) use ($plugin) {
           }
 
           // Ensure universal ID
-          $universal_id = $plugin->get_universal_id( $asset_id );
+          $universal_id = template_system\ensure_universal_id($asset_id);
 
           $asset_data = [
-            'universal_id' => empty($universal_id)
-              ? $plugin->set_universal_id( $asset_id )
-              : $universal_id
+            'universal_id' => $universal_id
           ];
 
           $is_text = $asset['mime']==='text/css'
@@ -236,4 +243,7 @@ $plugin->export_templates = function($data) use ($plugin) {
   }
 
   return $export_data;
-};
+}
+
+// Deprecated
+$plugin->export_templates = __NAMESPACE__ . '\\export_templates';

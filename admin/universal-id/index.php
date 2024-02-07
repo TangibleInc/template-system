@@ -1,4 +1,7 @@
 <?php
+namespace tangible\template_system;
+use tangible\template_system;
+
 /**
  * Assign universal ID to newly created templates and blocks, so they have
  * a unique and immutable identifier across sites.
@@ -52,30 +55,40 @@ add_action('transition_post_status', function( $new_status, $old_status, $post )
     $old_status === 'new' // @see https://codex.wordpress.org/Post_Status_Transitions
     && in_array( $post->post_type, $plugin->template_post_types )
     // Don't overwrite if post has universal ID already during import
-    && empty( $plugin->get_universal_id( $post->ID ) )
+    && empty( template_system\get_universal_id( $post->ID ) )
   ) {
-    $plugin->set_universal_id( $post->ID );
+    template_system\set_universal_id( $post->ID );
   }
 
 }, 10, 3 );
 
-$plugin->create_universal_id = function() {
+function create_universal_id() {
   return str_replace( '-', '', wp_generate_uuid4() );
-};
+}
 
-$plugin->set_universal_id = function( $post_id, $universal_id = true )
-  use ( $plugin )
-{
+function set_universal_id($post_id, $universal_id = true ) {
 
   if ($universal_id === true) {
-    $universal_id = $plugin->create_universal_id();
+    $universal_id = template_system\create_universal_id();
   }
 
   update_post_meta($post_id, 'universal_id', $universal_id );
-
   return $universal_id;
-};
+}
 
-$plugin->get_universal_id = function( $post_id ) {
+function get_universal_id($post_id ) {
   return get_post_meta( $post_id, 'universal_id', true );
-};
+}
+
+function ensure_universal_id( $post_id ) {
+  $universal_id = template_system\get_universal_id($post_id);
+  if (empty($universal_id)) {
+    $universal_id = template_system\set_universal_id($post_id);
+  }  
+  return $universal_id;
+}
+
+// Deprecated
+$plugin->create_universal_id = __NAMESPACE__ . '\\create_universal_id';
+$plugin->set_universal_id    = __NAMESPACE__ . '\\set_universal_id';
+$plugin->get_universal_id    = __NAMESPACE__ . '\\get_universal_id';
