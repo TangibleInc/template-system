@@ -141,23 +141,6 @@ class TaxonomyTermLoop extends BaseLoop {
   function create_query_args( $args ) {
 
     /**
-     * By post(s)
-     */
-    if ( isset($args['post']) ) {
-
-      if( ! is_array($args['post']) ) {
-        $args['post'] = array_map('trim', explode(',', $args['post']));
-      }
-
-      foreach ($args['post'] as $index => $value) {
-        if ($value === 'current') { // Current post ID
-          global $post;
-          $args['post'][$index] = !empty($post) ? $post->ID : -1;
-        }
-      }
-    }
-
-    /**
      * By parent term
      */
     if ( isset($args['parent']) ) {
@@ -208,6 +191,23 @@ class TaxonomyTermLoop extends BaseLoop {
     $defaults = [
       'hide_empty' => false,
     ];
+
+    /**
+     * By post(s)
+     */
+    if ( isset($query_args['post']) ) {
+
+      if( ! is_array($query_args['post']) ) {
+        $query_args['post'] = array_map('trim', explode(',', $query_args['post']));
+      }
+
+      foreach ($query_args['post'] as $index => $value) {
+        if ($value === 'current') { // Current post ID
+          global $post;
+          $query_args['post'][$index] = !empty($post) ? $post->ID : -1;
+        }
+      }
+    }
 
     // Convert slugs to IDs
 
