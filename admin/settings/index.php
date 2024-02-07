@@ -34,7 +34,7 @@ template_system::$state->setting_fields = [
   // [
   //   'name' => 'ide',
   //   'field_type' => 'checkbox',
-  //   'label' => 'IDE prototype - Integrated Development Environment (See <i>Tangible -> Template System</i>)',
+  //   'label' => 'Integrated Development Environment: See <i>Tangible -> Template System</i>',
   //   'default_value' => false,
   //   'beta' => true,
   //   'reload' => true,
