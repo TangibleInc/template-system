@@ -19,6 +19,7 @@
       <exclude>tests/index.php</exclude>
       <exclude>tests/e2e</exclude>
       <exclude>tests/empty-block-theme</exclude>
+      <exclude>tests/html</exclude>
     </testsuite>
     <testsuite name="beaver">
       <directory>tests/integrations/beaver.php</directory>
