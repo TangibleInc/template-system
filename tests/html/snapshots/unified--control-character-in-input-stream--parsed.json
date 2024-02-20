@@ -1,0 +1,1 @@
+[{"raw":"<!DOCTYPE html>"},{"text":"\n"},{"tag":"title","attributes":{"keys":[]},"children":[{"text":"control-character-in-input-stream"}]},{"text":"\n"},{"comment":" note: there\u2019s a 0x7f before the eof: "},{"text":"\n\n"}]

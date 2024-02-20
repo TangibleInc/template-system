@@ -1,0 +1,1 @@
+[{"raw":"<!DOCTYPE html>"},{"text":"\n"},{"tag":"title","attributes":{"keys":[]},"children":[{"text":"incorrectly-opened-comment"}]},{"text":"\n"},{"tag":"!foo","attributes":{"keys":[]},"children":[{"text":"\n"},{"tag":"!-bar","attributes":{"keys":[]},"children":[{"text":"\n"}]}]}]

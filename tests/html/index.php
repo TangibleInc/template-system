@@ -1,51 +1,44 @@
 <?php
 namespace tangible\tests\html;
 
-$html_engine_version = $argv[1] ?? 'v1';
+require_once __DIR__ . '/common.php';
 
-// Get test HTML files
-function get_test_html_files() {
+/**
+ * Prepare HTML engine
+ */
 
-  $test_data_dir = __DIR__;
-  $files = array_map(function($file) use ($test_data_dir) {
-    return [
-      'name' => str_replace($test_data_dir . '/', '', $file),
-      'content' => file_get_contents($file)
-    ];
-  }, glob($test_data_dir . '/**/*.html'));
+$html_engine = 'v1'; // TODO: Command-line option
 
-  return $files;
+switch ($html_engine) {
+  case 'v1':
+  default:
+    $html = require_once __DIR__ . '/html-engine-v1.php';  
+    $html_parse = $html->parse;
+    $html_render = $html->render;
+  break;
 }
 
-function run_profile($action) {
-  // https://xdebug.org/docs/develop#related_settings_and_functions
-  $init_time = xdebug_time_index(); // seconds
-  $init_fn = xdebug_get_function_count();
-  $init_mem = xdebug_peak_memory_usage(); // xdebug_memory_usage();
+/**
+ * Run command
+ */
 
-  $action();
+switch ($argv[1] ?? '') {
 
-  return [
-    'duration' => xdebug_time_index() - $init_time,
-    'functions' => xdebug_get_function_count() - $init_fn - 1,
-    'memory' => xdebug_peak_memory_usage() - $init_mem,
-  ];
+  case 'profile':
+    require_once __DIR__ . '/profile.php';
+  break;
+  case 'snapshot':
+    require_once __DIR__ . '/snapshot.php';
+  break;
+  case 'help':
+  default:
+?>
+Usage: npm run test:html [command]
+
+Commands:
+
+profile         Run profiler
+snapshot        Create snapshots of correctly parsed and rendered HTML
+
+<?php
 }
-
-$html = require_once __DIR__ . '/html-module-v1.php';
-
-$files = get_test_html_files();
-
-$result = run_profile(function() use ($files, $html) {
-  foreach ($files as $file) {
-    $html->parse($file['content']);
-  }  
-});
-
-echo '### ' . date('Y-m-d') . "\n\n";
-echo "HTML engine: $html_engine_version - Parsed files: " . count($files) . "\n\n";
-
-echo "Time duration: " . $result['duration'] . " seconds\n";
-echo "Function calls: " . $result['functions'] . "\n";
-echo "Memory usage: " . $result['memory'] . "\n";
-echo "\n";

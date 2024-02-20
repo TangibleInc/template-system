@@ -1,0 +1,1 @@
+[{"raw":"<!DOCTYPE html public \"foo\"\"bar\">"},{"text":"\n"},{"tag":"title","attributes":{"keys":[]},"children":[{"text":"missing-whitespace-between-doctype-public-and-system-identifiers"}]},{"text":"\n"}]

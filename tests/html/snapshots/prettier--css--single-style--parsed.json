@@ -1,0 +1,1 @@
+[{"tag":"style","attributes":{"keys":[]},"children":[{"text":"a { color: red; }"}]},{"text":"\n"},{"tag":"style","attributes":{"keys":[]},"children":[{"text":"\n  h1 {\n    font-size: 120%;\n    font-family: Verdana, Arial, Helvetica, sans-serif;\n    color: #333366;\n  }\n"}]},{"text":"\n"}]

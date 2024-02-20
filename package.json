@@ -17,7 +17,6 @@
     "subrepo": "./tools/git-subrepo/bin",
     "// Local environment": "",
     "start": "wp-env start",
-    "start:xdebug": "wp-env start --xdebug=develop --update",
     "stop": "wp-env stop",
     "destroy": "wp-env destroy",
     "env": "wp-env",
@@ -27,13 +26,17 @@
     "// Test": "",
     "test": "wp-env run tests-wordpress /var/www/html/wp-content/plugins/template-system/vendor/bin/phpunit --testdox -c /var/www/html/wp-content/plugins/template-system/phpunit.xml --verbose",
     "test:all": "npm run test && npm run e2e",
-    "test:html": "wp-env run tests-wordpress php wp-content/plugins/template-system/tests/html/index.php",
     "test:watch": "chokidar '**/*.php' --initial --silent --ignore node_modules --ignore vendor -c 'wp-env run tests-wordpress /var/www/html/wp-content/plugins/template-system/vendor/bin/phpunit --testdox -c /var/www/html/wp-content/plugins/template-system/phpunit.xml --verbose'",
     "test:7.4": "WP_ENV_PHP_VERSION=7.4 wp-env start && npm run test",
     "test:8.2": "WP_ENV_PHP_VERSION=8.2 wp-env start && npm run test",
     "e2e": "playwright test",
     "e2e:watch": "chokidar 'tests/e2e/**/*.js' --initial --silent -c 'playwright test -- --retries=0'",
-    "e2e:ui": "playwright test --ui"
+    "e2e:ui": "playwright test --ui",
+    "// HTML profiler and snapshots - See /tests/html": "",
+    "start:xdebug": "wp-env start --xdebug=develop --update",
+    "html": "wp-env run tests-wordpress php wp-content/plugins/template-system/tests/html/index.php",
+    "html:profile": "wp-env run tests-wordpress php wp-content/plugins/template-system/tests/html/index.php profile",
+    "html:snapshot": "wp-env run tests-wordpress php wp-content/plugins/template-system/tests/html/index.php snapshot"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.1",
