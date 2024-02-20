@@ -1,0 +1,1 @@
+[{"raw":"<!DOCTYPE html>"},{"text":"\n"},{"tag":"title","attributes":{"keys":[]},"children":[{"text":"abrupt closing of empty comment"}]},{"text":"\nThis one: "},{"comment":">.\nAnd this one: <!-"},{"text":".\n"}]

@@ -1,0 +1,1 @@
+[{"tag":"a-long-long-long-element","attributes":{"keys":[]},"children":[{"text":"foo bar foo bar\n  foo bar foo bar foo bar foo bar foo bar\n  foo bar foo bar"}]},{"text":"\n"},{"comment":" The end tag should stay in 80 print width "},{"text":"\n"}]

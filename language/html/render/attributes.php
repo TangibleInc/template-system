@@ -114,13 +114,16 @@ $html->render_attributes_to_array = function($atts, $options = []) use ($html) {
 
 $html->should_render_attribute = function($key, $value) {
 
-  if (!is_string($value)) return false;
+  if (!is_string($value)
+    // Skip event handlers like onblur and onfocus
+    || str_starts_with($key, 'on')
+  ) return false;
 
   /**
    * Skip rendering attributes with JSON strings.
    *
-   * Notably, the style attribute is rendered to allow dynamic styles. The use of
-   * curly braces {} there is fine.
+   * Notably, the style attribute is rendered to allow dynamic styles. The use
+   * of curly braces {} there is fine.
    */
 
   $c = substr( $value, 0, 1 );

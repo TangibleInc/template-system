@@ -1,0 +1,1 @@
+[{"raw":"<!DOCTYPE html>"},{"text":"\n"},{"tag":"title","attributes":{"keys":[]},"children":[{"text":"abandoned-head-element-child"}]},{"text":"\n"},{"text":"\n"},{"tag":"script","attributes":{"keys":[]},"children":[{"text":"this.one.cant.be.here();"}]},{"text":"\n"}]

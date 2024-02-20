@@ -1,0 +1,1 @@
+[{"raw":"<!DOCTYPE html>"},{"text":"\n"},{"tag":"title","attributes":{"keys":[]},"children":[{"text":"unexpected-character-in-attribute-name"}]},{"text":"\n"},{"tag":"div","attributes":{"keys":["foo"]},"children":[{"text":"\n"}]}]

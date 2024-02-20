@@ -1,0 +1,1 @@
+[{"tag":"script","attributes":{"keys":[]},"children":[{"text":"alert('test');"}]},{"text":"\n"},{"tag":"script","attributes":{"keys":[]},"children":[{"text":"\n  document.getElementById(\"demo\").innerHTML = \"Hello JavaScript!\";\n"}]},{"text":"\n"}]

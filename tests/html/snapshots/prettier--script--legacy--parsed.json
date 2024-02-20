@@ -1,0 +1,1 @@
+[{"text":"\n"},{"tag":"script","attributes":{"keys":[]},"children":[{"text":"\n<!--\nalert(1)\n-->\n"}]},{"text":"\n\n"},{"tag":"script","attributes":{"keys":[]},"children":[{"text":"\n<!--\nalert(2)\n\/\/-->\n"}]},{"text":"\n"}]
