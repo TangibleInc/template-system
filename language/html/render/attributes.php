@@ -1,24 +1,24 @@
 <?php
+namespace tangible\html;
+use tangible\html;
 
 /**
  * For HTML tags - Render attributes to string
  */
-$html->render_attributes = function($atts, $options = []) use ($html) {
+function render_attributes($atts, $options = []) {
 
   $i = 0;
   $content = '';
 
   $atts = apply_filters('tangible_template_render_attributes', $atts);
 
-  $render_attribute_value = $html->render_attribute_value;
-
   if (isset($atts['tag-attributes'])) {
 
-    $value = $render_attribute_value('tag-attributes', $atts['tag-attributes']);
+    $value = html\render_attribute_value('tag-attributes', $atts['tag-attributes']);
     /**
      * Parse as tag attributes to support key, key=value
      */
-    $parsed = $html->parse('<div ' . $value . '></div>');
+    $parsed = html\parse('<div ' . $value . '></div>');
 
     if (!empty($parsed) && !empty($parsed[0]['attributes'])) {
       foreach ($parsed[0]['attributes'] as $key => $value) {
@@ -53,7 +53,7 @@ $html->render_attributes = function($atts, $options = []) use ($html) {
       $content .= $key;
     } else {
 
-      $value = $render_attribute_value($key, $value, $options);
+      $value = html\render_attribute_value($key, $value, $options);
 
       /**
        * Encode <, >, &, ” and ‘ characters. Will not double-encode entities.
@@ -73,17 +73,15 @@ $html->render_attributes = function($atts, $options = []) use ($html) {
 /**
  * For template tags - Render attributes to array
  */
-$html->render_attributes_to_array = function($atts, $options = []) use ($html) {
-
-  $render_attribute_value = $html->render_attribute_value;
+function render_attributes_to_array($atts, $options = []) {
 
   if (isset($atts['tag-attributes'])) {
 
-    $value = $render_attribute_value('tag-attributes', $atts['tag-attributes']);
+    $value = html\render_attribute_value('tag-attributes', $atts['tag-attributes']);
     /**
      * Parse as tag attributes to support key with/out value
      */
-    $parsed = $html->parse('<div ' . $value . '></div>');
+    $parsed = html\parse('<div ' . $value . '></div>');
 
     if (!empty($parsed) && !empty($parsed[0]['attributes'])) {
       foreach ($parsed[0]['attributes'] as $key => $value) {
@@ -103,7 +101,7 @@ $html->render_attributes_to_array = function($atts, $options = []) use ($html) {
 
   foreach ($atts as $key => $value) {
     if ($key === 'keys' || in_array($key, $skip_keys)) continue;
-    $atts[ $key ] = $render_attribute_value($key, $value, $options);
+    $atts[ $key ] = html\render_attribute_value($key, $value, $options);
   }
 
   // Always provide property "keys" so dynamic tags can check directly
@@ -112,7 +110,7 @@ $html->render_attributes_to_array = function($atts, $options = []) use ($html) {
   return $atts;
 };
 
-$html->should_render_attribute = function($key, $value) {
+function should_render_attribute($key, $value) {
 
   if (!is_string($value)
     // Skip event handlers like onblur and onfocus
@@ -142,14 +140,11 @@ $html->should_render_attribute = function($key, $value) {
   return true;
 };
 
-$html->render_attribute_value = function($key, $value, $options = []) use ($html) {
-
-  $should_render_attribute = $html->should_render_attribute;
-  $render = $html->render;
+function render_attribute_value($key, $value, $options = []) {
 
   if (
     (isset($options['render_attributes']) && ! $options['render_attributes'])
-    || ! $should_render_attribute($key, $value)
+    || ! html\should_render_attribute($key, $value)
   ) return $value;
 
   $pair = ['{', '}'];
@@ -157,7 +152,7 @@ $html->render_attribute_value = function($key, $value, $options = []) use ($html
 
   if (strpos($value, $pair[0])===false || strpos($value, $pair[1])===false) return $value;
 
-  $value = $render(
+  $value = html\render(
     str_replace(['<<', '>>'], $pair, // Double-brackets {{ }} to escape
       str_replace(array_merge($tag_pair, $pair), array_merge(['&lt;', '&gt;'], $tag_pair), $value)
     ),

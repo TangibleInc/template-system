@@ -1,8 +1,8 @@
 <?php
+namespace tangible\html;
+use tangible\html;
 
-$html->parse_nodes = function( $nodes, $options = [] ) use ( $html ) {
-
-  $parse_tag = $html->parse_tag;
+function parse_nodes( $nodes, $options = [] ) {
 
   $parsed_nodes = [];
 
@@ -14,7 +14,7 @@ $html->parse_nodes = function( $nodes, $options = [] ) use ( $html ) {
         // Comment
         : ( $node->isComment() ? [ 'comment' => $node->text ]
           // Tag
-          : ( $node->isRegularTag() ? $parse_tag( $node, $options )
+          : ( $node->isRegularTag() ? html\parse_tag( $node, $options )
             // Special tags or unknown
             : [ 'raw' => @$node->toString() ]
           )
@@ -25,12 +25,9 @@ $html->parse_nodes = function( $nodes, $options = [] ) use ( $html ) {
   }
 
   return $parsed_nodes;
-};
+}
 
-$html->parse_tag = function( $node, $options = [] ) use ( $html ) {
-
-  $parse_nodes = $html->parse_nodes;
-  $is_raw_tag  = $html->is_raw_tag;
+function parse_tag( $node, $options = [] ) {
 
   $tag = $node->tag;
 
@@ -73,10 +70,10 @@ $html->parse_tag = function( $node, $options = [] ) use ( $html ) {
   // Children
 
   if ( ! empty( $node->children ) ) {
-    $parsed_node['children'] = $parse_nodes(
+    $parsed_node['children'] = html\parse_nodes(
       $node->children,
       [
-        'preprocess' => ! $is_raw_tag( $parsed_node['tag'] ),
+        'preprocess' => ! html\is_raw_tag( $parsed_node['tag'] ),
       ] + $options
     );
   }

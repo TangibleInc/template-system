@@ -13,8 +13,8 @@ switch ($html_engine) {
   case 'v1':
   default:
     $html = require_once __DIR__ . '/html-engine-v1.php';  
-    $html_parse = $html->parse;
-    $html_render = $html->render;
+    $html_parse = 'tangible\\html\\parse';
+    $html_render = 'tangible\\html\\render';
   break;
 }
 

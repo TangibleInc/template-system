@@ -1,4 +1,6 @@
 <?php
+namespace tangible\html;
+use tangible\html;
 
 require_once __DIR__.'/tag.php';
 require_once __DIR__.'/attributes.php';
@@ -8,7 +10,9 @@ require_once __DIR__.'/attributes.php';
  * @param @nodes HTML string or parsed node(s)
  * @return string
  */
-$html->render = function($nodes, $options = []) use ($html) {
+function render($nodes, $options = []) {
+
+  $html = html::$state;
 
   // Support Exit tag
   if ($html->exit_from_current_template) return;
@@ -19,8 +23,7 @@ $html->render = function($nodes, $options = []) use ($html) {
   }
 
   if (is_string($nodes)) {
-    $parse = $html->parse;
-    $nodes = $parse($nodes);
+    $nodes = html\parse($nodes);
   } elseif (is_array($nodes)) {
     if (isset($nodes['tag'])) {
       // Single tag - render_nodes expects an array of tags
@@ -31,25 +34,24 @@ $html->render = function($nodes, $options = []) use ($html) {
     $nodes = [];
   }
 
-  $render_nodes = $html->render_nodes;
-  $rendered = $render_nodes( $nodes, $options );
+  $rendered = html\render_nodes( $nodes, $options );
 
   return $rendered;
 };
 
+function render_nodes($nodes, $options = []) {
 
-$html->render_nodes = function($nodes, $options = []) use ($html) {
+  $html = html::$state;
 
   // Support Exit tag
   if ($html->exit_from_current_template) return;
 
   $result = '';
-  $render_tag = $html->render_tag;
 
   foreach ($nodes as $node) {
     $value = isset($node['tag'])
       // Dynamic or static HTML tag
-      ? $render_tag(
+      ? html\render_tag(
 
         $node['tag'],
 
@@ -97,11 +99,9 @@ $html->render_nodes = function($nodes, $options = []) use ($html) {
 /**
  * Render to string, treating dynamic tags as "raw"
  */
-$html->render_raw = function($nodes = [], $options = []) use ($html) {
+function render_raw($nodes = [], $options = []) {
 
-  $render = $html->render;
-
-  return $render($nodes, $options+[
+  return html\render($nodes, $options+[
     'render_raw' => true,
   ]);
 };

@@ -1,18 +1,17 @@
 <?php
-
-namespace Tangible\HTML;
+namespace tangible\html;
+use tangible\html;
 
 require_once __DIR__ . '/node.php';
 
-$html->parser = require_once __DIR__ . '/parser/index.php';
+html::$state->parser = require_once __DIR__ . '/parser/index.php';
 
-$html->parse = function( $content, $options = [] ) use ( $html ) {
+function parse( $content, $options = [] ) {
 
   if (empty( $content ) && $content !== '0') return [];
 
   $tree        = [];
-  $parser      = $html->parser;
-  $parse_nodes = $html->parse_nodes;
+  $parser      = html::$state->parser;
 
   try {
     $tree = $parser( $content );
@@ -23,8 +22,8 @@ $html->parse = function( $content, $options = [] ) use ( $html ) {
 
   if (empty( $tree )) return [];
 
-  return $parse_nodes( $tree, $options );
-};
+  return html\parse_nodes( $tree, $options );
+}
 
 /**
  * Remove limit for maximum nesting level

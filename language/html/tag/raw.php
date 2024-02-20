@@ -1,4 +1,6 @@
 <?php
+namespace tangible\html;
+use tangible\html;
 
 /**
  * Raw tags have *unparsed* content.
@@ -6,13 +8,15 @@
 
 $html->raw_tags = [];
 
-$html->is_raw_tag = function( $tag ) use ( $html ) {
-  return isset( $html->raw_tags[ $tag ] );
+function is_raw_tag( $tag ) {
+  return isset( html::$state->raw_tags[ $tag ] );
 };
 
-$html->add_raw_tag = function( $tag, $callback, $options = [] ) use ( $html ) {
+function add_raw_tag( $tag, $callback, $options = [] ) {
 
-  $html->add_open_tag( $tag, $callback, [ 'raw' => true ] + $options );
+  $html = html::$state;
+
+  html\add_open_tag( $tag, $callback, [ 'raw' => true ] + $options );
 
   if ( ! isset( $html->raw_tags[ $tag ] ) ) {
     $html->raw_tags[ $tag ] = true;

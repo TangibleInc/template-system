@@ -1,11 +1,15 @@
 <?php
+namespace tangible\html;
+use tangible\html;
 
 $html->tag_context = [
   'local_tags' => [],
   'path' => ''
 ];
 
-$html->render_tag = function($tag, $atts, $children = [], $options = []) use ($html) {
+function render_tag($tag, $atts, $children = [], $options = []) {
+
+  $html = html::$state;
 
   // Create tag context
 
@@ -64,9 +68,6 @@ $html->render_tag = function($tag, $atts, $children = [], $options = []) use ($h
 
       // Dynamic tag
 
-      $render_attributes_to_array = $html->render_attributes_to_array;
-      $render_nodes = $html->render_nodes;
-
       /**
        * Exception to not render specific attributes
        */
@@ -75,14 +76,14 @@ $html->render_tag = function($tag, $atts, $children = [], $options = []) use ($h
         $options[$key] = $tag_config[$key];        
       }
 
-      $attributes = $render_attributes_to_array($atts, $options);
+      $attributes = html\render_attributes_to_array($atts, $options);
       $content = $callback( $attributes, $children, $html->tag_context );
 
       // If closed tag - supports local tags of different type (open/closed)
       if (isset($tag_config['closed']) && $tag_config['closed']) {
         if (is_null($content)) $content = '';
         elseif (!is_string($content)) $content = json_encode($content);
-        $content .= $render_nodes( $children );
+        $content .= html\render_nodes( $children );
       }
     }
 
@@ -90,16 +91,12 @@ $html->render_tag = function($tag, $atts, $children = [], $options = []) use ($h
 
     // Default tag - render as HTML string
 
-    $render_attributes = $html->render_attributes;
-    $is_closed_tag = $html->is_closed_tag;
-    $render_nodes = $html->render_nodes;
-
     $content = "<{$tag}";
 
-    $attributes = trim( $render_attributes($atts, $options) );
+    $attributes = trim( html\render_attributes($atts, $options) );
     if (!empty($attributes)) $content .= ' '.$attributes;
 
-    if ($is_closed_tag($tag)) {
+    if (html\is_closed_tag($tag)) {
 
       $content .= " />";
 
@@ -107,7 +104,7 @@ $html->render_tag = function($tag, $atts, $children = [], $options = []) use ($h
 
       $inner_content = empty($children) ? ''
         : (is_array($children)
-          ? $render_nodes(
+          ? html\render_nodes(
               $children,
               // Render children of raw tag?
               array_merge($options, [
@@ -128,11 +125,9 @@ $html->render_tag = function($tag, $atts, $children = [], $options = []) use ($h
   return $content;
 };
 
-$html->render_raw_tag = function($tag, $atts, $children = [], $options = []) use ($html) {
+function render_raw_tag($tag, $atts, $children = [], $options = []) {
 
-  $render_tag = $html->render_tag;
-
-  return $render_tag($tag, $atts, $children, $options+[
+  return html\render_tag($tag, $atts, $children, $options+[
     'render_raw_tag' => true,
   ]);
 };

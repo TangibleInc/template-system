@@ -1,4 +1,6 @@
 <?php
+namespace tangible\html;
+use tangible\html;
 
 /**
  * Closed tags have no content, and use "/>" to close itself.
@@ -27,20 +29,25 @@ $html->closed_tags = array_reduce([
   return $tags;
 }, []);
 
-$html->is_closed_tag = function( $tag ) use ( $html ) {
+function is_closed_tag( $tag ) {
+  $html = html::$state;
   return isset( $html->closed_tags[ $tag ] );
-};
+}
 
-$html->add_closed_tag = function( $tag, $callback, $options = [] ) use ( $html ) {
+function add_closed_tag( $tag, $callback, $options = [] ) {
 
-  $html->add_open_tag( $tag, $callback, $options + [ 'closed' => true ] );
+  $html = html::$state;
+
+  html\add_open_tag( $tag, $callback, $options + [ 'closed' => true ] );
 
   if ( ! isset( $html->closed_tags[ $tag ] ) ) {
     $html->closed_tags[ $tag ] = true;
   }
-};
+}
 
-$html->get_all_closed_tag_names = function() use ( $html ) {
+function get_all_closed_tag_names() {
+
+  $html = html::$state;
 
   $closed_tags = [];
 

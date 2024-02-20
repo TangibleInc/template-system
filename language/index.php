@@ -13,13 +13,14 @@ use tangible\template_system;
 use tangible\ajax;
 use tangible\date;
 use tangible\select;
+use tangible\html;
 
 if ( ! function_exists( 'tangible_template' ) ) :
   function tangible_template( $arg = false ) {
     static $html;
     return !$html
       ? ( $html = $arg )
-      : ( $arg !== false ? $html->render_with_catch_exit( $arg ) : $html );
+      : ( $arg !== false ? html\render_with_catch_exit( $arg ) : $html );
   }
 endif;
 
@@ -37,13 +38,11 @@ return tangible_template(new class extends stdClass {
     $this->version = $this->system->version;
 
     /**
-     * Template module base is called HTML module
-     *
-     * It used to be bundled in the plugin framework, but was moved into
-     * the Template System to remove dependency, and for ease of development.
-     *
-     * HTML features are used by the Loop module, for example, to build
-     * an image tag with attributes.
+     * HTML module is the basis of Template module.
+     * 
+     * It used to be a separate module in the plugin framework. Its features
+     * are used by the Loop module, for example, to build an image tag with
+     * attributes.
      */
     $this->html = $html = $this;
 

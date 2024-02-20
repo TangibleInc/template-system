@@ -1,4 +1,6 @@
 <?php
+namespace tangible\html;
+use tangible\html;
 
 $html->tags = [
   // tag => [ callback => function, local_tags => [] ]
@@ -9,11 +11,13 @@ require_once __DIR__ . '/closed.php';
 require_once __DIR__ . '/raw.php';
 
 // Tags are closed by default, like <field>
-$html->add_tag = $html->add_closed_tag;
+$html->add_tag = __NAMESPACE__ . '\\add_closed_tag';
 
 $html->all_tag_names = null;
 
-$html->get_all_tag_names = function( $include_local_tags = true ) use ( $html ) {
+function get_all_tag_names( $include_local_tags = true ) {
+
+  $html = html::$state;
 
   // Cached
   if ($html->all_tag_names !== null) return $html->all_tag_names;

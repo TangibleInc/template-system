@@ -1,10 +1,14 @@
 <?php
+namespace tangible\html;
+use tangible\html;
 
 /**
  * Open tags have content, with </tag> to close.
  */
 
-$html->add_open_tag = function( $tag, $callback, $options = [] ) use ( $html ) {
+function add_open_tag( $tag, $callback, $options = [] ) {
+
+  $html = html::$state;
 
   if ( ! is_callable( $callback ) ) {
     trigger_error( "Tag \"$tag\" must have valid callback", E_USER_WARNING );
