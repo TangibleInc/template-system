@@ -13,7 +13,8 @@ process.env.STORAGE_STATE_PATH ??= path.join(
 /**
  * Based on https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/config/playwright.config.js
  *
- * Copied to avoid having to install @wordpress/script which comes with many unnecessary dependencies.
+ * Copied to avoid having to install @wordpress/script which comes with many
+ * unnecessary dependencies.
  */
 const config = defineConfig({
   reporter: process.env.CI ? [['github']] : [['list']],

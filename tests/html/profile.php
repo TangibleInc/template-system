@@ -30,7 +30,9 @@ function format_memory($memory) {
 
 $files = get_test_html_files();
 
-// Profile: Parse
+/**
+ * Profile: Parse
+ */
 $result = run_profile(function() use ($files, $html_parse, $html_render) {
   foreach ($files as $file) {
     $file['content'] = $html_parse($file['content']);
@@ -45,7 +47,9 @@ $parse_time = $result['duration'];
 $parse_memory = $result['memory'];
 $parse_functions = $result['functions'];
 
-// Profile: Render
+/**
+ * Profile: Render
+ */
 $result = run_profile(function() use ($files, $html_parse, $html_render) {
   foreach ($files as $file) {
     $html_render($file['content']);
@@ -56,6 +60,9 @@ $render_time = $result['duration'];
 $render_memory = $result['memory'];
 $render_functions = $result['functions'];
 
+/**
+ * Report
+ */
 echo '### ' . date('Y-m-d') . "\n\n";
 echo "HTML engine:    $html_engine \n";
 echo "Parsed files:   " . count($files) . "\n";

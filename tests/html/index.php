@@ -33,7 +33,7 @@ switch ($argv[1] ?? '') {
   case 'help':
   default:
 ?>
-Usage: npm run test:html [command]
+Usage: npm run html [command]
 
 Commands:
 
