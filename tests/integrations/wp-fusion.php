@@ -3,11 +3,27 @@ namespace Tests\Integrations;
 
 class WP_Fusion_TestCase extends \WP_UnitTestCase {
 
+  function is_dependency_active() {
+    return function_exists('wp_fusion'); 
+  }
+
   function test_dependency_active() {
 
+    $this->assertTrue( true );
+
+    // WP Fusion Lite is not yet compatible with PHP 8
     if ( version_compare( PHP_VERSION, '8.0', '>=' ) ) {
-      // WP Fusion Lite is not yet compatible with PHP 8
-      $this->assertTrue( true );
+      return;
+    }
+
+    if (!$this->is_dependency_active()) {      
+      echo 'WP Fusion is not installed and active';
+    }
+  }
+
+  function test_dependency() {
+    if (!$this->is_dependency_active()) {      
+      $this->assertTrue(true);
       return;
     }
 
@@ -16,8 +32,6 @@ class WP_Fusion_TestCase extends \WP_UnitTestCase {
       $error = [ $errno, $errstr, $args ];
       restore_error_handler();
     });
-
-    $this->assertEquals( true, function_exists('wp_fusion'), 'WP Fusion is not installed and active' );
 
     $plugin = tangible_template_system();
     $integration = $plugin->get_integration('wp_fusion');

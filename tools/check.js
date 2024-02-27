@@ -1,20 +1,9 @@
-import util from 'node:util'
-import { exec as execSync } from 'node:child_process'
-
-const execAsync = util.promisify(execSync)
-const exec = async (...args) => {
-  try {
-    const { stdout, stderr } = await execAsync(...args)
-    return [stdout, stderr]
-  } catch (e) {
-    return [null, e.message]
-  }
-}
+import { run } from './common'
 
 ;(async () => {
 
   // Ensure Plugin Check plugin is installed
-  let [stdout, stderr] = await exec(`npx wp-env --quiet run tests-cli bash -c "
+  let [stdout, stderr] = await run(`npx wp-env --quiet run tests-cli bash -c "
 if [ -d wp-content/plugins/plugin-check ]; then
   echo 'Plugin Check plugin is installed';
   wp plugin activate plugin-check;
@@ -35,7 +24,7 @@ fi
   // console.log(stderr || stdout)
   // Continue either way because with wp-env, successful result still outputs to stderr
 
-  ;[stdout, stderr] = await exec(`npx wp-env run tests-cli wp plugin check template-system -- --format=json`)
+  ;[stdout, stderr] = await run(`npx wp-env run tests-cli wp plugin check template-system -- --format=json`)
 
   // console.log(stderr || stdout)
 

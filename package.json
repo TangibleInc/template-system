@@ -14,6 +14,7 @@
     "check": "node tools/check.js",
     "version": "node tools/version.js",
     "list": "node tools/list-modules.js",
+    "download:vendor": "node ./tools/install.js",
     "subrepo": "./tools/git-subrepo/bin",
     "// Local environment": "",
     "start": "wp-env start",
@@ -47,5 +48,11 @@
     "@wordpress/env": "^9.0.0",
     "chokidar-cli": "^3.0.0",
     "globby": "^14.0.0"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "useTabs": false
   }
 }
