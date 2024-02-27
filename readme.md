@@ -96,6 +96,7 @@ To run the tests, we use [wp-env](https://developer.wordpress.org/block-editor/r
 
 Please note that `wp-env` requires Docker to be installed. There are instructions available for installing it on [Windows](https://docs.docker.com/desktop/install/windows-install/), [macOS](https://docs.docker.com/desktop/install/mac-install/), and [Linux](https://docs.docker.com/desktop/install/linux-install/). If you're on Windows, you might have to use [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) to run the tests (see [this comment](https://bitbucket.org/tangibleinc/tangible-fields-module/pull-requests/30#comment-389568162)).
 
+
 ### Prepare
 
 Start the local server environment.
@@ -116,6 +117,7 @@ npm run env:composer
 
 This runs `composer install` in the container.
 
+
 #### Install plugin dependencies
 
 This step is optional. Run the following to install plugin dependencies such as Advanced Custom Fields, Beaver Builder, Elementor, and WP Fusion.
@@ -124,13 +126,16 @@ This step is optional. Run the following to install plugin dependencies such as 
 npm run deps all
 ```
 
-They will be downloaded in the folder `vendor/tangible`. Existing plugins will be skipped. Pass the the option `--update` to update them to the latest version.
+They will be downloaded in the folder `vendor/tangible`. Existing plugins will be skipped. Pass the the option `--update` to re-download their latest version.
 
 ```sh
 npm run deps all --update
 ```
 
 You can install and update plugins individually. Run `npm run deps` to see the help screen.
+
+After install, the command updates the file `.wp-env.override.json` to map the local plugin folders to the Docker container. Run `npm run start` to restart the server.
+
 
 ### Run tests
 
