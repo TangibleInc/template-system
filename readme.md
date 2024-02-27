@@ -36,7 +36,6 @@ npm install
 
 If you want to contribute to the GitHub repo, [create a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests). Tangible team members can clone from `git@github.com:tangibleinc/template-system`, and pull request from a feature branch.
 
-
 ## Develop
 
 #### Build for production
@@ -116,6 +115,22 @@ npm run env:composer
 ```
 
 This runs `composer install` in the container.
+
+#### Install plugin dependencies
+
+This step is optional. Run the following to install plugin dependencies such as Advanced Custom Fields, Beaver Builder, Elementor, and WP Fusion.
+
+```sh
+npm run deps all
+```
+
+They will be downloaded in the folder `vendor/tangible`. Existing plugins will be skipped. Pass the the option `--update` to update them to the latest version.
+
+```sh
+npm run deps all --update
+```
+
+You can install and update plugins individually. Run `npm run deps` to see the help screen.
 
 ### Run tests
 

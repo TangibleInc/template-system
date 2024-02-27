@@ -1,3 +1,6 @@
+/**
+ * Plugin dependencies
+ */
 import fs from 'node:fs/promises'
 import { run } from './common.js'
 
@@ -32,7 +35,24 @@ const fileExists = async (file) => {
   const vendorFolder = `./vendor/tangible`
 
   if (!args.length) {
-    args.push('all')
+    console.log(`Install plugin dependencies
+
+Usage: npm run deps [...plugins] [--update]
+
+Available plugins: all ${Object.keys(availableDownloads).join(' ')}
+
+Options:
+  --update  Update to newest version even if plugin is already downloaded
+
+Examples:
+
+  npm run deps all             Download all plugins
+  npm run deps all --update    Update all plugins
+
+  npm run deps acf             Download single plugin
+  npm run deps acf  --update   Update single plugin
+`)
+    return
   }
 
   if (args[0] === 'all') {
@@ -68,8 +88,6 @@ const fileExists = async (file) => {
   }
 
   if (downloads.length) {
-
-
 
     const command = `npx wp-env run ${container} bash -c "
   cd wp-content/plugins/template-system &&
