@@ -6,6 +6,7 @@ This is the template system shared by Tangible Blocks and Loops & Logic.
 
 **Documentation**: https://docs.loopsandlogic.com/reference/template-system/
 
+
 ## Overview
 
 The codebase is organized by feature areas, which are made up of modules.
@@ -17,6 +18,9 @@ The codebase is organized by feature areas, which are made up of modules.
 - [Framework](../framework/) - Features shared across plugins, such as AJAX, Date, HJSON
 
 Each module should aim to be generally useful, clarify its dependencies internal and external, and ideally be well-documented and tested. Some are published as NPM (JavaScript) or Composer (PHP) package.
+
+See section [Folder Structure](#folder-structure) for a more detailed view.
+
 
 ## Getting started
 
@@ -31,6 +35,7 @@ npm install
 ```
 
 If you want to contribute to the GitHub repo, [create a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests). Tangible team members can clone from `git@github.com:tangibleinc/template-system`, and pull request from a feature branch.
+
 
 ## Develop
 
@@ -215,3 +220,118 @@ Examples of how to write end-to-end tests:
 
 - WordPress E2E tests - https://github.com/WordPress/wordpress-develop/blob/trunk/tests/e2e
 - Gutenberg E2E tests - https://github.com/WordPress/gutenberg/tree/trunk/test/e2e
+
+
+## Folder structure
+
+```js
+.
+├── admin                      // Admin features
+│   │
+│   ├── editor                 // Template editor
+│   ├── import-export          // Import/export
+│   ├── location               // Template location
+│   ├── post-types             // Template post types
+│   ├── settings               // Plugin settings
+│   ├── template-assets        // Template assets
+│   ├── template-post          // Template post
+│   └── universal-id           // Universal ID
+│
+├── editor                     // Code editor
+│
+├── framework                  // Framework module shared by plugins
+│   │
+│   ├── admin                  // Admin features 
+│   ├── ajax                   // AJAX
+│   ├── api                    // API
+│   ├── auth                   // Authentication
+│   ├── date                   // Date module based on Carbon library
+│   ├── format                 // Format methods
+│   ├── hjson                  // Human JSON
+│   ├── html                   // New streaming HTML parser and renderer 
+│   ├── interface              // Interface module (backward compatibility)
+│   ├── log                    // Logger
+│   ├── object                 // Object module (backward compatibility)
+│   ├── plugin                 // Plugin features
+│   ├── preact                 // Preact
+│   └── select                 // Select2 (forked)
+│
+├── integrations               // Vendor integrations
+│   │
+│   ├── advanced-custom-fields // Advanced custom fields
+│   ├── beaver                 // Beaver Builder
+│   ├── elementor              // Elementor
+│   ├── gutenberg              // Gutenberg
+│   ├── tangible-fields        // Tangible Fields
+│   ├── themes                 // Themes
+│   ├── third-party            // Third-party extension interface
+│   ├── wp-fusion              // WP Fusion
+│   └── wp-grid-builder        // WP Grid Builder
+│
+├── language                   // Template language
+│   │
+│   ├── format                 // Format methods
+│   ├── html                   // HTML parser and renderer
+│   ├── logic                  // Logic rules for If tag
+│   └── tags                   // Dynamic tags
+│
+├── logic                      // Logic module
+│
+├── loop
+│   └── types                  // Loop types
+│       │
+│       ├── attachment         // Attachment
+│       ├── base               // Base loop class
+│       ├── calendar           // Calendar
+│       ├── comment            // Comment
+│       ├── field              // Field loop
+│       ├── list               // List 
+│       ├── map                // Map
+│       ├── menu               // Menu
+│       ├── post               // Post, page, custom post type
+│       ├── taxonomy           // Taxonomy
+│       ├── taxonomy-term      // Taxonomy term
+│       ├── type               // Post type
+│       └── user               // User
+│
+├── modules                    // Feature modules
+│   │
+│   ├── async                  // Async
+│   ├── cache                  // Cache
+│   ├── calendar               // Calendar
+│   ├── chart                  // Chart
+│   ├── codemirror-v5          // CodeMirror v5 (legacy)
+│   ├── content                // Content types and fields
+│   ├── date-picker            // Date picker
+│   ├── embed                  // Embed
+│   ├── form                   // Form
+│   ├── glider                 // Glider image gallery
+│   ├── hyperdb                // HyperDB
+│   ├── markdown               // Markdown
+│   ├── math                   // Math
+│   ├── mermaid                // Mermaid diagram language
+│   ├── mobile-detect          // Mobile detect
+│   ├── module-loader          // Dynamic module loader
+│   ├── paginator              // Paginator
+│   ├── prism                  // Prism syntax highlighter
+│   ├── sass                   // Sass compiler
+│   ├── site-structure         // Site structure
+│   ├── slider                 // Slider
+│   ├── sortable               // Sortable
+│   └── table                  // Table
+│
+├── tests
+│   ├── e2e                    // End-to-end tests with Playwright
+│   ├── empty-block-theme      // Empty block theme for testing
+│   ├── html                   // HTML test suite
+│   └── integrations           // Integration tests with third-party plugins
+│
+└── tools
+    └── git-subrepo            // Tool to manage Git subrepos
+```
+
+Above reference based on output of `tree`.
+
+```sh
+$ tree -I vendor -I node_modules -I artifacts --gitignore -d -L 2
+```
