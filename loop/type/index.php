@@ -7,7 +7,7 @@ require_once __DIR__ . '/register.php';
 /**
  * Create loop of type
  */
-$loop->create_type = function( $type_name, $args = [] ) use ( $loop ) {
+$loop->create_type = function( $type_name, $args = [], $context = [] ) use ( $loop ) {
 
   /**
    * Support fields that return a loop instance
@@ -100,16 +100,16 @@ $loop->create_type = function( $type_name, $args = [] ) use ( $loop ) {
     $args = $args + [ 'type' => $type_name ];
   }
 
-  $context = $type['create']( $args );
+  $instance = $type['create']( $args, $context );
 
-  if ( is_array( $context ) ) {
+  if ( is_array( $instance ) ) {
 
     // Create function can return array of items
 
-    $context = new \Tangible\Loop\BaseLoop( $context );
+    $instance = new \Tangible\Loop\BaseLoop( $instance );
   }
 
-  return $context;
+  return $instance;
 };
 
 /**

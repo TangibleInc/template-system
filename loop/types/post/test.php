@@ -64,13 +64,13 @@ $test('Post loop: Field of another loop type', function( $it ) use ( $loop, $htm
     } else {
 
       $it( "Field $field is an instance of known loop type", false );
-      tagible\see( 'Field of unknown loop type: ' . $field, $value );
+      \tangible\see( 'Field of unknown loop type: ' . $field, $value );
       continue;
     }
 
     if ( ! $value->has_next() ) {
       $it( "$field is empty", true );
-      // tagible\see( 'Field: '.$field, $value );
+      // \tangible\see( 'Field: '.$field, $value );
       continue;
     }
 

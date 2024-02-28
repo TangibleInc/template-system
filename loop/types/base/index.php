@@ -155,7 +155,6 @@ class BaseLoop extends \StdClass implements BaseLoopInterface {
     }
 
     // Sort by field
-
     if ( ! empty( $this->sort_field ) ) {
       $this->sort_by_field(
         $this->sort_field,
@@ -270,6 +269,8 @@ class BaseLoop extends \StdClass implements BaseLoopInterface {
 
       $this->filter_fields [] = $field;
     }
+
+    // Sort by field
 
     if ( isset( $args['sort_field'] ) ) {
       $this->sort_field = $args['sort_field'];
@@ -523,6 +524,14 @@ class BaseLoop extends \StdClass implements BaseLoopInterface {
       if ( ! isset( $item[ $field_name ] )) return;
       return $item[ $field_name ];
     }
+
+    /**
+     * Special field name `value` gets the item itself
+     * This supports `sort_field=value` for lists of string, number, etc. 
+     */
+    if ($field_name==='value') {
+      return $item;
+    } 
   }
 
   // Pagination

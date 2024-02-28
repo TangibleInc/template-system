@@ -247,7 +247,11 @@ $html->create_loop_tag_context = function( $atts ) use ( $loop, $html ) {
     /**
      * Data types
      *
-     * From variable name of that type, or JSON string for raw data
+     * Get value from variable name of that type, or JSON string for raw data.
+     * 
+     * For backward compatibility, the loop type class (ListLoop, etc.) expects to be created
+     * with its query arguments being the items themselves. Pass the tag attributes as additional 
+     * options to the class constructor. @see /loop/types/list/index.php
      */
 
     $data      = [];
@@ -270,12 +274,19 @@ $html->create_loop_tag_context = function( $atts ) use ( $loop, $html ) {
         );
       }
     } elseif ( $type_name === 'list' && isset( $atts['items'] ) ) {
-        return $loop->create_type($type_name,
-        format\multiple_values($atts['items'])
+      return $loop->create_type(
+        $type_name,
+        format\multiple_values($atts['items']),
+        $atts
       );
     }
 
-    return $loop->create_type( $type_name, $data );
+    // Create query arguments from tag attributes
+    unset($atts['keys']);
+    unset($atts['type']);
+    unset($atts[ $type_name ]);
+
+    return $loop->create_type( $type_name, $data, $atts );
 
   } elseif ( $type_name === 'calendar' ) {
     $type_name = 'calendar_' . $atts['calendar'];

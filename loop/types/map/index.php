@@ -5,7 +5,7 @@ namespace Tangible\Loop;
 /**
  * Loop over a map of key-value pairs
  *
- * Technically not a loop, since it's always a single item.
+ * It's a loop with a single item.
  */
 
 class MapLoop extends ListLoop {
@@ -16,12 +16,8 @@ class MapLoop extends ListLoop {
     'category' => 'core',
   ];
 
-  function run_query( $args = [] ) {
-    return $args;
-  }
-
-  function get_items_from_query( $args ) {
-    return [ $args ];
+  function get_items_from_query( $query ) {
+    return [ $query ];
   }
 };
 

@@ -14,12 +14,14 @@ class ListLoop extends BaseLoop {
     'category' => 'core',
   ];
 
-  function run_query( $args = [] ) {
-    return $args;
+  function __construct($items = [], $args = []) {
+    // Backward-compatible way to support query parameters  
+    $args['query'] = $items;
+    parent::__construct($args);
   }
 
-  function get_items_from_query( $args ) {
-    return $args;
+  function get_items_from_query( $query ) {
+    return $query;
   }
 
   /**
@@ -32,7 +34,11 @@ class ListLoop extends BaseLoop {
 
     // Support passing JSON string
     if ( is_string( $item ) ) {
-      $item = @json_decode( $item, true );
+      try {
+        $item = json_decode( $item, true );
+      } catch (\Throwable $th) {
+        // OK
+      }
     }
 
     // By default, get field from object or associative array
@@ -47,6 +53,14 @@ class ListLoop extends BaseLoop {
     if ( is_array( $item ) ) {
       if ( ! isset( $item[ $field_name ] )) return;
       return $item[ $field_name ];
+    }
+
+    /**
+     * Special field name `value` gets the item itself
+     * This supports `sort_field=value` for lists of string, number, etc. 
+     */
+    if ($field_name==='value') {
+      return $item;
     }
   }
 

@@ -67,7 +67,8 @@ $html->loop_tag = function($atts, $nodes = []) use ($loop, $html) {
 
   $result = '';
   $current_loop->loop(function() use ($html, &$result, &$nodes) {
-    $result .= $html->render($nodes);
+    // Remove first newline(s) after opening <Loop>
+    $result .= ltrim($html->render($nodes), "\n");
   });
 
   // Pagination markup - Skip when inside paginator request

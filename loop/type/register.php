@@ -38,8 +38,8 @@ $loop->register_type = function( $config ) use ( $loop ) {
 
       // Default loop type creator
 
-      $config['create'] = function( $args ) use ( $classname ) {
-        return new $classname( $args );
+      $config['create'] = function( $args, $context = [] ) use ( $classname ) {
+        return new $classname( $args, $context );
       };
     }
 

@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../html/common.php';
 /**
  * HTML module: Verify parse and render against snapshots in test suite
  */
-class HTML_Verify_Snapshots extends \WP_UnitTestCase {
+class HTML_Test_Suite_Verify_Snapshots extends \WP_UnitTestCase {
 
   function test_html_parse() {
 

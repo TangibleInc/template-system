@@ -81,7 +81,7 @@ $html->list_item_tag = function( $atts, $nodes ) use ( $html ) {
   $html->current_list [] = $html->render( $nodes );
 };
 
-$html->list_tag = function( $atts, $nodes ) use ( $html ) {
+$html->list_tag = function( $atts, $nodes ) use ( $html, $loop ) {
 
   if ( isset( $atts['name'] ) ) {
     $name = $atts['name'];
@@ -143,7 +143,7 @@ $html->list_tag = function( $atts, $nodes ) use ( $html ) {
     if ( isset( $atts['keys'] ) && in_array( 'push', $atts['keys'] ) ) {
       // Push to existing array, if any
       $prev_list          = $html->get_list( $name );
-    $html->current_list = array_merge(
+      $html->current_list = array_merge(
         $prev_list,
         $html->current_list
       );
@@ -176,6 +176,12 @@ $html->list_tag = function( $atts, $nodes ) use ( $html ) {
     $html->current_list [] = $list;
     return;
   }
+
+  /**
+   * Create list loop to apply offset, count, sort, filter, pagination
+   */
+  $list_loop = $loop->create_type('list', $list, $atts);
+  $list = $list_loop->items;
 
   // Support passing to other tags
   return json_encode( (array) $list );
