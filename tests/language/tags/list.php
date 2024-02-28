@@ -62,4 +62,43 @@ class List_TestCase extends \WP_UnitTestCase {
       $result
     );
   }
+
+  function test_list_count() {
+
+    $html = tangible_template();
+
+    $html->render(<<<'HTML'
+    <List numbers>
+      <Item>1</Item>
+      <Item>2</Item>
+      <Item>3</Item>
+      <Item>4</Item>
+      <Item>5</Item>
+    </List>
+    HTML);
+
+    // All items
+
+    $result = $html->render(<<<'HTML'
+    <Loop list=numbers><Field /></Loop>
+    HTML);
+
+    $this->assertEquals('12345', $result);
+
+    // Count
+
+    $result = $html->render(<<<'HTML'
+    <Loop list=numbers count=3><Field /></Loop>
+    HTML);
+
+    $this->assertEquals('123', $result);
+
+    // Count and offset
+
+    $result = $html->render(<<<'HTML'
+    <Loop list=numbers count=3 offset=1><Field /></Loop>
+    HTML);
+
+    $this->assertEquals('234', $result);
+  }
 }
