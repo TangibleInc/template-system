@@ -5,8 +5,6 @@
 
 namespace tangible;
 
-use tangible\template_system;
-
 class template_system {
 
   static $state;
@@ -31,12 +29,19 @@ template_system::$state = (object) [
 
 require_once __DIR__ . '/framework/index.php';
 
-template_system::$system = $system; // From /admin/system
-template_system::$loop   = require_once __DIR__ . '/loop/index.php';
-template_system::$logic  = require_once __DIR__ . '/logic/index.php';
-template_system::$html   = require_once __DIR__ . '/language/index.php';
+template_system::$system = $plugin = $system; // From /admin/system
+template_system::$loop   = $loop   = require_once __DIR__ . '/loop/index.php';
+template_system::$logic  = $logic  = require_once __DIR__ . '/logic/index.php';
+template_system::$html   = $html   = require_once __DIR__ . '/language/index.php';
+
+\Tangible\Loop\BaseLoop::$html = $html;
+
+require_once __DIR__ . '/modules/index.php';
+require_once __DIR__ . '/integrations/index.php';
 
 // Features depend on above core modules
 
 require_once __DIR__ . '/admin/index.php';
 require_once __DIR__ . '/editor/index.php';
+require_once __DIR__ . '/content/index.php';
+require_once __DIR__ . '/form/index.php';

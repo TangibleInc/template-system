@@ -19,12 +19,12 @@ The codebase is organized by feature areas, which are made up of modules.
 
 Each module should aim to be generally useful, clarify its dependencies internal and external, and ideally be well-documented and tested. Some are published as NPM (JavaScript) or Composer (PHP) package.
 
-See section [Folder Structure](#folder-structure) for a more detailed view.
+See section [Folder Structure](#folder-structure) for a detailed view.
 
 
 ## Getting started
 
-Prerequisites: [Node.js](https://nodejs.org/en/)
+Prerequisites: [Git](https://git-scm.com/) and [Node.js](https://nodejs.org/en/)
 
 Clone the repository, and install dependencies.
 

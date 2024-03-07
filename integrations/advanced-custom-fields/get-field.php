@@ -1,12 +1,15 @@
 <?php
 
 /**
- * ACF field
+ * Get ACF field value
  *
  * @see https://www.advancedcustomfields.com/resources/#field-types
  * @see https://www.advancedcustomfields.com/resources/get_field/
  *
- * @see /integrations/advanced-custom-fields/logic/rules.php
+ * @see ./logic/index.php
+ * @see /language/tags/field
+ * @see /language/tags/loop/context
+ * @see /language/tags/loop/loop-variable
  * @see /content/field-group/field.php
  */
 

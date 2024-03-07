@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . '/acf.php';
-
 $html->field_tag = function( $atts ) use ( $loop, $html ) {
 
   $current_loop = $loop;

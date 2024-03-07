@@ -1,5 +1,9 @@
 # Comprehensive HTML test suite and profiler
 
+This folder contains test data for the core HTML module, a generic parser and renderer that's independent of the template language and WordPress. Some of the tests are generated with a script.
+
+See also the folder `tests/language/html` for features that integrate with the template language.
+
 ## Sources
 
 HTML files for testing were gathered from:

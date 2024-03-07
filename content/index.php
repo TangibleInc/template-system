@@ -4,7 +4,7 @@
  * Create content structure: post types, field groups, taxonomies, user roles
  */
 
-require_once __DIR__ . '/type/index.php';
+require_once __DIR__ . '/content-type/index.php';
 require_once __DIR__ . '/field-group/index.php';
 require_once __DIR__ . '/taxonomy/index.php';
 require_once __DIR__ . '/metabox/index.php';

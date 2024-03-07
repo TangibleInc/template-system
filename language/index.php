@@ -83,12 +83,6 @@ return tangible_template(new class extends stdClass {
     require_once __DIR__ . '/actions/index.php';
     require_once __DIR__ . '/ajax/index.php';
 
-    // Modules
-    require_once __DIR__ . '/../modules/index.php';
-
-    $plugin = $system;
-    require_once __DIR__ . '/../integrations/index.php';
-
     // For themes: first action hook available after functions.php is loaded.
     add_action('after_setup_theme', function() use ( $html ) {
 

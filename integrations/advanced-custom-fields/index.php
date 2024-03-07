@@ -14,18 +14,17 @@ $html->is_acf_field_type_with_sub_field = function( $field_type ) {
     || $field_type === 'acf_group';
 };
 
+require_once __DIR__ . '/get-field.php';
+
 if ( ! $html->is_acf_active ) return;
 
 // Loop types
+require_once __DIR__ . '/loop-types/index.php';
 
-require_once __DIR__ . '/types/repeater.php';
-require_once __DIR__ . '/types/flexible-content.php';
-require_once __DIR__ . '/types/group.php';
-
-// ACF field types
+// Field types
 
 add_action('acf/include_field_types', function() {
-  require_once __DIR__ . '/fields/index.php';
+  require_once __DIR__ . '/field-types/index.php';
 });
 
 // Logic rules for If tag

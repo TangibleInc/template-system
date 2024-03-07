@@ -2,8 +2,6 @@
 
 require_once __DIR__ . '/module-loader/index.php';
 
-require_once __DIR__ . '/form/index.php';
-require_once __DIR__ . '/content/index.php';
 require_once __DIR__ . '/paginator/index.php';
 
 require_once __DIR__ . '/async/index.php';
