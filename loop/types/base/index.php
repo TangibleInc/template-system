@@ -33,8 +33,8 @@ require_once __DIR__ . '/interface.php';
 
 class BaseLoop extends \StdClass implements BaseLoopInterface {
 
-  // Latest version instance of tangible_loop()
-  static $loop;
+  static $loop; // tangible_loop()
+  static $html; // tangible_template()
 
   // Required config
   static $config = [
@@ -663,38 +663,23 @@ class BaseLoop extends \StdClass implements BaseLoopInterface {
 
     $field_compare = strtolower( $field_compare );
 
-    $html = tangible_template();
+    $html = self::$html; // tangible_template();
 
     foreach ( $this->total_items as $item ) {
 
       $this->current = $item;
       $current_value = $this->get_field( $field_name );
 
-      $keep = false;
-
       /**
        * Evaluate comparison using same logic as If tag
        *
-       * @see /vendor/tangible/template/logic/comparison.php
+       * @see /language/logic/comparison.php
        */
 
-      switch ( $field_compare ) {
-        /**
-         * For array comparisons, flip current field value and given value
-         * because it's the opposite of how If tag works: field=X in value=X,Y,Z
-         */
-        case 'in':
-        case 'not_in':
-          $keep = $html->evaluate_logic_comparison(
-            $field_compare, $current_value, $field_value
-          );
-            break;
-        default:
-          $keep = $html->evaluate_logic_comparison(
-            $field_compare, $field_value, $current_value
-          );
-      }
-
+      $keep = $html->evaluate_logic_comparison(
+        $field_compare, $field_value, $current_value
+      );
+  
       if ($keep) $filtered_items [] = $item;
     }
 
@@ -710,3 +695,6 @@ class BaseLoop extends \StdClass implements BaseLoopInterface {
  * Provide Loop module as static property to all loop type classes
  */
 BaseLoop::$loop = $loop; // tangible_loop()
+
+// Provided by /core.php after Template module loaded
+// BaseLoop::$html = $html; // tangible_template()
