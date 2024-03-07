@@ -43,13 +43,17 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
   $format_type    = isset( $atts['format'] ) ? $atts['format'] : '';
   $format_options = [];
 
-  if (isset( $atts['acf_date'] ) || isset( $atts['acf_date_time'] )
+  if (isset( $atts['acf_date'] )
+    || isset( $atts['acf_date_time'] )
     || isset( $atts['acf_time'] )
   ) {
 
     /**
-     * For ACF Date field, set default format from Settings -> General ->
-     * Date Format. For ACF Date/Time and Time fields, no format by default.
+     * ACF Date fields
+     * 
+     * - Date field: Set default format from Settings -> General -> Date Format
+     * - For Date/Time and Time fields, default format is how ACF stores the value in
+     * the database, "Y-m-d H:i:s" and "H:i:s".
      */
     if (!empty($format_type)) {
 
@@ -58,6 +62,10 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
 
     } elseif (isset( $atts['acf_date'] )) {
       $format_options['format'] = get_option( 'date_format' );
+    } elseif (isset( $atts['acf_date_time'] )) {
+      $format_options['format'] = 'Y-m-d H:i:s';
+    }  elseif (isset( $atts['acf_time'] )) {
+      $format_options['format'] = 'H:i:s';
     }
 
     // Set default locale from Settings -> General -> Site Language
