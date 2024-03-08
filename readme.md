@@ -34,7 +34,10 @@ cd template-system
 npm install
 ```
 
-If you want to contribute to the GitHub repo, [create a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests). Tangible team members can clone from `git@github.com:tangibleinc/template-system`, and pull request from a feature branch.
+### Contributing
+
+To contribute to the codebase, [create a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests). Tangible team members can clone from `git@github.com:tangibleinc/template-system`, and pull request from a feature branch.
+
 
 ## Develop
 
@@ -118,7 +121,7 @@ npm run env:composer
 This runs `composer install` in the container.
 
 
-#### Install plugin dependencies
+### Install plugin dependencies
 
 This step is optional. Run the following to install plugin dependencies such as Advanced Custom Fields, Beaver Builder, Elementor, and WP Fusion.
 
@@ -180,7 +183,7 @@ Relevant info for writing unit tests:
 
 - [PHPUnit](https://github.com/sebastianbergmann/phpunit)
   - [PHPUnit Polyfills](https://github.com/Yoast/PHPUnit-Polyfills)
-  - [Assertions](https://docs.phpunit.de/en/10.2/assertions.html)
+  - [Assertions](https://docs.phpunit.de/en/10.5/assertions.html)
 
 - [WP_UnitTestCase](https://github.com/WordPress/wordpress-develop/blob/trunk/tests/phpunit/includes/abstract-testcase.php)
   - [WP_UnitTest_Factory](https://github.com/WordPress/wordpress-develop/blob/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory.php)
@@ -257,6 +260,8 @@ Examples of how to write end-to-end tests:
 │   ├── template-post          // Template post
 │   └── universal-id           // Universal ID
 │
+├── content                    // Content Structure
+├── form                       // Form
 ├── editor                     // Code editor
 │
 ├── framework                  // Framework module shared by plugins
@@ -321,10 +326,8 @@ Examples of how to write end-to-end tests:
 │   ├── calendar               // Calendar
 │   ├── chart                  // Chart
 │   ├── codemirror-v5          // CodeMirror v5 (legacy)
-│   ├── content                // Content types and fields
 │   ├── date-picker            // Date picker
 │   ├── embed                  // Embed
-│   ├── form                   // Form
 │   ├── glider                 // Glider image gallery
 │   ├── hyperdb                // HyperDB
 │   ├── markdown               // Markdown
@@ -335,7 +338,6 @@ Examples of how to write end-to-end tests:
 │   ├── paginator              // Paginator
 │   ├── prism                  // Prism syntax highlighter
 │   ├── sass                   // Sass compiler
-│   ├── site-structure         // Site structure
 │   ├── slider                 // Slider
 │   ├── sortable               // Sortable
 │   └── table                  // Table
@@ -347,11 +349,12 @@ Examples of how to write end-to-end tests:
 │   └── integrations           // Integration tests with third-party plugins
 │
 └── tools
-    └── git-subrepo            // Tool to manage Git subrepos
+    ├── deps                   // Install and update third-party plugins
+    └── git-subrepo            // Manage Git subrepos
 ```
 
 Above reference based on output of `tree`.
 
 ```sh
-$ tree -I vendor -I node_modules -I artifacts --gitignore -d -L 2
+tree -I vendor -I node_modules -I artifacts --gitignore -d -L 2
 ```

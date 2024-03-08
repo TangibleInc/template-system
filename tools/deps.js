@@ -31,9 +31,6 @@ const fileExists = async (file) => {
 
   const args = process.argv.slice(2)
 
-  const container = `tests-cli` // Or cli for dev site
-  const vendorFolder = `./vendor/tangible`
-
   if (!args.length) {
     console.log(`Install plugin dependencies
 
@@ -55,6 +52,9 @@ Examples:
     return
   }
 
+  const container = `tests-cli` // Or cli for dev site
+  const vendorFolder = `./vendor/tangible`
+
   if (args[0] === 'all') {
     args.splice(0)
     args.push(...Object.keys(availableDownloads))
@@ -72,16 +72,12 @@ Examples:
       continue
     }
     const file = url.split('/').pop()
-
     const folder = file.replace('.latest-stable.zip', '').replace('.zip', '')
 
     downloadFolders.push(folder)
 
     if (await fileExists(`${vendorFolder}/${folder}`)) {
-
-      // TODO: Folder already exists - Prompt to skip or re-download
-      console.log('Folder already exists', folder)
-  
+      console.log('Folder already exists', folder)  
     } else {
       downloads.push([url, file])
     }
