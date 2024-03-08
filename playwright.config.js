@@ -1,14 +1,48 @@
 import path, { dirname } from 'node:path'
+import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'url'
 import { defineConfig, devices } from '@playwright/test'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+const cwd = process.cwd()
 
-process.env.WP_ARTIFACTS_PATH ??= path.join(process.cwd(), 'artifacts')
+process.env.WP_ARTIFACTS_PATH ??= path.join(cwd, 'artifacts')
 process.env.STORAGE_STATE_PATH ??= path.join(
   process.env.WP_ARTIFACTS_PATH,
   'storage-states/admin.json'
 )
+
+
+/**
+ * Get port for test site
+*/
+const testSitePort = (function getTestSitePort() {
+  for (const file of [
+    '.wp-env.override.json',
+    '.wp-env.json'
+  ]) {
+  try {
+    const config = JSON.parse(readFileSync(
+      path.join(cwd, file), 'utf-8'
+      ))
+      if (config.testsPort) {
+        return config.testsPort
+      }
+    } catch(e) { /* OK */ }
+  }
+  return 8889 // Default port for wp-env's test site
+})()
+    
+/**
+ * Necessary because @wordpress/e2e-test-utils-playwright
+ * doesn't have an option to change the port
+ */
+if (!process.env.WP_BASE_URL) {
+  const testSiteUrl = `http://localhost:${testSitePort}`
+  process.env.WP_BASE_URL = testSiteUrl
+}
+
+console.log(`Playwright test site at ${process.env.WP_BASE_URL}`)
 
 /**
  * Based on https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/config/playwright.config.js
@@ -31,7 +65,7 @@ const config = defineConfig({
     '{testDir}/{testFileDir}/__snapshots__/{arg}-{projectName}{ext}',
   // globalSetup: require.resolve('./playwright/global-setup.js'),
   use: {
-    baseURL: process.env.WP_BASE_URL || 'http://localhost:8889',
+    baseURL: process.env.WP_BASE_URL,
     headless: true,
     viewport: {
       width: 960,
@@ -63,10 +97,10 @@ const config = defineConfig({
   testIgnore: 'playwright.setup.js',
   globalSetup: path.join(__dirname, 'tests/e2e/playwright.setup.js'),
   webServer: {
-    command: 'npm run env:start',
-    port: 8889,
+    command: 'npm run start',
     timeout: 120_000, // 120 seconds.
     reuseExistingServer: true,
+    port: testSitePort,
   },
 })
 
