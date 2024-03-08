@@ -1,12 +1,12 @@
 /**
- * @typedef {import("../../common/ast-path.js").default} AstPath
+ * @typedef {import("../core/common/ast-path.js").default} AstPath
  */
 
-import { hardline, join, line } from "../../document/builders.js";
-import { replaceEndOfLine } from "../../document/utils.js";
-import isFrontMatter from "../../utils/front-matter/is-front-matter.js";
-import htmlWhitespaceUtils from "../../utils/html-whitespace-utils.js";
-import inferParser from "../../utils/infer-parser.js";
+import { hardline, join, line } from "../core/document/builders.js";
+import { replaceEndOfLine } from "../core/document/utils.js";
+import isFrontMatter from "../core/utils/front-matter/is-front-matter.js";
+import htmlWhitespaceUtils from "../core/utils/html-whitespace-utils.js";
+import inferParser from "../core/utils/infer-parser.js";
 import {
   CSS_DISPLAY_DEFAULT,
   CSS_DISPLAY_TAGS,
@@ -103,15 +103,19 @@ function isTextLikeNode(node) {
   return node.type === "text" || node.type === "comment";
 }
 
+export const rawTags = [
+  'script',
+  'style',
+  'svg:style',
+  'svg:script',  
+]
+
 function isScriptLikeTag(node) {
   return (
     node.type === "element" &&
-    (node.fullName === "script" ||
-      node.fullName === "style" ||
-      node.fullName === "svg:style" ||
-      node.fullName === "svg:script" ||
+    (rawTags.includes(node.fullName) ||
       (isUnknownNamespace(node) &&
-        (node.name === "script" || node.name === "style")))
+        (rawTags.includes(node.name))))
   );
 }
 

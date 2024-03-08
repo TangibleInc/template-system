@@ -1,5 +1,5 @@
-import { group, indent, line } from "../../document/builders.js";
-import { replaceEndOfLine } from "../../document/utils.js";
+import { group, indent, line } from "../core/document/builders.js";
+import { replaceEndOfLine } from "../core/document/utils.js";
 import { formatAttributeValue } from "./utils.js";
 
 const interpolationRegex = /{{(.+?)}}/s;

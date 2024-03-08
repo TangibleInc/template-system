@@ -4,8 +4,8 @@ import {
   hardline,
   indent,
   line,
-} from "../document/builders.js";
-import printFrontMatter from "../utils/front-matter/print.js";
+} from "./core/document/builders.js";
+import printFrontMatter from "./core/utils/front-matter/print.js";
 import printAngularControlFlowBlockParameters from "./embed/angular-control-flow-block-parameters.js";
 import printAttribute from "./embed/attribute.js";
 import getNodeContent from "./get-node-content.js";

@@ -1,4 +1,4 @@
-import isFrontMatter from "../utils/front-matter/is-front-matter.js";
+import isFrontMatter from "./core/utils/front-matter/is-front-matter.js";
 
 const ignoredProperties = new Set([
   "sourceSpan",

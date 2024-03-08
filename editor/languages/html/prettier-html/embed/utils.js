@@ -1,4 +1,4 @@
-import { group, indent, softline } from "../../document/builders.js";
+import { group, indent, softline } from "../core/document/builders.js";
 
 /**
  * @typedef {import("../../document/builders.js").Doc} Doc

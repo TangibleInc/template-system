@@ -1,5 +1,5 @@
-import { group } from "../../document/builders.js";
-import { mapDoc } from "../../document/utils.js";
+import { group } from "../core/document/builders.js";
+import { mapDoc } from "../core/document/utils.js";
 import printAngularAttribute from "./angular-attributes.js";
 import printClassNames from "./class-names.js";
 import printSrcset from "./srcset.js";

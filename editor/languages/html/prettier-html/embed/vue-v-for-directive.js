@@ -1,10 +1,10 @@
-import { group } from "../../document/builders.js";
+import { group } from "../core/document/builders.js";
 import { getUnescapedAttributeValue } from "../utils/index.js";
 import isVueSfcWithTypescriptScript from "../utils/is-vue-sfc-with-typescript-script.js";
 import { formatAttributeValue } from "./utils.js";
 
 /**
- * @typedef {import("../../document/builders.js").Doc} Doc
+ * @typedef {import("../core/document/builders.js").Doc} Doc
  */
 
 /**

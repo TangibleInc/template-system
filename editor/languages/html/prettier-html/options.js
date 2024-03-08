@@ -1,4 +1,5 @@
-import commonOptions from "../common/common-options.evaluate.js";
+import commonOptions from "./core/common/common-options.evaluate.js";
+import { rawTags } from './utils/index.js'
 
 const CATEGORY_HTML = "HTML";
 

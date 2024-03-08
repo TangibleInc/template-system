@@ -9,10 +9,10 @@ import {
   visitAll,
 } from "angular-html-parser";
 
-import createError from "../common/parser-create-error.js";
-import parseFrontMatter from "../utils/front-matter/parse.js";
-import inferParser from "../utils/infer-parser.js";
-import isNonEmptyArray from "../utils/is-non-empty-array.js";
+import createError from "./core/common/parser-create-error.js";
+import parseFrontMatter from "./core/utils/front-matter/parse.js";
+import inferParser from "./core/utils/infer-parser.js";
+import isNonEmptyArray from "./core/utils/is-non-empty-array.js";
 import { Node } from "./ast.js";
 import { parseIeConditionalComment } from "./conditional-comment.js";
 import { locEnd, locStart } from "./loc.js";
@@ -404,7 +404,7 @@ function parse(
 /**
  * @param {ParseOptions} parseOptions
  */
-function createParser(parseOptions) {
+export function createParser(parseOptions) {
   return {
     parse: (text, options) => parse(text, parseOptions, options),
     hasPragma,
@@ -425,25 +425,25 @@ const HTML_PARSE_OPTIONS = {
 // HTML
 export const html = createParser(HTML_PARSE_OPTIONS);
 // Angular
-export const angular = createParser({ name: "angular" });
+// export const angular = createParser({ name: "angular" });
 // Vue
-export const vue = createParser({
-  name: "vue",
-  isTagNameCaseSensitive: true,
-  shouldParseAsRawText(tagName, prefix, hasParent, attrs) {
-    return (
-      tagName.toLowerCase() !== "html" &&
-      !hasParent &&
-      (tagName !== "template" ||
-        attrs.some(
-          ({ name, value }) =>
-            name === "lang" &&
-            value !== "html" &&
-            value !== "" &&
-            value !== undefined,
-        ))
-    );
-  },
-});
+// export const vue = createParser({
+//   name: "vue",
+//   isTagNameCaseSensitive: true,
+//   shouldParseAsRawText(tagName, prefix, hasParent, attrs) {
+//     return (
+//       tagName.toLowerCase() !== "html" &&
+//       !hasParent &&
+//       (tagName !== "template" ||
+//         attrs.some(
+//           ({ name, value }) =>
+//             name === "lang" &&
+//             value !== "html" &&
+//             value !== "" &&
+//             value !== undefined,
+//         ))
+//     );
+//   },
+// });
 // Lightning Web Components
-export const lwc = createParser({ name: "lwc", canSelfClose: false });
+// export const lwc = createParser({ name: "lwc", canSelfClose: false });

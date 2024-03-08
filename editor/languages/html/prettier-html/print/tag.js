@@ -1,8 +1,8 @@
 /**
- * @typedef {import("../../document/builders.js").Doc} Doc
+ * @typedef {import("../core/document/builders.js").Doc} Doc
  */
 
-import assert from "node:assert";
+// import assert from "node:assert";
 
 import {
   hardline,
@@ -10,9 +10,9 @@ import {
   join,
   line,
   softline,
-} from "../../document/builders.js";
-import { replaceEndOfLine } from "../../document/utils.js";
-import isNonEmptyArray from "../../utils/is-non-empty-array.js";
+} from "../core/document/builders.js";
+import { replaceEndOfLine } from "../core/document/utils.js";
+import isNonEmptyArray from "../core/utils/is-non-empty-array.js";
 import { locEnd, locStart } from "../loc.js";
 import {
   getLastDescendant,
@@ -68,7 +68,7 @@ function printClosingTagSuffix(node, options) {
 }
 
 function printClosingTagStartMarker(node, options) {
-  assert(!node.isSelfClosing);
+  // assert(!node.isSelfClosing);
   /* c8 ignore next 3 */
   if (shouldNotPrintClosingTag(node, options)) {
     return "";
@@ -361,7 +361,7 @@ function printOpeningTagStartMarker(node) {
 }
 
 function printOpeningTagEndMarker(node) {
-  assert(!node.isSelfClosing);
+  // assert(!node.isSelfClosing);
   switch (node.type) {
     case "ieConditionalComment":
       return "]>";

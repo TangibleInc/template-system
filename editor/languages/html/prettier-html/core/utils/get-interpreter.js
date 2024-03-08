@@ -1,6 +1,5 @@
-import fs from "node:fs";
-
-import readlines from "n-readlines";
+// import fs from "node:fs";
+// import readlines from "n-readlines";
 
 /**
  * @param {string | URL} file

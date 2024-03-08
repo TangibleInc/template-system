@@ -1,12 +1,12 @@
 /**
- * @typedef {import("../document/builders.js").Doc} Doc
+ * @typedef {import("./core/document/builders.js").Doc} Doc
  */
 
-import { fill, group, hardline } from "../document/builders.js";
-import { cleanDoc, replaceEndOfLine } from "../document/utils.js";
-import getPreferredQuote from "../utils/get-preferred-quote.js";
-import htmlWhitespaceUtils from "../utils/html-whitespace-utils.js";
-import UnexpectedNodeError from "../utils/unexpected-node-error.js";
+import { fill, group, hardline } from "./core/document/builders.js";
+import { cleanDoc, replaceEndOfLine } from "./core/document/utils.js";
+import getPreferredQuote from "./core/utils/get-preferred-quote.js";
+import htmlWhitespaceUtils from "./core/utils/html-whitespace-utils.js";
+import UnexpectedNodeError from "./core/utils/unexpected-node-error.js";
 import clean from "./clean.js";
 import embed from "./embed.js";
 import getVisitorKeys from "./get-visitor-keys.js";
@@ -129,6 +129,7 @@ function genericPrint(path, options, print) {
     case "cdata": // Transformed into `text`
     default:
       /* c8 ignore next */
+      console.log(node)
       throw new UnexpectedNodeError(node, "HTML");
   }
 }

@@ -4,8 +4,8 @@ import {
   join,
   line,
   softline,
-} from "../../document/builders.js";
-import htmlWhitespaceUtils from "../../utils/html-whitespace-utils.js";
+} from "../core/document/builders.js";
+import htmlWhitespaceUtils from "../core/utils/html-whitespace-utils.js";
 import { printClosingTagEnd, printOpeningTagStart } from "./tag.js";
 
 /*

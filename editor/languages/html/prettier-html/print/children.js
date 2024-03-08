@@ -5,10 +5,10 @@ import {
   ifBreak,
   line,
   softline,
-} from "../../document/builders.js";
-import { replaceEndOfLine } from "../../document/utils.js";
-import htmlWhitespaceUtils from "../../utils/html-whitespace-utils.js";
-import isNonEmptyArray from "../../utils/is-non-empty-array.js";
+} from "../core/document/builders.js";
+import { replaceEndOfLine } from "../core/document/utils.js";
+import htmlWhitespaceUtils from "../core/utils/html-whitespace-utils.js";
+import isNonEmptyArray from "../core/utils/is-non-empty-array.js";
 import { locEnd, locStart } from "../loc.js";
 import {
   forceBreakChildren,

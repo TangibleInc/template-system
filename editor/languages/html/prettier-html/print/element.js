@@ -7,8 +7,8 @@ import {
   indentIfBreak,
   line,
   softline,
-} from "../../document/builders.js";
-import { replaceEndOfLine } from "../../document/utils.js";
+} from "../core/document/builders.js";
+import { replaceEndOfLine } from "../core/document/utils.js";
 import getNodeContent from "../get-node-content.js";
 import {
   forceBreakContent,
