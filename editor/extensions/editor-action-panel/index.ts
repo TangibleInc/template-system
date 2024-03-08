@@ -42,12 +42,10 @@ const keys = [
   [['Alt + l', 'Ctrl + l'], 'Select line'],
   [['Ctrl + [', '⌘ + ['], 'Indent less'],
   [['Ctrl + ]', '⌘ + ]'], 'Indent more'],
-  /**
-   * TODO: Auto-indent not working with HTML - Must create indentService?
-   * @see https://discuss.codemirror.net/t/indentation-and-folding-without-a-language/3582/3
-   */
-  // [['Ctrl + Alt + \\', '⌘ + Alt + \\'], 'Auto-indent the selected lines'],
-  [['Ctrl + Alt + f', '⌘ + Alt + f'], 'Beautify document'],
+
+  [['Ctrl + Enter', '⌘ + Enter'], 'Beautify document'],
+  [['Ctrl + Alt + f', '⌘ + Alt + f'], 'Beautify current line or selected lines'],
+
   [['Shift + Ctrl + k', 'Shift + ⌘ + k'], 'Delete line'],
   [['Shift + Ctrl + \\', 'Shift + ⌘ + \\'], 'Move cursor to bracket matching the one it is currently on, if any'],
   [['Ctrl + /', '⌘ + /'], 'Toggle comment'],

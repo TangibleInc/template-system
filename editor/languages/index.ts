@@ -26,16 +26,8 @@ import {
 } from '@emmetio/codemirror6-plugin' // ~90Kb
 
 import { createFormatKeyMap } from './format'
-
 import { colorPicker } from '../extensions/color-picker'
-
 import { infoPanelExtension } from './html/panel'
-import {indentService} from "@codemirror/language"
-
-const indentPlainTextExtension = indentService.of((context, pos) => {
-  const previousLine = context.lineAt(pos, -1)
-  return previousLine.text.match(/^(\s)*/)[0].length
-})
 
 const sharedCompletionKeymap = keymap.of([
   // {key: "Ctrl-Space", run: startCompletion},

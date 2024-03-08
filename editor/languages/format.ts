@@ -2,31 +2,43 @@
 import prettier from 'prettier/standalone' // 427 KB
 
 // import parserHtml from 'prettier/parser-html' // 158 KB
+import * as parserHtml from './html/prettier-html'
+import { createParser } from './html/prettier-html/parser-html'
+
 import parserEspree from 'prettier/parser-espree' // 152 KB
 import parserPostCSS from 'prettier/parser-postcss' // 155 KB
 
 import { keymap } from '@codemirror/view'
 
-import * as HtmlBeautify from './html/html-beautify'
+/**
+ * Had to fork prettier/parser-html to allow passing options to Angular HTML parser
+ * @see https://github.com/prettier/prettier/blob/main/src/language-html/parser-html.js#L77
+ */
+const htmlPlugin = {
+  ...parserHtml,
+  parsers: {
+    html: createParser({
+      name: "html",
+      normalizeTagName: false, // default true
+      normalizeAttributeName: false, // default true
+      allowHtmComponentClosingTags: true,
+      // Custom
+      isTagNameCaseSensitive: true,
+      shouldParseAsRawText: (tagName: string): boolean => {
+        return htmlPlugin.rawTags.includes(tagName)
+      },
+    })
+  }
+}
 
-// console.log('parserHtml', parserHtml)
+htmlPlugin?.rawTags.push('Note')
 
 // https://prettier.io/docs/en/options.html#parser
 const prettierLanguageOptions = {
-  // html: {
-  //   parser: 'html',
-  //   plugins: [parserHtml],
-
-  //   /**
-  //    * TODO: Need to pass parser options, but prettier/parser-html does not
-  //    * provide a way to do it.
-  //    * @see https://github.com/prettier/prettier/blob/main/src/language-html/parser-html.js#L77
-  //    */
-  //   isTagNameCaseSensitive: true,
-  //   shouldParseAsRawText: (tagName: string): boolean => {
-  //     return tagName === 'Note'
-  //   },
-  // },
+  html: {
+    parser: 'html',
+    plugins: [htmlPlugin],
+  },
   sass: {
     parser: 'scss',
     plugins: [parserPostCSS],
@@ -46,20 +58,21 @@ const prettierLanguageOptions = {
 
 export async function format({ lang = 'html', content, options = {} }) {
 
-  if (lang === 'html') {
-    return HtmlBeautify.format(content)
-  }
-
-  return !prettierLanguageOptions[lang]
+  try {
+    return !prettierLanguageOptions[lang]
     ? content
-    : prettier.format(content, {
+    : await prettier.format(content, {
         ...prettierLanguageOptions[lang],
         ...options,
       })
+  } catch(e) {
+    console.error('Prettier format error', e.message)
+    return content
+  }
 }
 
 export const createFormatKeyMap = (lang) => {
-  function run(view) {
+  function run(view, allTextByDefault = true) {
 
     const selection = view.state.selection
     const isSelected = !selection.main.empty
@@ -77,6 +90,18 @@ export const createFormatKeyMap = (lang) => {
        */
       const startLine = view.state.doc.lineAt(selection.main.from)
       const endLine = view.state.doc.lineAt(selection.main.to)
+
+      startPos = startLine.from
+      endPos = endLine.to
+
+      content = view.state.sliceDoc(startPos, endPos)
+    } else if (!allTextByDefault) {
+
+      /**
+       * Backward compatibility: Indent only current line for Mod-Alt-f
+       */
+      const startLine = view.state.doc.lineAt(selection.main.from)
+      const endLine = view.state.doc.lineAt(selection.main.from)
 
       startPos = startLine.from
       endPos = endLine.to
@@ -133,6 +158,6 @@ export const createFormatKeyMap = (lang) => {
   // Keyboard shortcut to format code
   return keymap.of([
     { key: 'Mod-Enter', run }, // Ctrl or Command and Enter
-    { key: 'Mod-Alt-f', run }, // Backward compatibility
+    { key: 'Mod-Alt-f', run: view => run(view, false) },
   ])
 }
