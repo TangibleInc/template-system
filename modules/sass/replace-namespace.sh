@@ -8,47 +8,52 @@ set -eou pipefail
 # of the same module.
 #
 
-OS="`uname`"
+main() {
 
-CURRENT_FOLDER="scssphp"
+  local OS
+  local CURRENT_FOLDER="scssphp"
+  OS="$(uname)"
 
-namespace-files() {
+  namespace-files() {
 
-  echo "Folder: $CURRENT_FOLDER"
-  local RESTORE_FOLDER="$CURRENT_FOLDER"
+    echo "Folder: $CURRENT_FOLDER"
+    local RESTORE_FOLDER="$CURRENT_FOLDER"
 
-  for file in *.php; do
+    for file in *.php; do
 
-    echo "  File: $file";
+      echo "  File: $file";
 
-    if [ "$OS" == "Darwin" ]; then
-      # macOS-specific options for sed
-      # @see https://stackoverflow.com/questions/5694228/sed-in-place-flag-that-works-both-on-mac-bsd-and-linux#22084103
-      sed -i '' -e 's/namespace\ ScssPhp\\/namespace\ Tangible\\/g' "$file"
-      sed -i '' -e 's/use\ ScssPhp\\/use\ Tangible\\/g' "$file"
-    else
-      # Linux (or WSL2 - Windows Subsystem for Linux)
-      sed -i -e 's/namespace\ ScssPhp\\/namespace\ Tangible\\/g' "$file"
-      sed -i -e 's/use\ ScssPhp\\/use\ Tangible\\/g' "$file"
-    fi
-  done
+      if [ "$OS" == "Darwin" ]; then
+        # macOS-specific options for sed
+        # @see https://stackoverflow.com/questions/5694228/sed-in-place-flag-that-works-both-on-mac-bsd-and-linux#22084103
+        sed -i '' -e 's/namespace\ ScssPhp\\/namespace\ Tangible\\/g' "$file"
+        sed -i '' -e 's/use\ ScssPhp\\/use\ Tangible\\/g' "$file"
+      else
+        # Linux or WSL2 - Windows Subsystem for Linux
+        sed -i -e 's/namespace\ ScssPhp\\/namespace\ Tangible\\/g' "$file"
+        sed -i -e 's/use\ ScssPhp\\/use\ Tangible\\/g' "$file"
+      fi
+    done
 
-  for folder in *; do
-    if [ -d $folder ]; then
+    for folder in *; do
+      if [ -d "$folder" ]; then
 
-      CURRENT_FOLDER="$RESTORE_FOLDER/$folder"
+        CURRENT_FOLDER="$RESTORE_FOLDER/$folder"
 
-      cd $folder
-      namespace-files
-      cd ..
-    fi
-  done
+        cd "$folder"
+        namespace-files
+        cd ..
+      fi
+    done
 
-  CURRENT_FOLDER="$RESTORE_FOLDER"
+    CURRENT_FOLDER="$RESTORE_FOLDER"
+  }
+
+  cd scssphp
+
+  namespace-files
+
+  cd ..  
 }
 
-cd scssphp
-
-namespace-files
-
-cd ..
+main

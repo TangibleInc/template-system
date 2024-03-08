@@ -12,15 +12,18 @@
 
 namespace Tangible\ScssPhp\Value;
 
+use JiriPudil\SealedClasses\Sealed;
 use Tangible\ScssPhp\Ast\Selector\ComplexSelector;
 use Tangible\ScssPhp\Ast\Selector\CompoundSelector;
 use Tangible\ScssPhp\Ast\Selector\SelectorList;
 use Tangible\ScssPhp\Ast\Selector\SimpleSelector;
+use Tangible\ScssPhp\Deprecation;
 use Tangible\ScssPhp\Exception\SassFormatException;
 use Tangible\ScssPhp\Exception\SassScriptException;
 use Tangible\ScssPhp\Serializer\Serializer;
 use Tangible\ScssPhp\Util\Equatable;
 use Tangible\ScssPhp\Visitor\ValueVisitor;
+use Tangible\ScssPhp\Warn;
 
 /**
  * A SassScript value.
@@ -30,12 +33,11 @@ use Tangible\ScssPhp\Visitor\ValueVisitor;
  * particular types using `assert*()` functions like {@see assertString}, which
  * throw user-friendly error messages if they fail.
  */
-abstract class Value implements Equatable
+#[Sealed(permits: [SassBoolean::class, SassCalculation::class, SassColor::class, SassFunction::class, SassList::class, SassMap::class, SassNull::class, SassNumber::class, SassString::class])]
+abstract class Value implements Equatable, \Stringable
 {
     /**
      * Whether the value counts as `true` in an `@if` statement and other contexts
-     *
-     * @return bool
      */
     public function isTruthy(): bool
     {
@@ -47,12 +49,8 @@ abstract class Value implements Equatable
      *
      * All SassScript values can be used as lists. Maps count as lists of pairs,
      * and all other values count as single-value lists.
-     *
-     * @return string
-     *
-     * @phpstan-return ListSeparator::*
      */
-    public function getSeparator(): string
+    public function getSeparator(): ListSeparator
     {
         return ListSeparator::UNDECIDED;
     }
@@ -62,8 +60,6 @@ abstract class Value implements Equatable
      *
      * All SassScript values can be used as lists. Maps count as lists of pairs,
      * and all other values count as single-value lists.
-     *
-     * @return bool
      */
     public function hasBrackets(): bool
     {
@@ -121,7 +117,21 @@ abstract class Value implements Equatable
      */
     public function sassIndexToListIndex(Value $sassIndex, ?string $name = null): int
     {
-        $index = $sassIndex->assertNumber($name)->assertInt($name);
+        $indexValue = $sassIndex->assertNumber($name);
+
+        if ($indexValue->hasUnits()) {
+            $message = <<<WARNING
+\$$name: Passing a number with unit {$indexValue->getUnitString()} is deprecated.
+
+To preserve current behavior: {$indexValue->unitSuggestion($name ?? 'index')}
+
+More info: https://sass-lang.com/d/function-units
+WARNING;
+
+            Warn::forDeprecation($message, Deprecation::functionUnits);
+        }
+
+        $index = $indexValue->assertInt($name);
 
         if ($index === 0) {
             throw SassScriptException::forArgument('List index may not be 0.', $name);
@@ -145,10 +155,6 @@ abstract class Value implements Equatable
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
      *
-     * @param string|null $name
-     *
-     * @return SassBoolean
-     *
      * @throws SassScriptException
      */
     public function assertBoolean(?string $name = null): SassBoolean
@@ -161,10 +167,6 @@ abstract class Value implements Equatable
      *
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
-     *
-     * @param string|null $name
-     *
-     * @return SassCalculation
      *
      * @throws SassScriptException
      */
@@ -179,10 +181,6 @@ abstract class Value implements Equatable
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
      *
-     * @param string|null $name
-     *
-     * @return SassColor
-     *
      * @throws SassScriptException
      */
     public function assertColor(?string $name = null): SassColor
@@ -195,10 +193,6 @@ abstract class Value implements Equatable
      *
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
-     *
-     * @param string|null $name
-     *
-     * @return SassFunction
      *
      * @throws SassScriptException
      */
@@ -213,10 +207,6 @@ abstract class Value implements Equatable
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
      *
-     * @param string|null $name
-     *
-     * @return SassMap
-     *
      * @throws SassScriptException
      */
     public function assertMap(?string $name = null): SassMap
@@ -226,8 +216,6 @@ abstract class Value implements Equatable
 
     /**
      * Return $this as a SassMap if it is one (including empty lists) or null otherwise.
-     *
-     * @return SassMap|null
      */
     public function tryMap(): ?SassMap
     {
@@ -239,10 +227,6 @@ abstract class Value implements Equatable
      *
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
-     *
-     * @param string|null $name
-     *
-     * @return SassNumber
      *
      * @throws SassScriptException
      */
@@ -256,10 +240,6 @@ abstract class Value implements Equatable
      *
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
-     *
-     * @param string|null $name
-     *
-     * @return SassString
      *
      * @throws SassScriptException
      */
@@ -286,7 +266,7 @@ abstract class Value implements Equatable
         $string = $this->selectorString($name);
 
         try {
-            return SelectorList::parse($string, null, null, $allowParent);
+            return SelectorList::parse($string, null, null, null, $allowParent);
         } catch (SassFormatException $e) {
             throw SassScriptException::forArgument($e->getMessage(), $name, $e);
         }
@@ -444,8 +424,6 @@ abstract class Value implements Equatable
     /**
      * Whether the value will be represented in CSS as the empty string.
      *
-     * @return bool
-     *
      * @internal
      */
     public function isBlank(): bool
@@ -458,8 +436,6 @@ abstract class Value implements Equatable
      *
      * Functions that shadow plain CSS functions need to gracefully handle when
      * these arguments are passed in.
-     *
-     * @return bool
      *
      * @internal
      */
@@ -474,8 +450,6 @@ abstract class Value implements Equatable
      * Functions that shadow plain CSS functions need to gracefully handle when
      * these arguments are passed in.
      *
-     * @return bool
-     *
      * @internal
      */
     public function isVar(): bool
@@ -488,24 +462,14 @@ abstract class Value implements Equatable
      * separator and brackets.
      *
      * @param list<Value> $contents
-     * @param string|null $separator
-     * @param bool|null   $brackets
-     *
-     * @return SassList
-     *
-     * @phpstan-param ListSeparator::*|null $separator
      */
-    public function withListContents(array $contents, ?string $separator = null, ?bool $brackets = null): SassList
+    public function withListContents(array $contents, ?ListSeparator $separator = null, ?bool $brackets = null): SassList
     {
         return new SassList($contents, $separator ?? $this->getSeparator(), $brackets ?? $this->hasBrackets());
     }
 
     /**
      * The SassScript = operation
-     *
-     * @param Value $other
-     *
-     * @return Value
      *
      * @internal
      */
@@ -517,10 +481,6 @@ abstract class Value implements Equatable
     /**
      * The SassScript `>` operation.
      *
-     * @param Value $other
-     *
-     * @return SassBoolean
-     *
      * @internal
      */
     public function greaterThan(Value $other): SassBoolean
@@ -530,10 +490,6 @@ abstract class Value implements Equatable
 
     /**
      * The SassScript `>=` operation.
-     *
-     * @param Value $other
-     *
-     * @return SassBoolean
      *
      * @internal
      */
@@ -545,10 +501,6 @@ abstract class Value implements Equatable
     /**
      * The SassScript `<` operation.
      *
-     * @param Value $other
-     *
-     * @return SassBoolean
-     *
      * @internal
      */
     public function lessThan(Value $other): SassBoolean
@@ -558,10 +510,6 @@ abstract class Value implements Equatable
 
     /**
      * The SassScript `<=` operation.
-     *
-     * @param Value $other
-     *
-     * @return SassBoolean
      *
      * @internal
      */
@@ -573,10 +521,6 @@ abstract class Value implements Equatable
     /**
      * The SassScript `*` operation.
      *
-     * @param Value $other
-     *
-     * @return Value
-     *
      * @internal
      */
     public function times(Value $other): Value
@@ -587,10 +531,6 @@ abstract class Value implements Equatable
     /**
      * The SassScript `%` operation.
      *
-     * @param Value $other
-     *
-     * @return Value
-     *
      * @internal
      */
     public function modulo(Value $other): Value
@@ -600,10 +540,6 @@ abstract class Value implements Equatable
 
     /**
      * The SassScript `+` operation.
-     *
-     * @param Value $other
-     *
-     * @return Value
      *
      * @internal
      */
@@ -623,10 +559,6 @@ abstract class Value implements Equatable
     /**
      * The SassScript `-` operation.
      *
-     * @param Value $other
-     *
-     * @return Value
-     *
      * @internal
      */
     public function minus(Value $other): Value
@@ -641,10 +573,6 @@ abstract class Value implements Equatable
     /**
      * The SassScript `/` operation.
      *
-     * @param Value $other
-     *
-     * @return Value
-     *
      * @internal
      */
     public function dividedBy(Value $other): Value
@@ -654,8 +582,6 @@ abstract class Value implements Equatable
 
     /**
      * The SassScript unary `+` operation.
-     *
-     * @return Value
      *
      * @internal
      */
@@ -667,8 +593,6 @@ abstract class Value implements Equatable
     /**
      * The SassScript unary `-` operation.
      *
-     * @return Value
-     *
      * @internal
      */
     public function unaryMinus(): Value
@@ -679,8 +603,6 @@ abstract class Value implements Equatable
     /**
      * The SassScript unary `/` operation.
      *
-     * @return Value
-     *
      * @internal
      */
     public function unaryDivide(): Value
@@ -690,8 +612,6 @@ abstract class Value implements Equatable
 
     /**
      * The SassScript unary `not` operation.
-     *
-     * @return Value
      *
      * @internal
      */
@@ -704,8 +624,6 @@ abstract class Value implements Equatable
      * Returns a copy of $this without {@see SassNumber::$asSlash} set.
      *
      * If this isn't a SassNumber, return it as-is.
-     *
-     * @return Value
      *
      * @internal
      */

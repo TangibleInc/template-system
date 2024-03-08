@@ -14,12 +14,18 @@ namespace Tangible\ScssPhp\Util;
 
 use Tangible\ScssPhp\Parser\StringScanner;
 use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\SourceSpan\SourceFile;
 
 /**
  * @internal
  */
 final class SpanUtil
 {
+    public static function bogusSpan(): FileSpan
+    {
+        return (new SourceFile(''))->span(0);
+    }
+
     /**
      * Returns this span with all whitespace trimmed from both sides.
      */

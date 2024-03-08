@@ -12,15 +12,23 @@
 
 namespace Tangible\ScssPhp\Logger;
 
+use Tangible\ScssPhp\Deprecation;
 use Tangible\ScssPhp\SourceSpan\FileSpan;
 use Tangible\ScssPhp\StackTrace\Trace;
 
 /**
  * A logger that silently ignores all messages.
  */
-final class QuietLogger implements LocationAwareLoggerInterface
+final class QuietLogger implements LocationAwareLoggerInterface, DeprecationAwareLoggerInterface
 {
     public function warn(string $message, bool $deprecation = false, ?FileSpan $span = null, ?Trace $trace = null): void
+    {
+    }
+
+    /**
+     * @internal
+     */
+    public function warnForDeprecation(Deprecation $deprecation, string $message, ?FileSpan $span = null, ?Trace $trace = null): void
     {
     }
 

@@ -26,23 +26,11 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
  */
 final class AtRule extends ParentStatement
 {
-    /**
-     * @var Interpolation
-     * @readonly
-     */
-    private $name;
+    private readonly Interpolation $name;
 
-    /**
-     * @var Interpolation|null
-     * @readonly
-     */
-    private $value;
+    private readonly ?Interpolation $value;
 
-    /**
-     * @var FileSpan
-     * @readonly
-     */
-    private $span;
+    private readonly FileSpan $span;
 
     /**
      * @param Statement[]|null $children

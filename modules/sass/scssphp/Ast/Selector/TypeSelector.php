@@ -13,26 +13,27 @@
 namespace Tangible\ScssPhp\Ast\Selector;
 
 use Tangible\ScssPhp\Extend\ExtendUtil;
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 use Tangible\ScssPhp\Visitor\SelectorVisitor;
 
 /**
  * A type selector.
  *
  * This selects elements whose name equals the given name.
+ *
+ * @internal
  */
 final class TypeSelector extends SimpleSelector
 {
     /**
      * The element name being selected.
-     *
-     * @var QualifiedName
-     * @readonly
      */
-    private $name;
+    private readonly QualifiedName $name;
 
-    public function __construct(QualifiedName $name)
+    public function __construct(QualifiedName $name, FileSpan $span)
     {
         $this->name = $name;
+        parent::__construct($span);
     }
 
     public function getName(): QualifiedName
@@ -52,7 +53,7 @@ final class TypeSelector extends SimpleSelector
 
     public function addSuffix(string $suffix): SimpleSelector
     {
-        return new TypeSelector(new QualifiedName($this->name->getName() . $suffix, $this->name->getNamespace()));
+        return new TypeSelector(new QualifiedName($this->name->getName() . $suffix, $this->name->getNamespace()), $this->getSpan());
     }
 
     public function unify(array $compound): ?array

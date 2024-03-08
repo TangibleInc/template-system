@@ -12,6 +12,7 @@
 
 namespace Tangible\ScssPhp\Ast\Selector;
 
+use Tangible\ScssPhp\SourceSpan\FileSpan;
 use Tangible\ScssPhp\Util\Character;
 use Tangible\ScssPhp\Visitor\SelectorVisitor;
 
@@ -21,20 +22,20 @@ use Tangible\ScssPhp\Visitor\SelectorVisitor;
  * This doesn't match any elements. It's intended to be extended using
  * `@extend`. It's not a plain CSS selector—it should be removed before
  * emitting a CSS document.
+ *
+ * @internal
  */
 final class PlaceholderSelector extends SimpleSelector
 {
     /**
      * The name of the placeholder.
-     *
-     * @var string
-     * @readonly
      */
-    private $name;
+    private readonly string $name;
 
-    public function __construct(string $name)
+    public function __construct(string $name, FileSpan $span)
     {
         $this->name = $name;
+        parent::__construct($span);
     }
 
     public function getName(): string
@@ -58,7 +59,7 @@ final class PlaceholderSelector extends SimpleSelector
 
     public function addSuffix(string $suffix): SimpleSelector
     {
-        return new PlaceholderSelector($this->name . $suffix);
+        return new PlaceholderSelector($this->name . $suffix, $this->getSpan());
     }
 
     public function equals(object $other): bool

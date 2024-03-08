@@ -17,10 +17,7 @@ namespace Tangible\ScssPhp\Serializer;
  */
 final class SimpleStringBuffer implements StringBuffer
 {
-    /**
-     * @var string
-     */
-    private $text = '';
+    private string $text = '';
 
     public function getLength(): int
     {

@@ -14,7 +14,6 @@ namespace Tangible\ScssPhp\Visitor;
 
 use Tangible\ScssPhp\Ast\Sass\Expression\BinaryOperationExpression;
 use Tangible\ScssPhp\Ast\Sass\Expression\BooleanExpression;
-use Tangible\ScssPhp\Ast\Sass\Expression\CalculationExpression;
 use Tangible\ScssPhp\Ast\Sass\Expression\ColorExpression;
 use Tangible\ScssPhp\Ast\Sass\Expression\FunctionExpression;
 use Tangible\ScssPhp\Ast\Sass\Expression\IfExpression;
@@ -49,11 +48,6 @@ interface ExpressionVisitor
      * @return T
      */
     public function visitBooleanExpression(BooleanExpression $node);
-
-    /**
-     * @return T
-     */
-    public function visitCalculationExpression(CalculationExpression $node);
 
     /**
      * @return T
