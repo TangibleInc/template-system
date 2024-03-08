@@ -479,7 +479,7 @@ function completeAttrValue(state: EditorState, schema: Schema, tree: SyntaxNode,
 }
 
 function htmlCompletionFor(schema: Schema, context: CompletionContext): CompletionResult | null {
-  let {state, pos} = context, around = syntaxTree(state).resolveInner(pos), tree = around.resolve(pos, -1)
+  let {state, pos} = context, tree = syntaxTree(state).resolveInner(pos, -1), around = tree.resolve(pos)
   for (let scan = pos, before; around == tree && (before = tree.childBefore(scan));) {
     let last = before.lastChild
     if (!last || !last.type.isError || last.from < last.to) break
@@ -493,7 +493,7 @@ function htmlCompletionFor(schema: Schema, context: CompletionContext): Completi
     return completeTag(state, schema, tree, pos, pos)
   } else if (tree.name == "StartCloseTag" || tree.name == "IncompleteCloseTag") {
     return completeCloseTag(state, tree, pos, pos)
-  } else if (context.explicit && (tree.name == "OpenTag" || tree.name == "SelfClosingTag") || tree.name == "AttributeName") {
+  } else if (tree.name == "OpenTag" || tree.name == "SelfClosingTag" || tree.name == "AttributeName") {
     return completeAttrName(state, schema, tree, tree.name == "AttributeName" ? tree.from : pos, pos)
   } else if (tree.name == "Is" || tree.name == "AttributeValue" || tree.name == "UnquotedAttributeValue") {
     return completeAttrValue(state, schema, tree, tree.name == "Is" ? pos : tree.from, pos)

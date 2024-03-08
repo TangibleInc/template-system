@@ -219,4 +219,22 @@ test.describe('Template post type', () => {
     })
     await expect(heading).toBeVisible()
   })
+
+})
+
+test('Code editor', async ({ admin, page }) => {
+
+  await admin.visitAdminPage('/post-new.php?post_type=tangible_template')
+
+  expect(await page.evaluate(
+    () => Boolean(window.Tangible)
+  )).toBe(true)
+  expect(await page.evaluate(
+    () => Boolean(window.Tangible && window.Tangible.TemplateSystem)
+  )).toBe(true)
+  expect(await page.evaluate(
+    () => Boolean(window.Tangible && window.Tangible.TemplateSystem && window.Tangible.TemplateSystem.CodeEditor)
+  )).toBe(true)
+
+
 })
