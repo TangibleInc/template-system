@@ -3,7 +3,9 @@ $background-color-darker: #2e3440;
 $border-color: #848d9d;
 $font-size: 12px;
 
-.tangible-template-system--editor-actions-panel {
+.tangible-template-system--editor-actions-panel,
+// Compatibility with Beaver Builder's overly eager CSS rules
+.fl-lightbox .tangible-template-system--editor-actions-panel {
 
   background-color: $background-color;
   color: #fff;
