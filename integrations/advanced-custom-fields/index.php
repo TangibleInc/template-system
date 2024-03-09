@@ -15,6 +15,7 @@ $html->is_acf_field_type_with_sub_field = function( $field_type ) {
 };
 
 require_once __DIR__ . '/get-field.php';
+require_once __DIR__ . '/field-settings.php';
 
 if ( ! $html->is_acf_active ) return;
 

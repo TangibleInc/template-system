@@ -1,4 +1,6 @@
 <?php
+namespace tangible\template_system;
+use tangible\template_system;
 
 /**
  * Get ACF field value
@@ -50,35 +52,25 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
   // Support fields from different objects: post, user, taxonomy, ..
 
   $loop_type  = $current_loop->get_name();
-  $current_id = $current_loop->get_field( 'id' );
-
-  if ( $loop_type === 'taxonomy_term' ) {
-
-    // @see https://www.advancedcustomfields.com/resources/adding-fields-taxonomy-term/
-
-    $current_id = "term_{$current_id}";
-
-  } elseif ( $loop_type === 'user' ) {
-
-    $current_id = "user_{$current_id}";
-
-  } elseif ( isset( $options['from'] ) && $options['from'] === 'options' ) {
-
-    // From options page
-
-    $current_id = 'option';
-  }
+  $acf_object_id = template_system\get_current_acf_object_id(
+    $options
+  );
 
   // Format these field types. All others get raw value regardless of return type
   $format_field_types = [ 'oembed', 'textarea', 'wysiwyg' ];
 
   $format_value = in_array( $acf_field_type, $format_field_types );
 
-  if ( ( $acf_field_type === 'date_picker' || $acf_field_type === 'date_time_picker' )
-    && $display && ! isset( $options['format'] )
+
+  if ( ( $acf_field_type === 'date_picker'
+    || $acf_field_type === 'date_time_picker'
+    || $acf_field_type === 'time_picker'
+    )
+    && (!isset($options['format']) || $options['format']===true)
   ) {
-    $format_value = true; // Format value based on field config
+    $format_value = true; // Format value based on field setting
   }
+
 
   if ( $html->is_acf_field_type_with_sub_field( $loop_type ) ) {
 
@@ -86,7 +78,7 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
 
       // Get sub-field by ACF key
       // https://www.advancedcustomfields.com/resources/get_field_object/
-      $result = get_sub_field_object($field_name, $current_id,
+      $result = get_sub_field_object($field_name, $acf_object_id,
         $format_value, // format value
         true   // load value
       );
@@ -97,8 +89,8 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
       $value = get_sub_field( $field_name, $format_value );
     }
 
-    $get_field_config = function() use ( $field_name, $current_id ) {
-      return get_sub_field_object($field_name, $current_id,
+    $get_field_config = function() use ( $field_name, $acf_object_id ) {
+      return get_sub_field_object($field_name, $acf_object_id,
         false, // format value
         false  // load value
       );
@@ -108,7 +100,7 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
 
     // Get field by ACF key
     // https://www.advancedcustomfields.com/resources/get_field_object/
-    $result = get_field_object($field_name, $current_id,
+    $result = get_field_object($field_name, $acf_object_id,
       false, // format value
       true   // load value
     );
@@ -121,12 +113,12 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
 
   } else {
 
-    $value = get_field( $field_name, $current_id, $format_value );
+    $value = get_field( $field_name, $acf_object_id, $format_value );
 
-    $get_field_config = function() use ( $field_name, $current_id ) {
+    $get_field_config = function() use ( $field_name, $acf_object_id ) {
       return get_field_object(
         $field_name,
-        $current_id,
+        $acf_object_id,
         false, // format value
         false  // load value
       );
@@ -282,7 +274,7 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
     case 'date_picker':
       if ( ! $format_value ) {
 
-        // Convert from default format "Ymd" to "Y-m-d", to prevent getting treated as timestamp
+        // Convert from default format "Ymd" to "Y-m-d", to **prevent getting treated as timestamp**
 
         $year  = substr( $value, 0, 4 );
         $month = substr( $value, 4, 2 );
@@ -296,7 +288,7 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
     case 'date_time_picker':
         return $value; // Default format "Y-m-d H:i:s"
     case 'time_picker':
-        return $value;
+        return $value; // Default format "H:i:s"
 
     // Choices
 
@@ -366,7 +358,7 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
 
       $args = [
         'field' => $field_name,
-        'id'    => $current_id,
+        'id'    => $acf_object_id,
       ];
 
       foreach ( [ 'count', 'paged' ] as $key ) {
@@ -388,7 +380,7 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
       );
   }
 
-  // tangible\see('ACF field', 'type='.$loop_type, 'id='.$current_id, 'field='.$field_name, $value);
+  // tangible\see('ACF field', 'type='.$loop_type, 'id='.$acf_object_id, 'field='.$field_name, $value);
 
   return $value;
 };

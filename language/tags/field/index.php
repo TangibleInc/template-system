@@ -1,4 +1,5 @@
 <?php
+use tangible\template_system;
 
 $html->field_tag = function( $atts ) use ( $loop, $html ) {
 
@@ -47,23 +48,59 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
   ) {
 
     /**
-     * ACF Date fields
+     * ACF Date field types
      * 
-     * - Date field: Set default format from Settings -> General -> Date Format
-     * - For Date/Time and Time fields, default format is how ACF stores the value in
-     * the database, "Y-m-d H:i:s" and "H:i:s".
+     * The field value is always formatted by our Date module and **not ACF**, because we
+     * need to apply the locale, timezone, and format attributes.
+     * 
+     * If no format is given, the default format is determined by ACF field setting for
+     * return value. For the Date field, previously we got the date format from Settings ->
+     * General -> Date Format, using `get_option( 'date_format' )`.
+     * 
+     * The date format for the raw value as ACF stores it:
+     * 
+     * @see https://www.advancedcustomfields.com/resources/date-picker/#database-format
+     * @see https://www.advancedcustomfields.com/resources/date-time-picker/#database-format
+     * @see https://www.advancedcustomfields.com/resources/time-picker/#database-format
+     * 
+     * For the Date field, we convert the value from ACF default "Ymd" to "Y-m-d" to prevent
+     * it from being treated as timestamp by date formatting.
+     * 
+     * @see /integrations/advanced-custom-fields/get-field
      */
-    if (!empty($format_type)) {
+    if (isset( $atts['acf_date'] )) {
 
+      $field_name = $atts['acf_date'];
+      $format_options['from_format'] = 'Y-m-d';
+
+    } elseif (isset( $atts['acf_date_time'] )) {
+
+      $field_name = $atts['acf_date_time'];
+      $format_options['from_format'] = 'Y-m-d H:i:s';
+
+    }  elseif (isset( $atts['acf_time'] )) {
+
+      $field_name = $atts['acf_time'];
+      $format_options['from_format'] = 'H:i:s';
+    }
+
+    if (empty($format_type)) {
+      /**
+       * Get default format from ACF field settings
+       * 
+       * Fall back to known default format for this field type if ACF returns false for
+       * unknown field or when field is not initialized.
+       */
+      $field_settings = template_system\get_acf_field_settings($field_name);
+      $format_options['format'] = $field_settings['return_format']
+        ?? $format_options['from_format']
+      ;
+
+    } else {
+
+      // Given date format
       $format_options['format'] = $format_type;
       unset( $atts['format'] );
-
-    } elseif (isset( $atts['acf_date'] )) {
-      $format_options['format'] = get_option( 'date_format' );
-    } elseif (isset( $atts['acf_date_time'] )) {
-      $format_options['format'] = 'Y-m-d H:i:s';
-    }  elseif (isset( $atts['acf_time'] )) {
-      $format_options['format'] = 'H:i:s';
     }
 
     // Set default locale from Settings -> General -> Site Language
@@ -74,6 +111,7 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
     $should_format = true;
     $format_type = 'date';
   }
+
 
   if ( empty( $format_type ) ) {
 
@@ -328,9 +366,15 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
 
     $acf_field_options = [
       // Format for display, instead of raw value
-      'display'        => empty( $subfield ) && $format_type !== 'date',
+      'display'        => empty( $subfield ),
       'tag_attributes' => $field_atts,
     ];
+
+    // For Date field types, always get raw value so we can apply format and locale
+    if ($format_type === 'date') {
+      $acf_field_options['display'] = false;
+      $acf_field_options['format'] = false;
+    }
 
     if ( isset( $atts['from'] ) ) {
       $acf_field_options['from'] = $atts['from'];

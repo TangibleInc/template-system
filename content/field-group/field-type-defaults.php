@@ -154,6 +154,11 @@ $html->field_type_defaults = [
     'first_day'      => 1,
   ],
 
+  'time_picker' => [
+    'display_format' => 'H:i:s',
+    'return_format'  => 'H:i:s',
+  ],
+
   'image'            => [
 
     // (string) Specify the type of value returned by get_field(). Defaults to 'array'.
