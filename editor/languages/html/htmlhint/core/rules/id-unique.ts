@@ -7,6 +7,12 @@ export default {
     const mapIdCount: { [id: string]: number } = {}
 
     parser.addListener('tagstart', (event) => {
+
+      if ((event.tagName ?? '').match(/^[A-Z]/)) {
+        // Skip dynamic tags
+        return
+      }
+
       const attrs = event.attrs
       let attr
       let id
