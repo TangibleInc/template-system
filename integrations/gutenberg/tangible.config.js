@@ -1,7 +1,7 @@
 export default {
   build: [
     {
-      src: 'gutenberg-template-editor/index.jsx',
+      src: 'gutenberg-template-editor/index.tsx',
       dest: 'build/gutenberg-template-editor.min.js',
       react: 'wp'
     },

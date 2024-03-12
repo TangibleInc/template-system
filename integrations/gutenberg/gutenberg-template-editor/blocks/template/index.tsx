@@ -137,6 +137,14 @@ class edit extends Component {
       this.props.attributes.template_selected || !this.canEditTemplate
         ? 'selectTemplate'
         : 'editor',
+    
+    /**
+     * Remember previously selected template on switching tabs
+     * 
+     * Must be kept in state and not props.attribute, because the server-side render
+     * uses the saved value in "template_selected" to determine what to render.
+     */
+    previouslySelectedTemplate: 0,
   }
 
   constructor(props) {
@@ -168,25 +176,43 @@ class edit extends Component {
   }
 
   showTab(tab) {
+
     if (this.state.currentTab === tab) return // Already showing tab
 
-    this.setState({ currentTab: tab })
+    this.setState({
+      currentTab: tab
+    })
 
-    if (tab === 'editor' && this.props.attributes.template_selected) {
-      // Clear selected template
+    if (tab === 'editor') {
 
-      this.props.setAttributes({
-        template_selected: 0,
+      console.log('Save', this.props.attributes.template_selected)
+      this.setState({
+        previouslySelectedTemplate: this.props.attributes.template_selected
       })
-    } else if (
-      tab === 'selectTemplate' &&
-      !this.props.attributes.template_selected
-    ) {
-      // Select first option if nothing selected yet
+  
+      if (this.props.attributes.template_selected) {
 
-      this.props.setAttributes({
-        template_selected: this.templateOptions[0].value,
-      })
+        // Clear selected template to be saved
+
+        this.props.setAttributes({
+          template_selected: 0,
+        })
+      }
+
+    } else if (tab === 'selectTemplate') {
+
+      if (!this.props.attributes.template_selected) {
+        console.log('Restore', this.props.attributes.template_selected)
+
+        // Select previously selected, or first option
+        this.props.setAttributes({
+          template_selected: this.state.previouslySelectedTemplate
+            ? this.state.previouslySelectedTemplate
+            : this.templateOptions[0] && this.templateOptions[0].value
+              ? this.templateOptions[0].value
+              : 0
+        })
+      }
     }
   }
 
