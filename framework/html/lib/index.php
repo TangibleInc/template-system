@@ -24,7 +24,6 @@ require_once __DIR__.'/parser/UTF8Utils.php';
 
 // Serializer
 
-require_once __DIR__.'/serializer/HTML5Entities.php';
 require_once __DIR__.'/serializer/OutputRules.php';
 require_once __DIR__.'/serializer/RulesInterface.php';
 require_once __DIR__.'/serializer/Traverser.php';
