@@ -3,37 +3,6 @@ namespace tangible\template_system;
 use tangible\template_system;
 
 /**
- * Get current ACF "object ID" which is used to get field settings
- */
-function get_current_acf_object_id($options = []) {
-
-  // From options page
-  if ( isset( $options['from'] ) && $options['from'] === 'options' ) {
-    return 'option';
-  }
-  
-  $loop = template_system::$loop;
-  $current_loop = isset( $options['loop'] )
-    ? $options['loop']
-    : $loop->get_context();
-
-  $loop_type  = $current_loop->get_name();
-  $current_id = $current_loop->get_field( 'id' );
-
-  if ( $loop_type === 'taxonomy_term' ) {
-    // @see https://www.advancedcustomfields.com/resources/adding-fields-taxonomy-term/
-    return "term_{$current_id}";
-  }
-
-  if ( $loop_type === 'user' ) {
-    return "user_{$current_id}";
-  }
-
-  // Post
-  return $current_id;
-}
-
-/**
  * Get ACF field settings
  */
 function get_acf_field_settings($field_name, $options = []) {
@@ -86,4 +55,35 @@ function get_acf_field_settings($field_name, $options = []) {
   }
 
   return $result;
+}
+
+/**
+ * Get current ACF "object ID" which is used to get field settings
+ */
+function get_current_acf_object_id($options = []) {
+
+  // From options page
+  if ( isset( $options['from'] ) && $options['from'] === 'options' ) {
+    return 'option';
+  }
+  
+  $loop = template_system::$loop;
+  $current_loop = isset( $options['loop'] )
+    ? $options['loop']
+    : $loop->get_context();
+
+  $loop_type  = $current_loop->get_name();
+  $current_id = $current_loop->get_field( 'id' );
+
+  if ( $loop_type === 'taxonomy_term' ) {
+    // @see https://www.advancedcustomfields.com/resources/adding-fields-taxonomy-term/
+    return "term_{$current_id}";
+  }
+
+  if ( $loop_type === 'user' ) {
+    return "user_{$current_id}";
+  }
+
+  // Post
+  return $current_id;
 }

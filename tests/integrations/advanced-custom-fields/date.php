@@ -6,17 +6,10 @@ use tangible\template_system;
  * - [Register ACF fields](https://www.advancedcustomfields.com/resources/register-fields-via-php/)
  */
 
-class ACF_TestCase extends \WP_UnitTestCase {
+class ACF_Date_TestCase extends \WP_UnitTestCase {
 
   function is_dependency_active() {
     return function_exists('acf'); 
-  }
-
-  function test_dependency_active() {
-    if (!$this->is_dependency_active()) {      
-      echo 'Advanced Custom Fields is not installed and active';
-    }
-    $this->assertTrue(true);
   }
 
   /**
@@ -40,7 +33,7 @@ class ACF_TestCase extends \WP_UnitTestCase {
     $return_format = 'd/m/Y';
 
     acf_add_local_field_group([
-      'key' => 'group_1',
+      'key' => wp_unique_id('test_group'),
       'title' => 'My Group',
       'fields' => [
         [
@@ -145,7 +138,7 @@ class ACF_TestCase extends \WP_UnitTestCase {
      * @see https://www.advancedcustomfields.com/resources/register-fields-via-php/
      */
     acf_add_local_field_group([
-      'key' => 'group_1',
+      'key' => wp_unique_id('test_group'),
       'title' => 'My Group',
       'fields' => [
         [
@@ -196,8 +189,8 @@ class ACF_TestCase extends \WP_UnitTestCase {
 
     // Default format is from ACF field setting
     $expected = '31/01/2020 12:34 pm';
-    $result = $html->render("<Loop type=post id=$post_id><Field acf_date_time=$date_time_field_name /></Loop>");
-
+    $result = $html->render("<Loop type=post id=$post_id><Field acf_date_time=$date_time_field_name debug=true /></Loop>");
+    
     $this->assertEquals( $expected, $result );
 
     // Format F j, Y @ g:i a
@@ -263,7 +256,7 @@ class ACF_TestCase extends \WP_UnitTestCase {
     $time_field_name = 'time_field';
 
     acf_add_local_field_group([
-      'key' => 'group_3',
+      'key' => wp_unique_id('test_group'),
       'title' => 'My Group',
       'fields' => [
         [
