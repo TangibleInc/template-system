@@ -643,6 +643,10 @@ class PostLoop extends BaseLoop {
         $query_args[ $target_key ] = [];
       }
 
+      if (!is_array($slugs)) {
+        $slugs = [$slugs];
+      }
+
       foreach ($slugs as $slug) {
 
         // ID
