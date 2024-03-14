@@ -373,7 +373,6 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
     // For Date field types, always get raw value so we can apply format and locale
     if ($format_type === 'date') {
       $acf_field_options['display'] = false;
-      $acf_field_options['format'] = false;
     }
 
     if ( isset( $atts['from'] ) ) {

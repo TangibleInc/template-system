@@ -2,10 +2,6 @@
 namespace Tests\Integrations;
 use tangible\template_system;
 
-/**
- * - [Register ACF fields](https://www.advancedcustomfields.com/resources/register-fields-via-php/)
- */
-
 class ACF_Date_TestCase extends \WP_UnitTestCase {
 
   function is_dependency_active() {
@@ -16,7 +12,7 @@ class ACF_Date_TestCase extends \WP_UnitTestCase {
    * Date field - Saved as Ymd
    * @see /language/tags/field, /integrations/advanced-custom-fields/get-field
    */
-  function test_date_fields__Date() {
+  function test_date_field() {
 
     if (!$this->is_dependency_active()) {
       $this->assertTrue(true);
@@ -26,8 +22,6 @@ class ACF_Date_TestCase extends \WP_UnitTestCase {
     $html = tangible_template();
 
     $date_field_name = 'date_field';
-    $date_time_field_name = 'date_time_field';
-    $time_field_name = 'time_field';
 
     // For testing, choose a date format different from raw value (Ymd)
     $return_format = 'd/m/Y';
@@ -112,15 +106,9 @@ class ACF_Date_TestCase extends \WP_UnitTestCase {
     $locale = 'en_US';
     $result = get_locale();
     $this->assertEquals( $locale, $result );
-
   }
 
-
-  /**
-   * Date-time field - Saved as Y-m-d H:i:s
-   */
-
-  function test_date_fields__Date_Time() {
+  function test_date_field_conditions() {
 
     if (!$this->is_dependency_active()) {
       $this->assertTrue(true);
@@ -130,13 +118,10 @@ class ACF_Date_TestCase extends \WP_UnitTestCase {
     $html = tangible_template();
 
     $date_field_name = 'date_field';
-    $date_time_field_name = 'date_time_field';
-    $time_field_name = 'time_field';
 
-    /**
-     * Register fields
-     * @see https://www.advancedcustomfields.com/resources/register-fields-via-php/
-     */
+    // For testing, choose a date format different from raw value (Ymd)
+    $return_format = 'd/m/Y';
+
     acf_add_local_field_group([
       'key' => wp_unique_id('test_group'),
       'title' => 'My Group',
@@ -146,27 +131,14 @@ class ACF_Date_TestCase extends \WP_UnitTestCase {
           'label' => 'Date field',
           'name' => $date_field_name,
           'type' => 'date_picker',
-
-          // Different from raw value "Ymd"
-          'return_format' => 'd/m/Y',
+          'return_format'  => $return_format,
         ],
         [
-          'key' => 'field_2',
-          'label' => 'Date time field',
-          'name' => $date_time_field_name,
-          'type' => 'date_time_picker',
-
-          // Different from raw value "Y-m-d H:i:s"
-          'return_format' => 'd/m/Y g:i a',
-        ],
-        [
-          'key' => 'field_3',
-          'label' => 'Time field',
-          'name' => $time_field_name,
-          'type' => 'time_picker',
-
-          // Different from raw value "H:i:s"
-          'return_format' => 'g:i a',
+          'key' => 'field_1',
+          'label' => 'Date field',
+          'name' => $date_field_name . '_2',
+          'type' => 'date_picker',
+          'return_format'  => $return_format,
         ],
       ],
       'location' => [
@@ -181,117 +153,24 @@ class ACF_Date_TestCase extends \WP_UnitTestCase {
       'post_content' => '',
     ]);
 
-    $value = '2020-01-31 12:34:56';
-    update_post_meta($post_id, $date_time_field_name, $value );
+    // Past
 
-    $result = get_post_meta( $post_id, $date_time_field_name, true );
-    $this->assertEquals( $value, $result );
+    $value = '20200131';
+    update_post_meta($post_id, $date_field_name, $value );
 
-    // Default format is from ACF field setting
-    $expected = '31/01/2020 12:34 pm';
-    $result = $html->render("<Loop type=post id=$post_id><Field acf_date_time=$date_time_field_name debug=true /></Loop>");
-    
-    $this->assertEquals( $expected, $result );
-
-    // Format F j, Y @ g:i a
-
-    $word_format = 'F j, Y @ g:i a';
-
-    $expected = 'January 31, 2020 @ 12:34 pm';
-    $result = $html->render("<Loop type=post id=$post_id><Field acf_date_time=$date_time_field_name format=\"$word_format\" /></Loop>");
+    $expected = 'PAST';
+    $result = $html->render("<Loop type=post id=$post_id><If acf_date=$date_field_name before=now>PAST<Else />FUTURE</If></Loop>");
 
     $this->assertEquals( $expected, $result );
 
-    // Different global locale
+    // Future
 
-    global $locale;
+    $value = '20401231';
+    update_post_meta($post_id, $date_field_name . '_2', $value );
 
-    $locale = 'fr_FR';
-    $result = get_locale();
-    $this->assertEquals( $locale, $result );
-    
-    $expected = 'janvier 31, 2020 @ 12:34 pm';
-    $result = $html->render("<Loop type=post id=$post_id><Field acf_date_time=$date_time_field_name format=\"$word_format\" /></Loop>");
+    $expected = 'FUTURE';
+    $result = $html->render("<Loop type=post id=$post_id><If acf_date={$date_field_name}_2 before=now>PAST<Else />FUTURE</If></Loop>");
 
-    $this->assertEquals( $expected, $result );
-
-    // Field attribute "locale" has precedence
-
-    $expected = 'January 31, 2020 @ 12:34 pm';
-    $result = $html->render("<Loop type=post id=$post_id><Field acf_date_time=$date_time_field_name locale=en format=\"$word_format\" /></Loop>");
-
-    $this->assertEquals( $expected, $result );
-
-    // Field attribute "format" has precedence
-
-    $expected = '2020-01-31';
-    $result = $html->render("<Loop type=post id=$post_id><Field acf_date_time=$date_time_field_name format=\"Y-m-d\" /></Loop>");
-
-    $this->assertEquals( $expected, $result );
-
-    $expected = 'vendredi 31 janvier 2020';
-    $result = $html->render("<Loop type=post id=$post_id><Field acf_date_time=$date_time_field_name format=\"l j F Y\" /></Loop>");
-
-    $this->assertEquals( $expected, $result );
-
-    // Restore global locale
-    $locale = 'en_US';
-    $result = get_locale();
-    $this->assertEquals( $locale, $result );
-
-  }
-
-  /**
-   * Time field - Saved as H:i:s
-   */
-  function test_date_fields__Time() {
-
-    if (!$this->is_dependency_active()) {
-      $this->assertTrue(true);
-      return;
-    }
-
-    $html = tangible_template();
-
-    $time_field_name = 'time_field';
-
-    acf_add_local_field_group([
-      'key' => wp_unique_id('test_group'),
-      'title' => 'My Group',
-      'fields' => [
-        [
-          'key' => 'field_3',
-          'label' => 'Time field',
-          'name' => $time_field_name,
-          'type' => 'time_picker',
-          // Different from raw value "H:i:s"
-          'return_format' => 'g:i a',
-        ],
-      ],
-      'location' => [
-        [ [ 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ] ]
-      ],
-    ]);
-  
-    $post_id = self::factory()->post->create_object([
-      'post_type' => 'post',
-      'post_status'  => 'publish', // Important for Loop tag
-      'post_title' => 'Test',
-      'post_content' => '',
-    ]);
-
-    $value = '12:34:56';
-    update_post_meta($post_id, $time_field_name, $value );
-    
-    $result = get_post_meta( $post_id, $time_field_name, true );
-    $this->assertEquals( $value, $result );
-
-    $expected = '12:34';
-    $result = $html->render("<Loop type=post id=$post_id><Field acf_time=$time_field_name format=\"H:i\" /></Loop>");
-    $this->assertEquals( $expected, $result );
-
-    $expected = '12:34 pm';
-    $result = $html->render("<Loop type=post id=$post_id><Field acf_time=$time_field_name format=\"g:i a\" /></Loop>");
     $this->assertEquals( $expected, $result );
 
   }

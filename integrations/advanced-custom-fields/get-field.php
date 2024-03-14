@@ -61,17 +61,6 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
 
   $format_value = in_array( $acf_field_type, $format_field_types );
 
-
-  if ( ( $acf_field_type === 'date_picker'
-    || $acf_field_type === 'date_time_picker'
-    || $acf_field_type === 'time_picker'
-    )
-    && (!isset($options['format']) || $options['format']===true)
-  ) {
-    $format_value = true; // Format value based on field setting
-  }
-
-
   if ( $html->is_acf_field_type_with_sub_field( $loop_type ) ) {
 
     if ( $acf_field_type === 'key' ) {
