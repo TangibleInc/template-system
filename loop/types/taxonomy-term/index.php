@@ -194,18 +194,18 @@ class TaxonomyTermLoop extends BaseLoop {
     ];
 
     /**
-     * By post(s)
+     * By post(s) - By this point, query args have been processed
      */
-    if ( isset($query_args['post']) ) {
+    if ( isset($query_args['object_ids']) ) {
 
-      if( ! is_array($query_args['post']) ) {
-        $query_args['post'] = format\multiple_values($query_args['post']);
+      if( ! is_array($query_args['object_ids']) ) {
+        $query_args['object_ids'] = format\multiple_values($query_args['object_ids']);
       }
 
-      foreach ($query_args['post'] as $index => $value) {
+      foreach ($query_args['object_ids'] as $index => $value) {
         if ($value === 'current') { // Current post ID
           global $post;
-          $query_args['post'][$index] = !empty($post) ? $post->ID : -1;
+          $query_args['object_ids'][$index] = !empty($post) ? $post->ID : -1;
         }
       }
     }
@@ -332,7 +332,6 @@ class TaxonomyTermLoop extends BaseLoop {
     $query = $this->query = new \WP_Term_Query( $query_args + $defaults );
 
     $items = $query->get_terms();
-
 
     // Filter
 
