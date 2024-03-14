@@ -42,7 +42,7 @@ if (!process.env.WP_BASE_URL) {
   process.env.WP_BASE_URL = testSiteUrl
 }
 
-console.log(`Playwright test site at ${process.env.WP_BASE_URL}`)
+// console.log(`Playwright test site at ${process.env.WP_BASE_URL}`)
 
 /**
  * Based on https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/config/playwright.config.js
