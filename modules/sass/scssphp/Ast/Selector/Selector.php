@@ -12,11 +12,7 @@
 
 namespace Tangible\ScssPhp\Ast\Selector;
 
-use Tangible\ScssPhp\Ast\AstNode;
-use Tangible\ScssPhp\Deprecation;
-use Tangible\ScssPhp\Exception\SassException;
 use Tangible\ScssPhp\Serializer\Serializer;
-use Tangible\ScssPhp\SourceSpan\FileSpan;
 use Tangible\ScssPhp\Util\Equatable;
 use Tangible\ScssPhp\Visitor\SelectorVisitor;
 use Tangible\ScssPhp\Warn;
@@ -28,23 +24,9 @@ use Tangible\ScssPhp\Warn;
  * {@see ParentSelector} or a {@see PlaceholderSelector}.
  *
  * Selectors have structural equality semantics.
- *
- * @internal
  */
-abstract class Selector implements AstNode, Equatable
+abstract class Selector implements Equatable
 {
-    private readonly FileSpan $span;
-
-    public function __construct(FileSpan $span)
-    {
-        $this->span = $span;
-    }
-
-    public function getSpan(): FileSpan
-    {
-        return $this->span;
-    }
-
     /**
      * Whether this selector, and complex selectors containing it, should not be
      * emitted.
@@ -96,7 +78,7 @@ abstract class Selector implements AstNode, Equatable
      * Prints a warning if $this is a bogus selector.
      *
      * This may only be called from within a custom Sass function. This will
-     * throw a {@see SassException} in a future major version.
+     * throw a {@see SassScriptException} in a future major version.
      */
     public function assertNotBogus(?string $name = null): void
     {
@@ -104,7 +86,7 @@ abstract class Selector implements AstNode, Equatable
             return;
         }
 
-        Warn::forDeprecation(($name === null ? '' : "\$$name: ") . "$this is not valid CSS.\nThis will be an error in Dart Sass 2.0.0.\n\nMore info: https://sass-lang.com/d/bogus-combinators", Deprecation::bogusCombinators);
+        Warn::deprecation(($name === null ? '' : "\$$name: ") . "$this is not valid CSS.\nThis will be an error in Dart Sass 2.0.0.\n\nMore info: https://sass-lang.com/d/bogus-combinators");
     }
 
     /**

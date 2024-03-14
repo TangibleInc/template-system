@@ -24,7 +24,11 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
  */
 final class LoudComment implements Statement
 {
-    private readonly Interpolation $text;
+    /**
+     * @var Interpolation
+     * @readonly
+     */
+    private $text;
 
     public function __construct(Interpolation $text)
     {

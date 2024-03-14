@@ -33,9 +33,17 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
  */
 final class Stylesheet extends ParentStatement
 {
-    private readonly bool $plainCss;
+    /**
+     * @var bool
+     * @readonly
+     */
+    private $plainCss;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
      * @param Statement[] $children
@@ -63,15 +71,25 @@ final class Stylesheet extends ParentStatement
     }
 
     /**
+     * @param Syntax::* $syntax
+     *
      * @throws SassFormatException when parsing fails
      */
-    public static function parse(string $contents, Syntax $syntax, ?LoggerInterface $logger = null, ?string $sourceUrl = null): self
+    public static function parse(string $contents, string $syntax, ?LoggerInterface $logger = null, ?string $sourceUrl = null): self
     {
-        return match ($syntax) {
-            Syntax::SASS => self::parseSass($contents, $logger, $sourceUrl),
-            Syntax::SCSS => self::parseScss($contents, $logger, $sourceUrl),
-            Syntax::CSS => self::parseCss($contents, $logger, $sourceUrl),
-        };
+        switch ($syntax) {
+            case Syntax::SASS:
+                return self::parseSass($contents, $logger, $sourceUrl);
+
+            case Syntax::SCSS:
+                return self::parseScss($contents, $logger, $sourceUrl);
+
+            case Syntax::CSS:
+                return self::parseCss($contents, $logger, $sourceUrl);
+
+            default:
+                throw new \InvalidArgumentException("Unknown syntax $syntax.");
+        }
     }
 
     /**

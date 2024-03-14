@@ -43,15 +43,16 @@ final class ErrorUtil
     public static function checkValidRange(int $start, ?int $end, int $length, ?string $startName = null, ?string $endName = null): void
     {
         if ($start < 0 || $start > $length) {
-            $startName ??= 'start';
+            $startName = $startName ?? 'start';
             $startNameDisplay = $startName ? " $startName" : '';
 
             throw new \OutOfRangeException("Invalid value:$startNameDisplay must be between 0 and $length: $start.");
         }
 
         if ($end !== null) {
+
             if ($end < $start || $end > $length) {
-                $endName ??= 'end';
+                $endName = $endName ?? 'end';
                 $endNameDisplay = $endName ? " $endName" : '';
 
                 throw new \OutOfRangeException("Invalid value:$endNameDisplay must be between $start and $length: $end.");

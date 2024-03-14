@@ -12,18 +12,15 @@
 
 namespace Tangible\ScssPhp\Value;
 
-use JiriPudil\SealedClasses\Sealed;
 use Tangible\ScssPhp\Ast\Selector\ComplexSelector;
 use Tangible\ScssPhp\Ast\Selector\CompoundSelector;
 use Tangible\ScssPhp\Ast\Selector\SelectorList;
 use Tangible\ScssPhp\Ast\Selector\SimpleSelector;
-use Tangible\ScssPhp\Deprecation;
 use Tangible\ScssPhp\Exception\SassFormatException;
 use Tangible\ScssPhp\Exception\SassScriptException;
 use Tangible\ScssPhp\Serializer\Serializer;
 use Tangible\ScssPhp\Util\Equatable;
 use Tangible\ScssPhp\Visitor\ValueVisitor;
-use Tangible\ScssPhp\Warn;
 
 /**
  * A SassScript value.
@@ -33,11 +30,12 @@ use Tangible\ScssPhp\Warn;
  * particular types using `assert*()` functions like {@see assertString}, which
  * throw user-friendly error messages if they fail.
  */
-#[Sealed(permits: [SassBoolean::class, SassCalculation::class, SassColor::class, SassFunction::class, SassList::class, SassMap::class, SassNull::class, SassNumber::class, SassString::class])]
-abstract class Value implements Equatable, \Stringable
+abstract class Value implements Equatable
 {
     /**
      * Whether the value counts as `true` in an `@if` statement and other contexts
+     *
+     * @return bool
      */
     public function isTruthy(): bool
     {
@@ -49,8 +47,12 @@ abstract class Value implements Equatable, \Stringable
      *
      * All SassScript values can be used as lists. Maps count as lists of pairs,
      * and all other values count as single-value lists.
+     *
+     * @return string
+     *
+     * @phpstan-return ListSeparator::*
      */
-    public function getSeparator(): ListSeparator
+    public function getSeparator(): string
     {
         return ListSeparator::UNDECIDED;
     }
@@ -60,6 +62,8 @@ abstract class Value implements Equatable, \Stringable
      *
      * All SassScript values can be used as lists. Maps count as lists of pairs,
      * and all other values count as single-value lists.
+     *
+     * @return bool
      */
     public function hasBrackets(): bool
     {
@@ -117,21 +121,7 @@ abstract class Value implements Equatable, \Stringable
      */
     public function sassIndexToListIndex(Value $sassIndex, ?string $name = null): int
     {
-        $indexValue = $sassIndex->assertNumber($name);
-
-        if ($indexValue->hasUnits()) {
-            $message = <<<WARNING
-\$$name: Passing a number with unit {$indexValue->getUnitString()} is deprecated.
-
-To preserve current behavior: {$indexValue->unitSuggestion($name ?? 'index')}
-
-More info: https://sass-lang.com/d/function-units
-WARNING;
-
-            Warn::forDeprecation($message, Deprecation::functionUnits);
-        }
-
-        $index = $indexValue->assertInt($name);
+        $index = $sassIndex->assertNumber($name)->assertInt($name);
 
         if ($index === 0) {
             throw SassScriptException::forArgument('List index may not be 0.', $name);
@@ -155,6 +145,10 @@ WARNING;
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
      *
+     * @param string|null $name
+     *
+     * @return SassBoolean
+     *
      * @throws SassScriptException
      */
     public function assertBoolean(?string $name = null): SassBoolean
@@ -167,6 +161,10 @@ WARNING;
      *
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
+     *
+     * @param string|null $name
+     *
+     * @return SassCalculation
      *
      * @throws SassScriptException
      */
@@ -181,6 +179,10 @@ WARNING;
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
      *
+     * @param string|null $name
+     *
+     * @return SassColor
+     *
      * @throws SassScriptException
      */
     public function assertColor(?string $name = null): SassColor
@@ -193,6 +195,10 @@ WARNING;
      *
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
+     *
+     * @param string|null $name
+     *
+     * @return SassFunction
      *
      * @throws SassScriptException
      */
@@ -207,6 +213,10 @@ WARNING;
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
      *
+     * @param string|null $name
+     *
+     * @return SassMap
+     *
      * @throws SassScriptException
      */
     public function assertMap(?string $name = null): SassMap
@@ -216,6 +226,8 @@ WARNING;
 
     /**
      * Return $this as a SassMap if it is one (including empty lists) or null otherwise.
+     *
+     * @return SassMap|null
      */
     public function tryMap(): ?SassMap
     {
@@ -227,6 +239,10 @@ WARNING;
      *
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
+     *
+     * @param string|null $name
+     *
+     * @return SassNumber
      *
      * @throws SassScriptException
      */
@@ -240,6 +256,10 @@ WARNING;
      *
      * If this came from a function argument, $name is the argument name
      * (without the `$`). It's used for error reporting.
+     *
+     * @param string|null $name
+     *
+     * @return SassString
      *
      * @throws SassScriptException
      */
@@ -266,7 +286,7 @@ WARNING;
         $string = $this->selectorString($name);
 
         try {
-            return SelectorList::parse($string, null, null, null, $allowParent);
+            return SelectorList::parse($string, null, null, $allowParent);
         } catch (SassFormatException $e) {
             throw SassScriptException::forArgument($e->getMessage(), $name, $e);
         }
@@ -424,6 +444,8 @@ WARNING;
     /**
      * Whether the value will be represented in CSS as the empty string.
      *
+     * @return bool
+     *
      * @internal
      */
     public function isBlank(): bool
@@ -436,6 +458,8 @@ WARNING;
      *
      * Functions that shadow plain CSS functions need to gracefully handle when
      * these arguments are passed in.
+     *
+     * @return bool
      *
      * @internal
      */
@@ -450,6 +474,8 @@ WARNING;
      * Functions that shadow plain CSS functions need to gracefully handle when
      * these arguments are passed in.
      *
+     * @return bool
+     *
      * @internal
      */
     public function isVar(): bool
@@ -462,14 +488,24 @@ WARNING;
      * separator and brackets.
      *
      * @param list<Value> $contents
+     * @param string|null $separator
+     * @param bool|null   $brackets
+     *
+     * @return SassList
+     *
+     * @phpstan-param ListSeparator::*|null $separator
      */
-    public function withListContents(array $contents, ?ListSeparator $separator = null, ?bool $brackets = null): SassList
+    public function withListContents(array $contents, ?string $separator = null, ?bool $brackets = null): SassList
     {
         return new SassList($contents, $separator ?? $this->getSeparator(), $brackets ?? $this->hasBrackets());
     }
 
     /**
      * The SassScript = operation
+     *
+     * @param Value $other
+     *
+     * @return Value
      *
      * @internal
      */
@@ -481,6 +517,10 @@ WARNING;
     /**
      * The SassScript `>` operation.
      *
+     * @param Value $other
+     *
+     * @return SassBoolean
+     *
      * @internal
      */
     public function greaterThan(Value $other): SassBoolean
@@ -490,6 +530,10 @@ WARNING;
 
     /**
      * The SassScript `>=` operation.
+     *
+     * @param Value $other
+     *
+     * @return SassBoolean
      *
      * @internal
      */
@@ -501,6 +545,10 @@ WARNING;
     /**
      * The SassScript `<` operation.
      *
+     * @param Value $other
+     *
+     * @return SassBoolean
+     *
      * @internal
      */
     public function lessThan(Value $other): SassBoolean
@@ -510,6 +558,10 @@ WARNING;
 
     /**
      * The SassScript `<=` operation.
+     *
+     * @param Value $other
+     *
+     * @return SassBoolean
      *
      * @internal
      */
@@ -521,6 +573,10 @@ WARNING;
     /**
      * The SassScript `*` operation.
      *
+     * @param Value $other
+     *
+     * @return Value
+     *
      * @internal
      */
     public function times(Value $other): Value
@@ -531,6 +587,10 @@ WARNING;
     /**
      * The SassScript `%` operation.
      *
+     * @param Value $other
+     *
+     * @return Value
+     *
      * @internal
      */
     public function modulo(Value $other): Value
@@ -540,6 +600,10 @@ WARNING;
 
     /**
      * The SassScript `+` operation.
+     *
+     * @param Value $other
+     *
+     * @return Value
      *
      * @internal
      */
@@ -559,6 +623,10 @@ WARNING;
     /**
      * The SassScript `-` operation.
      *
+     * @param Value $other
+     *
+     * @return Value
+     *
      * @internal
      */
     public function minus(Value $other): Value
@@ -573,6 +641,10 @@ WARNING;
     /**
      * The SassScript `/` operation.
      *
+     * @param Value $other
+     *
+     * @return Value
+     *
      * @internal
      */
     public function dividedBy(Value $other): Value
@@ -582,6 +654,8 @@ WARNING;
 
     /**
      * The SassScript unary `+` operation.
+     *
+     * @return Value
      *
      * @internal
      */
@@ -593,6 +667,8 @@ WARNING;
     /**
      * The SassScript unary `-` operation.
      *
+     * @return Value
+     *
      * @internal
      */
     public function unaryMinus(): Value
@@ -603,6 +679,8 @@ WARNING;
     /**
      * The SassScript unary `/` operation.
      *
+     * @return Value
+     *
      * @internal
      */
     public function unaryDivide(): Value
@@ -612,6 +690,8 @@ WARNING;
 
     /**
      * The SassScript unary `not` operation.
+     *
+     * @return Value
      *
      * @internal
      */
@@ -624,6 +704,8 @@ WARNING;
      * Returns a copy of $this without {@see SassNumber::$asSlash} set.
      *
      * If this isn't a SassNumber, return it as-is.
+     *
+     * @return Value
      *
      * @internal
      */

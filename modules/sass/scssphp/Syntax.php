@@ -12,30 +12,33 @@
 
 namespace Tangible\ScssPhp;
 
-enum Syntax
+final class Syntax
 {
     /**
      * The CSS-superset SCSS syntax.
      */
-    case SCSS;
+    const SCSS = 'scss';
 
     /**
      * The whitespace-sensitive indented syntax.
      */
-    case SASS;
+    const SASS = 'sass';
 
     /**
      * The plain CSS syntax, which disallows special Sass features.
      */
-    case CSS;
+    const CSS = 'css';
 
-    public static function forPath(string $path): self
+    /**
+     * @return Syntax::*
+     */
+    public static function forPath(string $path): string
     {
-        if (str_ends_with($path, '.sass')) {
+        if (substr($path, -5) === '.sass') {
             return self::SASS;
         }
 
-        if (str_ends_with($path, '.css')) {
+        if (substr($path, -4) === '.css') {
             return self::CSS;
         }
 

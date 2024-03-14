@@ -22,6 +22,7 @@ use Tangible\ScssPhp\Util\NumberUtil;
 final class UnitlessSassNumber extends SassNumber
 {
     /**
+     * @param float                              $value
      * @param array{SassNumber, SassNumber}|null $asSlash
      */
     public function __construct(float $value, array $asSlash = null)
@@ -155,7 +156,7 @@ final class UnitlessSassNumber extends SassNumber
         return parent::lessThanOrEquals($other);
     }
 
-    public function modulo(Value $other): SassNumber
+    public function modulo(Value $other): Value
     {
         if ($other instanceof SassNumber) {
             return $other->withValue(NumberUtil::moduloLikeSass($this->getValue(), $other->getValue()));

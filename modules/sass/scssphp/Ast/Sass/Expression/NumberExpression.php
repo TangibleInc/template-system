@@ -24,11 +24,23 @@ use Tangible\ScssPhp\Visitor\ExpressionVisitor;
  */
 final class NumberExpression implements Expression
 {
-    private readonly float $value;
+    /**
+     * @var float
+     * @readonly
+     */
+    private $value;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
-    private readonly ?string $unit;
+    /**
+     * @var string|null
+     * @readonly
+     */
+    private $unit;
 
     public function __construct(float $value, FileSpan $span, ?string $unit = null)
     {

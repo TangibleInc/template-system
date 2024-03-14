@@ -28,9 +28,17 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
  */
 final class AtRootRule extends ParentStatement
 {
-    private readonly ?Interpolation $query;
+    /**
+     * @var Interpolation|null
+     * @readonly
+     */
+    private $query;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
      * @param Statement[] $children

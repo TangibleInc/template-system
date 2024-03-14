@@ -14,7 +14,6 @@ namespace Tangible\ScssPhp\Block;
 
 use Tangible\ScssPhp\Block;
 use Tangible\ScssPhp\Compiler\Environment;
-use Tangible\ScssPhp\Node\Number;
 
 /**
  * @internal
@@ -27,7 +26,7 @@ final class CallableBlock extends Block
     public $name;
 
     /**
-     * @var list<array{string, array|Number|null, bool}>|null
+     * @var array|null
      */
     public $args;
 

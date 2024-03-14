@@ -28,15 +28,35 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
  */
 final class ForRule extends ParentStatement
 {
-    private readonly string $variable;
+    /**
+     * @var string
+     * @readonly
+     */
+    private $variable;
 
-    private readonly Expression $from;
+    /**
+     * @var Expression
+     * @readonly
+     */
+    private $from;
 
-    private readonly Expression $to;
+    /**
+     * @var Expression
+     * @readonly
+     */
+    private $to;
 
-    private readonly bool $exclusive;
+    /**
+     * @var bool
+     * @readonly
+     */
+    private $exclusive;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
      * @param Statement[] $children

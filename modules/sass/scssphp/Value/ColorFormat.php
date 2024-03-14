@@ -12,12 +12,11 @@
 
 namespace Tangible\ScssPhp\Value;
 
-use JiriPudil\SealedClasses\Sealed;
-
 /**
  * @internal
  */
-#[Sealed(permits: [ColorFormatEnum::class, SpanColorFormat::class])]
-interface ColorFormat
+final class ColorFormat
 {
+    const RGB_FUNCTION = 'rgbFunction';
+    const HSL_FUNCTION = 'hslFunction';
 }

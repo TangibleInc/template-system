@@ -25,10 +25,17 @@ final class SupportsInterpolation implements SupportsCondition
 {
     /**
      * The expression in the interpolation.
+     *
+     * @var Expression
+     * @readonly
      */
-    private readonly Expression $expression;
+    private $expression;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(Expression $expression, FileSpan $span)
     {

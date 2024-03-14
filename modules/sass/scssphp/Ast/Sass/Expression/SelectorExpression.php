@@ -23,7 +23,11 @@ use Tangible\ScssPhp\Visitor\ExpressionVisitor;
  */
 final class SelectorExpression implements Expression
 {
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(FileSpan $span)
     {

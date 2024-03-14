@@ -14,7 +14,6 @@ namespace Tangible\ScssPhp\Ast\Sass\Expression;
 
 use Tangible\ScssPhp\Ast\Sass\Expression;
 use Tangible\ScssPhp\SourceSpan\FileSpan;
-use Tangible\ScssPhp\Util\SpanUtil;
 use Tangible\ScssPhp\Visitor\ExpressionVisitor;
 
 /**
@@ -24,18 +23,35 @@ use Tangible\ScssPhp\Visitor\ExpressionVisitor;
  */
 final class BinaryOperationExpression implements Expression
 {
-    private readonly BinaryOperator $operator;
+    /**
+     * @var BinaryOperator::*
+     * @readonly
+     */
+    private $operator;
 
-    private readonly Expression $left;
+    /**
+     * @var Expression
+     * @readonly
+     */
+    private $left;
 
-    private readonly Expression $right;
+    /**
+     * @var Expression
+     * @readonly
+     */
+    private $right;
 
     /**
      * Whether this is a dividedBy operation that may be interpreted as slash-separated numbers.
+     *
+     * @var bool
      */
-    private bool $allowsSlash = false;
+    private $allowsSlash = false;
 
-    public function __construct(BinaryOperator $operator, Expression $left, Expression $right)
+    /**
+     * @param BinaryOperator::* $operator
+     */
+    public function __construct(string $operator, Expression $left, Expression $right)
     {
         $this->operator = $operator;
         $this->left = $left;
@@ -53,7 +69,10 @@ final class BinaryOperationExpression implements Expression
         return $operation;
     }
 
-    public function getOperator(): BinaryOperator
+    /**
+     * @return BinaryOperator::*
+     */
+    public function getOperator(): string
     {
         return $this->operator;
     }
@@ -93,23 +112,6 @@ final class BinaryOperationExpression implements Expression
         return $leftSpan->expand($rightSpan);
     }
 
-    /**
-     * Returns the span that covers only {@see $operator}.
-     *
-     * @internal
-     */
-    public function getOperatorSpan(): FileSpan
-    {
-        $leftSpan = $this->left->getSpan();
-        $rightSpan = $this->right->getSpan();
-
-        if ($leftSpan->getFile() === $rightSpan->getFile() && $leftSpan->getEnd()->getOffset() < $rightSpan->getStart()->getOffset()) {
-            return SpanUtil::trim($leftSpan->getFile()->span($leftSpan->getEnd()->getOffset(), $rightSpan->getStart()->getOffset()));
-        }
-
-        return $this->getSpan();
-    }
-
     public function accept(ExpressionVisitor $visitor)
     {
         return $visitor->visitBinaryOperationExpression($this);
@@ -119,7 +121,7 @@ final class BinaryOperationExpression implements Expression
     {
         $buffer = '';
 
-        $leftNeedsParens = ($this->left instanceof BinaryOperationExpression && $this->left->getOperator()->getPrecedence() < $this->operator->getPrecedence()) || ($this->left instanceof ListExpression && !$this->left->hasBrackets() && \count($this->left->getContents()) > 1);
+        $leftNeedsParens = $this->left instanceof BinaryOperationExpression && BinaryOperator::getPrecedence($this->left->getOperator()) < BinaryOperator::getPrecedence($this->operator);
         if ($leftNeedsParens) {
             $buffer .= '(';
         }
@@ -129,10 +131,10 @@ final class BinaryOperationExpression implements Expression
         }
 
         $buffer .= ' ';
-        $buffer .= $this->operator->getOperator();
+        $buffer .= $this->operator;
         $buffer .= ' ';
 
-        $rightNeedsParens = ($this->right instanceof BinaryOperationExpression && $this->right->getOperator()->getPrecedence() <= $this->operator->getPrecedence() && !($this->right->operator === $this->operator && $this->operator->isAssociative())) || ($this->right instanceof ListExpression && !$this->right->hasBrackets() && \count($this->right->getContents()) > 1);
+        $rightNeedsParens = $this->right instanceof BinaryOperationExpression && BinaryOperator::getPrecedence($this->right->getOperator()) <= BinaryOperator::getPrecedence($this->operator);
         if ($rightNeedsParens) {
             $buffer .= '(';
         }

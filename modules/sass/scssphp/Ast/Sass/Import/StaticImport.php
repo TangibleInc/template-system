@@ -27,16 +27,26 @@ final class StaticImport implements Import
      * The URL for this import.
      *
      * This already contains quotes.
+     *
+     * @var Interpolation
+     * @readonly
      */
-    private readonly Interpolation $url;
+    private $url;
 
     /**
      * The modifiers (such as media or supports queries) attached to this import,
      * or `null` if none are attached.
+     *
+     * @var Interpolation|null
+     * @readonly
      */
-    private readonly ?Interpolation $modifiers;
+    private $modifiers;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(Interpolation $url, FileSpan $span, ?Interpolation $modifiers = null)
     {

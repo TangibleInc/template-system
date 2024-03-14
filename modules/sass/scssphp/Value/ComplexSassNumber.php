@@ -21,15 +21,18 @@ final class ComplexSassNumber extends SassNumber
 {
     /**
      * @var list<string>
+     * @readonly
      */
-    private readonly array $numeratorUnits;
+    private $numeratorUnits;
 
     /**
      * @var list<string>
+     * @readonly
      */
-    private readonly array $denominatorUnits;
+    private $denominatorUnits;
 
     /**
+     * @param float                              $value
      * @param list<string>                       $numeratorUnits
      * @param list<string>                       $denominatorUnits
      * @param array{SassNumber, SassNumber}|null $asSlash

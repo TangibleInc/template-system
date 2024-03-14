@@ -22,7 +22,11 @@ use Tangible\ScssPhp\Ast\Sass\Statement;
  */
 final class IfClause extends IfRuleClause
 {
-    private readonly Expression $expression;
+    /**
+     * @var Expression
+     * @readonly
+     */
+    private $expression;
 
     /**
      * @param Statement[] $children

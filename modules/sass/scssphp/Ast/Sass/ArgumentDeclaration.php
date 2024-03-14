@@ -27,15 +27,26 @@ final class ArgumentDeclaration implements SassNode
 {
     /**
      * @var list<Argument>
+     * @readonly
      */
-    private readonly array $arguments;
+    private $arguments;
 
-    private readonly ?string $restArgument;
+    /**
+     * @var string|null
+     * @readonly
+     */
+    private $restArgument;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
      * @param list<Argument> $arguments
+     * @param FileSpan      $span
+     * @param string|null $restArgument
      */
     public function __construct(array $arguments, FileSpan $span, ?string $restArgument = null)
     {
@@ -86,6 +97,7 @@ final class ArgumentDeclaration implements SassNode
     }
 
     /**
+     * @param int                  $positional
      * @param array<string, mixed> $names Only keys are relevant
      *
      * @throws SassScriptException if $positional and $names aren't valid for this argument declaration.
@@ -125,7 +137,9 @@ final class ArgumentDeclaration implements SassNode
         }
 
         if ($nameUsed < \count($names)) {
-            $unknownNames = array_values(array_diff(array_keys($names), array_map(fn($argument) => $argument->getName(), $this->arguments)));
+            $unknownNames = array_values(array_diff(array_keys($names), array_map(function ($argument) {
+                return $argument->getName();
+            }, $this->arguments)));
             $lastName = array_pop($unknownNames);
             $message = sprintf(
                 'No argument%s named $%s%s.',
@@ -163,7 +177,10 @@ final class ArgumentDeclaration implements SassNode
      * Returns whether $positional and $names are valid for this argument
      * declaration.
      *
+     * @param int                  $positional
      * @param array<string, mixed> $names Only keys are relevant
+     *
+     * @return bool
      */
     public function matches(int $positional, array $names): bool
     {

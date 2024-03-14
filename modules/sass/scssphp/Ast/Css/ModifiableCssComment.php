@@ -13,7 +13,6 @@
 namespace Tangible\ScssPhp\Ast\Css;
 
 use Tangible\ScssPhp\SourceSpan\FileSpan;
-use Tangible\ScssPhp\Visitor\ModifiableCssVisitor;
 
 /**
  * A modifiable version of {@see CssComment} for use in the evaluation step.
@@ -22,9 +21,17 @@ use Tangible\ScssPhp\Visitor\ModifiableCssVisitor;
  */
 final class ModifiableCssComment extends ModifiableCssNode implements CssComment
 {
-    private readonly string $text;
+    /**
+     * @var string
+     * @readonly
+     */
+    private $text;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(string $text, FileSpan $span)
     {
@@ -47,7 +54,7 @@ final class ModifiableCssComment extends ModifiableCssNode implements CssComment
         return $this->text[2] === '!';
     }
 
-    public function accept(ModifiableCssVisitor $visitor)
+    public function accept($visitor)
     {
         return $visitor->visitCssComment($this);
     }

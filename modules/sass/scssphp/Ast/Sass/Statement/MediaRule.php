@@ -26,9 +26,17 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
  */
 final class MediaRule extends ParentStatement
 {
-    private readonly Interpolation $query;
+    /**
+     * @var Interpolation
+     * @readonly
+     */
+    private $query;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
      * @param Statement[] $children

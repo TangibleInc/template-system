@@ -12,10 +12,7 @@
 
 namespace Tangible\ScssPhp\Ast\Selector;
 
-use Tangible\ScssPhp\Ast\Css\CssValue;
-use Tangible\ScssPhp\SourceSpan\FileSpan;
 use Tangible\ScssPhp\Util\Equatable;
-use Tangible\ScssPhp\Util\EquatableUtil;
 
 /**
  * A component of a {@see ComplexSelector}.
@@ -28,8 +25,11 @@ final class ComplexSelectorComponent implements Equatable
 {
     /**
      * This component's compound selector.
+     *
+     * @var CompoundSelector
+     * @readonly
      */
-    private readonly CompoundSelector $selector;
+    private $selector;
 
     /**
      * This selector's combinators.
@@ -38,20 +38,22 @@ final class ComplexSelectorComponent implements Equatable
      * combinator. If it's more than one element, that means it's invalid CSS;
      * however, we still support this for backwards-compatibility purposes.
      *
-     * @var list<CssValue<Combinator>>
+     * @var list<string>
+     * @phpstan-var list<Combinator::*>
+     * @readonly
      */
-    private readonly array $combinators;
-
-    private readonly FileSpan $span;
+    private $combinators;
 
     /**
-     * @param list<CssValue<Combinator>> $combinators
+     * @param CompoundSelector $selector
+     * @param list<string>     $combinators
+     *
+     * @phpstan-param list<Combinator::*> $combinators
      */
-    public function __construct(CompoundSelector $selector, array $combinators, FileSpan $span)
+    public function __construct(CompoundSelector $selector, array $combinators)
     {
         $this->selector = $selector;
         $this->combinators = $combinators;
-        $this->span = $span;
     }
 
     public function getSelector(): CompoundSelector
@@ -59,13 +61,9 @@ final class ComplexSelectorComponent implements Equatable
         return $this->selector;
     }
 
-    public function getSpan(): FileSpan
-    {
-        return $this->span;
-    }
-
     /**
-     * @return list<CssValue<Combinator>>
+     * @return list<string>
+     * @phpstan-return list<Combinator::*>
      */
     public function getCombinators(): array
     {
@@ -74,14 +72,18 @@ final class ComplexSelectorComponent implements Equatable
 
     public function equals(object $other): bool
     {
-        return $other instanceof ComplexSelectorComponent && $this->selector->equals($other->selector) && EquatableUtil::listEquals($this->combinators, $other->combinators);
+        return $other instanceof ComplexSelectorComponent && $this->selector->equals($other->selector) && $this->combinators === $other->combinators;
     }
 
     /**
      * Returns a copy of $this with $combinators added to the end of
      * `$this->combinators`.
      *
-     * @param list<CssValue<Combinator>> $combinators
+     * @param list<string> $combinators
+     *
+     * @return ComplexSelectorComponent
+     *
+     * @phpstan-param list<Combinator::*> $combinators
      */
     public function withAdditionalCombinators(array $combinators): ComplexSelectorComponent
     {
@@ -89,11 +91,6 @@ final class ComplexSelectorComponent implements Equatable
             return $this;
         }
 
-        return new ComplexSelectorComponent($this->selector, array_merge($this->combinators, $combinators), $this->span);
-    }
-
-    public function __toString(): string
-    {
-        return $this->selector . implode('', array_map(fn ($combinator) => ' ' . $combinator, $this->combinators));
+        return new ComplexSelectorComponent($this->selector, array_merge($this->combinators, $combinators));
     }
 }

@@ -13,7 +13,6 @@
 namespace Tangible\ScssPhp\Ast\Css;
 
 use Tangible\ScssPhp\SourceSpan\FileSpan;
-use Tangible\ScssPhp\Visitor\ModifiableCssVisitor;
 
 /**
  * A modifiable version of {@see CssImport} for use in the evaluation step.
@@ -28,19 +27,26 @@ final class ModifiableCssImport extends ModifiableCssNode implements CssImport
      * This includes quotes.
      *
      * @var CssValue<string>
+     * @readonly
      */
-    private readonly CssValue $url;
+    private $url;
 
     /**
      * @var CssValue<string>|null
+     * @readonly
      */
-    private readonly ?CssValue $modifiers;
-
-    private readonly FileSpan $span;
+    private $modifiers;
 
     /**
-     * @param CssValue<string> $url
-     * @param CssValue<string>|null $modifiers
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
+
+    /**
+     * @param CssValue<string>         $url
+     * @param FileSpan                 $span
+     * @param CssValue<string>|null    $modifiers
      */
     public function __construct(CssValue $url, FileSpan $span, ?CssValue $modifiers = null)
     {
@@ -64,7 +70,7 @@ final class ModifiableCssImport extends ModifiableCssNode implements CssImport
         return $this->span;
     }
 
-    public function accept(ModifiableCssVisitor $visitor)
+    public function accept($visitor)
     {
         return $visitor->visitCssImport($this);
     }

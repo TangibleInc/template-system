@@ -24,10 +24,17 @@ final class SupportsNegation implements SupportsCondition
 {
     /**
      * The condition that's been negated.
+     *
+     * @var SupportsCondition
+     * @readonly
      */
-    private readonly SupportsCondition $condition;
+    private $condition;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(SupportsCondition $condition, FileSpan $span)
     {

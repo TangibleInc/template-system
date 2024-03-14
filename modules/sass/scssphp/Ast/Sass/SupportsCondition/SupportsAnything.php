@@ -26,10 +26,17 @@ final class SupportsAnything implements SupportsCondition
 {
     /**
      * The contents of the condition.
+     *
+     * @var Interpolation
+     * @readonly
      */
-    private readonly Interpolation $contents;
+    private $contents;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(Interpolation $contents, FileSpan $span)
     {

@@ -30,10 +30,15 @@ abstract class ParentStatement implements Statement
 {
     /**
      * @var T
+     * @readonly
      */
-    private readonly ?array $children;
+    private $children;
 
-    private readonly bool $declarations;
+    /**
+     * @var bool
+     * @readonly
+     */
+    private $declarations;
 
     /**
      * @param T $children
@@ -69,7 +74,7 @@ abstract class ParentStatement implements Statement
     /**
      * @return T
      */
-    final public function getChildren(): ?array
+    final public function getChildren()
     {
         return $this->children;
     }

@@ -37,13 +37,19 @@ final class SassString extends Value
      * contain characters that aren't valid in identifiers, such as
      * `url(http://example.com)`. Unfortunately, it also means that we don't
      * consider `foo` and `f\6F\6F` the same string.
+     *
+     * @var string
+     * @readonly
      */
-    private readonly string $text;
+    private $text;
 
     /**
      * Whether this string has quotes.
+     *
+     * @var bool
+     * @readonly
      */
-    private readonly bool $quotes;
+    private $quotes;
 
     public function __construct(string $text, bool $quotes = true)
     {

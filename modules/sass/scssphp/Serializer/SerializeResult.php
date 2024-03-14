@@ -19,7 +19,11 @@ namespace Tangible\ScssPhp\Serializer;
  */
 final class SerializeResult
 {
-    private readonly string $css;
+    /**
+     * @var string
+     * @readonly
+     */
+    private $css;
 
     public function __construct(string $css)
     {

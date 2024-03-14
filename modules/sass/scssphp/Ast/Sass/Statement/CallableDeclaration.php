@@ -26,13 +26,29 @@ use Tangible\ScssPhp\SourceSpan\FileSpan;
  */
 abstract class CallableDeclaration extends ParentStatement
 {
-    private readonly string $name;
+    /**
+     * @var string
+     * @readonly
+     */
+    private $name;
 
-    private readonly ArgumentDeclaration $arguments;
+    /**
+     * @var ArgumentDeclaration
+     * @readonly
+     */
+    private $arguments;
 
-    private readonly ?SilentComment $comment;
+    /**
+     * @var SilentComment|null
+     * @readonly
+     */
+    private $comment;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
      * @param Statement[] $children
@@ -59,6 +75,9 @@ abstract class CallableDeclaration extends ParentStatement
         return $this->arguments;
     }
 
+    /**
+     * @return SilentComment|null
+     */
     final public function getComment(): ?SilentComment
     {
         return $this->comment;

@@ -19,11 +19,18 @@ use Tangible\ScssPhp\Visitor\ValueVisitor;
  */
 final class SassNull extends Value
 {
-    private static SassNull $instance;
+    /**
+     * @var SassNull|null
+     */
+    private static $instance;
 
     public static function create(): SassNull
     {
-        return self::$instance ??= new self();
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
     private function __construct()

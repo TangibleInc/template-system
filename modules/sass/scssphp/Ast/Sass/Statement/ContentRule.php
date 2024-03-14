@@ -31,10 +31,17 @@ final class ContentRule implements Statement
      * The arguments pass to this `@content` rule.
      *
      * This will be an empty invocation if `@content` has no arguments.
+     *
+     * @var ArgumentInvocation
+     * @readonly
      */
-    private readonly ArgumentInvocation $arguments;
+    private $arguments;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(ArgumentInvocation $arguments, FileSpan $span)
     {

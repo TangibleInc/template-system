@@ -13,8 +13,6 @@
 namespace Tangible\ScssPhp\Ast\Css;
 
 use Tangible\ScssPhp\SourceSpan\FileSpan;
-use Tangible\ScssPhp\Util\EquatableUtil;
-use Tangible\ScssPhp\Visitor\ModifiableCssVisitor;
 
 /**
  * A modifiable version of {@see CssKeyframeBlock} for use in the evaluation step.
@@ -25,13 +23,19 @@ final class ModifiableCssKeyframeBlock extends ModifiableCssParentNode implement
 {
     /**
      * @var CssValue<list<string>>
+     * @readonly
      */
-    private readonly CssValue $selector;
+    private $selector;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
      * @param CssValue<list<string>> $selector
+     * @param FileSpan               $span
      */
     public function __construct(CssValue $selector, FileSpan $span)
     {
@@ -50,17 +54,15 @@ final class ModifiableCssKeyframeBlock extends ModifiableCssParentNode implement
         return $this->span;
     }
 
-    public function accept(ModifiableCssVisitor $visitor)
+    public function accept($visitor)
     {
         return $visitor->visitCssKeyframeBlock($this);
     }
 
-    public function equalsIgnoringChildren(ModifiableCssNode $other): bool
-    {
-        return $other instanceof ModifiableCssKeyframeBlock && EquatableUtil::listEquals($this->selector->getValue(), $other->selector->getValue());
-    }
-
-    public function copyWithoutChildren(): ModifiableCssKeyframeBlock
+    /**
+     * @phpstan-return ModifiableCssKeyframeBlock
+     */
+    public function copyWithoutChildren(): ModifiableCssParentNode
     {
         return new ModifiableCssKeyframeBlock($this->selector, $this->span);
     }

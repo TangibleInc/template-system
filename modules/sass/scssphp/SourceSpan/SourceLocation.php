@@ -17,9 +17,17 @@ namespace Tangible\ScssPhp\SourceSpan;
  */
 final class SourceLocation
 {
-    private readonly SourceFile $file;
+    /**
+     * @var SourceFile
+     * @readonly
+     */
+    private $file;
 
-    private readonly int $offset;
+    /**
+     * @var int
+     * @readonly
+     */
+    private $offset;
 
     public function __construct(SourceFile $file, int $offset)
     {
@@ -56,13 +64,5 @@ final class SourceLocation
     public function getSourceUrl(): ?string
     {
         return $this->file->getSourceUrl();
-    }
-
-    /**
-     * Returns a span that covers only a single point: this location.
-     */
-    public function pointSpan(): FileSpan
-    {
-        return new ConcreteFileSpan($this->file, $this->offset, $this->offset);
     }
 }

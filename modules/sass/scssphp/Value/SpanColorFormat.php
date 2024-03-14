@@ -17,9 +17,12 @@ use Tangible\ScssPhp\SourceSpan\FileSpan;
 /**
  * @internal
  */
-final class SpanColorFormat implements ColorFormat
+final class SpanColorFormat
 {
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     */
+    private $span;
 
     public function __construct(FileSpan $span)
     {

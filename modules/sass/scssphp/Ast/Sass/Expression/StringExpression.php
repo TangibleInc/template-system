@@ -26,9 +26,17 @@ use Tangible\ScssPhp\Visitor\ExpressionVisitor;
  */
 final class StringExpression implements Expression
 {
-    private readonly Interpolation $text;
+    /**
+     * @var Interpolation
+     * @readonly
+     */
+    private $text;
 
-    private readonly bool $quotes;
+    /**
+     * @var bool
+     * @readonly
+     */
+    private $quotes;
 
     public function __construct(Interpolation $text, bool $quotes = false)
     {
@@ -143,6 +151,8 @@ final class StringExpression implements Expression
 
     /**
      * @param array<string|Expression> $parts
+     *
+     * @return string
      */
     private static function bestQuote(array $parts): string
     {
@@ -153,16 +163,16 @@ final class StringExpression implements Expression
                 continue;
             }
 
-            if (str_contains($part, "'")) {
+            if (false !== strpos($part, "'")) {
                 return '"';
             }
 
-            if (str_contains($part, '"')) {
+            if (false !== strpos($part, '"')) {
                 $containsDoubleQuote = true;
             }
         }
 
-        return $containsDoubleQuote ? "'" : '"';
+        return $containsDoubleQuote ? "'": '"';
     }
 
     public function __toString(): string

@@ -13,7 +13,6 @@
 namespace Tangible\ScssPhp\Ast\Css;
 
 use Tangible\ScssPhp\SourceSpan\FileSpan;
-use Tangible\ScssPhp\Visitor\ModifiableCssVisitor;
 
 /**
  * A modifiable version of {@see CssStylesheet} for use in the evaluation step.
@@ -22,9 +21,14 @@ use Tangible\ScssPhp\Visitor\ModifiableCssVisitor;
  */
 final class ModifiableCssStylesheet extends ModifiableCssParentNode implements CssStylesheet
 {
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
+     * @param FileSpan $span
      * @param list<ModifiableCssNode> $children
      */
     public function __construct(FileSpan $span, array $children = [])
@@ -38,17 +42,15 @@ final class ModifiableCssStylesheet extends ModifiableCssParentNode implements C
         return $this->span;
     }
 
-    public function accept(ModifiableCssVisitor $visitor)
+    public function accept($visitor)
     {
         return $visitor->visitCssStylesheet($this);
     }
 
-    public function equalsIgnoringChildren(ModifiableCssNode $other): bool
-    {
-        return $other instanceof ModifiableCssStylesheet;
-    }
-
-    public function copyWithoutChildren(): ModifiableCssStylesheet
+    /**
+     * @phpstan-return ModifiableCssStylesheet
+     */
+    public function copyWithoutChildren(): ModifiableCssParentNode
     {
         return new ModifiableCssStylesheet($this->span);
     }

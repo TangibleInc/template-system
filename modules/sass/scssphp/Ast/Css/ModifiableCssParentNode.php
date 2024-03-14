@@ -22,7 +22,7 @@ abstract class ModifiableCssParentNode extends ModifiableCssNode implements CssP
     /**
      * @var list<ModifiableCssNode>
      */
-    private array $children;
+    private $children;
 
     /**
      * @param list<ModifiableCssNode> $children
@@ -46,11 +46,6 @@ abstract class ModifiableCssParentNode extends ModifiableCssNode implements CssP
     }
 
     /**
-     * Returns whether $this is equal to $other, ignoring their child nodes.
-     */
-    abstract public function equalsIgnoringChildren(ModifiableCssNode $other): bool;
-
-    /**
      * Returns a copy of $this with an empty {@see children} list.
      *
      * This is *not* a deep copy. If other parts of this node are modifiable,
@@ -70,16 +65,5 @@ abstract class ModifiableCssParentNode extends ModifiableCssNode implements CssP
     public function removeChildAt(int $index): void
     {
         array_splice($this->children, $index, 1);
-    }
-
-    /**
-     * Destructively removes all elements from {@see children}.
-     */
-    public function clearChildren(): void
-    {
-        foreach ($this->children as $child) {
-            $child->resetParentReferences();
-        }
-        $this->children = [];
     }
 }

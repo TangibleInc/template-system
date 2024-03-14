@@ -25,22 +25,36 @@ use Tangible\ScssPhp\Visitor\ExpressionVisitor;
 final class ListExpression implements Expression
 {
     /**
-     * @var list<Expression>
+     * @var Expression[]
+     * @readonly
      */
-    private readonly array $contents;
+    private $contents;
 
-    private readonly ListSeparator $separator;
+    /**
+     * @var ListSeparator::*
+     * @readonly
+     */
+    private $separator;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
-    private readonly bool $brackets;
+    /**
+     * @var bool
+     * @readonly
+     */
+    private $brackets;
 
     /**
      * ListExpression constructor.
      *
-     * @param list<Expression> $contents
+     * @param Expression[] $contents
+     * @param ListSeparator::* $separator
      */
-    public function __construct(array $contents, ListSeparator $separator, FileSpan $span, bool $brackets = false)
+    public function __construct(array $contents, string $separator, FileSpan $span, bool $brackets = false)
     {
         $this->contents = $contents;
         $this->separator = $separator;
@@ -49,14 +63,17 @@ final class ListExpression implements Expression
     }
 
     /**
-     * @return list<Expression>
+     * @return Expression[]
      */
     public function getContents(): array
     {
         return $this->contents;
     }
 
-    public function getSeparator(): ListSeparator
+    /**
+     * @return ListSeparator::*
+     */
+    public function getSeparator(): string
     {
         return $this->separator;
     }
@@ -81,21 +98,14 @@ final class ListExpression implements Expression
         $buffer = '';
         if ($this->hasBrackets()) {
             $buffer .= '[';
-        } elseif (\count($this->contents) === 0 || (\count($this->contents) === 1 && $this->separator === ListSeparator::COMMA)) {
-            $buffer .= '(';
         }
 
-        $buffer .= implode(
-            $this->separator === ListSeparator::COMMA ? ', ' : ' ',
-            array_map(fn($element) => $this->elementNeedsParens($element) ? "($element)" : (string) $element, $this->contents)
-        );
+        $buffer .= implode($this->separator === ListSeparator::COMMA ? ', ' : ' ', array_map(function ($element) {
+            return $this->elementNeedsParens($element) ? "($element)" : (string) $element;
+        }, $this->contents));
 
         if ($this->hasBrackets()) {
             $buffer .= ']';
-        } elseif (\count($this->contents) === 0) {
-            $buffer .= ')';
-        } elseif (\count($this->contents) === 1 && $this->separator === ListSeparator::COMMA) {
-            $buffer .= ',)';
         }
 
         return $buffer;

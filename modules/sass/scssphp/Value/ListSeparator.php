@@ -15,20 +15,10 @@ namespace Tangible\ScssPhp\Value;
 /**
  * An enum of list separator types.
  */
-enum ListSeparator
+final class ListSeparator
 {
-    case COMMA;
-    case SPACE;
-    case SLASH;
-    case UNDECIDED;
-
-    public function getSeparator(): ?string
-    {
-        return match ($this) {
-            self::COMMA => ',',
-            self::SPACE => ' ',
-            self::SLASH => '/',
-            self::UNDECIDED => null,
-        };
-    }
+    const COMMA = ',';
+    const SPACE = ' ';
+    const SLASH = '/';
+    const UNDECIDED = '';
 }

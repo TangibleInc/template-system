@@ -21,29 +21,41 @@ final class Frame
 {
     /**
      * The URI of the file in which the code is located.
+     *
+     * @var string
+     * @readonly
      */
-    private readonly string $url;
+    private $url;
 
     /**
      * The line number on which the code location is located.
      *
      * This can be null, indicating that the line number is unknown or
      * unimportant.
+     *
+     * @var int|null
+     * @readonly
      */
-    private readonly ?int $line;
+    private $line;
 
     /**
      * The column number of the code location.
      *
      * This can be null, indicating that the column number is unknown or
      * unimportant.
+     *
+     * @var int|null
+     * @readonly
      */
-    private readonly ?int $column;
+    private $column;
 
     /**
      * The name of the member in which the code location occurs.
+     *
+     * @var string|null
+     * @readonly
      */
-    private readonly ?string $member;
+    private $member;
 
     public function __construct(string $url, ?int $line, ?int $column, ?string $member)
     {

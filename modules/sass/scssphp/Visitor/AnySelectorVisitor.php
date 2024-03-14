@@ -15,17 +15,14 @@ namespace Tangible\ScssPhp\Visitor;
 use Tangible\ScssPhp\Ast\Selector\AttributeSelector;
 use Tangible\ScssPhp\Ast\Selector\ClassSelector;
 use Tangible\ScssPhp\Ast\Selector\ComplexSelector;
-use Tangible\ScssPhp\Ast\Selector\ComplexSelectorComponent;
 use Tangible\ScssPhp\Ast\Selector\CompoundSelector;
 use Tangible\ScssPhp\Ast\Selector\IDSelector;
 use Tangible\ScssPhp\Ast\Selector\ParentSelector;
 use Tangible\ScssPhp\Ast\Selector\PlaceholderSelector;
 use Tangible\ScssPhp\Ast\Selector\PseudoSelector;
 use Tangible\ScssPhp\Ast\Selector\SelectorList;
-use Tangible\ScssPhp\Ast\Selector\SimpleSelector;
 use Tangible\ScssPhp\Ast\Selector\TypeSelector;
 use Tangible\ScssPhp\Ast\Selector\UniversalSelector;
-use Tangible\ScssPhp\Util\IterableUtil;
 
 /**
  * A visitor that visits each selector in a Sass selector AST and returns
@@ -40,12 +37,24 @@ abstract class AnySelectorVisitor implements SelectorVisitor
 {
     public function visitComplexSelector(ComplexSelector $complex): bool
     {
-        return IterableUtil::any($complex->getComponents(), fn (ComplexSelectorComponent $component) => $this->visitCompoundSelector($component->getSelector()));
+        foreach ($complex->getComponents() as $component) {
+            if ($this->visitCompoundSelector($component->getSelector())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function visitCompoundSelector(CompoundSelector $compound): bool
     {
-        return IterableUtil::any($compound->getComponents(), fn (SimpleSelector $simple) => $simple->accept($this));
+        foreach ($compound->getComponents() as $simple) {
+            if ($simple->accept($this)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function visitPseudoSelector(PseudoSelector $pseudo): bool
@@ -57,7 +66,13 @@ abstract class AnySelectorVisitor implements SelectorVisitor
 
     public function visitSelectorList(SelectorList $list): bool
     {
-        return IterableUtil::any($list->getComponents(), $this->visitComplexSelector(...));
+        foreach ($list->getComponents() as $complex) {
+            if ($this->visitComplexSelector($complex)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function visitAttributeSelector(AttributeSelector $attribute): bool

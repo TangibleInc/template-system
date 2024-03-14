@@ -19,7 +19,9 @@ use Tangible\ScssPhp\SourceSpan\FileSpan;
  *
  * @internal
  */
-interface AstNode extends \Stringable
+interface AstNode
 {
     public function getSpan(): FileSpan;
+
+    public function __toString(): string;
 }

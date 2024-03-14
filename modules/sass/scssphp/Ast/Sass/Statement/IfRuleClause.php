@@ -14,7 +14,6 @@ namespace Tangible\ScssPhp\Ast\Sass\Statement;
 
 use Tangible\ScssPhp\Ast\Sass\Import\DynamicImport;
 use Tangible\ScssPhp\Ast\Sass\Statement;
-use Tangible\ScssPhp\Util\IterableUtil;
 
 /**
  * The superclass of `@if` and `@else` clauses.
@@ -25,10 +24,15 @@ abstract class IfRuleClause
 {
     /**
      * @var Statement[]
+     * @readonly
      */
-    private readonly array $children;
+    private $children;
 
-    private readonly bool $declarations;
+    /**
+     * @var bool
+     * @readonly
+     */
+    private $declarations = false;
 
     /**
      * @param Statement[] $children
@@ -36,17 +40,22 @@ abstract class IfRuleClause
     public function __construct(array $children)
     {
         $this->children = $children;
-        $this->declarations = IterableUtil::any($children, function (Statement $child) {
+
+        foreach ($children as $child) {
             if ($child instanceof VariableDeclaration || $child instanceof FunctionRule || $child instanceof MixinRule) {
-                return true;
+                $this->declarations = true;
+                break;
             }
 
             if ($child instanceof ImportRule) {
-                return IterableUtil::any($child->getImports(), fn ($import) => $import instanceof DynamicImport);
+                foreach ($child->getImports() as $import) {
+                    if ($import instanceof DynamicImport) {
+                        $this->declarations = true;
+                        break 2;
+                    }
+                }
             }
-
-            return false;
-        });
+        }
     }
 
     /**

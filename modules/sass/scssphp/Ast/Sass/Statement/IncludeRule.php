@@ -27,17 +27,37 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
  */
 final class IncludeRule implements Statement, CallableInvocation, SassReference
 {
-    private readonly ?string $namespace;
+    /**
+     * @var string|null
+     * @readonly
+     */
+    private $namespace;
 
-    private readonly string $name;
+    /**
+     * @var string
+     * @readonly
+     */
+    private $name;
 
-    private readonly ArgumentInvocation $arguments;
+    /**
+     * @var ArgumentInvocation
+     * @readonly
+     */
+    private $arguments;
 
-    private readonly ?ContentBlock $content;
+    /**
+     * @var ContentBlock|null
+     * @readonly
+     */
+    private $content;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
-    public function __construct(string $name, ArgumentInvocation $arguments, FileSpan $span, ?string $namespace = null, ?ContentBlock $content = null)
+    public function __construct(string $name, ArgumentInvocation $arguments, FileSpan $span, ?string $namespace = null,?ContentBlock $content = null)
     {
         $this->name = $name;
         $this->arguments = $arguments;

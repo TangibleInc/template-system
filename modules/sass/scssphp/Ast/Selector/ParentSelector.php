@@ -12,7 +12,6 @@
 
 namespace Tangible\ScssPhp\Ast\Selector;
 
-use Tangible\ScssPhp\SourceSpan\FileSpan;
 use Tangible\ScssPhp\Visitor\SelectorVisitor;
 
 /**
@@ -20,8 +19,6 @@ use Tangible\ScssPhp\Visitor\SelectorVisitor;
  *
  * This is not a plain CSS selector—it should be removed before emitting a CSS
  * document.
- *
- * @internal
  */
 final class ParentSelector extends SimpleSelector
 {
@@ -31,13 +28,15 @@ final class ParentSelector extends SimpleSelector
      *
      * This is assumed to be a valid identifier suffix. It may be `null`,
      * indicating that the parent selector will not be modified.
+     *
+     * @var string|null
+     * @readonly
      */
-    private readonly ?string $suffix;
+    private $suffix;
 
-    public function __construct(FileSpan $span, ?string $suffix = null)
+    public function __construct(?string $suffix)
     {
         $this->suffix = $suffix;
-        parent::__construct($span);
     }
 
     public function getSuffix(): ?string

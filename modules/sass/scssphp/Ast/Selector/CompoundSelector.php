@@ -16,7 +16,6 @@ use Tangible\ScssPhp\Exception\SassFormatException;
 use Tangible\ScssPhp\Extend\ExtendUtil;
 use Tangible\ScssPhp\Logger\LoggerInterface;
 use Tangible\ScssPhp\Parser\SelectorParser;
-use Tangible\ScssPhp\SourceSpan\FileSpan;
 use Tangible\ScssPhp\Util\EquatableUtil;
 use Tangible\ScssPhp\Visitor\SelectorVisitor;
 
@@ -25,8 +24,6 @@ use Tangible\ScssPhp\Visitor\SelectorVisitor;
  *
  * A compound selector is composed of {@see SimpleSelector}s. It matches an element
  * that matches all of the component simple selectors.
- *
- * @internal
  */
 final class CompoundSelector extends Selector
 {
@@ -37,9 +34,12 @@ final class CompoundSelector extends Selector
      *
      * @var list<SimpleSelector>
      */
-    private readonly array $components;
+    private $components;
 
-    private ?int $specificity = null;
+    /**
+     * @var int|null
+     */
+    private $specificity;
 
     /**
      * Parses a compound selector from $contents.
@@ -58,14 +58,13 @@ final class CompoundSelector extends Selector
     /**
      * @param list<SimpleSelector> $components
      */
-    public function __construct(array $components, FileSpan $span)
+    public function __construct(array $components)
     {
         if ($components === []) {
             throw new \InvalidArgumentException('components may not be empty.');
         }
 
         $this->components = $components;
-        parent::__construct($span);
     }
 
     /**

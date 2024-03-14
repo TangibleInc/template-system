@@ -12,9 +12,7 @@
 
 namespace Tangible\ScssPhp\Ast\Sass;
 
-use Tangible\ScssPhp\Ast\Sass\Expression\ListExpression;
 use Tangible\ScssPhp\SourceSpan\FileSpan;
-use Tangible\ScssPhp\Value\ListSeparator;
 
 /**
  * A set of arguments passed in to a function or mixin.
@@ -25,23 +23,39 @@ final class ArgumentInvocation implements SassNode
 {
     /**
      * @var list<Expression>
+     * @readonly
      */
-    private readonly array $positional;
+    private $positional;
 
     /**
      * @var array<string, Expression>
+     * @readonly
      */
-    private readonly array $named;
+    private $named;
 
-    private readonly ?Expression $rest;
+    /**
+     * @var Expression|null
+     * @readonly
+     */
+    private $rest;
 
-    private readonly ?Expression $keywordRest;
+    /**
+     * @var Expression|null
+     */
+    private $keywordRest;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
      * @param list<Expression>          $positional
      * @param array<string, Expression> $named
+     * @param FileSpan                  $span
+     * @param Expression|null           $rest
+     * @param Expression|null           $keywordRest
      */
     public function __construct(array $positional, array $named, FileSpan $span, ?Expression $rest = null, ?Expression $keywordRest = null)
     {
@@ -97,29 +111,17 @@ final class ArgumentInvocation implements SassNode
 
     public function __toString(): string
     {
-        $parts = [];
-        foreach ($this->positional as $argument) {
-            $parts[] = $this->parenthesizeArgument($argument);
-        }
+        $parts = $this->positional;
         foreach ($this->named as $name => $arg) {
-            $parts[] = "\$$name: {$this->parenthesizeArgument($arg)}";
+            $parts[] = "\$$name: $arg";
         }
         if ($this->rest !== null) {
-            $parts[] = "{$this->parenthesizeArgument($this->rest)}...";
+            $parts[] = "$this->rest...";
         }
         if ($this->keywordRest !== null) {
-            $parts[] = "{$this->parenthesizeArgument($this->keywordRest)}...";
+            $parts[] = "$this->keywordRest...";
         }
 
         return '(' . implode(', ', $parts) . ')';
-    }
-
-    private function parenthesizeArgument(Expression $argument): string
-    {
-        if ($argument instanceof ListExpression && $argument->getSeparator() === ListSeparator::COMMA && !$argument->hasBrackets() && \count($argument->getContents()) > 1) {
-            return "($argument)";
-        }
-
-        return (string) $argument;
     }
 }

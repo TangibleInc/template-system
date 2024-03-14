@@ -23,20 +23,38 @@ use Tangible\ScssPhp\Visitor\ExpressionVisitor;
  */
 final class UnaryOperationExpression implements Expression
 {
-    private readonly UnaryOperator $operator;
+    /**
+     * @var UnaryOperator::*
+     * @readonly
+     */
+    private $operator;
 
-    private readonly Expression $operand;
+    /**
+     * @var Expression
+     * @readonly
+     */
+    private $operand;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
-    public function __construct(UnaryOperator $operator, Expression $operand, FileSpan $span)
+    /**
+     * @param UnaryOperator::* $operator
+     */
+    public function __construct(string $operator, Expression $operand, FileSpan $span)
     {
         $this->operator = $operator;
         $this->operand = $operand;
         $this->span = $span;
     }
 
-    public function getOperator(): UnaryOperator
+    /**
+     * @return UnaryOperator::*
+     */
+    public function getOperator()
     {
         return $this->operator;
     }
@@ -58,24 +76,11 @@ final class UnaryOperationExpression implements Expression
 
     public function __toString(): string
     {
-        $buffer = $this->operator->getOperator();
+        $buffer = $this->operator;
         if ($this->operator === UnaryOperator::NOT) {
             $buffer .= ' ';
         }
-
-        $needsParens = $this->operand instanceof BinaryOperationExpression
-            || $this->operand instanceof UnaryOperationExpression
-            || ($this->operand instanceof ListExpression && !$this->operand->hasBrackets() && \count($this->operand->getContents()) > 1);
-
-        if ($needsParens) {
-            $buffer .= '(';
-        }
-
         $buffer .= $this->operand;
-
-        if ($needsParens) {
-            $buffer .= ')';
-        }
 
         return $buffer;
     }

@@ -23,13 +23,19 @@ final class IsInvisibleVisitor extends EveryCssVisitor
 {
     /**
      * Whether to consider selectors with bogus combinators invisible.
+     *
+     * @var bool
+     * @readonly
      */
-    private readonly bool $includeBogus;
+    private $includeBogus;
 
     /**
      * Whether to consider comments invisible.
+     *
+     * @var bool
+     * @readonly
      */
-    private readonly bool $includeComments;
+    private $includeComments;
 
     public function __construct(bool $includeBogus, bool $includeComments)
     {
@@ -37,7 +43,7 @@ final class IsInvisibleVisitor extends EveryCssVisitor
         $this->includeComments = $includeComments;
     }
 
-    public function visitCssAtRule(CssAtRule $node): bool
+    public function visitCssAtRule($node): bool
     {
         // An unknown at-rule is never invisible. Because we don't know the semantics
         // of unknown rules, we can't guarantee that (for example) `@foo {}` isn't
@@ -45,13 +51,13 @@ final class IsInvisibleVisitor extends EveryCssVisitor
         return false;
     }
 
-    public function visitCssComment(CssComment $node): bool
+    public function visitCssComment($node): bool
     {
         return $this->includeComments && !$node->isPreserved();
     }
 
-    public function visitCssStyleRule(CssStyleRule $node): bool
+    public function visitCssStyleRule($node): bool
     {
-        return ($this->includeBogus ? $node->getSelector()->isInvisible() : $node->getSelector()->isInvisibleOtherThanBogusCombinators()) || parent::visitCssStyleRule($node);
+        return ($this->includeBogus ? $node->getSelector()->getValue()->isInvisible() : $node->getSelector()->getValue()->isInvisibleOtherThanBogusCombinators()) || parent::visitCssStyleRule($node);
     }
 }

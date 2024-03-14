@@ -21,8 +21,6 @@ use Tangible\ScssPhp\Util\ListUtil;
 
 /**
  * An abstract superclass for simple selectors.
- *
- * @internal
  */
 abstract class SimpleSelector extends Selector
 {
@@ -78,7 +76,6 @@ abstract class SimpleSelector extends Selector
      */
     public function addSuffix(string $suffix): SimpleSelector
     {
-        // TODO use a multi-span exception
         throw new SassScriptException("Invalid parent selector \"$this\"");
     }
 

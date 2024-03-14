@@ -28,9 +28,17 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
  */
 final class StyleRule extends ParentStatement
 {
-    private readonly Interpolation $selector;
+    /**
+     * @var Interpolation
+     * @readonly
+     */
+    private $selector;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
      * @param Statement[] $children

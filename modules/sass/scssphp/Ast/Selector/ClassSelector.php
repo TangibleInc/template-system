@@ -12,7 +12,6 @@
 
 namespace Tangible\ScssPhp\Ast\Selector;
 
-use Tangible\ScssPhp\SourceSpan\FileSpan;
 use Tangible\ScssPhp\Visitor\SelectorVisitor;
 
 /**
@@ -20,20 +19,20 @@ use Tangible\ScssPhp\Visitor\SelectorVisitor;
  *
  * This selects elements whose `class` attribute contains an identifier with
  * the given name.
- *
- * @internal
  */
 final class ClassSelector extends SimpleSelector
 {
     /**
      * The class name this selects for.
+     *
+     * @var string
+     * @readonly
      */
-    private readonly string $name;
+    private $name;
 
-    public function __construct(string $name, FileSpan $span)
+    public function __construct(string $name)
     {
         $this->name = $name;
-        parent::__construct($span);
     }
 
     public function getName(): string
@@ -53,6 +52,6 @@ final class ClassSelector extends SimpleSelector
 
     public function addSuffix(string $suffix): SimpleSelector
     {
-        return new ClassSelector($this->name . $suffix, $this->getSpan());
+        return new ClassSelector($this->name . $suffix);
     }
 }

@@ -13,8 +13,6 @@
 namespace Tangible\ScssPhp\Ast\Css;
 
 use Tangible\ScssPhp\SourceSpan\FileSpan;
-use Tangible\ScssPhp\Util\EquatableUtil;
-use Tangible\ScssPhp\Visitor\ModifiableCssVisitor;
 
 /**
  * A modifiable version of {@see CssMediaRule} for use in the evaluation step.
@@ -26,12 +24,17 @@ final class ModifiableCssMediaRule extends ModifiableCssParentNode implements Cs
     /**
      * @var list<CssMediaQuery>
      */
-    private readonly array $queries;
-
-    private readonly FileSpan $span;
+    private $queries;
 
     /**
-     * @param list<CssMediaQuery> $queries
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
+
+    /**
+     * @param CssMediaQuery[] $queries
+     * @param FileSpan        $span
      */
     public function __construct(array $queries, FileSpan $span)
     {
@@ -50,17 +53,12 @@ final class ModifiableCssMediaRule extends ModifiableCssParentNode implements Cs
         return $this->span;
     }
 
-    public function accept(ModifiableCssVisitor $visitor)
+    public function accept($visitor)
     {
         return $visitor->visitCssMediaRule($this);
     }
 
-    public function equalsIgnoringChildren(ModifiableCssNode $other): bool
-    {
-        return $other instanceof ModifiableCssMediaRule && EquatableUtil::listEquals($this->queries, $other->queries);
-    }
-
-    public function copyWithoutChildren(): ModifiableCssMediaRule
+    public function copyWithoutChildren(): ModifiableCssParentNode
     {
         return new ModifiableCssMediaRule($this->queries, $this->span);
     }

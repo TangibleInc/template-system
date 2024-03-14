@@ -12,27 +12,26 @@
 
 namespace Tangible\ScssPhp\Ast\Selector;
 
-use Tangible\ScssPhp\SourceSpan\FileSpan;
 use Tangible\ScssPhp\Visitor\SelectorVisitor;
 
 /**
  * An ID selector.
  *
  * This selects elements whose `id` attribute exactly matches the given name.
- *
- * @internal
  */
 final class IDSelector extends SimpleSelector
 {
     /**
      * The ID name this selects for.
+     *
+     * @var string
+     * @readonly
      */
-    private readonly string $name;
+    private $name;
 
-    public function __construct(string $name, FileSpan $span)
+    public function __construct(string $name)
     {
         $this->name = $name;
-        parent::__construct($span);
     }
 
     public function getName(): string
@@ -52,7 +51,7 @@ final class IDSelector extends SimpleSelector
 
     public function addSuffix(string $suffix): SimpleSelector
     {
-        return new IDSelector($this->name . $suffix, $this->getSpan());
+        return new IDSelector($this->name . $suffix);
     }
 
     public function unify(array $compound): ?array

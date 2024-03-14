@@ -27,14 +27,17 @@ use Tangible\ScssPhp\Value\Value;
  */
 final class Map implements \Countable, \IteratorAggregate
 {
-    private bool $modifiable = true;
+    /**
+     * @var bool
+     */
+    private $modifiable = true;
 
     // TODO implement a better internal storage to allow reading keys in O(1).
 
     /**
      * @var array<int, array{Value, T}>
      */
-    private array $pairs = [];
+    private $pairs = [];
 
     /**
      * Returns a modifiable version of the Map.

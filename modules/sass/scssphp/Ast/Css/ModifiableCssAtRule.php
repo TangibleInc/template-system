@@ -13,8 +13,6 @@
 namespace Tangible\ScssPhp\Ast\Css;
 
 use Tangible\ScssPhp\SourceSpan\FileSpan;
-use Tangible\ScssPhp\Util\EquatableUtil;
-use Tangible\ScssPhp\Visitor\ModifiableCssVisitor;
 
 /**
  * A modifiable version of {@see CssAtRule} for use in the evaluation step.
@@ -26,20 +24,30 @@ final class ModifiableCssAtRule extends ModifiableCssParentNode implements CssAt
     /**
      * @var CssValue<string>
      */
-    private readonly CssValue $name;
+    private $name;
 
     /**
      * @var CssValue<string>|null
      */
-    private readonly ?CssValue $value;
-
-    private readonly bool $childless;
-
-    private readonly FileSpan $span;
+    private $value;
 
     /**
-     * @param CssValue<string> $name
+     * @var bool
+     * @readonly
+     */
+    private $childless;
+
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
+
+    /**
+     * @param CssValue<string>      $name
      * @param CssValue<string>|null $value
+     * @param bool                  $childless
+     * @param FileSpan              $span
      */
     public function __construct(CssValue $name, FileSpan $span, bool $childless = false, ?CssValue $value = null)
     {
@@ -71,17 +79,15 @@ final class ModifiableCssAtRule extends ModifiableCssParentNode implements CssAt
         return $this->span;
     }
 
-    public function accept(ModifiableCssVisitor $visitor)
+    public function accept($visitor)
     {
         return $visitor->visitCssAtRule($this);
     }
 
-    public function equalsIgnoringChildren(ModifiableCssNode $other): bool
-    {
-        return $other instanceof ModifiableCssAtRule && EquatableUtil::equals($this->name, $other->name) && EquatableUtil::equals($this->value, $other->value) && $this->childless === $other->childless;
-    }
-
-    public function copyWithoutChildren(): ModifiableCssAtRule
+    /**
+     * @phpstan-return ModifiableCssAtRule
+     */
+    public function copyWithoutChildren(): ModifiableCssParentNode
     {
         return new ModifiableCssAtRule($this->name, $this->span, $this->childless, $this->value);
     }

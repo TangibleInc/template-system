@@ -24,9 +24,17 @@ use Tangible\ScssPhp\Visitor\ExpressionVisitor;
  */
 final class ColorExpression implements Expression
 {
-    private readonly SassColor $value;
+    /**
+     * @var SassColor
+     * @readonly
+     */
+    private $value;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(SassColor $value, FileSpan $span)
     {

@@ -26,11 +26,23 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
  */
 final class ExtendRule implements Statement
 {
-    private readonly Interpolation $selector;
+    /**
+     * @var Interpolation
+     * @readonly
+     */
+    private $selector;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
-    private readonly bool $optional;
+    /**
+     * @var bool
+     * @readonly
+     */
+    private $optional;
 
     public function __construct(Interpolation $selector, FileSpan $span, bool $optional = false)
     {

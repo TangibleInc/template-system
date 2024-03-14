@@ -21,7 +21,7 @@ final class Trace
      * @var list<Frame>
      * @readonly
      */
-    private readonly array $frames;
+    private $frames;
 
     /**
      * @param list<Frame> $frames
@@ -48,6 +48,8 @@ final class Trace
             $longest = max($longest, $length);
         }
 
-        return implode(array_map(fn(Frame $frame) => str_pad($frame->getLocation(), $longest) . ' ' . $frame->getMember() . "\n", $this->frames));
+        return implode(array_map(function (Frame $frame) use ($longest) {
+            return str_pad($frame->getLocation(), $longest) . ' ' . $frame->getMember() . "\n";
+        }, $this->frames));
     }
 }

@@ -28,17 +28,28 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
  */
 final class Declaration extends ParentStatement
 {
-    private readonly Interpolation $name;
+    /**
+     * @var Interpolation
+     * @readonly
+     */
+    private $name;
 
     /**
      * The value of this declaration.
      *
      * If {@see getChildren} is `null`, this is never `null`. Otherwise, it may or may
      * not be `null`.
+     *
+     * @var Expression|null
+     * @readonly
      */
-    private readonly ?Expression $value;
+    private $value;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
      * @param Statement[]|null $children
@@ -53,7 +64,13 @@ final class Declaration extends ParentStatement
 
     public static function create(Interpolation $name, Expression $value, FileSpan $span): self
     {
-        return new self($name, $value, $span);
+        $declaration = new self($name, $value, $span);
+
+        if ($declaration->isCustomProperty() && !$value instanceof StringExpression) {
+            throw new \InvalidArgumentException(sprintf('Declarations whose names begin with "--" must have StringExpression values (got %s)', get_class($value)));
+        }
+
+        return $declaration;
     }
 
     /**
@@ -61,7 +78,13 @@ final class Declaration extends ParentStatement
      */
     public static function nested(Interpolation $name, array $children, FileSpan $span, ?Expression $value = null): self
     {
-        return new self($name, $value, $span, $children);
+        $declaration = new self($name, $value, $span, $children);
+
+        if ($declaration->isCustomProperty() && !$value instanceof StringExpression) {
+            throw new \InvalidArgumentException('Declarations whose names begin with "--" may not be nested.');
+        }
+
+        return $declaration;
     }
 
     public function getName(): Interpolation
@@ -85,7 +108,7 @@ final class Declaration extends ParentStatement
      */
     public function isCustomProperty(): bool
     {
-        return str_starts_with($this->name->getInitialPlain(), '--');
+        return 0 === strpos($this->name->getInitialPlain(), '--');
     }
 
     public function getSpan(): FileSpan

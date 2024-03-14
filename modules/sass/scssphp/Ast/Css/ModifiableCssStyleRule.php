@@ -14,9 +14,6 @@ namespace Tangible\ScssPhp\Ast\Css;
 
 use Tangible\ScssPhp\Ast\Selector\SelectorList;
 use Tangible\ScssPhp\SourceSpan\FileSpan;
-use Tangible\ScssPhp\Util\Box;
-use Tangible\ScssPhp\Util\EquatableUtil;
-use Tangible\ScssPhp\Visitor\ModifiableCssVisitor;
 
 /**
  * A modifiable version of {@see CssStyleRule} for use in the evaluation step.
@@ -26,21 +23,29 @@ use Tangible\ScssPhp\Visitor\ModifiableCssVisitor;
 final class ModifiableCssStyleRule extends ModifiableCssParentNode implements CssStyleRule
 {
     /**
-     * A reference to the modifiable selector list provided by the extension
-     * store, which may update it over time as new extensions are applied.
-     *
-     * @var Box<SelectorList>
+     * @var ModifiableCssValue<SelectorList>
+     * @readonly
      */
-    private readonly Box $selector;
-
-    private readonly SelectorList $originalSelector;
-
-    private readonly FileSpan $span;
+    private $selector;
 
     /**
-     * @param Box<SelectorList> $selector
+     * @var SelectorList
+     * @readonly
      */
-    public function __construct(Box $selector, FileSpan $span, ?SelectorList $originalSelector = null)
+    private $originalSelector;
+
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
+
+    /**
+     * @param ModifiableCssValue<SelectorList> $selector
+     * @param FileSpan                         $span
+     * @param SelectorList|null                $originalSelector
+     */
+    public function __construct(ModifiableCssValue $selector, FileSpan $span, ?SelectorList $originalSelector = null)
     {
         parent::__construct();
         $this->selector = $selector;
@@ -48,9 +53,12 @@ final class ModifiableCssStyleRule extends ModifiableCssParentNode implements Cs
         $this->span = $span;
     }
 
-    public function getSelector(): SelectorList
+    /**
+     * @phpstan-return ModifiableCssValue<SelectorList>
+     */
+    public function getSelector(): CssValue
     {
-        return $this->selector->getValue();
+        return $this->selector;
     }
 
     public function getOriginalSelector(): SelectorList
@@ -63,17 +71,15 @@ final class ModifiableCssStyleRule extends ModifiableCssParentNode implements Cs
         return $this->span;
     }
 
-    public function accept(ModifiableCssVisitor $visitor)
+    public function accept($visitor)
     {
         return $visitor->visitCssStyleRule($this);
     }
 
-    public function equalsIgnoringChildren(ModifiableCssNode $other): bool
-    {
-        return $other instanceof ModifiableCssStyleRule && EquatableUtil::equals($this->selector, $other->selector);
-    }
-
-    public function copyWithoutChildren(): ModifiableCssStyleRule
+    /**
+     * @phpstan-return ModifiableCssStyleRule
+     */
+    public function copyWithoutChildren(): ModifiableCssParentNode
     {
         return new ModifiableCssStyleRule($this->selector, $this->span, $this->originalSelector);
     }

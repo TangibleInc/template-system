@@ -22,13 +22,29 @@ use Tangible\ScssPhp\Util\SpanUtil;
  */
 final class ConfiguredVariable implements SassNode, SassDeclaration
 {
-    private readonly string $name;
+    /**
+     * @var string
+     * @readonly
+     */
+    private $name;
 
-    private readonly Expression $expression;
+    /**
+     * @var Expression
+     * @readonly
+     */
+    private $expression;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
-    private readonly bool $guarded;
+    /**
+     * @var bool
+     * @readonly
+     */
+    private $guarded;
 
     public function __construct(string $name, Expression $expression, FileSpan $span, bool $guarded = false)
     {

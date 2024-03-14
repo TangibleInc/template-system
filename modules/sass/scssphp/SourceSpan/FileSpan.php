@@ -12,24 +12,80 @@
 
 namespace Tangible\ScssPhp\SourceSpan;
 
+use Tangible\ScssPhp\Util\ErrorUtil;
+use Tangible\ScssPhp\Util\Path;
+
 /**
  * @internal
  */
-interface FileSpan
+final class FileSpan
 {
-    public function getFile(): SourceFile;
+    /**
+     * @var SourceFile
+     * @readonly
+     */
+    private $file;
 
-    public function getSourceUrl(): ?string;
+    /**
+     * @var int
+     * @readonly
+     */
+    private $start;
 
-    public function getLength(): int;
+    /**
+     * @var int
+     * @readonly
+     */
+    private $end;
 
-    public function getStart(): SourceLocation;
+    /**
+     * @param SourceFile $file
+     * @param int        $start The offset of the beginning of the span.
+     * @param int        $end   The offset of the end of the span.
+     */
+    public function __construct(SourceFile $file, int $start, int $end)
+    {
+        $this->file = $file;
+        $this->start = $start;
+        $this->end = $end;
+    }
 
-    public function getEnd(): SourceLocation;
+    public function getFile(): SourceFile
+    {
+        return $this->file;
+    }
 
-    public function getText(): string;
+    public function getLength(): int
+    {
+        return $this->end - $this->start;
+    }
 
-    public function expand(FileSpan $other): FileSpan;
+    public function getStart(): SourceLocation
+    {
+        return new SourceLocation($this->file, $this->start);
+    }
+
+    public function getEnd(): SourceLocation
+    {
+        return new SourceLocation($this->file, $this->end);
+    }
+
+    public function getText(): string
+    {
+        return $this->file->getText($this->start, $this->end);
+    }
+
+    public function expand(FileSpan $other): FileSpan
+    {
+        if ($this->file->getSourceUrl() !== $other->file->getSourceUrl()) {
+            throw new \InvalidArgumentException('Source map URLs don\'t match.');
+        }
+
+        $start = min($this->start, $other->start);
+        $end = max($this->end, $other->end);
+
+        return new FileSpan($this->file, $start, $end);
+    }
 
     /**
      * Formats $message in a human-friendly way associated with this span.
@@ -38,11 +94,38 @@ interface FileSpan
      *
      * @return string
      */
-    public function message(string $message): string;
+    public function message(string $message): string
+    {
+        $startLine = $this->getStart()->getLine() + 1;
+        $startColumn = $this->getStart()->getColumn() + 1;
+        $sourceUrl = $this->file->getSourceUrl();
+
+        $buffer = "line $startLine, column $startColumn";
+
+        if ($sourceUrl !== null) {
+            $prettyUri = Path::prettyUri($sourceUrl);
+            $buffer .= " of $prettyUri";
+        }
+
+        $buffer .= ": $message";
+
+        // TODO implement the highlighting of a code snippet
+
+        return $buffer;
+    }
 
     /**
      * Return a span from $start bytes (inclusive) to $end bytes
      * (exclusive) after the beginning of this span
      */
-    public function subspan(int $start, ?int $end = null): FileSpan;
+    public function subspan(int $start, ?int $end = null): FileSpan
+    {
+        ErrorUtil::checkValidRange($start, $end, $this->getLength());
+
+        if ($start === 0 && ($end === null || $end === $this->getLength())) {
+            return $this;
+        }
+
+        return $this->file->span($this->start + $start, $end === null ? $this->end : $this->start + $end);
+    }
 }

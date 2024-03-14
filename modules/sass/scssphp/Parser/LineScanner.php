@@ -22,12 +22,12 @@ final class LineScanner extends StringScanner
     /**
      * @var int
      */
-    private int $line = 0;
+    private $line = 0;
 
     /**
      * @var int
      */
-    private int $column = 0;
+    private $column = 0;
 
     /**
      * Whether the current position is between a CR character and an LF

@@ -333,33 +333,10 @@ final class Compiler
     }
 
     /**
-     * Compiles the provided scss file into CSS.
-     *
-     * @param string $path
-     *
-     * @return CompilationResult
-     *
-     * @throws SassException when the source fails to compile
-     */
-    public function compileFile($path)
-    {
-        $source = file_get_contents($path);
-
-        if ($source === false) {
-            throw new \RuntimeException('Could not read the file content');
-        }
-
-        return $this->compileString($source, $path);
-    }
-
-    /**
-     * Compiles the provided scss source code into CSS.
-     *
-     * If provided, the path is considered to be the path from which the source code comes
-     * from, which will be used to resolve relative imports.
+     * Compile scss
      *
      * @param string      $source
-     * @param string|null $path   The path for the source, used to resolve relative imports
+     * @param string|null $path
      *
      * @return CompilationResult
      *
@@ -409,7 +386,7 @@ final class Compiler
             $this->rootEnv   = $this->pushEnv($tree);
 
             $warnCallback = function ($message, $deprecation) {
-                $this->logger->warn($message, $deprecation !== null);
+                $this->logger->warn($message, $deprecation);
             };
             $previousWarnCallback = Warn::setCallback($warnCallback);
 
@@ -444,7 +421,7 @@ final class Compiler
 
             $sourceMap = null;
 
-            if (! empty($out) && $this->sourceMap !== self::SOURCE_MAP_NONE && $this->sourceMap) {
+            if (! empty($out) && $this->sourceMap !== self::SOURCE_MAP_NONE) {
                 assert($sourceMapGenerator !== null);
                 $sourceMap = $sourceMapGenerator->generateJson($prefix);
                 $sourceMapUrl = null;
@@ -1403,7 +1380,6 @@ final class Compiler
         // start from the root
         while ($scope->parent && $scope->parent->type !== Type::T_ROOT) {
             array_unshift($childStash, $scope);
-            \assert($scope->parent !== null);
             $scope = $scope->parent;
         }
 
@@ -1978,11 +1954,6 @@ final class Compiler
             foreach ($selector as $node) {
                 $compound = '';
 
-                if (!is_array($node)) {
-                    $output[] = $node;
-                    continue;
-                }
-
                 array_walk_recursive(
                     $node,
                     function ($value, $key) use (&$compound) {
@@ -2017,16 +1988,12 @@ final class Compiler
             foreach ($selector as $node) {
                 $compound = '';
 
-                if (!is_array($node)) {
-                    $compound .= $node;
-                } else {
-                    array_walk_recursive(
-                        $node,
-                        function ($value, $key) use (&$compound) {
-                            $compound .= $value;
-                        }
-                    );
-                }
+                array_walk_recursive(
+                    $node,
+                    function ($value, $key) use (&$compound) {
+                        $compound .= $value;
+                    }
+                );
 
                 if ($this->isImmediateRelationshipCombinator($compound)) {
                     if (\count($output)) {
@@ -2778,7 +2745,7 @@ final class Compiler
     {
         if (isset($child[Parser::SOURCE_LINE])) {
             $this->sourceIndex  = isset($child[Parser::SOURCE_INDEX]) ? $child[Parser::SOURCE_INDEX] : null;
-            $this->sourceLine   = $child[Parser::SOURCE_LINE];
+            $this->sourceLine   = isset($child[Parser::SOURCE_LINE]) ? $child[Parser::SOURCE_LINE] : -1;
             $this->sourceColumn = isset($child[Parser::SOURCE_COLUMN]) ? $child[Parser::SOURCE_COLUMN] : -1;
         } elseif (\is_array($child) && isset($child[1]->sourceLine) && $child[1] instanceof Block) {
             $this->sourceIndex  = $child[1]->sourceIndex;
@@ -4311,10 +4278,8 @@ EOL;
                             return $colorName;
                         }
 
-                        if (\is_int($alpha) || \is_float($alpha)) {
+                        if (is_numeric($alpha)) {
                             $a = new Number($alpha, '');
-                        } elseif (is_numeric($alpha)) {
-                            $a = new Number((float) $alpha, '');
                         } else {
                             $a = $alpha;
                         }
@@ -5497,15 +5462,15 @@ EOL;
     private function tryImportPathWithExtensions(string $path): array
     {
         $result = array_merge(
-            $this->tryImportPath($path . '.sass'),
-            $this->tryImportPath($path . '.scss')
+            $this->tryImportPath($path.'.sass'),
+            $this->tryImportPath($path.'.scss')
         );
 
         if ($result) {
             return $result;
         }
 
-        return $this->tryImportPath($path . '.css');
+        return $this->tryImportPath($path.'.css');
     }
 
     /**
@@ -5515,7 +5480,7 @@ EOL;
      */
     private function tryImportPath(string $path): array
     {
-        $partial = dirname($path) . '/_' . basename($path);
+        $partial = dirname($path).'/_'.basename($path);
 
         $candidates = [];
 
@@ -5541,7 +5506,7 @@ EOL;
             return null;
         }
 
-        return $this->checkImportPathConflicts($this->tryImportPathWithExtensions($path . '/index'));
+        return $this->checkImportPathConflicts($this->tryImportPathWithExtensions($path.'/index'));
     }
 
     /**
@@ -5556,7 +5521,7 @@ EOL;
         }
 
         $normalizedPath = $path;
-        $normalizedRootDirectory = $this->rootDirectory . '/';
+        $normalizedRootDirectory = $this->rootDirectory.'/';
 
         if (\DIRECTORY_SEPARATOR === '\\') {
             $normalizedRootDirectory = str_replace('\\', '/', $normalizedRootDirectory);
@@ -5968,7 +5933,7 @@ EOL;
      *
      * @return array
      *
-     * @phpstan-param non-empty-array<array{arguments: list<array{0: string, 1: string, 2: array|Number|null}>, rest_argument: string|null}> $prototypes
+     * @phpstan-param non-empty-list<array{arguments: list<array{0: string, 1: string, 2: array|Number|null}>, rest_argument: string|null}> $prototypes
      * @phpstan-return array{arguments: list<array{0: string, 1: string, 2: array|Number|null}>, rest_argument: string|null}
      */
     private function selectFunctionPrototype(array $prototypes, int $positional, array $names): array
@@ -6426,12 +6391,8 @@ EOL;
             return self::$null;
         }
 
-        if (\is_int($value) || \is_float($value)) {
-            return new Number($value, '');
-        }
-
         if (is_numeric($value)) {
-            return new Number((float) $value, '');
+            return new Number($value, '');
         }
 
         if ($value === '') {
@@ -7079,9 +7040,9 @@ EOL;
         $b = min(1.0 - $w, $b);
 
         $rgb = $this->toRGB($hue, 100, 50);
-        for ($i = 1; $i < 4; $i++) {
-            $rgb[$i] *= (1.0 - $w - $b);
-            $rgb[$i] = round($rgb[$i] + 255 * $w + 0.0001);
+        for($i = 1; $i < 4; $i++) {
+          $rgb[$i] *= (1.0 - $w - $b);
+          $rgb[$i] = round($rgb[$i] + 255 * $w + 0.0001);
         }
 
         return $rgb;
@@ -7106,6 +7067,7 @@ EOL;
         if ((int) $d === 0) {
             $h = 0;
         } else {
+
             if ($red == $max) {
                 $h = 60 * ($green - $blue) / $d;
             } elseif ($green == $max) {
@@ -7115,7 +7077,7 @@ EOL;
             }
         }
 
-        return [Type::T_HWB, fmod($h, 360), $min / 255 * 100, 100 - $max / 255 * 100];
+        return [Type::T_HWB, fmod($h, 360), $min / 255 * 100, 100 - $max / 255 *100];
     }
 
 
@@ -7324,13 +7286,7 @@ EOL;
         $scale = $operation === 'scale';
         $change = $operation === 'change';
 
-        /**
-         * @param string $name
-         * @param float|int $max
-         * @param bool $checkPercent
-         * @param bool $assertPercent
-         * @return float|int|null
-         */
+        /** @phpstan-var callable(string, float|int, bool=, bool=): (float|int|null) $getParam */
         $getParam = function ($name, $max, $checkPercent = false, $assertPercent = false) use (&$kwargs, $scale, $change) {
             if (!isset($kwargs[$name])) {
                 return null;
@@ -7472,7 +7428,7 @@ EOL;
     private static $libChangeColor = ['color', 'kwargs...'];
     private function libChangeColor($args)
     {
-        return $this->alterColor($args, 'change', function ($base, $alter, $max) {
+        return $this->alterColor($args,'change', function ($base, $alter, $max) {
             if ($alter === null) {
                 return $base;
             }

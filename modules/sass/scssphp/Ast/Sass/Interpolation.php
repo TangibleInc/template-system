@@ -24,10 +24,15 @@ final class Interpolation implements SassNode
 {
     /**
      * @var list<string|Expression>
+     * @readonly
      */
-    private readonly array $contents;
+    private $contents;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
      * Creates a new {@see Interpolation} by concatenating a sequence of strings,
@@ -47,7 +52,7 @@ final class Interpolation implements SassNode
             } elseif ($element instanceof Interpolation) {
                 $buffer->addInterpolation($element);
             } else {
-                throw new \InvalidArgumentException(sprintf('The elements in $contents may only contains strings, Expressions, or Interpolations, "%s" given.', get_debug_type($element)));
+                throw new \InvalidArgumentException(sprintf('The elements in $contents may only contains strings, Expressions, or Interpolations, "%s" given.', \is_object($element) ? get_class($element) : gettype($element)));
             }
         }
 
@@ -84,14 +89,6 @@ final class Interpolation implements SassNode
     public function getSpan(): FileSpan
     {
         return $this->span;
-    }
-
-    /**
-     * Returns whether this contains no interpolated expressions.
-     */
-    public function isPlain(): bool
-    {
-        return $this->getAsPlain() !== null;
     }
 
     /**
@@ -134,6 +131,8 @@ final class Interpolation implements SassNode
 
     public function __toString(): string
     {
-        return implode('', array_map(fn($value) => \is_string($value) ? $value : '#{' . $value . '}', $this->contents));
+        return implode('', array_map(function ($value) {
+            return \is_string($value) ? $value : '#{' . $value .'}';
+        }, $this->contents));
     }
 }

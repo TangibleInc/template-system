@@ -12,15 +12,11 @@
 
 namespace Tangible\ScssPhp\Ast\Selector;
 
-use Tangible\ScssPhp\Ast\Css\CssValue;
 use Tangible\ScssPhp\Exception\SassFormatException;
-use Tangible\ScssPhp\Exception\SassRuntimeException;
 use Tangible\ScssPhp\Exception\SassScriptException;
 use Tangible\ScssPhp\Extend\ExtendUtil;
 use Tangible\ScssPhp\Logger\LoggerInterface;
-use Tangible\ScssPhp\Parser\InterpolationMap;
 use Tangible\ScssPhp\Parser\SelectorParser;
-use Tangible\ScssPhp\SourceSpan\FileSpan;
 use Tangible\ScssPhp\Util\EquatableUtil;
 use Tangible\ScssPhp\Util\ListUtil;
 use Tangible\ScssPhp\Value\ListSeparator;
@@ -33,8 +29,6 @@ use Tangible\ScssPhp\Visitor\SelectorVisitor;
  *
  * A selector list is composed of {@see ComplexSelector}s. It matches any element
  * that matches any of the component selectors.
- *
- * @internal
  */
 final class SelectorList extends Selector
 {
@@ -44,8 +38,9 @@ final class SelectorList extends Selector
      * This is never empty.
      *
      * @var list<ComplexSelector>
+     * @readonly
      */
-    private readonly array $components;
+    private $components;
 
     /**
      * Parses a selector list from $contents.
@@ -56,22 +51,21 @@ final class SelectorList extends Selector
      *
      * @throws SassFormatException if parsing fails.
      */
-    public static function parse(string $contents, ?LoggerInterface $logger = null, ?InterpolationMap $interpolationMap = null, ?string $url = null, bool $allowParent = true, bool $allowPlaceholder = true): SelectorList
+    public static function parse(string $contents, ?LoggerInterface $logger = null, ?string $url = null, bool $allowParent = true, bool $allowPlaceholder = true): SelectorList
     {
-        return (new SelectorParser($contents, $logger, $url, $allowParent, $interpolationMap, $allowPlaceholder))->parse();
+        return (new SelectorParser($contents, $logger, $url, $allowParent, $allowPlaceholder))->parse();
     }
 
     /**
      * @param list<ComplexSelector> $components
      */
-    public function __construct(array $components, FileSpan $span)
+    public function __construct(array $components)
     {
         if ($components === []) {
             throw new \InvalidArgumentException('components may not be empty.');
         }
 
         $this->components = $components;
-        parent::__construct($span);
     }
 
     /**
@@ -123,7 +117,7 @@ final class SelectorList extends Selector
 
         foreach ($this->components as $complex1) {
             foreach ($other->components as $complex2) {
-                $unified = ExtendUtil::unifyComplex([$complex1, $complex2], $complex1->getSpan());
+                $unified = ExtendUtil::unifyComplex([$complex1, $complex2]);
 
                 if ($unified === null) {
                     continue;
@@ -135,7 +129,7 @@ final class SelectorList extends Selector
             }
         }
 
-        return \count($contents) === 0 ? null : new SelectorList($contents, $this->getSpan());
+        return \count($contents) === 0 ? null : new SelectorList($contents);
     }
 
     /**
@@ -151,21 +145,22 @@ final class SelectorList extends Selector
     public function resolveParentSelectors(?SelectorList $parent, bool $implicitParent = true): SelectorList
     {
         if ($parent === null) {
-            $parentSelector = $this->accept(new ParentSelectorVisitor());
-            if ($parentSelector === null) {
+            if (!$this->containsParentSelector()) {
                 return $this;
             }
 
-            throw new SassRuntimeException('Top-level selectors may not contain the parent selector "&".', $parentSelector->getSpan());
+            throw new SassScriptException('Top-level selectors may not contain the parent selector "&".');
         }
 
         return new SelectorList(ListUtil::flattenVertically(array_map(function (ComplexSelector $complex) use ($parent, $implicitParent) {
-            if (!self::containsParentSelector($complex)) {
+            if (!self::complexContainsParentSelector($complex)) {
                 if (!$implicitParent) {
                     return [$complex];
                 }
 
-                return array_map(fn(ComplexSelector $parentComplex) => $parentComplex->concatenate($complex, $complex->getSpan()), $parent->getComponents());
+                return array_map(function (ComplexSelector $parentComplex) use ($complex) {
+                    return $parentComplex->concatenate($complex);
+                }, $parent->getComponents());
             }
 
             /** @var list<ComplexSelector> $newComplexes */
@@ -175,9 +170,11 @@ final class SelectorList extends Selector
                 $resolved = self::resolveParentSelectorsCompound($component, $parent);
                 if ($resolved === null) {
                     if (\count($newComplexes) === 0) {
-                        $newComplexes[] = new ComplexSelector($complex->getLeadingCombinators(), [$component], $complex->getSpan(), false);
+                        $newComplexes[] = new ComplexSelector($complex->getLeadingCombinators(), [$component], false);
                     } else {
-                        $newComplexes = array_map(fn ($newComplex) => $newComplex->withAdditionalComponent($component, $complex->getSpan()), $newComplexes);
+                        foreach ($newComplexes as $i => $newComplex) {
+                            $newComplexes[$i] = $newComplex->withAdditionalComponent($component);
+                        }
                     }
                 } elseif (\count($newComplexes) === 0) {
                     $newComplexes = $resolved;
@@ -187,14 +184,14 @@ final class SelectorList extends Selector
 
                     foreach ($previousComplexes as $newComplex) {
                         foreach ($resolved as $resolvedComplex) {
-                            $newComplexes[] = $newComplex->concatenate($resolvedComplex, $newComplex->getSpan());
+                            $newComplexes[] = $newComplex->concatenate($resolvedComplex);
                         }
                     }
                 }
             }
 
             return $newComplexes;
-        }, $this->components)), $this->getSpan());
+        }, $this->components)));
     }
 
     /**
@@ -211,6 +208,45 @@ final class SelectorList extends Selector
     public function equals(object $other): bool
     {
         return $other instanceof SelectorList && EquatableUtil::listEquals($this->components, $other->components);
+    }
+
+    /**
+     * Whether this contains a {@see ParentSelector}.
+     */
+    private function containsParentSelector(): bool
+    {
+        foreach ($this->components as $component) {
+            if (self::complexContainsParentSelector($component)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns whether $complex contains a {@see ParentSelector}.
+     */
+    private static function complexContainsParentSelector(ComplexSelector $complex): bool
+    {
+        foreach ($complex->getComponents() as $component) {
+            foreach ($component->getSelector()->getComponents() as $simple) {
+                if ($simple instanceof ParentSelector) {
+                    return true;
+                }
+
+                if (!$simple instanceof PseudoSelector) {
+                    continue;
+                }
+
+                $selector = $simple->getSelector();
+                if ($selector !== null && $selector->containsParentSelector()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -231,7 +267,7 @@ final class SelectorList extends Selector
             }
             $selector = $simple->getSelector();
 
-            if ($selector !== null && self::containsParentSelector($selector)) {
+            if ($selector !== null && $selector->containsParentSelector()) {
                 $containsSelectorPseudo = true;
                 break;
             }
@@ -251,7 +287,7 @@ final class SelectorList extends Selector
                 if ($selector === null) {
                     return $simple;
                 }
-                if (!self::containsParentSelector($selector)) {
+                if (!$selector->containsParentSelector()) {
                     return $simple;
                 }
 
@@ -263,18 +299,8 @@ final class SelectorList extends Selector
 
         $parentSelector = $simples[0];
 
-        // TODO add the span on exceptions in those 2 ifs
-
         if (!$parentSelector instanceof ParentSelector) {
-            return [
-                new ComplexSelector([], [
-                    new ComplexSelectorComponent(
-                        new CompoundSelector($resolvedSimples, $component->getSelector()->getSpan()),
-                        $component->getCombinators(),
-                        $component->getSpan()
-                    ),
-                ], $component->getSpan()),
-            ];
+            return [new ComplexSelector([], [new ComplexSelectorComponent(new CompoundSelector($resolvedSimples), $component->getCombinators())])];
         }
 
         if (\count($simples) === 1 && $parentSelector->getSuffix() === null) {
@@ -282,7 +308,6 @@ final class SelectorList extends Selector
         }
 
         return array_map(function (ComplexSelector $complex) use ($parentSelector, $resolvedSimples, $component) {
-            // TODO add the span on exceptions in this callback
             $lastComponent = $complex->getLastComponent();
 
             if (\count($lastComponent->getCombinators()) !== 0) {
@@ -297,15 +322,15 @@ final class SelectorList extends Selector
                     ListUtil::exceptLast($lastSimples),
                     [ListUtil::last($lastSimples)->addSuffix($suffix)],
                     array_slice($resolvedSimples, 1)
-                ), $component->getSelector()->getSpan());
+                ));
             } else {
-                $last = new CompoundSelector(array_merge($lastSimples, array_slice($resolvedSimples, 1)), $component->getSelector()->getSpan());
+                $last = new CompoundSelector(array_merge($lastSimples, array_slice($resolvedSimples, 1)));
             }
 
             $components = ListUtil::exceptLast($complex->getComponents());
-            $components[] = new ComplexSelectorComponent($last, $component->getCombinators(), $component->getSpan());
+            $components[] = new ComplexSelectorComponent($last, $component->getCombinators());
 
-            return new ComplexSelector($complex->getLeadingCombinators(), $components, $component->getSpan(), $complex->getLineBreak());
+            return new ComplexSelector($complex->getLeadingCombinators(), $components, $complex->getLineBreak());
         }, $parent->getComponents());
     }
 
@@ -313,7 +338,9 @@ final class SelectorList extends Selector
      * Returns a copy of `this` with $combinators added to the end of each
      * complex selector in {@see components}].
      *
-     * @param list<CssValue<Combinator>> $combinators
+     * @param list<string> $combinators
+     *
+     * @phpstan-param list<Combinator::*> $combinators
      */
     public function withAdditionalCombinators(array $combinators): SelectorList
     {
@@ -321,14 +348,8 @@ final class SelectorList extends Selector
             return $this;
         }
 
-        return new SelectorList(array_map(fn(ComplexSelector $complex) => $complex->withAdditionalCombinators($combinators), $this->components), $this->getSpan());
-    }
-
-    /**
-     * Returns whether $selector recursively contains a parent selector.
-     */
-    private static function containsParentSelector(Selector $selector): bool
-    {
-        return $selector->accept(new ParentSelectorVisitor()) !== null;
+        return new SelectorList(array_map(function (ComplexSelector $complex) use ($combinators) {
+            return $complex->withAdditionalCombinators($combinators);
+        }, $this->components));
     }
 }

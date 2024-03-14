@@ -33,47 +33,66 @@ use Tangible\ScssPhp\Ast\Css\CssSupportsRule;
 interface CssVisitor extends ModifiableCssVisitor
 {
     /**
+     * @param CssAtRule $node
+     *
      * @return T
      */
-    public function visitCssAtRule(CssAtRule $node);
+    public function visitCssAtRule($node);
 
     /**
+     * @param CssComment $node
+     *
      * @return T
      */
-    public function visitCssComment(CssComment $node);
+    public function visitCssComment($node);
 
     /**
+     * @param CssDeclaration $node
+     *
      * @return T
      */
-    public function visitCssDeclaration(CssDeclaration $node);
+    public function visitCssDeclaration($node);
 
     /**
+     * @param CssImport $node
+     *
      * @return T
      */
-    public function visitCssImport(CssImport $node);
+    public function visitCssImport($node);
 
     /**
+     * @param CssKeyframeBlock $node
+     *
      * @return T
      */
-    public function visitCssKeyframeBlock(CssKeyframeBlock $node);
+    public function visitCssKeyframeBlock($node);
 
     /**
+     * @param CssMediaRule $node
+     *
      * @return T
      */
-    public function visitCssMediaRule(CssMediaRule $node);
+    public function visitCssMediaRule($node);
 
     /**
+     * @param CssStyleRule $node
+     *
      * @return T
      */
-    public function visitCssStyleRule(CssStyleRule $node);
+    public function visitCssStyleRule($node);
 
     /**
+     * @param CssStylesheet $node
+     *
      * @return T
      */
-    public function visitCssStylesheet(CssStylesheet $node);
+    public function visitCssStylesheet($node);
 
     /**
+     * @param CssSupportsRule $node
+     *
      * @return T
      */
-    public function visitCssSupportsRule(CssSupportsRule $node);
+    public function visitCssSupportsRule($node);
+
 }

@@ -23,9 +23,17 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
  */
 final class SilentComment implements Statement
 {
-    private readonly string $text;
+    /**
+     * @var string
+     * @readonly
+     */
+    private $text;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(string $text, FileSpan $span)
     {

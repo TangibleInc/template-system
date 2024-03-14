@@ -24,17 +24,31 @@ final class SupportsOperation implements SupportsCondition
 {
     /**
      * The left-hand operand.
+     *
+     * @var SupportsCondition
+     * @readonly
      */
-    private readonly SupportsCondition $left;
+    private $left;
 
     /**
      * The right-hand operand.
+     *
+     * @var SupportsCondition
+     * @readonly
      */
-    private readonly SupportsCondition $right;
+    private $right;
 
-    private readonly string $operator;
+    /**
+     * @var string
+     * @readonly
+     */
+    private $operator;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(SupportsCondition $left, SupportsCondition $right, string $operator, FileSpan $span)
     {

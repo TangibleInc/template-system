@@ -29,9 +29,17 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
  */
 final class WhileRule extends ParentStatement
 {
-    private readonly Expression $condition;
+    /**
+     * @var Expression
+     * @readonly
+     */
+    private $condition;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     /**
      * @param Statement[] $children

@@ -30,15 +30,25 @@ final class InterpolatedFunctionExpression implements Expression, CallableInvoca
 {
     /**
      * The name of the function being invoked.
+     *
+     * @var Interpolation
+     * @readonly
      */
-    private readonly Interpolation $name;
+    private $name;
 
     /**
      * The arguments to pass to the function.
+     *
+     * @var ArgumentInvocation
+     * @readonly
      */
-    private readonly ArgumentInvocation $arguments;
+    private $arguments;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(Interpolation $name, ArgumentInvocation $arguments, FileSpan $span)
     {

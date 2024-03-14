@@ -29,16 +29,25 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
 final class EachRule extends ParentStatement
 {
     /**
-     * @var list<string>
+     * @var string[]
+     * @readonly
      */
-    private readonly array $variables;
-
-    private readonly Expression $list;
-
-    private readonly FileSpan $span;
+    private $variables;
 
     /**
-     * @param list<string> $variables
+     * @var Expression
+     * @readonly
+     */
+    private $list;
+
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
+
+    /**
+     * @param string[]    $variables
      * @param Statement[] $children
      */
     public function __construct(array $variables, Expression $list, array $children, FileSpan $span)
@@ -50,7 +59,7 @@ final class EachRule extends ParentStatement
     }
 
     /**
-     * @return list<string>
+     * @return string[]
      */
     public function getVariables(): array
     {
@@ -74,6 +83,6 @@ final class EachRule extends ParentStatement
 
     public function __toString(): string
     {
-        return '@each ' . implode(', ', array_map(fn($variable) => '$' . $variable, $this->variables)) . ' in ' . $this->list . ' {' . implode(' ', $this->getChildren()) . '}';
+        return '@each ' . implode(', ', array_map(function ($variable) { return '$' . $variable; }, $this->variables)) . ' in ' . $this->list . ' {' . implode(' ', $this->getChildren()) . '}';
     }
 }

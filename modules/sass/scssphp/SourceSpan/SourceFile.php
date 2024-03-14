@@ -17,14 +17,23 @@ namespace Tangible\ScssPhp\SourceSpan;
  */
 final class SourceFile
 {
-    private readonly string $string;
+    /**
+     * @var string
+     * @readonly
+     */
+    private $string;
 
-    private readonly ?string $sourceUrl;
+    /**
+     * @var string|null
+     * @readonly
+     */
+    private $sourceUrl;
 
     /**
      * @var int[]
+     * @readonly
      */
-    private readonly array $lineStarts;
+    private $lineStarts;
 
     /**
      * The 0-based last line that was returned by {@see getLine}
@@ -36,35 +45,32 @@ final class SourceFile
      *
      * @var int|null
      */
-    private ?int $cachedLine = null;
+    private $cachedLine;
 
-    public function __construct(string $content, ?string $sourceUrl = null)
+    public function __construct(string $content, ?string $sourceUrl)
     {
         $this->string = $content;
         $this->sourceUrl = $sourceUrl;
 
         // Extract line starts
-        $lineStarts = [0];
+        $this->lineStarts = [0];
 
         if ($content === '') {
-            $this->lineStarts = $lineStarts;
             return;
         }
 
         $prev = 0;
 
         while (($pos = strpos($content, "\n", $prev)) !== false) {
-            $lineStarts[] = $pos;
+            $this->lineStarts[] = $pos;
             $prev = $pos + 1;
         }
 
-        $lineStarts[] = \strlen($content);
+        $this->lineStarts[] = \strlen($content);
 
-        if (!str_ends_with($content, "\n")) {
-            $lineStarts[] = \strlen($content) + 1;
+        if (substr($content, -1) !== "\n") {
+            $this->lineStarts[] = \strlen($content) + 1;
         }
-
-        $this->lineStarts = $lineStarts;
     }
 
     public function span(int $start, ?int $end = null): FileSpan
@@ -73,22 +79,7 @@ final class SourceFile
             $end = \strlen($this->string);
         }
 
-        return new ConcreteFileSpan($this, $start, $end);
-    }
-
-    public function location(int $offset): SourceLocation
-    {
-        if ($offset < 0) {
-            throw new \RangeException("Offset may not be negative, was $offset.");
-        }
-
-        if ($offset > \strlen($this->string)) {
-            $fileLength = \strlen($this->string);
-
-            throw new \RangeException("Offset $offset must not be greater than the number of characters in the file, $fileLength.");
-        }
-
-        return new SourceLocation($this, $offset);
+        return new FileSpan($this, $start, $end);
     }
 
     public function getSourceUrl(): ?string
@@ -96,13 +87,12 @@ final class SourceFile
         return $this->sourceUrl;
     }
 
-    public function getString(): string
-    {
-        return $this->string;
-    }
-
     /**
      * The 0-based line
+     *
+     * @param int $position
+     *
+     * @return int
      */
     public function getLine(int $position): int
     {
@@ -151,6 +141,10 @@ final class SourceFile
      *
      * Checks on {@see $cachedLine} and the next line. If it's on the next line, it
      * updates {@see $cachedLine} to point to that.
+     *
+     * @param int $position
+     *
+     * @return bool
      */
     private function isNearCacheLine(int $position): bool
     {
@@ -162,15 +156,13 @@ final class SourceFile
             return false;
         }
 
-        if (
-            $this->cachedLine >= \count($this->lineStarts) - 1 ||
+        if ($this->cachedLine >= \count($this->lineStarts) - 1 ||
             $position < $this->lineStarts[$this->cachedLine + 1]
         ) {
             return true;
         }
 
-        if (
-            $this->cachedLine >= \count($this->lineStarts) - 2 ||
+        if ($this->cachedLine >= \count($this->lineStarts) - 2 ||
             $position < $this->lineStarts[$this->cachedLine + 2]
         ) {
             ++$this->cachedLine;
@@ -183,6 +175,10 @@ final class SourceFile
 
     /**
      * The 0-based column of that position
+     *
+     * @param int $position
+     *
+     * @return int
      */
     public function getColumn(int $position): int
     {

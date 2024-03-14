@@ -22,16 +22,17 @@ use Tangible\ScssPhp\SourceSpan\FileSpan;
 final class FakeAstNode implements AstNode
 {
     /**
-     * @var \Closure(): FileSpan
+     * @var callable(): FileSpan
+     * @readonly
      */
-    private readonly \Closure $callback;
+    private $callback;
 
     /**
      * @param callable(): FileSpan $callback
      */
     public function __construct(callable $callback)
     {
-        $this->callback = $callback(...);
+        $this->callback = $callback;
     }
 
     public function getSpan(): FileSpan

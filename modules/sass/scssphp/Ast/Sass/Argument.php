@@ -23,11 +23,23 @@ use Tangible\ScssPhp\Util\SpanUtil;
  */
 final class Argument implements SassNode, SassDeclaration
 {
-    private readonly string $name;
+    /**
+     * @var string
+     * @readonly
+     */
+    private $name;
 
-    private readonly ?Expression $defaultValue;
+    /**
+     * @var Expression|null
+     * @readonly
+     */
+    private $defaultValue;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(string $name, FileSpan $span, ?Expression $defaultValue = null)
     {

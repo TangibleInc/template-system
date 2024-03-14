@@ -142,11 +142,18 @@ final class Character
      */
     public static function opposite(string $character): string
     {
-        return match ($character) {
-            '(' => ')',
-            '{' => '}',
-            '[' => ']',
-            default => throw new \InvalidArgumentException(sprintf('Expected a brace character. Got "%s"', $character)),
-        };
+        switch ($character) {
+            case '(':
+                return ')';
+
+            case '{':
+                return '}';
+
+            case '[':
+                return ']';
+
+            default:
+                throw new \InvalidArgumentException(sprintf('Expected a brace character. Got "%s"', $character));
+        }
     }
 }

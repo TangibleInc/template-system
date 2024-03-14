@@ -23,9 +23,17 @@ use Tangible\ScssPhp\Visitor\ExpressionVisitor;
  */
 final class ParenthesizedExpression implements Expression
 {
-    private readonly Expression $expression;
+    /**
+     * @var Expression
+     * @readonly
+     */
+    private $expression;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(Expression $expression, FileSpan $span)
     {

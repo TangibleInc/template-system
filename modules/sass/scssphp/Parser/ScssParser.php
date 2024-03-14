@@ -15,7 +15,6 @@ namespace Tangible\ScssPhp\Parser;
 use Tangible\ScssPhp\Ast\Sass\Interpolation;
 use Tangible\ScssPhp\Ast\Sass\Statement\LoudComment;
 use Tangible\ScssPhp\Ast\Sass\Statement\SilentComment;
-use Tangible\ScssPhp\Deprecation;
 use Tangible\ScssPhp\Util\Character;
 
 /**
@@ -81,7 +80,7 @@ class ScssParser extends StylesheetParser
             }
 
             if ($this->scanIdentifier('elseif', true)) {
-                $this->logger->warnForDeprecation(Deprecation::elseif, "@elseif is deprecated and will not be supported in future Sass versions.\n\nRecommendation: @else if", $this->scanner->spanFrom($beforeAt));
+                $this->logger->warn("@elseif is deprecated and will not be supported in future Sass versions.\n\nRecommendation: @else if", true, $this->scanner->spanFrom($beforeAt));
 
                 $this->scanner->setPosition($this->scanner->getPosition() - 2);
 
@@ -210,7 +209,7 @@ class ScssParser extends StylesheetParser
                 break;
             }
 
-            $this->spaces();
+            $this->whitespaceWithoutComments();
         } while ($this->scanner->scan('//'));
 
         if ($this->isPlainCss()) {

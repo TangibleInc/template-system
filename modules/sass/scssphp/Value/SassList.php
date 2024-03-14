@@ -12,33 +12,53 @@
 
 namespace Tangible\ScssPhp\Value;
 
-use JiriPudil\SealedClasses\Sealed;
 use Tangible\ScssPhp\Visitor\ValueVisitor;
 
 /**
  * A SassScript list.
  */
-#[Sealed(permits: [SassArgumentList::class])]
 class SassList extends Value
 {
     /**
      * @var list<Value>
+     * @readonly
      */
-    private readonly array $contents;
+    private $contents;
 
-    private readonly ListSeparator $separator;
+    /**
+     * @var string
+     * @phpstan-var ListSeparator::*
+     * @readonly
+     */
+    private $separator;
 
-    private readonly bool $brackets;
+    /**
+     * @var bool
+     * @readonly
+     */
+    private $brackets;
 
-    public static function createEmpty(ListSeparator $separator = ListSeparator::UNDECIDED, bool $brackets = false): SassList
+    /**
+     * @param string $separator
+     * @param bool   $brackets
+     *
+     * @return SassList
+     *
+     * @phpstan-param ListSeparator::* $separator
+     */
+    public static function createEmpty(string $separator = ListSeparator::UNDECIDED, bool $brackets = false): SassList
     {
         return new self(array(), $separator, $brackets);
     }
 
     /**
      * @param list<Value> $contents
+     * @param string      $separator
+     * @param bool        $brackets
+     *
+     * @phpstan-param ListSeparator::* $separator
      */
-    public function __construct(array $contents, ListSeparator $separator, bool $brackets = false)
+    public function __construct(array $contents, string $separator, bool $brackets = false)
     {
         if ($separator === ListSeparator::UNDECIDED && count($contents) > 1) {
             throw new \InvalidArgumentException('A list with more than one element must have an explicit separator.');
@@ -49,7 +69,7 @@ class SassList extends Value
         $this->brackets = $brackets;
     }
 
-    public function getSeparator(): ListSeparator
+    public function getSeparator(): string
     {
         return $this->separator;
     }

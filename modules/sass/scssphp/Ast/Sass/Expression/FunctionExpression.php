@@ -32,21 +32,34 @@ final class FunctionExpression implements Expression, CallableInvocation, SassRe
 {
     /**
      * The name of the function being invoked, with underscores left as-is.
+     *
+     * @var string
+     * @readonly
      */
-    private readonly string $originalName;
+    private $originalName;
 
     /**
      * The arguments to pass to the function.
+     *
+     * @var ArgumentInvocation
+     * @readonly
      */
-    private readonly ArgumentInvocation $arguments;
+    private $arguments;
 
     /**
      * The namespace of the function being invoked, or `null` if it's invoked
      * without a namespace.
+     *
+     * @var string|null
+     * @readonly
      */
-    private readonly ?string $namespace;
+    private $namespace;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(string $originalName, ArgumentInvocation $arguments, FileSpan $span, ?string $namespace = null)
     {
@@ -56,6 +69,9 @@ final class FunctionExpression implements Expression, CallableInvocation, SassRe
         $this->namespace = $namespace;
     }
 
+    /**
+     * @return string
+     */
     public function getOriginalName(): string
     {
         return $this->originalName;

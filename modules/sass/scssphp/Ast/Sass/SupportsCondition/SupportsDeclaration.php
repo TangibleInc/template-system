@@ -16,6 +16,7 @@ use Tangible\ScssPhp\Ast\Sass\Expression;
 use Tangible\ScssPhp\Ast\Sass\Expression\StringExpression;
 use Tangible\ScssPhp\Ast\Sass\SupportsCondition;
 use Tangible\ScssPhp\SourceSpan\FileSpan;
+use Tangible\ScssPhp\Util\StringUtil;
 
 /**
  * A condition that selects for browsers where a given declaration is
@@ -27,15 +28,25 @@ final class SupportsDeclaration implements SupportsCondition
 {
     /**
      * The name of the declaration being tested.
+     *
+     * @var Expression
+     * @readonly
      */
-    private readonly Expression $name;
+    private $name;
 
     /**
      * The value of the declaration being tested.
+     *
+     * @var Expression
+     * @readonly
      */
-    private readonly Expression $value;
+    private $value;
 
-    private readonly FileSpan $span;
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
 
     public function __construct(Expression $name, Expression $value, FileSpan $span)
     {
@@ -70,7 +81,7 @@ final class SupportsDeclaration implements SupportsCondition
      */
     public function isCustomProperty(): bool
     {
-        return $this->name instanceof StringExpression && !$this->name->hasQuotes() && str_starts_with($this->name->getText()->getInitialPlain(), '--');
+        return $this->name instanceof StringExpression && !$this->name->hasQuotes() && StringUtil::startsWith($this->name->getText()->getInitialPlain(), '--');
     }
 
     public function __toString(): string

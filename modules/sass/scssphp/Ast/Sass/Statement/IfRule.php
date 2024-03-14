@@ -26,16 +26,25 @@ use Tangible\ScssPhp\Visitor\StatementVisitor;
 final class IfRule implements Statement
 {
     /**
-     * @var list<IfClause>
+     * @var IfClause[]
+     * @readonly
      */
-    private readonly array $clauses;
-
-    private readonly ?ElseClause $lastClause;
-
-    private readonly FileSpan $span;
+    private $clauses;
 
     /**
-     * @param list<IfClause> $clauses
+     * @var ElseClause|null
+     * @readonly
+     */
+    private $lastClause;
+
+    /**
+     * @var FileSpan
+     * @readonly
+     */
+    private $span;
+
+    /**
+     * @param IfClause[] $clauses
      */
     public function __construct(array $clauses, FileSpan $span, ?ElseClause $lastClause = null)
     {
@@ -51,7 +60,7 @@ final class IfRule implements Statement
      * statements executed. If no expression evaluates to `true`, `lastClause`
      * will be executed if it's not `null`.
      *
-     * @return list<IfClause>
+     * @return IfClause[]
      */
     public function getClauses(): array
     {
@@ -62,6 +71,8 @@ final class IfRule implements Statement
      * The final, unconditional `@else` clause.
      *
      * This is `null` if there is no unconditional `@else`.
+     *
+     * @return ElseClause|null
      */
     public function getLastClause(): ?ElseClause
     {
