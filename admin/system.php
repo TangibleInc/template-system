@@ -13,7 +13,7 @@ use tangible\date;
 new class extends \stdClass {
 
   public $name = 'tangible_template_system';
-  public $version = '20240314';
+  public $version = '20240315';
 
   public $url;
   public $path;
