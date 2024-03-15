@@ -2,13 +2,13 @@
 namespace Tests\Integrations;
 use tangible\template_system;
 
-class ACF_Repeater_TestCase extends \WP_UnitTestCase {
+class ACF_Group_TestCase extends \WP_UnitTestCase {
 
   function is_dependency_active() {
     return function_exists('acf'); 
   }
 
-  function test_repeater_field() {
+  function test_group_field() {
     if (!$this->is_dependency_active()) {      
       $this->assertTrue(true);
       return;
@@ -16,7 +16,7 @@ class ACF_Repeater_TestCase extends \WP_UnitTestCase {
 
     $html = tangible_template();
 
-    $repeater_field_name = 'repeater_field';
+    $group_field_name = 'group_field';
 
     $group_key = wp_unique_id('test_group');
 
@@ -26,16 +26,22 @@ class ACF_Repeater_TestCase extends \WP_UnitTestCase {
       'fields' => [
         [
           'key' => 'field_1',
-          'label' => 'Repeater field',
-          'name' => $repeater_field_name,
-          'type' => 'repeater',
+          'label' => 'Group field',
+          'name' => $group_field_name,
+          'type' => 'group',
           'sub_fields' => [
             [
               'key' => 'field_2',
               'label' => 'Text field',
               'name' => 'text_field',
               'type' => 'text',
-            ]
+            ],
+            [
+              'key' => 'field_3',
+              'label' => 'Text field',
+              'name' => 'text_field_2',
+              'type' => 'text',
+            ],
           ],
         ],
       ],
@@ -54,27 +60,20 @@ class ACF_Repeater_TestCase extends \WP_UnitTestCase {
     ]);
 
     // https://www.advancedcustomfields.com/resources/update_field/
-    update_field('repeater_field', [
-      [
-        'text_field' => 'Test 1'
-      ],
-      [
-        'text_field' => 'Test 22'
-      ],
-      [
-        'text_field' => 'Test 333'
-      ],
+    update_field($group_field_name, [
+      'text_field' => 'Test 1',
+      'text_field_2' => 'Test 2'
     ], $post_id);
 
     $expected = <<<'HTML'
     Test 1
-    Test 22
-    Test 333
+    Test 2
     HTML;
 
     $result = $html->render(<<<HTML
-    <Loop type=post id=$post_id><Loop acf_repeater="repeater_field">
+    <Loop type=post id=$post_id><Loop acf_group="$group_field_name">
     <Field text_field />
+    <Field text_field_2 />
     </Loop></Loop>
     HTML);
 

@@ -26,29 +26,25 @@ class FlexibleContentLoop extends ListLoop {
     ],
   ];
 
-  function run_query( $args = [] ) {
-    return $args;
-  }
+  function get_items_from_query( $query ) {
 
-  function get_items_from_query( $args ) {
+    if ( ! isset( $query['field'] )) return [];
 
-    if ( ! isset( $args['field'] )) return [];
-
-    $id = $this->object_id = isset( $args['id'] ) ? $args['id'] : false;
+    $id = $this->object_id = isset( $query['id'] ) ? $query['id'] : false;
 
     $parent_loop = self::$loop->get_context();
     $loop_type   = $parent_loop->get_name();
 
     if ( tangible_template()->is_acf_field_type_with_sub_field( $loop_type ) ) {
-      $items = get_sub_field( $args['field'], false );
+      $items = get_sub_field( $query['field'], false );
     } else {
-      $items = get_field( $args['field'], $id, false );
+      $items = get_field( $query['field'], $id, false );
     }
 
     if ( ! is_array( $items )) $items = []; // get_field can return NULL
 
-    if ( isset( $args['count'] ) && $args['count'] >= 0 ) {
-      $items = array_slice( $items, 0, (int) $args['count'] );
+    if ( isset( $query['count'] ) && $query['count'] >= 0 ) {
+      $items = array_slice( $items, 0, (int) $query['count'] );
     }
 
     $this->reset();
@@ -63,7 +59,7 @@ class FlexibleContentLoop extends ListLoop {
 
   function reset() {
     parent::reset();
-    @have_rows( $this->args['field'], $this->object_id );
+    @have_rows( $this->query['field'], $this->object_id );
   }
 
   function get_item_field( $item, $field_name, $args = [] ) {
