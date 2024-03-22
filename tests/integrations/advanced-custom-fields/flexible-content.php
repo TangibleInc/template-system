@@ -109,6 +109,12 @@ class ACF_Flexible_Content_TestCase extends \WP_UnitTestCase {
     Test 4
     HTML;
 
+    /**
+     * Flaky test: Sometimes ACF fields are not updated yet (?), maybe it depends on
+     * an action hook.
+     */
+    clean_post_cache( $post_id );
+
     $result = $html->render(<<<HTML
     <Loop type=post id=$post_id><Loop acf_flexible="$flexible_content_field_name">
     <If field=layout value=layout_1>Layout 1:<Else if field=layout value=layout_2 />Layout 2:</If>
@@ -118,5 +124,6 @@ class ACF_Flexible_Content_TestCase extends \WP_UnitTestCase {
     HTML);
 
     $this->assertEquals(trim($expected), trim($result));
+    // $this->assertTrue(true);
   }
 }
