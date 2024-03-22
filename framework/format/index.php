@@ -110,7 +110,7 @@ function php_to_js_keys($src, $options = []) {
  * @return array Converted string
  */
 function slugify($string) {
-  return sanitize_title_with_dashes($string, null, 'save');
+  return sanitize_title_with_dashes(remove_accents($string), null, 'save');
 };
 
 /**

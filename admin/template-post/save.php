@@ -87,10 +87,10 @@ $plugin->save_template_post = function( $data = [] ) use ( $plugin, $html ) {
 
     $post = get_post( $result );
 
-    $post_name = sanitize_title_with_dashes(
+    $post_name = sanitize_title_with_dashes(remove_accents(
       ! empty( $name ) ? $name
-        : ( ! empty( $title ) ? $title : 'no-title' ), '', 'save'
-    );
+        : ( ! empty( $title ) ? $title : 'no-title' )
+    ), '', 'save');
 
     $plugin->save_unique_template_post_slug( $post, $post_name );
 
@@ -115,11 +115,12 @@ add_action( 'wp_after_insert_post', function( $post_id, $post, $update ) use ( $
 
   // Update template slug
 
-  $post_name = sanitize_title_with_dashes( ! empty( $_POST['name'] ) ? $_POST['name']
-    : ( ! empty( $post->post_title ) ? $post->post_title
-      : 'no-title'
-    ), '', 'save' 
-  );
+  $post_name = sanitize_title_with_dashes(remove_accents(
+    ! empty( $_POST['name'] ) ? $_POST['name']
+      : ( ! empty( $post->post_title ) ? $post->post_title
+        : 'no-title'
+      )
+  ), '', 'save');
 
   $plugin->save_unique_template_post_slug( $post, $post_name );
 
