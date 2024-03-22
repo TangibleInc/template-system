@@ -219,6 +219,10 @@ class TaxonomyTermLoop extends BaseLoop {
 
       if ( ! isset($query_args[ $key ])) continue;
 
+      if (!is_array($query_args[ $key ])) {
+        $query_args[ $key ] = [$query_args[ $key ]];
+      }
+
       foreach ($query_args[ $key ] as $index => $value) {
 
         if (is_integer( $value ) || is_numeric( $value )) {

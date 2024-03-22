@@ -70,7 +70,7 @@ $loop->set_arg_from_config = function( $args, $given_args, $name, $field_config 
 
   if ( in_array( 'array', $field_types ) ) {
 
-    if ( is_string( $value ) ) {
+    if ( !is_array( $value ) ) {
       $value = format\multiple_values( $value );
     }
 

@@ -117,6 +117,10 @@ function slugify($string) {
  * Convert a string (comma-separated list or JSON array) into array of values
  */
 function multiple_values($value) {
+
+  if (is_array($value)) return $value;
+  if (!is_string($value)) return [$value];
+
   if (isset($value[0]) && $value[0]==='[') {
     try {
       $values = json_decode($value);
@@ -126,6 +130,8 @@ function multiple_values($value) {
       return [];
     }
   }
+
   $values = array_map('trim', explode(',', $value));
+
   return $values;
 };
