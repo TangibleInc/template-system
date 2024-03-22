@@ -131,6 +131,40 @@ class ACF_Date_Time_TestCase extends \WP_UnitTestCase {
     $result = get_locale();
     $this->assertEquals( $locale, $result );
 
+
+    // Conditions
+
+    $result = $html->render(<<<HTML
+    <Date format=timestamp>1990-01-01</Date>
+    HTML);
+
+    $this->assertEquals( '631152000', trim($result) );
+
+    $result = $html->render(<<<HTML
+    <Loop type=post id=$post_id><Field acf_date_time=$date_time_field_name format=timestamp /></Loop>
+    HTML);
+
+    $this->assertEquals( '1580474096', trim($result) );
+
+    $result = $html->render(<<<HTML
+    <Set yesterday>
+      <Date format=timestamp>1990-01-01</Date>
+    </Set>
+    <Loop type=post id=$post_id>
+      <If check="{Field acf_date_time=$date_time_field_name format=timestamp}" more_than value="{Get yesterday}">TRUE<Else />FALSE</If>
+    </Loop>
+    HTML);
+
+    $this->assertEquals( 'TRUE', trim($result) );
+
+    $result = $html->render(<<<HTML
+    <Loop type=post id=$post_id>
+      <If check="{Get yesterday}" less_than value="{Field acf_date_time=$date_time_field_name format=timestamp}">TRUE<Else />FALSE</If>
+    </Loop>
+    HTML);
+
+    $this->assertEquals( 'TRUE', trim($result) );
+
   }
 
 }
