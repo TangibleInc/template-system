@@ -20,6 +20,10 @@ if ( ! class_exists( 'FLBuilderModel' )
   $loop            = $template_system->loop;
   $html            = $template_system->html;
 
+  global $post;
+
+  $previous_post = $post;
+
   /**
    * Ensure default loop context is set to current post
    *
@@ -27,17 +31,21 @@ if ( ! class_exists( 'FLBuilderModel' )
    */
   $loop->push_current_post_context();
 
-if ( $settings->toggle_type == 'editor' ) {
+  if ( $settings->toggle_type == 'editor' ) {
 
-  echo $html->render_with_catch_exit( $settings->html );
+    echo $html->render_with_catch_exit( $settings->html );
 
-} elseif ( ! empty( $settings->saved_template ) ) {
+  } elseif ( ! empty( $settings->saved_template ) ) {
 
-  $post = get_post( $settings->saved_template );
+    $template_post = get_post( $settings->saved_template );
 
-  echo $template_system->render_template_post( $post );
-}
+    echo $template_system->render_template_post( $template_post );
+  }
 
   $loop->pop_current_post_context();
+
+  // Restore current post in context
+  $post = $previous_post;
+
 ?>
 </div>
