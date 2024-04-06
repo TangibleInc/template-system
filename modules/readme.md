@@ -16,7 +16,7 @@
 - [Mermaid](mermaid)
 - [Mobile detect](mobile-detect)
 - [Module loader](module-loader)
-- [Paginator](paginator)
+- [Pager](pager)
 - [Prism](prism)
 - [Sass](sass)
 - [Select](select)

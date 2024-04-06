@@ -6,12 +6,16 @@ namespace tangible\template_system\paginator;
 
 use tangible\ajax;
 use tangible\template_system;
+use tangible\template_system\paginator;
 
 function register() {
-  $url = template_system::$state->url . '/modules/paginator/build';
+
+  $url = template_system::$state->url . '/modules/pager/v1/build';
   $version = template_system::$state->version;
 
-  ajax\enqueue();
+  ajax\register();
+
+  if (wp_script_is('tangible-paginator')) return;
 
   wp_register_script(
     'tangible-paginator',
@@ -30,6 +34,9 @@ function register() {
 }
 
 function enqueue() {
+  if (!wp_script_is('tangible-paginator')) {
+    paginator\register();
+  }
   ajax\enqueue();
   wp_enqueue_script('tangible-paginator');
   wp_enqueue_style('tangible-paginator');
