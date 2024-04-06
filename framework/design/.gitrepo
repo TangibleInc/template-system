@@ -6,6 +6,7 @@
 [subrepo]
 	remote = git@github.com:tangibleinc/design
 	branch = main
-	commit = 
+	commit = 5f41dafafe40462e447a6d86c9359e6575dc9054
 	method = merge
 	cmdver = 0.4.6
+	parent = da769841973c208dec6f2b7ad272940d27d42826
