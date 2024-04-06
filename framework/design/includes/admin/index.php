@@ -2,6 +2,7 @@
 namespace tangible\design;
 use tangible\design;
 use tangible\framework;
+use tangible\template_system;
 
 design::$state->is_plugin = false;
 
