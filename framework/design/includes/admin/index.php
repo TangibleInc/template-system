@@ -19,7 +19,9 @@ add_action('plugins_loaded', function() {
    * Show admin menu Tangible -> Design, if Design module or Template System is
    * installed as plugin. Ensure Template and Framework modules are available.
    */
-  $show_demo_menu = design\is_plugin()  || template_system\is_plugin();
+  $show_demo_menu = design\is_plugin()  || (
+    class_exists('tangible\\template_system') && template_system\is_plugin()
+  );
   if (!$show_demo_menu) return;
 
   $callback = function() {
