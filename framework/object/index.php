@@ -1,10 +1,8 @@
 <?php
-
 namespace tangible;
 
 /**
  * Create object with dynamic methods and properties
- * Deprecated in favor of state and functions under namespace
  */
 function create_object( $props = [] ) {
 

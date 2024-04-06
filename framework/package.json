@@ -1,3 +1,25 @@
 {
-  "name": "@tangible/framework"
+  "name": "@tangible/framework",
+  "description": "Framework module",
+  "homepage": "https://github.com/tangibleinc/framework",
+  "repository": "git@github.com:tangibleinc/framework.git",
+  "type": "module",
+  "scripts": {
+    "// Build": "",
+    "dev": "roll dev",
+    "build": "roll build",
+    "format": "roll format",
+    "version": "node version.js",
+    "subrepo": "git-subrepo"
+  },
+  "devDependencies": {
+    "@tangible/roller": "1.x",
+    "@tangible/git-subrepo": "1.x"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "useTabs": false
+  }
 }
