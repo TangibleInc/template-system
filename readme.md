@@ -24,7 +24,7 @@ See section [Folder Structure](#folder-structure) for a detailed view.
 
 ## Getting started
 
-Prerequisites: [Git](https://git-scm.com/) and [Node.js](https://nodejs.org/en/)
+Prerequisites: [Git](https://git-scm.com/) and [Node](https://nodejs.org/en/)
 
 Clone the repository, and install dependencies.
 
@@ -49,7 +49,7 @@ Builds minified bundles with source maps.
 npm run build [module1 module2..]
 ```
 
-The Template System is composed of modules which can be built individually. Specify which modules to build, for example:
+The project is composed of modules which can be built individually. Specify which modules to build, for example:
 
 ```sh
 npm run build editor integrations/gutenberg
@@ -108,9 +108,9 @@ Start the local server environment.
 npm run start
 ```
 
-After installing everything, it starts a local dev site at `http://localhost:8888`, and test site at `http://localhost:8889`. The default user is `admin` with `password`.
+After installing everything, it starts a local dev site at `http://localhost:4650`, and test site at `http://localhost:4651`. The default user is `admin` with `password`.
 
-Note that `wp-env` can only run one environment at a time. If you have another instance running, it must be stopped first.
+(These port numbers are defined in `.wp-env.json`. An arbitrary number was chosen to avoid conflict with any other environment running on `wp-env`, whose default port numbers are `8888` and `8889`. If you have anything running on the above ports, stop them first.)
 
 Install Composer dependencies for development and testing.
 
@@ -171,7 +171,7 @@ To stop the Docker process:
 npm run stop
 ```
 
-Usually it's enough to run `start` and `stop`. To completely remove the created Docker images and remove cache:
+Usually it's enough to run `start` and `stop`. To completely remove the created Docker images and cache:
 
 ```sh
 npm run destroy

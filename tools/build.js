@@ -1,4 +1,0 @@
-/**
- * Commands for building modules
- */
-

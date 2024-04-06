@@ -1,4 +1,4 @@
-import { test, expect } from '@wordpress/e2e-test-utils-playwright'
+import { describe, test, expect } from '@wordpress/e2e-test-utils-playwright'
 
 /**
  * Tests to exercise the frontend and admin features of the Template System.
@@ -11,7 +11,7 @@ import { test, expect } from '@wordpress/e2e-test-utils-playwright'
  * @see https://www.w3.org/TR/html-aria/#docconformance
  */
 
-test.describe('Admin', () => {
+describe('Admin', () => {
   test('Dashboard', async ({ admin, page }) => {
     await admin.visitAdminPage('/')
     const heading = page.getByRole('heading', {
@@ -111,7 +111,7 @@ test.describe('Admin', () => {
   }
 })
 
-test.describe('Admin menu', () => {
+describe('Admin menu', () => {
   test('Exists', async ({ admin, page }) => {
     await admin.visitAdminPage('/')
     expect(page.getByRole('navigation', { name: 'Main menu' })).toHaveCount(1)
@@ -204,7 +204,7 @@ test.describe('Admin menu', () => {
   })
 })
 
-test.describe('Template post type', () => {
+describe('Template post type', () => {
   test('Archive', async ({ admin, page }) => {
     await admin.visitAdminPage('/edit.php?post_type=tangible_template')
     const heading = await page.getByRole('heading', {

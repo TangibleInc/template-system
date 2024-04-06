@@ -5,6 +5,7 @@ use tangible\form;
 use tangible\template_system;
 
 function register() {
+
   $url = template_system::$state->url . '/modules/form/build';
   $version = template_system::$state->version;
   

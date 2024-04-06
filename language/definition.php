@@ -16,10 +16,10 @@ function get_language_definition() {
     'script', 'style',
     'title',
 
-    'Glide', // TODO: Local to Glider
-    'Slide', // TODO: Local to Slider
+    'Glide', // Local to Glider
+    'Slide', // Local to Slider
 
-    'PaginateButtons', 'PaginateFields', 'PaginateLoading', // TODO: Consolidate as Paginate
+    'PaginateButtons', 'PaginateFields', 'PaginateLoading', // Consolidate as Paginate
 
     'PopContext',
     'PushContext',

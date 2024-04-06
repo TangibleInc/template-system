@@ -1,3 +1,9 @@
+/**
+ * Playwright configuration - Based on https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/config/playwright.config.js
+ *
+ * Copied to avoid having to install `@wordpress/script` which comes with many
+ * unnecessary dependencies.
+ */
 import path, { dirname } from 'node:path'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'url'
@@ -11,7 +17,6 @@ process.env.STORAGE_STATE_PATH ??= path.join(
   process.env.WP_ARTIFACTS_PATH,
   'storage-states/admin.json'
 )
-
 
 /**
  * Get port for test site
@@ -32,9 +37,9 @@ const testSitePort = (function getTestSitePort() {
   }
   return 8889 // Default port for wp-env's test site
 })()
-    
+
 /**
- * Necessary because @wordpress/e2e-test-utils-playwright
+ * Below trick is necessary because @wordpress/e2e-test-utils-playwright
  * doesn't have an option to change the port
  */
 if (!process.env.WP_BASE_URL) {
@@ -44,12 +49,6 @@ if (!process.env.WP_BASE_URL) {
 
 // console.log(`Playwright test site at ${process.env.WP_BASE_URL}`)
 
-/**
- * Based on https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/config/playwright.config.js
- *
- * Copied to avoid having to install @wordpress/script which comes with many
- * unnecessary dependencies.
- */
 const config = defineConfig({
   reporter: process.env.CI ? [['github']] : [['list']],
   forbidOnly: !!process.env.CI,

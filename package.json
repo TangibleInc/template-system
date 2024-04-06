@@ -4,9 +4,6 @@
   "homepage": "https://github.com/tangibleinc/template-system",
   "repository": "git@github.com:tangibleinc/template-system.git",
   "type": "module",
-  "tangible": {
-    "deployType": "module"
-  },
   "scripts": {
     "// Local environment": "",
     "start": "wp-env start",
@@ -49,11 +46,5 @@
     "@wordpress/env": "^9.0.0",
     "chokidar-cli": "^3.0.0",
     "globby": "^14.0.0"
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "useTabs": false
   }
 }
