@@ -10,6 +10,7 @@
   "port": 4650,
   "testsPort": 4651,
   "config": {
+    "WP_DEBUG": true,
     "WP_DEBUG_LOG": true
   }
 }

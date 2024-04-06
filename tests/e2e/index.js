@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@wordpress/e2e-test-utils-playwright'
+import { test, expect } from '@wordpress/e2e-test-utils-playwright'
 
 /**
  * Tests to exercise the frontend and admin features of the Template System.
@@ -10,6 +10,8 @@ import { describe, test, expect } from '@wordpress/e2e-test-utils-playwright'
  * @see https://playwright.dev/docs/locators#locate-by-role
  * @see https://www.w3.org/TR/html-aria/#docconformance
  */
+
+const { describe } = test
 
 describe('Admin', () => {
   test('Dashboard', async ({ admin, page }) => {
@@ -99,7 +101,10 @@ describe('Admin', () => {
         await expect(activateLink).toBeTruthy()
 
         // Make a POST request
-        await request.post(activateLink)
+
+        const result = await request.post(activateLink)
+
+        console.log('Activate result', result)
       }
 
       const plugin = await requestUtils.rest({

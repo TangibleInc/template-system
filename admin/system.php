@@ -8,6 +8,13 @@ use tangible\date;
 // Framework has its own module loader
 require_once __DIR__.'/../framework/index.php';
 
+if (!function_exists('tangible_template_system')) {
+  function tangible_template_system( $arg = false ) {
+    static $o;
+    return $arg === false ? $o : ( $o = $arg );
+  }
+}
+
 (include __DIR__.'/../framework/module-loader.php')(new class extends \stdClass {
 
   public $name = 'tangible_template_system';
@@ -29,7 +36,6 @@ require_once __DIR__.'/../framework/index.php';
   }
 
   function load() {
-
     // Ensure framework is loaded
     if (!did_action('tangible_framework')) {
       do_action('tangible_framework');
@@ -70,10 +76,3 @@ require_once __DIR__.'/../framework/index.php';
   function get_settings() { return []; }
   function update_settings() {}
 });
-
-if (!function_exists('tangible_template_system')) {
-  function tangible_template_system( $arg = false ) {
-    static $o;
-    return $arg === false ? $o : ( $o = $arg );
-  }
-}

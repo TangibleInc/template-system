@@ -12,6 +12,7 @@
     "env": "wp-env",
     "env:update": "wp-env start --update",
     "env:shell": "wp-env run cli bash",
+    "env:test:shell": "wp-env run tests-cli bash",
     "env:composer": "wp-env run cli bash -c 'cd wp-content/plugins/template-system && composer install'",
     "// Build": "",
     "dev": "roll dev",
