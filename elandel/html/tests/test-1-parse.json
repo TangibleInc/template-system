@@ -1,0 +1,158 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "text",
+      "value": "\n"
+    },
+    {
+      "type": "element",
+      "tagName": "If",
+      "properties": {},
+      "children": []
+    },
+    {
+      "type": "text",
+      "value": "\n\n  \n    "
+    },
+    {
+      "type": "element",
+      "tagName": "title",
+      "properties": {},
+      "children": [
+        {
+          "type": "text",
+          "value": "Hello!"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "value": "\n"
+    },
+    {
+      "type": "element",
+      "tagName": "meta",
+      "properties": {
+        "charSet": "utf8"
+      },
+      "children": []
+    },
+    {
+      "type": "text",
+      "value": "\n      \n  "
+    },
+    {
+      "type": "element",
+      "tagName": "section",
+      "properties": {},
+      "children": [
+        {
+          "type": "text",
+          "value": "    "
+        },
+        {
+          "type": "element",
+          "tagName": "p",
+          "properties": {},
+          "children": [
+            {
+              "type": "text",
+              "value": "hi there"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "\n      "
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "value": "\n      "
+    },
+    {
+      "type": "element",
+      "tagName": "Loop",
+      "properties": {
+        "type": "post",
+        "count": "3"
+      },
+      "children": [
+        {
+          "type": "text",
+          "value": "\n        "
+        },
+        {
+          "type": "element",
+          "tagName": "Field",
+          "properties": {
+            "title": ""
+          },
+          "children": []
+        },
+        {
+          "type": "element",
+          "tagName": "Field",
+          "properties": {
+            "author": ""
+          },
+          "children": []
+        },
+        {
+          "type": "text",
+          "value": "\n        "
+        },
+        {
+          "type": "element",
+          "tagName": "If",
+          "properties": {
+            "loop": true,
+            "exists": ""
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": "\n          foo\n          "
+            },
+            {
+              "type": "element",
+              "tagName": "Else",
+              "properties": {
+                "if": "",
+                "something": "else"
+              },
+              "children": []
+            },
+            {
+              "type": "text",
+              "value": "\n          bar\n                  "
+            },
+            {
+              "type": "element",
+              "tagName": "Else",
+              "properties": {},
+              "children": []
+            },
+            {
+              "type": "text",
+              "value": "\nbaz\n        "
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "\n"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "value": "\n  \n"
+    }
+  ],
+  "data": {
+    "quirksMode": false
+  }
+}

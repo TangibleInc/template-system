@@ -1,0 +1,11 @@
+// Nested list
+
+$list-nested: (('value1', 'value2'),('value3', 'value4'));
+
+@each $item in $list-nested {
+  @each $nested-item in $item {
+    .list-nested-item {
+      content: $nested-item;
+    }
+  }
+}

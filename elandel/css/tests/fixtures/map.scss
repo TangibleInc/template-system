@@ -1,0 +1,6 @@
+$map: ('key1':'value1','key2':'value2');
+
+.map {
+  content: map-get($map, 'key1');
+  content: map-get($map, 'key2');
+}

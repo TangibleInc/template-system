@@ -1,0 +1,7 @@
+$list: ('item1', 'item2');
+
+@each $item in $list {
+  .list-item {
+    content: $item;
+  }
+}

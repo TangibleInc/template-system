@@ -1,0 +1,8 @@
+$list-of-map: (('key1':'value1','key2':'value2'),('key1':'value3','key2':'value4'));
+
+@each $item in $list-of-map {
+  .list-of-map {
+    content: map-get($item, 'key1');
+    content: map-get($item, 'key2');
+  }
+}

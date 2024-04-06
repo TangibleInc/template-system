@@ -1,0 +1,6 @@
+$map: ('key1':'value1','key2':'value2');
+$map-nested: ('key1':('subkey1':'subvalue1'));
+
+.map-nested {
+  content: map-get(map-get($map-nested, 'key1'), 'subkey1');
+}
