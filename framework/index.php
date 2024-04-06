@@ -9,41 +9,21 @@ if (!class_exists('tangible\\framework')) {
   framework::$state = (object) [];
 }
 
-/**
- * Module loader: Ensure newest version is loaded when multiple plugins bundle
- * this module. Version number is automatically updated with `npm run version`.
- */
-new class {
+(include __DIR__ . '/module-loader.php')(new class {
 
   public $name = 'tangible_framework';
-  public $version = '20240322';
+  public $version = '20240329';
 
-  function __construct() {
-
-    $name     = $this->name;
-    $priority = 99999999 - absint( $this->version );
-
-    remove_all_filters( $name, $priority );
-    add_action( $name, [ $this, 'load' ], $priority );
-
-    $ensure_action = function() use ( $name ) {
-      if ( ! did_action( $name ) ) do_action( $name );
-    };
-
-    if (doing_action('plugins_loaded') || did_action('plugins_loaded')) {
-      $ensure_action();
-    } else {
-      add_action('plugins_loaded', $ensure_action, 0);
-      add_action('after_setup_theme', $ensure_action, 0);
-    }
+  function init() {
+    // Design module has its own loader to allow development as standalone plugin
+    require_once __DIR__ . '/design/index.php';
   }
 
   function load() {
-    remove_all_filters( $this->name ); // First one to load wins
 
     framework::$state->version = $this->version;
     framework::$state->path = __DIR__;
-    framework::$state->url = untrailingslashit(plugins_url('/', __FILE__));;
+    framework::$state->url = untrailingslashit(plugins_url('/', __FILE__));
 
     // Load this first so others can use tangible\see()
     require_once __DIR__ . '/log/index.php';
@@ -51,11 +31,9 @@ new class {
     require_once __DIR__ . '/admin/index.php';
     require_once __DIR__ . '/ajax/index.php';
     require_once __DIR__ . '/api/index.php';
-    require_once __DIR__ . '/auth/index.php';
     require_once __DIR__ . '/date/index.php';
     require_once __DIR__ . '/format/index.php';
     require_once __DIR__ . '/hjson/index.php';
-    require_once __DIR__ . '/html/index.php';
     require_once __DIR__ . '/interface/index.php';
     require_once __DIR__ . '/object/index.php';
     require_once __DIR__ . '/plugin/index.php';
@@ -64,4 +42,4 @@ new class {
 
     do_action($this->name . '_ready');
   }
-};
+});

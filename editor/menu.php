@@ -1,27 +1,17 @@
 <?php
 namespace tangible\template_system\editor;
+use tangible\framework;
 use tangible\template_system\editor;
 
 function register_template_system_menu() {
 
-  add_action(
-    is_multisite() ? 'network_admin_menu' : 'admin_menu',
-    function() {
-
-      // See /system/post-types/extend.php for menu separator
-
-      add_submenu_page(
-        'tangible', // Parent menu slug
-        'Template System', // Page title
-        'Template System', // Menu title
-        'manage_options', // Capability
-        'tangible-template-system', // Menu slug
-        function () {
-          editor\load_ide();
-        }, // Callback
-        0 // Position
-      );
+  framework\register_admin_menu([
+    'name'  => 'tangible-template-system',
+    'title' => 'Template System',
+    'capability' => 'manage_options',
+    'callback' => function () {
+      editor\load_ide();
     },
-    10
-  );
+    'position' => 0,
+  ]);
 }

@@ -1,4 +1,5 @@
 <?php
+use tangible\framework;
 use tangible\template_system;
 
 /**
@@ -117,47 +118,6 @@ foreach ($plugin->template_post_types as $post_type) {
  * Admin styles
  */
 add_action('admin_head', function() use ($plugin) {
-
-  global $submenu;
-
-  if (isset($submenu['tangible'])) {
-
-    /**
-     * Determine where to put menu item separators - their positions are
-     * dynamic because plugins can add new items.
-     */
-
-    $separator_positions = [];
-
-    foreach ($submenu['tangible'] as $index => $menu_item) {
-      if ($menu_item[2]==='tangible-template-system') {
-        // Below Template System
-        $separator_positions []= $index + 2;
-      } elseif (
-        // Above Categories
-        $menu_item[2]==='edit-tags.php?taxonomy=tangible_template_category'
-        ) {
-        // There's a hidden first submenu "Tangible", and 1-based index
-        $separator_positions []= $index + 1;
-      }
-    }
-
-    if (count($separator_positions) > 0) {
-
-?><style>
-<?php foreach ($separator_positions as $position) { ?>
-  li#toplevel_page_tangible ul.wp-submenu > li:nth-child(<?php
-    echo $position;
-  ?>) {
-    margin-bottom: 7px;
-    padding-bottom: 7px;
-    border-bottom: 1px solid rgba(240, 246, 252, 0.5); /* Slightly darker than submenu item */
-  }
-<?php } ?>
-</style><?php
-    }
-
-  }
 
   // Archive
 

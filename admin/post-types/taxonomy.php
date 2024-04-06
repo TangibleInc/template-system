@@ -1,4 +1,6 @@
 <?php
+use tangible\framework;
+
 /**
  * Template category
  *
@@ -20,7 +22,7 @@ register_taxonomy(
     // Admin column is renamed in ./extend.php
     'show_admin_column' => true,
 
-    'show_in_menu'      => true,
+    'show_in_menu'      => false,
     'show_in_rest'      => true,
     'labels'            => [
       'singular_name'              => __( 'Template Category', 'tangible_template_system' ),
@@ -40,26 +42,14 @@ register_taxonomy(
   ]
 );
 
-add_action(
-  // $plugin->is_multisite() ? 'network_admin_menu' : 'admin_menu',
-  'admin_menu',
-  function() {
-
-    // https://wordpress.stackexchange.com/questions/83768/add-menu-and-submenu-in-admin-with-a-url-instead-of-slug
-
-    add_submenu_page(
-      'tangible', // Parent menu slug
-      'Template Categories', // Page title
-      'Categories', // Menu title
-      'manage_options', // Capability
-      'edit-tags.php?taxonomy=tangible_template_category', // Menu slug
-      '', // Callback
-      30 // Position
-    );
-
-  },
-  10
-);
+framework\register_admin_menu([
+  'name'  => 'edit-tags.php?taxonomy=tangible_template_category',
+  'title' => 'Categories',
+  'page_title' => 'Template Categories',
+  'capability' => 'manage_options',
+  'position' => 80,
+  'separator' => 'before'
+]);
 
 /**
  * Admin menu highlight

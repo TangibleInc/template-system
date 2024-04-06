@@ -1,4 +1,6 @@
 <?php
+use tangible\framework;
+
 /**
  * Register template post type
  *
@@ -114,7 +116,7 @@ $plugin->register_template_post_type = function( $config ) {
     /**
      * Where to show the post type in the admin menu - true/false or string for sub menu
      */
-    'show_in_menu'        => 'tangible', // true,
+    'show_in_menu'        => false, // 'tangible', // true,
 
     'show_in_admin_bar'   => false,
     'show_in_nav_menus'   => false,
@@ -130,5 +132,12 @@ $plugin->register_template_post_type = function( $config ) {
   }
 
   register_post_type( $post_type, $args );
+
+  framework\register_admin_menu([
+    'name'  => "edit.php?post_type=$post_type",
+    'title' => $plural,
+    'page_title' => 'Tangible ' . $plural,
+    'capability' => 'manage_options'
+  ]);
 
 };
