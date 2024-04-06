@@ -6,6 +6,7 @@
 [subrepo]
 	remote = git@github.com:tangibleinc/elandel
 	branch = master
-	commit = 
+	commit = 15ade7b857316c762cebe8d8714c358971a87c46
 	method = merge
 	cmdver = 0.4.6
+	parent = 5272b815e412d48654c541bc4ab0391b24038953
