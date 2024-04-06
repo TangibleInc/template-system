@@ -1,0 +1,19 @@
+{
+  "name": "@tangible/design",
+  "type": "module",
+  "version": "20240403",
+  "scripts": {
+    "dev": "roll dev",
+    "build": "roll build",
+    "format": "roll format",
+    "version": "node version.js",
+    "serve": "concurrently --raw 'roll dev' 'wp-now start'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@tangible/roller": "1.x",
+    "@wordpress/env": "^9.7.0",
+    "@wp-now/wp-now": "^0.1.66",
+    "concurrently": "^8.2.2"
+  }
+}
