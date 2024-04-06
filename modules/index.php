@@ -20,7 +20,6 @@ require_once __DIR__ . '/mobile-detect/index.php';
 require_once __DIR__ . '/paginator/index.php';
 require_once __DIR__ . '/prism/index.php';
 require_once __DIR__ . '/sass/index.php';
-require_once __DIR__ . '/site-structure/index.php';
 require_once __DIR__ . '/slider/index.php';
 require_once __DIR__ . '/sortable/index.php';
 require_once __DIR__ . '/table/index.php';
