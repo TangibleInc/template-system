@@ -102,9 +102,7 @@ describe('Admin', () => {
 
         // Make a POST request
 
-        const result = await request.post(activateLink)
-
-        console.log('Activate result', result)
+        await request.post(activateLink)
       }
 
       const plugin = await requestUtils.rest({

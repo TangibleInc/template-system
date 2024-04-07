@@ -234,7 +234,7 @@ $html->table_body = function($row_loop = []) use ($loop, $html) {
 
         case 'string':
         default:
-          return strcmp($a_value, $b_value) * $order;
+          return strcmp($a_value ?? '', $b_value ?? '') * $order;
         break;
       }
     });

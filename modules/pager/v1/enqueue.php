@@ -10,12 +10,12 @@ use tangible\template_system\paginator;
 
 function register() {
 
+  if (wp_script_is('tangible-paginator')) return;
+
   $url = template_system::$state->url . '/modules/pager/v1/build';
   $version = template_system::$state->version;
 
   ajax\register();
-
-  if (wp_script_is('tangible-paginator')) return;
 
   wp_register_script(
     'tangible-paginator',

@@ -1,5 +1,6 @@
 <?php
 use tangible\format;
+use tangible\template_system\table;
 
 /**
  * Table - Loop type with pagination, sort, and filter via AJAX
@@ -200,8 +201,7 @@ $html->table_tag = function($atts, $nodes = []) use ($html) {
   } else {
 
     // Enqueue Tangible Table module
-
-    $html->enqueue_table(); // See ./enqueue.php
+    table\enqueue(); // See ./enqueue.php
   }
 
   // Restore previous
