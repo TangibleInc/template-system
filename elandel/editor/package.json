@@ -24,8 +24,6 @@
     "@prettier/parse-srcset": "^3.1.0",
     "@replit/codemirror-css-color-picker": "^6.1.0",
     "@replit/codemirror-indentation-markers": "^6.5.0",
-    "angular-html-parser": "5.2.0",
-    "flexlayout-react": "^0.7.15",
     "html-element-attributes": "3.3.0",
     "html-tag-names": "2.1.0",
     "html-ua-styles": "^0.0.5",

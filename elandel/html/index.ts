@@ -7,11 +7,13 @@ import type { Options as FormatOptions } from './rehype-format'
 import type { Options as ParserOptions } from './hast-util-from-html'
 
 export type Language = {
-  closedTags?: string[]
+  closedTags?: string[],
+  rawTags?: string[]
 }
 
 export const language: Language = {
   closedTags: [],
+  rawTags: [],
 }
 
 export type ParseOptions = ParserOptions & {
@@ -34,6 +36,10 @@ export function parse(content: string, options?: ParseOptions): Root {
 const formatter = rehypeFormat({
   closedTags: language.closedTags,
 })
+
+export function formatString(content: string): string {
+  return render(format(parse(content))).trimStart()
+}
 
 export function format(rootNode: Root): Root {
   formatter(rootNode)

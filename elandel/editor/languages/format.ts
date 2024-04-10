@@ -1,44 +1,22 @@
+import { keymap } from '@codemirror/view'
+
 // https://prettier.io/docs/en/browser.html
 import prettier from 'prettier/standalone' // 427 KB
-
-// import parserHtml from 'prettier/parser-html' // 158 KB
-import * as parserHtml from './html/prettier-html'
-import { createParser } from './html/prettier-html/parser-html'
-
 import parserEspree from 'prettier/parser-espree' // 152 KB
 import parserPostCSS from 'prettier/parser-postcss' // 155 KB
 
-import { keymap } from '@codemirror/view'
+import * as html from '../../html'
 
-/**
- * Had to fork prettier/parser-html to allow passing options to Angular HTML parser
- * @see https://github.com/prettier/prettier/blob/main/src/language-html/parser-html.js#L77
- */
-const htmlPlugin = {
-  ...parserHtml,
-  parsers: {
-    html: createParser({
-      name: "html",
-      normalizeTagName: false, // default true
-      normalizeAttributeName: false, // default true
-      allowHtmComponentClosingTags: true,
-      // Custom
-      isTagNameCaseSensitive: true,
-      shouldParseAsRawText: (tagName: string): boolean => {
-        return htmlPlugin.rawTags.includes(tagName)
-      },
-    })
-  }
-}
-
-htmlPlugin?.rawTags.push('Note')
+// TODO: Get from language definition
+html.language.closedTags?.push('Else', 'Field')
+html.language.rawTags?.push('Note')
 
 // https://prettier.io/docs/en/options.html#parser
 const prettierLanguageOptions = {
-  html: {
-    parser: 'html',
-    plugins: [htmlPlugin],
-  },
+  // html: {
+  //   parser: 'html',
+  //   plugins: [htmlPlugin],
+  // },
   sass: {
     parser: 'scss',
     plugins: [parserPostCSS],
@@ -60,7 +38,9 @@ export async function format({ lang = 'html', content, options = {} }) {
 
   try {
     return !prettierLanguageOptions[lang]
-    ? content
+    ? lang==='html'
+      ? html.formatString(content)
+      : content
     : await prettier.format(content, {
         ...prettierLanguageOptions[lang],
         ...options,
