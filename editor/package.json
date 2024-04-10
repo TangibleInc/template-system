@@ -1,5 +1,5 @@
 {
-  "name": "@tangible/editor",
+  "name": "@template-system/editor",
   "description": "Code editor based on CodeMirror 6",
   "type": "module",
   "main": "index.js",

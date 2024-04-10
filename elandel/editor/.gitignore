@@ -1,0 +1,8 @@
+/build/index.html
+/build/test.*
+
+node_modules
+*.log
+package-lock.json
+yarn.lock
+bun.lockb
