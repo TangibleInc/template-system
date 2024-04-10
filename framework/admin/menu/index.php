@@ -46,7 +46,7 @@ function register_admin_menu($item) {
 
   // By default, show in the order they were registered
   if (!isset($item['position'])) {
-    $item['position'] = count($items) * 10;
+    $item['position'] = count($items) * 5;
   }
 
   $items []= $item;

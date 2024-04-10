@@ -3,6 +3,7 @@
  * Code Editor
  */
 namespace tangible\template_system;
+use tangible\framework;
 use tangible\template_system;
 use tangible\template_system\editor;
 
@@ -18,11 +19,19 @@ editor::$state = (object) [
 ];
 
 require_once __DIR__.'/enqueue.php';
-require_once __DIR__.'/menu.php';
 
 /**
  * @see /admin/settigs
  */
-if (template_system\get_settings('ide')) {
-  editor\register_template_system_menu();
+if (template_system\get_settings('views')) {
+
+  framework\register_admin_menu([
+    'name'  => 'tangible-views',
+    'title' => 'Views',
+    'capability' => 'manage_options',
+    'callback' => function () {
+      editor\load_ide();
+    },
+    'position' => 50, // After template post types
+  ]);
 }

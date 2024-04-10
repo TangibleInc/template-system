@@ -16,7 +16,7 @@ template_system::$state->setting_fields = [
   [
     'name' => 'atomic_css',
     'field_type' => 'checkbox',
-    'label' => 'Atomic CSS: Generate CSS utility classes on demand - Experimental',
+    'label' => 'Atomic CSS: Generate CSS utility classes on demand',
     'beta' => true,
     'default_value' => false,
   ],
@@ -32,9 +32,18 @@ template_system::$state->setting_fields = [
   ],
 
   // [
-  //   'name' => 'ide',
+  //   'name' => 'content',
   //   'field_type' => 'checkbox',
-  //   'label' => 'Integrated Development Environment: See <i>Tangible -> Template System</i>',
+  //   'label' => 'Content structure templates: Post types, field groups, taxonomies - See <i>Tangible -> Content</i>',
+  //   'default_value' => false,
+  //   'beta' => true,
+  //   'reload' => true,
+  // ],
+
+  // [
+  //   'name' => 'views',
+  //   'field_type' => 'checkbox',
+  //   'label' => 'Integrated authoring environment: See <i>Tangible -> Views</i>',
   //   'default_value' => false,
   //   'beta' => true,
   //   'reload' => true,

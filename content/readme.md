@@ -1,3 +1,4 @@
 # Content module
 
-Create content structure using tags: post types, fields, taxonomies.
+Content structure templates: post types, fields, taxonomies.
+

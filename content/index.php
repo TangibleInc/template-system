@@ -1,4 +1,6 @@
 <?php
+use tangible\framework;
+use tangible\template_system;
 
 /**
  * Create content structure: post types, field groups, taxonomies, user roles
@@ -19,3 +21,19 @@ add_action('init', function() use ( $html ) {
   $html->init_taxonomies();
   $html->init_metaboxes();
 });
+
+/**
+ * @see /admin/settigs
+ */
+if (template_system\get_settings('views')) {
+
+  framework\register_admin_menu([
+    'name'  => 'tangible-content',
+    'title' => 'Content',
+    'capability' => 'manage_options',
+    'callback' => function () {
+
+    },
+    'position' => 32, // After Template
+  ]);
+}
