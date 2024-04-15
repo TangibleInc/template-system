@@ -14,4 +14,7 @@ api::$state = (object) [
 
 require_once __DIR__.'/action.php';
 require_once __DIR__.'/ajax.php';
+require_once __DIR__.'/enqueue.php';
+require_once __DIR__.'/nonce.php';
 require_once __DIR__.'/response.php';
+require_once __DIR__.'/rest/index.php';

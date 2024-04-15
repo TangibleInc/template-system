@@ -12,13 +12,13 @@ export default {
       'logic',
       'loop',
       'modules',
-      'vendor'
     ],
+    dest: 'publish/tangible-template-system.zip',
     exclude: [
       'src',
       'tests',
+      'vendor'
     ],
-    dest: 'publish/tangible-template-system.zip',
     rootFolder: 'tangible-template-system'
   }
 }

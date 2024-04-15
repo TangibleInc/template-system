@@ -15,6 +15,8 @@
     "env:shell": "wp-env run cli bash",
     "env:test:shell": "wp-env run tests-cli bash",
     "env:composer": "wp-env run cli bash -c 'cd wp-content/plugins/template-system && composer install'",
+    "now": "wp-now start",
+    "now:test": "roll run tests/index.ts NODE_ENV=test",
     "// Build": "",
     "dev": "roll dev",
     "build": "roll build",
@@ -24,6 +26,7 @@
     "list": "node tools/list-modules.js",
     "deps": "node ./tools/deps.js",
     "subrepo": "./tools/git-subrepo/bin",
+    "archive": "roll archive",
     "// Test": "",
     "test": "wp-env run tests-wordpress /var/www/html/wp-content/plugins/template-system/vendor/bin/phpunit --testdox -c /var/www/html/wp-content/plugins/template-system/phpunit.xml --verbose",
     "test:all": "npm run test && npm run e2e",
@@ -41,12 +44,15 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.40.1",
-    "@tangible/roller": "^1.7.5",
+    "@tangible/roller": "^1.8.4",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "@wordpress/e2e-test-utils-playwright": "^0.16.0",
     "@wordpress/env": "^9.0.0",
+    "@wp-now/wp-now": "^0.1.69",
     "chokidar-cli": "^3.0.0",
-    "globby": "^14.0.0"
+    "globby": "^14.0.0",
+    "node-fetch": "^3.3.2",
+    "testra": "^2.0.0"
   }
 }

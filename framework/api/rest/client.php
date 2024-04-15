@@ -5,7 +5,7 @@ use tangible\api;
 function rest($method, $route, $data = [], $options = []) {
 
   $method = strtoupper($method);
-  $request = new WP_REST_Request( $method, $route );
+  $request = new \WP_REST_Request( $method, $route );
 
   if ($method==='GET') {
     $request->set_query_params( $data );
@@ -32,7 +32,7 @@ function rest($method, $route, $data = [], $options = []) {
    *
    * @see https://developer.wordpress.org/reference/classes/wp_rest_server/response_to_data/
    */
-  $embed = isset($options['embed']) ? $options['embed'] : false;
+  $embed = $options['embed'] ?? false;
 
   return rest_get_server()->response_to_data(
     $response,
