@@ -1,6 +1,6 @@
-// import { getWpNowConfig, startServer } from '@wp-now/wp-now'
 import { test, is, ok, run } from 'testra'
 import fetch from 'node-fetch'
+import { getWpNowConfig, startServer } from '@wp-now/wp-now'
 
 const testSiteUrl = 'http://localhost:8881'
 
@@ -15,27 +15,36 @@ const request = async ({
   data = {},
 }) => {
   const isJson = format === 'json'
-  let url = `${testSiteUrl}${isJson ? '/wp-json' : ''}${route}`
   const hasBody = !['GET', 'HEAD'].includes(method)
+  let url = `${testSiteUrl}${isJson ? '/wp-json' : ''}${route}`
+
   if (!hasBody) {
     // Convert data to URL query
-    url += Object.keys(data).reduce((str, key) =>
-      str + `${!str ? '?' : '&'}${key}=${data[key]}`
-    , '')
+    url += Object.keys(data).reduce(
+      (str, key) => str + `${!str ? '?' : '&'}${key}=${data[key]}`,
+      '',
+    )
   }
+
   const options = {
     method,
-    ...(isJson ? {
-      headers: {
-        'Content-Type': 'application/json',
-        ...(request.token ? {
-          Authorization: `Bearer ${request.token}`
-        } : {})
-      },
-      ...(hasBody ? {
-        body: JSON.stringify(data)
-      }: {})
-    } : {})
+    ...(isJson
+      ? {
+          headers: {
+            'Content-Type': 'application/json',
+            ...(request.token
+              ? {
+                  Authorization: `Bearer ${request.token}`,
+                }
+              : {}),
+          },
+          ...(hasBody
+            ? {
+                body: JSON.stringify(data),
+              }
+            : {}),
+        }
+      : {}),
   }
 
   return await (await fetch(url, options))[format]()
@@ -47,8 +56,6 @@ let php
 
 test('Test site', async () => {
 
-  const { getWpNowConfig, startServer } = await import('@wp-now/wp-now')
-
   const server = await startServer({
     ...(await getWpNowConfig({
       path: process.cwd(),
@@ -56,7 +63,7 @@ test('Test site', async () => {
 
     // Not working - Fork wp-now
     config: {
-      output: false
+      output: false,
     },
     // documentRoot: '/var/www/html',
     // projectPath: process.cwd(),
@@ -106,20 +113,19 @@ exit;
 })
 
 test('REST API', async () => {
-
   let result = await request({
     route: '/',
   })
 
   is('object', typeof result, 'responds in JSON object')
-  
+
   // console.log(result)
   ok(result.routes, 'has routes')
 
   ok(result.routes['/wp/v2/users/me'], 'route exists: /wp/v2/users/me')
 
   ok(result.routes['/tangible/v1/token'], 'route exists: /tangible/v1/token')
-  
+
   // Login
   result = await request({
     method: 'POST',
@@ -154,10 +160,13 @@ test('REST API', async () => {
 })
 
 test('Log', async () => {
-
-  const log = (await php.run({ code: `<?php
+  const log = (
+    await php.run({
+      code: `<?php
     echo file_get_contents('wp-content/log.txt');
-  ` })).text
+  `,
+    })
+  ).text
 
   if (log) console.log(log)
 })
