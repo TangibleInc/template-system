@@ -10,12 +10,10 @@ function error($data = []) {
       ? $data->getMessage()
       : (is_string($data) ? [ 'message' => $data ] : $data)
   );
-  exit;
 };
 
 function success($data = []) {
   wp_send_json_success($data);
-  exit;
 };
 
 function add_action($name, $fn, $options = []) {
