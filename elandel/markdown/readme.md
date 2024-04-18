@@ -1,4 +1,4 @@
 # Markdown module
 
-Extend Markdown with Elandel's HTML processor
+Markdown with extensible HTML processor
 
