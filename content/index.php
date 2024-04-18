@@ -23,7 +23,7 @@ add_action('init', function() use ( $html ) {
 });
 
 /**
- * @see /admin/settigs
+ * @see /admin/settings
  */
 if (template_system\get_settings('views')) {
 
