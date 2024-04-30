@@ -1,6 +1,6 @@
 import { test, is, ok, run } from 'testra'
 import fetch from 'node-fetch'
-import { getWpNowConfig, startServer } from '@wp-now/wp-now'
+import { getWpNowConfig, startServer } from '@tangible/now'
 
 const testSiteUrl = 'http://localhost:8881'
 

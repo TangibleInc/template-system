@@ -35,7 +35,7 @@ const testSitePort = (function getTestSitePort() {
       }
     } catch(e) { /* OK */ }
   }
-  return 8889 // Default port for wp-env's test site
+  return 8881 // Default port for wp-now - was 8889 for wp-env test site
 })()
 
 /**
@@ -46,8 +46,6 @@ if (!process.env.WP_BASE_URL) {
   const testSiteUrl = `http://localhost:${testSitePort}`
   process.env.WP_BASE_URL = testSiteUrl
 }
-
-// console.log(`Playwright test site at ${process.env.WP_BASE_URL}`)
 
 const config = defineConfig({
   reporter: process.env.CI ? [['github']] : [['list']],
@@ -96,10 +94,11 @@ const config = defineConfig({
   testIgnore: 'playwright.setup.js',
   globalSetup: path.join(__dirname, 'tests/e2e/playwright.setup.js'),
   webServer: {
-    command: 'npm run start',
+    command: `wp-now start --port ${testSitePort}`,
+    url: process.env.WP_BASE_URL,
     timeout: 120_000, // 120 seconds.
     reuseExistingServer: true,
-    port: testSitePort,
+    // port: testSitePort,
   },
 })
 
