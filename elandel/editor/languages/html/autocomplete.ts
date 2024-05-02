@@ -16,6 +16,7 @@ import type { SyntaxNode } from "@lezer/common"
 /**
  * Language definition from server side
  * @see /editor/enqueue.php
+ * @see /language/definition.php
  */
 const {
   languageDefinition = { tags: {} }

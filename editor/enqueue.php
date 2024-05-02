@@ -39,7 +39,8 @@ function enqueue_editor() {
       'editorUrl' => editor::$state->url,
       /**
        * Language definition
-       * @see languages/html/autocomplete.ts
+       * @see /elandel/editor/languages/html/autocomplete.ts
+       * @see /language/definition.php
        */
       'languageDefinition' => template_system\get_language_definition(),
     ]

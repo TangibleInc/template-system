@@ -4,7 +4,8 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "build:deps": "node build.js deps"
+    "build:deps": "node build.js deps",
+    "test": "tsx html/tests/index.ts && tsx css/tests/index.ts"
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.13.0",
