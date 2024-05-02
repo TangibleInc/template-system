@@ -1,17 +1,15 @@
-import { test, expect } from '@wordpress/e2e-test-utils-playwright'
+import { describe, test, expect } from '../../framework/playwright'
 
 /**
  * Tests to exercise the frontend and admin features of the Template System.
  *
- * Note: To interact with pages, locate elements by user-visible locators like
+ * To interact with pages, locate elements by user-visible locators like
  * accessible role, instead of CSS selectors which can change.
  *
  * @see https://playwright.dev/docs/locators#locating-elements
  * @see https://playwright.dev/docs/locators#locate-by-role
  * @see https://www.w3.org/TR/html-aria/#docconformance
  */
-
-const { describe } = test
 
 describe('Admin', () => {
   test('Dashboard', async ({ admin, page }) => {

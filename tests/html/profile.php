@@ -6,16 +6,14 @@ namespace tangible\tests\html;
  */
 function run_profile($action) {
   // https://xdebug.org/docs/develop#related_settings_and_functions
-  $init_time = xdebug_time_index(); // seconds
-  $init_fn = xdebug_get_function_count();
-  $init_mem = xdebug_peak_memory_usage(); // xdebug_memory_usage();
+  $init_time = microtime(true); // seconds
+  $init_mem = memory_get_peak_usage();
 
   $action();
 
   return [
-    'duration' => xdebug_time_index() - $init_time,
-    'functions' => xdebug_get_function_count() - $init_fn - 1,
-    'memory' => xdebug_peak_memory_usage() - $init_mem,
+    'duration' => microtime(true) - $init_time,
+    'memory' => memory_get_peak_usage() - $init_mem,
   ];
 }
 
@@ -45,7 +43,6 @@ $bytes = array_reduce($files, function($bytes, $file) {
 
 $parse_time = $result['duration'];
 $parse_memory = $result['memory'];
-$parse_functions = $result['functions'];
 
 /**
  * Profile: Render
@@ -58,7 +55,6 @@ $result = run_profile(function() use ($files, $html_parse, $html_render) {
 
 $render_time = $result['duration'];
 $render_memory = $result['memory'];
-$render_functions = $result['functions'];
 
 /**
  * Report
@@ -74,7 +70,4 @@ echo "Time:           " . format_duration($parse_time + $render_time)
 echo "Memory usage:   " . format_memory($parse_memory + $render_memory)
   . " = " . format_memory($parse_memory) . " (parse)"
   . " + " . format_memory($render_memory) . " (render)\n";
-echo "Function calls: " . ($parse_functions + $render_functions)
-  . " = " . $parse_functions . " (parse)"
-  . " + " . $render_functions . " (render)\n";
 echo "\n";

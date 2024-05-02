@@ -5,11 +5,8 @@
     "."
   ],
   "themes": [
-    "./tests/empty-block-theme"
+    "./framework/empty-block-theme"
   ],
-  "mappings": {
-    "wp-content/plugins/e2e-plugin": "./tests/e2e/e2e-plugin"
-  },
   "config": {
     "WP_DEBUG": true,
     "WP_DEBUG_LOG": true

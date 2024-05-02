@@ -31,23 +31,23 @@ template_system::$state->setting_fields = [
     'default_value' => false,
   ],
 
-  // [
-  //   'name' => 'content',
-  //   'field_type' => 'checkbox',
-  //   'label' => 'Content structure templates: Post types, field groups, taxonomies - See <i>Tangible -> Content</i>',
-  //   'default_value' => false,
-  //   'beta' => true,
-  //   'reload' => true,
-  // ],
+  [
+    'name' => 'content',
+    'field_type' => 'checkbox',
+    'label' => 'Content structure templates: Post types, field groups, taxonomies - See <i>Tangible -> Content</i>',
+    'default_value' => false,
+    'beta' => true,
+    'reload' => true,
+  ],
 
-  // [
-  //   'name' => 'views',
-  //   'field_type' => 'checkbox',
-  //   'label' => 'Integrated authoring environment: See <i>Tangible -> Views</i>',
-  //   'default_value' => false,
-  //   'beta' => true,
-  //   'reload' => true,
-  // ],
+  [
+    'name' => 'views',
+    'field_type' => 'checkbox',
+    'label' => 'Integrated authoring environment: See <i>Tangible -> Views</i>',
+    'default_value' => false,
+    'beta' => true,
+    'reload' => true,
+  ],
 ];
 
 function get_setting_fields() {

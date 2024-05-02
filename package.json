@@ -7,9 +7,10 @@
   "type": "module",
   "scripts": {
     "// Local environment": "",
-    "start": "wp-now start",
-    "test": "roll run tests/index.ts NODE_ENV=test",
-    "e2e": "playwright test",
+    "start": "wp-now start --open",
+    "test": "node tests/index.js",
+    "e2e": "playwright test --config tests/playwright.config.js",
+    "test:html": "wp-now php tests/html/index.php",
     "// wp-env requires Docker": "",
     "env": "wp-env",
     "env:start": "wp-env start",
@@ -54,6 +55,6 @@
     "chokidar-cli": "^3.0.0",
     "globby": "^14.0.0",
     "node-fetch": "^3.3.2",
-    "testra": "^2.0.0"
+    "testra": "^2.1.2"
   }
 }

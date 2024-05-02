@@ -17,7 +17,10 @@ export default {
     exclude: [
       'src',
       'tests',
-      'vendor'
+      'vendor',
+      '**/*.test.js',
+      '**/*.scss',
+      '**/*.ts'
     ],
     rootFolder: 'tangible-template-system'
   }
