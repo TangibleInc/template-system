@@ -2088,7 +2088,7 @@ OK() {
 usage-error() {
   local msg="git-subrepo: $1" usage=
   if [[ $GIT_SUBREPO_TEST_ERRORS != true ]]; then
-    source "${SOURCE_DIR}/git-subrepo.d/help-functions.bash"
+    # source "${SOURCE_DIR}/git-subrepo.d/help-functions.bash"
     if can "help:$command"; then
       msg=$'\n'"$msg"$'\n'"$("help:$command")"$'\n'
     fi
