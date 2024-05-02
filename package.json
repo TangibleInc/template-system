@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.40.1",
-    "@tangible/now": "^1.0.3",
+    "@tangible/now": "1.0.5",
     "@tangible/roller": "^1.8.4",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
@@ -55,6 +55,6 @@
     "chokidar-cli": "^3.0.0",
     "globby": "^14.0.0",
     "node-fetch": "^3.3.2",
-    "testra": "^2.1.2"
+    "testra": "^2.1.3"
   }
 }

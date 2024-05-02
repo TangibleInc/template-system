@@ -1,3 +1,4 @@
+import path from 'node:path'
 import fetch from 'node-fetch'
 import { getWpNowConfig, startServer } from '@tangible/now'
 
@@ -48,19 +49,36 @@ export function createRequest(siteUrl) {
   return request
 }
 
+const silentConsole = {
+  log() {},
+  warn() {},
+  error() {},
+}
+const originalConsole = globalThis.console
+
+const disableConsole = () => {
+  // Silence console messages from NodePHP
+  globalThis.console = silentConsole
+}
+
+const enableConsole = () => {
+  globalThis.console = originalConsole
+}
+
 let serverInstance
 
 export async function getServer(options = {}) {
+
+  if (serverInstance) {
+    if (!options.reset) return serverInstance
+    await serverInstance.stopServer()
+  }
+
   const {
-    path: projectPath = process.cwd(),
+    path: projectPath = path.join(process.cwd(), 'tests'),
     reset = false,
     ...serverOptions
   } = options
-
-  if (serverInstance) {
-    if (!reset) return serverInstance
-    await serverInstance.stopServer()
-  }
 
   const server = await startServer({
     ...(await getWpNowConfig({
@@ -71,58 +89,87 @@ export async function getServer(options = {}) {
     projectPath,
     mode: 'plugin',
     phpVersion: '7.4',
-    silence: true,
+    // silence: true,
     ...serverOptions,
   })
 
   const { port } = server.options
 
-  const silentConsole = {
-    log() {},
-    warn() {},
-    error() {},
-  }
   const { php, stopServer } = server
 
-  const runPhp = async (code) => {
-    // Silence console messages from NodePHP
-    const _console = globalThis.console
-    globalThis.console = silentConsole
+  const phpStart = '<?php '
+  const phpStartRegex= /^<\?php /
+
+  /**
+   * Run PHP code - Starting PHP tag is optional
+   * 
+   * ```js
+   * const result = phpx`echo 'hi';`
+   * ```
+   * 
+   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
+   */
+  const phpx = async (code, ...args) => {
+    if (Array.isArray(code)) {
+      code = code.reduce(
+        (prev, now, index) => prev + now + (args[index] ?? ''),
+        '',
+      )
+    }
+
+    disableConsole()
+
     let result
     try {
       result = await php.run({
-        code,
+        code: phpStart + code.replace(phpStartRegex, '')
       })
     } catch (e) {
       result = { errors: e.message }
     }
     const { text, errors } = result
-    globalThis.console = _console
+
+    enableConsole()
+
     if (errors) throw errors
     else return text
   }
 
-  const runWp = async (code) => {
+  /**
+   * Run PHP code in WordPress context
+   * 
+   * ```js
+   * const result = wpx`return 'hi';`
+   * ```
+   */
+  const wpx = async (code, ...args) => {
+    if (Array.isArray(code)) {
+      code = code.reduce(
+        (prev, now, index) => prev + now + (args[index] ?? ''),
+        '',
+      )
+    }
     return JSON.parse(
-      await runPhp(`<?php include 'wp-load.php';
-echo json_encode((function() { ${code} })());`),
+      await phpx`
+include 'wp-load.php';
+echo json_encode((function() { ${code} })());`,
     )
   }
 
-  await runPhp(`
+  await wpx`
 // Pretty permalinks
 global $wp_rewrite;
 $wp_rewrite->set_permalink_structure('/%postname%/');
 $wp_rewrite->flush_rules();
-`)
+`
 
   return (serverInstance = {
     php,
     port,
     options: server.options,
     request: createRequest(`http://localhost:${port}`),
-    runPhp,
-    runWp,
+    phpx,
+    wpx,
     async stopServer() {
       serverInstance = null
       await stopServer()

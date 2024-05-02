@@ -1,10 +1,6 @@
 {
   "mappings": {
-    "wp-content/plugins/e2e-plugin": "./e2e-plugin",
+    "wp-content/plugins/e2e-plugin": "../env/e2e-plugin",
     "wp-content/themes/empty-block-theme": "../empty-block-theme"
-  },
-  "config": {
-    "WP_DEBUG": true,
-    "WP_DEBUG_LOG": true
   }
 }

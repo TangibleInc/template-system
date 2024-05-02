@@ -1,8 +1,11 @@
 /**
  * Playwright configuration
- *
- * Based on https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/config/playwright.config.js
+*
  * @see https://playwright.dev/docs/test-configuration
+ * 
+ * - Based on https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/config/playwright.config.js. Forked because `@wordpress/scripts` has many unnecessary dependencies
+ * - Must run before importing `@wordpress/e2e-test-utils-playwright` to be able
+ * to override its default port number
  */
 import path, { dirname } from 'node:path'
 import { fileURLToPath } from 'url'

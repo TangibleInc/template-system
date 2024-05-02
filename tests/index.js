@@ -1,23 +1,21 @@
 import { test, is, ok, run } from 'testra'
-import { getServer } from '../framework/tests/setup.js'
+import { getServer } from '../framework/env/index.js'
 import frameworkTests from '../framework/tests/index.js'
 
 export default run(async () => {
   await frameworkTests
 
-  const { php, request, runWp } = await getServer()
+  const { php, request, wpx } = await getServer()
 
   test('Template system', async () => {
-    let result = await runWp(
-      `return function_exists('tangible_template_system');`,
-    )
+    let result = await wpx`return function_exists('tangible_template_system');`
     is(true, result, 'tangible_template_system() exists')
 
-    result = await runWp(`return function_exists('tangible_template');`)
+    result = await wpx`return function_exists('tangible_template');`
     is(true, result, 'tangible_template() exists')
 
     let template = `Hello, world.`
-    result = await runWp(`return tangible_template('${template}');`)
+    result = await wpx`return tangible_template('${template}');`
     is(template, result, 'tangible_template(string) runs')
 
     /**
@@ -26,7 +24,7 @@ export default run(async () => {
      */
 
     const postTitle = 'Test 123'
-    result = await runWp(`
+    result = await wpx(`
 return wp_insert_post([
   'post_type' => 'post',
   'post_status' => 'publish',
@@ -38,7 +36,7 @@ return wp_insert_post([
     is('number', typeof result, 'create post returns ID')
 
     template = `<Loop type=post id=${result}><Field title /></Loop>`
-    result = await runWp(`return tangible_template('${template}');`)
+    result = await wpx`return tangible_template('${template}');`
 
     is(postTitle, result, 'get test post')
   })

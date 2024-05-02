@@ -1,4 +1,4 @@
-import { describe, test, expect } from '../../framework/playwright'
+import { describe, test, expect } from '../../framework/playwright/index.js'
 
 /**
  * Tests to exercise the frontend and admin features of the Template System.
