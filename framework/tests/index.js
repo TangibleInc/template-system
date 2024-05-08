@@ -2,7 +2,6 @@ import { test, is, ok, run } from 'testra'
 import { getServer } from '../env/index.js'
 
 export default run(async () => {
-
   const { php, request } = await getServer()
 
   // Object.assign(globalThis, { php, request })
@@ -43,13 +42,15 @@ exit;
 
   await import('../api/tests/index.js')
 
-  const log = (
-    await php.run({
-      code: `<?php
+  test('Log', async () => {
+    const log = (
+      await php.run({
+        code: `<?php
 echo file_get_contents('wp-content/log.txt');
   `,
-    })
-  ).text
+      })
+    ).text
 
-  if (log) console.log(log)  
+    if (log) console.log(log)
+  })
 })

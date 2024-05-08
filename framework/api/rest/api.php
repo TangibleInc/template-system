@@ -6,9 +6,8 @@ use tangible\api;
  * Get current user IP.
  */
 function get_ip() {
-  return ! empty( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : __( 'Unknown', 'jwt-auth-rest-api' );
+  return ! empty( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
 }
-
 
 /**
  * Get plugin settings array.
@@ -16,7 +15,6 @@ function get_ip() {
 function get_db_settings() {
   return get_option( 'jwt_auth_rest_api_settings' );
 }
-
 
 /**
  * Get the auth key.
