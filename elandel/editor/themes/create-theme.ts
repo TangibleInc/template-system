@@ -1,8 +1,8 @@
 import {EditorView} from '@codemirror/view';
-import {Extension} from '@codemirror/state';
+import type {Extension} from '@codemirror/state';
 import {
 	HighlightStyle,
-	TagStyle,
+	type TagStyle,
 	syntaxHighlighting,
 } from '@codemirror/language';
 

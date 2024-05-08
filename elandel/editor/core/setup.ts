@@ -10,7 +10,7 @@ import {
   highlightActiveLineGutter,
   EditorView,
 } from '@codemirror/view'
-import { Extension, EditorState } from '@codemirror/state'
+import { type Extension, EditorState } from '@codemirror/state'
 import {
   defaultHighlightStyle,
   syntaxHighlighting,

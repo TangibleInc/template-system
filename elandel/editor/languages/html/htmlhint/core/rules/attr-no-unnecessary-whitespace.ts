@@ -1,4 +1,4 @@
-import { Rule } from '../types'
+import type { Rule } from '../types'
 
 export default {
   id: 'attr-no-unnecessary-whitespace',

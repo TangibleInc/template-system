@@ -1,6 +1,6 @@
 // From https://github.com/replit/codemirror-vscode-keymap
 
-import { KeyBinding } from '@codemirror/view';
+import type { KeyBinding } from '@codemirror/view';
 import {
   insertNewlineAndIndent,
   cursorCharLeft,

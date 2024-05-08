@@ -1,5 +1,5 @@
-import { Listener } from '../htmlparser'
-import { Rule } from '../types'
+import type { Listener } from '../htmlparser'
+import type { Rule } from '../types'
 
 export default {
   id: 'doctype-html5',

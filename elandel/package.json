@@ -26,8 +26,6 @@
     "@prettier/parse-srcset": "^3.1.0",
     "@replit/codemirror-css-color-picker": "^6.1.0",
     "@replit/codemirror-indentation-markers": "^6.5.0",
-    "@types/hast": "^3.0.4",
-    "@types/unist": "^3.0.2",
     "ccount": "^2.0.1",
     "comma-separated-tokens": "^2.0.3",
     "devlop": "^1.1.0",
@@ -58,6 +56,8 @@
     "web-namespaces": "^2.0.1"
   },
   "devDependencies": {
+    "@types/hast": "^3.0.4",
+    "@types/unist": "^3.0.2",
     "testra": "^2.0.0",
     "tsx": "^4.7.1"
   }

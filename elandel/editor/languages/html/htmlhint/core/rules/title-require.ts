@@ -1,5 +1,5 @@
-import { Block, Listener } from '../htmlparser'
-import { Rule } from '../types'
+import type { Block, Listener } from '../htmlparser'
+import type { Rule } from '../types'
 
 export default {
   id: 'title-require',

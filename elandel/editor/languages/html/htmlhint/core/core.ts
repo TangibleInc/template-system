@@ -1,7 +1,7 @@
 import HTMLParser from './htmlparser'
 import Reporter from './reporter'
 import * as HTMLRules from './rules'
-import { Hint, Rule, Ruleset } from './types'
+import type { Hint, Rule, Ruleset } from './types'
 
 export interface FormatOptions {
   colors?: boolean

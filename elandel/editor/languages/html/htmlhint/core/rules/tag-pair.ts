@@ -1,5 +1,5 @@
-import { Block } from '../htmlparser'
-import { Rule } from '../types'
+import type { Block } from '../htmlparser'
+import type { Rule } from '../types'
 
 export default {
   id: 'tag-pair',

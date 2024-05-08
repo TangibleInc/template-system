@@ -12,7 +12,9 @@ As a concept, it is inspired by:
 
 It is a TypeScript library with an extensible **HTML engine** based on [Unified](https://unifiedjs.com/) and [hast](https://github.com/syntax-tree/hast) (Hypertext Abstract Syntax Tree format); and **CSS engine** based on [PostCSS](https://github.com/postcss/postcss).
 
-It can **parse** a template into a syntax tree; format to **beautify** code; and **render** it with loops, logic, and dynamic content. There is also an **editor** library based on CodeMirror that deeply integrates with the language. It is designed to be extended with additional features such as charts, diagrams, musical blocks.
+It can **parse** a template into a syntax tree; format to **beautify** code; and **render** it with loops, logic, and dynamic content.
+
+There is an **editor** library based on CodeMirror that deeply integrates with the language. It is designed to be extended with additional features such as charts, diagrams, musical blocks.
 
 The goal is to create a cross-platform template language definition that works in the browser, server side (WordPress/PHP/MySQL/SQLite), and JavaScript runtimes (Node/Bun). This portability would allow features like:
 

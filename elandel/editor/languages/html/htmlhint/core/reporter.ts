@@ -1,4 +1,4 @@
-import { Hint, ReportType, Rule, Ruleset } from './types'
+import { type Hint, ReportType, type Rule, type Ruleset } from './types'
 
 export default class Reporter {
   public html: string

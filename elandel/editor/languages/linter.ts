@@ -1,4 +1,4 @@
-import { Diagnostic } from '@codemirror/lint'
+import type { Diagnostic } from '@codemirror/lint'
 import { syntaxTree } from '@codemirror/language'
 
 /**

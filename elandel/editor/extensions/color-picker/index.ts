@@ -7,10 +7,10 @@ import {
   WidgetType,
   ViewUpdate,
   ViewPlugin,
-  DecorationSet,
+  type DecorationSet,
   Decoration,
 } from '@codemirror/view';
-import { Range, Extension, Text } from '@codemirror/state';
+import { Range, type Extension, Text } from '@codemirror/state';
 import { NodeProp, Tree } from '@lezer/common';
 import { syntaxTree } from '@codemirror/language';
 import { namedColors } from './named-colors';

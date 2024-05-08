@@ -1,7 +1,7 @@
 import {EditorState, Text} from "@codemirror/state"
 import {syntaxTree} from "@codemirror/language"
-import {CompletionContext, CompletionResult} from "@codemirror/autocomplete"
-import {SyntaxNode} from "@lezer/common"
+import {CompletionContext, type CompletionResult} from "@codemirror/autocomplete"
+import {type SyntaxNode} from "@lezer/common"
 
 /// Type used to specify tags to complete.
 export interface TagSpec {

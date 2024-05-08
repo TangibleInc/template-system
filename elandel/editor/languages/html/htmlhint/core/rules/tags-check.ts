@@ -1,4 +1,4 @@
-import { Rule } from '../types'
+import type { Rule } from '../types'
 
 let tagsTypings: Record<string, Record<string, unknown>> = {
   a: {

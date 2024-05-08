@@ -1,4 +1,4 @@
-import { linter, Diagnostic } from '@codemirror/lint'
+import { linter, type Diagnostic } from '@codemirror/lint'
 import { syntaxTree } from '@codemirror/language'
 import { HTMLHint } from './htmlhint/core/core'
 
