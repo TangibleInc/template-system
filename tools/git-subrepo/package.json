@@ -1,6 +1,6 @@
 {
   "name": "@tangible/git-subrepo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Wrapper to use git-subrepo as NPM package and command",
   "homepage": "https://github.com/tangibleinc/git-subrepo",
   "repository": {
