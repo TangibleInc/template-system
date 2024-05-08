@@ -225,7 +225,17 @@ new class {
     if ( $validate_uri > 0 ) {
       return $user;
     }
+
+    /**
+     * We are using localized strings as error messages in validate_token()
+     *
+     * When looking for the current locale, it might call _wp_get_current_user()
+     * which will apply the determine_current_user filter again (and will create an
+     * infinite loop)
+     */
+    remove_filter( 'determine_current_user', array( $this, 'determine_current_user' ), 99 );
     $token = $this->validate_token( false );
+    add_filter( 'determine_current_user', array( $this, 'determine_current_user' ), 99 );
 
     if ( is_wp_error( $token ) ) {
       if ( $token->get_error_code() !== 'jwt_auth_no_auth_header' ) {
