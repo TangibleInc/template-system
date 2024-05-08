@@ -1,11 +1,19 @@
+import path from 'node:path'
 import { test, is, ok, run } from 'testra'
 import { getServer } from '../framework/env/index.js'
-import frameworkTests from '../framework/tests/index.js'
+// import frameworkTests from '../framework/tests/index.js'
 
 export default run(async () => {
-  await frameworkTests
+  const { php, request, wpx } = await getServer({
+    mappings: process.env.TEST_ARCHIVE
+      ? {
+          'wp-content/plugins/template-system':
+            '../publish/tangible-template-system',
+        }
+      : {},
+  })
 
-  const { php, request, wpx } = await getServer()
+  await import('../framework/tests/index.js')
 
   test('Template system', async () => {
     let result = await wpx`return function_exists('tangible_template_system');`

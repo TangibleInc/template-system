@@ -10,6 +10,8 @@
     "start": "wp-now start --open",
     "test": "node tests/index.js",
     "e2e": "playwright test --config tests/playwright.config.js",
+    "archive": "roll archive && rm -rf publish/tangible-template-system && unzip publish/tangible-template-system.zip -d publish/ && npm run test:archive",
+    "test:archive": "TEST_ARCHIVE=1 node tests/index.js",
     "test:html": "wp-now php tests/html/index.php",
     "// wp-env requires Docker": "",
     "env": "wp-env",
@@ -29,7 +31,6 @@
     "list": "node tools/list-modules.js",
     "deps": "node ./tools/deps.js",
     "subrepo": "./tools/git-subrepo/bin",
-    "archive": "roll archive",
     "// Test": "",
     "env:test": "wp-env run tests-wordpress /var/www/html/wp-content/plugins/template-system/vendor/bin/phpunit --testdox -c /var/www/html/wp-content/plugins/template-system/phpunit.xml --verbose",
     "env:test:watch": "chokidar '**/*.php' --initial --silent --ignore node_modules --ignore vendor -c 'wp-env run tests-wordpress /var/www/html/wp-content/plugins/template-system/vendor/bin/phpunit --testdox -c /var/www/html/wp-content/plugins/template-system/phpunit.xml --verbose'",
@@ -55,6 +56,7 @@
     "chokidar-cli": "^3.0.0",
     "globby": "^14.0.0",
     "node-fetch": "^3.3.2",
-    "testra": "^2.1.3"
+    "testra": "^2.1.3",
+    "zip-compressor": "^0.0.1"
   }
 }

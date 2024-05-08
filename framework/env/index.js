@@ -77,12 +77,14 @@ export async function getServer(options = {}) {
   const {
     path: projectPath = path.join(process.cwd(), 'tests'),
     reset = false,
+    mappings,
     ...serverOptions
   } = options
 
   const server = await startServer({
     ...(await getWpNowConfig({
       path: projectPath,
+      mappings
     })),
 
     // documentRoot: '/var/www/html',
@@ -152,7 +154,15 @@ export async function getServer(options = {}) {
     return JSON.parse(
       await phpx`
 include 'wp-load.php';
-echo json_encode((function() { ${code} })());`,
+echo json_encode((function() {
+  try {
+    ${code}
+  } catch (Exception $e) {
+    return [
+      'error' => $e->getMessage()
+    ];
+  }
+})());`,
     )
   }
 
