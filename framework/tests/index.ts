@@ -2,7 +2,9 @@ import { test, is, ok, run } from 'testra'
 import { getServer } from '../env/index.js'
 
 export default run(async () => {
-  const { php, request } = await getServer()
+  const { php, request, phpx, wpx } = await getServer({
+    reset: true
+  })
 
   // Object.assign(globalThis, { php, request })
 
@@ -19,23 +21,15 @@ export default run(async () => {
 
     // https://wordpress.github.io/wordpress-playground/api/universal/class/BasePHP
 
-    result = await php.run({
-      code: `<?php
-include 'wp-load.php';
-
+    result = await wpx`
 // Clear log
 file_put_contents('wp-content/log.txt', '');
 
-echo json_encode([
+return [
   'permalink' => get_option( 'permalink_structure' )
-]);
-exit;
-`,
-    })
+];`
 
     ok(Boolean(result), 'PHP setup success')
-
-    result = JSON.parse(result.text)
 
     is('/%postname%/', result.permalink, 'pretty permalink enabled')
   })

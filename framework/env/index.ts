@@ -9,13 +9,13 @@ let serverInstance
 export async function getServer(options = {}) {
 
   if (serverInstance) {
-    if (!options.reset) return serverInstance
+    if (!options.restart) return serverInstance
     await serverInstance.stopServer()
   }
 
   const {
     path: projectPath = path.join(process.cwd(), 'tests'),
-    reset = false,
+    // reset = false,
     mappings,
     ...serverOptions
   } = options
@@ -90,19 +90,22 @@ export async function getServer(options = {}) {
         '',
       )
     }
-    return JSON.parse(
-      await phpx`
-include 'wp-load.php';
-echo json_encode((function() {
-  try {
-    ${code}
-  } catch (Exception $e) {
-    return [
-      'error' => $e->getMessage()
-    ];
-  }
-})());`,
-    )
+    const result = await phpx`
+    include 'wp-load.php';
+    echo json_encode((function() {
+      try {
+        ${code}
+      } catch (Exception $e) {
+        return [
+          'error' => $e->getMessage()
+        ];
+      }
+    })());`
+    try {
+      return JSON.parse(result)
+    } catch(e) {
+      console.error(e)
+    }
   }
 
   await wpx`
