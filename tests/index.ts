@@ -3,7 +3,6 @@ import { test, is, ok, run } from 'testra'
 import { getServer } from '../framework/env'
 
 export default run(async () => {
-
   // Set up server before running tests in Framework
   const { php, request, wpx } = await getServer({
     mappings: process.env.TEST_ARCHIVE
@@ -12,12 +11,22 @@ export default run(async () => {
             '../publish/tangible-template-system',
         }
       : {},
+    reset: true,
   })
 
   await import('../framework/tests/index.ts')
 
   test('Template system - Basic', async () => {
-    let result = await wpx`return function_exists('tangible_template_system');`
+    let result = await wpx`
+if (!function_exists('activate_plugin')) {
+  require ABSPATH . 'wp-admin/includes/plugin.php';
+}
+return activate_plugin(ABSPATH . 'wp-content/plugins/template-system/plugin.php');
+`
+
+    is(null, result, 'activate plugin')
+
+    result = await wpx`return function_exists('tangible_template_system');`
     is(true, result, 'tangible_template_system() exists')
 
     result = await wpx`return function_exists('tangible_template');`
@@ -49,4 +58,5 @@ return wp_insert_post([
 
     is(postTitle, result, 'get test post')
   })
+
 })
