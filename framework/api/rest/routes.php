@@ -206,7 +206,10 @@ new class {
     $header_name = 'HTTP_AUTHORIZATION';
     $auth        = isset( $_SERVER[ $header_name ] ) ? $_SERVER[ $header_name ] : false;
     if ( ! $auth ) {
-      $auth = isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] : false;
+      $auth = isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] )
+        ? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+        : false
+      ;
     }
 
     if ( ! $auth ) {
@@ -279,10 +282,14 @@ new class {
       }
 
       $valid_token = false;
-      // Loop through and check wether we have the current token uuid in the users meta.
+
+      // Check if current token uuid exists in the users meta
       foreach ( $jwt_data as $key => $token_data ) {
         if ( $token_data['uuid'] === $token->uuid ) {
-          $user_ip                       = ! empty( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
+          $user_ip                       = ! empty( $_SERVER['REMOTE_ADDR'] )
+            ? $_SERVER['REMOTE_ADDR']
+            : 'Unknown'
+          ;
           $jwt_data[ $key ]['last_used'] = current_time( 'timestamp' );
           $jwt_data[ $key ]['ua']        = $_SERVER['HTTP_USER_AGENT'];
           $jwt_data[ $key ]['ip']        = $user_ip;
@@ -291,30 +298,23 @@ new class {
         }
       }
 
-      if ( false === $valid_token ) {
-        return new WP_Error(
-          'jwt_auth_token_revoked',
-          'Token has been revoked.',
-          [
-            'status' => 403,
+      return $valid_token===false
+        ? new WP_Error(
+            'jwt_auth_token_revoked',
+            'Token has been revoked.',
+            [ 'status' => 403 ]
+          )
+        : (!$output ? $token
+          : [
+            'code' => 'jwt_auth_valid_token',
+            'data' => [
+              'status' => 200,
+            ],
           ]
-        );
-      }
-
-      // Everything looks good return the decoded token if the $output is false
-      if ( ! $output ) {
-        return $token;
-      }
-      // If the output is true return an answer to the request to show it.
-      return [
-        'code' => 'jwt_auth_valid_token',
-        'data' => [
-          'status' => 200,
-        ],
-      ];
+        )
+      ;
     } catch ( Exception $e ) {
       return new WP_Error(
-      // Something is wrong trying to decode the token, send back the error.
         'jwt_auth_invalid_token',
         $e->getMessage(),
         [
@@ -371,10 +371,9 @@ new class {
 
     $token = JWT::encode( $token, $secret_key );
 
-    // Setup some user meta data we can use for our UI.
     $jwt_data   = get_user_meta( $user->data->ID, 'jwt_data', true ) ?: [];
     $user_ip    = api\get_ip();
-    $jwt_data[] = [
+    $jwt_data []= [
       'uuid'      => $uuid,
       'issued_at' => $issued_at,
       'expires'   => $expire,
@@ -382,9 +381,9 @@ new class {
       'ua'        => $_SERVER['HTTP_USER_AGENT'],
       'last_used' => current_time( 'timestamp' ),
     ];
+
     update_user_meta( $user->data->ID, 'jwt_data', $jwt_data );
 
-    // The token is signed, now create the object with no sensible user data to the client.
     $data = [
       'token'             => $token,
       'user_id'           => $user->data->ID,
@@ -530,11 +529,11 @@ new class {
    */
   function rest_pre_dispatch( $result, $server, $request ) {
 
-    if ($request->get_route() !== '/' . $this->namespace . '/token/validate') {
-      $user_id = $this->determine_current_user();
-      if (!empty($user_id) && !is_user_logged_in()) {
-        wp_set_current_user($user_id);
-      }
+    if ($request->get_route() !== '/' . $this->namespace . '/token/validate'
+      && !empty($user_id = $this->determine_current_user())
+      && !is_user_logged_in()
+    ) {
+      wp_set_current_user($user_id);
     }
 
     return $result;
