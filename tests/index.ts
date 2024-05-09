@@ -1,9 +1,10 @@
 import path from 'node:path'
 import { test, is, ok, run } from 'testra'
-import { getServer } from '../framework/env/index.js'
-// import frameworkTests from '../framework/tests/index.js'
+import { getServer } from '../framework/env'
 
 export default run(async () => {
+
+  // Set up server before running tests in Framework
   const { php, request, wpx } = await getServer({
     mappings: process.env.TEST_ARCHIVE
       ? {
@@ -13,9 +14,9 @@ export default run(async () => {
       : {},
   })
 
-  await import('../framework/tests/index.js')
+  await import('../framework/tests/index.ts')
 
-  test('Template system', async () => {
+  test('Template system - Basic', async () => {
     let result = await wpx`return function_exists('tangible_template_system');`
     is(true, result, 'tangible_template_system() exists')
 

@@ -1,69 +1,8 @@
 import path from 'node:path'
-import fetch from 'node-fetch'
+import fs from 'node:fs/promises'
 import { getWpNowConfig, startServer } from '@tangible/now'
-
-export function createRequest(siteUrl) {
-  const request = async ({
-    method = 'GET',
-    route,
-    /**
-     * Response format: arrayBuffer, formData, json, text
-     * @see https://developer.mozilla.org/en-US/docs/Web/API/Response#instance_methods
-     */
-    format = 'json',
-    data = {},
-  }) => {
-    const isJson = format === 'json'
-    const hasBody = !['GET', 'HEAD'].includes(method)
-    let url = `${siteUrl}${isJson ? '/wp-json' : ''}${route}`
-
-    if (!hasBody) {
-      // Convert data to URL query
-      url += Object.keys(data).reduce(
-        (str, key) => str + `${!str ? '?' : '&'}${key}=${data[key]}`,
-        '',
-      )
-    }
-
-    const options = {
-      method,
-    }
-
-    if (isJson) {
-      options.headers = {
-        'Content-Type': 'application/json',
-      }
-      if (request.token) {
-        options.headers.Authorization = `Bearer ${request.token}`
-      }
-      if (hasBody) {
-        options.body = JSON.stringify(data)
-      }
-    }
-
-    return await (await fetch(url, options))[format]()
-  }
-
-  request.token = undefined
-
-  return request
-}
-
-const silentConsole = {
-  log() {},
-  warn() {},
-  error() {},
-}
-const originalConsole = globalThis.console
-
-const disableConsole = () => {
-  // Silence console messages from NodePHP
-  globalThis.console = silentConsole
-}
-
-const enableConsole = () => {
-  globalThis.console = originalConsole
-}
+import { disableConsole, enableConsole } from './console'
+import { createRequest } from './request'
 
 let serverInstance
 
@@ -178,6 +117,7 @@ $wp_rewrite->flush_rules();
     port,
     options: server.options,
     request: createRequest(`http://localhost:${port}`),
+    read: file => fs.readFile(file, 'utf8'),
     phpx,
     wpx,
     async stopServer() {
