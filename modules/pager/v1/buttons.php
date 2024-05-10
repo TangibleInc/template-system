@@ -3,9 +3,7 @@ use tangible\template_system\paginator;
 
 $html->add_open_tag('PaginateButtons', function( $atts, $nodes ) use ( $loop, $html ) {
 
-  /**
-   * Target loop ID - This can refer to a loop created before or *after* pagination buttons.
-   */
+  // Target loop ID can refer to a loop created before/after this element
   if (isset($atts['loop_id'])) {
 
     $target_id = $atts['loop_id'];

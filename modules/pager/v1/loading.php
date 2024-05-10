@@ -5,11 +5,18 @@
  */
 $html->add_open_tag('PaginateLoading', function( $atts, $nodes ) use ( $loop, $html ) {
 
-  $loop_context = $loop->get_previous();
+  // Target loop ID can refer to a loop created before/after this element
+  if (isset($atts['loop_id'])) {
 
-  $target_id = isset( $loop_context->paginator_target_id )
-    ? $loop_context->paginator_target_id
-    : 0;
+    $target_id = $atts['loop_id'];
+
+  } else {
+
+    $loop_context = $loop->get_previous();
+    $target_id = isset( $loop_context->paginator_target_id )
+      ? $loop_context->paginator_target_id
+      : 0;
+  }
 
   $tag = isset( $atts['tag'] ) ? $atts['tag'] : 'div';
 
