@@ -14,6 +14,10 @@ $paginator-button-background-color: #295cbf;
     border: 1px solid #ddd;
   }
 
+  &:hover:not([disabled]) {
+    cursor: pointer;
+  }
+
   &[disabled],
   &:hover[disabled] {
     color: #999;

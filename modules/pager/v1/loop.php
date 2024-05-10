@@ -5,14 +5,17 @@
  * - Create an element with unique target ID, used by <Paginate> for render target
  * - Pass loop attributes and content template to JavaScript
  *
- * @see ./paginator
+ * @see /language/tags/loop
  */
 
 $html->paginated_loop_tag = function( $current_loop, $atts, $nodes, $result ) use ( $html ) {
 
   // Create tag
 
-  $current_loop->paginator_target_id = uniqid();
+  $current_loop->paginator_target_id = isset($atts['loop_id'])
+    ? $atts['loop_id']
+    : uniqid()
+  ;
   $template_attributes               = $current_loop->args; // Processed attributes
 
   $context = [];

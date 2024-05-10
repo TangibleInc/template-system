@@ -1,4 +1,3 @@
-import path from 'node:path'
 import { test, is, ok, run } from 'testra'
 import { getServer } from '../framework/env'
 
@@ -58,5 +57,7 @@ return wp_insert_post([
 
     is(postTitle, result, 'get test post')
   })
+
+  await import('../modules/pager/tests')
 
 })

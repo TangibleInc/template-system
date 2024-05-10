@@ -42,9 +42,11 @@ function createPaginator($target) {
     render(state)
   }
 
-  const $fields = {}
+  const $fields: {
+    [name: string]: HTMLElement[]
+  } = {}
   let $loading
-  let $buttonsContainer
+  const $buttonsContainers = []
 
   $subscribers.each(function () {
     const $subscriber = $(this)
@@ -56,7 +58,10 @@ function createPaginator($target) {
           const $field = $(this)
           const fieldName = $field.data('tangiblePaginatorField')
 
-          $fields[fieldName] = $field
+          if (!$fields[fieldName]) {
+            $fields[fieldName] = []
+          }
+          $fields[fieldName].push($field)
         })
 
         // console.log('Fields subscribed', Object.keys($fields))
@@ -66,8 +71,8 @@ function createPaginator($target) {
         $loading = $subscriber
         break
       case 'buttons':
-        $buttonsContainer = $subscriber
-        renderPaginationButtons($buttonsContainer, state, setState)
+
+        $buttonsContainers.push($subscriber)
 
         /**
          * Pass additional settings, such as scroll_top
@@ -77,12 +82,21 @@ function createPaginator($target) {
         const subscribeSettings = $subscriber.data(
           'tangiblePaginatorSubscribeSettings'
         )
+
+        const buttonsSettings = {}
+
         if (
           typeof subscribeSettings === 'object' &&
           !Array.isArray(subscribeSettings)
         ) {
-          Object.assign(additionalSettings, subscribeSettings)
+          Object.assign(buttonsSettings, additionalSettings, subscribeSettings)
         }
+
+        $subscriber.renderButtons = () => {
+          renderPaginationButtons($subscriber, state, setState, buttonsSettings)
+        }
+
+        $subscriber.renderButtons()
         break
       default:
         console.warn('Unknown subscriber action', actionName)
@@ -92,9 +106,14 @@ function createPaginator($target) {
 
   function updateFields(state) {
     Object.keys($fields).forEach(function (fieldName) {
-      $fields[fieldName].text(state[fieldName])
+      for (const $field of $fields[fieldName]) {
+        $field.text(state[fieldName])
+      }
     })
   }
+
+  // Update on page load to support fields rendered before loop
+  updateFields(state)
 
   const cachedPages = {} // pageNumber: content
 
@@ -107,9 +126,10 @@ function createPaginator($target) {
   function render(state) {
     updateFields(state)
 
-    if ($buttonsContainer) {
-      renderPaginationButtons($buttonsContainer, state)
-    }
+    $buttonsContainers.forEach($el =>
+      $el.renderButtons()
+      // renderPaginationButtons($el, state, setState, additionalSettings)
+    )
 
     // Fetch page via AJAX
 
@@ -198,41 +218,103 @@ function createPaginator($target) {
   }
 }
 
-function renderPaginationButtons($buttonsContainer, state, setState) {
-  const { current_page: currentPage, total_pages: totalPages } = state
+function renderPaginationButtons($buttonsContainer, state, setState, settings = {}) {
+
+  const {
+    current_page: currentPage,
+    total_pages: totalPages
+  } = state
 
   const pageNumbers = generatePageRange(currentPage, totalPages)
 
   // Add new buttons, or replace existing ones
 
-  const $existingButtons = $buttonsContainer.children()
+  const existingButtons = [...$buttonsContainer.children()]
+
+  let buttonIndex = 0
+
+  function addButtonType(buttonType, isEnabled = true, isActive = false) {
+
+    const $button = existingButtons[buttonIndex]
+      ? $(existingButtons[buttonIndex])
+      : $('<button />')
+
+    $button.addClass('tangible-paginator-button')
+    $button.attr('data-tangible-paginator-action', buttonType)
+    $button.removeAttr('data-tangible-paginator-page')
+    $button.removeClass('active')
+
+    $button.prop('disabled', !isEnabled)
+
+    if (!existingButtons[buttonIndex]) {
+      $buttonsContainer.append($button)
+    }
+    buttonIndex++
+
+    return $button
+  }
+
+  if (totalPages > 2) {
+    if (settings.first) {
+      addButtonType('first_page', currentPage > 1).text(
+        settings.first===true ? '<<' : settings.first
+      )
+    }
+    if (settings.prev) {
+      addButtonType('prev_page', currentPage > 1).text(
+        settings.prev===true ? '<' : settings.prev
+      )
+    }
+  }
 
   pageNumbers.forEach(function (num, index) {
-    const $button = $('<button />')
 
-    $button.text(num)
+    const $button = existingButtons[buttonIndex]
+      ? $(existingButtons[buttonIndex])
+      : $('<button />')
+
     $button.addClass('tangible-paginator-button')
 
     if (num === '...') {
+      $button.text('…')
       $button.prop('disabled', true)
+      $button.removeAttr('data-tangible-paginator-action')
+      $button.removeAttr('data-tangible-paginator-page')
+      $button.removeClass('active')
     } else {
+      $button.text(num)
+      $button.prop('disabled', false)
       $button.attr('data-tangible-paginator-action', 'page')
       $button.attr('data-tangible-paginator-page', num)
 
-      if (num == currentPage) {
-        $button.addClass('active')
-      }
+      $button[
+        num == currentPage ? 'addClass' : 'removeClass'
+      ]('active')
     }
 
-    if ($existingButtons.eq(index).length) {
-      $existingButtons.eq(index).replaceWith($button)
-      return
+    if (!existingButtons[buttonIndex]) {
+      $buttonsContainer.append($button)
     }
 
-    $buttonsContainer.append($button)
+    buttonIndex++
   })
 
-  if (!setState) return
+  if (totalPages > 2) {
+    if (settings.next) {
+      addButtonType('next_page', currentPage < totalPages).text(
+        settings.next===true ? '>' : settings.next
+      )
+    }
+    if (settings.last) {
+      addButtonType('last_page', currentPage < totalPages).text(
+        settings.last===true ? '>>' : settings.last
+      )
+    }
+  }
+
+  const initKey = 'paginatorActionsActivated'
+  if ($buttonsContainer[0][initKey]) return $buttonsContainer
+  $buttonsContainer[0][initKey] = true
 
   // First-time render: Bind event handler
 
@@ -241,14 +323,12 @@ function renderPaginationButtons($buttonsContainer, state, setState) {
     '[data-tangible-paginator-action]',
     function () {
       const $button = $(this)
-      const actionName = $button.data('tangiblePaginatorAction')
-
+      const actionName = $button.attr('data-tangible-paginator-action')
       switch (actionName) {
         case 'page': {
-          const page = parseInt($button.data('tangiblePaginatorPage'), 10)
-
+          // Note: Use $.attr() instead of $.data() which can return stale value
+          const page = parseInt($button.attr('data-tangible-paginator-page'), 10)
           if (isNaN(page) || page <= 0 || page > state.total_pages) return
-
           state.current_page = page
           break
         }
@@ -262,7 +342,7 @@ function renderPaginationButtons($buttonsContainer, state, setState) {
           if (state.current_page === state.total_pages) return
           state.current_page++
           break
-        case 'previous_page':
+        case 'prev_page':
           if (state.current_page === 1) return
           state.current_page--
           break

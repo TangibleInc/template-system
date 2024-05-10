@@ -1,8 +1,6 @@
 <?php
 /**
- * Loop tag with pagination
- * 
- * @see /modules/paginator
+ * Loop tag
  */
 require_once __DIR__.'/context.php';
 require_once __DIR__.'/exists.php';
@@ -71,8 +69,10 @@ $html->loop_tag = function($atts, $nodes = []) use ($loop, $html) {
     $result .= ltrim($html->render($nodes), "\n");
   });
 
-  // Pagination markup - Skip when inside paginator request
-
+  /**
+   * Pagination markup - Skip when inside paginator request
+   * @see /modules/pager
+   */
   if ($has_pagination && !$is_paginator_request) {
     return $html->paginated_loop_tag( $current_loop, $atts, $nodes, $result );
   }

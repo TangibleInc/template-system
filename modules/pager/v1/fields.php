@@ -10,22 +10,38 @@ $html->wrap_paginate_field = function( $name, $value ) {
 
 $html->add_open_tag('PaginateFields', function( $atts, $nodes ) use ( $loop, $html ) {
 
-  $loop_context = $loop->get_previous();
+  /**
+   * Target loop ID - This can refer to a loop created before or *after* fields.
+   */
+  if (isset($atts['loop_id'])) {
+
+    $target_id = $atts['loop_id'];
+    $loop_context = null; // Doesn't exist yet
+
+  } else {
+
+    // Loop before fields
+
+    $loop_context = $loop->get_previous();
+
+    $target_id = isset( $loop_context->paginator_target_id )
+      ? $loop_context->paginator_target_id
+      : 0
+    ;
+  }
+
+  $has_loop_context = !empty($loop_context);
 
   // Fields - These are wrapped in <span> to be dynamically rendered on paginator state change
 
   $fields_content = [];
 
   foreach ( [
-    'current_page' => $loop_context->get_current_page(),
-    'total_pages'  => $loop_context->get_total_pages(),
+    'current_page' => !$has_loop_context ? 1 : $loop_context->get_current_page(),
+    'total_pages'  => !$has_loop_context ? '' : $loop_context->get_total_pages(),
   ] as $key => $value ) {
     $fields_content[ $key ] = $html->wrap_paginate_field( $key, $value );
   }
-
-  $target_id = isset( $loop_context->paginator_target_id )
-    ? $loop_context->paginator_target_id
-    : 0;
 
   // Pass target ID and action to frontend
   $atts['class']                                    = ( isset( $atts['class'] ) ? ( $atts['class'] . ' ' ) : '' )
