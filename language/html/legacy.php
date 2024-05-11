@@ -1,7 +1,7 @@
 <?php
- namespace tangible\html;
+namespace tangible\html;
 
- /**
+/**
  * Backward compatibility
  */
 

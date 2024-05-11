@@ -1,8 +1,8 @@
 
-type PaginatedData<T> = {
+type PagerState<T> = {
   itemsPerPage: number
   currentPage: number
   totalPages: number
-  results: T[]
+  items: T[]
 }
 
