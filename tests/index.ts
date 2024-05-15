@@ -3,7 +3,15 @@ import { getServer } from '../framework/env'
 
 export default run(async () => {
   // Set up server before running tests in Framework
-  const { php, request, wpx } = await getServer({
+  const {
+    php,
+    request,
+    wpx,
+    documentRoot,
+    setSiteTemplate,
+    resetSiteTemplate,
+  } = await getServer({
+    phpVersion: process.env.PHP_VERSION || '7.4',
     mappings: process.env.TEST_ARCHIVE
       ? {
           'wp-content/plugins/template-system':
@@ -13,6 +21,7 @@ export default run(async () => {
     reset: true,
   })
 
+  // Framework
   await import('../framework/tests/index.ts')
 
   test('Template system - Basic', async () => {
@@ -41,14 +50,14 @@ return activate_plugin(ABSPATH . 'wp-content/plugins/template-system/plugin.php'
      */
 
     const postTitle = 'Test 123'
-    result = await wpx(`
+    result = await wpx`
 return wp_insert_post([
   'post_type' => 'post',
   'post_status' => 'publish',
   'post_title' => '${postTitle}',
   'post_content' => '',
   'post_excerpt' => '',  
-]);`)
+]);`
 
     is('number', typeof result, 'create post returns ID')
 
@@ -58,6 +67,9 @@ return wp_insert_post([
     is(postTitle, result, 'get test post')
   })
 
+  // Pager
   await import('../modules/pager/tests')
 
+  // Taxonomy archive
+  await import('./loop/taxonomy-archive.ts')
 })

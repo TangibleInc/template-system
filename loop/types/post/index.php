@@ -803,8 +803,25 @@ class PostLoop extends BaseLoop {
         ;
       }
 
-      // Alias
-      if ($taxonomy==='tag') $taxonomy = 'post_tag';
+      if ($taxonomy==='tag') {
+        
+        // Alias
+        $taxonomy = 'post_tag';
+
+      } elseif ($taxonomy==='current') {
+
+        // Loop context inside taxonomy term loop or archive
+
+        $context = self::$loop->get_context('taxonomy_term');
+        $taxonomy_loop = !empty($context)
+          ? $context->get_field('taxonomy')
+          : '' // Force empty
+        ;
+        $taxonomy = !empty($taxonomy_loop)
+          ? $taxonomy_loop->get_field('name')
+          : ''
+        ;
+      }
 
       // Compare - one of 'in' (default), 'not in', 'and', 'exists' and 'not exists'.
 
