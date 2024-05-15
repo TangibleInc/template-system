@@ -88,7 +88,6 @@ function load_ide() {
   ?><div id="tangible-template-system-ide"></div><?php
 
   // Remove admin page footer
-
   add_filter('admin_footer_text', '__return_false'); // Left
   add_filter('update_footer', '__return_false', 11); // Right
 }
