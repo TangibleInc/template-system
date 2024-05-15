@@ -92,6 +92,9 @@ class SortablePostType {
 
     if (empty( $types )) return;
 
+    // NOTE: SQLite does not support the UPDATE query below
+    if (class_exists('WP_SQLite_DB')) return;
+
     foreach ( $types as $type ) {
     $result = $wpdb->get_results("
       SELECT count(*) as cnt, max(menu_order) as max, min(menu_order) as min
@@ -103,8 +106,7 @@ class SortablePostType {
 
       // Here's the optimization
       $wpdb->query( 'SET @row_number = 0;' );
-    $wpdb->query("UPDATE $wpdb->posts as pt JOIN (
-
+      $wpdb->query("UPDATE $wpdb->posts as pt JOIN (
         SELECT ID, (@row_number:=@row_number + 1) AS `rank`
         FROM $wpdb->posts
         WHERE post_type = '$type' AND post_status IN ( 'publish', 'pending', 'draft', 'private', 'future' )
