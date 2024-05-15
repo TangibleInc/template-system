@@ -1,5 +1,6 @@
 <?php
 namespace tangible\template_system;
+use tangible\api;
 use tangible\template_system;
 
 $settings = template_system\get_settings();
@@ -104,7 +105,8 @@ $render_field = function($field) use ($settings) {
 const {
   ajaxUrl,
   nonce,
-  saveActionKey
+  saveActionKey,
+  token
 } = <?php
 
 // Pass data
@@ -112,10 +114,10 @@ echo json_encode([
   'ajaxUrl' => admin_url( 'admin-ajax.php' ),
   'nonce' => template_system\get_settings_nonce(),
   'saveActionKey' => template_system::$state->settings_key,
+  // 'token' => api\generate_user_token( get_current_user_id() )
 ]);
 
-?>
-
+?>;
 const $form = document.getElementById('tangible-settings-form')
 const $formMessage = document.getElementById('tangible-settings-form-message')
 

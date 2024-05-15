@@ -25,15 +25,17 @@ add_action('init', function() use ( $html ) {
 /**
  * @see /admin/settings
  */
-if (template_system\get_settings('views')) {
+if (template_system\get_settings('content')) {
 
-  framework\register_admin_menu([
-    'name'  => 'tangible-content',
-    'title' => 'Content',
-    'capability' => 'manage_options',
-    'callback' => function () {
+  // @see /admin/post-types/index.php
 
-    },
-    'position' => 32, // After Template
-  ]);
+  // framework\register_admin_menu([
+  //   'name'  => 'tangible-content',
+  //   'title' => 'Content',
+  //   'capability' => 'manage_options',
+  //   'callback' => function () {
+
+  //   },
+  //   'position' => 32, // After Template
+  // ]);
 }

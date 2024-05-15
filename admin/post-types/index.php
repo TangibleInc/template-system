@@ -1,4 +1,7 @@
 <?php
+namespace tangible\template_system\admin;
+use tangible\template_system;
+
 /**
  * Template post type(s)
  */
@@ -68,14 +71,16 @@ add_action('init', function() use ( $plugin ) {
     'description' => 'Scripts for Tangible Template System',
   ]);
 
-  // TODO: Content structure templates
+  // Content structure templates
 
-  // $plugin->register_template_post_type([
-  // 'post_type'   => 'tangible_content',
-  // 'single'      => 'Content',
-  // 'plural'      => 'Content',
-  // 'description' => 'Content structure templates for Tangible Template System'
-  // ]);
+  if (template_system\get_settings('content')) {
+    $plugin->register_template_post_type([
+      'post_type'   => 'tangible_content',
+      'single'      => 'Content',
+      'plural'      => 'Content',
+      'description' => 'Content structure templates for Tangible Template System'
+    ]);
+  }
 
   require_once __DIR__ . '/taxonomy.php';
 

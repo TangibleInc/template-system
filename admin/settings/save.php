@@ -33,7 +33,6 @@ function ajax_save_settings() {
     // Action callback
     $result = template_system\set_settings($data);
 
-
     return api\send($result);
 
   } catch (\Throwable $th) {
