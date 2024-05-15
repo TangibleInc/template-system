@@ -1,6 +1,7 @@
 <?php
 use tangible\ajax;
 use tangible\template_system;
+use tangible\template_system\module_loader;
 
 // Save template via AJAX
 
@@ -54,13 +55,19 @@ ajax\add_action('tangible_template_editor_render', function( $data = [] ) use ( 
   $html->load_all_enqueued_styles();
   template_system\location\enqueue_style_templates();
   $style = ob_get_clean();
-  
+
   ob_start();
   $html->load_all_enqueued_scripts();
   template_system\location\enqueue_script_templates();
   $script = ob_get_clean();
 
+  module_loader\enqueue();
+
+  $dynamic_modules = module_loader\register_default_dynamic_modules();
+
   return [
-    'result' => $style . $result . $script,
+    'result' => $style . $result
+      . '<script>window.Tangible = window.Tangible || {}; window.Tangible.modules = ' . json_encode( $dynamic_modules ) . '</script>'
+      . $script,
   ];
 });

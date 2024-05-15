@@ -14,6 +14,7 @@
 
 namespace tangible\template_system\module_loader;
 use tangible\template_system;
+use tangible\template_system\module_loader;
 
 function register() {
   $url = template_system::$state->url . '/modules/module-loader';
@@ -34,8 +35,6 @@ function enqueue() {
 
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\register', 0 );
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\register', 0 );
-
-
 
 
 $html->module_loader_script_registered = false;
@@ -83,12 +82,11 @@ $html->enqueue_module_loader = function() use ( $html ) {
 
 $html->module_loader_data_enqueued = false;
 
-$html->enqueue_module_loader_data = function() use ( $html ) {
+function register_default_dynamic_modules() {
 
-  if ($html->module_loader_data_enqueued) return;
-  $html->module_loader_data_enqueued = true;
+  $html = template_system::$html;
 
-  // Automatically register Interface modules
+  // Automatically register Tangible modules
 
   global $wp_scripts, $wp_styles;
 
@@ -147,14 +145,25 @@ $html->enqueue_module_loader_data = function() use ( $html ) {
     }
   }
 
+  return $html->dynamic_modules;
+}
+
+$html->enqueue_module_loader_data = function() use ( $html ) {
+
+  if ($html->module_loader_data_enqueued) return;
+  $html->module_loader_data_enqueued = true;
+
+  $dynamic_modules = module_loader\register_default_dynamic_modules();
+
   // tangible\see($html->dynamic_modules);
 
   wp_add_inline_script(
     'tangible-module-loader',
-    'window.Tangible = window.Tangible || {}; window.Tangible.modules = ' . json_encode( $html->dynamic_modules ),
+    'window.Tangible = window.Tangible || {}; window.Tangible.modules = ' . json_encode( $dynamic_modules ),
     'before'
   );
 };
 
 add_action( 'wp_enqueue_scripts', $html->enqueue_module_loader_data, 99 );
+
 add_action( 'admin_enqueue_scripts', $html->enqueue_module_loader_data, 99 );
