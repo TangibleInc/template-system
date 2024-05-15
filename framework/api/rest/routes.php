@@ -7,6 +7,49 @@ use tangible\api;
 use tangible\api\JWT;
 use tangible\framework as framework;
 use WP_Error;
+use WP_User;
+
+api::$state->user_revoked_tokens_key = 'tangible_api_revoked_tokens';
+
+function generate_user_token($user_id) {
+  return generate_user_token_data($user_id)['token'];
+}
+
+function generate_user_token_data($user_id) {
+
+  $issued_at  = current_time( 'timestamp' );
+  $not_before = $issued_at;
+  $expire     = $issued_at + ( DAY_IN_SECONDS * 7 );
+  $uuid       = wp_generate_uuid4();
+
+  $token = [
+    'uuid' => $uuid,
+    'iss'  => get_bloginfo( 'url' ),
+    'iat'  => $issued_at,
+    'nbf'  => $not_before,
+    'exp'  => $expire,
+    'data' => [
+      'user' => [
+        'id' => $user_id,
+      ],
+    ],
+  ];
+
+  $token = JWT::encode( $token, api\get_auth_key() );
+
+  $user = new WP_User( $user_id );
+
+  $data = [
+    'token'             => $token,
+    'user_id'           => $user_id,
+    'user_email'        => $user->data->user_email,
+    'user_nicename'     => $user->data->user_nicename,
+    'user_display_name' => $user->data->display_name,
+    'token_expires'     => $expire,
+  ];
+
+  return $data;
+}
 
 new class {
 
@@ -139,46 +182,9 @@ new class {
     }
 
     // Valid credentials, the user exists create the according Token.
-    $issued_at  = current_time( 'timestamp' );
-    $not_before = $issued_at;
-    $expire     = $issued_at + ( DAY_IN_SECONDS * 7 );
-    $uuid       = wp_generate_uuid4();
 
-    $token = [
-      'uuid' => $uuid,
-      'iss'  => get_bloginfo( 'url' ),
-      'iat'  => $issued_at,
-      'nbf'  => $not_before,
-      'exp'  => $expire,
-      'data' => [
-        'user' => [
-          'id' => $user->data->ID,
-        ],
-      ],
-    ];
-
-    $token = JWT::encode( $token, $secret_key );
-
-    $jwt_data   = get_user_meta( $user->data->ID, 'jwt_data', true ) ?: [];
-    $user_ip    = api\get_ip();
-    $jwt_data[] = [
-      'uuid'      => $uuid,
-      'issued_at' => $issued_at,
-      'expires'   => $expire,
-      'ip'        => $user_ip,
-      'ua'        => $_SERVER['HTTP_USER_AGENT'],
-      'last_used' => current_time( 'timestamp' ),
-    ];
-    update_user_meta( $user->data->ID, 'jwt_data', $jwt_data );
-
-    $data = [
-      'token'             => $token,
-      'user_id'           => $user->data->ID,
-      'user_email'        => $user->data->user_email,
-      'user_nicename'     => $user->data->user_nicename,
-      'user_display_name' => $user->data->display_name,
-      'token_expires'     => $expire,
-    ];
+    $user_id = $user->data->ID;
+    $data = api\generate_user_token_data( $user_id );
 
     return $data;
   }
@@ -259,6 +265,7 @@ new class {
         );
       }
 
+      
       if ( ! isset( $token->data->user->id ) ) {
         return new WP_Error(
           'jwt_auth_bad_request',
@@ -268,51 +275,33 @@ new class {
           ]
         );
       }
+        
+      $user_id = $token->data->user->id;
+      $valid_token = true;
 
-      // Custom validation against an UUID on user meta data.
-      $jwt_data = get_user_meta( $token->data->user->id, 'jwt_data', true ) ?: false;
-      if ( false === $jwt_data ) {
-        return new WP_Error(
-          'jwt_auth_token_revoked',
-          'Token has been revoked.',
-          [
-            'status' => 403,
-          ]
-        );
+      // Validate against revoked tokens
+      $revoke_tokens = get_user_meta( $user_id, api::$state->user_revoked_tokens_key, true ) ?: false;
+      if ($revoke_tokens===false) {
+        $revoke_tokens = [];
       }
 
-      $valid_token = false;
-
-      // Check if current token uuid exists in the users meta
-      foreach ( $jwt_data as $key => $token_data ) {
+      foreach ($revoke_tokens as $token_data) {
         if ( $token_data['uuid'] === $token->uuid ) {
-          $user_ip                       = ! empty( $_SERVER['REMOTE_ADDR'] )
-            ? $_SERVER['REMOTE_ADDR']
-            : 'Unknown'
-          ;
-          $jwt_data[ $key ]['last_used'] = current_time( 'timestamp' );
-          $jwt_data[ $key ]['ua']        = $_SERVER['HTTP_USER_AGENT'];
-          $jwt_data[ $key ]['ip']        = $user_ip;
-          $valid_token                   = true;
-          break;
-        }
-      }
-
-      return $valid_token===false
-        ? new WP_Error(
+          return new WP_Error(
             'jwt_auth_token_revoked',
             'Token has been revoked.',
             [ 'status' => 403 ]
-          )
-        : (!$output ? $token
-          : [
-            'code' => 'jwt_auth_valid_token',
-            'data' => [
-              'status' => 200,
-            ],
-          ]
-        )
-      ;
+          );
+        }
+      }
+
+      return !$output ? $token : [
+        'code' => 'jwt_auth_valid_token',
+        'data' => [
+          'status' => 200,
+        ],
+      ];
+
     } catch ( Exception $e ) {
       return new WP_Error(
         'jwt_auth_invalid_token',
@@ -349,49 +338,10 @@ new class {
       );
     }
 
-    $user = new WP_User( $token->data->user->id );
+    $user_id = $token->data->user->id;
+    $user = new WP_User( $user_id );
 
-    $issued_at  = current_time( 'timestamp' );
-    $not_before = $issued_at;
-    $expire     = $issued_at + ( DAY_IN_SECONDS * 7 );
-    $uuid       = wp_generate_uuid4();
-
-    $token = [
-      'uuid' => $uuid,
-      'iss'  => get_bloginfo( 'url' ),
-      'iat'  => $issued_at,
-      'nbf'  => $not_before,
-      'exp'  => $expire,
-      'data' => [
-        'user' => [
-          'id' => $user->data->ID,
-        ],
-      ],
-    ];
-
-    $token = JWT::encode( $token, $secret_key );
-
-    $jwt_data   = get_user_meta( $user->data->ID, 'jwt_data', true ) ?: [];
-    $user_ip    = api\get_ip();
-    $jwt_data []= [
-      'uuid'      => $uuid,
-      'issued_at' => $issued_at,
-      'expires'   => $expire,
-      'ip'        => $user_ip,
-      'ua'        => $_SERVER['HTTP_USER_AGENT'],
-      'last_used' => current_time( 'timestamp' ),
-    ];
-
-    update_user_meta( $user->data->ID, 'jwt_data', $jwt_data );
-
-    $data = [
-      'token'             => $token,
-      'user_id'           => $user->data->ID,
-      'user_email'        => $user->data->user_email,
-      'user_nicename'     => $user->data->user_nicename,
-      'user_display_name' => $user->data->display_name,
-      'token_expires'     => $expire,
-    ];
+    $data = api\generate_user_token_data( $user_id );
 
     return $data;
   }
@@ -407,28 +357,35 @@ new class {
       return $token;
     }
 
-    $tokens     = get_user_meta( $token->data->user->id, 'jwt_data', true ) ?: false;
-    $token_uuid = $token->uuid;
+    $user_id = $token->data->user->id;
+    $uuid = $token->uuid;
+    $expires = $token->exp;
 
-    if ( $tokens ) {
-      foreach ( $tokens as $key => $token_data ) {
-        if ( $token_data['uuid'] === $token_uuid ) {
-          unset( $tokens[ $key ] );
-          update_user_meta( $token->data->user->id, 'jwt_data', $tokens );
-          return [
-            'code' => 'jwt_auth_revoked_token',
-            'data' => [
-              'status' => 200,
-            ],
-          ];
-        }
+    $revoke_tokens = get_user_meta( $user_id, api::$state->user_revoked_tokens_key, true ) ?: false;
+    if ($revoke_tokens===false) {
+      $revoke_tokens = [];
+    }
+
+    // Remove expired tokens
+    $valid_revoke_tokens = [];
+    $now = time();
+    foreach ($revoke_tokens as $token_data) {
+      if ($now < $token_data['expires']) {
+        $valid_revoke_tokens []= $token_data;
       }
     }
 
+    $valid_revoke_tokens []= [
+      'uuid' => $uuid,
+      'expires' => $expires,
+    ];
+
+    update_user_meta( $user_id, api::$state->user_revoked_tokens_key, $valid_revoke_tokens );
+
     return [
-      'code' => 'jwt_auth_no_token_to_revoke',
+      'code' => 'jwt_auth_revoked_token',
       'data' => [
-        'status' => 403,
+        'status' => 200,
       ],
     ];
   }
