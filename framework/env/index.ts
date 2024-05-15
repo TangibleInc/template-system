@@ -3,11 +3,41 @@ import fs from 'node:fs/promises'
 import { getWpNowConfig, startServer } from '@tangible/now'
 import { disableConsole, enableConsole } from './console'
 import { createRequest } from './request'
+import type { WPNowServer, WPNowOptions } from '@tangible/now'
+import type { NodePHP } from '@php-wasm/node'
 
 let serverInstance
 
-export async function getServer(options = {}) {
+export async function getServer(
+  options: {
+    path?: string
+    mappings?: {
+      [target: string]: string
+    }
+    phpVersion?: string
+    restart?: boolean
+    reset?: boolean
+  } = {},
+): Promise<{
+  php: NodePHP
+  port: number
+  documentRoot: string
+  options: {}
+  stopServer: () => Promise<void>
+  request: (requestOptions: {
+    method?: string | undefined
+    route: any
+    format?: string | undefined
+    data?: {} | undefined
+  }) => Promise<any>
 
+  // Template tag functions
+  phpx: (code: string, ...args: string[]) => Promise<any>
+  wpx: (code: string | TemplateStringsArray, ...args: any[]) => Promise<any>
+
+  setSiteTemplate: (code: string) => void
+  resetSiteTemplate: () => void
+}> {
   if (serverInstance) {
     if (!options.restart) return serverInstance
     await serverInstance.stopServer()
@@ -20,10 +50,10 @@ export async function getServer(options = {}) {
     ...serverOptions
   } = options
 
-  const server = await startServer({
+  const server: WPNowServer = await startServer({
     ...(await getWpNowConfig({
       path: projectPath,
-      mappings
+      mappings,
     })),
 
     // documentRoot: '/var/www/html',
@@ -34,20 +64,19 @@ export async function getServer(options = {}) {
     ...serverOptions,
   })
 
-  const { port } = server.options
-
   const { php, stopServer } = server
+  const { port, documentRoot } = server.options
 
   const phpStart = '<?php '
-  const phpStartRegex= /^<\?php /
+  const phpStartRegex = /^<\?php /
 
   /**
    * Run PHP code - Starting PHP tag is optional
-   * 
+   *
    * ```js
    * const result = phpx`echo 'hi';`
    * ```
-   * 
+   *
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
    */
   const phpx = async (code, ...args) => {
@@ -63,7 +92,7 @@ export async function getServer(options = {}) {
     let result
     try {
       result = await php.run({
-        code: phpStart + code.replace(phpStartRegex, '')
+        code: phpStart + code.replace(phpStartRegex, ''),
       })
     } catch (e) {
       result = { errors: e.message }
@@ -78,7 +107,7 @@ export async function getServer(options = {}) {
 
   /**
    * Run PHP code in WordPress context
-   * 
+   *
    * ```js
    * const result = wpx`return 'hi';`
    * ```
@@ -103,7 +132,7 @@ export async function getServer(options = {}) {
     })());`
     try {
       return JSON.parse(result)
-    } catch(e) {
+    } catch (e) {
       console.error(e)
     }
   }
@@ -115,17 +144,47 @@ $wp_rewrite->set_permalink_structure('/%postname%/');
 $wp_rewrite->flush_rules();
 `
 
+
+  const templatePluginPath = `/${documentRoot}/wp-content/mu-plugins/template-include.php`
+  /**
+   * Set site template to override theme
+   */
+  function setSiteTemplate(code: string) {
+    php.writeFile(templatePluginPath, `<?php
+add_filter('template_include', function() {
+  echo tangible_template(<<<'HTML'
+${code}
+HTML);
+  exit;
+});
+`)
+  }
+  /**
+   * Reset site template to let theme handle response
+   */
+  function resetSiteTemplate() {
+    try {
+      php.unlink(templatePluginPath)
+    } catch(e) {
+      // OK
+    }
+  }
+
+  resetSiteTemplate()
+
   return (serverInstance = {
     php,
     port,
+    documentRoot,
     options: server.options,
     request: createRequest(`http://localhost:${port}`),
-    read: file => fs.readFile(file, 'utf8'),
     phpx,
     wpx,
     async stopServer() {
       serverInstance = null
       await stopServer()
     },
+    setSiteTemplate,
+    resetSiteTemplate
   })
 }

@@ -32,6 +32,10 @@ return [
     ok(Boolean(result), 'PHP setup success')
 
     is('/%postname%/', result.permalink, 'pretty permalink enabled')
+
+    result = await wpx`return switch_theme('empty-block-theme');`
+    is(null, result, 'Activate empty block theme')
+
   })
 
   await import('../api/tests/index.js')

@@ -124,7 +124,8 @@ describe('Admin menu', () => {
     expect(
       page
         .getByRole('navigation', { name: 'Main menu' })
-        .getByRole('link', { name: 'Tangible' }),
+        .getByRole('link', { name: 'Tangible' })
+        .first(),
     ).toHaveCount(1)
   })
 
