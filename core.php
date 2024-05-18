@@ -28,8 +28,11 @@ template_system::$state = (object) [
 ];
 
 template_system::$system = $plugin = $system; // From /admin/system
+
+require_once __DIR__ . '/logic/index.php';
+template_system::$logic  = $logic  = require_once __DIR__ . '/logic/v1/index.php';
+
 template_system::$loop   = $loop   = require_once __DIR__ . '/loop/index.php';
-template_system::$logic  = $logic  = require_once __DIR__ . '/logic/index.php';
 template_system::$html   = $html   = require_once __DIR__ . '/language/index.php';
 
 \Tangible\Loop\BaseLoop::$html = $html;
