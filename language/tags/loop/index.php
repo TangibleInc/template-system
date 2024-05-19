@@ -13,6 +13,22 @@ $html->loop_tag = function($atts, $nodes = []) use ($loop, $html) {
 
   $is_paginator_request = isset($atts['paginator']); // Inside AJAX request handler
 
+  /**
+   * <Loop logic=x> converts to: <Loop><If logic=x>...</If></Loop>
+   */
+  if (isset($atts['logic'])) {
+    $nodes = [
+      [
+        'tag' => 'If',
+        'attributes' => [
+          'logic' => $atts['logic']
+        ],
+        'children' => $nodes
+      ]
+    ];
+    unset($atts['logic']);
+  }
+
   if (!$is_paginator_request && isset($atts['query'])) {
 
     // Query variable: Reuse loop instance

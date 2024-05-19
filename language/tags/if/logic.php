@@ -63,7 +63,9 @@ function rule_tag($atts, $nodes) {
     unset($atts['keys']);
   }
 
-  $rule = $atts;
+  $rule = [
+    'rule' => $atts
+  ];
   template_system::$state->current_rule_group []= $rule;
 }
 
@@ -95,7 +97,7 @@ function or_tag($atts, $nodes) {
 }
 
 function evaluate_logic($logic, $evaluator = null, $data = []) {
-  return tangible\logic($logic, $evaluator, $data );
+  return logic\evaluate($logic, $evaluator, $data);
 }
 
 function get_logic_by_name($name) {
@@ -103,10 +105,10 @@ function get_logic_by_name($name) {
 }
 
 function evaluate_logic_by_name($name, $evaluator = null, $data = []) {
-  $logic = logic\get_logic_by_name($name);
+  $logic = template_system\get_logic_by_name($name);
   return $logic===false
     ? false
-    : tangible\logic(
+    : logic\evaluate(
       $logic['logic'],
       $evaluator,
       $data

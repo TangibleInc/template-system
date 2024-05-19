@@ -1,6 +1,7 @@
 <?php
 use tangible\format;
 use tangible\hjson;
+use tangible\template_system;
 
 $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic, $html) {
 
@@ -25,10 +26,21 @@ $html->evaluate_core_logic_rule = function($rule, $atts = []) use ($loop, $logic
       $condition = $html->evaluate_logic_comparison($operand, $value, $current_value, $atts);
     break;
     case 'logic':
+
       $current_value = isset($rule['field_2']) ? $rule['field_2'] : '';
-      $condition = !empty(
-        $html->get_logic_variable($current_value)
-      );
+
+      $logic = template_system\get_logic_by_name($current_value);
+      if ($logic!==false) {
+        $condition = template_system\evaluate_logic_by_name($current_value, function($rule) {
+          return template_system::$html->if($rule);
+        });
+      } else {
+        // Backward compatibility with <Set logic>
+        $condition = !empty(
+          $html->get_logic_variable($current_value)
+        );
+      }
+
     break;
     case 'query':
       $current_value = isset($rule['field_2']) ? $rule['field_2'] : '';
