@@ -197,8 +197,14 @@ function get_values(logic) {
 }
 
 export function evaluate(logic, evaluator = null, data = {}) {
-  const prev = ruleEvaluators.splice(0, ruleEvaluators.length, ...(
-    evaluator===null ? [] : !Array.isArray(evaluator) ? [evaluator] : evaluator)
+  const prev = ruleEvaluators.splice(
+    0,
+    ruleEvaluators.length,
+    ...(evaluator === null
+      ? []
+      : !Array.isArray(evaluator)
+        ? [evaluator]
+        : evaluator),
   )
   const result = apply(logic, data)
   ruleEvaluators.splice(0, ruleEvaluators.length, ...prev)
@@ -272,6 +278,16 @@ export function apply(logic, data = {}) {
       }
     }
     return current // Last
+  } else if (op === 'not') {
+    // This part is the same as 'and'
+    for (i = 0; i < values.length; i += 1) {
+      current = apply(values[i], data)
+      if (!truthy(current)) {
+        break
+      }
+    }
+    // Negate the result
+    return !current
   } else if (op === 'filter') {
     scopedData = apply(values[0], data)
     scopedLogic = values[1]

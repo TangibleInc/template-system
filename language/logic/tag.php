@@ -24,7 +24,8 @@ function logic_tag($atts, $nodes) {
   
   $logic = [];
   $compare = $atts['compare'] ?? 'and';
-  
+  unset($atts['compare']);
+
   $rule_group = [];
 
   $state = $atts + [
@@ -96,6 +97,10 @@ function or_tag($atts, $nodes) {
   return operator_tag('or', $atts, $nodes);
 }
 
+function not_tag($atts, $nodes) {
+  return operator_tag('not', $atts, $nodes);
+}
+
 function evaluate_logic($logic, $evaluator = null, $data = []) {
   return logic\evaluate($logic, $evaluator, $data);
 }
@@ -120,3 +125,4 @@ html\add_open_tag('Logic', __NAMESPACE__ . '\\logic_tag');
 html\add_open_tag('Rule', __NAMESPACE__ . '\\rule_tag');
 html\add_open_tag('And', __NAMESPACE__ . '\\and_tag');
 html\add_open_tag('Or', __NAMESPACE__ . '\\or_tag');
+html\add_open_tag('Not', __NAMESPACE__ . '\\not_tag');

@@ -5,6 +5,7 @@ require_once __DIR__ . '/comparison.php';
 require_once __DIR__ . '/date-comparison.php';
 require_once __DIR__ . '/definition.php';
 require_once __DIR__ . '/evaluate.php';
+require_once __DIR__ . '/tag.php';
 
 /**
  * Register with Logic module

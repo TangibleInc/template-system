@@ -303,7 +303,20 @@ namespace tangible\logic {
         }
       }
       return $current; // Last
-      
+
+    } elseif ($op === 'not') {
+
+      // This part is the same as 'and'
+      foreach ($values as $value) {
+        $current = logic\apply($value, $data);
+        if ( ! logic\truthy($current)) {
+          break;
+        }
+      }
+
+      // Negate the result
+      return !$current;
+
     } elseif ($op === "filter") {
       $scopedData = logic\apply($values[0], $data);
       $scopedLogic = $values[1];

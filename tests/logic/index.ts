@@ -4,7 +4,7 @@ import { getServer } from '../../framework/env'
 export default run(async () => {
   const { wpx } = await getServer()
 
-  test('logic', async () => {
+  test('Logic tag', async () => {
     for (const [template, expected] of [
       [
         `
@@ -14,6 +14,28 @@ export default run(async () => {
         {
           logic: {
             and: [{ rule: { taxonomy: 'category', term: 'uncategorized' } }],
+          },
+        },
+      ],
+      [
+        `
+<Logic compare=or debug=true>
+  <Rule taxonomy=category term=uncategorized />
+</Logic>`,
+        {
+          logic: {
+            or: [{ rule: { taxonomy: 'category', term: 'uncategorized' } }],
+          },
+        },
+      ],
+      [
+        `
+<Logic compare=not debug=true>
+  <Rule taxonomy=category term=uncategorized />
+</Logic>`,
+        {
+          logic: {
+            not: [{ rule: { taxonomy: 'category', term: 'uncategorized' } }],
           },
         },
       ],
@@ -84,8 +106,10 @@ return json_encode(
     }
   })
 
-  test('logic with if', async () => {
+  test('Logic tag with If and Loop', async () => {
     let template, result, expected
+
+    // Test map
 
     const map1 = `
 <Map test_map>
@@ -106,6 +130,8 @@ HTML);`
 
     expected = { field_1: '123', field_2: '456', field_3: '789' }
     is(expected, result, JSON.stringify(expected))
+
+    // Get logic by name
 
     const logic1 = `
 <Logic name=test_logic>
@@ -146,6 +172,8 @@ return json_encode(
       },
     }
     is(expected, result, JSON.stringify(result))
+
+    // Evaluate logic by name
 
     result = (
       await wpx`
@@ -227,5 +255,161 @@ HTML);
     expected = 'TEST_MAP_2'
 
     is(expected, result, '<Loop logic> === true')
+
+    // Logic or
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+<List test_list>
+  <Map>
+    <Key name>TEST_MAP_1</Key>
+  </Map>
+  <Map>
+    <Key name>TEST_MAP_2</Key>
+    <Key field_2>456</Key>
+  </Map>
+</List>
+<Logic name=test_logic compare=or>
+  <Rule field=wrong value=value />
+  <Rule field=field_2 value=456 />
+</Logic>
+<Loop list=test_list logic=test_logic>
+  <Field name />
+</Loop>
+HTML);
+`
+    ).trim()
+
+    expected = 'TEST_MAP_2'
+
+    is(expected, result, '<Logic or>')
+
+    // Logic not
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+<List test_list>
+  <Map>
+    <Key name>TEST_MAP_1</Key>
+    <Key field_1>123</Key>
+  </Map>
+  <Map>
+    <Key name>TEST_MAP_2</Key>
+  </Map>
+</List>
+<Logic name=test_logic compare=not>
+  <Rule field=field_1 value=123 />
+</Logic>
+<Loop list=test_list logic=test_logic>
+  <Field name />
+</Loop>
+HTML);
+`
+    ).trim()
+
+    expected = 'TEST_MAP_2'
+
+    is(expected, result, '<Logic not>')
+
+    // Not
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+<List test_list>
+  <Map>
+    <Key name>TEST_MAP_1</Key>
+    <Key field_1>123</Key>
+  </Map>
+  <Map>
+    <Key name>TEST_MAP_2</Key>
+    <Key field_2>456</Key>
+  </Map>
+</List>
+<Logic name=test_logic>
+  <Not>
+    <Rule field=field_1 value=123 />
+  </Not>
+</Logic>
+<Loop list=test_list logic=test_logic>
+  <Field name />
+</Loop>
+HTML);
+`
+    ).trim()
+
+    expected = 'TEST_MAP_2'
+
+    is(expected, result, '<Not>')
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+<List test_list>
+  <Map>
+    <Key name>TEST_MAP_1</Key>
+    <Key field_1>123</Key>
+    <Key field_2>456</Key>
+  </Map>
+  <Map>
+    <Key name>TEST_MAP_2</Key>
+    <Key field_3>789</Key>
+  </Map>
+</List>
+<Logic name=test_logic>
+  <Not>
+    <Rule field=field_1 value=123 />
+    <Rule field=field_2 value=456 />
+  </Not>
+</Logic>
+<Loop list=test_list logic=test_logic>
+  <Field name />
+</Loop>
+HTML);
+`
+    ).trim()
+
+    expected = 'TEST_MAP_2'
+
+    is(expected, result, '<Not> with multiple rules')
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+<List test_list>
+  <Map>
+    <Key name>TEST_MAP_1</Key>
+    <Key field_1>123</Key>
+  </Map>
+  <Map>
+    <Key name>TEST_MAP_2</Key>
+    <Key field_2>456</Key>
+  </Map>
+  <Map>
+    <Key name>TEST_MAP_3</Key>
+    <Key field_3>789</Key>
+  </Map>
+</List>
+<Logic name=test_logic>
+  <Not>
+    <Or>
+      <Rule field=field_1 value=123 />
+      <Rule field=field_2 value=456 />
+    </Or>
+  </Not>
+</Logic>
+<Loop list=test_list logic=test_logic>
+  <Field name />
+</Loop>
+HTML);
+`
+    ).trim()
+
+    expected = 'TEST_MAP_3'
+
+    is(expected, result, '<Not> with <Or>')
+
   })
 })
