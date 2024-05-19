@@ -72,4 +72,7 @@ return wp_insert_post([
 
   // Taxonomy archive
   await import('./loop/taxonomy-archive.ts')
+
+  await import('./logic/index.ts')
+
 })

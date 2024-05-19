@@ -13,6 +13,7 @@ require_once __DIR__ . '/logic-variable.php';
 require_once __DIR__ . '/parse.php';
 require_once __DIR__ . '/tag.php';
 
+require_once __DIR__ . '/logic.php';
 require_once __DIR__ . '/switch.php';
 
 $html->add_open_tag( 'If', $html->if_tag, [
