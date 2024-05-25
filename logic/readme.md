@@ -6,7 +6,7 @@ Build and evaluate conditional rules
 
 ### Rule
 
-A "rule" is a unit of condition in JSON Logic, which always has a single property with the key being an operator; and the value is a list of arguments for the operator, or another rule.
+A "rule" is an object (associative array) that always has a single property, with the key being an operator; and the value as a list of arguments for the operator, or another rule.
 
 ```ts
 export type Rule = {
