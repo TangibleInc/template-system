@@ -4,7 +4,7 @@
 ; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
 ;
 [subrepo]
-	remote = https://github.com/TangibleInc/logic
+	remote = git@github.com:TangibleInc/logic.git
 	branch = main
 	commit = 
 	method = merge
