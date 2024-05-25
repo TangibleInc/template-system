@@ -13,25 +13,25 @@ export type RuleEvaluator = (rule: Rule, data: any) => boolean | void
  * another rule.
  */
 export type Rule = {
-  [key in Operator]: RuleValue
+  [key in Operator]: RuleValue | RuleValue[]
 }
 
-type RuleValue = (Rule | any) | RuleValue[]
+export type RuleValue = Rule | any
 
 /**
  * Operator
  */
-type Operator = CoreOperations & ExtendedOperators & keyof UserAddedOperators
+export type Operator = CoreOperations & ExtendedOperators & keyof UserAddedOperators
 
 /**
  * Core operations
  */
-type CoreOperations = keyof typeof operations
+export type CoreOperations = keyof typeof operations
 
 /**
  * Operators that are handled specially in `apply()`
  */
-type ExtendedOperators =
+export type ExtendedOperators =
   'and'
   | 'or'
   | 'not'
@@ -46,7 +46,7 @@ type ExtendedOperators =
 /**
  * Operators added by user with `addOperation()`
  */
-type UserAddedOperators = {
+export type UserAddedOperators = {
   [key: string]: any
 }
 
