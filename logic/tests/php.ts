@@ -195,6 +195,7 @@ export async function createPhp(options = {}) {
   const phpStartRegex = /^<\?php /
 
   const phpx = async (code, ...args) => {
+    // Template tag literal
     if (Array.isArray(code)) {
       code = code.reduce(
         (prev, now, index) => prev + now + (args[index] ?? ''),

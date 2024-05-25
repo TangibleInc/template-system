@@ -101,10 +101,18 @@ function not_tag($atts, $nodes) {
   return operator_tag('not', $atts, $nodes);
 }
 
+/**
+ * Evaluate logic object with given rule evaluator
+ * @returns boolean (true or false)
+ */
 function evaluate_logic($logic, $evaluator = null, $data = []) {
   return logic\evaluate($logic, $evaluator, $data);
 }
 
+/**
+ * Get logic object by name
+ * @returns logic object or false
+ */
 function get_logic_by_name($name) {
   return template_system::$state->logic_registry[ $name ] ?? false;
 }

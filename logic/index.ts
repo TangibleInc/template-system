@@ -1,7 +1,52 @@
 export const ruleEvaluators: RuleEvaluator[] = []
 
+/**
+ * Rule evaluator takes a given rule with optional data, and returns true/false
+ * or nothing (undefined) for an unknown rule, which is passed through to the next
+ * evaluator, if any.
+ */
 export type RuleEvaluator = (rule: Rule, data: any) => boolean | void
+
+/**
+ * A "rule" is a unit of condition in JSON Logic, which always has a single property with
+ * the key being an operator; and the value is a list of arguments for the operator, or
+ * another rule.
+ */
 export type Rule = {
+  [key in Operator]: RuleValue
+}
+
+type RuleValue = (Rule | any) | RuleValue[]
+
+/**
+ * Operator
+ */
+type Operator = CoreOperations & ExtendedOperators & keyof UserAddedOperators
+
+/**
+ * Core operations
+ */
+type CoreOperations = keyof typeof operations
+
+/**
+ * Operators that are handled specially in `apply()`
+ */
+type ExtendedOperators =
+  'and'
+  | 'or'
+  | 'not'
+  | 'all'
+  | 'none'
+  | 'some'
+  | 'filter'
+  | 'map'
+  | 'reduce'
+  | 'if'
+
+/**
+ * Operators added by user with `addOperation()`
+ */
+type UserAddedOperators = {
   [key: string]: any
 }
 
@@ -62,14 +107,14 @@ export const operations = {
     return Array.prototype.reduce.call(
       arguments,
       function (a, b) {
-        return parseFloat(a, 10) + parseFloat(b, 10)
+        return parseFloat(a) + parseFloat(b)
       },
       0,
     )
   },
   '*': function () {
     return Array.prototype.reduce.call(arguments, function (a, b) {
-      return parseFloat(a, 10) * parseFloat(b, 10)
+      return parseFloat(a) * parseFloat(b)
     })
   },
   '-': function (a, b) {
@@ -124,7 +169,7 @@ export const operations = {
       (like 'if' or 'merge')
       */
 
-    var missing = []
+    var missing: any[] = []
     var keys = Array.isArray(arguments[0]) ? arguments[0] : arguments
 
     for (var i = 0; i < keys.length; i++) {

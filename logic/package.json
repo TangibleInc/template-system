@@ -1,7 +1,7 @@
 {
   "name": "@tangible/logic",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Build and evaluate conditional rules",
   "scripts": {
     "start": "roll dev",
@@ -9,7 +9,8 @@
     "test": "roll run tests/index.ts",
     "test:js": "roll run tests/js.ts",
     "test:php": "roll run tests/php.ts",
-    "format": "roll format"
+    "format": "roll format",
+    "version": "node version.js"
   },
   "devDependencies": {
     "@php-wasm/node": "^0.7.19",
