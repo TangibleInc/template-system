@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:TangibleInc/logic.git
 	branch = main
-	commit = c94853e3ff812a8029ee2e0b0b944a0f8f69e63e
+	commit = e3331f34f471a8999094d56ef4d27acefdd75161
 	method = merge
 	cmdver = 0.4.6
-	parent = 74174f5c4e43ab848306c0a3e2d73e5e3bba1a81
+	parent = 4a3cae25d206ead44d2bdcd2a99791bb9bed6b04
