@@ -1,7 +1,7 @@
 {
   "name": "@tangible/template-system",
   "description": "Template System module",
-  "version": "2024.05.25",
+  "version": "2024.06.05",
   "homepage": "https://github.com/tangibleinc/template-system",
   "repository": "git@github.com:tangibleinc/template-system.git",
   "type": "module",

@@ -12,6 +12,7 @@ import fs from 'node:fs/promises'
     'core.php',
     'framework/index.php',
     'logic/module.php',
+    'logic/package.json',
     'package.json',
     'plugin.php',
   ]) {
