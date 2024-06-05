@@ -26,6 +26,10 @@ function logic_tag($atts, $nodes) {
   $compare = $atts['compare'] ?? 'and';
   unset($atts['compare']);
 
+  // Alias
+  if ($compare==='any') $compare = 'or';
+  elseif ($compare==='all') $compare = 'and';
+
   $rule_group = [];
 
   $state = $atts + [
@@ -102,6 +106,29 @@ function not_tag($atts, $nodes) {
 }
 
 /**
+ * <All> is same as "and", and <All false> is same as "not any" (all is false)
+ */
+function all_tag($atts, $nodes) {
+  $operator = 'and';
+  if (!empty($atts['keys']) && $atts['keys'][0]==='false') {
+    return operator_tag('not', $atts, [
+      [ 'tag' => 'Any', 'attributes' => [], 'children' => $nodes ]
+    ]);
+  }
+  return operator_tag($operator, $atts, $nodes);
+}
+
+/**
+ * <Any> is same as "or", and <Any false> is same as "not all" (not all is true)
+ */
+function any_tag($atts, $nodes) {
+  if (!empty($atts['keys']) && $atts['keys'][0]==='false') {
+    return operator_tag('not', $atts, $nodes);
+  }
+  return operator_tag('or', $atts, $nodes);
+}
+
+/**
  * Evaluate logic object with given rule evaluator
  * @returns boolean (true or false)
  */
@@ -134,3 +161,6 @@ html\add_open_tag('Rule', __NAMESPACE__ . '\\rule_tag');
 html\add_open_tag('And', __NAMESPACE__ . '\\and_tag');
 html\add_open_tag('Or', __NAMESPACE__ . '\\or_tag');
 html\add_open_tag('Not', __NAMESPACE__ . '\\not_tag');
+
+html\add_open_tag('All', __NAMESPACE__ . '\\all_tag');
+html\add_open_tag('Any', __NAMESPACE__ . '\\any_tag');

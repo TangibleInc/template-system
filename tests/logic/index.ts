@@ -104,10 +104,62 @@ return json_encode(
         is(expected, JSON.parse(result), `get logic by name "${logic.name}"`)
       }
     }
-  })
+
+    let result, expected, template, logic
+
+    /**
+     * <Logic compare=all>
+     */
+    template = `
+<Logic compare=all debug=true>
+  <Rule taxonomy=category term=uncategorized />
+</Logic>
+`
+    expected = {
+      logic: {
+        and: [{ rule: { taxonomy: 'category', term: 'uncategorized' } }],
+      },
+    }
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+${template}
+HTML);
+    `
+    ).trim()
+
+    logic = JSON.parse(result)
+    is(expected, logic, `<Logic compare=all>`)
+
+    /**
+     * <Logic compare=any>
+     */
+    template = `
+<Logic compare=any debug=true>
+  <Rule taxonomy=category term=uncategorized />
+</Logic>
+`
+    expected = {
+      logic: {
+        or: [{ rule: { taxonomy: 'category', term: 'uncategorized' } }],
+      },
+    }
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+${template}
+HTML);
+    `
+    ).trim()
+
+    logic = JSON.parse(result)
+    is(expected, logic, `<Logic compare=any>`)
+  }) // Logic tag
 
   test('Logic tag with If and Loop', async () => {
-    let template, result, expected
+    let template, result, expected, testList, testLogic
 
     // Test map
 
@@ -313,40 +365,11 @@ HTML);
 
     is(expected, result, '<Logic not>')
 
-    // Not
+    /**
+     * All
+     */
 
-    result = (
-      await wpx`
-return tangible_template(<<<'HTML'
-<List test_list>
-  <Map>
-    <Key name>TEST_MAP_1</Key>
-    <Key field_1>123</Key>
-  </Map>
-  <Map>
-    <Key name>TEST_MAP_2</Key>
-    <Key field_2>456</Key>
-  </Map>
-</List>
-<Logic name=test_logic>
-  <Not>
-    <Rule field=field_1 value=123 />
-  </Not>
-</Logic>
-<Loop list=test_list logic=test_logic>
-  <Field name />
-</Loop>
-HTML);
-`
-    ).trim()
-
-    expected = 'TEST_MAP_2'
-
-    is(expected, result, '<Not>')
-
-    result = (
-      await wpx`
-return tangible_template(<<<'HTML'
+    testList = `
 <List test_list>
   <Map>
     <Key name>TEST_MAP_1</Key>
@@ -358,12 +381,135 @@ return tangible_template(<<<'HTML'
     <Key field_3>789</Key>
   </Map>
 </List>
+`
+
+    testLogic = `
+<Logic name=test_logic>
+  <All>
+    <Rule field=field_1 value=123 />
+    <Rule field=field_2 value=456 />
+  </All>
+</Logic>
+`
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+${testList}
+${testLogic}
+<Loop list=test_list logic=test_logic>
+  <Field name />
+</Loop>
+HTML);
+`
+    ).trim()
+
+    expected = 'TEST_MAP_1'
+
+    is(expected, result, '<All>')
+
+    /**
+     * Any
+     */
+
+    testLogic = `
+<Logic name=test_logic>
+  <Any>
+    <Rule field=field_1 value=123 />
+    <Rule field=field_2 value=456 />
+  </Any>
+</Logic>
+`
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+${testList}
+${testLogic}
+<Loop list=test_list logic=test_logic>
+  <Field name />
+</Loop>
+HTML);
+`
+    ).trim()
+
+    expected = 'TEST_MAP_1'
+
+    is(expected, result, '<Any>')
+
+    /**
+     * Not
+     */
+
+    testList = `
+<List test_list>
+  <Map>
+    <Key name>TEST_MAP_1</Key>
+    <Key field_1>123</Key>
+  </Map>
+  <Map>
+    <Key name>TEST_MAP_2</Key>
+    <Key field_2>456</Key>
+  </Map>
+</List>
+`
+
+    testLogic = `
+<Logic name=test_logic>
+  <Not>
+    <Rule field=field_1 value=123 />
+  </Not>
+</Logic>
+`
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+${testList}
+${testLogic}
+<Loop list=test_list logic=test_logic>
+  <Field name />
+</Loop>
+HTML);
+`
+    ).trim()
+
+    expected = 'TEST_MAP_2'
+
+    is(expected, result, '<Not>')
+
+    /**
+     * Not multiple
+     */
+
+    testList = `
+<List test_list>
+  <Map>
+    <Key name>TEST_MAP_1</Key>
+    <Key field_1>123</Key>
+    <Key field_2>456</Key>
+  </Map>
+  <Map>
+    <Key name>TEST_MAP_2</Key>
+    <Key field_3>789</Key>
+  </Map>
+</List>
+`
+
+    testLogic = `
 <Logic name=test_logic>
   <Not>
     <Rule field=field_1 value=123 />
     <Rule field=field_2 value=456 />
   </Not>
 </Logic>
+`
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+${testList}
+${testLogic}
 <Loop list=test_list logic=test_logic>
   <Field name />
 </Loop>
@@ -375,9 +521,40 @@ HTML);
 
     is(expected, result, '<Not> with multiple rules')
 
+    /**
+     * <Any false> is same as "not all"
+     */
+
+    testLogic = `
+<Logic name=test_logic>
+  <Any false>
+    <Rule field=field_1 value=123 />
+    <Rule field=field_2 value=456 />
+  </Any>
+</Logic>
+`
+
     result = (
       await wpx`
 return tangible_template(<<<'HTML'
+${testList}
+${testLogic}
+<Loop list=test_list logic=test_logic>
+  <Field name />
+</Loop>
+HTML);
+`
+    ).trim()
+
+    expected = 'TEST_MAP_2'
+
+    is(expected, result, '<Any false>')
+
+    /**
+     * Not or
+     */
+
+    testList = `
 <List test_list>
   <Map>
     <Key name>TEST_MAP_1</Key>
@@ -392,13 +569,23 @@ return tangible_template(<<<'HTML'
     <Key field_3>789</Key>
   </Map>
 </List>
+`
+
+    testLogic = `
+<Not>
+  <Any>
+    <Rule field=field_1 value=123 />
+    <Rule field=field_2 value=456 />
+  </Any>
+</Not>
+`
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+${testList}
 <Logic name=test_logic>
-  <Not>
-    <Or>
-      <Rule field=field_1 value=123 />
-      <Rule field=field_2 value=456 />
-    </Or>
-  </Not>
+  ${testLogic}
 </Logic>
 <Loop list=test_list logic=test_logic>
   <Field name />
@@ -409,7 +596,35 @@ HTML);
 
     expected = 'TEST_MAP_3'
 
-    is(expected, result, '<Not> with <Or>')
+    is(expected, result, '<Not> with <Any>')
 
+    /**
+     * <All false> is same as "not any" (all rules must be false)
+     */
+
+    testLogic = `
+<All false>
+  <Rule field=field_1 value=123 />
+  <Rule field=field_2 value=456 />
+</All>
+`
+
+    result = (
+      await wpx`
+return tangible_template(<<<'HTML'
+${testList}
+<Logic name=test_logic>
+${testLogic}
+</Logic>
+<Loop list=test_list logic=test_logic>
+<Field name />
+</Loop>
+HTML);
+`
+    ).trim()
+
+    expected = 'TEST_MAP_3'
+
+    is(expected, result, '<All false>')
   })
 })
