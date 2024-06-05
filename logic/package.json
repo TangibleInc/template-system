@@ -4,6 +4,11 @@
   "private": true,
   "version": "2024.06.05",
   "description": "Build and evaluate conditional rules",
+  "homepage": "https://github.com/tangibleinc/logic",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tangibleinc/logic.git"
+  },
   "scripts": {
     "start": "roll dev",
     "build": "npm run format && npm run test && roll build && npm run types",
