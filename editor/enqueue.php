@@ -36,7 +36,7 @@ function enqueue_editor() {
        * Editor URL for themes and fonts
        * @see extensions/editor-action-panel
        */
-      'editorUrl' => editor::$state->url,
+      'editorUrl' => str_replace('/editor', '/elandel/editor', editor::$state->url),
       /**
        * Language definition
        * @see /elandel/editor/languages/html/autocomplete.ts
