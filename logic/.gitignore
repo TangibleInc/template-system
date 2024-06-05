@@ -1,8 +1,11 @@
-vendor
+/build
+/publish
+/vendor
+
 node_modules
 .idea
 *.log
 package-lock.json
 yarn.lock
 bun.lockb
-publish
+tsconfig.types.tsbuildinfo

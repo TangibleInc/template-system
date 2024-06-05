@@ -21,7 +21,9 @@ export type RuleValue = Rule | any
 /**
  * Operator
  */
-export type Operator = CoreOperations & ExtendedOperators & keyof UserAddedOperators
+export type Operator = CoreOperations &
+  ExtendedOperators &
+  keyof UserAddedOperators
 
 /**
  * Core operations
@@ -32,7 +34,7 @@ export type CoreOperations = keyof typeof operations
  * Operators that are handled specially in `apply()`
  */
 export type ExtendedOperators =
-  'and'
+  | 'and'
   | 'or'
   | 'not'
   | 'all'
@@ -192,7 +194,7 @@ export const operations = {
       return are_missing
     }
   },
-  rule(rule) {
+  rule(rule): boolean | void {
     for (const fn of ruleEvaluators) {
       const result = fn(rule, this)
       if (typeof result === 'boolean') {
@@ -443,7 +445,7 @@ export function apply(logic, data = {}) {
       operation = operation[sub_ops[i]]
     }
 
-    return operation.apply(data, values)
+    return apply(data, values)
   }
 
   throw new Error('Unrecognized operation ' + op)
@@ -523,7 +525,7 @@ export function ruleLike(rule, pattern) {
 
       if (pattern_op === '@' || pattern_op === rule_op) {
         // echo "\nOperators match, go deeper\n";
-        return ruleLike(get_values(rule, false), get_values(pattern, false))
+        return ruleLike(get_values(rule), get_values(pattern))
       }
     }
     return false // pattern is logic, rule isn't, can't be eq

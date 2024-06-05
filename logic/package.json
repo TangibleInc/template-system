@@ -1,16 +1,19 @@
 {
   "name": "@tangible/logic",
   "type": "module",
-  "version": "1.0.0",
+  "private": true,
+  "version": "2024.06.05",
   "description": "Build and evaluate conditional rules",
   "scripts": {
     "start": "roll dev",
-    "build": "npm run format && npm run test && roll build",
+    "build": "npm run format && npm run test && roll build && npm run types",
+    "types": "tsc --project tsconfig.types.json && rm publish/*.map && rm publish/tsconfig.types.tsbuildinfo",
     "test": "roll run tests/index.ts",
     "test:js": "roll run tests/js.ts",
     "test:php": "roll run tests/php.ts",
     "format": "roll format",
-    "version": "node version.js"
+    "version": "node version.js",
+    "release": "npm run build && cd publish && npm publish --access public"
   },
   "devDependencies": {
     "@php-wasm/node": "^0.7.19",

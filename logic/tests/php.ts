@@ -24,7 +24,8 @@ ${JSON.stringify(data)}
 JSON, true);
 
 echo json_encode(tangible\\logic\\apply($logic, $data));
-`))
+`),
+    )
   }
 
   const ruleLike = async (rule, pattern = {}) => {
@@ -153,12 +154,11 @@ echo json_encode($result);
   })
 
   test('php logic evaluate', async () => {
-
     const logic = {
-      rule: { control: 'example', value: 1 }
+      rule: { control: 'example', value: 1 },
     }
     const data = {
-      example: 1
+      example: 1,
     }
 
     let result = JSON.parse(
@@ -178,12 +178,11 @@ $evaluator = function($rule, $data) {
 };
 
 echo json_encode(tangible\\logic\\evaluate($logic, $evaluator, $data));
-`))
+`),
+    )
 
     is(true, result, 'evaluate result true')
   })
-
-
 })
 
 export async function createPhp(options = {}) {

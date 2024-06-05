@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./publish",
+    "declaration": true,
+    "emitDeclarationOnly": true
+  },
+  "exclude": ["test", "src/web.*"]
+}

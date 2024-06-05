@@ -71,16 +71,20 @@ run(async () => {
 
   test('js logic evaluate', async () => {
     const data = {
-      example: 1
+      example: 1,
     }
     let called = false
     const evaluator = (rule, data) => {
       called = true
       return data[rule.control] === rule.value
     }
-    let result = evaluate({
-      rule: { control: 'example', value: 1 }
-    }, evaluator, data)
+    let result = evaluate(
+      {
+        rule: { control: 'example', value: 1 },
+      },
+      evaluator,
+      data,
+    )
 
     is(true, called, 'evaluate calls rule evaluator')
     is(true, result, 'evaluate result true')
