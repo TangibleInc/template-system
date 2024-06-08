@@ -3,7 +3,14 @@ import { globby } from 'globby'
 // find . -type f -iname tangible.config.js | while read file; do echo "${file%/tangible.config.js}"; done
 ;(async () => {
   const configFileName = 'tangible.config.js'
-  const files = await globby([`**/${configFileName}`, '!**/node_modules/**'])
+  const files = await globby(`**/${configFileName}`, {
+    gitignore: true,
+    ignore: [
+      '**/.idea',
+      '**/node_modules/**',
+      'publish/**'
+    ]
+  })
 
   const folders = files.map((f) =>
     f.replace(configFileName, '').replace(/\/$/, '')

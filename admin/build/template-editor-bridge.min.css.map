@@ -1,1 +1,0 @@
-{"version":3,"sources":["../editor/template-editor-bridge/index.scss"],"names":[],"mappings":"AACA,oCACE,YAAA,CACA,qBAAA,CACA,eAAF","file":"template-editor-bridge.min.css","sourcesContent":["\n.tangible-template-editor-container {\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n}\n"]}
