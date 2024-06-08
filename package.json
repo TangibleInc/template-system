@@ -5,6 +5,9 @@
   "homepage": "https://github.com/tangibleinc/template-system",
   "repository": "git@github.com:tangibleinc/template-system.git",
   "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "wp-now start --open",
     "archive": "roll archive && rm -rf publish/tangible-template-system && unzip publish/tangible-template-system.zip -d publish/ && npm run test:archive",
@@ -59,8 +62,7 @@
     "@wordpress/env": "^9.0.0",
     "chokidar-cli": "^3.0.0",
     "globby": "^14.0.0",
-    "node-fetch": "^3.3.2",
     "testra": "^2.1.3",
-    "zip-compressor": "^0.0.1"
+    "zip-lib": "^1.0.4"
   }
 }

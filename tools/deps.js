@@ -2,7 +2,8 @@
  * Plugin dependencies
  */
 import fs from 'node:fs/promises'
-import { run } from './common.js'
+import { Readable } from 'node:stream'
+import { extract } from 'zip-lib'
 
 const fileExists = async (file) => {
   try {
@@ -43,17 +44,18 @@ Options:
 
 Examples:
 
-  npm run deps all             Download all plugins
-  npm run deps all --update    Update all plugins
+  npm run deps all              Download all plugins
+  npm run deps all -- --update  Update all plugins
 
-  npm run deps acf             Download single plugin
-  npm run deps acf  --update   Update single plugin
+  npm run deps acf              Download single plugin
+  npm run deps acf -- --update  Update single plugin
 `)
     return
   }
 
   const container = `tests-cli` // Or cli for dev site
   const vendorFolder = `./vendor/tangible`
+  const shouldUpdate = args.includes('--update')
 
   if (args[0] === 'all') {
     args.splice(0)
@@ -66,6 +68,9 @@ Examples:
   const downloadFolders = []
 
   for (const name of args) {
+
+    if (name.startsWith('--')) continue
+
     const url = availableDownloads[name]?.url
     if (!url) {
       console.log('Unknown download', name)
@@ -76,8 +81,18 @@ Examples:
 
     downloadFolders.push(folder)
 
-    if (await fileExists(`${vendorFolder}/${folder}`)) {
-      console.log('Folder already exists', folder)  
+    const folderPath = `${vendorFolder}/${folder}`
+
+    if (await fileExists(folderPath)) {
+      if (shouldUpdate) {
+        console.log('Removing existing folder', folder)
+        await fs.rm(folderPath, {
+          recursive: true
+        })
+        downloads.push([url, file])
+      } else {
+        console.log('Folder already exists', folder)
+      }
     } else {
       downloads.push([url, file])
     }
@@ -85,22 +100,19 @@ Examples:
 
   if (downloads.length) {
 
-    const command = `npx wp-env run ${container} bash -c "
-  cd wp-content/plugins/template-system &&
-  mkdir -p vendor &&
-  cd vendor &&
-  mkdir -p tangible &&
-  cd tangible &&
-  ${downloads
-    .map(([url, file]) => {
-      return `curl -LO ${url} && unzip ${file} && rm ${file}`
-    })
-    .join(';\n')}
-  "`
+    await Promise.all(downloads.map(async ([url, file]) => {
 
-    let [stdout, stderr] = await run(command)
+      console.log('Downloading', url)
 
-    console.log(stderr || stdout)
+      const response = await fetch(url)
+      const body = Readable.fromWeb(response.body)
+      await fs.writeFile(file, body)
+
+      console.log('Extracting', file)
+
+      await extract(file, vendorFolder)
+      await fs.rm(file)
+    }))
   }
 
   const entries = await fs.readdir(vendorFolder, {
@@ -137,7 +149,5 @@ Examples:
   await fs.writeFile(configPath, JSON.stringify(config, null, 2))
 
   console.log('Updated:', configPath)
-
-  console.log('Restart wp-env by running: npm run start')
 
 })().catch(console.error)

@@ -1,5 +1,3 @@
-import fetch from 'node-fetch'
-
 /**
  * Create a wrapper around `fetch()` with given URL for JSON API
  */
