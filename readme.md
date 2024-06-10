@@ -43,11 +43,49 @@ To contribute to the codebase, [create a fork](https://docs.github.com/en/pull-r
 
 ### Start local dev site
 
+This starts the server for a local development site.
+
 ```sh
 npm run start
 ```
 
-### Build for production
+Open another terminal tab/window to develop modules with JS and CSS assets.
+
+Press CTRL + C to stop.
+
+### List modules
+
+The project is composed of modules which can be built individually. See the list of modules with assets.
+
+```sh
+npm run list-modules
+```
+
+The list is generated from the codebase by finding all config files `tangible.config.js`, and gathering their folder names relative to the project root. These can be built with the `dev`, `build`, and `format` commands described below.
+
+You can specify one or more modules, for example:
+
+```sh
+npm run dev editor integrations/gutenberg
+```
+
+Another example, to build all child modules of the `admin` module.
+
+```sh
+npm run build admin
+```
+
+### Build modules for development
+
+Watch files for changes and rebuild.
+
+```sh
+npm run dev [module1 module2..]
+```
+
+Press CTRL + C to stop.
+
+### Build modules for production
 
 Builds minified bundles with source maps.
 
@@ -55,21 +93,7 @@ Builds minified bundles with source maps.
 npm run build [module1 module2..]
 ```
 
-The project is composed of modules which can be built individually. Specify which modules to build, for example:
-
-```sh
-npm run build editor integrations/gutenberg
-```
-
-### Build for development
-
-Watch files for changes and rebuild. Press CTRL + C to stop the process.
-
-```sh
-npm run dev [module1 module2..]
-```
-
-### Format files
+### Format code
 
 Format files to code standard with [Prettier](https://prettier.io) and [PHP Beautify](https://github.com/tangibleinc/php-beautify).
 
@@ -77,35 +101,21 @@ Format files to code standard with [Prettier](https://prettier.io) and [PHP Beau
 npm run format [module1 module2..]
 ```
 
-### List all modules with assets
+### Install third-party plugins
 
-See the complete list of modules with assets.
+This step is optional. Run `npm run deps` to see the help screen for the command.
 
-```sh
-npm run list
-```
-
-The list is generated from the codebase by finding all config files `tangible.config.js`, and gathering their folder names relative to the project root.
-
-These can be built with the `dev` and `build` commands.
-
-For example, `npm run build admin` will build all child modules of the `admin` module; or you can build an individual module like `npm run build admin/editor`.
-
-### Install optional plugin dependencies
-
-This step is optional. Run the following to install plugin dependencies such as Advanced Custom Fields, Beaver Builder, Elementor, and WP Fusion.
+The following will install all plugin dependencies such as Advanced Custom Fields, Beaver Builder, Elementor, and WP Fusion. You can also choose to install and update plugins individually.
 
 ```sh
 npm run deps all
 ```
 
-They will be downloaded in the folder `vendor/tangible`. Existing plugins will be skipped. Pass the the option `--update` to re-download their latest version.
+They will be downloaded in the folder `vendor/tangible`. Existing plugins will be skipped, unless you pass the option `--update` to download their newest version.
 
 ```sh
-npm run deps all --update
+npm run deps all -- --update
 ```
-
-You can install and update plugins individually. Run `npm run deps` to see the help screen.
 
 After install, the command updates the file `.wp-env.override.json` to map the local plugin folders.
 

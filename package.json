@@ -16,7 +16,7 @@
     "format": "roll format",
     "// Utilities": "",
     "version": "node tools/version.js",
-    "list": "node tools/list-modules.js",
+    "list-modules": "node tools/list-modules.js",
     "deps": "node ./tools/deps.js",
     "subrepo": "./tools/git-subrepo/bin",
     "archive": "roll archive && rm -rf publish/tangible-template-system && unzip publish/tangible-template-system.zip -d publish/ && npm run test:archive",
