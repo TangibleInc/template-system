@@ -1,14 +1,13 @@
 <?php
-
 /**
  * Templates data
  */
+namespace tangible\template_system;
+use tangible\template_system;
 
-$plugin->all_templates_cache = [
-  // post type => array of templates' data
-];
+function get_all_templates($post_type = 'tangible_template') {
 
-$plugin->get_all_templates = function( $post_type = 'tangible_template' ) use ( $plugin ) {
+  $plugin = template_system::$system;
 
   if ( isset( $plugin->all_templates_cache[ $post_type ] ) ) {
     return $plugin->all_templates_cache[ $post_type ];
@@ -25,7 +24,13 @@ $plugin->get_all_templates = function( $post_type = 'tangible_template' ) use ( 
   $plugin->all_templates_cache[ $post_type ] = $posts_data;
 
   return $posts_data;
-};
+}
+
+$plugin->all_templates_cache = [
+  // post type => array of templates' data
+];
+
+$plugin->get_all_templates = __NAMESPACE__ . '\\get_all_templates';
 
 
 /**
