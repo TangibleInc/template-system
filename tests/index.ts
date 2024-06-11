@@ -73,6 +73,11 @@ return wp_insert_post([
   // Taxonomy archive
   await import('./loop/taxonomy-archive.ts')
 
+  // Logic
   await import('./logic/index.ts')
 
+  // Template admin features
+  await import('./admin/index.ts')
+
+  
 })
