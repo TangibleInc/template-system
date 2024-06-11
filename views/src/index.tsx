@@ -21,11 +21,11 @@ jQuery(document).ready(function ($) {
 
   const { CodeEditor } = window?.Tangible?.TemplateSystem
 
-  let ideElement = document.getElementById('tangible-template-system-ide')
+  let ideElement = document.getElementById('tangible-template-system-views')
 
   if (!ideElement) {
     ideElement = document.createElement('div')
-    ideElement.id = 'tangible-template-system-ide'
+    ideElement.id = 'tangible-template-system-views'
     document.body.prepend(ideElement) // Prepend for absolute screen position
   }
 

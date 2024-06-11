@@ -10,7 +10,7 @@ enum ScreenSize {
 }
 
 // See ./index.scss
-const fullScreenClassName = 'tangible-template-system-ide-expanded'
+const fullScreenClassName = 'tangible-template-system-views-expanded'
 
 function updateFullScreenClass(isFullScreen: boolean) {
   const $html = document.documentElement
