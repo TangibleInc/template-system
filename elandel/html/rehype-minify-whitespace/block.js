@@ -5,7 +5,7 @@ export const blocks = [
   'aside', // Sections and headings.
   'blockquote', // Flow content.
   'body', // Page.
-  'br', // Contribute whitespace intrinsically.
+  // 'br', // Contribute whitespace intrinsically.
   'caption', // Similar to block.
   'center', // Flow content, legacy.
   'col', // Similar to block.

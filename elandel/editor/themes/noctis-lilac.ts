@@ -8,10 +8,11 @@ export const noctisLilac = createTheme({
 		background: '#f2f1f8',
 		foreground: '#0c006b',
 		caret: '#5c49e9',
-		selection: '#d5d1f2',
+		selection: '#d5d1f2', // d5d1f2
+    // selectionMatch: '#99ff7780'
 		gutterBackground: '#f2f1f8',
 		gutterForeground: '#0c006b70',
-		lineHighlight: '#e1def3',
+		lineHighlight: 'transparent', // '#e1def3',
 	},
 	styles: [
 		{

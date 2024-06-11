@@ -1,30 +1,35 @@
 import fs from 'node:fs/promises'
 import { test, is, run } from 'testra'
-import * as html from '../index'
+import { parse, render, format } from '../index'
 
 const { dirname } = import.meta
 const testContent = await fs.readFile(`${dirname}/test-1.html`, 'utf-8')
 const testContentTree = JSON.parse(
-  await fs.readFile(`${dirname}/test-1-parse.json`, 'utf-8')
+  await fs.readFile(`${dirname}/test-1-parse.json`, 'utf-8'),
 )
 
-html.language.closedTags?.push('Else', 'Field')
+const language = {
+  closedTags: ['Else', 'Field'],
+}
 
 test('parse', () => {
-  is(html.parse(testContent), testContentTree, 'works')
+  is(parse(testContent, language), testContentTree, 'works')
 })
 
 test('format', async () => {
   is(
-    html.render(html.format(html.parse(testContent))),
+    render(format(parse(testContent, language), language), language),
     await fs.readFile(`${dirname}/test-1-format-fragment.html`, 'utf-8'),
-    'fragment'
+    'fragment',
   )
 
   is(
-    html.render(html.format(html.parse(testContent, { document: true }))),
+    render(
+      format(parse(testContent, { document: true, ...language }), language),
+      language,
+    ),
     await fs.readFile(`${dirname}/test-1-format-document.html`, 'utf-8'),
-    'document'
+    'document',
   )
 })
 

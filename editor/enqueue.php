@@ -28,13 +28,66 @@ function enqueue_editor() {
     $version
   );
 
+  $language_definition = template_system\get_language_definition();
+
+  /**
+   * Content tags
+   * @see /content/tags
+   */
+
+  $info = template_system\get_admin_route_info();
+  $is_content_template_edit_screen =
+    $info['type']==='tangible_content'
+    && $info['edit'] // Single post edit screen
+  ;
+
+  if ($is_content_template_edit_screen) {
+
+    $tags = []; // &$language_definition['tags'];
+
+    $tags['ContentType'] = [ 'closed' => true ];
+
+    foreach ([
+      'FieldGroup',
+      'Field',
+      'LocationRule',
+      'LocationRuleGroup',
+      'Layout',
+      'Taxonomy'
+    ] as $key) {
+      $tags[ $key ] = [ 'closed' => false ];
+    }
+
+    // Keep these regular tags
+    foreach ([
+      'If', 'Logic', 'Loop'
+    ] as $key) {
+      $tags[ $key ] = $language_definition['tags'][$key];
+    }
+
+    // Remove other tags
+    $language_definition['tags'] = $tags;
+    $language_definition['htmlTags'] = false;
+  }
+
+  /**
+   * Control tags - For now in Tangible Blocks plugin
+   * @see tangible-blocks/includes/block/control/template
+   * @see /editor/index.ts
+   */
+  $language_definition['controlTags'] = [
+    'Tab' => [ 'closed' => false ],
+    'Section' => [ 'closed' => false ],
+    'Control' => [ 'closed' => true ],  
+  ];
+
   wp_localize_script(
     'tangible-template-system-editor',
     'TangibleTemplateSystemEditor',
     [
       /**
        * Editor URL for themes and fonts
-       * @see extensions/editor-action-panel
+       * @see /editor/editor-action-panel
        */
       'editorUrl' => str_replace('/editor', '/elandel/editor', editor::$state->url),
       /**
@@ -42,52 +95,9 @@ function enqueue_editor() {
        * @see /elandel/editor/languages/html/autocomplete.ts
        * @see /language/definition.php
        */
-      'languageDefinition' => template_system\get_language_definition(),
+      'languageDefinition' => $language_definition,
     ]
     
   );
 
-}
-
-/**
- * IDE
- */
-
-function enqueue_ide() {
-
-  editor\enqueue_editor();
-
-  $url = editor::$state->url;
-  $version = editor::$state->version;
-
-  wp_enqueue_script(
-    'tangible-template-system-ide',
-    $url . '/build/ide.min.js',
-    [
-      // 'tangible-ajax', // TODO: Replace with new REST Client module
-      'tangible-module-loader',
-      'tangible-template-system-editor',
-      'wp-element',
-    ],
-    $version,
-    true
-  );
-
-  wp_enqueue_style(
-    'tangible-template-system-ide',
-    $url . '/build/ide.min.css',
-    [],
-    $version
-  );
-}
-
-function load_ide() {
-
-  editor\enqueue_ide();
-
-  ?><div id="tangible-template-system-ide"></div><?php
-
-  // Remove admin page footer
-  add_filter('admin_footer_text', '__return_false'); // Left
-  add_filter('update_footer', '__return_false', 11); // Right
 }

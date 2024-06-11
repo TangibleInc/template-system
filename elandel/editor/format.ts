@@ -5,11 +5,8 @@ import prettier from 'prettier/standalone' // 427 KB
 import parserEspree from 'prettier/parser-espree' // 152 KB
 import parserPostCSS from 'prettier/parser-postcss' // 155 KB
 
-import * as html from '../../html'
-
-// TODO: Get from language definition
-html.language.closedTags?.push('Else', 'Field')
-html.language.rawTags?.push('Note')
+import * as html from '../html'
+import type { Language } from '../html'
 
 // https://prettier.io/docs/en/options.html#parser
 const prettierLanguageOptions = {
@@ -34,24 +31,63 @@ const prettierLanguageOptions = {
   },
 }
 
-export async function format({ lang = 'html', content, options = {} }) {
+export function createFormatter({
+  lang = 'html',
+  languageDefinition = {}
+}: {
+  lang: string
+  languageDefinition?: Language
+}) {
 
-  try {
-    return !prettierLanguageOptions[lang]
-    ? lang==='html'
-      ? html.formatString(content)
-      : content
-    : await prettier.format(content, {
-        ...prettierLanguageOptions[lang],
-        ...options,
-      })
-  } catch(e) {
-    console.error('Prettier format error', e.message)
-    return content
+  const formatterOptions = {}
+
+  if (lang==='html') {
+
+    const {
+      closedTags = [],
+      rawTags = [],
+    } = languageDefinition
+
+    Object.assign(formatterOptions, {
+      closedTags,
+      rawTags
+    })
+
+  } else if (prettierLanguageOptions[lang]) {
+    Object.assign(formatterOptions, prettierLanguageOptions[lang])
+  }
+
+  return async function format({
+    content,
+    options = {}
+  }: {
+    content: string
+    options?: any
+  }) {
+  
+    try {
+      return !prettierLanguageOptions[lang]
+      ? lang==='html'
+        ? html.formatString(content, formatterOptions)
+        : content
+      : await prettier.format(content, {
+          ...formatterOptions,
+          ...options,
+        })
+    } catch(e) {
+      console.error('Prettier format error', e.message)
+      return content
+    }
   }
 }
 
-export const createFormatKeyMap = (lang) => {
+export const createFormatKeyMap = (lang: string, options: any = {}) => {
+
+  /**
+   * Formatter from getSetup()
+   */
+  const format = options.format || (async (content: string) => content)
+
   function run(view, allTextByDefault = true) {
 
     const selection = view.state.selection

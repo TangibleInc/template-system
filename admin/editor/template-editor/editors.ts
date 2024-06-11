@@ -54,6 +54,12 @@ export async function createEditors({
       }
     }
 
+    // Remove default HTML tags autocomplete when editing content templates
+    if (fieldName === 'controls_template') {
+      editorOptions.htmlTags = false
+      editorOptions.controlTags = true
+    }
+
     const editor = (editorInstances[fieldName] = await createCodeEditor(
       el,
       editorOptions

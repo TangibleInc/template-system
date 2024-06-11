@@ -76,9 +76,9 @@ const createTheme = ({variant, settings, styles}: Options): Extension => {
 			'.cm-cursor, .cm-dropCursor': {
 				borderLeftColor: settings.caret,
 			},
-			'&.cm-focused .cm-selectionBackgroundm .cm-selectionBackground, .cm-content ::selection':
+			'&.cm-focused .cm-selectionBackground, &.cm-focused .cm-content ::selection':
 				{
-					backgroundColor: settings.selection,
+					backgroundColor: `${settings.selection} !important`,
 				},
 			'.cm-activeLine': {
 				backgroundColor: settings.lineHighlight,

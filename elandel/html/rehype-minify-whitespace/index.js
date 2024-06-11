@@ -89,7 +89,7 @@ export default function rehypeMinifyWhitespace(options) {
  */
 function minify(node, state, language) {
 
-  if (('children' in node) && (!language?.closedTags.includes(node.tagName))) {
+  if (('children' in node) && (!language?.closedTags?.includes(node.tagName))) {
     const settings = {...state}
 
     if (node.type === 'root' || blocklike(node)) {

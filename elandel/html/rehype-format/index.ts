@@ -36,7 +36,9 @@ import {SKIP, visitParents} from 'unist-util-visit-parents'
 
 /** @type {Options} */
 const emptyOptions = {}
-const transformWhitespace = rehypeMinifyWhitespace({newlines: true})
+const transformWhitespace = rehypeMinifyWhitespace({
+  newlines: true
+})
 
 /**
  * Format whitespace in HTML.

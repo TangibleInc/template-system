@@ -1,5 +1,8 @@
 /**
  * Editor for template post type
+ * 
+ * Creates a code editor for all languages and integrates them with the WordPress
+ * admin edit screen. Handles save form, preview, edit tabs.
  */
 
 import { handleTabs } from './tabs'

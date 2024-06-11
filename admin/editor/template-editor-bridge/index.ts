@@ -26,6 +26,7 @@ export type CodeEditorLegacyInterface = {
 export type CodeEditorLegacyOptions = {
   language?: string
   onSave?: () => void
+  [key: string]: any
 }
 
 export type CodeEditorInterface = CodeEditorLegacyInterface & {
@@ -44,7 +45,12 @@ export async function createTemplateEditor(
 
   // console.log('createTemplateEditor', textarea, CodeEditor, options)
 
-  const { language = 'html', onSave } = options
+  const {
+    language = 'html',
+    onSave,
+    htmlTags = true,
+    controlTags = false
+  } = options
 
   const listeners = {}
   
@@ -62,7 +68,8 @@ export async function createTemplateEditor(
       updateTextarea()
       onSave()
     },
-    editorActionsPanel: options.editorActionsPanel
+    htmlTags,
+    controlTags
   })
   
   const api = {

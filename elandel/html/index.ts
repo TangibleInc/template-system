@@ -7,13 +7,8 @@ import type { Options as FormatOptions } from './rehype-format'
 import type { Options as ParserOptions } from './hast-util-from-html'
 
 export type Language = {
-  closedTags?: string[],
+  closedTags?: string[]
   rawTags?: string[]
-}
-
-export const language: Language = {
-  closedTags: [],
-  rawTags: [],
 }
 
 export type ParseOptions = ParserOptions & {
@@ -24,39 +19,38 @@ export type ParseOptions = ParserOptions & {
 export type { FormatOptions }
 export type { Root }
 
-export function parse(content: string, options?: ParseOptions): Root {
+export function parse(
+  content: string,
+  options?: ParseOptions & Language,
+): Root {
   return fromHtml(content, {
     document: false,
     fragment: !options?.document,
-    closedTags: language.closedTags,
     ...options,
   })
 }
 
-const formatter = rehypeFormat({
-  closedTags: language.closedTags,
-})
-
-export function formatString(content: string): string {
-  return render(format(parse(content))).trimStart()
+export function formatString(content: string, language: Language = {}): string {
+  const parsed = parse(content, language)
+  const formatted = format(parsed, language)
+  const rendered = render(formatted, language)
+  return rendered.trimStart()
 }
 
-export function format(rootNode: Root): Root {
-  formatter(rootNode)
+export function format(rootNode: Root, language: Language = {}): Root {
+  const formatter = rehypeFormat(language)
+  formatter(rootNode) // Mutates tree
   return rootNode
 }
 
-const renderOptions = {
-  allowDangerousHtml: true,
-  // allowParseErrors: true,
-  closeEmptyElements: true,
-  collapseEmptyAttributes: true,
-  preferUnquoted: true,
-
-  closeSelfClosing: false,
-  closedTags: language.closedTags,
-}
-
-export function render(rootNode: Root): string {
-  return toHtml(rootNode, renderOptions)
+export function render(rootNode: Root, language: Language = {}): string {
+  return toHtml(rootNode, {
+    allowDangerousHtml: true,
+    // allowParseErrors: true,
+    closeEmptyElements: true,
+    collapseEmptyAttributes: true,
+    preferUnquoted: true,
+    closeSelfClosing: false,
+    ...language,
+  })
 }

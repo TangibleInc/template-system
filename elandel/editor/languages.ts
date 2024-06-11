@@ -16,7 +16,7 @@ import { keymap } from '@codemirror/view'
 
 import { autocompletion, acceptCompletion, closeCompletion,
   moveCompletionSelection, startCompletion } from '@codemirror/autocomplete'
-import { getHTMLAutocomplete, templateTagCompletionSource } from './html/autocomplete'
+import { createHtmlAutocomplete } from './html/autocomplete'
 
 // https://github.com/emmetio/codemirror6-plugin
 import {
@@ -26,7 +26,7 @@ import {
 } from '@emmetio/codemirror6-plugin' // ~90Kb
 
 import { createFormatKeyMap } from './format'
-import { colorPicker } from '../extensions/color-picker'
+import { colorPicker } from './extensions/color-picker'
 import { infoPanelExtension } from './html/panel'
 
 const sharedCompletionKeymap = keymap.of([
@@ -49,25 +49,18 @@ const sharedCompletionKeymap = keymap.of([
 const langExtensionsCache = {}
 const langExtensionsGetters = {
 
-  html: () => [
+  html: (options?: any) => [
     html({
       selfClosingTags: true
     }),
-    autocompletion({
-      defaultKeymap: false, // Needed for vscode-keymap
-      // selectOnOpen: false, // https://github.com/codemirror/autocomplete/blob/ffe365dfcaaff9fc4218e0452fb8da55eebaa865/src/config.ts#L4
-      override: [
-        templateTagCompletionSource
-      ]
-    }),
-    createFormatKeyMap('html'),
+    createHtmlAutocomplete(options),
+    createFormatKeyMap('html', options),
     // abbreviationTracker({
     //   syntax: 'html',
     // }),
     emmetConfig.of({ syntax: 'html' }),
     sharedCompletionKeymap,
     createHtmlLinter(),
-    // getHTMLAutocomplete(),
     // infoPanelExtension(),
     // indentPlainTextExtension,
   ],
@@ -114,10 +107,10 @@ const langExtensionsGetters = {
   ],
 }
 
-export async function getLangExtensions(lang) {
+export async function getLangExtensions(lang, options) {
   return langExtensionsCache[lang] || (
     langExtensionsCache[lang] = langExtensionsGetters[lang]
-      ? await langExtensionsGetters[lang]()
+      ? await langExtensionsGetters[lang](options)
       : []
   )
 }

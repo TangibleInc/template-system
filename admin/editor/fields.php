@@ -84,6 +84,8 @@ add_action('admin_init', function() use ($plugin) {
       $tabs = ['Style'];
     } elseif ($post_type==='tangible_script') {
       $tabs = ['Script'];
+    } elseif ($post_type==='tangible_content') {
+      $tabs = ['Template'];
     }
 
     /**
