@@ -22,7 +22,7 @@ class template_system {
 }
 
 template_system::$state = (object) [
-  'version' => '20240605', // Automatically updated with npm run version
+  'version' => '20240611', // Automatically updated with npm run version
   'path' => __DIR__,
   'url' => untrailingslashit( plugins_url( '/', __FILE__ ) ),
 ];
@@ -40,10 +40,10 @@ template_system::$html   = $html   = require_once __DIR__ . '/language/index.php
 require_once __DIR__ . '/modules/index.php';
 require_once __DIR__ . '/integrations/index.php';
 
-// Features depend on above core modules
+// Features that depend on above modules
 
 require_once __DIR__ . '/admin/index.php';
-
 require_once __DIR__ . '/editor/index.php';
 require_once __DIR__ . '/content/index.php';
 require_once __DIR__ . '/form/index.php';
+require_once __DIR__ . '/views/index.php';

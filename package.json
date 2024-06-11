@@ -1,7 +1,7 @@
 {
   "name": "@tangible/template-system",
   "description": "Template System module",
-  "version": "2024.06.05",
+  "version": "2024.06.11",
   "type": "module",
   "engines": {
     "node": ">=18"
@@ -37,7 +37,7 @@
   "devDependencies": {
     "@playwright/test": "^1.44.1",
     "@tangible/now": "^1.0.8",
-    "@tangible/roller": "^2.0.2",
+    "@tangible/roller": "^2.0.3",
     "@wordpress/e2e-test-utils-playwright": "^1.0.0",
     "chokidar-cli": "^3.0.0",
     "globby": "^14.0.1",
