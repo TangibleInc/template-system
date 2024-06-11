@@ -157,10 +157,10 @@ function evaluate_logic_by_name($name, $evaluator = null, $data = []) {
 }
 
 html\add_open_tag('Logic', __NAMESPACE__ . '\\logic_tag');
-html\add_open_tag('Rule', __NAMESPACE__ . '\\rule_tag');
+html\add_closed_tag('Rule', __NAMESPACE__ . '\\rule_tag');
+
 html\add_open_tag('And', __NAMESPACE__ . '\\and_tag');
 html\add_open_tag('Or', __NAMESPACE__ . '\\or_tag');
 html\add_open_tag('Not', __NAMESPACE__ . '\\not_tag');
-
 html\add_open_tag('All', __NAMESPACE__ . '\\all_tag');
 html\add_open_tag('Any', __NAMESPACE__ . '\\any_tag');

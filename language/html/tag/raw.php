@@ -14,11 +14,14 @@ function is_raw_tag( $tag ) {
 
 function add_raw_tag( $tag, $callback, $options = [] ) {
 
-  $html = html::$state;
-
+  $html = &html::$state;
   html\add_open_tag( $tag, $callback, [ 'raw' => true ] + $options );
 
   if ( ! isset( $html->raw_tags[ $tag ] ) ) {
     $html->raw_tags[ $tag ] = true;
   }
 };
+
+function get_all_raw_tag_names() {
+  return array_keys( html::$state->raw_tags );
+}
