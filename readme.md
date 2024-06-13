@@ -122,13 +122,19 @@ After install, the command updates the file `.wp-env.override.json` to map the l
 
 ## Test
 
-There is a suite of unit and integration tests included. The test environment uses `wp-now`, which does not require Docker or PHP being installed on the local system.
+There is a suite of unit and integration tests included.
+
+The test environment uses [`wp-now`](https://github.com/WordPress/playground-tools/tree/trunk/packages/wp-now#wp-now), which runs WordPress on Node and PHP-WASM. It does not require Docker or PHP being installed on the local system.
+
+### Run
 
 Run the tests.
 
 ```sh
 npm run test
 ```
+
+### PHP versions
 
 By default it uses PHP 7.4, the oldest version we support. WordPress itself only has beta support for PHP 8.x. See [PHP Compatibility and WordPress versions](https://make.wordpress.org/core/handbook/references/php-compatibility-and-wordpress-versions/) and [Usage Statistics](https://wordpress.org/about/stats/).
 
@@ -138,11 +144,28 @@ Run the tests with PHP 8.3.
 npm run test:8.3
 ```
 
-Run the tests with PHP 7.4 and 8.3, as well as end-to-end tests.
+### Run all PHP versions and E2E
+
+Run the tests with all PHP versions, as well as end-to-end tests.
 
 ```sh
 npm run test:all
 ```
+
+### Run test file or folder
+
+Run individual test file.
+
+```sh
+npx roll run tests/loop/taxonomy.ts
+```
+
+Run test folder with `index.ts`.
+
+```sh
+npx roll run tests/logic
+```
+
 
 ### End-to-end tests
 
