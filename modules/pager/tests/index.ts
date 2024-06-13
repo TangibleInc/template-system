@@ -1,17 +1,15 @@
 import path from 'node:path'
 import { test, is, ok, run } from 'testra'
-import { getServer } from '../../../framework/env'
+import { getServer } from '../../../tests/common.ts'
 
 export default run(async () => {
-  const { php, request, wpx } = await getServer({
-    reset: true,
-  })
+  const { php, request, wpx } = await getServer()
 
   test('Pagination', async () => {
     const numPosts = 5
     let template, result, expected
 
-    result = await wpx(`
+    result = await wpx/* php */`
 $ids = [];
 for ($i = 0; $i < ${numPosts}; $i++) {
   $ids []= wp_insert_post([
@@ -22,7 +20,7 @@ for ($i = 0; $i < ${numPosts}; $i++) {
     'post_excerpt' => '',
   ]);
 }
-return $ids;`)
+return $ids;`
 
     ok(result, 'create posts')
     is(numPosts, result.length, `create ${numPosts} posts`)

@@ -28,8 +28,8 @@ $tglider-progress-bar-active-bg: $tglider-theme-highlight !default;
 $tglider-progress-bar-height: 5px !default;
 
 // paths
-$tglider-path-fonts: '../../vendor/glider/fonts' !default;
-$tglider-path-images: '../../vendor/glider/img' !default;
+$tglider-path-fonts: '../vendor/fonts' !default;
+$tglider-path-images: '../vendor/img' !default;
 
 // Zoom plugin
 $zoom-transition-duration: 0.3s !default;

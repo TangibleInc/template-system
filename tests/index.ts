@@ -67,16 +67,10 @@ return wp_insert_post([
     is(postTitle, result, 'get test post')
   })
 
-  // Loop
   await import('./loop/index.ts')
-
-  // Logic
   await import('./logic/index.ts')
-
-  // Template admin features
   await import('./admin/index.ts')
 
-  // Pager
-  await import('../modules/pager/tests')
-  
+  await import('../modules/tests.ts')
+
 })

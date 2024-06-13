@@ -28,7 +28,8 @@ export default {
       '/vendor',
       '**/*.test.js',
       '**/*.scss',
-      '**/*.ts'
+      '**/*.ts',
+      '**/*.tsx'
     ],
     rootFolder: 'tangible-template-system'
   }
