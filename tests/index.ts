@@ -1,6 +1,11 @@
 import { test, is, ok, run } from 'testra'
 import { getServer } from '../framework/env'
+import { ensureTemplateSystem } from './common.ts'
 
+/**
+ * For syntax highlight of PHP in template strings, install:
+ * https://marketplace.visualstudio.com/items?itemName=bierner.comment-tagged-templates
+ */
 export default run(async () => {
   // Set up server before running tests in Framework
   const {
@@ -25,14 +30,9 @@ export default run(async () => {
   await import('../framework/tests/index.ts')
 
   test('Template system - Basic', async () => {
-    let result = await wpx`
-if (!function_exists('activate_plugin')) {
-  require ABSPATH . 'wp-admin/includes/plugin.php';
-}
-return activate_plugin(ABSPATH . 'wp-content/plugins/template-system/plugin.php');
-`
 
-    is(null, result, 'activate plugin')
+    let result = await ensureTemplateSystem({ wpx })
+    is(true, result, 'activate plugin')
 
     result = await wpx`return function_exists('tangible_template_system');`
     is(true, result, 'tangible_template_system() exists')
@@ -50,7 +50,7 @@ return activate_plugin(ABSPATH . 'wp-content/plugins/template-system/plugin.php'
      */
 
     const postTitle = 'Test 123'
-    result = await wpx`
+    result = await wpx/* php */`
 return wp_insert_post([
   'post_type' => 'post',
   'post_status' => 'publish',
@@ -67,11 +67,8 @@ return wp_insert_post([
     is(postTitle, result, 'get test post')
   })
 
-  // Pager
-  await import('../modules/pager/tests')
-
-  // Taxonomy archive
-  await import('./loop/taxonomy-archive.ts')
+  // Loop
+  await import('./loop/index.ts')
 
   // Logic
   await import('./logic/index.ts')
@@ -79,5 +76,7 @@ return wp_insert_post([
   // Template admin features
   await import('./admin/index.ts')
 
+  // Pager
+  await import('../modules/pager/tests')
   
 })

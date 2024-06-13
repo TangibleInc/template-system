@@ -1,40 +1,26 @@
 import { test, is, ok, run } from 'testra'
-import { getServer } from '../../framework/env'
+import { getServer } from '../common.ts'
 
 export default run(async () => {
-  const { wpx } = await getServer({
-    reset: true
-  })
+  const { wpx } = await getServer()
 
   test('Template post type', async () => {
 
     let result
 
-    result = await wpx`return function_exists('tangible_template_system');`
-
-    if (!result) {
-      result = await wpx`
-      if (!function_exists('activate_plugin')) {
-        require ABSPATH . 'wp-admin/includes/plugin.php';
-      }
-      return activate_plugin(ABSPATH . 'wp-content/plugins/template-system/plugin.php');
-      `
-      is(null, result, 'activate plugin')      
-    } 
-
-    result = await wpx`return get_posts([
-      'post_type' => 'tangible_template',
-      'numberposts' => -1,
-      'fields' => 'ids'
-    ]);`
+    result = await wpx/* php */`return get_posts([
+  'post_type' => 'tangible_template',
+  'numberposts' => -1,
+  'fields' => 'ids'
+]);`
 
     is(true, Array.isArray(result), 'get templates as list')
 
     if (result.length) {
       for (const id of result) {
-        const result = await wpx`
-          return wp_delete_post(${id});
-        `
+        const result = await wpx/* php */`
+return wp_delete_post(${id});
+`
         ok(result, `Delete existing template ${id}`)
       }
     }
@@ -44,30 +30,30 @@ export default run(async () => {
 
     for (let i=1; i <= numPosts; i++) {
       const postTitle = `template-${i}`
-      const postId = await wpx`
-      return wp_insert_post([
-        'post_type' => 'tangible_template',
-        'post_status' => 'publish',
-        'post_title' => '${postTitle}',
-        'post_content' => '',
-        'post_excerpt' => '',
-      ]);`
+      const postId = await wpx/* php */`
+return wp_insert_post([
+  'post_type' => 'tangible_template',
+  'post_status' => 'publish',
+  'post_title' => '${postTitle}',
+  'post_content' => '',
+  'post_excerpt' => '',
+]);`
 
       is('number', typeof postId, `create ${postTitle} returns ID`)
 
       postIds.push(parseInt(postId, 10))
     }
 
-    result = await wpx`return get_posts([
-      'post_type' => 'tangible_template',
-      'numberposts' => -1,
-      'fields' => 'ids'
-    ]);`
+    result = await wpx/* php */`return get_posts([
+  'post_type' => 'tangible_template',
+  'numberposts' => -1,
+  'fields' => 'ids'
+]);`
 
     is(true, Array.isArray(result), 'get templates as list')
     is(postIds.sort(), result.sort(), 'correct template IDs')
 
-    result = await wpx`return tangible\\template_system\\get_all_templates();`
+    result = await wpx/* php */`return tangible\\template_system\\get_all_templates();`
     
     is(numPosts, result.length, `get_all_templates() count ${numPosts}`)
 
@@ -104,7 +90,7 @@ export default run(async () => {
 
     // Deprecated methods
 
-    result = await wpx`return tangible_template_system()->get_all_templates();`
+    result = await wpx/* php */`return tangible_template_system()->get_all_templates();`
 
     is(numPosts, result.length, `deprecated method tangible_template_system()->get_all_templates()`)
 

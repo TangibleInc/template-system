@@ -1,13 +1,13 @@
 import { test, is, ok, run } from 'testra'
-import { getServer } from '../../framework/env'
+import { getServer } from '../common.ts'
 
 export default run(async () => {
-  const { wpx } = await getServer()
+  const { wpx, template } = await getServer()
 
   test('Logic tag', async () => {
     for (const [template, expected] of [
       [
-        `
+        /* html */ `
 <Logic debug=true>
   <Rule taxonomy=category term=uncategorized />
 </Logic>`,
@@ -18,7 +18,7 @@ export default run(async () => {
         },
       ],
       [
-        `
+        /* html */ `
 <Logic compare=or debug=true>
   <Rule taxonomy=category term=uncategorized />
 </Logic>`,
@@ -29,7 +29,7 @@ export default run(async () => {
         },
       ],
       [
-        `
+        /* html */ `
 <Logic compare=not debug=true>
   <Rule taxonomy=category term=uncategorized />
 </Logic>`,
@@ -40,7 +40,7 @@ export default run(async () => {
         },
       ],
       [
-        `
+        /* html */ `
 <Logic name=weekend_webinar debug=true>
   <Rule taxonomy=event_type term=webinar />
   <Or>
@@ -64,7 +64,7 @@ export default run(async () => {
         },
       ],
       [
-        `
+        /* html */ `
 <Logic name=example action=hide debug=true>
   <Rule control=text_1 value="some value" />
 </Logic>
@@ -79,7 +79,7 @@ export default run(async () => {
       ],
     ]) {
       let result = (
-        await wpx`
+        await wpx/* php */ `
 return tangible_template(<<<'HTML'
 ${template}
 HTML);
@@ -91,7 +91,7 @@ HTML);
 
       if (logic.name) {
         result = (
-          await wpx`
+          await wpx/* php */ `
 tangible_template(<<<'HTML'
 ${template}
 HTML);
@@ -110,7 +110,7 @@ return json_encode(
     /**
      * <Logic compare=all>
      */
-    template = `
+    template = /* html */`
 <Logic compare=all debug=true>
   <Rule taxonomy=category term=uncategorized />
 </Logic>
@@ -122,7 +122,7 @@ return json_encode(
     }
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 ${template}
 HTML);
@@ -135,7 +135,7 @@ HTML);
     /**
      * <Logic compare=any>
      */
-    template = `
+    template = /* html */`
 <Logic compare=any debug=true>
   <Rule taxonomy=category term=uncategorized />
 </Logic>
@@ -147,7 +147,7 @@ HTML);
     }
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 ${template}
 HTML);
@@ -163,7 +163,7 @@ HTML);
 
     // Test map
 
-    const map1 = `
+    const map1 = /* html */`
 <Map test_map>
   <Key field_1>123</Key>
   <Key field_2>456</Key>
@@ -173,7 +173,7 @@ HTML);
 
     result = JSON.parse(
       (
-        await wpx`return tangible_template(<<<'HTML'
+        await wpx/* php */ `return tangible_template(<<<'HTML'
 ${map1}
 <Get map=test_map />
 HTML);`
@@ -185,7 +185,7 @@ HTML);`
 
     // Get logic by name
 
-    const logic1 = `
+    const logic1 = /* html */`
 <Logic name=test_logic>
   <Rule field=field_1 value=123 />
   <Rule field=field_2 value=456 />
@@ -198,7 +198,7 @@ HTML);`
 
     result = JSON.parse(
       (
-        await wpx`
+        await wpx/* php */ `
 tangible_template(<<<'HTML'
 ${logic1}
 HTML);
@@ -228,7 +228,7 @@ return json_encode(
     // Evaluate logic by name
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 tangible_template(<<<'HTML'
 ${map1}
 ${logic1}
@@ -246,7 +246,7 @@ return json_encode(
     // If logic
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 ${map1}
 ${logic1}
@@ -263,7 +263,7 @@ HTML);
 
     // If logic false
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 <Map test_map>
   <Key wrong>value</Key>
@@ -283,7 +283,7 @@ HTML);
     // Loop logic
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 <List test_list>
   <Map>
@@ -311,7 +311,7 @@ HTML);
     // Logic or
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 <List test_list>
   <Map>
@@ -340,7 +340,7 @@ HTML);
     // Logic not
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 <List test_list>
   <Map>
@@ -369,7 +369,7 @@ HTML);
      * All
      */
 
-    testList = `
+    testList = /* html */`
 <List test_list>
   <Map>
     <Key name>TEST_MAP_1</Key>
@@ -383,7 +383,7 @@ HTML);
 </List>
 `
 
-    testLogic = `
+    testLogic = /* html */`
 <Logic name=test_logic>
   <All>
     <Rule field=field_1 value=123 />
@@ -393,7 +393,7 @@ HTML);
 `
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 ${testList}
 ${testLogic}
@@ -412,7 +412,7 @@ HTML);
      * Any
      */
 
-    testLogic = `
+    testLogic = /* html */`
 <Logic name=test_logic>
   <Any>
     <Rule field=field_1 value=123 />
@@ -422,7 +422,7 @@ HTML);
 `
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 ${testList}
 ${testLogic}
@@ -441,7 +441,7 @@ HTML);
      * Not
      */
 
-    testList = `
+    testList = /* html */`
 <List test_list>
   <Map>
     <Key name>TEST_MAP_1</Key>
@@ -454,7 +454,7 @@ HTML);
 </List>
 `
 
-    testLogic = `
+    testLogic = /* html */`
 <Logic name=test_logic>
   <Not>
     <Rule field=field_1 value=123 />
@@ -463,7 +463,7 @@ HTML);
 `
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 ${testList}
 ${testLogic}
@@ -482,7 +482,7 @@ HTML);
      * Not multiple
      */
 
-    testList = `
+    testList = /* html */`
 <List test_list>
   <Map>
     <Key name>TEST_MAP_1</Key>
@@ -496,7 +496,7 @@ HTML);
 </List>
 `
 
-    testLogic = `
+    testLogic = /* html */`
 <Logic name=test_logic>
   <Not>
     <Rule field=field_1 value=123 />
@@ -506,7 +506,7 @@ HTML);
 `
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 ${testList}
 ${testLogic}
@@ -535,7 +535,7 @@ HTML);
 `
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 ${testList}
 ${testLogic}
@@ -581,7 +581,7 @@ HTML);
 `
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 ${testList}
 <Logic name=test_logic>
@@ -610,7 +610,7 @@ HTML);
 `
 
     result = (
-      await wpx`
+      await wpx/* php */ `
 return tangible_template(<<<'HTML'
 ${testList}
 <Logic name=test_logic>

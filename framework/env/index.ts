@@ -6,19 +6,9 @@ import { createRequest } from './request'
 import type { WPNowServer, WPNowOptions } from '@tangible/now'
 import type { NodePHP } from '@php-wasm/node'
 
-let serverInstance
+let serverInstance: Server
 
-export async function getServer(
-  options: {
-    path?: string
-    mappings?: {
-      [target: string]: string
-    }
-    phpVersion?: string
-    restart?: boolean
-    reset?: boolean
-  } = {},
-): Promise<{
+export type Server = {
   php: NodePHP
   port: number
   documentRoot: string
@@ -37,7 +27,19 @@ export async function getServer(
 
   setSiteTemplate: (code: string) => void
   resetSiteTemplate: () => void
-}> {
+}
+
+export async function getServer(
+  options: {
+    path?: string
+    mappings?: {
+      [target: string]: string
+    }
+    phpVersion?: string
+    restart?: boolean
+    reset?: boolean
+  } = {},
+): Promise<Server> {
   if (serverInstance) {
     if (!options.restart) return serverInstance
     await serverInstance.stopServer()
@@ -45,7 +47,7 @@ export async function getServer(
 
   const {
     path: projectPath = path.join(process.cwd(), 'tests'),
-    // reset = false,
+    reset = true,
     mappings,
     ...serverOptions
   } = options
@@ -61,6 +63,7 @@ export async function getServer(
     mode: 'plugin',
     phpVersion: '7.4',
     // silence: true,
+    reset,
     ...serverOptions,
   })
 
@@ -119,17 +122,18 @@ export async function getServer(
         '',
       )
     }
-    const result = await phpx`
-    include 'wp-load.php';
-    echo json_encode((function() {
-      try {
-        ${code}
-      } catch (Exception $e) {
-        return [
-          'error' => $e->getMessage()
-        ];
-      }
-    })());`
+    const result = await phpx/* php */`
+include 'wp-load.php';
+echo json_encode((function() {
+  try {
+    ${code}
+  } catch (Exception $e) {
+    return [
+      'error' => $e->getMessage()
+    ];
+  }
+})());
+`
     try {
       return JSON.parse(result)
     } catch (e) {
@@ -137,13 +141,12 @@ export async function getServer(
     }
   }
 
-  await wpx`
+  await wpx/* php */`
 // Pretty permalinks
 global $wp_rewrite;
 $wp_rewrite->set_permalink_structure('/%postname%/');
 $wp_rewrite->flush_rules();
 `
-
 
   const templatePluginPath = `/${documentRoot}/wp-content/mu-plugins/template-include.php`
   /**
@@ -156,8 +159,7 @@ add_filter('template_include', function() {
 ${code}
 HTML);
   exit;
-});
-`)
+});`)
   }
   /**
    * Reset site template to let theme handle response

@@ -1,5 +1,6 @@
 import { test, is, ok, run } from 'testra'
 import { getServer } from '../../framework/env'
+import { ensureTemplateSystem } from '../common.ts'
 
 export default run(async () => {
   const {
@@ -9,14 +10,27 @@ export default run(async () => {
     resetSiteTemplate,
   } = await getServer()
 
+  let result: any
+  result = await ensureTemplateSystem({ wpx })
+
   test('Taxonomy archive', async () => {
     const numTerms = 3
-    let result = await wpx`
-$term_ids = [];
+    let result
+
+    result = await wpx/* php */`
+$taxonomy = 'category';
+$terms = [];
 for ($i = 1; $i <= ${numTerms}; $i++) {
-  $term_ids []= wp_insert_term('Cat ' . $i, 'category', [ 'slug' => 'cat-' . $i ]);
+  $slug = 'cat-' . $i;
+  $term = get_term_by('slug', $slug, $taxonomy);
+  if (!empty($term)) {
+    $terms []= $term;
+    continue;
+  }
+  $title = 'Cat ' . $i;
+  $terms []= wp_insert_term($title, $taxonomy, [ 'slug' => $slug ]);
 }
-return $term_ids;
+return $terms;
 `
 
     is(true, Array.isArray(result), 'create taxonomy terms returns array')
@@ -30,7 +44,9 @@ return $term_ids;
     for (let i = 1, len = termIds.length; i <= len; i++) {
       const termId: number = termIds[i - 1]
 
-      setSiteTemplate(`<Loop field=archive_term><Field id /></Loop>`)
+      is('number', typeof termId, `term ID ${termId} is number`)
+
+      setSiteTemplate(/* html */`<Loop field=archive_term><Field id /></Loop>`)
 
       result = await request({
         method: 'GET',
@@ -50,7 +66,7 @@ return $term_ids;
 
       for (let j=1; j <= numPosts; j++) {
         const postTitle = `cat-${i}-post-${j}`
-        const postId = await wpx`
+        const postId = await wpx/* php */`
         return wp_insert_post([
           'post_type' => 'post',
           'post_status' => 'publish',
@@ -66,7 +82,7 @@ return $term_ids;
         postIds.push(parseInt(postId, 10))
       }
 
-      result = await wpx`return get_posts([
+      result = await wpx/* php */`return get_posts([
         'post_type' => 'post',
         'category' => ${termId},
         'fields' => 'ids'
@@ -82,7 +98,7 @@ return $term_ids;
       /**
        * Category archive template
        */
-      setSiteTemplate(`
+      setSiteTemplate(/* html */`
 <Loop type=post taxonomy=category terms="${termId}"><Field title /><If not last>,</If></Loop>
 `)
 
@@ -99,7 +115,7 @@ return $term_ids;
       /**
        * Category archive template with taxonomy=current
        */
-      setSiteTemplate(`
+      setSiteTemplate(/* html */`
 <Loop type=post taxonomy=current terms="${termId}"><Field title /><If not last>,</If></Loop>
 `)
 
@@ -116,7 +132,7 @@ return $term_ids;
       /**
        * Category archive template with taxonomy=category terms=current
        */
-      setSiteTemplate(`
+      setSiteTemplate(/* html */`
 <Loop type=post taxonomy=category terms=current><Field title /><If not last>,</If></Loop>
 `)
 
@@ -133,7 +149,7 @@ return $term_ids;
       /**
        * Category archive template with taxonomy=current terms=current
        */
-      setSiteTemplate(`
+      setSiteTemplate(/* html */`
 <Loop type=post taxonomy=current terms=current><Field title /><If not last>,</If></Loop>
 `)
 
