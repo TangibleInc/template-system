@@ -25,7 +25,7 @@
     "test:all": "npm run test && npm run test:8.3 && npm run e2e",
     "test:8.3": "roll run tests/index.ts PHP_VERSION=8.3",
     "tdd": "roll run tests/index.ts --watch",
-    "test:archive": "TEST_ARCHIVE=1 node tests/index.ts",
+    "test:archive": "roll run tests/index.ts TEST_ARCHIVE=1",
     "test:html": "wp-now php tests/html/index.php",
     "// End-to-end tests with Playwright": "",
     "e2e": "playwright test --config tests/playwright.config.js",
