@@ -8,9 +8,9 @@ It is a TypeScript library with an extensible **HTML engine** based on [Unified]
 - **Beautify** its formatting
 - **Render** with loops, logic, and dynamic content
 
-There is an **editor** library based on CodeMirror that integrates with the language, providing hints, autocomplete, linting (syntax check), and formatting. The editor is designed to be extended with additional features such as charts, diagrams, musical blocks.
+There is an **editor** based on [CodeMirror](https://codemirror.net/) that integrates with the language, providing hints, autocomplete, linting (syntax check), and formatting. The editor is designed to be extended with additional features such as charts, diagrams, musical blocks.
 
-The goal is to create a cross-platform template language that works in the browser, server side (WordPress/PHP/MySQL/SQLite), and JavaScript runtimes (Node/Bun). This portability would allow features like:
+The goal is a cross-platform language that works in the browser, server side (WordPress/PHP/MySQL/SQLite), and JavaScript runtimes (Node/Bun). This portability would allow features like:
 
 - Instant preview in the editor without request to server
 - Local-first web authoring environment with deploy to cloud

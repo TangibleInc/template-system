@@ -1,4 +1,4 @@
-# Design module
+# Design
 
 The Design module provides the building blocks for creating design systems.
 

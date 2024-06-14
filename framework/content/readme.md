@@ -1,4 +1,4 @@
-# Content module
+# Content
 
 Create and manage site content structure
 
