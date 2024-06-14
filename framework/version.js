@@ -9,6 +9,7 @@ import fs from 'node:fs/promises'
 
   for (const file of [
     'index.php',
+    'date/index.php',
     // 'design/index.php', // Subrepo with its own version
   ]) {
 
