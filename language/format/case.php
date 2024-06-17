@@ -1,7 +1,9 @@
 <?php
-
+use tangible\format;
 /**
  * Case conversion - camel, snake, kebab, pascal, lower, upper
+ * 
+ * TODO: Convert to use format utilities in /framework/format
  */
 $html->format_case = function( $content, $options = [] ) {
 
@@ -56,7 +58,7 @@ $html->format_case = function( $content, $options = [] ) {
  * Format string to slug
  */
 $html->format_slug = function( $content, $options = [] ) {
-  return sanitize_title_with_dashes( $content, null, 'save' );
+  return format\slugify( $content );
 };
 
 /**
