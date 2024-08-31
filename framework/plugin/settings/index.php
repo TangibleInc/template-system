@@ -61,7 +61,7 @@ function register_plugin_settings($plugin, $config) {
           $header = $config['header'] ?? [];
           $header_logo = $header['logo'] ?? false;
 
-          $active_tab = $_GET['tab'] ?? array_keys($tabs)[0];
+          $active_tab = sanitize_key($_GET['tab'] ?? array_keys($tabs)[0] ?? '');
 
           ?><style><?php require_once __DIR__ . '/settings.css'; ?></style><?php
           if (isset($config['css'])) {
