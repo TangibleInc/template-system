@@ -17,7 +17,7 @@
     "@playwright/test": "^1.47.1",
     "@tangible/git-subrepo": "^1.0.1",
     "@tangible/now": "^1.0.8",
-    "@tangible/roller": "^2.0.5",
+    "@tangible/roller": "^2.0.6",
     "@wordpress/e2e-test-utils-playwright": "^1.7.0",
     "testra": "^2.1.4"
   },
