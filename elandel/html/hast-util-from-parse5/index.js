@@ -214,12 +214,28 @@ function element(state, node) {
   /** @type {Record<string, string>} */
   const props = {}
 
+  /**
+   * Extend syntax - An ordered list of attribute key/value pairs
+   */
+  const attributePairs = []
+
   while (++index < node.attrs.length) {
     const attribute = node.attrs[index]
     const name =
       (attribute.prefix ? attribute.prefix + ':' : '') + attribute.name
     if (!own.call(proto, name)) {
-      props[name] = attribute.value
+      /**
+       * For backward compatibility, set empty string as default value
+       * for unordered properties.
+       */
+      props[name] = attribute.value ?? ''
+
+      if (attribute.value == null) {
+        // Undefined or null
+        attributePairs.push([attribute.name])
+      } else {
+        attributePairs.push([attribute.name, attribute.value])
+      }
     }
   }
 
@@ -227,6 +243,8 @@ function element(state, node) {
   const fn = state.schema.space === 'svg' ? s : h
   const result = fn(node.tagName, props, all(state, node.childNodes))
   patch(state, node, result)
+
+  result.attributePairs = attributePairs
 
   // Switch content.
   if (result.tagName === 'template') {

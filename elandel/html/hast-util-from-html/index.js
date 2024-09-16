@@ -91,12 +91,16 @@ export function fromHtml(value, options) {
   const file = value instanceof VFile ? value : new VFile(value)
   const fn = settings.fragment ? parseFragment : parse
   const doc = String(file)
+
   const p5doc = fn(doc, {
     sourceCodeLocationInfo: settings.sourceCodeLocationInfo,
     // Note `parse5` types currently do not allow `undefined`.
     onParseError: settings.onerror ? internalOnerror : null,
     scriptingEnabled: false,
-    closedTags: settings?.closedTags ?? []
+
+    // Extended syntax
+    closedTags: settings?.closedTags ?? [],
+    rawTags: settings?.rawTags ?? [],
   })
 
   // `parse5` returns document which are always mapped to roots.

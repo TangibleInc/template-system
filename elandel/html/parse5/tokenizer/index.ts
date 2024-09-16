@@ -220,7 +220,11 @@ export class Tokenizer {
     protected currentLocation: Location | null;
     protected currentCharacterToken: CharacterToken | null = null;
     protected currentToken: Token | null = null;
-    protected currentAttr: Attribute = { name: '', value: '' };
+    protected currentAttr: Attribute = {
+      name: '',
+      // Extend syntax
+      // value: ''
+    };
 
     constructor(
         protected options: TokenizerOptions,
@@ -425,7 +429,8 @@ export class Tokenizer {
     protected _createAttr(attrNameFirstCh: string): void {
         this.currentAttr = {
             name: attrNameFirstCh,
-            value: '',
+            // Extend syntax
+            // value: '',
         };
         this.currentLocation = this.getCurrentLocation(0);
     }
@@ -434,6 +439,7 @@ export class Tokenizer {
         const token = this.currentToken as TagToken;
 
         if (getTokenAttr(token, this.currentAttr.name) === null) {
+
             token.attrs.push(this.currentAttr);
 
             if (token.location && this.currentLocation) {
@@ -488,7 +494,6 @@ export class Tokenizer {
             if (ct.selfClosing) {
                 this._err(ERR.endTagWithTrailingSolidus);
             }
-
             this.handler.onEndTag(ct);
         }
 
@@ -1176,10 +1181,13 @@ export class Tokenizer {
     }
 
     protected handleSpecialEndTag(_cp: number): boolean {
-        if (!this.preprocessor.startsWith(this.lastStartTagName, false)) {
-            return !this._ensureHibernation();
+        if (!this.preprocessor.startsWith(
+          this.lastStartTagName,
+          // Extend syntax - Make case sensitive to match raw end tag
+          true // false
+        )) {
+          return !this._ensureHibernation();
         }
-
         this._createEndTagToken();
         const token = this.currentToken as TagToken;
         token.tagName = this.lastStartTagName;
@@ -1718,6 +1726,14 @@ export class Tokenizer {
     // Before attribute value state
     //------------------------------------------------------------------
     protected _stateBeforeAttributeValue(cp: number): void {
+
+      /**
+       * Extend syntax - Defer setting empty string until equal sign
+       * after attribute name. This allows value to be undefined when
+       * there is only a name.
+       */
+      this.currentAttr.value = ''
+
         switch (cp) {
             case $.SPACE:
             case $.LINE_FEED:
@@ -1770,6 +1786,7 @@ export class Tokenizer {
                 break;
             }
             default: {
+              
                 this.currentAttr.value += String.fromCodePoint(cp);
             }
         }

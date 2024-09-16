@@ -109,6 +109,12 @@ export interface ParserOptions<T extends TreeAdapterTypeMap> {
      * @default `null`
      */
     onParseError?: ParserErrorHandler | null;
+
+    /**
+     * Support extended HTML tags
+     */
+    closedTags?: string[] 
+    rawTags?: string[] 
 }
 
 const defaultParserOptions: Required<ParserOptions<DefaultTreeAdapterMap>> = {
@@ -116,6 +122,8 @@ const defaultParserOptions: Required<ParserOptions<DefaultTreeAdapterMap>> = {
     sourceCodeLocationInfo: false,
     treeAdapter: defaultTreeAdapter,
     onParseError: null,
+    closedTags: [],
+    rawTags: [],
 };
 
 //Parser
@@ -586,7 +594,7 @@ export class Parser<T extends TreeAdapterTypeMap> implements TokenHandler, Stack
 
     /** @protected */
     _processToken(token: Token): void {
-        switch (token.type) {
+      switch (token.type) {
             case TokenType.CHARACTER: {
                 this.onCharacter(token);
                 break;
@@ -813,6 +821,12 @@ export class Parser<T extends TreeAdapterTypeMap> implements TokenHandler, Stack
 
     /** @protected */
     _isSpecialElement(element: T['element'], id: $): boolean {
+
+          // Extend syntax
+        // if (this.options.rawTags.includes(element.nodeName || element.tagName)) {
+        //   return true
+        // }
+
         const ns = this.treeAdapter.getNamespaceURI(element);
 
         return SPECIAL_ELEMENTS[ns].has(id);
@@ -1159,6 +1173,7 @@ export class Parser<T extends TreeAdapterTypeMap> implements TokenHandler, Stack
     }
     /** @protected */
     _endTagOutsideForeignContent(token: TagToken): void {
+
         switch (this.insertionMode) {
             case InsertionMode.INITIAL: {
                 tokenInInitialMode(this, token);
@@ -1906,7 +1921,7 @@ function tokenAfterHead<T extends TreeAdapterTypeMap>(p: Parser<T>, token: Token
 // The "in body" insertion mode
 //------------------------------------------------------------------
 function modeInBody<T extends TreeAdapterTypeMap>(p: Parser<T>, token: Token): void {
-    switch (token.type) {
+      switch (token.type) {
         case TokenType.CHARACTER: {
             characterInBody(p, token);
             break;
@@ -2272,12 +2287,19 @@ function svgStartTagInBody<T extends TreeAdapterTypeMap>(p: Parser<T>, token: Ta
 }
 
 function genericStartTagInBody<T extends TreeAdapterTypeMap>(p: Parser<T>, token: TagToken): void {
+  
+  // Extend syntax
+  if (p.options.rawTags.includes(token.tagName)) {
+    p._switchToTextParsing(token, TokenizerMode.RAWTEXT);
+  } else {
     p._reconstructActiveFormattingElements();
     p._insertElement(token, NS.HTML);
+  }
 }
 
 function startTagInBody<T extends TreeAdapterTypeMap>(p: Parser<T>, token: TagToken): void {
 
+  // Extend syntax
   if (p.options && p.options.closedTags?.includes(token.tagName)) {
     token.ackSelfClosing = true
     areaStartTagInBody(p, token)
@@ -2621,6 +2643,7 @@ function genericEndTagInBody<T extends TreeAdapterTypeMap>(p: Parser<T>, token: 
 }
 
 function endTagInBody<T extends TreeAdapterTypeMap>(p: Parser<T>, token: TagToken): void {
+  
     switch (token.tagID) {
         case $.A:
         case $.B:

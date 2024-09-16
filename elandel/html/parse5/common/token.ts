@@ -62,8 +62,8 @@ export interface Attribute {
     namespace?: string;
     /** The namespace-related prefix of the attribute. */
     prefix?: string;
-    /** The value of the attribute. */
-    value: string;
+    /** The value of the attribute. Can be undefined to support attribute name without value. */
+    value?: string;
 }
 
 export interface TagToken extends TokenBase {

@@ -1,6 +1,6 @@
 {
   "name": "@elandel/html",
-  "version": "2.0.0",
+  "version": "2024.8.8",
   "description": "Parse, render, and beautify HTML templates with extensible syntax",
   "type": "module",
   "main": "index.ts",
@@ -12,6 +12,24 @@
   "scripts": {
     "test": "tsx tests/index.ts"
   },
+  "files": [
+    "hastscript",
+    "hast-util-from-html",
+    "hast-util-from-parse5",
+    "hast-util-to-html",
+    "html-void-elements",
+    "html-whitespace-sensitive-tag-names",
+    "markdown",
+    "parse5",
+    "rehype-format",
+    "rehype-minify-whitespace",
+    "tests",
+    "zwitch",
+    "*.ts",
+    "license.txt",
+    "package.json",
+    "readme.md"
+  ],
   "dependencies": {
     "ccount": "^2.0.1",
     "comma-separated-tokens": "^2.0.3",
@@ -23,6 +41,9 @@
     "hast-util-phrasing": "^3.0.1",
     "hast-util-whitespace": "^3.0.0",
     "property-information": "^6.4.1",
+    "remark-gfm": "^4.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.0",
     "space-separated-tokens": "^2.0.2",
     "stringify-entities": "^4.0.3",
     "unified": "^11.0.4",

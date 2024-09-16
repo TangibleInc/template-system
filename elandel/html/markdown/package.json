@@ -1,0 +1,8 @@
+{
+  "name": "@elandel/markdown",
+  "dependencies": {
+    "remark-gfm": "^4.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.0"
+  }
+}
