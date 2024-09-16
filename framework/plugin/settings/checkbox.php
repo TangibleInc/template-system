@@ -3,7 +3,7 @@ namespace tangible\framework;
 /**
  * Render checkbox as a plugin setting field
  * 
- * The workaround is needed for plugin settings page using the classic
+ * This workaround is needed for plugin settings page using the classic
  * form submit in WordPress admin, because an unchecked field value doesn't
  * get passed to the POST request. The solution is to toggle a hidden input
  * field to ensure it gets saved.
@@ -29,8 +29,7 @@ function render_setting_field_checkbox($config) {
   <label>
     <input type="hidden" name="<?php echo $name; ?>" value="<?php
       echo $checked ? 'true' : 'false';
-    ?>" autocomplete="off">
-    <input type="checkbox"
+    ?>" autocomplete="off"><input type="checkbox"
       value="true" autocomplete="off"
       onclick="this.previousSibling.value=this.previousSibling.value==='true'?'false':'true'"
       <?php echo $checked ? 'checked="checked"' : ''; ?>

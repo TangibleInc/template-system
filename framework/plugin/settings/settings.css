@@ -210,6 +210,9 @@
 
 /* Settings tab "Features" */
 
+.tangible-plugin-features-settings h2:first-of-type {
+  margin-top: 0;
+}
 .tangible-plugin-features-settings .setting-row {
   padding-bottom: 15px;
 }

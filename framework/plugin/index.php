@@ -18,8 +18,15 @@ function register_plugin($config) {
     // Defaults
 
   ]);
+
   framework::$state->plugins []= $plugin;
+
+  framework\load_plugin_features( $plugin );
+
+  // TODO: A way to register and require dependencies
+
   return $plugin;
 }
 
 require_once __DIR__ . '/settings/index.php';
+require_once __DIR__ . '/features.php';
