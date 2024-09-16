@@ -43,6 +43,8 @@ export function createPreviewPane({
 
     if (!iframe) {
       iframe = document.createElement('iframe')
+
+      iframe.sandbox.add('allow-same-origin', 'allow-scripts', 'allow-forms')
       iframe.style.flex = '1';
       iframe.style.border = 'none'
       iframe.style.borderRadius = '.5rem'

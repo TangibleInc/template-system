@@ -41,9 +41,42 @@ template_system::$state->setting_fields = [
   ],
 
   [
-    'name' => 'views',
+    'name' => 'form',
     'field_type' => 'checkbox',
-    'label' => 'Integrated authoring environment: See <i>Tangible -> Views</i>',
+    'label' => 'Form templates and field types',
+    'beta' => true,
+    'default_value' => false,
+  ],
+
+  [
+    'name' => 'sass_in_browser',
+    'field_type' => 'checkbox',
+    'label' => 'Use offical Sass compiler (dart-sass) in the browser. This compiles template style field into CSS when the post is saved. Previously they were rendered on template load using SCSS-PHP on the server.',
+    'default_value' => false,
+    'beta' => true,
+    'reload' => true,
+  ],
+
+  [
+    'name' => 'standard_attributes',
+    'field_type' => 'checkbox',
+    'label' => 'Standard attributes: Convert minus "-" in attribute name to underscore "_" when passed to dynamic tags. Some tags also support standard attribute *values*, for example, query parameters or field names where underscore is expected.',
+    'beta' => true,
+    'default_value' => false,
+  ],
+
+  [
+    'name' => 'theme_templates',
+    'field_type' => 'checkbox',
+    'label' => 'Theme templates and template JSON support',
+    'beta' => true,
+    'default_value' => false,
+  ],
+
+  [
+    'name' => 'builder',
+    'field_type' => 'checkbox',
+    'label' => 'Builder: Integrated authoring environment for all template types - See <i>Tangible -> Builder</i>',
     'default_value' => false,
     'beta' => true,
     'reload' => true,

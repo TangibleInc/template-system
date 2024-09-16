@@ -1,6 +1,6 @@
 # Admin
 
-This is a layer above the Template module (which implements the template language) to provide admin features such as:
+This is a layer above the Language module, which implements the template language, to provide admin features such as:
 
 - Template post types
   - Template

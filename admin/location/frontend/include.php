@@ -125,4 +125,4 @@ add_filter('template_include', function( $file_path ) use ( $plugin, $html, $log
 
   return __DIR__ . '/content.php';
 
-}, 1100, 1); // Ensure priority higher than Tangible Views (1000), Beaver Themer (999), ..
+}, 1100, 1); // Ensure priority higher than Tangible Views Theme (1000), Beaver Themer (999), ..
