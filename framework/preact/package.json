@@ -3,6 +3,6 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "preact": "^10.19.3"
+    "preact": "^10.24.0"
   }
 }
