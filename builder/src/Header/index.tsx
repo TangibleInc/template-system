@@ -10,7 +10,7 @@ enum ScreenSize {
 }
 
 // See ./index.scss
-const fullScreenClassName = 'tangible-template-system-views-expanded'
+const fullScreenClassName = 'tangible-template-system-builder-expanded'
 
 function updateFullScreenClass(isFullScreen: boolean) {
   const $html = document.documentElement
@@ -19,6 +19,8 @@ function updateFullScreenClass(isFullScreen: boolean) {
   } else {
     $html.classList.remove(fullScreenClassName)
   }
+
+  window.dispatchEvent(new Event('resize')) // For WP admin menu to recalculate its height
 }
 
 export function Header({
@@ -26,7 +28,7 @@ export function Header({
   ideElement
 }) {
 
-  const [screenSize, _setScreenSize] = useState(ScreenSize.Default)
+  const [screenSize, _setScreenSize] = useState(ScreenSize.Full)
   const setScreenSize = useMemo(() => function(size) {
 
     function update() {

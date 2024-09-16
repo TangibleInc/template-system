@@ -28,7 +28,8 @@ export const Editor = memo(({ type, node, content, focusOnMount = false }) => {
       const editor = await CodeEditor.create({
         el,
         lang: typeToLang[ type ] || 'html',
-        content
+        content,
+        editorActionsPanel: false,
       })
   
       editorByType[type] = editor

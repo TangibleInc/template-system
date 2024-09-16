@@ -316,15 +316,9 @@
         color: var(--color-tab-unselected);
         @include tab_button_unselected_mixin;
 
-        &:hover, &:active {
-          background-color: var(--color-tab-selected-background);
-          color: var(--color-tab-selected);
-          
-          @include tab_button_hovered_mixin;
-        }
       }
 
-      &--selected {
+      &--selected, &:hover, &:active {
         background-color: var(--color-tab-selected-background);
         color: var(--color-tab-selected);
         @include tab_button_selected_mixin;

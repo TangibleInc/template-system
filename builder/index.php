@@ -1,17 +1,17 @@
 <?php
 /**
- * Views - Unified interface to edit and manage all template types, libraries, assets.
+ * Builder - Unified interface to edit and manage all template types, libraries, assets.
  */
 namespace tangible\template_system;
 
 use tangible\template_system;
-use tangible\template_system\views;
+use tangible\template_system\builder;
 
-class views {
+class builder {
   static $state;
 }
 
-views::$state = (object) [
+builder::$state = (object) [
   'version' => template_system::$state->version,
   'url' => untrailingslashit( plugins_url('/', __FILE__) ),
 ];

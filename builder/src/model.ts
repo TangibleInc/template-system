@@ -1,4 +1,4 @@
-import { IBorderLocation } from ".";
+import { IBorderLocation } from "./Layout";
 
 export default {
   global: {
@@ -11,11 +11,11 @@ export default {
     tabEnableRename: false,
     tabEnableFloat: false,
     tabEnableRenderOnDemand: true,
-    tabEnableDrag: false,
+    tabEnableDrag: true,
 
     tabSetEnableClose: false,
     tabSetEnableMaximize: false,
-    tabSetEnableDrop: false,
+    tabSetEnableDrop: true,
   },
   borders: [
     {
@@ -44,60 +44,39 @@ export default {
     type: 'row',
     weight: 100,
     children: [
-      // {
-      //   type: 'row',
-      //   weight: 25,
-      //   children: [
-      //     {
-      //       type: 'tabset',
-      //       weight: 80,
-      //       children: [
-      //         {
-      //             type: "tab",
-      //             name: "Overview",
-      //             component: "grid",
-      //         },
-      //       ]
-      //     }
-      //   ]
-      // },
-      {
-        type: 'tabset',
-        weight: 80,
-        children: [
-          {
-            type: 'tab',
-            name: 'Template',
-            component: 'editor',
-          },
-          {
-            type: 'tab',
-            name: 'Style',
-            component: 'editor',
-          },
-          {
-            type: 'tab',
-            name: 'Script',
-            component: 'editor',
-          },
-        ]
-      },
-
       {
         type: 'row',
         weight: 50,
         children: [
           {
             type: 'tabset',
-            weight: 100,
+            weight: 20,
+            children: [
+              {
+                  type: "tab",
+                  name: "Overview",
+                  component: "grid",
+              },
+            ]
+          },
+          {
+            type: 'tabset',
+            weight: 80,
             children: [
               {
                 type: 'tab',
-                name: 'Preview',
-                component: 'preview',
-                enableClose: false,
-                enableRename: false,
-                enableFloat: false
+                name: 'Template',
+                component: 'editor',
+              },
+              {
+                type: 'tab',
+                name: 'Style',
+                component: 'editor',
+              },
+              {
+                type: 'tab',
+                name: 'Script',
+                component: 'editor',
               },
               {
                 type: 'tab',
@@ -113,6 +92,28 @@ export default {
                 type: 'tab',
                 name: 'Location',
                 component: 'location',
+              },
+
+            ]
+          },
+    
+        ]
+      },
+      {
+        type: 'row',
+        weight: 50,
+        children: [
+          {
+            type: 'tabset',
+            weight: 100,
+            children: [
+              {
+                type: 'tab',
+                name: 'Preview',
+                component: 'preview',
+                enableClose: false,
+                enableRename: false,
+                enableFloat: true
               },
             ]
           },

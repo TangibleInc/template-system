@@ -1,16 +1,16 @@
 <?php
-namespace tangible\template_system\views;
+namespace tangible\template_system\builder;
 
 use tangible\framework;
 use tangible\template_system;
 use tangible\template_system\editor;
-use tangible\template_system\views;
+use tangible\template_system\builder;
 
 function load() {
 
-  views\enqueue();
+  builder\enqueue();
 
-  ?><div id="tangible-template-system-views"></div><?php
+  ?><div id="tangible-template-system-builder"></div><?php
 
   // Remove admin page footer
   add_filter('admin_footer_text', '__return_false'); // Left
@@ -21,12 +21,12 @@ function enqueue() {
 
   editor\enqueue_editor();
 
-  $url = views::$state->url;
-  $version = views::$state->version;
+  $url = builder::$state->url;
+  $version = builder::$state->version;
 
   wp_enqueue_script(
-    'tangible-template-system-views',
-    $url . '/build/views.min.js',
+    'tangible-template-system-builder',
+    $url . '/build/builder.min.js',
     [
       // 'tangible-ajax', // TODO: Replace with new REST Client module
       'tangible-module-loader',
@@ -38,8 +38,8 @@ function enqueue() {
   );
 
   wp_enqueue_style(
-    'tangible-template-system-views',
-    $url . '/build/views.min.css',
+    'tangible-template-system-builder',
+    $url . '/build/builder.min.css',
     [],
     $version
   );

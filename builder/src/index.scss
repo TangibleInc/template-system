@@ -24,6 +24,13 @@
   display: flex;
   flex-grow: 1;
 }
+body { opacity: 0; background-color: #252a33;
+  #adminmenumain { display: none; }
+}
+body.ide-loaded {
+  opacity: 1; transition: opacity 100ms;
+  #adminmenumain { display: inherit; }
+}
 
 body:not(.sticky-menu) {
   // .sticky-menu #adminmenuwrap{position:fixed}
@@ -58,7 +65,7 @@ body:not(.sticky-menu) {
   }
 }
 
-html.tangible-template-system-views-expanded {
+html.tangible-template-system-builder-expanded {
   // It needs to be on html element to override html.wp-toolbar
   padding-top: 0;
 
@@ -76,7 +83,7 @@ html.tangible-template-system-views-expanded {
   }
 }
 
-#tangible-template-system-views {
+#tangible-template-system-builder {
 
   // position: absolute;
   width: 100%;
