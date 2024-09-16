@@ -1,6 +1,6 @@
 # Elandel
 
-Elandel is a **template language** and ecosystem for authoring hypermedia documents on the web.
+Elandel is a **user interface language** and ecosystem for authoring hypermedia documents on the web.
 
 It is a TypeScript library with an extensible **HTML engine** based on [Unified](https://unifiedjs.com/) and [hast](https://github.com/syntax-tree/hast) (Hypertext Abstract Syntax Tree format); and **CSS engine** based on [PostCSS](https://github.com/postcss/postcss). It can:
 

@@ -1,6 +1,6 @@
 {
   "name": "@elandel/logic",
-    "version": "2024.8.8",
+    "version": "2024.9.16",
     "description": "Build and evaluate conditional rules",
     "type": "module",
     "main": "index.ts",

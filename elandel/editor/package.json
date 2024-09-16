@@ -1,6 +1,6 @@
 {
   "name": "@elandel/editor",
-  "version": "2024.8.8",
+  "version": "2024.9.16",
   "module": "index.ts",
   "type": "module",
   "description": "Code editor for Elandel",

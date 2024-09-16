@@ -1,6 +1,6 @@
 {
   "name": "@elandel/html",
-  "version": "2024.8.8",
+  "version": "2024.9.16",
   "description": "Parse, render, and beautify HTML templates with extensible syntax",
   "type": "module",
   "main": "index.ts",
