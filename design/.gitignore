@@ -1,6 +1,4 @@
 
-/build
-
 /vendor
 node_modules
 .idea

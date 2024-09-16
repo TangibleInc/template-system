@@ -1,0 +1,7 @@
+//
+// Text truncation
+//
+
+.#{$class-prefix}text-truncate {
+  @include text-truncate();
+}

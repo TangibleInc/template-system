@@ -1,0 +1,59 @@
+/**
+ * Design system based on Bootstrap v5.
+ *
+ * Rewritten to support completely local and modular styles and scripts.
+ * Suitable for use as full site theme, or with plugins, such as UI on the
+ * frontend or admin screen where there is already a global stylesheet.
+ */
+
+// Configuration - 0K
+@import "functions";
+@import "variables";
+@import "variables-dark";
+@import "maps";
+@import "mixins";
+@import "utilities";
+
+// Reboot
+
+@import "root"; // 6K
+@import "reset"; // 5K
+
+// Layout & components - 142K total
+
+@import "type";
+@import "images";
+@import "containers"; // 20K
+
+@import "grid";
+@import "tables";
+@import "forms";
+@import "buttons";
+@import "transitions";
+@import "dropdown";
+@import "button-group";
+@import "nav";
+@import "navbar"; // 74K
+
+@import "card";
+@import "accordion";
+@import "breadcrumb";
+@import "pagination";
+@import "badge";
+@import "alert";
+@import "progress";
+@import "list-group";
+@import "close";
+@import "toasts";
+@import "modal";
+@import "tooltip";
+@import "popover";
+@import "carousel";
+@import "spinners";
+@import "offcanvas";
+@import "placeholders"; // 67K
+
+// Utilities
+
+@import "helpers"; // 7K
+@import "utilities/api"; // 66K

@@ -1,0 +1,8 @@
+//
+// Visually hidden
+//
+
+.#{$class-prefix}visually-hidden,
+.#{$class-prefix}visually-hidden-focusable:not(:focus):not(:focus-within) {
+  @include visually-hidden();
+}

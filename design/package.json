@@ -1,17 +1,17 @@
 {
   "name": "@tangible/design",
   "type": "module",
-  "version": "20240403",
+  "version": "2024.09.08",
   "scripts": {
-    "dev": "roll dev",
+    "start": "roll dev",
     "build": "roll build",
     "format": "roll format",
     "version": "node version.js",
-    "serve": "concurrently --raw 'roll dev' 'wp-now start'"
+    "wp": "concurrently --raw 'roll dev' 'wp-now start'"
   },
-  "dependencies": {},
+  "dependencies": { "@popperjs/core": "^2.11.8" },
   "devDependencies": {
-    "@tangible/roller": "1.x",
+    "@tangible/roller": "2.x",
     "@wp-now/wp-now": "^0.1.66",
     "concurrently": "^8.2.2"
   }

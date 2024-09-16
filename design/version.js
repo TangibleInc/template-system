@@ -4,8 +4,8 @@
 import fs from 'node:fs/promises'
 ;(async () => {
   const version = new Date().toISOString().slice(0, 10).replace(/-/g, '')
-
-  console.log('Version', version)
+  const versionWithDots = version.slice(0, 4) + '.' + version.slice(4, 6) + '.' + version.slice(6, 8)
+  console.log('Version', versionWithDots)
 
   for (const file of [
     'index.php',
@@ -19,8 +19,8 @@ import fs from 'node:fs/promises'
 
     const content = (await fs.readFile(file, 'utf8'))
       .replace(/\$version = '[0-9]{8}'/, `$version = '${version}'`)
-      .replace(/"version": "[0-9]{8}"/, `"version": "${version}"`)
-      .replace(/Version: [0-9]{8}/, `Version: ${version}`)
+      .replace(/"version": "[0-9]{4}\.[0-9]{2}\.[0-9]{2}"/, `"version": "${versionWithDots}"`)
+      .replace(/Version: [0-9]{4}\.[0-9]{2}\.[0-9]{2}/, `Version: ${versionWithDots}`)
       // .replace(/return '[0-9]{8}'/, `return '${version}'`)
       // .replace(/'version' => '[0-9]{8}'/, `'version' => '${version}'`)
 

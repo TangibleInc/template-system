@@ -13,7 +13,7 @@ if (!class_exists('tangible\\design')) {
 (include __DIR__ . '/module-loader.php')(new class {
 
   public $name = 'tangible_design';
-  public $version = '20240403';
+  public $version = '20240908';
 
   function load() {
 
@@ -22,7 +22,7 @@ if (!class_exists('tangible\\design')) {
     design::$state->url = untrailingslashit(plugins_url('/', __FILE__));
 
     require_once __DIR__ . '/includes/index.php';
-
+    
     do_action($this->name . '_ready');
   }
 });

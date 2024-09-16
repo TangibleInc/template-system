@@ -1,10 +1,32 @@
-<!-- Based on https://github.com/cbracco/html5-test-page -->
+<style>
+  .pagenav {
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+    position: fixed;
+    top: 50px;
+    background-color: #fff;
+    max-width: 200px;
+    right: 20px;
+    margin-left: auto;
+    padding: 20px;
+    min-width: 150px;
+  }
+  .pagenav > ul > li {
+    margin-bottom: 1em;
+  }
+  .pagenav > ul > li > a {
+    font-weight: bold;
+  }
+  main {
+    padding-right: 220px;
+  }
+</style>
 
-<h1>HTML5 Test Page</h1>
+<h1>Tangible Design</h1>
 
-<p>This is a test page with common HTML elements to provide visual feedback while building CSS systems and frameworks.</p>
+<p>This is a test page showing HTML elements without classes.</p>
 
-<nav>
+<nav class="pagenav">
   <ul>
     <li>
       <a href="#text">Text</a>
@@ -52,7 +74,7 @@
     </li>
   </ul>
 </nav>
-<main>
+<main class="tgbl-interface tgbl-reset">
   <section id="text">
     <header><h1>Text</h1></header>
     <article id="text__headings">
