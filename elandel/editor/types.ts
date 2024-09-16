@@ -1,3 +1,4 @@
+import type { Extension } from '@codemirror/state'
 
 export type TagDefinition = {
   callback: string | {} | Function
@@ -21,8 +22,9 @@ export type CodeEditorOptions = {
   onUpdate?: (updateCallbackProps: { doc: Text }) => void
   onSave?: () => void
   extensions?: Extension[]
+  theme?: Extension
   themes?: {
-    [name: string]: Function
+    [name: string]: Extension
   }
   fonts?: any[]
   loadFont?: Function

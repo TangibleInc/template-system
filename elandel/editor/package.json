@@ -1,10 +1,25 @@
 {
   "name": "@elandel/editor",
+  "version": "2024.8.8",
   "module": "index.ts",
   "type": "module",
   "description": "Code editor for Elandel",
   "scripts": {
+    "start": "echo hi"
   },
+  "files": [
+    "extensions",
+    "fonts",
+    "html",
+    "javascript",
+    "sass",
+    "theme-default",
+    "themes",
+    "*.ts",
+    "license.txt",
+    "package.json",
+    "readme.md"
+  ],
   "dependencies": {
     "@codemirror/autocomplete": "^6.13.0",
     "@codemirror/commands": "^6.3.3",

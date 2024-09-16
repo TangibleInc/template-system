@@ -56,7 +56,7 @@ const defaultTagCompletions: TagCompletion[] = [
   ['hr', '<hr>\n'],
   ['img', '<img src="${1}" alt="${2}">'],
   ['input', '<input type=${1}>'],
-  ['label', '<label>${1}</labelli>'],
+  ['label', '<label>${1}</label>'],
   ['li', '<li>${1}</li>'],
   // link
   // meta

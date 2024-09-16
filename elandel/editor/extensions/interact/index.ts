@@ -6,14 +6,13 @@ import {
   EditorView,
   ViewPlugin,
   PluginValue,
-  DecorationSet,
   Decoration,
 } from '@codemirror/view'
 import {
   StateEffect,
+  StateField,
   Facet,
-  Prec,
-  Compartment,
+  MapMode,
 } from '@codemirror/state'
 
 interface Target {
@@ -26,12 +25,74 @@ export interface InteractRule {
   regexp: RegExp,
   cursor?: string,
   style?: any,
+  className?: string,
   onClick?: (text: string, setText: (t: string) => void, e: MouseEvent) => void,
   onDrag?: (text: string, setText: (t: string) => void, e: MouseEvent) => void,
+  onDragStart?: (text: string, setText: (t: string) => void, e: MouseEvent) => void,
+  onDragEnd?: (text: string, setText: (t: string) => void) => void,
 }
 
-const mark = Decoration.mark({ class: 'cm-interact'});
+const interactField = StateField.define<Target | null>({
+  create: () => null,
+  update: (value, tr) => {
+    for (const e of tr.effects) {
+      if (e.is(setInteract)) {
+        return e.value;
+      }
+    }
+
+    if (!value) {
+      return null
+    }
+
+    if (!tr.changes.empty) {
+      const newPos = tr.changes.mapPos(value.pos, -1, MapMode.TrackDel)
+      const newEnd = tr.changes.mapPos(value.pos + value.text.length, -1, MapMode.TrackDel)
+
+      if (newPos === null || newEnd === null) {
+        return null
+      }
+
+      // if the text doesn't match anymore, we'll just return null
+      // rather than checking if the rule matches again
+      if (tr.newDoc.sliceString(newPos, newEnd) !== value.text) {
+        return null
+      }
+
+      return { ...value, pos: newPos }
+    }
+
+    return value
+  },
+
+  provide: (field) => [
+    EditorView.decorations.from(field, (target) => {
+      if (!target) {
+        return Decoration.none
+      }
+
+      const from = target.pos;
+      const to = target.pos + target.text.length;
+      const className = target.rule.className;
+
+      return Decoration.set(mark({ className }).range(from, to))
+    }),
+    EditorView.contentAttributes.from(field, (target) => {
+      if (!target || !target.rule.cursor) {
+        return { style: '' }
+      }
+
+      return { style: `cursor: ${target.rule.cursor}` }
+    }),
+  ]
+})
+
 const setInteract = StateEffect.define<Target | null>();
+
+const mark = (e: { className?: string }) => Decoration.mark({
+  class: `cm-interact ${e?.className ?? ''}`
+});
+
 
 const interactTheme = EditorView.theme({
   '.cm-interact': {
@@ -66,38 +127,25 @@ export const interactModKey = Facet.define<ModKey, ModKey>({
   combine: (values) => values[values.length - 1],
 });
 
-const setStyle = (style = '') =>
-  EditorView.contentAttributes.of({ style });
-
-const normalCursor = setStyle();
-const cursorCompartment = new Compartment();
-const cursorRule = Prec.highest(cursorCompartment.of(normalCursor));
-
-const clearCursor = () => cursorCompartment.reconfigure(normalCursor);
-
-const setCursor = (cursor?: string) =>
-  cursor ? [cursorCompartment.reconfigure(setStyle(`cursor: ${cursor}`))] : [];
-
 interface ViewState extends PluginValue {
-  dragging: Target | null,
-  hovering: Target | null,
+  target: Target | null,
+  dragging: boolean,
   mouseX: number,
   mouseY: number,
-  deco: DecorationSet,
   getMatch(): Target | null,
   updateText(target: Target): (text: string) => void,
-  highlight(target: Target): void,
-  unhighlight(): void,
+  setTarget(target: Target | null): void,
   isModKeyDown(e: KeyboardEvent | MouseEvent): boolean,
+  startDrag(e: MouseEvent): void,
+  endDrag(): void,
 }
 
 const interactViewPlugin = ViewPlugin.define<ViewState>((view) => ({
 
-  dragging: null,
-  hovering: null,
+  target: null,
+  dragging: false,
   mouseX: 0,
   mouseY: 0,
-  deco: Decoration.none,
 
   // Get current match under cursor from all rules
   getMatch() {
@@ -129,134 +177,152 @@ const interactViewPlugin = ViewPlugin.define<ViewState>((view) => ({
     }
 
     return match;
-
   },
 
   updateText(target) {
     return (text) => {
       view.dispatch({
+        effects: setInteract.of({ ...target, text }),
         changes: {
           from: target.pos,
           to: target.pos + target.text.length,
           insert: text,
         },
       });
-      target.text = text;
     };
   },
 
-  // highlight a target (e.g. currently dragging or hovering)
-  highlight(target) {
-    view.dispatch({
-      effects: [setInteract.of(target), ...setCursor(target.rule.cursor)],
-    });
-  },
-
-  unhighlight() {
-    view.dispatch({
-      effects: [setInteract.of(null), clearCursor()],
-    });
+  setTarget(target) {
+    this.target = target;
+    view.dispatch({ effects: setInteract.of(target) });
   },
 
   isModKeyDown(e) {
     const modkey = view.state.facet(interactModKey);
+
+    const isMac = Boolean(window.navigator) &&
+      window.navigator.userAgent.includes('Macintosh');
+
     switch (modkey) {
       case "alt": return e.altKey;
       case "shift": return e.shiftKey;
       case "ctrl": return e.ctrlKey;
       case "meta": return e.metaKey;
+      case "mod": return isMac ? e.metaKey : e.ctrlKey;
     }
+
     throw new Error(`Invalid mod key: ${modkey}`)
   },
 
   update(update) {
-    for (const tr of update.transactions) {
-      for (const e of tr.effects) {
-        if (e.is(setInteract)) {
-          const decos = e.value ? mark.range(
-            e.value.pos,
-            e.value.pos + e.value.text.length
-          ) : [];
-          this.deco = Decoration.set(decos);
-        }
+    const target = update.state.field(interactField, false)
+
+    // the field isn't mounted
+    if (target === undefined) {
+      return
+    }
+
+    if (this.target !== target) {
+      this.target = target
+      if (target === null) {
+        this.endDrag();
       }
     }
   },
 
+  startDrag(e: MouseEvent) {
+    if (this.dragging) return
+    if (!this.target) return;
+    this.dragging = true
+    if (!this.target.rule.onDragStart) return;
+    this.target.rule.onDragStart(this.target.text, this.updateText(this.target), e);
+  },
+
+  endDrag() {
+    if (!this.dragging) return
+    this.dragging = false
+    if (!this.target?.rule.onDragEnd) return;
+    this.target.rule.onDragEnd(this.target.text, this.updateText(this.target));
+  },
+
 }), {
-
-  decorations: (v) => v.deco,
-
   eventHandlers: {
-
-    mousedown(e, view) {
-
+    mousedown(e, _view) {
       if (!this.isModKeyDown(e)) return;
-      const match = this.getMatch();
-      if (!match) return;
+      if (!this.target) return;
+
       e.preventDefault();
 
-      if (match.rule.onClick) {
-        match.rule.onClick(match.text, this.updateText(match), e);
-      };
-
-      if (match.rule.onDrag) {
-        this.dragging = {
-          rule: match.rule,
-          pos: match.pos,
-          text: match.text,
-        };
+      if (this.target.rule.onClick) {
+        this.target.rule.onClick(
+          this.target.text,
+          (text) => {
+            this.target && this.updateText(this.target)(text);
+          },
+          e
+        );
       }
 
+      if (this.target.rule.onDrag) {
+        this.startDrag(e);
+      }
     },
 
-    mousemove(e, view) {
-
+    mousemove(e, _view) {
       this.mouseX = e.clientX;
       this.mouseY = e.clientY;
 
-      if (!this.isModKeyDown(e)) return;
+      if (!this.isModKeyDown(e)) {
+        if (this.target) {
+          this.setTarget(null);
+        }
 
-      if (this.dragging) {
-        this.highlight(this.dragging);
-        if (this.dragging.rule.onDrag) {
-          this.dragging.rule.onDrag(this.dragging.text, this.updateText(this.dragging), e);
+        return
+      }
+
+      if (this.target && this.dragging) {
+        if (this.target.rule.onDrag) {
+          this.target.rule.onDrag(this.target.text, this.updateText(this.target), e);
         }
       } else {
-        this.hovering = this.getMatch();
-        if (this.hovering) {
-          this.highlight(this.hovering);
-        } else {
-          this.unhighlight();
-        }
+        this.setTarget(this.getMatch());
       }
 
     },
 
-    mouseup(e, view) {
-      this.dragging = null;
-      if (!this.hovering) {
-        this.unhighlight();
+    mouseup(e, _view) {
+      this.endDrag();
+
+      if (this.target && !this.isModKeyDown(e)) {
+        this.setTarget(null)
+      }
+
+      if (this.isModKeyDown(e)) {
+        this.setTarget(this.getMatch());
       }
     },
 
-    mouseleave(e, view) {
-      this.hovering = null;
-      this.dragging = null;
-      this.unhighlight();
-    },
-
-    keydown(e, view) {
-      if (!this.isModKeyDown(e)) return;
-      this.hovering = this.getMatch();
-      if (this.hovering) {
-        this.highlight(this.hovering);
+    mouseleave(e, _view) {
+      this.endDrag();
+      if (this.target) {
+        this.setTarget(null)
       }
     },
 
-    keyup(e, view) {
-      if (!this.isModKeyDown(e)) {
-        this.unhighlight();
+    // TODO: fix these keybindings
+    // these currently don't do anything because CodeMirror's keybinding
+    // system prevents these events from firing.
+
+    keydown(e, _view) {
+      if (!this.target && this.isModKeyDown(e)) {
+        this.setTarget(this.getMatch());
+      }
+    },
+
+    keyup(e, _view) {
+      if (this.target && !this.isModKeyDown(e)) {
+        this.endDrag();
+        this.setTarget(null)
       }
     },
 
@@ -268,6 +334,7 @@ type ModKey =
   | "shift"
   | "meta"
   | "ctrl"
+  | "mod";
 
 interface InteractConfig {
   rules?: InteractRule[],
@@ -275,10 +342,10 @@ interface InteractConfig {
 }
 
 const interact = (cfg: InteractConfig = {}) => [
+  interactField,
   interactTheme,
   interactViewPlugin,
   interactModKey.of(cfg.key ?? "alt"),
-  cursorRule,
   (cfg.rules ?? []).map((r) => interactRule.of(r)),
 ];
 

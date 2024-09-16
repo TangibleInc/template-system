@@ -15,6 +15,7 @@ import type { CodeEditorOptions } from './types'
 Object.assign(themes, { dark })
 
 export type * from './types'
+export { themes }
 
 export const CodeEditor = {
   create,
@@ -30,6 +31,7 @@ export async function create({
   onUpdate,
   onSave,
   extensions: userExtensions = [],
+  theme: defaultTheme = dark,
   // themes = {},
   // fonts = [],
   // loadFont,
@@ -80,8 +82,8 @@ export async function create({
     fonts,
     loadFont,
     extensions: [
-      // First extension is the theme
-      dark,
+      // First extension is the default theme
+      defaultTheme,
       setup,
       ...(onUpdate ? [updateListener] : []),
       ...userExtensions,
@@ -131,7 +133,7 @@ export async function create({
         },
       })
     },
-    setTheme(theme) {
+    setTheme(theme: Extension) {
       // Dynamically switch theme
       extensions[0] = theme
       view.dispatch({

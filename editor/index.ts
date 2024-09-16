@@ -25,7 +25,7 @@ const TemplateEditor: CodeEditorType = {
    * Create editor and pass settings from server-side
    * @see ./enqueue.php
    */
-  create(props: CodeEditorOptions) {
+  create(props: CodeEditorOptions & { editorActionsPanel?: boolean }) {
     const { editorUrl, languageDefinition = {} } =
       window.TangibleTemplateSystemEditor
 

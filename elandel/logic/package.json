@@ -1,0 +1,19 @@
+{
+  "name": "@elandel/logic",
+    "version": "2024.8.8",
+    "description": "Build and evaluate conditional rules",
+    "type": "module",
+    "main": "index.ts",
+    "homepage": "https://github.com/tangibleinc/elandel/tree/main/logic",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/tangibleinc/elandel.git"
+    },
+    "scripts": {
+      "test": "tsx tests/index.ts"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+    }
+}

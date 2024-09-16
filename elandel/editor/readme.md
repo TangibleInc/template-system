@@ -2,9 +2,7 @@
 
 This is the code editor based on CodeMirror 6, with a curated and customized set of features designed for the Loops & Logic template language and system.
 
-The goal is to grow into an integrated development environment (IDE) with the editor at its core.
-
-Ideally, the editor and IDE should run well within WordPress, as well as independently, for example as part of a React-based content management system (CMS).
+The goal is to grow into an integrated development environment (IDE) with the editor at its core. Ideally, the editor and IDE should run well within WordPress, as well as independently, for example as part of a React-based content management system (CMS).
 
 ## Features
 

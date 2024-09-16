@@ -2,7 +2,7 @@
   "name": "@tangible/logic",
   "type": "module",
   "private": true,
-  "version": "2024.06.11",
+  "version": "2024.09.16",
   "description": "Build and evaluate conditional rules",
   "homepage": "https://github.com/tangibleinc/logic",
   "repository": {
@@ -19,6 +19,9 @@
     "format": "roll format",
     "version": "node version.js",
     "release": "npm run build && cd publish && npm publish --access public"
+  },
+  "dependencies": {
+    "@elandel/logic": "*"
   },
   "devDependencies": {
     "@php-wasm/node": "^0.7.19",
