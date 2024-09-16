@@ -34,7 +34,7 @@ HTML);`
 }
 
 export async function ensureTemplateSystem({ wpx }) {
-  return wpx/* php */ `
+  return wpx/* php */`
 
 if (!function_exists('tangible_template')) {
   if (!function_exists('activate_plugin')) {

@@ -69,6 +69,7 @@ return wp_insert_post([
 
   await import('./loop/index.ts')
   await import('./logic/index.ts')
+  await import('./language/index.ts')
   await import('./admin/index.ts')
 
   await import('../modules/tests.ts')

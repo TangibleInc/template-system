@@ -1,5 +1,6 @@
 {
   "mappings": {
+    "wp-content/plugins/framework": "../framework",
     "wp-content/plugins/template-system": "..",
     "wp-content/plugins/e2e-plugin": "../framework/env/e2e-plugin",
     "wp-content/plugins/advanced-custom-fields": "../vendor/tangible/advanced-custom-fields",
