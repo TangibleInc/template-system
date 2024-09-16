@@ -8,7 +8,7 @@
     "format": "roll format"
   },
   "dependencies": {
-    "mermaid": "^10.9.1"
+    "mermaid": "^11.2.0"
   },
   "devDependencies": {
     "@tangible/roller": "2.x"
