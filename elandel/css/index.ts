@@ -1,7 +1,7 @@
 import postcss from 'postcss'
 import postCssAdvancedVariables from 'postcss-advanced-variables'
 import postCssNested from 'postcss-nested'
-import postCssScss from 'postcss-scss'
+import postCssScssSyntax from 'postcss-scss'
 import postCssMapGet from './postcss-map-get'
 import postCssMinify from './postcss-minify'
 
@@ -18,7 +18,7 @@ export const variables: {
   [key: string]: any
 } = {}
 
-export const processor = postcss([
+export const postcssPlugins = [
   postCssAdvancedVariables({
     unresolved: 'ignore', // throw, warn
     variables(name: string, node: any) {
@@ -27,7 +27,16 @@ export const processor = postcss([
   }) as Plugin,
   postCssMapGet(),
   postCssNested() as Plugin,
-])
+]
+
+export const cssProcessor = postcss(postcssPlugins)
+
+export {
+  postCssAdvancedVariables,
+  postCssScssSyntax,
+  postCssMapGet,
+  postCssMinify,
+}
 
 const minifier = postCssMinify()
 
@@ -39,17 +48,17 @@ export async function render(
 ): Promise<Result> {
   const minify = options && options.minify
   if (minify) {
-    processor.plugins.push(minifier)
+    cssProcessor.plugins.push(minifier)
   }
-  const result = await processor.process(css, {
-    syntax: postCssScss as Syntax,
+  const result = await cssProcessor.process(css, {
+    syntax: postCssScssSyntax as Syntax,
     from: 'index.scss',
     to: 'index.min.css',
     map: false,
     ...options,
   })
   if (minify) {
-    processor.plugins.pop()
+    cssProcessor.plugins.pop()
   }
   return result
 }
