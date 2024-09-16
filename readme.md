@@ -103,21 +103,19 @@ npm run format [module1 module2..]
 
 ### Install third-party plugins
 
-This step is optional. Run `npm run deps` to see the help screen for the command.
-
-The following will install all plugin dependencies such as Advanced Custom Fields, Beaver Builder, Elementor, and WP Fusion. You can also choose to install and update plugins individually.
+Run `npm run deps` to install optional plugin dependencies such as Advanced Custom Fields, Beaver Builder, Elementor, and WP Fusion.
 
 ```sh
-npm run deps all
+npm run deps
 ```
 
-They will be downloaded in the folder `vendor/tangible`. Existing plugins will be skipped, unless you pass the option `--update` to download their newest version.
+They will be downloaded in the folder `vendor/tangible-dev`. Existing plugins will be skipped, unless you pass the option `--update` to download their newest version.
 
 ```sh
-npm run deps all -- --update
+npm run deps -- --update
 ```
 
-After install, the command updates the file `.wp-env.override.json` to map the local plugin folders.
+The dependencies are also listed in the file `.wp-env.json` to map the local folders for the dev/test environment.
 
 
 ## Test
