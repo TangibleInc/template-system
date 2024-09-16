@@ -1,7 +1,7 @@
 import path from 'node:path'
 import fs from 'node:fs/promises'
 import { getWpNowConfig, startServer } from '@tangible/now'
-import { disableConsole, enableConsole } from './console'
+import { disableConsole, enableConsole, originalConsole } from './console'
 import { createRequest } from './request'
 import type { WPNowServer, WPNowOptions } from '@tangible/now'
 import type { NodePHP } from '@php-wasm/node'
@@ -22,7 +22,7 @@ export type Server = {
   }) => Promise<any>
 
   // Template tag functions
-  phpx: (code: string, ...args: string[]) => Promise<any>
+  phpx: (code: string | TemplateStringsArray, ...args: any[]) => Promise<any>
   wpx: (code: string | TemplateStringsArray, ...args: any[]) => Promise<any>
 
   setSiteTemplate: (code: string) => void
@@ -70,6 +70,37 @@ export async function getServer(
   const { php, stopServer } = server
   const { port, documentRoot } = server.options
 
+  /**
+   * PHP-WASM provides a function post_message_to_js() to send messages from PHP to JS.
+   * It expects a single global listener on JS side, with no way to unsubscribe. The following
+   * is a wrapper to enable multiple listeners with unsubscribe.
+   */
+
+  type Listener = (message: any) => void
+  const phpListeners: Listener[] = []
+
+  // Subscriber
+  function onMessage(callback: Listener) {
+    if (phpListeners.indexOf(callback) === -1) {
+      phpListeners.push(callback)
+    }
+    // Unsubscriber
+    return function unsubscribe() {
+      phpListeners.splice(phpListeners.indexOf(callback), 1)
+    }
+  }
+
+  php.onMessage(function globalListener(data: string) {
+    try {
+      const message = JSON.parse(data)
+      for (const listener of phpListeners) {
+        listener(message)
+      }  
+    } catch(e) {
+      console.error(e)
+    }
+  })
+
   const phpStart = '<?php '
   const phpStartRegex = /^<\?php /
 
@@ -104,7 +135,7 @@ export async function getServer(
 
     enableConsole()
 
-    if (errors) throw errors
+    if (errors) throw new Error(errors)
     else return text
   }
 
@@ -132,8 +163,8 @@ echo json_encode((function() {
       'error' => $e->getMessage()
     ];
   }
-})());
-`
+})());`
+
     try {
       return JSON.parse(result)
     } catch (e) {
@@ -141,7 +172,7 @@ echo json_encode((function() {
     }
   }
 
-  await wpx/* php */`
+  await wpx/* php */ `
 // Pretty permalinks
 global $wp_rewrite;
 $wp_rewrite->set_permalink_structure('/%postname%/');
@@ -153,13 +184,16 @@ $wp_rewrite->flush_rules();
    * Set site template to override theme
    */
   function setSiteTemplate(code: string) {
-    php.writeFile(templatePluginPath, `<?php
+    php.writeFile(
+      templatePluginPath,
+      `<?php
 add_filter('template_include', function() {
   echo tangible_template(<<<'HTML'
 ${code}
 HTML);
   exit;
-});`)
+});`,
+    )
   }
   /**
    * Reset site template to let theme handle response
@@ -167,7 +201,7 @@ HTML);
   function resetSiteTemplate() {
     try {
       php.unlink(templatePluginPath)
-    } catch(e) {
+    } catch (e) {
       // OK
     }
   }
@@ -177,6 +211,7 @@ HTML);
   return (serverInstance = {
     php,
     port,
+    console: originalConsole,
     documentRoot,
     options: server.options,
     request: createRequest(`http://localhost:${port}`),
@@ -186,7 +221,8 @@ HTML);
       serverInstance = null
       await stopServer()
     },
+    onMessage,
     setSiteTemplate,
-    resetSiteTemplate
+    resetSiteTemplate,
   })
 }

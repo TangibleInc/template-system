@@ -4,7 +4,7 @@ const silentConsole = {
   warn() {},
   error() {},
 }
-const originalConsole = globalThis.console
+export const originalConsole = globalThis.console
 
 export const disableConsole = () => {
   // Silence console messages from NodePHP

@@ -1,5 +1,6 @@
 {
   "mappings": {
+    "wp-content/plugins/framework": "..",
     "wp-content/plugins/e2e-plugin": "../env/e2e-plugin",
     "wp-content/themes/empty-block-theme": "../empty-block-theme"
   }

@@ -9,12 +9,17 @@
     "dev": "roll dev",
     "build": "roll build",
     "format": "roll format",
+    "test": "roll run tests/index.ts",
     "version": "node version.js",
     "subrepo": "git-subrepo"
   },
   "devDependencies": {
-    "@tangible/roller": "1.x",
-    "@tangible/git-subrepo": "1.x"
+    "@playwright/test": "^1.47.1",
+    "@tangible/git-subrepo": "^1.0.1",
+    "@tangible/now": "^1.0.8",
+    "@tangible/roller": "^2.0.5",
+    "@wordpress/e2e-test-utils-playwright": "^1.7.0",
+    "testra": "^2.1.4"
   },
   "prettier": {
     "semi": false,

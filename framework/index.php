@@ -12,11 +12,11 @@ if (!class_exists('tangible\\framework')) {
 (include __DIR__ . '/module-loader.php')(new class {
 
   public $name = 'tangible_framework';
-  public $version = '20240611';
+  public $version = '20240916';
 
   function init() {
     // Design module has its own loader to allow development as standalone plugin
-    require_once __DIR__ . '/design/index.php';
+    // require_once __DIR__ . '/design/index.php';
   }
 
   function load() {
