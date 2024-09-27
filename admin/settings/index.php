@@ -8,7 +8,7 @@ template_system::$state->setting_fields = [
   [
     'name' => 'acf_template_field',
     'field_type' => 'checkbox',
-    'label' => 'Enable ACF Template field - Custom field with template editor',
+    'label' => 'Enable ACF Template field - Custom field with template editor. See <a href="https://docs.loopsandlogic.com/integrations/acf#template">documentation on ACF Template field type</a>.',
     'default_value' => false,
   ],
 
