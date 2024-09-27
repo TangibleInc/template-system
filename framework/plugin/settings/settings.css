@@ -218,9 +218,7 @@
 }
 .tangible-plugin-features-settings .feature-description {
   margin-top: 15px;
-  margin-left: 24px;
   background-color: #fff;
-  padding: 10px 12px;
 }
 
 .tangible-plugin-features-settings .feature-description p,
@@ -310,4 +308,88 @@
   padding: 0.7em 2em 1em;
   margin-bottom:15px;
   border: 1px solid #c3c4c7;
+}
+
+.tangible-plugin-features-cards {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tangible-card {
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  display: flex; 
+  flex-direction: column; 
+  height: 7rem;
+}
+
+.tangible-card .feature-description{
+  overflow-y: auto;
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tangible-plugin-features-cards .setting-row{
+  max-width: 20rem;
+  flex: 1 1 100%;
+
+  @media only screen and (max-width: 697px) {
+      max-width: 100%;
+  }
+}
+
+.tangible-feature-label {
+  font-weight: 600;
+}
+
+.tangible-feature-switch {
+  display: flex;
+  cursor: pointer;
+  justify-content: space-between;
+}
+
+.tangible-feature-switch input[type="checkbox"] {
+  display: none; 
+}
+
+.tangible-feature-switch-label{
+  font-weight: 600;
+  font-size: .9rem;
+}
+
+.tangible-switch-track {
+    position: relative;
+    min-width: 50px; 
+    height: 24px; 
+    background-color: #ccc;
+    border-radius: 24px; 
+    margin-left: 10px;
+    transition: background-color 0.3s;
+}
+
+.tangible-switch-track:before {
+    content: "";
+    position: absolute;
+    width: 20px; 
+    height: 20px; 
+    background-color: white;
+    border-radius: 50%;
+    top: 2px; 
+    left: 2px; 
+    transition: transform 0.3s;
+}
+
+input[type="checkbox"]:checked ~ .tangible-switch-track {
+    background-color: var(--tt-admin-accent);
+}
+
+input[type="checkbox"]:checked ~ .tangible-switch-track:before {
+    transform: translateX(26px); /* Adjusted to match new width */
 }
