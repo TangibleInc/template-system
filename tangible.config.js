@@ -41,8 +41,8 @@ export default {
    * in the published zip package. Those for development are in `tangible-dev`, which
    * is excluded from the archive.
    * 
-   * In the file `.wp-env.json`, these vendor folders are mounted to the virtual file
-   * system for local development and testing.
+   * In the file `.wp-env.json`, these folders are mounted to the virtual file system
+   * for local development and testing.
    */
   install: [
     {
@@ -63,8 +63,8 @@ export default {
     },
     {
       git: 'git@github.com:tangibleinc/fields',
+      dest: 'vendor/tangible-dev/fields',
       branch: 'main',
-      dest: 'vendor/tangible-dev/fields'
     }
   ],
 }
