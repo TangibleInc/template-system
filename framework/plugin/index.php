@@ -15,18 +15,18 @@ function register_plugin($config) {
   // Object with dynamic properties and methods - See ../object
   $plugin = \tangible\create_object($config + [
 
-    // Defaults
+    // ..Defaults..
 
   ]);
 
   framework::$state->plugins []= $plugin;
 
   framework\load_plugin_features( $plugin );
-
-  // TODO: A way to register and require dependencies
+  // framework\check_plugin_dependencies( $plugin );
 
   return $plugin;
 }
 
+require_once __DIR__ . '/dependencies/index.php';
+require_once __DIR__ . '/features/index.php';
 require_once __DIR__ . '/settings/index.php';
-require_once __DIR__ . '/features.php';
