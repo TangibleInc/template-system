@@ -5,7 +5,7 @@
   "repository": "git@github.com:tangibleinc/framework.git",
   "type": "module",
   "scripts": {
-    "// Build": "",
+    "start": "wp-now start",
     "dev": "roll dev",
     "build": "roll build",
     "format": "roll format",
@@ -14,11 +14,11 @@
     "subrepo": "git-subrepo"
   },
   "devDependencies": {
-    "@playwright/test": "^1.47.1",
+    "@playwright/test": "^1.47.2",
     "@tangible/git-subrepo": "^1.0.1",
-    "@tangible/now": "^1.0.8",
-    "@tangible/roller": "^2.0.6",
-    "@wordpress/e2e-test-utils-playwright": "^1.7.0",
+    "@tangible/now": "^1.1.2",
+    "@tangible/roller": "^2.1.0",
+    "@wordpress/e2e-test-utils-playwright": "^1.8.0",
     "testra": "^2.1.4"
   },
   "prettier": {

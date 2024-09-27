@@ -82,7 +82,7 @@ export function createConfig(userConfig = {}) {
     ],
     globalSetup: path.join(__dirname, 'setup.js'),
     webServer: {
-      command: `wp-now start --port ${testSitePort} --path ${testDir}`,
+      command: `wp-now start --port ${testSitePort} --path ${testDir} --skip-browser`,
       url: process.env.WP_BASE_URL,
       timeout: 120_000, // 120 seconds.
       reuseExistingServer: true,
