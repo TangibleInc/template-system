@@ -231,11 +231,13 @@ Examples of how to write end-to-end tests:
 │   ├── template-post          // Template post
 │   └── universal-id           // Universal ID
 │
-├── content                    // Content Structure integration
+├── builder                    // Unified template editor environment
+├── content                    // Content structure: post types and fields
+├── design                     // Building blocks for design systems
 ├── form                       // Form
 ├── editor                     // Template editor core
 │
-├── elandel                    // TypeScript implementation of the template language
+├── elandel                    // Cross-platform template language in TypeScript
 │   ├── css                    // CSS engine with extended syntax
 │   ├── editor                 // Code editor
 │   └── html                   // HTML engine with extended syntax
@@ -251,14 +253,12 @@ Examples of how to write end-to-end tests:
 │   ├── date                   // Date module based on Carbon library
 │   ├── design                 // Design
 │   ├── empty-block-theme      // Empty Block Theme for testing
-│   ├── env                    // Dev and test environment
+│   ├── env                    // Local develop and test environment with WordPress Playground
 │   ├── format                 // Format methods
 │   ├── hjson                  // Human JSON
-│   ├── html                   // New streaming HTML parser and renderer 
-│   ├── interface              // Interface module (deprecated)
 │   ├── log                    // Logger
-│   ├── object                 // Object module (deprecated)
-│   ├── plugin                 // Plugin features
+│   ├── object                 // Object
+│   ├── plugin                 // Plugin utilities: settings page, features list
 │   ├── preact                 // Preact
 │   └── select                 // Select
 │
