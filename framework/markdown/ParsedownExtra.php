@@ -1,4 +1,5 @@
 <?php
+namespace tangible\markdown;
 
 //
 //
@@ -13,7 +14,7 @@
 //
 //
 
-class ParsedownExtra_0_8_0 extends Parsedown_1_8_0 {
+class ParsedownExtra extends Parsedown {
 
     // ~
 

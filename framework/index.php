@@ -35,6 +35,7 @@ if (!class_exists('tangible\\framework')) {
     require_once __DIR__ . '/format/index.php';
     require_once __DIR__ . '/hjson/index.php';
     require_once __DIR__ . '/interface/index.php';
+    require_once __DIR__ . '/markdown/index.php';
     require_once __DIR__ . '/object/index.php';
     require_once __DIR__ . '/plugin/index.php';
     require_once __DIR__ . '/preact/index.php';
