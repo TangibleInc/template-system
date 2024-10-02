@@ -62,6 +62,11 @@ $plugin->template_tag_and_shortcode = function($atts, $nodes = []) use ($plugin,
     unset($atts['title']);
   }
 
+  if (empty($post) && $nodes) {
+    // Create a temporary post object
+    $post = new WP_Post((object) ['ID' => 1, 'post_content' => $nodes]);
+  } 
+
   if (empty($post)) return;
 
   unset($atts['keys']);
