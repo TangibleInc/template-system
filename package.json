@@ -10,7 +10,9 @@
   "repository": "git@github.com:tangibleinc/template-system.git",
   "scripts": {
     "start": "wp-now start",
-    "deps": "roll install",
+    "postinstall": "roll install",
+    "install:dev": "roll install --dev",
+    "update:dev": "roll update --dev",
     "// Modules": "",
     "dev": "roll dev",
     "build": "roll build",
@@ -29,10 +31,10 @@
     "test:html": "wp-now php tests/html/index.php",
     "// End-to-end tests with Playwright": "",
     "e2e": "playwright test --config tests/playwright.config.js",
-    "e2e:debug": "playwright test --config tests/playwright.config.js --debug",
     "e2e:install": "playwright install chromium",
-    "e2e:ui": "playwright test --config tests/playwright.config.js --ui",
-    "e2e:watch": "chokidar 'tests/e2e/**/*.js' --initial --silent -c 'playwright test -- --retries=0'"
+    "e2e:debug": "npm run e2e -- --debug",
+    "e2e:ui": "npm run e2e -- --ui",
+    "e2e:watch": "chokidar 'tests/e2e/**/*.js' --initial --silent -c 'npm run e2e -- --retries=0'"
   },
   "devDependencies": {
     "@playwright/test": "^1.47.2",

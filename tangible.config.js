@@ -44,7 +44,8 @@ export default {
    * In the file `.wp-env.json`, these folders are mounted to the virtual file system
    * for local development and testing.
    */
-  install: [
+  install: [],
+  installDev: [
     {
       zip: 'https://downloads.wordpress.org/plugin/advanced-custom-fields.latest-stable.zip',
       dest: 'vendor/tangible-dev/advanced-custom-fields'
@@ -65,6 +66,11 @@ export default {
       git: 'git@github.com:tangibleinc/fields',
       dest: 'vendor/tangible-dev/fields',
       branch: 'main',
-    }
+    },
+    {
+      git: 'git@github.com:tangibleinc/framework',
+      dest: 'vendor/tangible-dev/framework',
+      branch: 'main',
+    },
   ],
 }

@@ -9,6 +9,6 @@
   "dependencies": {
   },
   "devDependencies": {
-    "@tangible/roller": "1.x"
+    "@tangible/roller": "2"
   }
 }
