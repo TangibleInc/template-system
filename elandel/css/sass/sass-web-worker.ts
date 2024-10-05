@@ -1,3 +1,4 @@
+/// <reference lib="webworker" />
 /**
  * Sass compiler in Web Worker
  * Using fast sync version of compileString

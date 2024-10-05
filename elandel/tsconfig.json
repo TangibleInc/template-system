@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "outDir": "./build",
+
     // Enable latest features
     "lib": ["ESNext"],
     "target": "ESNext",
@@ -23,5 +25,13 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
-  }
+  },
+  "include": [
+    "builder",
+    "css",
+    "editor",
+    "html",
+    "logic"
+  ],
+  "references": []
 }

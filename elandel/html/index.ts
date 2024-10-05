@@ -5,6 +5,7 @@ import { toHtml } from './hast-util-to-html'
 import type { Root } from './hast-util-from-html'
 import type { Options as FormatOptions } from './rehype-format'
 import type { Options as ParserOptions } from './hast-util-from-html'
+import type { Raw } from 'mdast-util-to-hast'
 
 export type Language = {
   closedTags?: string[]
@@ -24,27 +25,31 @@ export type { Root }
 export type * from 'hast'
 export { htmlVoidElements } from './html-void-elements'
 
-export function createHtmlEngine(language: Language) {
-  
+export type HtmlEngine = {
+  language: Language
+  parse: (content: string, options?: ParseOptions & Language) => Root
+  format: (rootNode: Root) => Root
+  render: (rootNode: Root) => string
+}
+
+export function createHtmlEngine(language: Language): HtmlEngine {
   const formatter = rehypeFormat(language)
-  const engine = {
+  const html: HtmlEngine = {
     language,
-    parse: (
-      content: string,
-      options: ParseOptions & Language = {}
-    ): Root => parse(content, Object.assign(options, language)),
+    parse: (content: string, options: ParseOptions & Language = {}): Root =>
+      parse(content, Object.assign(options, language)),
     format: (rootNode: Root): Root => {
       formatter(rootNode) // Mutates tree
       return rootNode
     },
-    render: (rootNode: Root): string => render(rootNode, language)
+    render: (rootNode: Root): string => render(rootNode, language),
   }
-  return engine
+  return html
 }
 
 export function parse(
   content: string,
-  options?: ParseOptions & Language
+  options?: ParseOptions & Language,
 ): Root {
   return fromHtml(content, {
     document: false,
@@ -56,7 +61,7 @@ export function parse(
 export function formatString(content: string, language: Language = {}): string {
   return render(
     format(parse(content, language), language),
-    language
+    language,
   ).trimStart()
 }
 
