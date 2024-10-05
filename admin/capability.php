@@ -4,16 +4,16 @@ namespace tangible\template_system;
 /**
  * Admins without `unfiltered_html` capability cannot edit template post types
  * 
- * - On multisite intalls, by default only network admins have this capability, not subsite admins
+ * - On multisite installs, by default only network admins have this capability, not subsite admins
  * - Show admin menu, template editor (Gutenberg, Elementor, Beaver), and edit screens to only allowed admins
  * 
  * The plan is to implement more detailed access control settings in Template
  * System Pro module.
  * 
  * @see ./menu.php
- * @see /system/interations/gutenberg/enqueue
- * @see /system/interations/elementor/template-editor-widget
- * @see /system/interations/beaver/modules/tangible-template
+ * @see /interations/gutenberg/enqueue
+ * @see /interations/elementor/template-editor-widget
+ * @see /interations/beaver/modules/tangible-template
  */
 
 function can_user_edit_template($id = 0) {

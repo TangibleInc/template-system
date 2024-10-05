@@ -1,6 +1,6 @@
 # Builder
 
-The Builder module is an IDE (integrated developer environment) that integrates all features of the template language and editor.
+The Builder module is an IDE (integrated developer environment) unifying all features of the template language and editor.
 
 - Editor with intellisense
 

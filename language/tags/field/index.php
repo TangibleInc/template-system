@@ -1,4 +1,12 @@
 <?php
+/**
+ * Field tag
+ * 
+ * TODO:
+ * - Separate ACF-specific logic to /integrations/advanced-custom-fields
+ * - Integrate Tangible Fields module
+ * - Filter/hook system to support both?
+ */
 use tangible\template_system;
 
 $html->field_tag = function( $atts ) use ( $loop, $html ) {
@@ -42,32 +50,32 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
   $format_type    = isset( $atts['format'] ) ? $atts['format'] : '';
   $format_options = [];
 
+  /**
+   * ACF Date field types
+   * 
+   * The field value is always formatted by our Date module and **not ACF**, because we
+   * need to apply the locale, timezone, and format attributes.
+   * 
+   * If no format is given, the default format is determined by ACF field setting for
+   * return value. For the Date field, previously we got the date format from Settings ->
+   * General -> Date Format, using `get_option( 'date_format' )`.
+   * 
+   * The date format for the raw value as ACF stores it:
+   * 
+   * @see https://www.advancedcustomfields.com/resources/date-picker/#database-format
+   * @see https://www.advancedcustomfields.com/resources/date-time-picker/#database-format
+   * @see https://www.advancedcustomfields.com/resources/time-picker/#database-format
+   * 
+   * For the Date field, we convert the value from ACF default "Ymd" to "Y-m-d" to prevent
+   * it from being treated as timestamp by date formatting.
+   * 
+   * @see /integrations/advanced-custom-fields/get-field
+   */
   if (isset( $atts['acf_date'] )
     || isset( $atts['acf_date_time'] )
     || isset( $atts['acf_time'] )
   ) {
 
-    /**
-     * ACF Date field types
-     * 
-     * The field value is always formatted by our Date module and **not ACF**, because we
-     * need to apply the locale, timezone, and format attributes.
-     * 
-     * If no format is given, the default format is determined by ACF field setting for
-     * return value. For the Date field, previously we got the date format from Settings ->
-     * General -> Date Format, using `get_option( 'date_format' )`.
-     * 
-     * The date format for the raw value as ACF stores it:
-     * 
-     * @see https://www.advancedcustomfields.com/resources/date-picker/#database-format
-     * @see https://www.advancedcustomfields.com/resources/date-time-picker/#database-format
-     * @see https://www.advancedcustomfields.com/resources/time-picker/#database-format
-     * 
-     * For the Date field, we convert the value from ACF default "Ymd" to "Y-m-d" to prevent
-     * it from being treated as timestamp by date formatting.
-     * 
-     * @see /integrations/advanced-custom-fields/get-field
-     */
     if (isset( $atts['acf_date'] )) {
 
       $field_name = $atts['acf_date'];

@@ -10,6 +10,8 @@
  *   <Field id />
  * </Loop>
  * ```
+ * 
+ * @see ./field, "loop type field"
  */
 $html->user_tag = function( $atts ) use ( $html ) {
   $atts['user'] = array_shift( $atts['keys'] );

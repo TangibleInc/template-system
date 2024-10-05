@@ -38,7 +38,7 @@ return tangible_template(new class extends stdClass {
     $this->version = $this->system->version;
 
     /**
-     * HTML module is the basis of Template module.
+     * HTML module is the basis of Language module.
      * 
      * It used to be a separate module in the plugin framework. Its features
      * are used by the Loop module, for example, to build an image tag with
