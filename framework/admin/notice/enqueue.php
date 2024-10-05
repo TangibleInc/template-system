@@ -25,6 +25,6 @@ add_action('wp_ajax_tangible_admin_dismiss_notice', function() {
   check_ajax_referer('tangible-admin-dismiss-notice', 'nonce');
   $name = sanitize_text_field($_POST['admin_notice_key']);
 
-  admin\dismiss_admin_notice($name);
+  dismiss_admin_notice($name);
   exit;
 });

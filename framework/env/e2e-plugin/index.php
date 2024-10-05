@@ -15,6 +15,7 @@ add_action( 'do_meta_boxes', function($post_type, $context, $post ) {
 
   if ($context==='side' && isset( $wp_meta_boxes[ $page ][ $context ]['core']['submitdiv'] )) {
     $box = &$wp_meta_boxes[ $page ][ $context ]['core']['submitdiv'];
+    if (!is_array($box)) return; // Can be false
     $callback = $box['callback'];
     $box['callback'] = function($data_object) use ($box, $callback) {
       @call_user_func( $callback, $data_object, $box );

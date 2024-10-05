@@ -25,6 +25,7 @@ export function createConfig(userConfig = {}) {
 
   const testSitePort = userConfig.port || 8881
   const testDir = userConfig.testDir || __dirname // path.join(cwd, 'tests/e2e')
+  const testMatch = userConfig.testMatch || '**/*.js'
 
   /**
    * Workaround because @wordpress/e2e-test-utils-playwright
@@ -76,7 +77,7 @@ export function createConfig(userConfig = {}) {
     // Custom
   
     testDir,
-    testMatch: '**/*.js',
+    testMatch,
     testIgnore: [
       'playwright.*.js',
     ],
