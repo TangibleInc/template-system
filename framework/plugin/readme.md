@@ -19,9 +19,9 @@ add_action('plugins_loaded', function() {
     'dir_path' => plugin_dir_path( __FILE__ ),
     'url' => plugins_url( '/', __FILE__ ),
     'assets_url'     => plugins_url( '/assets', __FILE__ ),
+    // ...Load plugin features
   ]);
 
-  // ...Load plugin features
 });
 ```
 
@@ -72,8 +72,8 @@ Each feature has these properties:
 - `default` - Optional: Set `true` to enable the feature by default
 
 ```php
-framework\register_plugin_settings($plugin, [
-  // ...Other settings
+$plugin = framework\register_plugin([
+  // ...Plugin configuration
   'features' => [
     [
       'name' => 'example',
@@ -87,6 +87,10 @@ framework\register_plugin_settings($plugin, [
       'default' => true,
     ],
   ],
+]);
+
+framework\register_plugin_settings($plugin, [
+  // ...Other settings
   'tabs' => [
     // ...Other tabs
     'features' => [
