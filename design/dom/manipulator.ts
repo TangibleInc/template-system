@@ -1,4 +1,3 @@
-import { DATA_PREFIX } from '../base-component'
 
 function normalizeData(value) {
   if (value === 'true') {
@@ -29,38 +28,47 @@ function normalizeData(value) {
 }
 
 function normalizeDataKey(key) {
-  return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`)
+  return key.replace(/[A-Z]/g, (chr) => `-${chr.toLowerCase()}`)
 }
 
-const Manipulator = {
-  setDataAttribute(element, key, value) {
-    element.setAttribute(`data-${DATA_PREFIX}${normalizeDataKey(key)}`, value)
-  },
+export default function createManipulator({ DATA_PREFIX, DATA_PREFIX_BASE }) {
+  const Manipulator = {
+    setDataAttribute(element, key, value) {
+      element.setAttribute(`data-${DATA_PREFIX}${normalizeDataKey(key)}`, value)
+    },
 
-  removeDataAttribute(element, key) {
-    element.removeAttribute(`data-${DATA_PREFIX}${normalizeDataKey(key)}`)
-  },
+    removeDataAttribute(element, key) {
+      element.removeAttribute(`data-${DATA_PREFIX}${normalizeDataKey(key)}`)
+    },
 
-  getDataAttributes(element) {
-    if (!element) {
-      return {}
-    }
+    getDataAttributes(element) {
+      if (!element) {
+        return {}
+      }
 
-    const attributes = {}
-    const bsKeys = Object.keys(element.dataset).filter(key => key.startsWith('bs') && !key.startsWith('bsConfig'))
+      const attributes = {}
 
-    for (const key of bsKeys) {
-      let pureKey = key.replace(/^bs/, '')
-      pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1)
-      attributes[pureKey] = normalizeData(element.dataset[key])
-    }
+      const configKeys = Object.keys(element.dataset).filter(
+        (key) => key.startsWith(DATA_PREFIX_BASE) && !key.startsWith(`${DATA_PREFIX_BASE}Config`),
+      )
 
-    return attributes
-  },
+      for (const key of configKeys) {
+        let pureKey = key
+          // .replace(/^bs/, '')
+          .slice(DATA_PREFIX_BASE.length)
+        pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1)
+        attributes[pureKey] = normalizeData(element.dataset[key])
+      }
 
-  getDataAttribute(element, key) {
-    return normalizeData(element.getAttribute(`data-${DATA_PREFIX}${normalizeDataKey(key)}`))
+      return attributes
+    },
+
+    getDataAttribute(element, key) {
+      return normalizeData(
+        element.getAttribute(`data-${DATA_PREFIX}${normalizeDataKey(key)}`),
+      )
+    },
   }
-}
 
-export default Manipulator
+  return Manipulator
+}

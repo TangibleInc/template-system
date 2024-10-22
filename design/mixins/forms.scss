@@ -24,7 +24,7 @@
   $focus-box-shadow: 0 0 $input-btn-focus-blur $input-focus-width rgba($color, $input-btn-focus-color-opacity),
   $border-color: $color
 ) {
-  .#{$state}-feedback {
+  .#{$class-prefix}#{$state}-feedback {
     display: none;
     width: 100%;
     margin-top: $form-feedback-margin-top;
@@ -33,7 +33,7 @@
     color: $color;
   }
 
-  .#{$state}-tooltip {
+  .#{$class-prefix}#{$state}-tooltip {
     position: absolute;
     top: 100%;
     z-index: 5;
@@ -49,8 +49,8 @@
   }
 
   @include form-validation-state-selector($state) {
-    ~ .#{$state}-feedback,
-    ~ .#{$state}-tooltip {
+    ~ .#{$class-prefix}#{$state}-feedback,
+    ~ .#{$class-prefix}#{$state}-tooltip {
       display: block;
     }
   }
@@ -141,7 +141,7 @@
     }
   }
   .#{$class-prefix}form-check-inline .#{$class-prefix}form-check-input {
-    ~ .#{$state}-feedback {
+    ~ .#{$class-prefix}#{$state}-feedback {
       margin-left: .5em;
     }
   }

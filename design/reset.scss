@@ -1,13 +1,39 @@
 
 // Global or under parent selector
-@if ($parent-selector == "") {
-  html {
-    @extend %reset;
-  }
+// html {
+//   @extend %reset;
+// }
+
+// Use 0 specificity to not compete with root-level classes
+:where(.#{$class-prefix}reset) {
+  @extend %reset;
 }
 
-.#{$class-prefix}reset {
-  @extend %reset;
+// Body
+//
+// 1. Remove the margin in all browsers.
+// 2. As a best practice, apply a default `background-color`.
+// 3. Prevent adjustments of font size after orientation changes in iOS.
+// 4. Change the default tap highlight to be completely transparent in iOS.
+
+// scss-docs-start reboot-body-rules
+.#{$class-prefix}reset body, body.#{$class-prefix}reset {
+  @extend %body;
+}
+
+// Mixin to optionally apply to body with no class
+%body {
+  margin: 0; // 1
+  font-family: var(--#{$prefix}body-font-family);
+  @include font-size(var(--#{$prefix}body-font-size));
+  font-weight: var(--#{$prefix}body-font-weight);
+  line-height: var(--#{$prefix}body-line-height);
+  color: var(--#{$prefix}body-color);
+  text-align: var(--#{$prefix}body-text-align);
+  background-color: var(--#{$prefix}body-bg); // 2
+  -webkit-text-size-adjust: 100%; // 3
+  -webkit-tap-highlight-color: rgba($black, 0); // 4
+  overflow: auto;
 }
 
 // Typography
@@ -64,30 +90,6 @@
     }
   }
 }
-
-
-// Body
-//
-// 1. Remove the margin in all browsers.
-// 2. As a best practice, apply a default `background-color`.
-// 3. Prevent adjustments of font size after orientation changes in iOS.
-// 4. Change the default tap highlight to be completely transparent in iOS.
-
-// scss-docs-start reboot-body-rules
-&, body {
-  margin: 0; // 1
-  font-family: var(--#{$prefix}body-font-family);
-  @include font-size(var(--#{$prefix}body-font-size));
-  font-weight: var(--#{$prefix}body-font-weight);
-  line-height: var(--#{$prefix}body-line-height);
-  color: var(--#{$prefix}body-color);
-  text-align: var(--#{$prefix}body-text-align);
-  background-color: var(--#{$prefix}body-bg); // 2
-  -webkit-text-size-adjust: 100%; // 3
-  -webkit-tap-highlight-color: rgba($black, 0); // 4
-}
-// scss-docs-end reboot-body-rules
-
 
 // Content grouping
 //

@@ -1,0 +1,6 @@
+.badge > a {
+  color: inherit;
+}
+.badge {
+  --mdb-badge-color: #000;
+}

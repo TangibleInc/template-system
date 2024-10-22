@@ -1,0 +1,97 @@
+// Docusaurus sets attribute `data-theme`
+$data-theme-prefix: '';
+
+@import '../base.scss';
+@import '../root.scss';
+@import '../reset.scss';
+
+@import '../components/type';
+@import '../components/images';
+@import '../components/containers'; // 20K
+
+@import '../components/grid';
+@import '../components/tables';
+@import '../components/forms';
+@import '../components/buttons';
+@import '../components/transitions';
+@import '../components/dropdown';
+@import '../components/button-group';
+@import '../components/nav';
+@import '../components/navbar'; // 74K
+
+@import '../components/card';
+@import '../components/accordion';
+@import '../components/breadcrumb';
+@import '../components/pagination';
+@import '../components/badge';
+@import '../components/alert';
+@import '../components/progress';
+@import '../components/list-group';
+@import '../components/close';
+@import '../components/toasts';
+@import '../components/modal';
+@import '../components/tooltip';
+@import '../components/popover';
+@import '../components/carousel';
+@import '../components/spinners';
+@import '../components/offcanvas';
+@import '../components/placeholders'; // 67K
+
+// Utilities
+
+@import '../helpers'; // 7K
+@import '../utilities/api'; // 66K
+
+// Docusaurus classic theme uses a CSS framework called Infima
+// Ideally it should be replaced entirely
+
+:root {
+  --ifm-color-primary: #2e8555;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-font-size-base: 110%;
+  // --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+  --ifm-footer-background-color: #ffffff;
+  box-shadow: var(--ifm-navbar-shadow);
+}
+
+.markdown nav {
+  li {
+    margin: 0;
+  }
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  .footer {
+    --ifm-footer-background-color: #242526; // #303846
+  }
+}
+
+.container > h1 {
+  margin-top: 1rem;
+}
+
+// Give content more width when no sidebar
+@media (min-width: 997px) {
+  #__docusaurus .docItemCol_node_modules-\@docusaurus-theme-classic-lib-theme-DocItem-Layout-styles-module {
+    max-width: 100% !important;
+  }
+}

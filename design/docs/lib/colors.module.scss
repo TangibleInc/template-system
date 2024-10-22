@@ -1,0 +1,57 @@
+@import "../../functions.scss";
+@import "../../variables.scss";
+
+$card-radius: .5rem;
+
+.card {
+  padding: .5rem 1rem;
+  max-width: 22rem;
+  &:first-child {
+    border-top-left-radius: $card-radius;
+    border-top-right-radius: $card-radius;
+  }
+  &:last-child {
+    border-bottom-left-radius: $card-radius;
+    border-bottom-right-radius: $card-radius;
+  }
+}
+
+.allColors {
+  @each $colorGroup in (
+    $blues,
+    $indigos,
+    $purples,
+    $pinks,
+    $reds,
+    $oranges,
+    $yellows,
+    $greens,
+    $teals,
+    $cyans,
+    // $grays // Already exists
+  ) {
+    @each $color, $value in $colorGroup {
+      --#{$prefix}#{$color}: #{$value};
+      // @debug "color #{$color} - value #{$value}";
+    }
+  }
+
+  section {
+    display: inline-block;
+    margin: .25rem;
+    padding-bottom: 1rem;
+    // &:not(:last-child) {
+    //   border-bottom: 1px solid $gray-600;
+    // }
+  }
+
+  h2 {
+    font-size: 1rem;;
+  }
+}
+
+.colorList {
+  overflow: hidden;
+  // border-radius: .5rem;
+  text-align: left;
+}

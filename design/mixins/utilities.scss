@@ -54,17 +54,17 @@
       }
 
       @if $is-css-var {
-        .#{$property-class + $infix + $property-class-modifier} {
+        .#{$class-prefix}#{$property-class + $infix + $property-class-modifier} {
           --#{$prefix}#{$css-variable-name}: #{$value};
         }
 
         @each $pseudo in $state {
-          .#{$property-class + $infix + $property-class-modifier}-#{$pseudo}:#{$pseudo} {
+          .#{$class-prefix}#{$property-class + $infix + $property-class-modifier}-#{$pseudo}:#{$pseudo} {
             --#{$prefix}#{$css-variable-name}: #{$value};
           }
         }
       } @else {
-        .#{$property-class + $infix + $property-class-modifier} {
+        .#{$class-prefix}#{$property-class + $infix + $property-class-modifier} {
           @each $property in $properties {
             @if $is-local-vars {
               @each $local-var, $variable in $is-local-vars {
@@ -76,7 +76,7 @@
         }
 
         @each $pseudo in $state {
-          .#{$property-class + $infix + $property-class-modifier}-#{$pseudo}:#{$pseudo} {
+          .#{$class-prefix}#{$property-class + $infix + $property-class-modifier}-#{$pseudo}:#{$pseudo} {
             @each $property in $properties {
               @if $is-local-vars {
                 @each $local-var, $variable in $is-local-vars {

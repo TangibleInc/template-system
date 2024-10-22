@@ -1,0 +1,50 @@
+{
+	"color": {
+		"white": {
+			"name": "white",
+			"$value": "#ffffff"
+		},
+		"blanche": {
+			"name": "white",
+			"$value": "{color.white}"
+		},
+		"weiss": {
+			"name": "white",
+			"$value": "{color.blanche}"
+		},
+		"black": {
+			"name": "black",
+			"$value": "#000000"
+		},
+		"grayscale": {
+			"200": {
+				"name": "grayscale-200",
+				"$value": "#f8f8f8"
+			},
+			"300": {
+				"name": "grayscale-300",
+				"$value": "#f3f3f3"
+			},
+			"400": {
+				"name": "grayscale-400",
+				"$value": "#dadada"
+			},
+			"500": {
+				"name": "grayscale-500",
+				"$value": "#999999"
+			},
+			"600": {
+				"name": "grayscale-600",
+				"$value": "#666666"
+			},
+			"700": {
+				"name": "grayscale-700",
+				"$value": "#555555"
+			},
+			"800": {
+				"name": "grayscale-800",
+				"$value": "#222222"
+			}
+		}
+	}
+}

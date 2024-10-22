@@ -1,4 +1,3 @@
-import { DATA_PREFIX } from '../base-component'
 
 const MAX_UID = 1_000_000
 const MILLISECONDS_MULTIPLIER = 1000
@@ -172,7 +171,9 @@ const reflow = element => {
 }
 
 const getjQuery = () => {
-  if (window.jQuery && !document.body.hasAttribute(`data-${DATA_PREFIX}no-jquery`)) {
+  if (window.jQuery
+    // && !document.body.hasAttribute(`data-${DATA_PREFIX}no-jquery`)
+  ) {
     return window.jQuery
   }
 

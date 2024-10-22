@@ -1,18 +1,60 @@
 {
   "name": "@tangible/design",
-  "type": "module",
-  "version": "2024.09.08",
+  "version": "0.0.1",
   "scripts": {
-    "start": "roll dev",
-    "build": "roll build",
-    "format": "roll format",
-    "version": "node version.js",
-    "wp": "concurrently --raw 'roll dev' 'wp-now start'"
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "docs": "docusaurus",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "typecheck": "tsc"
   },
-  "dependencies": { "@popperjs/core": "^2.11.8" },
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "classnames": "^2.5.1",
+    "prop-types": "^15.8.1",
+    "react-transition-group": "^4.4.5"
+  },
   "devDependencies": {
-    "@tangible/roller": "2.x",
-    "@wp-now/wp-now": "^0.1.66",
-    "concurrently": "^8.2.2"
+    "@docusaurus/core": "3.5.2",
+    "@docusaurus/module-type-aliases": "3.5.2",
+    "@docusaurus/preset-classic": "3.5.2",
+    "@docusaurus/tsconfig": "3.5.2",
+    "@docusaurus/types": "3.5.2",
+    "@mdx-js/react": "^3.0.1",
+    "@tangible/roller": "^2.1.1",
+    "@types/react": "^18.3.11",
+    "@types/react-transition-group": "^4.4.11",
+    "clsx": "^2.1.1",
+    "docusaurus-lunr-search": "^3.5.0",
+    "docusaurus-plugin-sass": "^0.2.5",
+    "prism-react-renderer": "^2.4.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sass": "1.79.5",
+    "typescript": "^5.6.3"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0"
   }
 }

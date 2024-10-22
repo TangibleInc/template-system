@@ -13,7 +13,7 @@
       }
     }
   } @else {
-    [data-#{$data-prefix}theme="#{$mode}"] {
+    [data-#{$data-theme-prefix}theme="#{$mode}"] {
       @content;
     }
   }

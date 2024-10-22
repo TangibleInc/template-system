@@ -1,5 +1,7 @@
+$data-theme-prefix: $data-prefix !default;
+
 :root,
-[data-#{$data-prefix}theme="light"] {
+[data-#{$data-theme-prefix}theme="light"] {
   // Note: Custom variable values only support SassScript inside `#{}`.
 
   // Colors

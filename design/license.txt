@@ -1,9 +1,16 @@
 MIT License - Copyright (c) 2024 Tangible
 
-This software includes a fork of:
+This software includes the following libraries. MIT license unless otherwise noted.
 
-https://github.com/twbs/bootstrap
-MIT License - Copyright (c) 2011-2024 The Bootstrap Authors
+- https://github.com/BerkeleyTrue/warning Copyright (c) Facebook, Inc.
+- https://github.com/jquense/react-common-hooks Copyright (c) Jason Quense
+- https://github.com/jquense/uncontrollable Copyright (c) Jason Quense
+- https://github.com/lukeed/dequal Copyright (c) Luke Edwards
+- https://github.com/react-bootstrap/dom-helpers Copyright (c) Jason Quense
+- https://github.com/react-bootstrap/prop-types-extra Copyright (c) react-bootstrap
+- https://github.com/react-bootstrap/react-bootstrap Copyright (c) Stephen J. Collings, Matthew Honnibal, Pieter Vanderwerff
+- https://github.com/twbs/bootstrap Copyright (c) The Bootstrap Authors
+- https://github.com/zertosh/invariant Copyright (c) Facebook, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -5,4 +5,12 @@
 $class-prefix: "";
 $parent-selector: "";
 
+html {
+  @extend %reset;
+}
+
+body {
+  @extend %body;
+}
+
 @import "index";

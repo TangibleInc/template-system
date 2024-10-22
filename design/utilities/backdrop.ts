@@ -1,145 +1,154 @@
-import { DATA_PREFIX, DATA_PREFIX_BASE } from '../base-component'
-import EventHandler from '../dom/event-handler'
-import Config from './config'
-import {
-  execute, executeAfterTransition, getElement, reflow
-} from './index'
 
-/**
- * Constants
- */
+export default function createBackdrop({
+  DATA_PREFIX,
+  DATA_PREFIX_BASE,
+  EventHandler,
+  Config,
+  execute,
+  executeAfterTransition,
+  getElement,
+  reflow,
+}) {
+  /**
+   * Constants
+   */
 
-const NAME = 'backdrop'
-const CLASS_NAME_FADE = 'fade'
-const CLASS_NAME_SHOW = 'show'
-const EVENT_MOUSEDOWN = `mousedown.${DATA_PREFIX_BASE}.${NAME}`
+  const NAME = 'backdrop'
+  const CLASS_NAME_FADE = 'fade'
+  const CLASS_NAME_SHOW = 'show'
+  const EVENT_MOUSEDOWN = `mousedown.${DATA_PREFIX_BASE}.${NAME}`
 
-const Default = {
-  className: 'modal-backdrop',
-  clickCallback: null,
-  isAnimated: false,
-  isVisible: true, // if false, we use the backdrop helper without adding any element to the dom
-  rootElement: 'body' // give the choice to place backdrop under different elements
-}
-
-const DefaultType = {
-  className: 'string',
-  clickCallback: '(function|null)',
-  isAnimated: 'boolean',
-  isVisible: 'boolean',
-  rootElement: '(element|string)'
-}
-
-/**
- * Class definition
- */
-
-class Backdrop extends Config {
-  constructor(config) {
-    super()
-    this._config = this._getConfig(config)
-    this._isAppended = false
-    this._element = null
+  const Default = {
+    className: 'modal-backdrop',
+    clickCallback: null,
+    isAnimated: false,
+    isVisible: true, // if false, we use the backdrop helper without adding any element to the dom
+    rootElement: 'body', // give the choice to place backdrop under different elements
   }
 
-  // Getters
-  static get Default() {
-    return Default
+  const DefaultType = {
+    className: 'string',
+    clickCallback: '(function|null)',
+    isAnimated: 'boolean',
+    isVisible: 'boolean',
+    rootElement: '(element|string)',
   }
 
-  static get DefaultType() {
-    return DefaultType
-  }
+  /**
+   * Class definition
+   */
 
-  static get NAME() {
-    return NAME
-  }
-
-  // Public
-  show(callback) {
-    if (!this._config.isVisible) {
-      execute(callback)
-      return
+  class Backdrop extends Config {
+    constructor(config) {
+      super()
+      this._config = this._getConfig(config)
+      this._isAppended = false
+      this._element = null
     }
 
-    this._append()
-
-    const element = this._getElement()
-    if (this._config.isAnimated) {
-      reflow(element)
+    // Getters
+    static get Default() {
+      return Default
     }
 
-    element.classList.add(CLASS_NAME_SHOW)
-
-    this._emulateAnimation(() => {
-      execute(callback)
-    })
-  }
-
-  hide(callback) {
-    if (!this._config.isVisible) {
-      execute(callback)
-      return
+    static get DefaultType() {
+      return DefaultType
     }
 
-    this._getElement().classList.remove(CLASS_NAME_SHOW)
-
-    this._emulateAnimation(() => {
-      this.dispose()
-      execute(callback)
-    })
-  }
-
-  dispose() {
-    if (!this._isAppended) {
-      return
+    static get NAME() {
+      return NAME
     }
 
-    EventHandler.off(this._element, EVENT_MOUSEDOWN)
-
-    this._element.remove()
-    this._isAppended = false
-  }
-
-  // Private
-  _getElement() {
-    if (!this._element) {
-      const backdrop = document.createElement('div')
-      backdrop.className = this._config.className
-      if (this._config.isAnimated) {
-        backdrop.classList.add(CLASS_NAME_FADE)
+    // Public
+    show(callback) {
+      if (!this._config.isVisible) {
+        execute(callback)
+        return
       }
 
-      this._element = backdrop
+      this._append()
+
+      const element = this._getElement()
+      if (this._config.isAnimated) {
+        reflow(element)
+      }
+
+      element.classList.add(CLASS_NAME_SHOW)
+
+      this._emulateAnimation(() => {
+        execute(callback)
+      })
     }
 
-    return this._element
-  }
+    hide(callback) {
+      if (!this._config.isVisible) {
+        execute(callback)
+        return
+      }
 
-  _configAfterMerge(config) {
-    // use getElement() with the default "body" to get a fresh Element on each instantiation
-    config.rootElement = getElement(config.rootElement)
-    return config
-  }
+      this._getElement().classList.remove(CLASS_NAME_SHOW)
 
-  _append() {
-    if (this._isAppended) {
-      return
+      this._emulateAnimation(() => {
+        this.dispose()
+        execute(callback)
+      })
     }
 
-    const element = this._getElement()
-    this._config.rootElement.append(element)
+    dispose() {
+      if (!this._isAppended) {
+        return
+      }
 
-    EventHandler.on(element, EVENT_MOUSEDOWN, () => {
-      execute(this._config.clickCallback)
-    })
+      EventHandler.off(this._element, EVENT_MOUSEDOWN)
 
-    this._isAppended = true
+      this._element.remove()
+      this._isAppended = false
+    }
+
+    // Private
+    _getElement() {
+      if (!this._element) {
+        const backdrop = document.createElement('div')
+        backdrop.className = this._config.className
+        if (this._config.isAnimated) {
+          backdrop.classList.add(CLASS_NAME_FADE)
+        }
+
+        this._element = backdrop
+      }
+
+      return this._element
+    }
+
+    _configAfterMerge(config) {
+      // use getElement() with the default "body" to get a fresh Element on each instantiation
+      config.rootElement = getElement(config.rootElement)
+      return config
+    }
+
+    _append() {
+      if (this._isAppended) {
+        return
+      }
+
+      const element = this._getElement()
+      this._config.rootElement.append(element)
+
+      EventHandler.on(element, EVENT_MOUSEDOWN, () => {
+        execute(this._config.clickCallback)
+      })
+
+      this._isAppended = true
+    }
+
+    _emulateAnimation(callback) {
+      executeAfterTransition(
+        callback,
+        this._getElement(),
+        this._config.isAnimated,
+      )
+    }
   }
 
-  _emulateAnimation(callback) {
-    executeAfterTransition(callback, this._getElement(), this._config.isAnimated)
-  }
+  return Backdrop
 }
-
-export default Backdrop

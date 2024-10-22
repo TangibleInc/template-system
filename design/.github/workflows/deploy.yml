@@ -16,11 +16,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 20
-      # - run: npm install
-      # - run: npm run build
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: "build"
