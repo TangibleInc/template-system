@@ -10,7 +10,6 @@ export async function createSassEngine(): Promise<{
   compile: SassCompiler
 }> {
 
-  // 
   const sassWorker = new PromiseWorker('sass-worker.min.js')
 
   // TODO: Custom import loader

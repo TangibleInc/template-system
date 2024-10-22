@@ -1,6 +1,6 @@
-# Builder
+# View
 
-The Builder module is an IDE (integrated developer environment) unifying all features of the template language and editor.
+The View module is an IDE (integrated developer environment) unifying all features of the template language and editor.
 
 - Editor with intellisense
 

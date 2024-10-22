@@ -1,6 +1,6 @@
 # Elandel
 
-Elandel is HTML reimagined with loops and logic. It's a user-interface markup language for authoring hypermedia documents on the web.
+Elandel is HTML reimagined with loops and logic.
 
 ```html
 <Loop type=article count=3>
@@ -10,9 +10,11 @@ Elandel is HTML reimagined with loops and logic. It's a user-interface markup la
 </Loop>
 ```
 
-The language can be learned by anyone familiar with the HTML syntax. The tree-structured templates are programs composed with a smart code editor and visual block builder.
+It's a cross-platform template language and authoring environment for hypermedia documents on the web.
 
-The project aims to unify the frontend user interface: the document structure, design and styling, state and behavior; as well as corresponding server-side actions, content types, and fields - defined with the same language.
+The language can be learned by anyone familiar with the HTML syntax. The tree-structured templates are programs composed with a smart code editor and visual block designer.
+
+The project aims to unify the application user interface, document structure, design and styling, state and behavior; as well as server-side actions, content types, and fields - all written in the same language.
 
 ## Library
 

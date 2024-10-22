@@ -6,8 +6,8 @@ run(async () => {
   const { php, phpx } = await createPhp()
 
   const fixtures = {
-    rules: await readJson('./rules.json'),
-    tests: await readJson('./tests.json'),
+    rules: await readJson('../../elandel/logic/rules.json'),
+    tests: await readJson('../../elandel/logic/tests.json'),
   }
 
   const applyLogic = async (logic, data = {}) => {
