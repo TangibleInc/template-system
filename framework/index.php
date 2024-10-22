@@ -12,7 +12,7 @@ if (!class_exists('tangible\\framework')) {
 (include __DIR__ . '/module-loader.php')(new class {
 
   public $name = 'tangible_framework';
-  public $version = '20240916';
+  public $version = '20241021';
 
   function load() {
 

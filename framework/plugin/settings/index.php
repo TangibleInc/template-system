@@ -29,6 +29,13 @@ function get_plugin_settings($plugin) {
  */
 function register_plugin_settings($plugin, $config) {
 
+  // Backward compatibility
+  if (isset($config['features'])) {
+    $plugin->features = $config['features'];
+    unset($config['features']);
+    framework\load_plugin_features( $plugin );
+  }
+
   $is_multisite = is_multisite();
   $url_base = $is_multisite
     ? 'settings.php'
@@ -38,7 +45,7 @@ function register_plugin_settings($plugin, $config) {
   $url = "{$url_base}?page={$settings_page_slug}";
   $settings_page_url = $is_multisite ? network_admin_url($url) : admin_url($url);
 
-  $plugin->settings_config = $config;
+  $plugin->settings = $config;
   if (isset($config['features'])) {
     $plugin->features = $config['features'];
   }

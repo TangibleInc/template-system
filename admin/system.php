@@ -5,9 +5,6 @@
 use tangible\template_system;
 use tangible\date;
 
-// Framework has its own module loader
-require_once __DIR__.'/../framework/index.php';
-
 if (!function_exists('tangible_template_system')) {
   function tangible_template_system( $arg = false ) {
     static $o;
@@ -15,10 +12,10 @@ if (!function_exists('tangible_template_system')) {
   }
 }
 
-(include __DIR__.'/../framework/module-loader.php')(new class extends \stdClass {
+(include __DIR__.'/../module-loader.php')(new class extends \stdClass {
 
   public $name = 'tangible_template_system';
-  public $version = '20240916';
+  public $version = '20241021';
 
   public $url;
   public $path;
@@ -26,21 +23,7 @@ if (!function_exists('tangible_template_system')) {
 
   public $has_plugin = [];
 
-  // Dynamic methods
-  function __call( $method = '', $args = [] ) {
-    if ( isset( $this->$method ) ) {
-      return call_user_func_array( $this->$method, $args );
-    }
-    $caller = current( debug_backtrace() );
-    trigger_error( "Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> on line <b>{$caller['line']}</b><br>", E_USER_WARNING );
-  }
-
   function load() {
-    // Ensure framework is loaded
-    if (!did_action('tangible_framework')) {
-      do_action('tangible_framework');
-    }
-
     $this->path      = __DIR__;
     $this->file_path = __FILE__;
     // Keep trailing slash for backward compatibility
@@ -75,4 +58,13 @@ if (!function_exists('tangible_template_system')) {
   function is_multisite() { return false; }
   function get_settings() { return []; }
   function update_settings() {}
+
+  // Dynamic methods for backward compatibility
+  function __call( $method = '', $args = [] ) {
+    if ( isset( $this->$method ) ) {
+      return call_user_func_array( $this->$method, $args );
+    }
+    $caller = current( debug_backtrace() );
+    trigger_error( "Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> on line <b>{$caller['line']}</b><br>", E_USER_WARNING );
+  }
 });

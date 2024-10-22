@@ -1,12 +1,11 @@
 {
   "mappings": {
-    "wp-content/plugins/framework": "../framework",
-    "wp-content/plugins/template-system": "..",
-    "wp-content/plugins/e2e-plugin": "../framework/env/e2e-plugin",
     "wp-content/plugins/advanced-custom-fields": "../vendor/tangible-dev/advanced-custom-fields",
     "wp-content/plugins/beaver-builder-lite-version": "../vendor/tangible-dev/beaver-builder-lite-version",
     "wp-content/plugins/elementor": "../vendor/tangible-dev/elementor",
+    "wp-content/plugins/tangible-template-system": "..",
+    "wp-content/plugins/tangible-e2e-plugin": "../vendor/tangible/framework/env/e2e-plugin",
     "wp-content/plugins/wp-fusion-lite": "../vendor/tangible-dev/wp-fusion-lite",
-    "wp-content/themes/empty-block-theme": "../framework/empty-block-theme"
+    "wp-content/themes/empty-block-theme": "../vendor/tangible/framework/empty-block-theme"
   }
 }

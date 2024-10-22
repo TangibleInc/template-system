@@ -13,6 +13,7 @@ function render_features_settings_page($plugin) {
   ?>
   <div class="tangible-plugin-features-settings tangible-plugin-<?php echo $plugin->name; ?>-features-settings">
     <h2><?php echo $features_title; ?></h2>
+    <div class="tangible-plugin-features-cards">
     <?php
       foreach ($features as $feature) {
 
@@ -25,39 +26,20 @@ function render_features_settings_page($plugin) {
         ?>
         <div class="setting-row feature-<?php echo $name; ?>">
           <?php
-
-            ?><div class="feature-title"><?php
-
             framework\render_setting_field_checkbox([
+              'type' => 'switch',
               'name' => "{$settings_key}[$feature_key]",
               'value' => $is_enabled ? 'true' : '',
               'label' => $title,
+              'description' => $feature['description'] ?? '',
             ]);
-
-            ?></div><?php
-
-            if (isset($feature['description'])) {
-
-              ?><div class="feature-description"><?php
-
-              if (is_callable($feature['description'])) {
-
-                $feature['description'](
-                  framework\get_plugin_feature_settings($plugin, $feature),
-                  framework\get_plugin_feature_settings_key($plugin, $feature),
-                  $is_enabled
-                );
-
-              } else {
-                echo $feature['description'];
-              }
-
-              ?></div><?php
-            }
           ?>
         </div>
         <?php
       }
+      ?>
+    </div>
+    <?php
       submit_button();
     ?>
   </div>

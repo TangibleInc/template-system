@@ -29,7 +29,7 @@ if (!$result) {
   if (!function_exists('activate_plugin')) {
     require ABSPATH . 'wp-admin/includes/plugin.php';
   }
-  $result = activate_plugin(ABSPATH . 'wp-content/plugins/framework/plugin.php');
+  $result = activate_plugin(ABSPATH . 'wp-content/plugins/tangible-framework/plugin.php');
 }
 
 $has_framework = !is_wp_error($result);

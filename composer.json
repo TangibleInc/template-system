@@ -1,13 +1,3 @@
 {
-  "name": "tangible/template-system",
-  "require-dev": {
-    "phpunit/phpunit": "^9",
-    "yoast/phpunit-polyfills": "^1"
-  },
-  "config": {
-    "allow-plugins": {
-      "composer/installers": true,
-      "dealerdirect/phpcodesniffer-composer-installer": true
-    }
-  }
+  "name": "tangible/template-system"
 }

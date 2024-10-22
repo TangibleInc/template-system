@@ -5,7 +5,7 @@
   "repository": "git@github.com:tangibleinc/framework.git",
   "type": "module",
   "scripts": {
-    "start": "wp-now start",
+    "start": "wp-now start --blueprint=blueprint.dev.json",
     "dev": "roll dev",
     "build": "roll build",
     "format": "roll format",

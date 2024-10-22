@@ -83,7 +83,7 @@ framework\register_plugin_settings($plugin, [
     [
       'name' => 'example_2',
       'title' => 'Second feature',
-      'entry_file' => __DIR__ . '/example-2.php'
+      'entry_file' => __DIR__ . '/example-2.php',
       'default' => true,
     ],
   ],

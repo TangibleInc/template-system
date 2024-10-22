@@ -2,7 +2,7 @@
 namespace tangible\framework;
 use tangible\framework;
 
-function check_dependencies($plugin) {
+function check_plugin_dependencies($plugin) {
 
   $deps = $plugin->dependencies ?? [];
   if (empty($deps)) return;

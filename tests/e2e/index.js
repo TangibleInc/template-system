@@ -22,8 +22,8 @@ describe('Admin', () => {
   })
 
   const plugins = [
-    ['Template System', 'template-system/plugin'],
-    ['E2E', 'e2e-plugin/index'],
+    ['Template System', 'tangible-template-system/plugin'],
+    ['E2E', 'tangible-e2e-plugin/index'],
 
     ['Advanced Custom Fields', 'advanced-custom-fields/acf'],
     ['Elementor', 'elementor/elementor'],

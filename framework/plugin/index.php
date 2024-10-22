@@ -22,7 +22,11 @@ function register_plugin($config) {
   framework::$state->plugins []= $plugin;
 
   framework\load_plugin_features( $plugin );
-  // framework\check_plugin_dependencies( $plugin );
+  framework\check_plugin_dependencies( $plugin );
+
+  if (isset($plugin->settings)) {
+    framework\register_plugin_settings($plugin, $plugin->settings);
+  }
 
   return $plugin;
 }

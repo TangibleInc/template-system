@@ -26,13 +26,17 @@ export default run(async () => {
     reset: true,
   })
 
+  test('Template system - Activate', async () => {
+    let result = await ensureTemplateSystem({ wpx })
+    is(true, result, 'activate plugin')
+  })
+
   // Framework
   await import('../framework/tests/index.ts')
 
   test('Template system - Basic', async () => {
 
-    let result = await ensureTemplateSystem({ wpx })
-    is(true, result, 'activate plugin')
+    let result
 
     result = await wpx`return function_exists('tangible_template_system');`
     is(true, result, 'tangible_template_system() exists')

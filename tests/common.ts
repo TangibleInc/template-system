@@ -40,7 +40,7 @@ if (!function_exists('tangible_template')) {
   if (!function_exists('activate_plugin')) {
     require ABSPATH . 'wp-admin/includes/plugin.php';
   }
-  $result = activate_plugin(ABSPATH . 'wp-content/plugins/template-system/plugin.php');
+  $result = activate_plugin(ABSPATH . 'wp-content/plugins/tangible-template-system/plugin.php');
   if (is_wp_error($result)) return false;
 }
 

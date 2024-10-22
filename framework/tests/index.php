@@ -1,4 +1,4 @@
 <?php
 /**
- * Plugin Name: Test Plugin
+ * Plugin Name: Framework Test Plugin
  */
