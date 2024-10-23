@@ -192,7 +192,7 @@ A common usage is to have terminal sessions open with `npm run dev` (build asset
 
 #### UI mode
 
-There's also "UI mode" that opens a browser interface to see the tests run.
+There's also "UI mode" that opens a browser interface to interactively run the tests and view results.
 
 ```sh
 npm run e2e:ui
