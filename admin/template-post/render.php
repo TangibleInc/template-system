@@ -6,6 +6,7 @@
  * @see /admin/template-post/script
  * @see /admin/template-assets/variable
  */
+use tangible\html;
 use tangible\template_system;
 
 $plugin->render_template_post = function(
@@ -16,6 +17,9 @@ $plugin->render_template_post = function(
 
   $is_post = true;
 
+  // Capture any style, script, or unexpected output
+  ob_start();
+
   // Direct post data
   if (is_array($post) && isset($post['content'])) {
 
@@ -24,12 +28,28 @@ $plugin->render_template_post = function(
 
   } else {
     if (is_numeric( $post )) $post = get_post( $post );
-    if ( ! is_a( $post, 'WP_Post' )) return;
-    $content = $post->post_content;
-  }
+    if ( ! is_a( $post, 'WP_Post' )) {
+      ob_end_clean();
+      return;
+    }
 
-  // Capture any style, script, or unexpected output
-  ob_start();
+    $content = $post->post_content;
+
+    /**
+     * Post content - Optionally processed and cached
+     * Passed to `$html->render_with_catch_exit()` which accepts string
+     * or parsed nodes.
+     * @see ./cache
+     */
+    if (template_system\is_processed_template_post_cache_enabled()) {
+
+      // Delete cache for testing
+      // template_system\delete_processed_template_post_cache($post);
+
+      $processed = template_system\get_processed_template_post_with_cache( $post );
+      $content = $processed['parsed_content'] ?? $content;
+    }
+  }
 
   /**
    * Local variable scope

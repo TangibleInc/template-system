@@ -1,5 +1,6 @@
 <?php
 namespace tangible\template_system;
+
 use tangible\api;
 use tangible\template_system;
 
