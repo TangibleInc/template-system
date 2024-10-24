@@ -32,7 +32,7 @@ if (!$result) {
   $result = activate_plugin(ABSPATH . 'wp-content/plugins/tangible-framework/plugin.php');
 }
 
-$has_framework = !is_wp_error($result);
+$has_framework = !is_wp_error($result) ? true : $result->get_error_message();
 
 // Clear log
 file_put_contents('wp-content/log.txt', '');
@@ -44,7 +44,12 @@ return [
 
     ok(Boolean(result), 'PHP setup success')
 
-    is(true, result.framework, 'framework loaded')
+    if (result.framework !== true) {
+      console.log(result.framework)
+    }
+
+    is(true, result.framework === true, 'framework loaded')
+
     is('/%postname%/', result.permalink, 'pretty permalink enabled')
 
     result = await wpx/* php */ `return switch_theme('empty-block-theme');`
@@ -103,13 +108,14 @@ return [
       asserts.push(e)
     })
 
-    const prelude = `function is($expected, $actual, $title = null) {
-      post_message_to_js(json_encode([$expected, $actual, $title]));
-  }`
+    const prelude = /* php */`
+function is($expected, $actual, $title = null) {
+  post_message_to_js(json_encode([$expected, $actual, $title]));
+}`
 
     await wpx`${prelude}
 require( tangible\\framework::$state->path . '/tests/basic-assertions.php' );`
-    // unsubscribe()
+    unsubscribe()
 
     for (const [expected, actual, title] of asserts) {
       is(
@@ -118,6 +124,7 @@ require( tangible\\framework::$state->path . '/tests/basic-assertions.php' );`
         `assert from PHP: ${typeof title === 'string' ? title : JSON.stringify(title != null ? title : expected)}`,
       )
     }
+
     asserts.splice(0)
   })
 

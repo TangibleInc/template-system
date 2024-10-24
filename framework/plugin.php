@@ -1,11 +1,13 @@
 <?php
 /**
- * Plugin Name: Tangible: Framework
+ * Plugin Name: Tangible Framework
  * Description: Framework module shared by Tangible plugins
- * Version: 2024.10.21
+ * Version: 2024.10.23
  * GitHub URI: TangibleInc/framework
  */
 use tangible\framework;
+
+define('TANGIBLE_FRAMEWORK_IS_PLUGIN', true);
 
 require_once __DIR__ . '/index.php';
 

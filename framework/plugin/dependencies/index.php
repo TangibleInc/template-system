@@ -2,10 +2,18 @@
 namespace tangible\framework;
 use tangible\framework;
 
+function register_plugin_dependencies($plugin, $dependencies) {
+  $plugin->dependencies = $dependencies;
+  return check_plugin_dependencies($plugin);
+}
+
+/**
+ * @return boolean All dependencies are met
+ */
 function check_plugin_dependencies($plugin) {
 
   $deps = $plugin->dependencies ?? [];
-  if (empty($deps)) return;
+  if (empty($deps)) return true;
 
   $missing = [];
 
@@ -18,14 +26,14 @@ function check_plugin_dependencies($plugin) {
     }
   }
 
-  if (empty($missing)) return;
+  if (empty($missing)) return true;
 
   $plugin->missing_dependencies = $missing_deps;
 
   // Custom notice
   if (isset($plugin->missing_dependencies_notice)) {
     framework\register_admin_notice($plugin->missing_dependencies_notice);
-    return;
+    return false;
   }
 
   // Default notice
@@ -51,8 +59,10 @@ function check_plugin_dependencies($plugin) {
     </div>
     <?php
   });
+
+  return false;
 }
 
-function has_all_dependencies($plugin) {
+function has_all_plugin_dependencies($plugin) {
   return empty($plugin->missing_dependencies);
 }
