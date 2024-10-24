@@ -11,14 +11,19 @@
     "format": "roll format",
     "test": "roll run tests/index.ts",
     "version": "node version.js",
-    "subrepo": "git-subrepo"
+    "subrepo": "git-subrepo",
+    "-- End-to-end testing --": "https://playwright.dev/",
+    "e2e": "playwright test --config tests/playwright.config.js",
+    "e2e:install": "playwright install chromium",
+    "e2e:debug": "npm run e2e -- --debug",
+    "e2e:ui": "npm run e2e -- --ui"
   },
   "devDependencies": {
-    "@playwright/test": "^1.47.2",
+    "@playwright/test": "^1.48.1",
     "@tangible/git-subrepo": "^1.0.1",
-    "@tangible/now": "^1.1.2",
-    "@tangible/roller": "^2.1.0",
-    "@wordpress/e2e-test-utils-playwright": "^1.8.0",
+    "@tangible/now": "^1.1.3",
+    "@tangible/roller": "^2.1.4",
+    "@wordpress/e2e-test-utils-playwright": "^1.10.0",
     "testra": "^2.1.4"
   },
   "prettier": {

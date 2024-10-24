@@ -9,6 +9,11 @@
       "method": "rewrite-wp-config"
     },
     {
+			"step": "login",
+			"username": "admin",
+			"password": "password"
+		},
+    {
       "step": "activatePlugin",
       "pluginPath": "/var/www/html/wp-content/plugins/tangible-e2e-plugin"
     }

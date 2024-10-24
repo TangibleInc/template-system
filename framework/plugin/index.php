@@ -31,6 +31,12 @@ function register_plugin($config) {
   return $plugin;
 }
 
+function register_theme($config) {
+  return register_plugin($config + [
+    'is_theme' => true
+  ]);
+}
+
 require_once __DIR__ . '/dependencies/index.php';
 require_once __DIR__ . '/features/index.php';
 require_once __DIR__ . '/settings/index.php';
