@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:expreva/elandel
 	branch = main
-	commit = 1f5b8641761692258cc46bcfee7b7fb5d6c956cc
+	commit = b1d260d3766204e55cf346ef0d5d9c00e9a568cd
 	method = merge
 	cmdver = 0.4.6
-	parent = 648deacc6c32150aa89f5eff808b3b106a9680ef
+	parent = 56edb186a786f7b429f5e8e162c3a181f15ae220
