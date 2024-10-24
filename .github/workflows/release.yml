@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: bun install
       - name: Create archive
-        run: bun run archive -y
+        run: bunx roll archive -y
       - name: Install pipeline
         run: mkdir -p publish && cd publish && git clone https://github.com/tangibleinc/pipeline
       - name: Add latest tag as needed
