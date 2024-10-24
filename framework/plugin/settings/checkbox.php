@@ -38,7 +38,7 @@ function render_setting_field_checkbox($config) {
     <?php elseif ($type === 'switch'): ?>
         <div class="tangible-card">
             <label class="tangible-feature-switch" role="switch" aria-checked="<?php echo $checked ? 'true' : 'false'; ?>" tabindex="0" 
-            onclick="this.querySelector('input[type=checkbox]').click();" 
+            onclick="this.querySelector('input[type=checkbox]').checked ^= 1"
             onkeydown="if (event.key === ' ' || event.key === 'Enter') { 
                 const checkbox = this.querySelector('input[type=checkbox]') 
                 checkbox.checked = !checkbox.checked
