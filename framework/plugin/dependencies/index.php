@@ -15,18 +15,18 @@ function check_plugin_dependencies($plugin) {
   $deps = $plugin->dependencies ?? [];
   if (empty($deps)) return true;
 
-  $missing = [];
+  $missing_deps = [];
 
   foreach ($deps as $dep) {
     if (
       (isset($dep['active']) && !$dep['active'])
       || (isset($dep['callback']) && !$dep['callback']())
     ) {
-      $missing []= $dep;
+      $missing_deps []= $dep;
     }
   }
 
-  if (empty($missing)) return true;
+  if (empty($missing_deps)) return true;
 
   $plugin->missing_dependencies = $missing_deps;
 
@@ -37,7 +37,7 @@ function check_plugin_dependencies($plugin) {
   }
 
   // Default notice
-  framework\register_admin_notice(function() use ($missing_deps) {
+  framework\register_admin_notice(function() use ($plugin, $missing_deps) {
     ?>
     <div class="notice notice-warning">
       <p><b>Missing plugin dependencies for <?php echo $plugin->title; ?></b></p>

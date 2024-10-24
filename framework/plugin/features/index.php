@@ -7,6 +7,11 @@ use tangible\framework;
 
 require_once __DIR__ . '/settings.php';
 
+function register_plugin_features($plugin, $features) {
+  $plugin->features = $features;
+  framework\load_plugin_features( $plugin );
+}
+
 function load_plugin_features($plugin) {
 
   $features = $plugin->features ?? [];
