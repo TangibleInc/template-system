@@ -1,4 +1,5 @@
 <?php
+use tangible\template_system;
 
 $plugin->is_saving_template_post = false;
 
@@ -97,6 +98,13 @@ $plugin->save_template_post = function( $data = [] ) use ( $plugin, $html ) {
     if ( isset( $fields['style'] ) ) {
       $plugin->maybe_save_style_compiled( $post, $fields['style'] );
     }
+
+    /**
+     * Optionally pre-process template post on save
+     */
+    if (template_system\is_processed_template_post_cache_enabled()) {
+      template_system\process_and_cache_template_post( $post );
+    }
   }
 
   return $result;
@@ -144,6 +152,13 @@ add_action( 'wp_after_insert_post', function( $post_id, $post, $update ) use ( $
     if ( $key === 'style' ) {
       $plugin->maybe_save_style_compiled( $post, $value );
     }
+  }
+
+  /**
+   * Optionally pre-process template post on save
+   */
+  if (template_system\is_processed_template_post_cache_enabled()) {
+    template_system\process_and_cache_template_post( $post );
   }
 
 }, 10, 3 );

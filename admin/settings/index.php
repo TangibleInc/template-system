@@ -49,6 +49,14 @@ template_system::$state->setting_fields = [
   ],
 
   [
+    'name' => 'object_cache_processed_template_post',
+    'field_type' => 'checkbox',
+    'label' => 'Object cache for parsed and pre-processed template posts (Experimental)',
+    'default_value' => false,
+    'beta' => true,
+  ],
+
+  [
     'name' => 'sass_in_browser',
     'field_type' => 'checkbox',
     'label' => 'Use offical Sass compiler (dart-sass) in the browser. This compiles template style field into CSS when the post is saved. Previously they were rendered on template load using SCSS-PHP on the server.',
@@ -106,11 +114,21 @@ function get_settings( $field_name = null, $default_value = null ) {
   return $settings;
 }
 
+// Alias
+function get_setting( $field_name = null, $default_value = null ) {
+  return get_settings($field_name, $default_value);
+}
+
 function set_settings( $settings ) {
-
   update_option( template_system::$state->settings_key, $settings );
-
   return $settings;
+}
+
+function set_setting( $key, $value ) {
+  $settings = template_system\get_settings();
+  if (!is_array($settings)) $settings = [];
+  $settings[ $key ] = $value;
+  return template_system\set_settings( $settings );
 }
 
 function settings_page() {
