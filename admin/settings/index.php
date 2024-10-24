@@ -74,9 +74,9 @@ template_system::$state->setting_fields = [
   ],
 
   [
-    'name' => 'builder',
+    'name' => 'view',
     'field_type' => 'checkbox',
-    'label' => 'Builder: Integrated authoring environment for all template types - See <i>Tangible -> Builder</i>',
+    'label' => 'View: Integrated authoring environment for all template types - See <i>Tangible -> View</i>',
     'default_value' => false,
     'beta' => true,
     'reload' => true,

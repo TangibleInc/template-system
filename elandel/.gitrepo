@@ -4,8 +4,8 @@
 ; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
 ;
 [subrepo]
-	remote = git@github.com:tangibleinc/elandel
-	branch = master
+	remote = git@github.com:expreva/elandel
+	branch = main
 	commit = 1f5b8641761692258cc46bcfee7b7fb5d6c956cc
 	method = merge
 	cmdver = 0.4.6

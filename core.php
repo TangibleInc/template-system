@@ -45,7 +45,7 @@ require_once __DIR__ . '/integrations/index.php';
 // Features that depend on above modules
 
 require_once __DIR__ . '/admin/index.php';
-require_once __DIR__ . '/builder/index.php';
 require_once __DIR__ . '/editor/index.php';
 require_once __DIR__ . '/content/index.php';
 require_once __DIR__ . '/form/index.php';
+require_once __DIR__ . '/view/index.php';
