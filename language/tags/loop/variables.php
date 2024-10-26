@@ -63,7 +63,7 @@ $html->get_variable_types_from_template = function( $nodes ) use ( $html ) {
 
     /**
      * Attributes - Similar logic to $html->render_attribute_value() in
-     * /vendor/tangible/plugin-framework/modules/html/render/attributes.php
+     * /language/html/render/attributes.php
      */
 
     $pair     = [ '{', '}' ];

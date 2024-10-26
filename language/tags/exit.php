@@ -5,7 +5,7 @@ use tangible\html;
 /**
  * Exit tag allows conditional exit from a template, like a return statement
  *
- * @see vendor/tangible/plugin-framework/modules/html/render/index.php
+ * @see /language/html/render/index.php
  * @see ./load.php where it wraps template with Catch tag
  */
 
