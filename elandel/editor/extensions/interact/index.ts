@@ -5,7 +5,7 @@
 import {
   EditorView,
   ViewPlugin,
-  PluginValue,
+  type PluginValue,
   Decoration,
 } from '@codemirror/view'
 import {

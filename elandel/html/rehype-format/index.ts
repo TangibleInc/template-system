@@ -4,6 +4,20 @@
  * @typedef {import('hast').RootContent} RootContent
  */
 
+import {embedded} from 'hast-util-embedded'
+import {isElement} from 'hast-util-is-element'
+import {phrasing} from 'hast-util-phrasing'
+import {whitespace} from 'hast-util-whitespace'
+import {whitespaceSensitiveTagNames} from '../html-whitespace-sensitive-tag-names'
+import rehypeMinifyWhitespace from '../rehype-minify-whitespace'
+import {SKIP, visitParents} from 'unist-util-visit-parents'
+
+import type {
+  Nodes,
+  Root,
+  RootContent
+} from 'hast'
+
 /**
  * @typedef Options
  *   Configuration.
@@ -25,14 +39,6 @@ export type Options = {
   indentInitial?: boolean
   closedTags: string[]
 }
-
-import {embedded} from 'hast-util-embedded'
-import {isElement} from 'hast-util-is-element'
-import {phrasing} from 'hast-util-phrasing'
-import {whitespace} from 'hast-util-whitespace'
-import {whitespaceSensitiveTagNames} from '../html-whitespace-sensitive-tag-names'
-import rehypeMinifyWhitespace from '../rehype-minify-whitespace'
-import {SKIP, visitParents} from 'unist-util-visit-parents'
 
 /** @type {Options} */
 const emptyOptions = {}
@@ -173,7 +179,7 @@ export default function rehypeFormat(options) {
    * @returns {undefined}
    *   Nothing.
    */
-  function addBreak(list, level, next) {
+  function addBreak(list: RootContent[], level: number, next?: Nodes): void {
     const tail = list[list.length - 1]
     const previous = tail && whitespace(tail) ? list[list.length - 2] : tail
     const replace =
@@ -193,7 +199,7 @@ export default function rehypeFormat(options) {
    * @returns {boolean}
    *   Whether `node` is a blank.
    */
-  function blank(node) {
+  function blank(node?: Nodes) {
     return Boolean(
       node &&
         node.type === 'element' &&
@@ -212,7 +218,7 @@ export default function rehypeFormat(options) {
  * @returns {boolean}
  *   Whether `node` should be padded.
  */
-function padding(node, head) {
+function padding(node: Nodes, head: boolean | undefined): boolean {
   return (
     node.type === 'root' ||
     (node.type === 'element'

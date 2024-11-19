@@ -29,7 +29,11 @@ const requiredSassConfig = {
 };
 
 // transform css with sass
-const plugin = (opts = {}) => {
+const plugin = (opts: {
+  includePaths?: string[]
+  importer?: Function
+  sass?: typeof sass
+} = {}) => {
 	return {
 		postcssPlugin: 'postcss-sass',
 		Once (root, { result, parse }) {
@@ -44,7 +48,9 @@ const plugin = (opts = {}) => {
 			const { css: postCSS, map: postMap } = root.toResult(postConfig);
 
 			// include paths
-			const includePaths = [].concat(opts && opts.includePaths || []);
+			const includePaths = ([] as string[]).concat(
+        opts && opts.includePaths || []
+      );
 
 			// sass engine to use
 			const sassEngine = opts && opts.sass || sass;

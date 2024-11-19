@@ -1,3 +1,4 @@
+// @ts-nocheck
 // tooling
 import { SourceMapConsumer, SourceMapGenerator } from 'source-map';
 
@@ -58,7 +59,7 @@ export default (...maps) => {
 	).then(
 		() => {
 			// merged map as json
-			const mergedMap = JSON.parse(generator);
+			const mergedMap = JSON.parse(generator.toString());
 
 			// clean all special sass sources in merged map
 			mergedMap.sources = mergedMap.sources.map(

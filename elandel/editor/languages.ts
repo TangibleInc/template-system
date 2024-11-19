@@ -23,6 +23,7 @@ import {
   emmetConfig,
   abbreviationTracker,
   expandAbbreviation,
+  EmmetKnownSyntax
 } from '@emmetio/codemirror6-plugin' // ~90Kb
 
 import { createFormatKeyMap } from './format'
@@ -58,7 +59,7 @@ const langExtensionsGetters = {
     // abbreviationTracker({
     //   syntax: 'html',
     // }),
-    emmetConfig.of({ syntax: 'html' }),
+    emmetConfig.of({ syntax: EmmetKnownSyntax.html }),
     sharedCompletionKeymap,
     createHtmlLinter(),
     // infoPanelExtension(),
@@ -71,7 +72,7 @@ const langExtensionsGetters = {
     // abbreviationTracker({
     //   syntax: 'css'
     // }),
-    emmetConfig.of({ syntax: 'css' }),
+    emmetConfig.of({ syntax: EmmetKnownSyntax.css }),
     sharedCompletionKeymap,
     // hyperLink
   ],
@@ -88,7 +89,7 @@ const langExtensionsGetters = {
     // abbreviationTracker({
     //   syntax: 'scss'
     // }),
-    emmetConfig.of({ syntax: 'scss' }),
+    emmetConfig.of({ syntax: EmmetKnownSyntax.scss }),
     sharedCompletionKeymap,
     createSassLinter(),
     createFormatKeyMap('scss'),

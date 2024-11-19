@@ -30,7 +30,7 @@ The editing environment can be extended with additional blocks such as charts, d
 
 ## Next
 
-The goal is a cross-platform **low-code template and content management system** that runs in the browser and server side. Data sources are pluggable adaptors with a common interface: local storage in browser (origin private file system), WordPress (MySQL/MariaDB/SQLite), JavaScript runtimes (Node/Bun), API server in Go.
+The goal is a **content management system** that runs in the browser and server side. Data sources are pluggable adaptors with a common interface: local storage in browser (origin private file system), WordPress (MySQL/MariaDB/SQLite), JavaScript runtimes (Node/Bun), API server in Go.
 
 This portability would allow features like:
 

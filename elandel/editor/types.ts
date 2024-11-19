@@ -1,4 +1,5 @@
-import type { Extension } from '@codemirror/state'
+import type { Extension, Text } from '@codemirror/state'
+import type { Language } from '../html'
 
 export type TagDefinition = {
   callback: string | {} | Function
@@ -32,5 +33,9 @@ export type CodeEditorOptions = {
   editorActionsPanel?: Function
 
   editorUrl?: string
-  languageDefinition?: LanguageDefinition
+  // TODO: Merge into one or clarify difference
+  languageDefinition?: Language & LanguageDefinition
 }
+
+export type { Language }
+export type * from './format'

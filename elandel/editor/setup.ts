@@ -9,6 +9,7 @@ import {
   lineNumbers,
   highlightActiveLineGutter,
   EditorView,
+  type KeyBinding
 } from '@codemirror/view'
 import { type Extension, EditorState } from '@codemirror/state'
 import {
@@ -42,6 +43,8 @@ import { vscodeKeymap } from './extensions/vscode-keymap'
 
 import { TextToLink, hyperLinkStyle } from './extensions/hyperlink'
 
+import type { Language, Formatter } from './types'
+
 // Based on https://github.com/codemirror/basic-setup/blob/main/src/codemirror.ts
 // https://codemirror.net/docs/extensions/
 const commonExtensions = [
@@ -71,7 +74,7 @@ const commonExtensions = [
   bracketMatching(), // TODO: Better styling // https://codemirror.net/docs/ref/#language.bracketMatching
   indentationMarkers(),
 
-  TextToLink(EditorView),
+  TextToLink(), // EditorView
   hyperLinkStyle,
 
   EditorView.lineWrapping,
@@ -108,7 +111,11 @@ const commonKeyMaps = [
 /**
  * Get language setup - Using async to support dynamic loading
  */
-export async function getSetup(lang: string, options = {}): Promise<Extension> {
+export async function getSetup(lang: string, options: {
+  keymap?: KeyBinding[]
+  languageDefinition?: Language
+  format?: Formatter
+} = {}): Promise<Extension> {
 
   const langExtensions = await getLangExtensions(lang, options)
 

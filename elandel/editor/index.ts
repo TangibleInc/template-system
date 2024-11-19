@@ -10,7 +10,7 @@ import { dark } from './theme-default/dark'
 import { eventHub } from './event'
 import { getSetup } from './setup'
 // import { createEditorActionsPanel } from './panel'
-import type { CodeEditorOptions } from './types'
+import type { CodeEditorOptions, FormatterLanguage } from './types'
 
 Object.assign(themes, { dark })
 
@@ -19,7 +19,7 @@ export { themes }
 
 export const CodeEditor = {
   create,
-  format(props) {
+  format(props: any) {
     console.warn('Deprecated formatter - Use editor.format()', props)
   },
 }
@@ -57,7 +57,7 @@ export async function create({
   })
 
   const format = createFormatter({
-    lang,
+    lang: lang as FormatterLanguage,
     languageDefinition
   })
 
@@ -68,6 +68,7 @@ export async function create({
         mac: 'Cmd-s',
         run() {
           onSave && onSave()
+          return true
         },
         preventDefault: true,
       },

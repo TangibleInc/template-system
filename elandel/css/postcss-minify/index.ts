@@ -1,8 +1,10 @@
-import selectorParser from 'postcss-selector-parser'
-import valueParser from 'postcss-value-parser'
+import selectorParser, { type Node as SelectorNode } from 'postcss-selector-parser'
+import valueParser, { type Node as ValueNode} from 'postcss-value-parser'
 
 const selectorProcessor = selectorParser((selectors) => {
-  selectors.walk((selector) => {
+  selectors.walk((selector: SelectorNode & {
+    raws?: any
+  }) => {
     selector.spaces = { before: '', after: '' }
     if (selector.raws && selector.raws.spaces) {
       selector.raws.spaces = {}
@@ -16,7 +18,10 @@ function minifySelector(str) {
 
 function minifyValue(str) {
   const parsed = valueParser(str.trim())
-  parsed.walk((node) => {
+  parsed.walk((node: ValueNode & {
+    before?: string
+    after?: string    
+  }) => {
     if (node.before) node.before = ''
     if (node.after) node.after = ''
     if (node.type === 'space') node.value = ' '

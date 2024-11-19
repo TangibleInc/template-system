@@ -18,7 +18,9 @@ export const fonts = [
   ['Source Code Pro', 'source-code-pro', 'SourceCodePro-Regular.woff2'],
 ]
 
-const fontsLoaded = {}
+const fontsLoaded: {
+  [key: string]: boolean | Promise<void>
+} = {}
 
 export async function loadFont(fontName: string, fontsUrl: string) {
 

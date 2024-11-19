@@ -1,11 +1,54 @@
 import { fromHtml } from './hast-util-from-html'
 import rehypeFormat from './rehype-format'
 import { toHtml } from './hast-util-to-html'
-
-import type { Root } from './hast-util-from-html'
+import type {
+  Element as HastElement,
+  Properties as HastProperties,
+  Comment,
+  Doctype,
+  // RootContent as HastRootContent,
+  RootData,
+  Root as HastRoot,
+} from 'hast'
 import type { Options as FormatOptions } from './rehype-format'
-import type { Options as ParserOptions } from './hast-util-from-html'
+import type {
+  Options as ParserOptions,
+  FromParse5Options,
+  ErrorCode as ParserErrorCode,
+  ErrorOptions as ParserErrorOptions,
+  ErrorSeverity as ParserErrorSeverity,
+  ExtraOptions as ParserExtraOptions,
+  OnError as ParserOnError,
+} from './hast-util-from-html'
 import type { Raw } from 'mdast-util-to-hast'
+
+/**
+ * Extended element
+ */
+export type Element = HastElement & {
+  /**
+   * Ordered list of attribute key/value pairs
+   */
+  attributeKeys: ElementAttributeKeys
+}
+export type ElementAttributeKeys = [string, string | undefined][]
+
+export type Root = HastRoot & {
+  type: 'root'
+  children: RootContent[]
+  data?: RootData | undefined
+}
+
+export type RootContent = Comment | Doctype | Element | Text | Raw
+export interface Properties {
+  [PropertyName: string]:
+    | boolean
+    | number
+    | string
+    | null
+    | undefined
+    | Array<string | number>
+}
 
 export type Language = {
   closedTags?: string[]
@@ -20,9 +63,21 @@ export type ParseOptions = ParserOptions & {
   sourceCodeLocationInfo?: boolean
 }
 
-export type { FormatOptions }
-export type { Root }
 export type * from 'hast'
+
+export type {
+  FormatOptions,
+  // For typedoc
+  ParserOptions,
+  FromParse5Options,
+  ParserErrorSeverity,
+  ParserExtraOptions,
+  HastRoot,
+  ParserOnError,
+  ParserErrorOptions,
+  ParserErrorCode
+}
+
 export { htmlVoidElements } from './html-void-elements'
 
 export type HtmlEngine = {
@@ -55,7 +110,7 @@ export function parse(
     document: false,
     fragment: !options?.document,
     ...options,
-  })
+  }) as Root
 }
 
 export function formatString(content: string, language: Language = {}): string {

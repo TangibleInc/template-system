@@ -7,7 +7,7 @@ import {EditorSelection} from "@codemirror/state"
 import {LRLanguage, indentNodeProp, foldNodeProp, LanguageSupport, syntaxTree,
         bracketMatchingHandle} from "@codemirror/language"
 import {elementName, htmlCompletionSourceWith, type TagSpec, eventAttributes} from "./complete"
-export {htmlCompletionSource, TagSpec, htmlCompletionSourceWith} from "./complete"
+export {htmlCompletionSource, type TagSpec, htmlCompletionSourceWith} from "./complete"
 
 type NestedLang = {
   tag: string,

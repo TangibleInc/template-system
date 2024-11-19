@@ -159,7 +159,7 @@ export const HTMLHint = new HTMLHintCore()
 
 Object.keys(HTMLRules).forEach((key) => {
   // TODO: need a fix
-  // @ts-expect-error
+  // @ts-ignore
   HTMLHint.addRule(HTMLRules[key])
 })
 

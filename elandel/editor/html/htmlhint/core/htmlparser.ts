@@ -268,8 +268,7 @@ export default class HTMLParser {
 
     for (let i = 0, l = listeners.length; i < l; i++) {
       // TODO: we may improve where data is actually a Block or a Partial<Block>
-      // @ts-expect-error
-      listeners[i].call(this, data)
+      listeners[i].call(this, data as Block)
     }
   }
 

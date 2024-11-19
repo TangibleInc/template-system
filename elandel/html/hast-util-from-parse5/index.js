@@ -217,7 +217,7 @@ function element(state, node) {
   /**
    * Extend syntax - An ordered list of attribute key/value pairs
    */
-  const attributePairs = []
+  const attributeKeys = []
 
   while (++index < node.attrs.length) {
     const attribute = node.attrs[index]
@@ -232,9 +232,9 @@ function element(state, node) {
 
       if (attribute.value == null) {
         // Undefined or null
-        attributePairs.push([attribute.name])
+        attributeKeys.push([attribute.name])
       } else {
-        attributePairs.push([attribute.name, attribute.value])
+        attributeKeys.push([attribute.name, attribute.value])
       }
     }
   }
@@ -244,7 +244,7 @@ function element(state, node) {
   const result = fn(node.tagName, props, all(state, node.childNodes))
   patch(state, node, result)
 
-  result.attributePairs = attributePairs
+  result.attributeKeys = attributeKeys
 
   // Switch content.
   if (result.tagName === 'template') {

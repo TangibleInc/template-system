@@ -1,4 +1,4 @@
-import { linter, Diagnostic } from '@codemirror/lint'
+import { linter, type Diagnostic } from '@codemirror/lint'
 import { syntaxTree } from '@codemirror/language'
 
 // https://jshint.com/docs/options/
@@ -6,15 +6,22 @@ const defaultJSHintOptions = {
   asi: true
 }
 
+declare global {
+  interface Window {
+    JSHINT: any
+  }
+}
+
 export function createJavaScriptLinter() {
   return linter(view => {
 
     const diagnostics: Diagnostic[] = []
 
+    const { JSHINT } = window as unknown as {
+      JSHINT: any
+    }
     // TODO: Rename to Tangible.JSHINT
-    if (!window.JSHINT) return diagnostics
-
-    const { JSHINT } = window
+    if (!JSHINT) return diagnostics
 
     const doc = view.state.doc
     const content = doc.toString()

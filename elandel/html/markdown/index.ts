@@ -2,16 +2,20 @@
 import remarkGfm from 'remark-gfm'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
-import { unified } from 'unified'
-import { render as renderHtml } from '../index.ts'
+import { unified, type Plugin, type Processor, type Compiler } from 'unified'
+import { render as renderHtml, type Root, type Language } from '../index.ts'
 
-export async function renderMarkdown(content: string, options?: any): Promise<string> {
-  return await unified()
+export async function renderMarkdown(
+  content: string,
+  options?: any,
+): Promise<string> {
+  return (await unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkRehype)
-    .use(rehypeStringify)
-    .process(content)
+    .use(rehypeStringify as Plugin)
+    .process(content))
+    .toString()
 }
 
 /**
@@ -22,18 +26,17 @@ export async function renderMarkdown(content: string, options?: any): Promise<st
  * @returns {undefined}
  *   Nothing.
  */
-export default function rehypeStringify(options) {
+export default function rehypeStringify(this: any, options: Language) {
   /** @type {Processor<undefined, undefined, undefined, Root, string>} */
-  // @ts-expect-error: TS in JSDoc generates wrong types if `this` is typed regularly.
-  const self = this
-  const settings = {...self.data('settings'), ...options}
+  const self = this as Processor
+  const settings = { ...self.data('settings'), ...options }
 
-  self.compiler = compiler
+  self.compiler = compiler as unknown as Compiler
 
   /**
    * @type {Compiler<Root, string>}
    */
-  function compiler(tree) {
+  function compiler(tree: Root) {
     return renderHtml(tree, settings)
   }
 }

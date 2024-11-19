@@ -1,3 +1,4 @@
+// @ts-nocheck
 // 1. move cursor on different values
 // 2. hold Alt key
 // 3. click / drag
