@@ -57,7 +57,7 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
     template_system\enqueue_codemirror_v5();
     $js_deps []= 'tangible-codemirror-v5';
     wp_enqueue_style( 'tangible-codemirror-v5' );  
-  }  
+  }
 
   $url = template_system::$state->url . '/integrations/gutenberg/build';
   $version = template_system::$state->version;

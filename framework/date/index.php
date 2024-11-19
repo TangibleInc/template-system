@@ -22,7 +22,7 @@ require_once __DIR__.'/legacy.php';
 (include __DIR__ . '/module-loader.php')(new class {
 
   public $name = 'tangible_date';
-  public $version = '20241023';
+  public $version = '20241119';
 
   function load() {
     require_once __DIR__ . '/DateCreator.php';
