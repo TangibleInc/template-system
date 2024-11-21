@@ -4,7 +4,6 @@ export default {
     src: [
       '*.php',
       'admin/**',
-      'builder/**',
       'content/**',
       'editor/**',
       'elandel/editor/fonts/**',
@@ -15,6 +14,7 @@ export default {
       'logic/**',
       'loop/**',
       'modules/**',
+      'view/**',
     ],
     dest: 'publish/tangible-template-system.zip',
     exclude: [
