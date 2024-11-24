@@ -9,6 +9,9 @@ if (!class_exists('tangible\\framework')) {
   framework::$state = (object) [];
 }
 
+// Load Date module early since it has its own loader
+require_once __DIR__ . '/date/index.php';
+
 (include __DIR__ . '/module-loader.php')(new class {
 
   public $name = 'tangible_framework';
@@ -26,7 +29,6 @@ if (!class_exists('tangible\\framework')) {
     require_once __DIR__ . '/admin/index.php';
     require_once __DIR__ . '/ajax/index.php';
     require_once __DIR__ . '/api/index.php';
-    require_once __DIR__ . '/date/index.php';
     require_once __DIR__ . '/format/index.php';
     require_once __DIR__ . '/hjson/index.php';
     require_once __DIR__ . '/interface/index.php';
