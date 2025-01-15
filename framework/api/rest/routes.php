@@ -485,19 +485,16 @@ new class {
    * Provide current user to the request.
    */
   function rest_pre_dispatch( $result, $server, $request ) {
-    // Check if this is a Loops & Logic endpoint.
-		if ( strpos( $request->get_route(), '/' . $this->namespace ) === false ) {
-
-			return false; // Not our endpoint, skip validation.
-
-		}
+    // Only validate token for our namespace
+    if ( strpos( $request->get_route(), '/' . $this->namespace ) === false ) {
+      return false;
+    }
     if ($request->get_route() !== '/' . $this->namespace . '/token/validate'
       && !empty($user_id = $this->determine_current_user())
       && !is_user_logged_in()
     ) {
       wp_set_current_user($user_id);
     }
-
     return $result;
   }
 
