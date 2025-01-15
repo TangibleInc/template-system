@@ -1,9 +1,7 @@
 <?php
-/**
- * Module loader: Ensure newest version is loaded when multiple plugins bundle
- * the same module. Module must define: name, version (YYYYMMDD), and load().
- * The function `load()` is called on `plugins_loaded` action.
- */
+// Module loader: Ensure newest version is loaded when multiple plugins bundle
+// the same module. Module must define: name, version (YYYYMMDD), and load().
+// The function `load()` is called on `plugins_loaded` action.
 return function($module) {
 
   $name     = $module->name;
