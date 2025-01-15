@@ -482,20 +482,20 @@ new class {
   }
 
   /**
-   * Provide current user to the request.
+   * Provide current user to the request if there is a valid token.
    */
   function rest_pre_dispatch( $result, $server, $request ) {
-    // Only validate token for our namespace
-    if ( strpos( $request->get_route(), '/' . $this->namespace ) === false ) {
-      return false;
+    if (!empty($result)) return $result;
+    try {
+      if ($request->get_route() !== '/' . $this->namespace . '/token/validate'
+        && !empty($user_id = $this->determine_current_user())
+        && !is_user_logged_in()
+      ) {
+        wp_set_current_user($user_id);
+      }
+    } catch (\Throwable $th) {
+      // Continue
     }
-    if ($request->get_route() !== '/' . $this->namespace . '/token/validate'
-      && !empty($user_id = $this->determine_current_user())
-      && !is_user_logged_in()
-    ) {
-      wp_set_current_user($user_id);
-    }
-    return $result;
   }
 
 };
