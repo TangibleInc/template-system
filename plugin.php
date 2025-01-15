@@ -4,6 +4,9 @@
  * Description: Template system shared by Tangible Blocks and Loops & Logic
  * Version: 2025.01.15
  * GitHub URI: TangibleInc/template-system
+ * Author: Team Tangible
+ * Author URI: https://teamtangible.com
+ * License: GPLv2 or later
  */
 use tangible\framework;
 use tangible\updater;
@@ -14,8 +17,8 @@ $module_path = is_dir(
   ($path = __DIR__ . '/vendor/tangible')
 ) ? $path : __DIR__ . '/..';
 
-// require_once $module_path . '/framework/index.php';
-// require_once $module_path . '/fields/index.php';
+require_once $module_path . '/framework/index.php';
+require_once $module_path . '/fields/index.php';
 require_once $module_path . '/updater/index.php';
 require_once __DIR__ . '/index.php';
 
