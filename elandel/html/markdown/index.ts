@@ -7,15 +7,18 @@ import { render as renderHtml, type Root, type Language } from '../index.ts'
 
 export async function renderMarkdown(
   content: string,
-  options?: any,
+  options?: any
 ): Promise<string> {
-  return (await unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .use(remarkRehype)
-    .use(rehypeStringify as Plugin)
-    .process(content))
-    .toString()
+  return (
+    await unified()
+      .use(remarkParse)
+      .use(remarkGfm)
+      .use(remarkRehype, {
+        allowDangerousHtml: true,
+      })
+      .use(rehypeStringify as Plugin)
+      .process(content)
+  ).toString()
 }
 
 /**
@@ -29,7 +32,11 @@ export async function renderMarkdown(
 export default function rehypeStringify(this: any, options: Language) {
   /** @type {Processor<undefined, undefined, undefined, Root, string>} */
   const self = this as Processor
-  const settings = { ...self.data('settings'), ...options }
+  const settings = {
+    allowDangerousHtml: true,
+    ...self.data('settings'),
+    ...options,
+  }
 
   self.compiler = compiler as unknown as Compiler
 

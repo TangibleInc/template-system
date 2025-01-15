@@ -21,17 +21,17 @@
     "test": "tsx tests/index.ts"
   },
   "dependencies": {
-    "postcss": "^8.4.38",
-    "postcss-advanced-variables": "^4.0.0",
-    "postcss-nested": "^6.0.1",
+    "postcss": "^8.4.49",
+    "postcss-advanced-variables": "^5.0.0",
+    "postcss-nested": "^7.0.2",
     "postcss-scss": "^4.0.9",
-    "postcss-selector-parser": "^6.0.16",
+    "postcss-selector-parser": "^7.0.0",
     "postcss-value-parser": "^4.2.0",
-    "sass": "^1.77.8",
+    "sass": "^1.81.0",
     "source-map": "^0.7.4"
   },
   "devDependencies": {
-    "testra": "^2.0.0",
-    "tsx": "^4.7.1"
+    "testra": "^2.1.4",
+    "tsx": "^4.19.2"
   }
 }

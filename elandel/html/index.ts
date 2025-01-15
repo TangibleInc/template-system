@@ -75,7 +75,7 @@ export type {
   HastRoot,
   ParserOnError,
   ParserErrorOptions,
-  ParserErrorCode
+  ParserErrorCode,
 }
 
 export { htmlVoidElements } from './html-void-elements'
@@ -104,19 +104,31 @@ export function createHtmlEngine(language: Language): HtmlEngine {
 
 export function parse(
   content: string,
-  options?: ParseOptions & Language,
+  options?: ParseOptions & Language
 ): Root {
-  return fromHtml(content, {
+  const tree = fromHtml(content, {
     document: false,
     fragment: !options?.document,
     ...options,
   }) as Root
+  // Ensure DocType
+  if (
+    options?.document &&
+    typeof tree?.children[0] === 'object' &&
+    tree?.children[0].type === 'element' &&
+    tree?.children[0].tagName === 'html'
+  ) {
+    tree?.children.unshift({
+      type: 'doctype',
+    })
+  }
+  return tree
 }
 
 export function formatString(content: string, language: Language = {}): string {
   return render(
     format(parse(content, language), language),
-    language,
+    language
   ).trimStart()
 }
 

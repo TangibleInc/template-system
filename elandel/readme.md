@@ -40,7 +40,7 @@ This portability would allow features like:
 - Static site generation
 - Sites interacting with each other: move/copy/sync content, shared users
 
-As the project develops, it will include a comprehensive test suite; documentation of language features with live examples; and an open pattern library of templates that can be copy-and-pasted.
+As the project develops, it will include a comprehensive test suite; documentation of language features with live examples; and an open pattern library of templates.
 
 ### Inspiration
 
