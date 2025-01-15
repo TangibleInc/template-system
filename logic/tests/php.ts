@@ -12,7 +12,7 @@ run(async () => {
 
   const applyLogic = async (logic, data = {}) => {
     return JSON.parse(
-      await phpx(`
+      await phpx/* php */`
 include '/logic/index.php';
 
 $logic = json_decode(<<<JSON
@@ -24,13 +24,13 @@ ${JSON.stringify(data)}
 JSON, true);
 
 echo json_encode(tangible\\logic\\apply($logic, $data));
-`),
+`,
     )
   }
 
   const ruleLike = async (rule, pattern = {}) => {
     return JSON.parse(
-      await phpx(`
+      await phpx/* php */`
 include '/logic/index.php';
 
 $rule = json_decode(<<<JSON
@@ -42,7 +42,7 @@ ${JSON.stringify(pattern)}
 JSON, true);
 
 echo json_encode(tangible\\logic\\rule_like($rule, $pattern));
-`),
+`,
     )
   }
 
@@ -51,7 +51,7 @@ echo json_encode(tangible\\logic\\rule_like($rule, $pattern));
     is('hi', await phpx`echo 'hi';`, 'can run')
     is(
       'true',
-      await phpx`
+      await phpx/* php */`
 include '/logic/index.php';
 echo function_exists('tangible\\logic\\apply') ? 'true' : 'false';
 `,
@@ -102,7 +102,7 @@ echo function_exists('tangible\\logic\\apply') ? 'true' : 'false';
     let data = {}
 
     let result = JSON.parse(
-      await phpx(`
+      await phpx/* php */`
 include '/logic/index.php';
 
 use tangible\\logic;
@@ -139,7 +139,7 @@ $result['evaluators'] = count(logic::$rule_evaluators);
 $result['rule'] = $logic['rule'];
 
 echo json_encode($result);
-`),
+`,
     )
 
     ok(result, 'result from rule evaluators')
@@ -162,7 +162,7 @@ echo json_encode($result);
     }
 
     let result = JSON.parse(
-      await phpx(`
+      await phpx/* php */`
 include '/logic/index.php';
 
 $logic = json_decode(<<<JSON
@@ -178,7 +178,7 @@ $evaluator = function($rule, $data) {
 };
 
 echo json_encode(tangible\\logic\\evaluate($logic, $evaluator, $data));
-`),
+`,
     )
 
     is(true, result, 'evaluate result true')
