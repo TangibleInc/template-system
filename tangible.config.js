@@ -14,6 +14,7 @@ export default {
       'logic/**',
       'loop/**',
       'modules/**',
+      'vendor/**',
       'view/**',
     ],
     dest: 'publish/tangible-template-system.zip',
