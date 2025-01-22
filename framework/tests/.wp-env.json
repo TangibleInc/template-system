@@ -1,7 +1,0 @@
-{
-  "mappings": {
-    "wp-content/plugins/tangible-framework": "..",
-    "wp-content/plugins/tangible-e2e-plugin": "../env/e2e-plugin",
-    "wp-content/themes/empty-block-theme": "../empty-block-theme"
-  }
-}

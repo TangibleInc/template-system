@@ -1,8 +1,0 @@
-{
-  "name": "@tangible/preact",
-  "type": "module",
-  "private": true,
-  "dependencies": {
-    "preact": "^10.24.0"
-  }
-}

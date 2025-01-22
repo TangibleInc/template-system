@@ -1,4 +1,4 @@
-import { getServer as getServerBase, type Server } from '../framework/env'
+import { getServer as getServerBase, type Server } from '../vendor/tangible/framework/env'
 
 let server: Server & {
   // Template tag functions

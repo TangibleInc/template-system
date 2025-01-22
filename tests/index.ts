@@ -1,5 +1,5 @@
 import { test, is, ok, run } from 'testra'
-import { getServer } from '../framework/env'
+import { getServer } from '../vendor/tangible/framework/env'
 import { ensureTemplateSystem } from './common.ts'
 
 /**
@@ -32,7 +32,7 @@ export default run(async () => {
   })
 
   // Framework
-  await import('../framework/tests/index.ts')
+  await import('../vendor/tangible/framework/tests/index.ts')
 
   test('Template system - Basic', async () => {
 
