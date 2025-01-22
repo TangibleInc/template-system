@@ -1,6 +1,5 @@
 import { test, is, ok, run } from 'testra'
-import { getServer } from '../vendor/tangible/framework/env'
-import { ensureTemplateSystem } from './common.ts'
+import { getServer, ensureTemplateSystem } from './common.ts'
 
 /**
  * For syntax highlight of PHP in template strings, install:
@@ -16,7 +15,7 @@ export default run(async () => {
     setSiteTemplate,
     resetSiteTemplate,
   } = await getServer({
-    phpVersion: process.env.PHP_VERSION || '7.4',
+    phpVersion: process.env.PHP_VERSION || '8.2',
     mappings: process.env.TEST_ARCHIVE
       ? {
           'wp-content/plugins/template-system':
@@ -32,7 +31,7 @@ export default run(async () => {
   })
 
   // Framework
-  await import('../vendor/tangible/framework/tests/index.ts')
+  await import(`../vendor/tangible/framework/tests/index.ts`)
 
   test('Template system - Basic', async () => {
 

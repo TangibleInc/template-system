@@ -5,10 +5,10 @@ let server: Server & {
   template: (code: string | TemplateStringsArray, ...args: string[]) => Promise<string>
 }
 
-export async function getServer() {
+export async function getServer(serverProps?: any) {
   if (server) return server
 
-  const serverBase = await getServerBase()
+  const serverBase = await getServerBase(serverProps)
 
   const { wpx } = serverBase
   await ensureTemplateSystem({ wpx })

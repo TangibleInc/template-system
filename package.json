@@ -11,6 +11,7 @@
   "scripts": {
     "start": "wp-now start --blueprint=blueprint.dev.json",
     "postinstall": "roll install",
+    "update": "roll update",
     "install:dev": "roll install --dev",
     "update:dev": "roll update --dev",
     "// Modules": "",
@@ -24,8 +25,8 @@
     "archive": "roll archive && rm -rf publish/tangible-template-system && unzip publish/tangible-template-system.zip -d publish/ && npm run test:archive",
     "// Test": "",
     "test": "roll run tests/index.ts",
-    "test:all": "npm run test && npm run test:8.3 && npm run e2e",
-    "test:8.3": "roll run tests/index.ts PHP_VERSION=8.3",
+    "test:all": "npm run test && npm run test:8.4 && npm run e2e",
+    "test:8.4": "roll run tests/index.ts PHP_VERSION=8.4",
     "tdd": "roll run tests/index.ts --watch",
     "test:archive": "roll run tests/index.ts TEST_ARCHIVE=1",
     "test:html": "wp-now php tests/html/index.php",

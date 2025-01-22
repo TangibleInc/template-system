@@ -1,6 +1,5 @@
 import { test, is, ok, run } from 'testra'
-import { getServer } from '../../vendor/tangible/framework/env'
-import { ensureTemplateSystem } from '../common.ts'
+import { ensureTemplateSystem, getServer } from '../common.ts'
 
 export default run(async () => {
   const {
@@ -11,7 +10,7 @@ export default run(async () => {
   } = await getServer()
 
   let result: any
-  result = await ensureTemplateSystem({ wpx })
+  // result = await ensureTemplateSystem({ wpx })
 
   test('Taxonomy archive', async () => {
     const numTerms = 3
