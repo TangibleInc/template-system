@@ -1,50 +1,53 @@
 {
   "name": "@tangible/template-system",
   "description": "Template System module",
-  "version": "2025.01.15",
+  "version": "2025.1.25",
   "type": "module",
   "engines": {
     "node": ">=18"
   },
   "homepage": "https://github.com/tangibleinc/template-system",
-  "repository": "git@github.com:tangibleinc/template-system.git",
+  "repository": {
+    "url": "git+ssh://git@github.com/tangibleinc/template-system.git"
+  },
   "scripts": {
     "start": "wp-now start --blueprint=blueprint.dev.json",
+    "dev": "concurrently --raw 'roll dev' 'npm run start'",
+    "build": "roll build",
+    "format": "roll format",
     "postinstall": "roll install",
     "update": "roll update",
     "install:dev": "roll install --dev",
     "update:dev": "roll update --dev",
-    "// Modules": "",
-    "dev": "roll dev",
-    "build": "roll build",
-    "format": "roll format",
-    "// Utilities": "",
     "version": "node tools/version.js",
-    "list-modules": "node tools/list-modules.js",
-    "subrepo": "./tools/git-subrepo/bin",
     "archive": "roll archive && rm -rf publish/tangible-template-system && unzip publish/tangible-template-system.zip -d publish/ && npm run test:archive",
     "// Test": "",
     "test": "roll run tests/index.ts",
-    "test:all": "npm run test && npm run test:8.4 && npm run e2e",
+    "test:all": "npm run test:7.4 && npm run test:8.4 && npm run e2e",
+    "test:7.4": "roll run tests/index.ts PHP_VERSION=7.4",
     "test:8.4": "roll run tests/index.ts PHP_VERSION=8.4",
-    "tdd": "roll run tests/index.ts --watch",
     "test:archive": "roll run tests/index.ts TEST_ARCHIVE=1",
-    "test:html": "wp-now php tests/html/index.php",
-    "// End-to-end tests with Playwright": "",
+    "-- End-to-end testing --": "https://playwright.dev/",
     "e2e": "playwright test --config tests/playwright.config.js",
     "e2e:install": "playwright install chromium",
     "e2e:debug": "npm run e2e -- --debug",
     "e2e:ui": "npm run e2e -- --ui",
-    "e2e:watch": "chokidar 'tests/e2e/**/*.js' --initial --silent -c 'npm run e2e -- --retries=0'"
+    "e2e:watch": "chokidar 'tests/e2e/**/*.js' --initial -c 'npm run e2e -- --retries=0'"
   },
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
-    "@playwright/test": "^1.49.1",
-    "@tangible/now": "^2.0.0",
+    "@playwright/test": "^1.50.0",
+    "@tangible/env": "^2025.1.30",
+    "@tangible/now": "^2.0.3",
     "@tangible/roller": "^2.1.4",
     "@wordpress/e2e-test-utils-playwright": "^1.16.0",
+    "@wordpress/env": "^10.16.0",
     "chokidar-cli": "^3.0.0",
-    "globby": "^14.0.2",
+    "concurrently": "^9.1.2",
     "testra": "^2.1.4"
-  }
+  },
+  "author": "Team Tangible",
+  "license": "MIT",
+  "keywords": []
 }

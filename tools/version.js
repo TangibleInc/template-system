@@ -4,16 +4,20 @@
 import fs from 'node:fs/promises'
 ;(async () => {
   const version = new Date().toISOString().slice(0, 10).replace(/-/g, '')
+
+  // Version number with dots should have no zero padding 1.02.03 -> 1.2.3
   const versionWithDots =
-    version.slice(0, 4) + '.' + version.slice(4, 6) + '.' + version.slice(6, 8)
+    [
+      version.slice(0, 4),
+      version.slice(4, 6),
+      version.slice(6, 8)
+    ].map(i => parseInt(i, 10).toString()).join('.')
+
   console.log('Version', versionWithDots)
 
   for (const file of [
     'admin/system.php',
     'core.php',
-    'framework/index.php',
-    'framework/plugin.php',
-    'framework/date/index.php',
     'logic/module.php',
     'logic/package.json',
     'package.json',

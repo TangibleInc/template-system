@@ -1,4 +1,4 @@
-import { getServer as getServerBase, type Server } from '../vendor/tangible/framework/env'
+import { getServer as getServerBase, type Server } from '@tangible/env'
 
 let server: Server & {
   // Template tag functions
@@ -7,7 +7,6 @@ let server: Server & {
 
 export async function getServer(serverProps?: any) {
   if (server) return server
-
   const serverBase = await getServerBase(serverProps)
 
   const { wpx } = serverBase

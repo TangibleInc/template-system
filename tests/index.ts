@@ -30,8 +30,8 @@ export default run(async () => {
     is(true, result, 'activate plugin')
   })
 
-  // Framework
-  await import(`../vendor/tangible/framework/tests/index.ts`)
+  // Framework - Skip because it can have its own node_modules and server
+  // await import(`../vendor/tangible/framework/tests/index.ts`)
 
   test('Template system - Basic', async () => {
 
