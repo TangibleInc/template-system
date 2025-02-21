@@ -1,5 +1,6 @@
 <?php
 namespace Tangible\Template\Integrations\Beaver;
+use tangible\framework;
 use tangible\template_system;
 use FLBuilder, FLBuilderModule, FLPageData;
 
@@ -59,7 +60,7 @@ TemplateModule::$config = [
   'partial_refresh' => true,
   'icon'            => 'editor-code.svg',
   'dir'             => __DIR__,
-  'url'             => plugins_url( '/', __FILE__ )
+  'url'             => trailingslashit( framework\module_url( __FILE__ ) )
 ];
 
 /**

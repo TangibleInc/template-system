@@ -6,6 +6,7 @@
  * @see https://github.com/mermaid-js/mermaid
  */
 namespace tangible\template_system\mermaid;
+use tangible\framework;
 use tangible\template_system;
 
 function register() {
@@ -44,7 +45,7 @@ $html->add_raw_tag('Mermaid', function($atts, $content) use ($html) {
 
 function register_mermaid_script() {
 
-  $url = untrailingslashit(plugins_url('/', __FILE__)) . '/build';
+  $url = framework\module_url( __FILE__ ) . '/build';
   $version = template_system::$state->version;
 
   wp_register_script(

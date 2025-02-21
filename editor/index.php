@@ -4,6 +4,7 @@
  */
 namespace tangible\template_system;
 
+use tangible\framework;
 use tangible\template_system;
 use tangible\template_system\editor;
 
@@ -15,7 +16,7 @@ class editor {
 editor::$html = tangible_template();
 editor::$state = (object) [
   'version' => template_system::$state->version,
-  'url' => untrailingslashit( plugins_url('/', __FILE__) ),
+  'url' => framework\module_url( __FILE__ ),
 ];
 
 require_once __DIR__.'/enqueue.php';

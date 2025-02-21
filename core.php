@@ -12,6 +12,7 @@
  */
 
 namespace tangible;
+use tangible\framework;
 
 class template_system {
 
@@ -26,7 +27,7 @@ class template_system {
 template_system::$state = (object) [
   'version' => '20250125', // Automatically updated with npm run version
   'path' => __DIR__,
-  'url' => untrailingslashit( plugins_url( '/', __FILE__ ) ),
+  'url' => framework\module_url( __FILE__ ),
 ];
 
 template_system::$system = $plugin = $system; // From /admin/system

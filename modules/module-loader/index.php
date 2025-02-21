@@ -13,6 +13,7 @@
  */
 
 namespace tangible\template_system\module_loader;
+use tangible\framework;
 use tangible\template_system;
 use tangible\template_system\module_loader;
 
@@ -43,7 +44,7 @@ $html->register_module_loader_script = function() use ( $html ) {
 
   $html->module_loader_script_registered = true;
 
-  $url = untrailingslashit(plugins_url('/', __FILE__)) . '/build';
+  $url = framework\module_url( __FILE__ ) . '/build';
   $version = template_system::$state->version;
 
   wp_register_script(

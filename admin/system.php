@@ -2,8 +2,9 @@
 /**
  * The System module is being replaced by new code organization in ../core.php.
  */
-use tangible\template_system;
 use tangible\date;
+use tangible\framework;
+use tangible\template_system;
 
 if (!function_exists('tangible_template_system')) {
   function tangible_template_system( $arg = false ) {
@@ -27,7 +28,7 @@ if (!function_exists('tangible_template_system')) {
     $this->path      = __DIR__;
     $this->file_path = __FILE__;
     // Keep trailing slash for backward compatibility
-    $this->url       = plugins_url('/', __FILE__);
+    $this->url       = trailingslashit( framework\module_url( __FILE__ ) );
 
     tangible_template_system( $this );
     $system = $plugin = $this;

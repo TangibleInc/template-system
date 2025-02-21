@@ -1,4 +1,5 @@
 <?php
+use tangible\framework;
 
 if ( ! function_exists( 'tangible_logic' ) ) :
   function tangible_logic( $module = false ) {
@@ -23,7 +24,7 @@ return new class extends \stdClass {
 
     $this->path      = __DIR__;
     $this->file_path = __FILE__;
-    $this->url       = untrailingslashit(plugins_url('/', __FILE__));
+    $this->url       = framework\module_url( __FILE__ );
 
     // Backward compatibility
     $this->state['url']     = $this->url;

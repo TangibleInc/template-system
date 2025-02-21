@@ -9,11 +9,12 @@
  * from /framework and /modules.
  */
 
-use tangible\template_system;
 use tangible\ajax;
 use tangible\date;
-use tangible\select;
+use tangible\framework;
 use tangible\html;
+use tangible\select;
+use tangible\template_system;
 
 if ( ! function_exists( 'tangible_template' ) ) :
   function tangible_template( $arg = false ) {
@@ -50,7 +51,7 @@ return tangible_template(new class extends stdClass {
 
     $html->path      = __DIR__;
     $html->file_path = __FILE__;
-    $html->url       = untrailingslashit(plugins_url('/', __FILE__));
+    $html->url       = framework\module_url( __FILE__ );
     $html->version = $this->version;
 
     /**

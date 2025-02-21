@@ -1,4 +1,6 @@
 <?php
+use tangible\framework;
+
 if ( ! function_exists( 'tangible_loop' ) ) :
   function tangible_loop( $type = false, $args = [] ) {
     static $o;
@@ -31,7 +33,7 @@ return new class extends stdClass {
     $loop = $this;
     $loop->path      = __DIR__;
     $loop->file_path = __FILE__;
-    $loop->url       = untrailingslashit(plugins_url('/', __FILE__));
+    $loop->url       = framework\module_url( __FILE__ );
 
     tangible_loop( $this );
 
