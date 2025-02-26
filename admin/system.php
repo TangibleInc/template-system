@@ -27,10 +27,25 @@ if (!function_exists('tangible_template_system')) {
   function load() {
     $this->path      = __DIR__;
     $this->file_path = __FILE__;
+
+    tangible_template_system( $this );
+
+    /**
+     * During plugin activation, the newest version of Framework or other modules is not
+     * guaranteed due to how WordPress runs the `plugins_loaded` action *before* loading
+     * plugins and modules, short-circuiting the version comparison logic.
+     * 
+     * After activation, they are loaded normally. To ensure newest modules, use them
+     * during or after `plugins_loaded` action.
+     * 
+     * @see https://developer.wordpress.org/reference/functions/register_activation_hook/#more-information
+     * @see https://github.com/WordPress/wordpress-develop/blob/8a52d746e9bb85604f6a309a87d22296ce1c4280/src/wp-admin/includes/plugin.php#L2381C10-L2381C31
+     */
+    if (defined('WP_SANDBOX_SCRAPING')) return;
+
     // Keep trailing slash for backward compatibility
     $this->url       = trailingslashit( framework\module_url( __FILE__ ) );
 
-    tangible_template_system( $this );
     $system = $plugin = $this;
 
     require_once __DIR__.'/../core.php';
