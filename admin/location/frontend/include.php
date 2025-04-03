@@ -18,6 +18,12 @@ $plugin->layout_template_for_theme_position = [
 
 add_filter('template_include', function( $file_path ) use ( $plugin, $html, $logic ) {
 
+  // Skip if redirect status code 3xx
+  $status = http_response_code();
+  if (300 <= $status && $status <= 399) {
+    return $file_path;
+  }
+
   $include_template = apply_filters( 'tangible_layout_template_include', true, $file_path );
   if ( ! $include_template ) return $file_path;
 
