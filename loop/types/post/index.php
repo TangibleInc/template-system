@@ -335,6 +335,12 @@ class PostLoop extends BaseLoop {
         'type'        => 'number',
         'default'     => -1,
       ],
+      // Standard WP_Query posts per page parameter (currently only used for WPGB facet pagination)
+      'posts_per_page' => [
+        'target_name' => 'posts_per_page',
+        'description' => 'Posts per page',
+        'type'        => 'number',
+      ],
       'page'      => [
         'target_name' => 'paged',
         'description' => 'Page number',
