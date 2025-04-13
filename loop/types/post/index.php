@@ -278,8 +278,10 @@ class PostLoop extends BaseLoop {
         'type'        => 'string',
       ],
 
-      // WP Grid Builder integration
-      // @see https://docs.wpgridbuilder.com/resources/guide-filter-custom-queries/
+      /**
+       * WP Grid Builder facet integration
+       * @see https://docs.wpgridbuilder.com/resources/guide-filter-custom-queries/
+       */
       'wp_grid_builder' => [
         'description' => 'WP Grid Builder identifier for filtering content',
         'type'        => 'string',
@@ -1235,8 +1237,7 @@ class PostLoop extends BaseLoop {
 
     } // End query by custom field
 
-    // WP Grid Builder integration
-    // @see https://docs.wpgridbuilder.com/resources/guide-filter-custom-queries/
+    // WP Grid Builder facet integration
     if (isset($this->args['wp_grid_builder'])) {
       $query_args['wp_grid_builder'] = $this->args['wp_grid_builder'];
     }
