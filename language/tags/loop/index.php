@@ -41,6 +41,9 @@ $html->loop_tag = function($atts, $nodes = []) use ($loop, $html) {
     }
 
   } else {
+    // Apply filter to allow extensions to modify loop attributes
+    $atts = apply_filters('tangible_loop_tag_attributes', $atts);
+    
     $current_loop = $html->create_loop_tag_context($atts);
   }
 
