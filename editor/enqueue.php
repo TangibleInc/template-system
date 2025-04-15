@@ -45,12 +45,18 @@ function enqueue_editor() {
 
     $tags = []; // &$language_definition['tags'];
 
-    $tags['ContentType'] = [ 'closed' => true ];
+    foreach ([
+      'ContentType',
+      'LocationRule',
+    ] as $key) {
+      $tags[ $key ] = [ 'closed' => true ];
+      $language_definition['closedTags'] []= $key;
+    }
 
     foreach ([
       'FieldGroup',
       'Field',
-      'LocationRule',
+      'Key',
       'LocationRuleGroup',
       'Layout',
       'Taxonomy'

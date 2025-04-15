@@ -73,6 +73,7 @@ return [
       'callback' => $html->content_field_tag,
     ],
     'LocationRule'      => [
+      'closed' => true,
       'callback' => $html->content_field_group_location_rule_tag,
     ],
     'LocationRuleGroup' => [
