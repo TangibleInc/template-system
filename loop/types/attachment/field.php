@@ -91,6 +91,9 @@ $loop->get_attachment_field = function( $attachment, $field_name, $args = [] ) u
     case 'filename':
       $value = basename( wp_get_attachment_url( $id ) );
         break;
+    case 'filepath':
+      $value = get_attached_file( $id );
+      break;
     case 'extension':
       $value = pathinfo( wp_get_attachment_url( $id ), PATHINFO_EXTENSION );
         break;
@@ -167,9 +170,22 @@ $loop->get_attachment_field = function( $attachment, $field_name, $args = [] ) u
       $value = tangible_template()->render_tag( 'img', $image_attributes );
 
         break;
+    case 'audio':
+      /**
+       * Retrieves metadata from an audio file’s ID3 tags
+       * @see https://developer.wordpress.org/reference/functions/wp_read_audio_metadata/
+       */
+      if (!function_exists('wp_read_audio_metadata')) {
+        require_once ABSPATH . 'wp-admin/includes/media.php';
+      }
+      $file = get_attached_file( $id );
+      if (!empty($file)) {
+        $value = wp_read_audio_metadata( $file );
+      }
+      break;
     default:
       $value = $loop->get_post_field( $attachment, $field_name, $args );
-        break;
+      break;
   }
 
   return $value;
