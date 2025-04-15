@@ -89,9 +89,9 @@ export function fromParse5(tree, options) {
   return one(
     {
       file: settings.file || undefined,
-      location: false,
       schema: settings.space === 'svg' ? svg : html,
-      verbose: settings.verbose || false
+      verbose: Boolean(settings.verbose),
+      location: Boolean(settings.location),
     },
     tree
   )
@@ -244,7 +244,12 @@ function element(state, node) {
   const result = fn(node.tagName, props, all(state, node.childNodes))
   patch(state, node, result)
 
-  result.attributeKeys = attributeKeys
+  /**
+   * Optional extended data
+   */
+  if (state.verbose) {
+    result.keys = attributeKeys
+  }
 
   // Switch content.
   if (result.tagName === 'template') {

@@ -108,6 +108,7 @@ export function fromHtml(value, options) {
     fromParse5(p5doc, {
       file,
       space: settings.space,
+      location: settings.location,
       verbose: settings.verbose
     })
   )

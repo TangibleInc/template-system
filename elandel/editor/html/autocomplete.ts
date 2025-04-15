@@ -23,6 +23,8 @@ import type {
 import type { EditorState } from '@codemirror/state'
 import type { SyntaxNode } from '@lezer/common'
 
+const debug = false
+
 /* eslint-disable no-template-curly-in-string */
 
 type TagCompletion = [string, string]
@@ -186,7 +188,7 @@ function createTemplateTagCompletionSource(props: any): CompletionSource {
     htmlTags = true
   } = languageDefinition
 
-  console.log('html', languageDefinition)
+debug && console.log('Autocomplete language definition', languageDefinition)
 
   // Add default completions
   if (htmlTags) {
@@ -282,7 +284,7 @@ function createTemplateTagCompletionSource(props: any): CompletionSource {
         around.name == 'Text' ||
         around.name == 'Document')
     ) {
-      // console.log('Complete start tag') // pos
+      // debug && console.log('Complete start tag') // pos
       return {
         from: context.pos,
         options: completionsWithBracket,

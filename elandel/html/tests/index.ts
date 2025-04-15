@@ -13,7 +13,11 @@ const language = {
 }
 
 test('parse', () => {
-  is(parse(testContent, language), testContentTree, 'works')
+  is(parse(testContent, {
+    ...language,
+    // location: true,
+    // verbose: true
+  }), testContentTree, 'works')
 })
 
 test('format', async () => {

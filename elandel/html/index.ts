@@ -29,7 +29,7 @@ export type Element = HastElement & {
   /**
    * Ordered list of attribute key/value pairs
    */
-  attributeKeys: ElementAttributeKeys
+  keys: ElementAttributeKeys
 }
 export type ElementAttributeKeys = [string, string | undefined][]
 
