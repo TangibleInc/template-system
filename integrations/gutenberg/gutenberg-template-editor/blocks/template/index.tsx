@@ -65,8 +65,25 @@ const stopGutenbergShortcuts = {
 const EmptyTemplate = () => <div>&nbsp;</div>
 
 class TemplateEditor extends Component {
+
+  debug = false
+  editorCreateStarted = false
+
   componentDidMount() {
+
+    /**
+     * Gutenberg mounts twice if SCRIPT_DEBUG is true 
+     * @see https://github.com/WordPress/gutenberg/issues/53590
+     */
+    if (this.editorCreateStarted) {
+      this.debug && console.log('Editor already created')
+      return
+    }
     ;(async () => {
+
+      this.debug && console.log('..Create code editor', this.el)
+      this.editorCreateStarted = true
+
       const editor = await createCodeEditor(this.el, {
         language: 'html',
         resizable: true,
@@ -95,7 +112,14 @@ class TemplateEditor extends Component {
   }
 
   componentWillUnmount() {
-    this.editor.off('change', this.onEditorUpdate)
+    if (this.editor) {
+      this.editor.off('change', this.onEditorUpdate)
+      this.editor?.codeMirror6?.view?.destroy()
+      this.editor = null
+      this.editorCreateStarted = false
+
+      this.debug && console.log('Destroy editor')
+    }
   }
 
   shouldComponentUpdate() {
@@ -185,7 +209,7 @@ class edit extends Component {
 
     if (tab === 'editor') {
 
-      console.log('Save', this.props.attributes.template_selected)
+console.log('Save', this.props.attributes.template_selected)
       this.setState({
         previouslySelectedTemplate: this.props.attributes.template_selected
       })
@@ -202,7 +226,8 @@ class edit extends Component {
     } else if (tab === 'selectTemplate') {
 
       if (!this.props.attributes.template_selected) {
-        console.log('Restore', this.props.attributes.template_selected)
+
+// console.log('Restore', this.props.attributes.template_selected)
 
         // Select previously selected, or first option
         this.props.setAttributes({
@@ -214,6 +239,13 @@ class edit extends Component {
         })
       }
     }
+  }
+
+  componentDidMount() {
+console.log('---> Edit Mount')
+  }
+  componentWillUnmount() {
+console.log('<--- Edit Unmount')
   }
 
   render() {

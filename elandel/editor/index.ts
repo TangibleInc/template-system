@@ -26,6 +26,7 @@ export const CodeEditor = {
 
 export async function create({
   el,
+  root,
   lang = 'html',
   content = '',
   onUpdate,
@@ -105,10 +106,15 @@ export async function create({
   const view = new EditorView({
     state,
     parent: el,
+    root
   })
 
   // Don't auto-focus because there can be multiple editors
   // view.focus()
+
+  if (!el) {
+    el = view.dom
+  }
 
   Object.assign(editor, {
     el,

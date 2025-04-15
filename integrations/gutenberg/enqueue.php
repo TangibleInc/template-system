@@ -10,13 +10,13 @@
  */
 
 use tangible\template_system;
+use tangible\template_system\editor;
  
 $plugin->gutenberg_template_editor_enqueued = false;
 
 $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
 
   if ($plugin->gutenberg_template_editor_enqueued) return;
-
   $plugin->gutenberg_template_editor_enqueued = true;
 
   /**
@@ -48,7 +48,6 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
   $new_editor = true; // template_system\get_settings('codemirror_6');
 
   if ($new_editor) {
-
     template_system\enqueue_codemirror_v6();
     $js_deps []= 'tangible-codemirror-v6';
 
@@ -111,16 +110,27 @@ $plugin->enqueue_gutenberg_template_editor = function() use ( $plugin, $html ) {
 
 };
 
-
 add_action('enqueue_block_editor_assets', function() use ( $plugin ) {
   $plugin->enqueue_gutenberg_template_editor();
 });
 
+/**
+ * Support enqueue editor assets in iframe
+ * @see https://developer.wordpress.org/block-editor/how-to-guides/enqueueing-assets-in-the-editor/#backward-compatibility-and-known-issues
+ */
+add_action('enqueue_block_assets', function() use ( $plugin ) {
+  if ( !is_admin() ) return;
+  if (apply_filters('should_load_block_editor_scripts_and_styles', true)) {
+    // Admin/editor page context
+  } else {
+    // Iframe context
+    editor\enqueue_editor();
+  }
+});
 
 /**
  * Enqueue block assets for frontend (also loaded in backend editor)
  */
-
 /*
 add_action('enqueue_block_assets', function() use ($plugin) {
 

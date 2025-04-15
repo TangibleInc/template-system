@@ -43,8 +43,6 @@ export async function createTemplateEditor(
     throw new Error('CodeEditor not found')
   }
 
-  // console.log('createTemplateEditor', textarea, CodeEditor, options)
-
   const {
     language = 'html',
     onSave,
@@ -53,9 +51,10 @@ export async function createTemplateEditor(
   } = options
 
   const listeners = {}
-  
+
   const editor = await CodeEditor.create({
     // el,
+    root: textarea.ownerDocument, // Support editor inside iframe
     lang: language,
     content: textarea.value,
     onUpdate(doc) {
@@ -78,6 +77,12 @@ export async function createTemplateEditor(
     
     codeMirror6: editor,
     updateTextarea,
+    destroy() {
+      for (const key of Object.keys(listeners)) {
+        delete listeners[key]
+      }
+      editor?.view?.destroy()
+    },
 
     // Legacy editor
 

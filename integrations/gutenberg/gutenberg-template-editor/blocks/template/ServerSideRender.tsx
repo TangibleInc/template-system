@@ -19,6 +19,8 @@ const {
   url: { addQueryArgs }
 } = wp
 
+const debug = false
+
 function Content({
   className,
   children,
@@ -152,6 +154,8 @@ export default function ServerSideRender( props ) {
 			? { attributes: sanitizedAttributes ?? null }
 			: null;
 
+      debug && console.log('Fetch', path, sanitizedAttributes)
+
 		// Store the latest fetch request so that when we process it, we can
 		// check if it is the current request, to avoid race conditions on slow networks.
 		const fetchRequest = ( fetchRequestRef.current = apiFetch( {
@@ -160,16 +164,22 @@ export default function ServerSideRender( props ) {
 			method: isPostRequest ? 'POST' : 'GET',
 		} )
 			.then( ( fetchResponse ) => {
-				if (
+
+        debug && console.log('Fetch response', fetchResponse, isMountedRef.current, fetchRequest === fetchRequestRef.current)
+
+        if (
 					isMountedRef.current &&
 					fetchRequest === fetchRequestRef.current &&
 					fetchResponse
 				) {
-					setResponse( fetchResponse.rendered );
+          setResponse( fetchResponse.rendered );
 				}
 			} )
 			.catch( ( error ) => {
-				if (
+
+debug && console.log('Fetch error', error)
+
+        if (
 					isMountedRef.current &&
 					fetchRequest === fetchRequestRef.current
 				) {
@@ -196,9 +206,12 @@ export default function ServerSideRender( props ) {
 	// When the component unmounts, set isMountedRef to false. This will
 	// let the async fetch callbacks know when to stop.
 	useEffect(
-		() => () => {
-			isMountedRef.current = false;
-		},
+		() => {
+    isMountedRef.current = true;
+      return () => {
+        isMountedRef.current = false;
+      }
+    },
 		[]
 	);
 
