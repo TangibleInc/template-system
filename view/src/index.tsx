@@ -212,6 +212,7 @@ async function formatCode({ lang, editor }) {
 }
 
 document.documentElement.classList.add('tangible-template-system-builder-expanded')
+
 const App = () => {
   useEffect(() => {
     document.body.classList.add('ide-loaded')

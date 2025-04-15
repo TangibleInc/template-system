@@ -28,9 +28,8 @@ export function Header({
   ideElement
 }) {
 
-  const [screenSize, _setScreenSize] = useState(ScreenSize.Full)
+  const [screenSize, _setScreenSize] = useState(ScreenSize.Default)
   const setScreenSize = useMemo(() => function(size) {
-
     function update() {
       updateFullScreenClass(
         size===ScreenSize.Full || size===ScreenSize.FullScreen
