@@ -278,6 +278,14 @@ class PostLoop extends BaseLoop {
         'type'        => 'string',
       ],
 
+      /**
+       * WP Grid Builder facet integration
+       * @see https://docs.wpgridbuilder.com/resources/guide-filter-custom-queries/
+       */
+      'wp_grid_builder' => [
+        'description' => 'WP Grid Builder identifier for filtering content',
+        'type'        => 'string',
+      ],
 
       // Date field query
 
@@ -334,6 +342,12 @@ class PostLoop extends BaseLoop {
         'description' => 'Posts per page',
         'type'        => 'number',
         'default'     => -1,
+      ],
+      // Standard WP_Query posts per page parameter (currently only used for WPGB facet pagination)
+      'posts_per_page' => [
+        'target_name' => 'posts_per_page',
+        'description' => 'Posts per page',
+        'type'        => 'number',
       ],
       'page'      => [
         'target_name' => 'paged',
@@ -1229,6 +1243,11 @@ class PostLoop extends BaseLoop {
 
     } // End query by custom field
 
+    // WP Grid Builder facet integration
+    if (isset($this->args['wp_grid_builder'])) {
+      $query_args['wp_grid_builder'] = $this->args['wp_grid_builder'];
+    }
+    
     /**
      * Custom query parameters
      */
