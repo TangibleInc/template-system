@@ -168,6 +168,19 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
     }
   }
 
+  // Subfield - Supports "." syntax to reach deeper into object/array/loop
+  $subfield = null;
+  if (strpos($field_name, '.')!==false) {
+    $parts = explode('.', $field_name);
+    $field_name = $parts[0];
+    $atts['field'] = implode('.', array_slice($parts, 1));
+  }
+
+  if (isset( $atts['field'] )) {
+    $subfield = $atts['field'];
+    unset($atts['field']);
+  }
+
   /**
    * Loop type shortcut attributes - Creates a loop of that type and get a field.
    *
@@ -370,8 +383,6 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
 
   if ( $is_acf_field ) {
 
-    $subfield = isset( $atts['field'] ) ? $atts['field'] : '';
-
     $acf_field_options = [
       // Format for display, instead of raw value
       'display'        => empty( $subfield ),
@@ -389,8 +400,25 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
 
     $value = $html->get_acf_field_type( $acf_field_type, $field_name, $acf_field_options );
 
-    // Subfield
-    if ( ! empty( $subfield ) ) {
+  } else {
+
+    /**
+     * Normal field (not ACF)
+     */
+
+    $value = $current_loop->get_field(
+      $field_name,
+      $atts
+    );
+  }
+
+  // Subfield
+  if ( ! empty( $subfield ) ) {
+
+    // Support "." syntax to climb down into subfields
+    $parts = explode('.', $subfield);
+
+    foreach ($parts as $subfield) {
 
       if ( $loop->is_instance( $value ) ) {
         // Loop instance
@@ -412,9 +440,8 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
           ? $value->$subfield
           : null;
 
-      } elseif ( is_array( $value ) ) {
-
-        // Array
+      } elseif ( is_array( $value ) || is_string( $value )) {
+        // Array or string
         $value = isset( $value[ $subfield ] )
           ? $value[ $subfield ]
           : null;
@@ -422,17 +449,9 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
       } else {
         $value = null;
       }
+
+      if (is_null($value)) break;
     }
-  } else {
-
-    /**
-     * Normal field (not ACF)
-     */
-
-    $value = $current_loop->get_field(
-      $field_name,
-      $atts
-    );
   }
 
   /**
