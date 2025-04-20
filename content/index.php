@@ -33,21 +33,3 @@ add_action('init', function() use ( $html ) {
   $html->init_taxonomies();
   $html->init_metaboxes();
 });
-
-/**
- * Admin settings to enable the feature
- * @see /admin/settings
- * 
- * Registered as post type
- * @see /admin/post-types/index.php
- */
-// if (template_system\get_settings('content')) {
-  // framework\register_admin_menu([
-  //   'name'  => 'tangible-content',
-  //   'title' => 'Content',
-  //   'capability' => 'manage_options',
-  //   'callback' => function () {
-  //   },
-  //   'position' => 32, // After Template
-  // ]);
-// }

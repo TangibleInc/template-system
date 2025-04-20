@@ -16,6 +16,7 @@ $html->is_acf_field_type_with_sub_field = function( $field_type ) {
 
 require_once __DIR__ . '/get-field.php';
 require_once __DIR__ . '/field-settings.php';
+require_once __DIR__ . '/register/index.php';
 
 if ( ! $html->is_acf_active ) return;
 
@@ -23,11 +24,9 @@ if ( ! $html->is_acf_active ) return;
 require_once __DIR__ . '/loop-types/index.php';
 
 // Field types
-
 add_action('acf/include_field_types', function() {
   require_once __DIR__ . '/field-types/index.php';
 });
 
 // Logic rules for If tag
-
 require_once __DIR__ . '/logic/index.php';

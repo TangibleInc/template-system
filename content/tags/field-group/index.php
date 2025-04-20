@@ -1,4 +1,5 @@
 <?php
+use tangible\template_system;
 
 $html->current_field_group_config = [];
 
@@ -19,6 +20,10 @@ require_once __DIR__ . '/location.php';
  * Field group tag
  */
 $html->content_field_group_tag = function( $atts, $nodes ) use ( $html ) {
+
+  if (isset($atts['type'])) {
+    $is_acf = ($atts['type'] ?? apply_filters('tangible_template_system_default_field_group_type', 'tangible'));
+  }
 
   $name = isset( $atts['name'] ) ? $atts['name'] : array_shift( $atts['keys'] );
 
@@ -63,7 +68,12 @@ $html->content_field_group_tag = function( $atts, $nodes ) use ( $html ) {
     if (isset( $config['title'] )) $name = $html->format_slug( $config['title'] );
   }
 
-  $html->register_field_group( $name, $config );
+  if ($is_acf) {
+    template_system\register_acf_field_group( $name, $config );
+  } else {
+    template_system\register_field_group( $name, $config );
+  }
+
 };
 
 return [

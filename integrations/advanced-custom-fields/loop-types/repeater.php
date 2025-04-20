@@ -62,6 +62,11 @@ class RepeaterLoop extends ListLoop {
   }
 
   function get_item_field( $item, $field_name, $args = [] ) {
+
+    if (is_array($item) && isset($item[$field_name])) {
+      return $item[$field_name];
+    }
+
     return get_sub_field( $field_name );
   }
 };
