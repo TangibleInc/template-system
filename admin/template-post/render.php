@@ -79,8 +79,11 @@ $plugin->render_template_post = function(
   }
   if (!empty($atomic_css)) {
     try {
-      $atomic_css = json_decode($atomic_css);
+      $atomic_css = json_decode($atomic_css, true);
       $css = template_system\render_atomic_css_selectors($atomic_css);
+
+      // \tangible\log('atomic_css', $atomic_css, 'result:', $css);
+
       $html->enqueue_inline_style( $css );
     } catch (\Throwable $th) {
       // Skip

@@ -21,6 +21,10 @@ export default {
     {
       src: 'atomic-css/index.ts',
       dest: '../build/atomic-css.min.js',
+      alias: {
+        '@unocss/core': './atomic-css/unocss',
+        '@unocss/rule-utils': './atomic-css/rule-utils',
+      }
     },
   ],
   format: [

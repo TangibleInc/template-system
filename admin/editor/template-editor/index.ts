@@ -1,6 +1,6 @@
 /**
  * Editor for template post type
- * 
+ *
  * Creates a code editor for all languages and integrates them with the WordPress
  * admin edit screen. Handles save form, preview, edit tabs.
  */
@@ -9,6 +9,8 @@ import { handleTabs } from './tabs'
 import { createEditors } from './editors'
 import { memory, setMemory } from './memory'
 import { createPreviewPane } from './preview'
+import type { GenerateResult } from '../atomic-css/unocss'
+import { ExtendedTokenInfo } from '@unocss/core'
 
 declare global {
   interface Window {
@@ -81,7 +83,7 @@ window.jQuery(function ($) {
     'theme_header',
     'theme_footer',
     'universal_id',
-    'atomic_css'
+    'atomic_css',
   ]
 
   const $additionalFields = {
@@ -104,7 +106,7 @@ window.jQuery(function ($) {
 
   for (const taxName of taxonomyNames) {
     const $terms = $postForm.find(
-      `[type="checkbox"][name="tax_input[${taxName}][]"]`
+      `[type="checkbox"][name="tax_input[${taxName}][]"]`,
     )
     if ($terms.length) {
       $taxonomyFields[taxName] = $terms
@@ -128,7 +130,7 @@ window.jQuery(function ($) {
 
     if (errorMessage) {
       $publishingActions.append(
-        `<div id="post-save-error-message" style="padding-top: 8px">${errorMessage}</div>`
+        `<div id="post-save-error-message" style="padding-top: 8px">${errorMessage}</div>`,
       )
     } else {
       $publishingActions.find('#post-save-error-message').remove()
@@ -253,7 +255,7 @@ window.jQuery(function ($) {
 
   const $preview = $postForm.find('.tangible-template-preview-pane')
   const $previewButton = $postForm.find(
-    '.tangible-template-tab-selector[data-tab-name=preview]'
+    '.tangible-template-tab-selector[data-tab-name=preview]',
   )
 
   const { scheduleRenderPreview, setEditorActiveForPreview } =
@@ -276,33 +278,44 @@ window.jQuery(function ($) {
     templateMeta,
     Tangible,
   }).finally(function () {
-
     /**
      * Atomic CSS engine
      */
-    const cssEngine = window.Tangible.createAtomicCssEngine
+    const cssEngine: {
+      parse(content: string): Promise<{
+        variables: [key: string, value: string][]
+        selectors: Map<string, ExtendedTokenInfo<object>>
+      }>
+    } = window.Tangible.createAtomicCssEngine
       ? window.Tangible.createAtomicCssEngine()
       : null
     const $atomicCss = $postForm.find(`[name="atomic_css"]`)
     const contentEditor = editorInstances.post_content
 
     if (cssEngine && contentEditor && $atomicCss.length) {
-      contentEditor.generateCss = async function() {
+      contentEditor.generateCss = async function () {
+
         const generated = await cssEngine.parse(contentEditor.getValue())
-        $atomicCss.val(JSON.stringify(generated))
+        // console.log('Atomic CSS: Generated', generated)
+
+        /**
+         * Save as field value - CSS generated on server side
+         */
+        $atomicCss.val(JSON.stringify({
+          variables: generated.variables,
+          selectors: generated.selectors
+        }))
       }
 
-      contentEditor.generateCss()
-        .then(() => {
-          if (memory.previewOpen) {
-            $previewButton.click()
-          }    
-        })
-  
+      contentEditor.generateCss().then(() => {
+        if (memory.previewOpen) {
+          $previewButton.click()
+        }
+      })
     } else {
       if (memory.previewOpen) {
         $previewButton.click()
-      }  
+      }
     }
 
     /**

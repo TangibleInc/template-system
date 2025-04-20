@@ -14,7 +14,7 @@ $plugin->template_tag_and_shortcode = function($atts, $nodes = []) use ($plugin,
 
   if (isset($atts['type'])) {
     /**
-     * Support type=layout, style, script, block
+     * Support type=layout, style, script, block, form
      */
     $post_type = "tangible_{$atts['type']}";
     unset($atts['type']);
