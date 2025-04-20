@@ -13,6 +13,10 @@ class PostTypeLoop extends BaseLoop {
     'title'      => 'Post Type',
     'category'   => 'core',
     'query_args' => [
+      'name'  => [
+        'description' => 'Get a single post type by name/slug.',
+        'type'        => 'string',
+      ],
       'public'  => [
         'description' => 'If true, only public post types will be returned.',
         'type'        => 'boolean',
@@ -46,6 +50,7 @@ class PostTypeLoop extends BaseLoop {
   ];
 
   function get_items_from_query( $query ) {
+
     // @see https://developer.wordpress.org/reference/functions/get_post_types
     $post_types = get_post_types( $query, 'objects' );
 
