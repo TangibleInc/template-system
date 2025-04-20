@@ -19,7 +19,8 @@ $plugin->enqueue_elementor_template_editor = function() use ( $plugin, $html ) {
     'wp-element'
   ];
 
-  if (template_system\get_settings('codemirror_6')) {
+  // New code editor by default
+  if (template_system\get_settings('codemirror_6_elementor')) {
 
     template_system\enqueue_codemirror_v6();
     $js_deps []= 'tangible-codemirror-v6';

@@ -14,6 +14,13 @@ template_system::$state->setting_fields = [
 
   // Features in development
   [
+    'name' => 'codemirror_6_elementor',
+    'field_type' => 'checkbox',
+    'label' => 'Elementor integration: Use new template editor based on CodeMirror 6',
+    'default_value' => true,
+  ],
+
+  [
     'name' => 'atomic_css',
     'field_type' => 'checkbox',
     'label' => 'Atomic CSS: Generate CSS utility classes on demand',
@@ -24,11 +31,9 @@ template_system::$state->setting_fields = [
   [
     'name' => 'codemirror_6',
     'field_type' => 'checkbox',
-    'label' => 'CodeMirror 6: Enable the new editor for Elementor and Beaver Builder, where it\'s not ready yet.',
+    'label' => 'Beaver Builder integration: Use new template editor based on CodeMirror 6 (Not working because Beaver\'s lightbox CSS breaks editor styles)',
     'beta' => true,
-
-    // TODO: Switch default to true when new editor is ready
-    'default_value' => false,
+    'default_value' => false, // TODO: Switch default to true when new editor is ready
   ],
 
   [
