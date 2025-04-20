@@ -18,19 +18,18 @@ const ExportRule = ({
         {...{
           labelForEmptyValue: 'Select template type',
           options: [
-
             /**
              * Enable block export only when Blocks & Editor is active
              */
             ...((hasPlugin['blocks'] && hasPlugin['blocks_editor'])
               ? [{ label: 'Block', value: 'tangible_block' }]
               : []),
-            ...(hasPlugin['loops'] || hasPlugin['template_system']
+            ...((hasPlugin['blocks'] && hasPlugin['blocks_editor']) || hasPlugin['loops'] || hasPlugin['template_system']
               ? [
                 { label: 'Template', value: 'tangible_template' },
+                { label: 'Layout', value: 'tangible_layout' },
                 { label: 'Style', value: 'tangible_style' },
                 { label: 'Script', value: 'tangible_script' },
-                { label: 'Layout', value: 'tangible_layout' },
               ]
               : []
             )

@@ -20,13 +20,6 @@ const savedState = getSavedStateFromLocalStorage()
 
 const defaultPackageName =
   (savedState && savedState.name) || 'tangible-templates'
-const defaultExportRules = (savedState && savedState.rules) || [
-  {
-    field: 'tangible_template',
-    operator: 'all',
-    values: [],
-  },
-]
 
 const Exporter = ({
   templateCategoryOptions,
@@ -37,7 +30,13 @@ const Exporter = ({
 
   // Rules state
 
-  const [exportRules, _setExportRules] = useState(defaultExportRules)
+  const [exportRules, _setExportRules] = useState((savedState && savedState.rules) || [
+    {
+      field: hasPlugin['blocks'] ? 'tangible_block' : 'tangible_template',
+      operator: 'all',
+      values: [],
+    },
+  ])
 
   const exportRulesRef = useRef()
   exportRulesRef.current = exportRules // Keep ever-fresh reference for event callbacks to use
