@@ -29,7 +29,6 @@ const prettierLanguageOptions = {
   json: {
     parser: 'json-stringify',
   },
-  html: {}
 }
 
 export type Formatter = (props: {
@@ -37,7 +36,7 @@ export type Formatter = (props: {
   options?: any
 }) => Promise<string>
 
-export type FormatterLanguage = keyof typeof prettierLanguageOptions
+export type FormatterLanguage = (keyof typeof prettierLanguageOptions) | 'html'
 
 export function createFormatter({
   lang = 'html',
@@ -72,7 +71,7 @@ export function createFormatter({
     content: string
     options?: any
   }) {
-  
+
     try {
       return !prettierLanguageOptions[lang]
       ? lang==='html'
