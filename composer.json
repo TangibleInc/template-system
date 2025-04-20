@@ -1,3 +1,8 @@
 {
-  "name": "tangible/template-system"
+  "name": "tangible/template-system",
+  "require-dev": {
+    "phpunit/phpunit": "9.6.x-dev",
+    "yoast/phpunit-polyfills": "2.x-dev"
+  },
+  "minimum-stability": "dev"
 }

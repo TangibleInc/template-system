@@ -24,7 +24,7 @@ See section [Folder Structure](#folder-structure) for a detailed view.
 
 ## Getting started
 
-Prerequisites: [Git](https://git-scm.com/) and [Node](https://nodejs.org/en/)
+Prerequisites: Linux, macOS, or Windows ([WSL](https://learn.microsoft.com/en-us/windows/wsl/about)); [Git](https://git-scm.com/), [Node](https://nodejs.org/en/) (version 20 and above)
 
 Clone the repository, and install dependencies.
 
@@ -41,17 +41,15 @@ To contribute to the codebase, [create a fork](https://docs.github.com/en/pull-r
 
 ## Develop
 
-### Start local dev site
+### Local dev site
 
-This starts the server for a local development site.
+Start a local dev site using [`wp-now`](https://github.com/WordPress/playground-tools/blob/trunk/packages/wp-now/README.md).
 
 ```sh
-npm run start
+npm run now
 ```
 
-Open another terminal tab/window to develop modules with JS and CSS assets.
-
-Press CTRL + C to stop.
+The default user is `admin` with `password`. Press CTRL + C to stop.
 
 ### List modules
 
@@ -118,51 +116,66 @@ npm run update:dev
 The dependencies are also listed in the file `.wp-env.json` to map local folders to the test site environment.
 
 
-## Test
+## Tests
 
-There is a suite of unit and integration tests included.
+This plugin comes with a suite of unit and integration tests.
 
-The test environment uses [`wp-now`](https://github.com/WordPress/playground-tools/tree/trunk/packages/wp-now#wp-now), which runs WordPress on Node and PHP-WASM. It does not require Docker or PHP being installed on the local system.
+The test environment is started by running:
 
-### Run
+```sh
+npm run start
+```
 
-Run the tests.
+This uses [`wp-env`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/) to quickly spin up a local dev and test environment, optionally switching between multiple PHP versions. It requires **Docker** to be installed. There are instructions available for installing Docker on [Windows](https://docs.docker.com/desktop/install/windows-install/), [macOS](https://docs.docker.com/desktop/install/mac-install/), and [Linux](https://docs.docker.com/desktop/install/linux-install/).
+
+Visit [http://localhost:8888](http://localhost:8888) to see the dev site, and [http://localhost:8889](http://localhost:8880) for the test site, whose database is cleared on every run.
+
+Before running tests, install PHPUnit as a dev dependency using Composer inside the container.
+
+```sh
+npm run composer:install
+```
+
+Composer will add and remove folders in the `vendor` folder, based on `composer.json` and `composer.lock`. If you have any existing Git repositories, ensure they don't have any work in progress before running the above command.
+
+Run the tests:
 
 ```sh
 npm run test
 ```
 
-### PHP versions
-
-By default it uses PHP 7.4, the oldest version we support. WordPress itself only has beta support for PHP 8.x. See [PHP Compatibility and WordPress versions](https://make.wordpress.org/core/handbook/references/php-compatibility-and-wordpress-versions/) and [Usage Statistics](https://wordpress.org/about/stats/).
-
-Run the tests with PHP 8.3.
+For each PHP version:
 
 ```sh
-npm run test:8.3
+npm run env:test:7.4
+npm run env:test:8.2
 ```
 
-### Run all PHP versions and E2E
+The version-specific commands take a while to start, but afterwards you can run `npm run env:test` to re-run tests in the same environment.
 
-Run the tests with all PHP versions, as well as end-to-end tests.
+To stop the Docker process:
 
 ```sh
-npm run test:all
+npm run stop
 ```
 
-### Run test file or folder
-
-Run individual test file.
+To remove Docker containers, volumes, images associated with the test environment.
 
 ```sh
-npx roll run tests/loop/taxonomy.ts
+npm run env:destroy
 ```
 
-Run test folder with `index.ts`.
+#### Notes
+
+To run more than one instance of `wp-env`, set different ports for the dev and test sites:
 
 ```sh
-npx roll run tests/logic
+WP_ENV_PORT=3333 WP_ENV_TESTS_PORT=3334 npm run env:start
 ```
+
+---
+
+This repository includes NPM scripts to run the tests with PHP versions 7.4 and 8.x. We need to maintain compatibility with PHP 7.4, as WordPress itself only has “beta support” for PHP 8. See https://make.wordpress.org/core/handbook/references/php-compatibility-and-wordpress-versions/ for more information.
 
 
 ### End-to-end tests

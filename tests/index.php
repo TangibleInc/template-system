@@ -15,7 +15,7 @@ require_once $_WORDPRESS_TESTS_DIR . '/includes/functions.php';
 
 tests_add_filter('muplugins_loaded', function() {
 
-  require __DIR__ . '/../index.php';
+  require __DIR__ . '/../plugin.php';
 
   /**
    * Plugin dependencies must be activated here, because WP_UnitTestCase::set_up

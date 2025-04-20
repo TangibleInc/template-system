@@ -1,4 +1,4 @@
-# @tangible/git-subrepo
+# Git Subrepo
 
 Wrapper to use [git-subrepo](https://github.com/ingydotnet/git-subrepo) as NPM package and command
 

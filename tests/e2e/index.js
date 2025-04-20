@@ -1,4 +1,6 @@
-import { describe, test, expect } from '@tangible/env/playwright'
+import { test, expect } from '@wordpress/e2e-test-utils-playwright'
+
+const { describe } = test
 
 /**
  * Tests to exercise the frontend and admin features of the Template System.
@@ -23,7 +25,6 @@ describe('Admin', () => {
 
   const plugins = [
     ['Tangible Template System', 'tangible-template-system/plugin'],
-    ['Tangible E2E', 'tangible-e2e-plugin/index'],
 
     ['Advanced Custom Fields', 'advanced-custom-fields/acf'],
     ['Elementor', 'elementor/elementor'],

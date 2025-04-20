@@ -49,4 +49,4 @@ require_once __DIR__ . '/admin/index.php';
 require_once __DIR__ . '/editor/index.php';
 require_once __DIR__ . '/content/index.php';
 require_once __DIR__ . '/form/index.php';
-require_once __DIR__ . '/view/index.php';
+require_once __DIR__ . '/views/index.php';
