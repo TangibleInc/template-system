@@ -9,6 +9,7 @@ use tangible\template_system;
 $plugin->template_post_types = apply_filters('tangible_template_post_types', [
   'tangible_block',
   'tangible_content',
+  'tangible_form',
   'tangible_layout',
   'tangible_script',
   'tangible_style',
@@ -71,14 +72,21 @@ add_action('init', function() use ( $plugin ) {
     'description' => 'Scripts for Tangible Template System',
   ]);
 
-  // Content structure templates
-
   if (template_system\get_settings('content')) {
     $plugin->register_template_post_type([
       'post_type'   => 'tangible_content',
       'single'      => 'Content',
       'plural'      => 'Content',
       'description' => 'Content structure templates for Tangible Template System'
+    ]);
+  }
+
+  if (template_system\get_settings('form')) {
+    $plugin->register_template_post_type([
+      'post_type'   => 'tangible_form',
+      'single'      => 'Form',
+      'plural'      => 'Forms',
+      'description' => 'Form templates for Tangible Template System'
     ]);
   }
 
