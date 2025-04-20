@@ -53,8 +53,8 @@ $render_field = function($field) use ($settings) {
 };
 
 ?>
-<h2>Settings</h2>
-<form id="tangible-settings-form" class="wrap">
+<h1>Settings</h1>
+<form id="tangible-settings-form" class="wrap" style="margin-top:2rem">
   <?php
 
   $fields = template_system\get_setting_fields();
