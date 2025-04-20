@@ -2,7 +2,9 @@
  * Adapt to default styles of Beaver Builder
  */
 
-body .fl-lightbox .tangible-codemirror {
+body .fl-lightbox .tangible-codemirror, // v5
+body .fl-lightbox .tangible-template-editor-container // CodeMirror v6
+{
   box-sizing: border-box;
   position: relative;
 
