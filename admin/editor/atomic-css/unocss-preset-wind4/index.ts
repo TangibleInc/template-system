@@ -1,7 +1,7 @@
 import type { Arrayable, BaseContext, CSSEntry, PresetOptions } from '@unocss/core'
 import type { Theme } from './theme'
 import { definePreset } from '@unocss/core'
-import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
+// import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
 import { postprocessors } from './postprocess'
 import { preflights } from './preflights'
 import { rules } from './rules'
@@ -131,9 +131,9 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
     variants: variants(options),
     prefix: options.prefix,
     postprocess: postprocessors(options),
-    extractorDefault: options.arbitraryVariants === false
-      ? undefined
-      : extractorArbitraryVariants(),
+    // extractorDefault: options.arbitraryVariants === false
+    //   ? undefined
+    //   : extractorArbitraryVariants(),
     autocomplete: {
       shorthands,
     },

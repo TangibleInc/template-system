@@ -77,14 +77,20 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
         }
         const depCSS = resolvedDeps.join('\n')
 
-        return compressCSS(`
-:root, :host {
-${depCSS}
-}`, generator.config.envMode === 'dev')
-      }
+//         return compressCSS(`
+// :root, :host {
+// ${depCSS}
+// }`, generator.config.envMode === 'dev')
+return `
+:root, :host {\n
+  ${depCSS}\n
+}`
+  
+  }
 
       if (options.themePreflight === 'on-demand') {
         const self = generator.config.presets.find(p => p.name === PRESET_NAME)
+
         if (!self || (self.meta!.themeDeps as Set<string>).size === 0)
           return undefined
 
@@ -95,11 +101,12 @@ ${depCSS}
           if (typeof v === 'object') {
             v = v.DEFAULT
           }
-
           if (v) {
-            return [`--${key}${`${key === 'spacing' && prop === 'DEFAULT' ? '' : `-${prop}`}`}`, v]
+            return [`--${
+              options.variablePrefix
+            }${key}${`${key === 'spacing' && prop === 'DEFAULT' ? '' : `-${prop}`}`}`, v]
           }
-
+          
           return undefined
         }).filter(Boolean) as CSSEntry[]
       }
