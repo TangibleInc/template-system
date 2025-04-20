@@ -8,7 +8,7 @@ use tangible\template_system;
  * Optional for now
  * @see /admin/settings
  */
-if (!template_system\get_settings('view')) return;
+if (!template_system\get_settings('views')) return;
 
 // Remove any notifications that disrupt the IDE screen styling
 add_action('in_admin_header', function () {
@@ -20,8 +20,8 @@ add_action('in_admin_header', function () {
 }, 999);
 
 framework\register_admin_menu([
-  'name'  => 'tangible-view',
-  'title' => 'View',
+  'name'  => 'tangible-views',
+  'title' => 'Views',
   'capability' => 'manage_options',
   'callback' => 'tangible\\template_system\\view\\load', // See ./enqueue
   'position' => 50, // After template post types

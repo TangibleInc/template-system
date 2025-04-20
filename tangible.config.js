@@ -15,7 +15,7 @@ export default {
       'loop/**',
       'modules/**',
       'vendor/tangible/**',
-      'view/**',
+      'views/**',
     ],
     dest: 'publish/tangible-template-system.zip',
     exclude: [
