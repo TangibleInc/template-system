@@ -6,6 +6,7 @@ let server: Server & {
 }
 
 export async function getServer(serverProps?: any) {
+  if (globalThis.serverInstance) return globalThis.serverInstance
   if (server) return server
   const serverBase = await getServerBase(serverProps)
 
