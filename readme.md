@@ -151,7 +151,7 @@ npm run env:test:7.4
 npm run env:test:8.2
 ```
 
-The version-specific commands take a while to start, but afterwards you can run `npm run env:test` to re-run tests in the same environment.
+The version-specific commands take a while to start, but afterwards you can run `npm run test` to re-run tests in the same environment.
 
 To stop the Docker process:
 
