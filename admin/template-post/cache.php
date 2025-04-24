@@ -51,8 +51,8 @@ function process_and_cache_template_post( $post, $cache_key = null ) {
     'type' => $post->post_type,
     'id' => $post->ID
   ];
-  $prefix = '<!-- Parsed and cached: ' . json_encode($metadata) . " -->\n";
-  $content = html\parse( $prefix . ($post->post_content) );
+
+  $content = html\parse( $post->post_content );
   $processed = [
     'parsed_content' => $content,
     // ..Possibly other pre-processed template data
