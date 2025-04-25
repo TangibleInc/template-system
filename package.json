@@ -22,7 +22,7 @@
     "update": "roll update",
     "install:dev": "roll install --dev",
     "update:dev": "roll update --dev",
-    "archive": "roll archive && rm -rf publish/tangible-template-system && unzip publish/tangible-template-system.zip -d publish/ && npm run now:test:archive",
+    "archive": "roll archive -y && rm -rf publish/tangible-template-system && unzip publish/tangible-template-system.zip -d publish/ && npm run now:test:archive",
     "list-modules": "node tools/list-modules",
     "version": "node tools/version.js",
     "// Test": "",
