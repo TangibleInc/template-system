@@ -21,6 +21,7 @@ require_once __DIR__ . '/location.php';
  */
 $html->content_field_group_tag = function( $atts, $nodes ) use ( $html ) {
 
+  $is_acf = false;
   if (isset($atts['type'])) {
     $is_acf = ($atts['type'] ?? apply_filters('tangible_template_system_default_field_group_type', 'tangible'));
   }
