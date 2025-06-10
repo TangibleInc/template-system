@@ -35,7 +35,13 @@ class ACF_Repeater_TestCase extends \WP_UnitTestCase {
               'label' => 'Text field',
               'name' => 'text_field',
               'type' => 'text',
-            ]
+            ],
+            [
+              'key' => 'field_3',
+              'label' => 'Date field',
+              'name' => 'date_field',
+              'type' => 'date',
+            ],
           ],
         ],
       ],
@@ -53,31 +59,58 @@ class ACF_Repeater_TestCase extends \WP_UnitTestCase {
       'post_content' => '',
     ]);
 
+    $text_1 = 'Test 1';
+    $text_2 = 'Test 22';
+    $text_3 = 'Test 333';
+
+    $date_1 = '2020-01-01 06:15:00';
+    $date_2 = '2020-01-02 12:30:00';
+    $date_3 = '2020-01-03 18:45:00';
+
     // https://www.advancedcustomfields.com/resources/update_field/
     update_field('repeater_field', [
       [
-        'text_field' => 'Test 1'
+        'text_field' => $text_1,
+        'date_field' => $date_1
       ],
       [
-        'text_field' => 'Test 22'
+        'text_field' => $text_2,
+        'date_field' => $date_2
       ],
       [
-        'text_field' => 'Test 333'
+        'text_field' => $text_3,
+        'date_field' => $date_3
       ],
     ], $post_id);
 
-    $expected = <<<'HTML'
-    Test 1
-    Test 22
-    Test 333
+    $expected = <<<HTML
+    $text_1 - $date_1
+    $text_2 - $date_2
+    $text_3 - $date_3
     HTML;
 
     $result = $html->render(<<<HTML
     <Loop type=post id=$post_id><Loop acf_repeater="repeater_field">
-    <Field text_field />
+    <Field text_field /> - <Field date_field />
     </Loop></Loop>
     HTML);
 
     $this->assertEquals(trim($expected), trim($result));
+
+    $expected = <<<HTML
+    $text_3 - $date_3
+    $text_2 - $date_2
+    $text_1 - $date_1
+    HTML;
+
+    $result = $html->render(<<<HTML
+    <Loop type=post id=$post_id><Loop acf_repeater="repeater_field"
+      sort_field=date_field sort_type=date sort_order=desc>
+    <Field text_field /> - <Field date_field />
+    </Loop></Loop>
+    HTML);
+
+    $this->assertEquals(trim($expected), trim($result));
+
   }
 }

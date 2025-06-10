@@ -2,12 +2,12 @@
 use tangible\framework;
 
 if ( ! function_exists( 'tangible_loop' ) ) :
-  function tangible_loop( $type = false, $args = [] ) {
+  function tangible_loop( $type = false, $args = [], $context = [] ) {
     static $o;
     return is_object( $type )
     ? ( $o = $type )
     : ( $type !== false && $o
-      ? $o->create_type( $type, $args )
+      ? $o->create_type( $type, $args, $context )
       : $o
     );
   }
@@ -58,7 +58,7 @@ return new class extends stdClass {
     trigger_error( "Undefined method \"$method\" for {$this->name}, called from <b>{$caller['file']}</b> on line <b>{$caller['line']}</b><br>", E_USER_WARNING );
   }
 
-  function __invoke( $type, $args = [] ) {
-    return $this->create_type( $type, $args );
+  function __invoke( $type, $args = [], $context = [] ) {
+    return $this->create_type( $type, $args, $context );
   }
 };

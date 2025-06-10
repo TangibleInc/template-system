@@ -596,7 +596,7 @@ class BaseLoop extends \StdClass implements BaseLoopInterface {
 
   function sort_by_field( $field_name, $order = 'asc', $sort_type = 'string' ) {
 
-    $current = $this->current;
+    $current = $this->current; // Reference to restore at the end
     $order = strtolower( $order ) === 'asc' ? 1 : -1;
     $date = \tangible\date();
 
@@ -604,6 +604,7 @@ class BaseLoop extends \StdClass implements BaseLoopInterface {
 
       $this->current = $a;
       $a_value       = $this->get_field( $field_name );
+
       $this->current = $b;
       $b_value       = $this->get_field( $field_name );
 

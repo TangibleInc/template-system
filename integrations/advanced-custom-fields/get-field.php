@@ -350,9 +350,22 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
         'id'    => $acf_object_id,
       ];
 
-      foreach ( [ 'count', 'paged' ] as $key ) {
+      // Pass integer values
+      foreach ( [
+        'count',
+        'paged',
+      ] as $key ) {
         if ( isset( $tag_attributes[ $key ] ) ) {
           $args[ $key ] = (int) $tag_attributes[ $key ];
+        }
+      }
+
+      $context = [];
+
+      // Pass attributes to sort/filter by field
+      foreach ($tag_attributes as $key => $value) {
+        if (strpos($key, 'field')===0 || strpos($key, 'sort')===0) {
+          $context[ $key ] = $value;
         }
       }
 
@@ -363,9 +376,10 @@ $html->get_acf_field_type = function( $acf_field_type, $field_name, $options = [
           : 'acf_group'
         );
 
-        return $loop(
+      return $loop(
         $loop_type,
-        $args
+        $args,
+        $context
       );
   }
 

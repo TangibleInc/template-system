@@ -26,6 +26,7 @@ class RepeaterLoop extends ListLoop {
   ];
 
   function get_items_from_query( $query ) {
+
     // Property "field" is required
     if ( ! isset( $query['field'] )) return [];
 
@@ -47,6 +48,20 @@ class RepeaterLoop extends ListLoop {
     }
 
     $this->reset();
+
+    // Translate field names from internal hashed keys
+
+    foreach ($items as $index => $item) {
+      if (!is_array($item)) continue;
+      foreach ($item as $key => $value) {
+
+        if (empty($field = acf_maybe_get_field( $key ))) continue;
+        if (empty($name = $field['name'])) continue;
+
+        $items[$index][ $name ] = $value;
+        unset($items[$index][ $key ]);
+      }
+    }
 
     return $items;
   }

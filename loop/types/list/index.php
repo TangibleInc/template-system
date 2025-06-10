@@ -15,7 +15,7 @@ class ListLoop extends BaseLoop {
   ];
 
   function __construct($items = [], $args = []) {
-    // Backward-compatible way to support query parameters  
+    // Backward-compatible way to support query parameters
     $args['query'] = $items;
     parent::__construct($args);
   }
