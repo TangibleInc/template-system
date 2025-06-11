@@ -2,7 +2,7 @@
   "name": "@tangible/logic",
   "type": "module",
   "private": true,
-  "version": "2025.4.20",
+  "version": "2025.6.11",
   "description": "Build and evaluate conditional rules",
   "homepage": "https://github.com/tangibleinc/logic",
   "repository": {
