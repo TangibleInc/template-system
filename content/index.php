@@ -28,8 +28,8 @@ add_action('init', function() use ( $html ) {
   }
 
   $html->init_content_types();
-  $html->init_field_groups();
-
+  $html->init_acf_field_groups(); // integrations/advanced-custom-fields/register
+  // TODO: template_system\init_tangible_field_gruops();
   $html->init_taxonomies();
   $html->init_metaboxes();
 });

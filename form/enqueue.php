@@ -6,7 +6,7 @@ use tangible\template_system;
 
 function register() {
 
-  $url = template_system::$state->url . '/modules/form/build';
+  $url = template_system::$state->url . '/form/build';
   $version = template_system::$state->version;
   
   wp_register_script(

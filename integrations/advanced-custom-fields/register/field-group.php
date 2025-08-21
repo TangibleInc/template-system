@@ -17,7 +17,7 @@ $html->register_field_group = function( $name, $config ) use ( $html ) {
 };
 
 // Call from "init" action
-$html->init_field_groups = function() use ( $html ) {
+$html->init_acf_field_groups = function() use ( $html ) {
 
   if ( ! function_exists( 'acf_add_local_field_group' )
     || empty( $html->registered_field_groups )

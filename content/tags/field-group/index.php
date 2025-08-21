@@ -21,11 +21,11 @@ require_once __DIR__ . '/location.php';
  */
 $html->content_field_group_tag = function( $atts, $nodes ) use ( $html ) {
 
-  $is_acf = false;
-  if (isset($atts['type'])) {
-    $is_acf = ($atts['type'] ?? apply_filters('tangible_template_system_default_field_group_type', 'tangible'));
-  }
-
+  // Support ACF (acf) and Tangible Fields (tangible, default)
+  $field_group_type = $atts['type'] ??
+    apply_filters('tangible_template_system_default_field_group_type', 'tangible')
+  ;
+ 
   $name = isset( $atts['name'] ) ? $atts['name'] : array_shift( $atts['keys'] );
 
   // Create config
@@ -69,7 +69,7 @@ $html->content_field_group_tag = function( $atts, $nodes ) use ( $html ) {
     if (isset( $config['title'] )) $name = $html->format_slug( $config['title'] );
   }
 
-  if ($is_acf) {
+  if ($field_group_type==='acf') {
     template_system\register_acf_field_group( $name, $config );
   } else {
     template_system\register_field_group( $name, $config );
