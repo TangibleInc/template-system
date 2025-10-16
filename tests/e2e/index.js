@@ -120,7 +120,7 @@ describe('Admin menu', () => {
     expect(page.getByRole('navigation', { name: 'Main menu' })).toHaveCount(1)
   })
 
-  test('Tangbile', async ({ admin, page }) => {
+  test('Tangible', async ({ admin, page }) => {
     await admin.visitAdminPage('/')
     expect(
       page
@@ -130,7 +130,7 @@ describe('Admin menu', () => {
     ).toHaveCount(1)
   })
 
-  test('Tangbile -> Templates', async ({ admin, page }) => {
+  test('Tangible -> Templates', async ({ admin, page }) => {
     await admin.visitAdminPage('/')
     expect(
       page
@@ -141,7 +141,7 @@ describe('Admin menu', () => {
     ).toHaveCount(1)
   })
 
-  test('Tangbile -> Layouts', async ({ admin, page }) => {
+  test('Tangible -> Layouts', async ({ admin, page }) => {
     await admin.visitAdminPage('/')
     expect(
       page
@@ -152,7 +152,7 @@ describe('Admin menu', () => {
     ).toHaveCount(1)
   })
 
-  test('Tangbile -> Styles', async ({ admin, page }) => {
+  test('Tangible -> Styles', async ({ admin, page }) => {
     await admin.visitAdminPage('/')
     expect(
       page
@@ -163,7 +163,7 @@ describe('Admin menu', () => {
     ).toHaveCount(1)
   })
 
-  test('Tangbile -> Scripts', async ({ admin, page }) => {
+  test('Tangible -> Scripts', async ({ admin, page }) => {
     await admin.visitAdminPage('/')
     expect(
       page
@@ -174,7 +174,7 @@ describe('Admin menu', () => {
     ).toHaveCount(1)
   })
 
-  test('Tangbile -> Categories', async ({ admin, page }) => {
+  test('Tangible -> Categories', async ({ admin, page }) => {
     await admin.visitAdminPage('/')
     expect(
       page
@@ -185,7 +185,7 @@ describe('Admin menu', () => {
     ).toHaveCount(1)
   })
 
-  test('Tangbile -> Import & Export', async ({ admin, page }) => {
+  test('Tangible -> Import & Export', async ({ admin, page }) => {
     await admin.visitAdminPage('/')
     expect(
       page
@@ -196,7 +196,7 @@ describe('Admin menu', () => {
     ).toHaveCount(1)
   })
 
-  test('Tangbile -> Settings', async ({ admin, page }) => {
+  test('Tangible -> Settings', async ({ admin, page }) => {
     await admin.visitAdminPage('/')
     expect(
       page
