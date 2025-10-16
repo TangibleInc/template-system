@@ -27,6 +27,8 @@ $html->process_form_request = function($request) use ($html) {
 
   // Get form action attributes from template location
 
+  // Capture any style, script, or unexpected output
+  ob_start();
   $html->processing_form_request = true;
 
   if (isset($location['template_id'])) {
@@ -46,6 +48,7 @@ $html->process_form_request = function($request) use ($html) {
   }
 
   $html->processing_form_request = false;
+  ob_end_clean();
 
   $attributes = $html->current_form_attributes;
 
