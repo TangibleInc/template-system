@@ -1,0 +1,53 @@
+<div class="archives-wrapper">
+
+  <!-- Search -->
+  <div class="archives-search radius-s">
+    <form role="search" method="get" action="/">
+      <input type="text" name="s" placeholder="Search..." aria-label="Search" />
+      <select name="post_type" aria-label="Content type">
+        <option value="">All</option>
+        <option value="post">Articles</option>
+        <option value="deal">Deals</option>
+        <option value="snippet">Snippets</option>
+      </select>
+      <button type="submit">Go</button>
+    </form>
+  </div>
+
+  <!-- Articles -->
+  <section class="archives-section">
+    <h2 class="section-title">Articles <Loop type=post count=1><span><Field loop_total /></span></Loop></h2>
+    <Loop type=post orderby=date order=desc count=-1>
+      <div class="archive-item">
+        <time class="item-date"><Field publish_date date_format="M j, Y" /></time>
+        <div class="item-title"><a href="{Field url}"><Field title /></a></div>
+        <Loop field=terms taxonomy=category count=1><span class="item-cat"><Field title /></span></Loop>
+      </div>
+    </Loop>
+  </section>
+
+  <!-- Deals -->
+  <section class="archives-section">
+    <h2 class="section-title">Deals <Loop type=deal count=1><span><Field loop_total /></span></Loop></h2>
+    <Loop type=deal orderby=date order=desc count=-1>
+      <div class="archive-item">
+        <time class="item-date"><Field publish_date date_format="M j, Y" /></time>
+        <div class="item-title"><a href="{Field url}"><Field title /></a></div>
+        <Loop field=terms taxonomy=deal_type count=1><span class="item-cat"><Field title /></span></Loop>
+      </div>
+    </Loop>
+  </section>
+
+  <!-- Snippets -->
+  <section class="archives-section">
+    <h2 class="section-title">Snippets <Loop type=snippet count=1><span><Field loop_total /></span></Loop></h2>
+    <Loop type=snippet orderby=date order=desc count=-1>
+      <div class="archive-item">
+        <time class="item-date"><Field publish_date date_format="M j, Y" /></time>
+        <div class="item-title"><a href="{Field url}"><Field title /></a></div>
+        <Loop field=terms taxonomy=programming_language count=1><span class="item-cat"><Field title /></span></Loop>
+      </div>
+    </Loop>
+  </section>
+
+</div>
