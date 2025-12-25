@@ -1,0 +1,77 @@
+<!-- Gallery: Masonry Lightbox -->
+<section class="gallery-masonry block-double-tb" id="photos" aria-labelledby="photos-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <header class="section-header text-center mb-double">
+            <h2 class="section-title" id="photos-heading">Photo Gallery</h2>
+            <p class="section-subtitle">
+                Capturing moments and memories
+            </p>
+        </header>
+
+        <!-- Masonry Gallery -->
+        <div class="masonry-gallery" data-masonry='{"itemSelector": ".gallery-item", "columnWidth": ".grid-sizer", "gutter": 16, "percentPosition": true}'>
+            <div class="grid-sizer"></div>
+
+            <Loop type=attachment mime_type=image parent="{Field id}" orderby=menu_order order=ASC>
+                <figure class="gallery-item gallery-item--<If check='{Field loop_index}' operator='%' value='5' result='0'>tall<Else if check='{Field loop_index}' operator='%' value='3' result='0'>wide<Else />regular</If>">
+                    <a href="{Field url size=full}"
+                       class="lightbox-trigger"
+                       data-caption="{Field caption}"
+                       data-index="{Field loop_index}">
+                        <img src="{Field url size=medium_large}"
+                             alt="{Field alt}"
+                             loading="lazy"
+                             width="{Field width}"
+                             height="{Field height}">
+                        <div class="gallery-item-overlay">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+                        </div>
+                    </a>
+                    <If field=caption>
+                        <figcaption class="gallery-caption visually-hidden">
+                            <Field caption />
+                        </figcaption>
+                    </If>
+                </figure>
+            </Loop>
+
+        </div>
+
+        <!-- Gallery Info -->
+        <footer class="gallery-info mt-single-half text-center">
+            <p class="gallery-count">
+                <Loop type=attachment mime_type=image parent="{Field id}">
+                    <If check="{Field loop_index}" value="{Field loop_total}">
+                        Showing <strong>{Field loop_total}</strong> photos
+                    </If>
+                </Loop>
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Image gallery" hidden>
+        <div class="lightbox-backdrop"></div>
+        <div class="lightbox-container">
+            <button type="button" class="lightbox-close" aria-label="Close gallery">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <button type="button" class="lightbox-nav lightbox-prev" aria-label="Previous image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <figure class="lightbox-content">
+                <img src="" alt="" class="lightbox-image">
+                <figcaption class="lightbox-caption"></figcaption>
+            </figure>
+            <button type="button" class="lightbox-nav lightbox-next" aria-label="Next image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+            <div class="lightbox-counter">
+                <span class="current">1</span> / <span class="total">10</span>
+            </div>
+        </div>
+    </div>
+
+</section>

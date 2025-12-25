@@ -1,0 +1,91 @@
+<!-- Testimonials: Carousel Layout -->
+<section class="testimonials-carousel block-double-tb" id="testimonials" aria-labelledby="testimonials-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <header class="section-header text-center mb-double">
+            <span class="section-label">Testimonials</span>
+            <h2 class="section-title" id="testimonials-heading">What Our Customers Say</h2>
+            <p class="section-subtitle">
+                Join thousands of satisfied customers who trust us
+            </p>
+        </header>
+
+        <div class="testimonials-slider" aria-roledescription="carousel">
+            <div class="slider-track">
+
+                <Loop type=testimonial count=6 orderby=date order=DESC>
+                    <article class="testimonial-slide" role="group" aria-roledescription="slide" aria-label="Testimonial {Field loop_index} of {Field loop_total}">
+                        <div class="testimonial-card">
+
+                            <div class="testimonial-rating mb-single" aria-label="5 star rating">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </div>
+
+                            <blockquote class="testimonial-quote mb-single">
+                                <p>"<Field content />"</p>
+                            </blockquote>
+
+                            <footer class="testimonial-author">
+                                <If field=author_image>
+                                    <img src="{Field author_image size=thumbnail}"
+                                         alt=""
+                                         class="testimonial-avatar"
+                                         width="56"
+                                         height="56"
+                                         loading="lazy">
+                                </If>
+                                <div class="testimonial-author-info">
+                                    <cite class="testimonial-name">
+                                        <Field author_name />
+                                    </cite>
+                                    <span class="testimonial-title">
+                                        <Field author_title />, <Field company />
+                                    </span>
+                                </div>
+                            </footer>
+
+                        </div>
+                    </article>
+                </Loop>
+
+            </div>
+
+            <!-- Slider Controls -->
+            <div class="slider-controls">
+                <button type="button" class="slider-btn slider-btn--prev" aria-label="Previous testimonial">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <div class="slider-dots" role="tablist" aria-label="Testimonial slides">
+                    <Loop type=testimonial count=6>
+                        <button type="button"
+                                class="slider-dot<If check='{Field loop_index}' value='1'> active</If>"
+                                role="tab"
+                                aria-selected="<If check='{Field loop_index}' value='1'>true<Else />false</If>"
+                                aria-label="Go to slide {Field loop_index}"></button>
+                    </Loop>
+                </div>
+                <button type="button" class="slider-btn slider-btn--next" aria-label="Next testimonial">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="trust-badges mt-double text-center">
+            <p class="trust-label mb-single">Trusted by leading companies</p>
+            <div class="trust-logos">
+                <img src="/assets/logos/company-1.svg" alt="Company 1" width="120" height="40" loading="lazy">
+                <img src="/assets/logos/company-2.svg" alt="Company 2" width="120" height="40" loading="lazy">
+                <img src="/assets/logos/company-3.svg" alt="Company 3" width="120" height="40" loading="lazy">
+                <img src="/assets/logos/company-4.svg" alt="Company 4" width="120" height="40" loading="lazy">
+                <img src="/assets/logos/company-5.svg" alt="Company 5" width="120" height="40" loading="lazy">
+            </div>
+        </div>
+
+    </div>
+</section>

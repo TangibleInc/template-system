@@ -1,0 +1,107 @@
+<!-- Blog: Featured Posts with Large Hero -->
+<section class="blog-featured block-double-tb" aria-labelledby="featured-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <header class="section-header mb-double">
+            <h2 class="section-title" id="featured-heading">Featured Stories</h2>
+        </header>
+
+        <div class="featured-layout">
+
+            <!-- Hero Featured Post -->
+            <Loop type=post count=1 custom_field=featured custom_field_value=1 orderby=date order=DESC>
+                <article class="featured-hero mb-single-half">
+                    <a href="{Field url}" class="featured-hero-link">
+                        <div class="grid-2 items-center gap-double">
+
+                            <figure class="featured-hero-image mb-none">
+                                <If field=image_url>
+                                    <img src="{Field image_url size=large}"
+                                         alt="{Field image_alt}"
+                                         loading="eager"
+                                         width="700"
+                                         height="450">
+                                </If>
+                            </figure>
+
+                            <div class="featured-hero-content">
+                                <span class="featured-badge mb-half">Featured</span>
+
+                                <If field=terms taxonomy=category>
+                                    <span class="featured-category mb-half">
+                                        <Field terms taxonomy=category count=1 />
+                                    </span>
+                                </If>
+
+                                <h3 class="featured-hero-title mb-single">
+                                    <Field title />
+                                </h3>
+
+                                <p class="featured-hero-excerpt mb-single">
+                                    <Field excerpt words=40 />
+                                </p>
+
+                                <div class="featured-hero-meta">
+                                    <span class="featured-author">
+                                        <img src="{Field author_avatar size=thumbnail}"
+                                             alt=""
+                                             class="featured-avatar"
+                                             width="40"
+                                             height="40">
+                                        <span>
+                                            <strong><Field author_name /></strong>
+                                            <time datetime="{Field publish_date date_format='Y-m-d'}">
+                                                <Field publish_date date_format="M j, Y" />
+                                            </time>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </a>
+                </article>
+            </Loop>
+
+            <!-- Secondary Featured Posts -->
+            <div class="featured-grid grid-3">
+                <Loop type=post count=3 custom_field=featured custom_field_value=1 offset=1 orderby=date order=DESC>
+                    <article class="featured-card">
+                        <a href="{Field url}" class="featured-card-link">
+
+                            <figure class="featured-card-image mb-none">
+                                <If field=image_url>
+                                    <img src="{Field image_url size=medium}"
+                                         alt="{Field image_alt}"
+                                         loading="lazy"
+                                         width="400"
+                                         height="250">
+                                </If>
+                                <span class="featured-card-badge">Featured</span>
+                            </figure>
+
+                            <div class="featured-card-content">
+                                <If field=terms taxonomy=category>
+                                    <span class="featured-card-category">
+                                        <Field terms taxonomy=category count=1 />
+                                    </span>
+                                </If>
+
+                                <h3 class="featured-card-title mb-half">
+                                    <Field title />
+                                </h3>
+
+                                <time class="featured-card-date" datetime="{Field publish_date date_format='Y-m-d'}">
+                                    <Field publish_date date_format="M j, Y" />
+                                </time>
+                            </div>
+
+                        </a>
+                    </article>
+                </Loop>
+            </div>
+
+        </div>
+
+    </div>
+</section>

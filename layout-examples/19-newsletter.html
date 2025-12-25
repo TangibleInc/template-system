@@ -1,0 +1,131 @@
+<!-- Newsletter: Subscription Sections -->
+<section class="newsletter-section block-double-tb" id="newsletter" aria-labelledby="newsletter-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <!-- Minimal Newsletter -->
+        <div class="newsletter newsletter--minimal mb-double text-center" style="max-width: 600px; margin-inline: auto;">
+            <h2 class="newsletter-title" id="newsletter-heading">Stay in the Loop</h2>
+            <p class="newsletter-text mb-single">
+                Get weekly insights, tips, and updates delivered straight to your inbox.
+            </p>
+            <form class="newsletter-form" action="/subscribe/" method="post">
+                <div class="newsletter-form-row">
+                    <input type="email"
+                           name="email"
+                           placeholder="your@email.com"
+                           required
+                           aria-label="Email address">
+                    <button type="submit" class="button button-primary">
+                        Subscribe
+                    </button>
+                </div>
+            </form>
+            <p class="newsletter-note mt-half">
+                Join 25,000+ subscribers. No spam, ever.
+            </p>
+        </div>
+
+        <!-- Featured Newsletter with Benefits -->
+        <div class="newsletter newsletter--featured mb-double">
+            <div class="grid-2 items-center gap-double">
+
+                <div class="newsletter-content">
+                    <span class="newsletter-label mb-half">Free Newsletter</span>
+                    <h3 class="newsletter-title mb-single">
+                        The Weekly Digest
+                    </h3>
+                    <p class="newsletter-text mb-single">
+                        Every Friday, we send out a curated collection of the best
+                        articles, resources, and tools to help you stay ahead.
+                    </p>
+
+                    <div class="newsletter-benefits mb-single-half">
+                        <div class="benefit-item">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <span>Industry news & trends</span>
+                        </div>
+                        <div class="benefit-item">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <span>Exclusive tutorials</span>
+                        </div>
+                        <div class="benefit-item">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <span>Tool recommendations</span>
+                        </div>
+                        <div class="benefit-item">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <span>Early access to features</span>
+                        </div>
+                    </div>
+
+                    <form class="newsletter-form newsletter-form--stacked" action="/subscribe/" method="post">
+                        <div class="form-group mb-half">
+                            <input type="text"
+                                   name="first_name"
+                                   placeholder="First name"
+                                   aria-label="First name">
+                        </div>
+                        <div class="form-group mb-half">
+                            <input type="email"
+                                   name="email"
+                                   placeholder="Email address"
+                                   required
+                                   aria-label="Email address">
+                        </div>
+                        <button type="submit" class="button button-primary button-block">
+                            Subscribe to Newsletter
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="newsletter-preview">
+                    <figure class="newsletter-mockup mb-none">
+                        <img src="/assets/images/newsletter-preview.png"
+                             alt="Newsletter email preview"
+                             loading="lazy"
+                             width="450"
+                             height="350">
+                    </figure>
+                    <div class="newsletter-social-proof mt-single text-center">
+                        <div class="subscriber-avatars" aria-hidden="true">
+                            <img src="/assets/avatars/1.jpg" alt="" width="40" height="40">
+                            <img src="/assets/avatars/2.jpg" alt="" width="40" height="40">
+                            <img src="/assets/avatars/3.jpg" alt="" width="40" height="40">
+                            <img src="/assets/avatars/4.jpg" alt="" width="40" height="40">
+                            <span class="avatar-more">+25k</span>
+                        </div>
+                        <p class="subscriber-text">
+                            Join 25,000+ happy subscribers
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Inline Footer Newsletter -->
+        <div class="newsletter newsletter--inline">
+            <div class="newsletter-inner">
+                <div class="newsletter-icon" aria-hidden="true">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div class="newsletter-content">
+                    <h3 class="newsletter-title">Subscribe for updates</h3>
+                    <p class="newsletter-text">Be the first to know about new features</p>
+                </div>
+                <form class="newsletter-form" action="/subscribe/" method="post">
+                    <input type="email"
+                           name="email"
+                           placeholder="Enter your email"
+                           required
+                           aria-label="Email address">
+                    <button type="submit" class="button button-primary">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</section>

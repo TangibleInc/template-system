@@ -1,0 +1,104 @@
+<!-- Portfolio: Case Studies Layout -->
+<section class="portfolio-cases block-double-tb" id="case-studies" aria-labelledby="cases-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <header class="section-header mb-double">
+            <div class="grid-2 items-end">
+                <div>
+                    <span class="section-label">Portfolio</span>
+                    <h2 class="section-title" id="cases-heading">Case Studies</h2>
+                    <p class="section-subtitle">
+                        Explore how we've helped our clients achieve their goals
+                    </p>
+                </div>
+                <div class="section-action text-right">
+                    <a href="/portfolio/" class="link-arrow">
+                        View all projects
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="cases-list">
+            <Loop type=case_study count=4 custom_field=featured custom_field_value=1 orderby=date order=DESC>
+                <article class="case-card mb-single-half">
+                    <a href="{Field url}" class="case-link">
+                        <div class="grid-2 items-center gap-double">
+
+                            <figure class="case-image mb-none">
+                                <If field=cover_image>
+                                    <img src="{Field cover_image size=large}"
+                                         alt="{Field image_alt}"
+                                         loading="lazy"
+                                         width="600"
+                                         height="400">
+                                </If>
+                                <If field=client_logo>
+                                    <div class="case-logo">
+                                        <img src="{Field client_logo size=thumbnail}"
+                                             alt="{Field client_name} logo"
+                                             width="120"
+                                             height="40">
+                                    </div>
+                                </If>
+                            </figure>
+
+                            <div class="case-content">
+                                <div class="case-meta mb-half">
+                                    <If field=terms taxonomy=industry>
+                                        <span class="case-industry">
+                                            <Field terms taxonomy=industry count=1 />
+                                        </span>
+                                    </If>
+                                    <If field=terms taxonomy=service_type>
+                                        <span class="case-service">
+                                            <Field terms taxonomy=service_type count=1 />
+                                        </span>
+                                    </If>
+                                </div>
+
+                                <h3 class="case-title mb-half"><Field title /></h3>
+
+                                <p class="case-excerpt mb-single">
+                                    <Field excerpt words=30 />
+                                </p>
+
+                                <If field=results>
+                                    <div class="case-results mb-single">
+                                        <Loop field=results count=3>
+                                            <div class="result-item">
+                                                <span class="result-value"><Field value /></span>
+                                                <span class="result-label"><Field label /></span>
+                                            </div>
+                                        </Loop>
+                                    </div>
+                                </If>
+
+                                <span class="case-cta">
+                                    Read case study
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                </span>
+                            </div>
+
+                        </div>
+                    </a>
+                </article>
+            </Loop>
+        </div>
+
+        <!-- Services Summary -->
+        <aside class="services-summary mt-double">
+            <h3 class="summary-title text-center mb-single">What We Do</h3>
+            <div class="services-tags text-center">
+                <Loop taxonomy=service_type orderby=count order=DESC count=8>
+                    <a href="{Field url}" class="service-tag">
+                        <Field title />
+                        <span class="tag-count">(<Field count />)</span>
+                    </a>
+                </Loop>
+            </div>
+        </aside>
+
+    </div>
+</section>

@@ -1,0 +1,122 @@
+<!-- Author: Bio Box Layouts -->
+<section class="author-section block-single-tb">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <!-- Inline Author Bio (for post footer) -->
+        <div class="author-bio author-bio--inline mb-double">
+            <Loop type=user id="{Field author_id}">
+                <figure class="author-avatar mb-none">
+                    <If field=avatar>
+                        <img src="{Field avatar size=thumbnail}"
+                             alt=""
+                             width="80"
+                             height="80"
+                             loading="lazy">
+                    </If>
+                </figure>
+                <div class="author-content">
+                    <div class="author-header">
+                        <h3 class="author-name">
+                            <a href="{Field url}"><Field display_name /></a>
+                        </h3>
+                        <If field=role>
+                            <span class="author-role"><Field role /></span>
+                        </If>
+                    </div>
+                    <p class="author-description">
+                        <Field description />
+                    </p>
+                    <nav class="author-social" aria-label="Author social links">
+                        <If field=twitter>
+                            <a href="{Field twitter}" aria-label="Twitter" target="_blank" rel="noopener">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            </a>
+                        </If>
+                        <If field=linkedin>
+                            <a href="{Field linkedin}" aria-label="LinkedIn" target="_blank" rel="noopener">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                            </a>
+                        </If>
+                        <If field=website>
+                            <a href="{Field website}" aria-label="Website" target="_blank" rel="noopener">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            </a>
+                        </If>
+                    </nav>
+                </div>
+            </Loop>
+        </div>
+
+        <!-- Card Author Bio -->
+        <div class="author-bio author-bio--card mb-double">
+            <Loop type=user id="{Field author_id}">
+                <div class="author-card-content">
+                    <figure class="author-avatar mb-none">
+                        <If field=avatar>
+                            <img src="{Field avatar size=medium}"
+                                 alt=""
+                                 width="120"
+                                 height="120"
+                                 loading="lazy">
+                        </If>
+                    </figure>
+                    <div class="author-info">
+                        <span class="author-label">Written by</span>
+                        <h3 class="author-name mb-half">
+                            <a href="{Field url}"><Field display_name /></a>
+                        </h3>
+                        <If field=title>
+                            <span class="author-title mb-half"><Field title /></span>
+                        </If>
+                        <p class="author-description mb-single">
+                            <Field description />
+                        </p>
+                        <div class="author-meta">
+                            <span class="author-posts">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                <Field post_count /> articles
+                            </span>
+                            <If field=joined_date>
+                                <span class="author-joined">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                    Member since <Field joined_date date_format="M Y" />
+                                </span>
+                            </If>
+                        </div>
+                        <a href="{Field url}" class="button button-outline button-sm mt-single">
+                            View all posts
+                        </a>
+                    </div>
+                </div>
+            </Loop>
+        </div>
+
+        <!-- Multiple Authors Grid -->
+        <div class="authors-grid">
+            <h3 class="authors-title mb-single">Meet Our Writers</h3>
+            <div class="grid-4">
+                <Loop type=user role=author count=8>
+                    <article class="author-mini-card">
+                        <a href="{Field url}" class="author-mini-link">
+                            <figure class="author-mini-avatar mb-none">
+                                <If field=avatar>
+                                    <img src="{Field avatar size=thumbnail}"
+                                         alt=""
+                                         width="64"
+                                         height="64"
+                                         loading="lazy">
+                                </If>
+                            </figure>
+                            <div class="author-mini-info">
+                                <h4 class="author-mini-name"><Field display_name /></h4>
+                                <span class="author-mini-role"><Field title /></span>
+                                <span class="author-mini-count"><Field post_count /> posts</span>
+                            </div>
+                        </a>
+                    </article>
+                </Loop>
+            </div>
+        </div>
+
+    </div>
+</section>

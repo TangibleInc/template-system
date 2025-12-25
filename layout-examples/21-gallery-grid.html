@@ -1,0 +1,66 @@
+<!-- Gallery: Grid Layout -->
+<section class="gallery-section block-double-tb" id="gallery" aria-labelledby="gallery-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <header class="section-header text-center mb-double">
+            <span class="section-label">Gallery</span>
+            <h2 class="section-title" id="gallery-heading">Our Work</h2>
+            <p class="section-subtitle">
+                A showcase of our best projects and creative endeavors
+            </p>
+        </header>
+
+        <!-- Filter Navigation -->
+        <nav class="gallery-filters mb-single-half" aria-label="Gallery filters">
+            <button class="filter-btn active" data-filter="all" aria-pressed="true">
+                All
+            </button>
+            <Loop taxonomy=portfolio_category orderby=name order=ASC>
+                <button class="filter-btn" data-filter="{Field slug}" aria-pressed="false">
+                    <Field title />
+                </button>
+            </Loop>
+        </nav>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid grid-3" role="list">
+            <Loop type=portfolio count=12 orderby=date order=DESC>
+                <article class="gallery-item" role="listitem" data-category="{Field terms taxonomy=portfolio_category field=slug}">
+                    <a href="{Field url}" class="gallery-link">
+                        <figure class="gallery-image mb-none">
+                            <If field=featured_image>
+                                <img src="{Field featured_image size=medium_large}"
+                                     alt="{Field image_alt}"
+                                     loading="lazy"
+                                     width="400"
+                                     height="300">
+                            </If>
+                            <figcaption class="gallery-overlay">
+                                <div class="gallery-content">
+                                    <If field=terms taxonomy=portfolio_category>
+                                        <span class="gallery-category">
+                                            <Field terms taxonomy=portfolio_category count=1 />
+                                        </span>
+                                    </If>
+                                    <h3 class="gallery-title"><Field title /></h3>
+                                    <span class="gallery-view" aria-hidden="true">
+                                        View Project
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                    </span>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </a>
+                </article>
+            </Loop>
+        </div>
+
+        <!-- Load More -->
+        <footer class="section-footer text-center mt-double">
+            <button class="button button-outline load-more-btn" type="button" data-page="1">
+                Load More Projects
+            </button>
+        </footer>
+
+    </div>
+</section>

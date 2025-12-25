@@ -1,0 +1,142 @@
+<!-- Blog: List Layout with Sidebar -->
+<section class="blog-list-section block-double-tb" aria-labelledby="blog-list-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <div class="blog-list-layout grid-3-1 gap-double">
+
+            <!-- Main Content -->
+            <main class="blog-list-main">
+                <header class="blog-list-header mb-single-half">
+                    <h1 class="blog-list-title" id="blog-list-heading">All Articles</h1>
+                    <p class="blog-list-count">
+                        <Loop type=post><Field loop_total /></Loop> articles found
+                    </p>
+                </header>
+
+                <div class="blog-list">
+                    <Loop type=post count=10 paged=true orderby=date order=DESC>
+                        <article class="blog-list-item">
+                            <a href="{Field url}" class="blog-list-link">
+                                <div class="grid-4-1 items-center gap-single">
+
+                                    <div class="blog-list-content">
+                                        <div class="blog-list-meta mb-half">
+                                            <If field=terms taxonomy=category>
+                                                <span class="blog-list-category">
+                                                    <Field terms taxonomy=category count=1 />
+                                                </span>
+                                            </If>
+                                            <time datetime="{Field publish_date date_format='Y-m-d'}">
+                                                <Field publish_date date_format="M j, Y" />
+                                            </time>
+                                        </div>
+
+                                        <h2 class="blog-list-item-title mb-half">
+                                            <Field title />
+                                        </h2>
+
+                                        <p class="blog-list-excerpt">
+                                            <Field excerpt words=25 />
+                                        </p>
+                                    </div>
+
+                                    <figure class="blog-list-image mb-none">
+                                        <If field=image_url>
+                                            <img src="{Field image_url size=thumbnail}"
+                                                 alt="{Field image_alt}"
+                                                 loading="lazy"
+                                                 width="150"
+                                                 height="100">
+                                        </If>
+                                    </figure>
+
+                                </div>
+                            </a>
+                        </article>
+                    </Loop>
+                </div>
+
+                <!-- Pagination -->
+                <nav class="pagination mt-double" aria-label="Blog pagination">
+                    <PaginateButtons />
+                </nav>
+
+            </main>
+
+            <!-- Sidebar -->
+            <aside class="blog-sidebar" aria-labelledby="sidebar-main-heading">
+
+                <!-- Search -->
+                <div class="sidebar-widget mb-single-half">
+                    <h3 class="sidebar-widget-title" id="sidebar-main-heading">Search</h3>
+                    <form action="/search/" method="get" class="search-form">
+                        <input type="search" name="q" placeholder="Search articles..." aria-label="Search articles">
+                        <button type="submit" aria-label="Submit search">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Categories -->
+                <div class="sidebar-widget mb-single-half">
+                    <h3 class="sidebar-widget-title">Categories</h3>
+                    <nav aria-label="Blog categories">
+                        <ul class="category-list">
+                            <Loop taxonomy=category orderby=count order=DESC count=8>
+                                <li>
+                                    <a href="{Field url}">
+                                        <Field title />
+                                        <span class="category-count">(<Field count />)</span>
+                                    </a>
+                                </li>
+                            </Loop>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- Popular Posts -->
+                <div class="sidebar-widget mb-single-half">
+                    <h3 class="sidebar-widget-title">Popular Articles</h3>
+                    <ul class="popular-posts">
+                        <Loop type=post count=5 orderby=comment_count order=DESC>
+                            <li>
+                                <a href="{Field url}" class="popular-post-link">
+                                    <figure class="popular-post-image mb-none">
+                                        <If field=image_url>
+                                            <img src="{Field image_url size=thumbnail}"
+                                                 alt=""
+                                                 loading="lazy"
+                                                 width="60"
+                                                 height="60">
+                                        </If>
+                                    </figure>
+                                    <div class="popular-post-content">
+                                        <h4 class="popular-post-title"><Field title /></h4>
+                                        <time datetime="{Field publish_date date_format='Y-m-d'}">
+                                            <Field publish_date date_format="M j" />
+                                        </time>
+                                    </div>
+                                </a>
+                            </li>
+                        </Loop>
+                    </ul>
+                </div>
+
+                <!-- Tags Cloud -->
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-widget-title">Tags</h3>
+                    <div class="tags-cloud">
+                        <Loop taxonomy=post_tag orderby=count order=DESC count=15>
+                            <a href="{Field url}" class="tag-link">
+                                <Field title />
+                            </a>
+                        </Loop>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+</section>

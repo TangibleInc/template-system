@@ -1,0 +1,78 @@
+<!-- Blog: Masonry Grid Layout -->
+<section class="blog-masonry block-double-tb" aria-labelledby="masonry-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <header class="section-header text-center mb-double">
+            <h2 class="section-title" id="masonry-heading">Explore Our Content</h2>
+            <p class="section-subtitle">
+                Stories, insights, and inspiration from around the world
+            </p>
+        </header>
+
+        <!-- Category Filter -->
+        <nav class="masonry-filter mb-single-half" aria-label="Filter by category">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <Loop taxonomy=category count=5 orderby=count order=DESC>
+                <button class="filter-btn" data-filter="{Field slug}">
+                    <Field title />
+                </button>
+            </Loop>
+        </nav>
+
+        <!-- Masonry Grid -->
+        <div class="masonry-grid" data-masonry='{"itemSelector": ".masonry-item", "columnWidth": ".masonry-sizer", "percentPosition": true}'>
+            <div class="masonry-sizer"></div>
+
+            <Loop type=post count=12 orderby=date order=DESC>
+                <article class="masonry-item masonry-item--<If check='{Field loop_index}' operator='%' value='3' result='0'>tall<Else />regular</If>" data-category="{Field terms taxonomy=category field=slug}">
+                    <a href="{Field url}" class="masonry-card">
+
+                        <figure class="masonry-image mb-none">
+                            <If field=image_url>
+                                <img src="{Field image_url size=medium_large}"
+                                     alt="{Field image_alt}"
+                                     loading="lazy">
+                            </If>
+                            <div class="masonry-overlay">
+                                <If field=terms taxonomy=category>
+                                    <span class="masonry-category">
+                                        <Field terms taxonomy=category count=1 />
+                                    </span>
+                                </If>
+                            </div>
+                        </figure>
+
+                        <div class="masonry-content">
+                            <h3 class="masonry-title mb-half">
+                                <Field title />
+                            </h3>
+
+                            <p class="masonry-excerpt mb-half">
+                                <Field excerpt words=15 />
+                            </p>
+
+                            <footer class="masonry-footer">
+                                <span class="masonry-author">
+                                    <Field author_name />
+                                </span>
+                                <time datetime="{Field publish_date date_format='Y-m-d'}">
+                                    <Field publish_date date_format="M j" />
+                                </time>
+                            </footer>
+                        </div>
+
+                    </a>
+                </article>
+            </Loop>
+
+        </div>
+
+        <footer class="section-footer text-center mt-double">
+            <button class="button button-primary load-more-btn" type="button">
+                Load More
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            </button>
+        </footer>
+
+    </div>
+</section>

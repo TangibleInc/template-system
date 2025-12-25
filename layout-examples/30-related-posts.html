@@ -1,0 +1,154 @@
+<!-- Related Posts: Multiple Layouts -->
+<section class="related-section block-double-tb" aria-labelledby="related-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <!-- Related Posts Grid -->
+        <div class="related-posts mb-double">
+            <header class="related-header mb-single">
+                <h2 class="related-title" id="related-heading">You Might Also Like</h2>
+                <a href="/blog/" class="related-view-all">
+                    View all posts
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </header>
+
+            <div class="related-grid grid-3">
+                <Loop type=post taxonomy=category terms="{Field terms taxonomy=category field=slug}" count=3 exclude="{Field id}">
+                    <article class="related-card">
+                        <a href="{Field url}" class="related-link">
+                            <figure class="related-image mb-none">
+                                <If field=image_url>
+                                    <img src="{Field image_url size=medium}"
+                                         alt="{Field image_alt}"
+                                         loading="lazy"
+                                         width="350"
+                                         height="200">
+                                </If>
+                            </figure>
+                            <div class="related-content">
+                                <If field=terms taxonomy=category>
+                                    <span class="related-category">
+                                        <Field terms taxonomy=category count=1 />
+                                    </span>
+                                </If>
+                                <h3 class="related-card-title mb-half"><Field title /></h3>
+                                <div class="related-meta">
+                                    <time datetime="{Field publish_date date_format='Y-m-d'}">
+                                        <Field publish_date date_format="M j, Y" />
+                                    </time>
+                                    <span class="related-read-time"><Field reading_time /> min</span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                </Loop>
+            </div>
+        </div>
+
+        <!-- Read Next (Single Card) -->
+        <div class="read-next mb-double">
+            <Loop type=post count=1 exclude="{Field id}" orderby=rand taxonomy=category terms="{Field terms taxonomy=category field=slug}">
+                <article class="read-next-card">
+                    <div class="grid-2 items-center gap-double">
+                        <figure class="read-next-image mb-none">
+                            <If field=image_url>
+                                <img src="{Field image_url size=medium_large}"
+                                     alt="{Field image_alt}"
+                                     loading="lazy"
+                                     width="500"
+                                     height="300">
+                            </If>
+                        </figure>
+                        <div class="read-next-content">
+                            <span class="read-next-label">Read Next</span>
+                            <h3 class="read-next-title mb-half">
+                                <a href="{Field url}"><Field title /></a>
+                            </h3>
+                            <p class="read-next-excerpt mb-single">
+                                <Field excerpt words=25 />
+                            </p>
+                            <div class="read-next-author">
+                                <If field=author_avatar>
+                                    <img src="{Field author_avatar size=thumbnail}"
+                                         alt=""
+                                         class="read-next-avatar"
+                                         width="40"
+                                         height="40">
+                                </If>
+                                <span>
+                                    <strong><Field author_name /></strong>
+                                    <time datetime="{Field publish_date date_format='Y-m-d'}">
+                                        <Field publish_date date_format="M j, Y" />
+                                    </time>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </Loop>
+        </div>
+
+        <!-- More from Category -->
+        <div class="category-posts mb-double">
+            <header class="category-header mb-single">
+                <h3 class="category-section-title">
+                    More in
+                    <a href="{Field terms taxonomy=category field=url}">
+                        <Field terms taxonomy=category count=1 />
+                    </a>
+                </h3>
+            </header>
+            <ul class="category-list">
+                <Loop type=post taxonomy=category terms="{Field terms taxonomy=category field=slug}" count=5 exclude="{Field id}">
+                    <li class="category-item">
+                        <a href="{Field url}" class="category-link">
+                            <span class="category-item-title"><Field title /></span>
+                            <span class="category-item-meta">
+                                <time datetime="{Field publish_date date_format='Y-m-d'}">
+                                    <Field publish_date date_format="M j" />
+                                </time>
+                            </span>
+                        </a>
+                    </li>
+                </Loop>
+            </ul>
+        </div>
+
+        <!-- Tags Navigation -->
+        <nav class="post-tags" aria-label="Related topics">
+            <h3 class="tags-title">Related Topics</h3>
+            <div class="tags-list">
+                <Loop field=terms taxonomy=post_tag>
+                    <a href="{Field url}" class="tag-pill">
+                        <Field title />
+                    </a>
+                </Loop>
+            </div>
+        </nav>
+
+        <!-- Previous/Next Navigation -->
+        <nav class="post-navigation mt-double" aria-label="Post navigation">
+            <div class="grid-2">
+                <Loop type=post count=1 before="{Field id}" orderby=date order=DESC>
+                    <a href="{Field url}" class="nav-previous">
+                        <span class="nav-label">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                            Previous Article
+                        </span>
+                        <span class="nav-title"><Field title /></span>
+                    </a>
+                </Loop>
+                <Loop type=post count=1 after="{Field id}" orderby=date order=ASC>
+                    <a href="{Field url}" class="nav-next">
+                        <span class="nav-label">
+                            Next Article
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </span>
+                        <span class="nav-title"><Field title /></span>
+                    </a>
+                </Loop>
+            </div>
+        </nav>
+
+    </div>
+</section>

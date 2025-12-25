@@ -1,0 +1,121 @@
+<!-- Stats: Counter Sections -->
+<section class="stats-section block-double-tb" id="stats" aria-labelledby="stats-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <!-- Simple Stats Row -->
+        <div class="stats-row mb-double">
+            <h2 class="visually-hidden" id="stats-heading">Our Impact in Numbers</h2>
+            <div class="stats-grid grid-4 text-center">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="50000">50,000+</span>
+                    <span class="stat-label">Happy Customers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="99.9">99.9%</span>
+                    <span class="stat-label">Uptime SLA</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="150">150+</span>
+                    <span class="stat-label">Countries Served</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="24">24/7</span>
+                    <span class="stat-label">Support Available</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats with Icons -->
+        <div class="stats-icons mb-double">
+            <header class="section-header text-center mb-single-half">
+                <h3 class="section-title">Why Choose Us</h3>
+            </header>
+            <div class="stats-grid grid-3">
+                <div class="stat-card">
+                    <div class="stat-icon" aria-hidden="true">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <span class="stat-number">2.5s</span>
+                    <span class="stat-label">Average Load Time</span>
+                    <p class="stat-description">
+                        Lightning-fast performance optimized for all devices
+                    </p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" aria-hidden="true">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">Security Breaches</span>
+                    <p class="stat-description">
+                        Enterprise-grade security protecting your data 24/7
+                    </p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" aria-hidden="true">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <span class="stat-number">4.9/5</span>
+                    <span class="stat-label">Customer Rating</span>
+                    <p class="stat-description">
+                        Based on 10,000+ verified customer reviews
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Banner -->
+        <div class="stats-banner">
+            <div class="grid-2 items-center gap-double">
+                <div class="stats-content">
+                    <h3 class="stats-title mb-single">Trusted by Industry Leaders</h3>
+                    <p class="stats-text mb-single">
+                        From startups to Fortune 500 companies, businesses of all
+                        sizes trust us to power their digital experiences.
+                    </p>
+                    <a href="/customers/" class="link-arrow">
+                        View customer stories
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+                <div class="stats-metrics grid-2">
+                    <div class="metric-item">
+                        <span class="metric-number">$2B+</span>
+                        <span class="metric-label">Transactions Processed</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-number">10M+</span>
+                        <span class="metric-label">API Requests/Day</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-number">500+</span>
+                        <span class="metric-label">Enterprise Clients</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-number">98%</span>
+                        <span class="metric-label">Retention Rate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logo Cloud -->
+        <aside class="logo-cloud mt-double text-center" aria-label="Trusted by">
+            <p class="logo-cloud-label mb-single">Powering the world's best teams</p>
+            <div class="logo-grid">
+                <Loop type=client count=8 orderby=menu_order order=ASC>
+                    <div class="logo-item">
+                        <If field=logo>
+                            <img src="{Field logo size=medium}"
+                                 alt="{Field title}"
+                                 loading="lazy"
+                                 width="140"
+                                 height="50">
+                        </If>
+                    </div>
+                </Loop>
+            </div>
+        </aside>
+
+    </div>
+</section>

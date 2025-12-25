@@ -1,0 +1,126 @@
+<!-- Products: E-commerce Grid -->
+<section class="products-section block-double-tb" id="products" aria-labelledby="products-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <header class="section-header mb-double">
+            <div class="grid-2 items-center">
+                <div>
+                    <span class="section-label">Shop</span>
+                    <h2 class="section-title" id="products-heading">Featured Products</h2>
+                </div>
+                <div class="section-controls text-right">
+                    <div class="view-toggle" role="group" aria-label="View options">
+                        <button type="button" class="view-btn active" data-view="grid" aria-pressed="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            <span class="visually-hidden">Grid view</span>
+                        </button>
+                        <button type="button" class="view-btn" data-view="list" aria-pressed="false">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                            <span class="visually-hidden">List view</span>
+                        </button>
+                    </div>
+                    <select class="sort-select" aria-label="Sort products">
+                        <option value="featured">Featured</option>
+                        <option value="newest">Newest</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="popular">Most Popular</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Products Grid -->
+        <div class="products-grid grid-4">
+            <Loop type=product count=8 custom_field=featured custom_field_value=1 orderby=date order=DESC>
+                <article class="product-card">
+                    <a href="{Field url}" class="product-link">
+
+                        <figure class="product-image mb-none">
+                            <If field=on_sale>
+                                <span class="product-badge product-badge--sale">Sale</span>
+                            </If>
+                            <If field=is_new>
+                                <span class="product-badge product-badge--new">New</span>
+                            </If>
+                            <If field=featured_image>
+                                <img src="{Field featured_image size=medium}"
+                                     alt="{Field image_alt}"
+                                     loading="lazy"
+                                     width="300"
+                                     height="300">
+                            </If>
+                            <div class="product-actions">
+                                <button type="button" class="product-action-btn" aria-label="Quick view">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </button>
+                                <button type="button" class="product-action-btn" aria-label="Add to wishlist">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                </button>
+                            </div>
+                        </figure>
+
+                        <div class="product-info">
+                            <If field=terms taxonomy=product_cat>
+                                <span class="product-category">
+                                    <Field terms taxonomy=product_cat count=1 />
+                                </span>
+                            </If>
+
+                            <h3 class="product-title mb-half"><Field title /></h3>
+
+                            <If field=rating>
+                                <div class="product-rating mb-half" aria-label="{Field rating} out of 5 stars">
+                                    <div class="stars" style="--rating: {Field rating};">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    </div>
+                                    <span class="rating-count">(<Field review_count />)</span>
+                                </div>
+                            </If>
+
+                            <div class="product-price">
+                                <If field=sale_price>
+                                    <span class="price-original"><Field regular_price format=currency /></span>
+                                    <span class="price-current"><Field sale_price format=currency /></span>
+                                <Else />
+                                    <span class="price-current"><Field price format=currency /></span>
+                                </If>
+                            </div>
+                        </div>
+
+                    </a>
+
+                    <button type="button" class="product-add-to-cart button button-primary button-block" data-product-id="{Field id}">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                        Add to Cart
+                    </button>
+                </article>
+            </Loop>
+        </div>
+
+        <!-- Category Links -->
+        <nav class="product-categories mt-double" aria-label="Product categories">
+            <h3 class="categories-title text-center mb-single">Browse by Category</h3>
+            <div class="categories-grid grid-6 text-center">
+                <Loop taxonomy=product_cat parent=0 count=6 orderby=count order=DESC>
+                    <a href="{Field url}" class="category-link">
+                        <If field=thumbnail>
+                            <img src="{Field thumbnail size=thumbnail}"
+                                 alt=""
+                                 loading="lazy"
+                                 width="80"
+                                 height="80">
+                        </If>
+                        <span class="category-name"><Field title /></span>
+                        <span class="category-count"><Field count /> items</span>
+                    </a>
+                </Loop>
+            </div>
+        </nav>
+
+    </div>
+</section>

@@ -1,0 +1,93 @@
+<!-- FAQ: Accordion Layout -->
+<section class="faq-section block-double-tb" id="faq" aria-labelledby="faq-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <header class="section-header text-center mb-double">
+            <span class="section-label">Support</span>
+            <h2 class="section-title" id="faq-heading">Frequently Asked Questions</h2>
+            <p class="section-subtitle">
+                Find answers to common questions about our product and services
+            </p>
+        </header>
+
+        <div class="faq-container" style="max-width: 800px; margin-inline: auto;">
+
+            <!-- FAQ Categories -->
+            <nav class="faq-categories mb-single-half" aria-label="FAQ categories">
+                <button class="faq-category-btn active" data-category="all">All</button>
+                <Loop taxonomy=faq_category orderby=menu_order order=ASC>
+                    <button class="faq-category-btn" data-category="{Field slug}">
+                        <Field title />
+                    </button>
+                </Loop>
+            </nav>
+
+            <!-- FAQ Accordion -->
+            <div class="faq-accordion" role="list">
+                <Loop type=faq orderby=menu_order order=ASC>
+                    <article class="faq-item" role="listitem" data-category="{Field terms taxonomy=faq_category field=slug}">
+                        <h3 class="faq-question">
+                            <button type="button"
+                                    class="faq-toggle"
+                                    aria-expanded="false"
+                                    aria-controls="faq-answer-{Field id}"
+                                    id="faq-question-{Field id}">
+                                <span class="faq-question-text"><Field title /></span>
+                                <span class="faq-icon" aria-hidden="true">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                                </span>
+                            </button>
+                        </h3>
+                        <div class="faq-answer"
+                             id="faq-answer-{Field id}"
+                             role="region"
+                             aria-labelledby="faq-question-{Field id}"
+                             hidden>
+                            <div class="faq-answer-content">
+                                <Field content />
+                            </div>
+                        </div>
+                    </article>
+                </Loop>
+            </div>
+
+            <!-- Search FAQ -->
+            <div class="faq-search mt-double">
+                <form class="search-form" action="/faq/" method="get" role="search">
+                    <label for="faq-search" class="visually-hidden">Search FAQ</label>
+                    <div class="search-input-wrapper">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="search-icon" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        <input type="search"
+                               id="faq-search"
+                               name="q"
+                               placeholder="Search for answers..."
+                               class="search-input">
+                    </div>
+                    <button type="submit" class="button button-primary">Search</button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Still Need Help -->
+        <aside class="faq-help mt-double text-center">
+            <div class="help-box" style="max-width: 600px; margin-inline: auto;">
+                <h3 class="help-title mb-half">Still have questions?</h3>
+                <p class="help-text mb-single">
+                    Can't find the answer you're looking for? Our support team is here to help.
+                </p>
+                <div class="help-actions">
+                    <a href="/contact/" class="button button-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        Contact Support
+                    </a>
+                    <a href="/docs/" class="button button-outline">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                        Browse Documentation
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+</section>

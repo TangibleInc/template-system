@@ -1,0 +1,135 @@
+<!-- Blog: Magazine Style Layout -->
+<section class="blog-magazine block-double-tb" aria-labelledby="magazine-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <header class="magazine-header mb-double">
+            <h2 class="magazine-title" id="magazine-heading">Today's Picks</h2>
+            <time class="magazine-date" datetime="{Date format='Y-m-d'}">
+                <Date format="l, F j, Y" />
+            </time>
+        </header>
+
+        <div class="magazine-layout">
+
+            <!-- Top Stories Row -->
+            <div class="magazine-top grid-3-2 mb-single-half">
+
+                <!-- Lead Story -->
+                <div class="magazine-lead">
+                    <Loop type=post count=1 orderby=date order=DESC>
+                        <article class="magazine-lead-article">
+                            <a href="{Field url}">
+                                <figure class="magazine-lead-image mb-none">
+                                    <If field=image_url>
+                                        <img src="{Field image_url size=large}"
+                                             alt="{Field image_alt}"
+                                             loading="eager"
+                                             width="800"
+                                             height="500">
+                                    </If>
+                                </figure>
+                                <div class="magazine-lead-content">
+                                    <If field=terms taxonomy=category>
+                                        <span class="magazine-category">
+                                            <Field terms taxonomy=category count=1 />
+                                        </span>
+                                    </If>
+                                    <h3 class="magazine-lead-title mb-half">
+                                        <Field title />
+                                    </h3>
+                                    <p class="magazine-lead-excerpt mb-half">
+                                        <Field excerpt words=30 />
+                                    </p>
+                                    <span class="magazine-byline">
+                                        By <Field author_name /> &bull;
+                                        <Field reading_time /> min read
+                                    </span>
+                                </div>
+                            </a>
+                        </article>
+                    </Loop>
+                </div>
+
+                <!-- Secondary Stories -->
+                <div class="magazine-secondary">
+                    <Loop type=post count=2 offset=1 orderby=date order=DESC>
+                        <article class="magazine-secondary-article">
+                            <a href="{Field url}">
+                                <figure class="magazine-secondary-image mb-none">
+                                    <If field=image_url>
+                                        <img src="{Field image_url size=medium}"
+                                             alt="{Field image_alt}"
+                                             loading="lazy"
+                                             width="400"
+                                             height="250">
+                                    </If>
+                                </figure>
+                                <div class="magazine-secondary-content">
+                                    <If field=terms taxonomy=category>
+                                        <span class="magazine-category magazine-category--small">
+                                            <Field terms taxonomy=category count=1 />
+                                        </span>
+                                    </If>
+                                    <h3 class="magazine-secondary-title mb-small">
+                                        <Field title />
+                                    </h3>
+                                    <span class="magazine-byline">
+                                        <Field author_name />
+                                    </span>
+                                </div>
+                            </a>
+                        </article>
+                    </Loop>
+                </div>
+
+            </div>
+
+            <!-- Category Sections -->
+            <div class="magazine-sections grid-4">
+
+                <Loop taxonomy=category count=4 orderby=count order=DESC>
+                    <div class="magazine-section">
+                        <h3 class="magazine-section-title mb-single">
+                            <a href="{Field url}">
+                                <Field title />
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </a>
+                        </h3>
+
+                        <ul class="magazine-section-list">
+                            <Loop type=post taxonomy=category terms="{Field slug}" count=4>
+                                <li class="magazine-section-item">
+                                    <a href="{Field url}">
+                                        <span class="magazine-item-title">
+                                            <Field title />
+                                        </span>
+                                        <time class="magazine-item-date" datetime="{Field publish_date date_format='Y-m-d'}">
+                                            <Field publish_date date_format="M j" />
+                                        </time>
+                                    </a>
+                                </li>
+                            </Loop>
+                        </ul>
+                    </div>
+                </Loop>
+
+            </div>
+
+            <!-- Breaking News Ticker -->
+            <aside class="magazine-ticker mt-single-half" aria-label="Breaking news">
+                <span class="ticker-label">Breaking</span>
+                <div class="ticker-content">
+                    <ul class="ticker-list">
+                        <Loop type=post count=5 custom_field=breaking custom_field_value=1>
+                            <li>
+                                <a href="{Field url}"><Field title /></a>
+                            </li>
+                        </Loop>
+                    </ul>
+                </div>
+            </aside>
+
+        </div>
+
+    </div>
+</section>

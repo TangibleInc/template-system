@@ -1,0 +1,121 @@
+<!-- Team: Cards with Bio -->
+<section class="team-cards block-double-tb" id="leadership" aria-labelledby="leadership-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <header class="section-header mb-double">
+            <div class="grid-2 items-center">
+                <div>
+                    <span class="section-label">Leadership</span>
+                    <h2 class="section-title" id="leadership-heading">Executive Team</h2>
+                </div>
+                <div class="section-action text-right">
+                    <a href="/about/team/" class="link-arrow">
+                        View full team
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="leadership-grid grid-3">
+            <Loop type=team taxonomy=team_group terms=leadership orderby=menu_order order=ASC>
+                <article class="leader-card">
+                    <div class="leader-card-inner">
+
+                        <div class="leader-header">
+                            <figure class="leader-photo mb-none">
+                                <If field=photo>
+                                    <img src="{Field photo size=medium}"
+                                         alt=""
+                                         loading="lazy"
+                                         width="280"
+                                         height="320">
+                                </If>
+                            </figure>
+                            <div class="leader-badge" aria-hidden="true">
+                                <If field=years_at_company>
+                                    <Field years_at_company /> years
+                                </If>
+                            </div>
+                        </div>
+
+                        <div class="leader-body">
+                            <h3 class="leader-name mb-small"><Field name /></h3>
+                            <span class="leader-role mb-single"><Field role /></span>
+
+                            <p class="leader-bio mb-single">
+                                <Field bio words=30 />
+                            </p>
+
+                            <div class="leader-meta mb-single">
+                                <If field=expertise>
+                                    <div class="leader-expertise">
+                                        <span class="expertise-label">Expertise:</span>
+                                        <span class="expertise-tags">
+                                            <Loop field=expertise>
+                                                <span class="expertise-tag"><Field value /></span>
+                                            </Loop>
+                                        </span>
+                                    </div>
+                                </If>
+                            </div>
+
+                            <footer class="leader-footer">
+                                <nav class="leader-social" aria-label="Social links">
+                                    <If field=linkedin>
+                                        <a href="{Field linkedin}" aria-label="LinkedIn profile" target="_blank" rel="noopener">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                                        </a>
+                                    </If>
+                                    <If field=twitter>
+                                        <a href="{Field twitter}" aria-label="Twitter profile" target="_blank" rel="noopener">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                        </a>
+                                    </If>
+                                </nav>
+                                <a href="{Field url}" class="leader-link">
+                                    Full profile
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                </a>
+                            </footer>
+
+                        </div>
+
+                    </div>
+                </article>
+            </Loop>
+        </div>
+
+        <!-- Company Values -->
+        <aside class="company-values mt-double">
+            <h3 class="values-title text-center mb-single-half">Our Core Values</h3>
+            <div class="values-grid grid-4 text-center">
+                <div class="value-item">
+                    <div class="value-icon" aria-hidden="true">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h4 class="value-name">Integrity</h4>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon" aria-hidden="true">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                    </div>
+                    <h4 class="value-name">Customer First</h4>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon" aria-hidden="true">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <h4 class="value-name">Excellence</h4>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon" aria-hidden="true">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h4 class="value-name">Collaboration</h4>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+</section>

@@ -1,0 +1,86 @@
+<!-- Blog: Grid Cards Layout -->
+<section class="blog-grid block-double-tb" id="blog" aria-labelledby="blog-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <header class="section-header text-center mb-double">
+            <span class="section-label">Our Blog</span>
+            <h2 class="section-title" id="blog-heading">Latest Articles</h2>
+            <p class="section-subtitle">
+                Discover insights, tutorials, and stories from our team
+            </p>
+        </header>
+
+        <div class="blog-grid-container grid-3">
+            <Loop type=post count=9 orderby=date order=DESC>
+                <article class="blog-card">
+                    <a href="{Field url}" class="blog-card-link">
+
+                        <figure class="blog-card-image mb-none">
+                            <If field=image_url>
+                                <img src="{Field image_url size=medium}"
+                                     alt="{Field image_alt}"
+                                     loading="lazy"
+                                     width="400"
+                                     height="250">
+                            <Else />
+                                <img src="/assets/images/placeholder.jpg"
+                                     alt=""
+                                     loading="lazy"
+                                     width="400"
+                                     height="250">
+                            </If>
+                        </figure>
+
+                        <div class="blog-card-content">
+                            <div class="blog-card-meta mb-half">
+                                <If field=terms taxonomy=category>
+                                    <span class="blog-card-category">
+                                        <Field terms taxonomy=category count=1 />
+                                    </span>
+                                </If>
+                                <span class="blog-card-date">
+                                    <time datetime="{Field publish_date date_format='Y-m-d'}">
+                                        <Field publish_date date_format="M j, Y" />
+                                    </time>
+                                </span>
+                            </div>
+
+                            <h3 class="blog-card-title mb-half">
+                                <Field title />
+                            </h3>
+
+                            <p class="blog-card-excerpt mb-single">
+                                <Field excerpt words=20 />
+                            </p>
+
+                            <div class="blog-card-footer">
+                                <span class="blog-card-author">
+                                    <If field=author_avatar>
+                                        <img src="{Field author_avatar size=thumbnail}"
+                                             alt=""
+                                             class="blog-card-avatar"
+                                             width="32"
+                                             height="32">
+                                    </If>
+                                    <Field author_name />
+                                </span>
+                                <span class="blog-card-read-time">
+                                    <Field reading_time /> min read
+                                </span>
+                            </div>
+                        </div>
+
+                    </a>
+                </article>
+            </Loop>
+        </div>
+
+        <footer class="section-footer text-center mt-double">
+            <a href="/blog/" class="button button-outline">
+                View All Articles
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </footer>
+
+    </div>
+</section>

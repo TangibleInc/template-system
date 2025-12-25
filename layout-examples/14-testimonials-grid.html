@@ -1,0 +1,104 @@
+<!-- Testimonials: Grid with Featured -->
+<section class="testimonials-grid block-double-tb" id="reviews" aria-labelledby="reviews-heading">
+    <div class="inner" style="padding-inline: var(--space-s);">
+
+        <header class="section-header mb-double">
+            <div class="grid-2 items-end">
+                <div>
+                    <span class="section-label">Reviews</span>
+                    <h2 class="section-title" id="reviews-heading">Loved by Thousands</h2>
+                </div>
+                <div class="section-stats text-right">
+                    <div class="stat-large">
+                        <span class="stat-number">4.9</span>
+                        <div class="stat-stars" aria-label="4.9 out of 5 stars">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                    </div>
+                    <span class="stat-label">Based on 2,500+ reviews</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="testimonials-masonry">
+
+            <!-- Featured Testimonial -->
+            <Loop type=testimonial count=1 custom_field=featured custom_field_value=1>
+                <article class="testimonial-featured">
+                    <div class="testimonial-content">
+                        <svg class="quote-icon" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" opacity="0.2"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                        <blockquote class="testimonial-quote mb-single-half">
+                            <p>"<Field content />"</p>
+                        </blockquote>
+                        <footer class="testimonial-author">
+                            <img src="{Field author_image size=thumbnail}"
+                                 alt=""
+                                 class="testimonial-avatar testimonial-avatar--large"
+                                 width="72"
+                                 height="72">
+                            <div>
+                                <cite class="testimonial-name"><Field author_name /></cite>
+                                <span class="testimonial-title"><Field author_title /></span>
+                                <span class="testimonial-company"><Field company /></span>
+                            </div>
+                        </footer>
+                    </div>
+                    <If field=author_photo>
+                        <figure class="testimonial-photo mb-none">
+                            <img src="{Field author_photo size=medium}"
+                                 alt=""
+                                 loading="lazy">
+                        </figure>
+                    </If>
+                </article>
+            </Loop>
+
+            <!-- Regular Testimonials -->
+            <div class="testimonials-grid-items grid-3">
+                <Loop type=testimonial count=6 custom_field=featured custom_field_compare=not_exists orderby=date order=DESC>
+                    <article class="testimonial-card">
+                        <div class="testimonial-header mb-single">
+                            <If field=author_image>
+                                <img src="{Field author_image size=thumbnail}"
+                                     alt=""
+                                     class="testimonial-avatar"
+                                     width="48"
+                                     height="48"
+                                     loading="lazy">
+                            </If>
+                            <div class="testimonial-meta">
+                                <cite class="testimonial-name"><Field author_name /></cite>
+                                <span class="testimonial-title"><Field author_title /></span>
+                            </div>
+                            <div class="testimonial-rating" aria-label="{Field rating} star rating">
+                                <Loop count="{Field rating}">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                </Loop>
+                            </div>
+                        </div>
+                        <blockquote class="testimonial-quote">
+                            <p>"<Field content />"</p>
+                        </blockquote>
+                        <If field=date>
+                            <time class="testimonial-date" datetime="{Field date date_format='Y-m-d'}">
+                                <Field date date_format="M j, Y" />
+                            </time>
+                        </If>
+                    </article>
+                </Loop>
+            </div>
+
+        </div>
+
+        <footer class="section-footer text-center mt-double">
+            <a href="/reviews/" class="button button-outline">
+                Read All Reviews
+            </a>
+        </footer>
+
+    </div>
+</section>
