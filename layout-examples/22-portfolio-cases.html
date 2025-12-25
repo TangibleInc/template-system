@@ -1,100 +1,423 @@
-<!-- Portfolio: Case Studies Layout -->
-<section class="portfolio-cases block-double-tb" id="case-studies" aria-labelledby="cases-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Portfolio: Case Studies Layout
+     Usage: [template name=portfolio-cases]
+     BEM Block: .cases
+-->
 
-        <header class="section-header mb-double">
-            <div class="grid-2 items-end">
-                <div>
-                    <span class="section-label">Portfolio</span>
-                    <h2 class="section-title" id="cases-heading">Case Studies</h2>
-                    <p class="section-subtitle">
-                        Explore how we've helped our clients achieve their goals
-                    </p>
-                </div>
-                <div class="section-action text-right">
-                    <a href="/portfolio/" class="link-arrow">
-                        View all projects
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                </div>
+<style>
+/* Cases Block */
+.cases {
+    padding: 5rem 1.5rem;
+    background: #fff;
+}
+
+.cases__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Header */
+.cases__header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.cases__label {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 0.75rem;
+}
+
+.cases__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0 0 1rem;
+}
+
+.cases__subtitle {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0;
+}
+
+.cases__action {
+    text-align: right;
+}
+
+.cases__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #6366f1;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.cases__link:hover {
+    gap: 0.75rem;
+    color: #4f46e5;
+}
+
+.cases__link svg {
+    transition: transform 0.2s ease;
+}
+
+.cases__link:hover svg {
+    transform: translateX(4px);
+}
+
+/* List */
+.cases__list {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* Card */
+.cases__card {
+    background: #f8fafc;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.cases__card:hover {
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+.cases__card-link {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.cases__image {
+    margin: 0;
+    position: relative;
+    aspect-ratio: 3 / 2;
+    background: #e2e8f0;
+    overflow: hidden;
+}
+
+.cases__image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.cases__card:hover .cases__image img {
+    transform: scale(1.05);
+}
+
+.cases__logo {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.cases__logo img {
+    display: block;
+    max-width: 120px;
+    height: auto;
+}
+
+.cases__content {
+    padding: 2rem;
+}
+
+.cases__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.cases__industry,
+.cases__service {
+    padding: 0.375rem 0.875rem;
+    background: #e0e7ff;
+    color: #6366f1;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.cases__card-title {
+    font-size: clamp(1.5rem, 2vw, 1.875rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0 0 1rem;
+}
+
+.cases__excerpt {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0 0 1.5rem;
+}
+
+.cases__results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+}
+
+.cases__result {
+    text-align: center;
+}
+
+.cases__result-value {
+    display: block;
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.25rem;
+}
+
+.cases__result-label {
+    display: block;
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.cases__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #6366f1;
+    transition: gap 0.2s ease;
+}
+
+.cases__card:hover .cases__cta {
+    gap: 0.75rem;
+}
+
+/* Services Summary */
+.cases__services {
+    margin-top: 4rem;
+    padding: 3rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 16px;
+    text-align: center;
+}
+
+.cases__services-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 2rem;
+}
+
+.cases__services-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.cases__service-tag {
+    padding: 0.625rem 1.25rem;
+    background: #fff;
+    color: #0f172a;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: all 0.2s ease;
+}
+
+.cases__service-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    color: #6366f1;
+}
+
+.cases__tag-count {
+    opacity: 0.6;
+    font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .cases {
+        padding: 4rem 1rem;
+    }
+
+    .cases__header {
+        grid-template-columns: 1fr;
+    }
+
+    .cases__action {
+        text-align: left;
+    }
+
+    .cases__card-link {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .cases__image {
+        aspect-ratio: 16 / 9;
+    }
+
+    .cases__results {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 1rem;
+    }
+
+    .cases__services {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .cases {
+        padding: 3rem 1rem;
+    }
+
+    .cases__list {
+        gap: 2rem;
+    }
+
+    .cases__content {
+        padding: 1.5rem;
+    }
+
+    .cases__results {
+        padding: 1rem 0;
+    }
+
+    .cases__services {
+        padding: 1.5rem;
+        margin-top: 3rem;
+    }
+}
+</style>
+
+<section class="cases" id="case-studies" aria-labelledby="cases-heading">
+    <div class="cases__container">
+
+        <header class="cases__header">
+            <div>
+                <span class="cases__label">Portfolio</span>
+                <h2 class="cases__title" id="cases-heading">Case Studies</h2>
+                <p class="cases__subtitle">
+                    Explore how we've helped our clients achieve their goals
+                </p>
+            </div>
+            <div class="cases__action">
+                <a href="/portfolio/" class="cases__link">
+                    View all projects
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
             </div>
         </header>
 
-        <div class="cases-list">
+        <div class="cases__list">
             <Loop type=case_study count=4 custom_field=featured custom_field_value=1 orderby=date order=DESC>
-                <article class="case-card mb-single-half">
-                    <a href="{Field url}" class="case-link">
-                        <div class="grid-2 items-center gap-double">
+                <article class="cases__card">
+                    <a href="{Field url}" class="cases__card-link">
 
-                            <figure class="case-image mb-none">
-                                <If field=cover_image>
-                                    <img src="{Field cover_image size=large}"
-                                         alt="{Field image_alt}"
-                                         loading="lazy"
-                                         width="600"
-                                         height="400">
-                                </If>
-                                <If field=client_logo>
-                                    <div class="case-logo">
-                                        <img src="{Field client_logo size=thumbnail}"
-                                             alt="{Field client_name} logo"
-                                             width="120"
-                                             height="40">
-                                    </div>
-                                </If>
-                            </figure>
-
-                            <div class="case-content">
-                                <div class="case-meta mb-half">
-                                    <If field=terms taxonomy=industry>
-                                        <span class="case-industry">
-                                            <Field terms taxonomy=industry count=1 />
-                                        </span>
-                                    </If>
-                                    <If field=terms taxonomy=service_type>
-                                        <span class="case-service">
-                                            <Field terms taxonomy=service_type count=1 />
-                                        </span>
-                                    </If>
+                        <figure class="cases__image">
+                            <If field=cover_image>
+                                <img src="{Field cover_image size=large}"
+                                     alt="{Field image_alt}"
+                                     loading="lazy"
+                                     width="600"
+                                     height="400">
+                            </If>
+                            <If field=client_logo>
+                                <div class="cases__logo">
+                                    <img src="{Field client_logo size=thumbnail}"
+                                         alt="{Field client_name} logo"
+                                         width="120"
+                                         height="40">
                                 </div>
+                            </If>
+                        </figure>
 
-                                <h3 class="case-title mb-half"><Field title /></h3>
-
-                                <p class="case-excerpt mb-single">
-                                    <Field excerpt words=30 />
-                                </p>
-
-                                <If field=results>
-                                    <div class="case-results mb-single">
-                                        <Loop field=results count=3>
-                                            <div class="result-item">
-                                                <span class="result-value"><Field value /></span>
-                                                <span class="result-label"><Field label /></span>
-                                            </div>
-                                        </Loop>
-                                    </div>
+                        <div class="cases__content">
+                            <div class="cases__meta">
+                                <If field=terms taxonomy=industry>
+                                    <span class="cases__industry">
+                                        <Field terms taxonomy=industry count=1 />
+                                    </span>
                                 </If>
-
-                                <span class="case-cta">
-                                    Read case study
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                                </span>
+                                <If field=terms taxonomy=service_type>
+                                    <span class="cases__service">
+                                        <Field terms taxonomy=service_type count=1 />
+                                    </span>
+                                </If>
                             </div>
 
+                            <h3 class="cases__card-title"><Field title /></h3>
+
+                            <p class="cases__excerpt">
+                                <Field excerpt words=30 />
+                            </p>
+
+                            <If field=results>
+                                <div class="cases__results">
+                                    <Loop field=results count=3>
+                                        <div class="cases__result">
+                                            <span class="cases__result-value"><Field value /></span>
+                                            <span class="cases__result-label"><Field label /></span>
+                                        </div>
+                                    </Loop>
+                                </div>
+                            </If>
+
+                            <span class="cases__cta">
+                                Read case study
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </span>
                         </div>
+
                     </a>
                 </article>
             </Loop>
         </div>
 
         <!-- Services Summary -->
-        <aside class="services-summary mt-double">
-            <h3 class="summary-title text-center mb-single">What We Do</h3>
-            <div class="services-tags text-center">
+        <aside class="cases__services">
+            <h3 class="cases__services-title">What We Do</h3>
+            <div class="cases__services-tags">
                 <Loop taxonomy=service_type orderby=count order=DESC count=8>
-                    <a href="{Field url}" class="service-tag">
+                    <a href="{Field url}" class="cases__service-tag">
                         <Field title />
-                        <span class="tag-count">(<Field count />)</span>
+                        <span class="cases__tag-count">(<Field count />)</span>
                     </a>
                 </Loop>
             </div>

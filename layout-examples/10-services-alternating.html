@@ -1,47 +1,255 @@
-<!-- Services: Alternating Layout -->
-<section class="services-alternating block-double-tb" id="services" aria-labelledby="services-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Services: Alternating Layout
+     Usage: [template name=services-alternating]
+     BEM Block: .services
+-->
 
-        <header class="section-header text-center mb-double">
-            <span class="section-label">Our Services</span>
-            <h2 class="section-title" id="services-heading">What We Offer</h2>
-            <p class="section-subtitle">
+<style>
+/* Services Block */
+.services {
+    padding: 5rem 1.5rem;
+    background: #f8fafc;
+}
+
+.services__container {
+    max-width: 1100px;
+    margin-inline: auto;
+}
+
+/* Header Element */
+.services__header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.services__label {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 0.75rem;
+}
+
+.services__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+}
+
+.services__subtitle {
+    font-size: 1.125rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Row Element */
+.services__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-bottom: 5rem;
+}
+
+.services__row:last-child {
+    margin-bottom: 0;
+}
+
+.services__row--reversed {
+    direction: rtl;
+}
+
+.services__row--reversed > * {
+    direction: ltr;
+}
+
+/* Content Element */
+.services__content {
+    max-width: 480px;
+}
+
+.services__number {
+    display: inline-block;
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+}
+
+.services__item-title {
+    font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+}
+
+.services__desc {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: #64748b;
+    margin: 0 0 1.5rem;
+}
+
+/* Features List */
+.services__features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+}
+
+.services__feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.938rem;
+    color: #334155;
+}
+
+.services__feature-icon {
+    width: 20px;
+    height: 20px;
+    color: #22c55e;
+    flex-shrink: 0;
+}
+
+/* Link Element */
+.services__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #6366f1;
+    text-decoration: none;
+    transition: gap 0.2s ease;
+}
+
+.services__link:hover {
+    gap: 0.75rem;
+}
+
+.services__link-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+}
+
+.services__link:hover .services__link-icon {
+    transform: translateX(4px);
+}
+
+/* Image Element */
+.services__image {
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+}
+
+.services__image img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .services__row {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .services__row--reversed {
+        direction: ltr;
+    }
+
+    .services__content {
+        max-width: 100%;
+        order: 2;
+    }
+
+    .services__image {
+        order: 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .services {
+        padding: 3rem 1rem;
+    }
+
+    .services__row {
+        margin-bottom: 3rem;
+    }
+
+    .services__number {
+        font-size: 3rem;
+    }
+}
+</style>
+
+<section class="services" id="services" aria-labelledby="services-heading">
+    <div class="services__container">
+
+        <header class="services__header">
+            <span class="services__label">Our Services</span>
+            <h2 class="services__title" id="services-heading">What We Offer</h2>
+            <p class="services__subtitle">
                 Comprehensive solutions tailored to your unique business needs
             </p>
         </header>
 
-        <div class="services-list">
+        <div class="services__list">
 
             <!-- Service 1 -->
-            <div class="service-row grid-2 items-center gap-double mb-double">
-                <div class="service-content">
-                    <span class="service-number" aria-hidden="true">01</span>
-                    <h3 class="service-title mb-single">Web Development</h3>
-                    <p class="service-description mb-single">
+            <div class="services__row">
+                <div class="services__content">
+                    <span class="services__number" aria-hidden="true">01</span>
+                    <h3 class="services__item-title">Web Development</h3>
+                    <p class="services__desc">
                         Custom web applications built with modern technologies.
                         From simple websites to complex enterprise solutions,
                         we deliver scalable, maintainable code that grows with your business.
                     </p>
-                    <ul class="service-features mb-single">
-                        <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    <ul class="services__features">
+                        <li class="services__feature">
+                            <svg class="services__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                             Custom CMS Development
                         </li>
-                        <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        <li class="services__feature">
+                            <svg class="services__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                             E-commerce Solutions
                         </li>
-                        <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        <li class="services__feature">
+                            <svg class="services__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                             Progressive Web Apps
                         </li>
                     </ul>
-                    <a href="/services/web-development/" class="service-link">
+                    <a href="/services/web-development/" class="services__link">
                         Learn more
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        <svg class="services__link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
                     </a>
                 </div>
-                <figure class="service-image mb-none">
+                <figure class="services__image">
                     <img src="/assets/images/service-web.jpg"
                          alt="Web development illustration"
                          loading="lazy"
@@ -51,73 +259,89 @@
             </div>
 
             <!-- Service 2 (Reversed) -->
-            <div class="service-row service-row--reversed grid-2 items-center gap-double mb-double">
-                <figure class="service-image mb-none">
+            <div class="services__row services__row--reversed">
+                <div class="services__content">
+                    <span class="services__number" aria-hidden="true">02</span>
+                    <h3 class="services__item-title">Mobile Development</h3>
+                    <p class="services__desc">
+                        Native and cross-platform mobile applications that
+                        deliver exceptional user experiences. We build apps
+                        that users love and businesses rely on.
+                    </p>
+                    <ul class="services__features">
+                        <li class="services__feature">
+                            <svg class="services__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            iOS & Android Native
+                        </li>
+                        <li class="services__feature">
+                            <svg class="services__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            React Native & Flutter
+                        </li>
+                        <li class="services__feature">
+                            <svg class="services__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            App Store Optimization
+                        </li>
+                    </ul>
+                    <a href="/services/mobile-development/" class="services__link">
+                        Learn more
+                        <svg class="services__link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+                <figure class="services__image">
                     <img src="/assets/images/service-mobile.jpg"
                          alt="Mobile app development"
                          loading="lazy"
                          width="550"
                          height="400">
                 </figure>
-                <div class="service-content">
-                    <span class="service-number" aria-hidden="true">02</span>
-                    <h3 class="service-title mb-single">Mobile Development</h3>
-                    <p class="service-description mb-single">
-                        Native and cross-platform mobile applications that
-                        deliver exceptional user experiences. We build apps
-                        that users love and businesses rely on.
-                    </p>
-                    <ul class="service-features mb-single">
-                        <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                            iOS & Android Native
-                        </li>
-                        <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                            React Native & Flutter
-                        </li>
-                        <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                            App Store Optimization
-                        </li>
-                    </ul>
-                    <a href="/services/mobile-development/" class="service-link">
-                        Learn more
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                </div>
             </div>
 
             <!-- Service 3 -->
-            <div class="service-row grid-2 items-center gap-double">
-                <div class="service-content">
-                    <span class="service-number" aria-hidden="true">03</span>
-                    <h3 class="service-title mb-single">Cloud Solutions</h3>
-                    <p class="service-description mb-single">
+            <div class="services__row">
+                <div class="services__content">
+                    <span class="services__number" aria-hidden="true">03</span>
+                    <h3 class="services__item-title">Cloud Solutions</h3>
+                    <p class="services__desc">
                         Scalable cloud infrastructure and DevOps services.
                         We help you migrate, optimize, and manage your
                         cloud environment for maximum efficiency.
                     </p>
-                    <ul class="service-features mb-single">
-                        <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    <ul class="services__features">
+                        <li class="services__feature">
+                            <svg class="services__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                             AWS, Azure, GCP
                         </li>
-                        <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        <li class="services__feature">
+                            <svg class="services__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                             CI/CD Pipelines
                         </li>
-                        <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        <li class="services__feature">
+                            <svg class="services__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                             Infrastructure as Code
                         </li>
                     </ul>
-                    <a href="/services/cloud-solutions/" class="service-link">
+                    <a href="/services/cloud-solutions/" class="services__link">
                         Learn more
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        <svg class="services__link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
                     </a>
                 </div>
-                <figure class="service-image mb-none">
+                <figure class="services__image">
                     <img src="/assets/images/service-cloud.jpg"
                          alt="Cloud infrastructure visualization"
                          loading="lazy"

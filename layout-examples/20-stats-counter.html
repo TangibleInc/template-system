@@ -1,63 +1,358 @@
-<!-- Stats: Counter Sections -->
-<section class="stats-section block-double-tb" id="stats" aria-labelledby="stats-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Stats: Counter Sections
+     Usage: [template name=stats-counter]
+     BEM Block: .stats
+-->
+
+<style>
+/* Stats Block */
+.stats {
+    padding: 5rem 1.5rem;
+}
+
+.stats__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Section Header */
+.stats__header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.stats__title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0;
+}
+
+/* Stats Grid */
+.stats__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.stats__grid:last-child {
+    margin-bottom: 0;
+}
+
+/* Stat Item */
+.stats__item {
+    text-align: center;
+}
+
+.stats__number {
+    display: block;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+}
+
+.stats__label {
+    display: block;
+    font-size: 1rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* Icon Stats Variant */
+.stats__card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+}
+
+.stats__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+.stats__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #fff;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.stats__card .stats__number {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    color: #6366f1;
+}
+
+.stats__description {
+    font-size: 0.9375rem;
+    color: #475569;
+    line-height: 1.6;
+    margin: 0.75rem 0 0;
+}
+
+/* Banner Stats */
+.stats__banner {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    margin-bottom: 4rem;
+}
+
+.stats__banner-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.stats__content {
+    max-width: 500px;
+}
+
+.stats__banner-title {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0 0 1rem;
+}
+
+.stats__text {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0 0 1.5rem;
+}
+
+.stats__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #6366f1;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.stats__link:hover {
+    gap: 0.75rem;
+    color: #4f46e5;
+}
+
+.stats__link svg {
+    transition: transform 0.2s ease;
+}
+
+.stats__link:hover svg {
+    transform: translateX(4px);
+}
+
+.stats__metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.stats__metric {
+    text-align: center;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.stats__metric-number {
+    display: block;
+    font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+}
+
+.stats__metric-label {
+    display: block;
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* Logo Cloud */
+.stats__logo-cloud {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.stats__logo-label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 2rem;
+}
+
+.stats__logo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 2rem;
+    align-items: center;
+    justify-items: center;
+}
+
+.stats__logo-item {
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.stats__logo-item:hover {
+    opacity: 1;
+}
+
+.stats__logo-item img {
+    display: block;
+    max-width: 140px;
+    height: auto;
+    filter: grayscale(100%);
+    transition: filter 0.2s ease;
+}
+
+.stats__logo-item:hover img {
+    filter: grayscale(0%);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .stats {
+        padding: 4rem 1rem;
+    }
+
+    .stats__grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .stats__banner-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .stats__content {
+        max-width: none;
+        text-align: center;
+    }
+
+    .stats__metrics {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .stats {
+        padding: 3rem 1rem;
+    }
+
+    .stats__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .stats__banner {
+        padding: 2rem 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .stats__card {
+        padding: 1.5rem;
+    }
+
+    .stats__icon {
+        width: 56px;
+        height: 56px;
+    }
+
+    .stats__metrics {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .stats__logo-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 1.5rem;
+    }
+}
+</style>
+
+<section class="stats" id="stats" aria-labelledby="stats-heading">
+    <div class="stats__container">
 
         <!-- Simple Stats Row -->
-        <div class="stats-row mb-double">
-            <h2 class="visually-hidden" id="stats-heading">Our Impact in Numbers</h2>
-            <div class="stats-grid grid-4 text-center">
-                <div class="stat-item">
-                    <span class="stat-number" data-count="50000">50,000+</span>
-                    <span class="stat-label">Happy Customers</span>
+        <div class="stats__row">
+            <h2 class="stats__title visually-hidden" id="stats-heading">Our Impact in Numbers</h2>
+            <div class="stats__grid">
+                <div class="stats__item">
+                    <span class="stats__number" data-count="50000">0</span>
+                    <span class="stats__label">Happy Customers</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-count="99.9">99.9%</span>
-                    <span class="stat-label">Uptime SLA</span>
+                <div class="stats__item">
+                    <span class="stats__number" data-count="99.9">0</span>
+                    <span class="stats__label">Uptime SLA</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-count="150">150+</span>
-                    <span class="stat-label">Countries Served</span>
+                <div class="stats__item">
+                    <span class="stats__number" data-count="150">0</span>
+                    <span class="stats__label">Countries Served</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-count="24">24/7</span>
-                    <span class="stat-label">Support Available</span>
+                <div class="stats__item">
+                    <span class="stats__number">24/7</span>
+                    <span class="stats__label">Support Available</span>
                 </div>
             </div>
         </div>
 
         <!-- Stats with Icons -->
-        <div class="stats-icons mb-double">
-            <header class="section-header text-center mb-single-half">
-                <h3 class="section-title">Why Choose Us</h3>
+        <div class="stats__icons">
+            <header class="stats__header">
+                <h3 class="stats__title">Why Choose Us</h3>
             </header>
-            <div class="stats-grid grid-3">
-                <div class="stat-card">
-                    <div class="stat-icon" aria-hidden="true">
+            <div class="stats__grid">
+                <div class="stats__card">
+                    <div class="stats__icon" aria-hidden="true">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                     </div>
-                    <span class="stat-number">2.5s</span>
-                    <span class="stat-label">Average Load Time</span>
-                    <p class="stat-description">
+                    <span class="stats__number">2.5s</span>
+                    <span class="stats__label">Average Load Time</span>
+                    <p class="stats__description">
                         Lightning-fast performance optimized for all devices
                     </p>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon" aria-hidden="true">
+                <div class="stats__card">
+                    <div class="stats__icon" aria-hidden="true">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                     </div>
-                    <span class="stat-number">0</span>
-                    <span class="stat-label">Security Breaches</span>
-                    <p class="stat-description">
+                    <span class="stats__number">0</span>
+                    <span class="stats__label">Security Breaches</span>
+                    <p class="stats__description">
                         Enterprise-grade security protecting your data 24/7
                     </p>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon" aria-hidden="true">
+                <div class="stats__card">
+                    <div class="stats__icon" aria-hidden="true">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     </div>
-                    <span class="stat-number">4.9/5</span>
-                    <span class="stat-label">Customer Rating</span>
-                    <p class="stat-description">
+                    <span class="stats__number">4.9/5</span>
+                    <span class="stats__label">Customer Rating</span>
+                    <p class="stats__description">
                         Based on 10,000+ verified customer reviews
                     </p>
                 </div>
@@ -65,46 +360,46 @@
         </div>
 
         <!-- Stats Banner -->
-        <div class="stats-banner">
-            <div class="grid-2 items-center gap-double">
-                <div class="stats-content">
-                    <h3 class="stats-title mb-single">Trusted by Industry Leaders</h3>
-                    <p class="stats-text mb-single">
+        <div class="stats__banner">
+            <div class="stats__banner-grid">
+                <div class="stats__content">
+                    <h3 class="stats__banner-title">Trusted by Industry Leaders</h3>
+                    <p class="stats__text">
                         From startups to Fortune 500 companies, businesses of all
                         sizes trust us to power their digital experiences.
                     </p>
-                    <a href="/customers/" class="link-arrow">
+                    <a href="/customers/" class="stats__link">
                         View customer stories
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
                 </div>
-                <div class="stats-metrics grid-2">
-                    <div class="metric-item">
-                        <span class="metric-number">$2B+</span>
-                        <span class="metric-label">Transactions Processed</span>
+                <div class="stats__metrics">
+                    <div class="stats__metric">
+                        <span class="stats__metric-number">$2B+</span>
+                        <span class="stats__metric-label">Transactions Processed</span>
                     </div>
-                    <div class="metric-item">
-                        <span class="metric-number">10M+</span>
-                        <span class="metric-label">API Requests/Day</span>
+                    <div class="stats__metric">
+                        <span class="stats__metric-number">10M+</span>
+                        <span class="stats__metric-label">API Requests/Day</span>
                     </div>
-                    <div class="metric-item">
-                        <span class="metric-number">500+</span>
-                        <span class="metric-label">Enterprise Clients</span>
+                    <div class="stats__metric">
+                        <span class="stats__metric-number">500+</span>
+                        <span class="stats__metric-label">Enterprise Clients</span>
                     </div>
-                    <div class="metric-item">
-                        <span class="metric-number">98%</span>
-                        <span class="metric-label">Retention Rate</span>
+                    <div class="stats__metric">
+                        <span class="stats__metric-number">98%</span>
+                        <span class="stats__metric-label">Retention Rate</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Logo Cloud -->
-        <aside class="logo-cloud mt-double text-center" aria-label="Trusted by">
-            <p class="logo-cloud-label mb-single">Powering the world's best teams</p>
-            <div class="logo-grid">
+        <aside class="stats__logo-cloud" aria-label="Trusted by">
+            <p class="stats__logo-label">Powering the world's best teams</p>
+            <div class="stats__logo-grid">
                 <Loop type=client count=8 orderby=menu_order order=ASC>
-                    <div class="logo-item">
+                    <div class="stats__logo-item">
                         <If field=logo>
                             <img src="{Field logo size=medium}"
                                  alt="{Field title}"
@@ -119,3 +414,50 @@
 
     </div>
 </section>
+
+<script>
+(function() {
+    // Counter animation
+    function animateCounter(element) {
+        const target = parseFloat(element.getAttribute('data-count'));
+        if (!target) return;
+
+        const duration = 2000;
+        const increment = target / (duration / 16);
+        let current = 0;
+        const isDecimal = target % 1 !== 0;
+
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+
+            if (isDecimal) {
+                element.textContent = current.toFixed(1);
+            } else if (target >= 1000) {
+                element.textContent = Math.floor(current).toLocaleString() + '+';
+            } else {
+                element.textContent = Math.floor(current);
+            }
+        }, 16);
+    }
+
+    // Intersection Observer for triggering animation
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                entry.target.classList.add('animated');
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    // Observe all stat numbers with data-count
+    document.querySelectorAll('.stats__number[data-count]').forEach(el => {
+        observer.observe(el);
+    });
+})();
+</script>

@@ -1,118 +1,431 @@
-<!-- Team: Cards with Bio -->
-<section class="team-cards block-double-tb" id="leadership" aria-labelledby="leadership-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Team: Cards with Bio
+     Usage: [template name=team-cards]
+     BEM Block: .leadership
+-->
 
-        <header class="section-header mb-double">
-            <div class="grid-2 items-center">
-                <div>
-                    <span class="section-label">Leadership</span>
-                    <h2 class="section-title" id="leadership-heading">Executive Team</h2>
-                </div>
-                <div class="section-action text-right">
-                    <a href="/about/team/" class="link-arrow">
-                        View full team
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                </div>
+<style>
+/* Leadership Block */
+.leadership {
+    padding: 5rem 1.5rem;
+    background: #f8fafc;
+}
+
+.leadership__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Header Element */
+.leadership__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.leadership__label {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 0.5rem;
+}
+
+.leadership__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.leadership__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #6366f1;
+    text-decoration: none;
+    transition: gap 0.2s ease;
+}
+
+.leadership__link:hover {
+    gap: 0.75rem;
+}
+
+.leadership__link svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Grid Element */
+.leadership__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+/* Card Element */
+.leadership__card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.leadership__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* Card Header */
+.leadership__card-header {
+    position: relative;
+}
+
+.leadership__card-photo {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+
+.leadership__card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.leadership__card-badge {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.375rem 0.75rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6366f1;
+}
+
+/* Card Body */
+.leadership__card-body {
+    padding: 1.5rem;
+}
+
+.leadership__card-name {
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.25rem;
+}
+
+.leadership__card-role {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6366f1;
+    margin-bottom: 1rem;
+}
+
+.leadership__card-bio {
+    font-size: 0.938rem;
+    line-height: 1.65;
+    color: #64748b;
+    margin: 0 0 1rem;
+}
+
+/* Expertise */
+.leadership__expertise {
+    margin-bottom: 1rem;
+}
+
+.leadership__expertise-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.leadership__expertise-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+}
+
+.leadership__expertise-tag {
+    padding: 0.25rem 0.625rem;
+    background: #f1f5f9;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #475569;
+}
+
+/* Card Footer */
+.leadership__card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.leadership__social {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.leadership__social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: #94a3b8;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.leadership__social a:hover {
+    color: #6366f1;
+    background: #f1f5f9;
+}
+
+.leadership__social svg {
+    width: 16px;
+    height: 16px;
+}
+
+.leadership__card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6366f1;
+    text-decoration: none;
+}
+
+.leadership__card-link:hover {
+    text-decoration: underline;
+}
+
+.leadership__card-link svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Values Element */
+.leadership__values {
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.leadership__values-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 2rem;
+}
+
+.leadership__values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.leadership__value {
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+}
+
+.leadership__value-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    border-radius: 12px;
+    margin: 0 auto 1rem;
+    color: #6366f1;
+}
+
+.leadership__value-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.leadership__value-name {
+    font-size: 0.938rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .leadership__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .leadership__values-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .leadership {
+        padding: 3rem 1rem;
+    }
+
+    .leadership__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .leadership__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .leadership__values-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .leadership__value {
+        padding: 1rem;
+    }
+}
+</style>
+
+<section class="leadership" id="leadership" aria-labelledby="leadership-heading">
+    <div class="leadership__container">
+
+        <header class="leadership__header">
+            <div>
+                <span class="leadership__label">Leadership</span>
+                <h2 class="leadership__title" id="leadership-heading">Executive Team</h2>
             </div>
+            <a href="/about/team/" class="leadership__link">
+                View full team
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
         </header>
 
-        <div class="leadership-grid grid-3">
+        <div class="leadership__grid">
             <Loop type=team taxonomy=team_group terms=leadership orderby=menu_order order=ASC>
-                <article class="leader-card">
-                    <div class="leader-card-inner">
+                <article class="leadership__card">
+                    <header class="leadership__card-header">
+                        <figure class="leadership__card-photo">
+                            <If field=photo>
+                                <img src="{Field photo size=medium}"
+                                     alt=""
+                                     loading="lazy"
+                                     width="280"
+                                     height="210">
+                            </If>
+                        </figure>
+                        <If field=years_at_company>
+                            <span class="leadership__card-badge"><Field years_at_company /> years</span>
+                        </If>
+                    </header>
 
-                        <div class="leader-header">
-                            <figure class="leader-photo mb-none">
-                                <If field=photo>
-                                    <img src="{Field photo size=medium}"
-                                         alt=""
-                                         loading="lazy"
-                                         width="280"
-                                         height="320">
-                                </If>
-                            </figure>
-                            <div class="leader-badge" aria-hidden="true">
-                                <If field=years_at_company>
-                                    <Field years_at_company /> years
-                                </If>
+                    <div class="leadership__card-body">
+                        <h3 class="leadership__card-name"><Field name /></h3>
+                        <span class="leadership__card-role"><Field role /></span>
+
+                        <p class="leadership__card-bio">
+                            <Field bio words=30 />
+                        </p>
+
+                        <If field=expertise>
+                            <div class="leadership__expertise">
+                                <p class="leadership__expertise-label">Expertise</p>
+                                <div class="leadership__expertise-tags">
+                                    <Loop field=expertise>
+                                        <span class="leadership__expertise-tag"><Field value /></span>
+                                    </Loop>
+                                </div>
                             </div>
-                        </div>
+                        </If>
 
-                        <div class="leader-body">
-                            <h3 class="leader-name mb-small"><Field name /></h3>
-                            <span class="leader-role mb-single"><Field role /></span>
-
-                            <p class="leader-bio mb-single">
-                                <Field bio words=30 />
-                            </p>
-
-                            <div class="leader-meta mb-single">
-                                <If field=expertise>
-                                    <div class="leader-expertise">
-                                        <span class="expertise-label">Expertise:</span>
-                                        <span class="expertise-tags">
-                                            <Loop field=expertise>
-                                                <span class="expertise-tag"><Field value /></span>
-                                            </Loop>
-                                        </span>
-                                    </div>
+                        <footer class="leadership__card-footer">
+                            <nav class="leadership__social" aria-label="Social links">
+                                <If field=linkedin>
+                                    <a href="{Field linkedin}" aria-label="LinkedIn profile" target="_blank" rel="noopener">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                                    </a>
                                 </If>
-                            </div>
-
-                            <footer class="leader-footer">
-                                <nav class="leader-social" aria-label="Social links">
-                                    <If field=linkedin>
-                                        <a href="{Field linkedin}" aria-label="LinkedIn profile" target="_blank" rel="noopener">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-                                        </a>
-                                    </If>
-                                    <If field=twitter>
-                                        <a href="{Field twitter}" aria-label="Twitter profile" target="_blank" rel="noopener">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                                        </a>
-                                    </If>
-                                </nav>
-                                <a href="{Field url}" class="leader-link">
-                                    Full profile
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                                </a>
-                            </footer>
-
-                        </div>
-
+                                <If field=twitter>
+                                    <a href="{Field twitter}" aria-label="Twitter profile" target="_blank" rel="noopener">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                    </a>
+                                </If>
+                            </nav>
+                            <a href="{Field url}" class="leadership__card-link">
+                                Full profile
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                        </footer>
                     </div>
                 </article>
             </Loop>
         </div>
 
-        <!-- Company Values -->
-        <aside class="company-values mt-double">
-            <h3 class="values-title text-center mb-single-half">Our Core Values</h3>
-            <div class="values-grid grid-4 text-center">
-                <div class="value-item">
-                    <div class="value-icon" aria-hidden="true">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <aside class="leadership__values">
+            <h3 class="leadership__values-title">Our Core Values</h3>
+            <div class="leadership__values-grid">
+                <div class="leadership__value">
+                    <div class="leadership__value-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
                     </div>
-                    <h4 class="value-name">Integrity</h4>
+                    <h4 class="leadership__value-name">Integrity</h4>
                 </div>
-                <div class="value-item">
-                    <div class="value-icon" aria-hidden="true">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                <div class="leadership__value">
+                    <div class="leadership__value-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                            <line x1="9" y1="9" x2="9.01" y2="9"/>
+                            <line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
                     </div>
-                    <h4 class="value-name">Customer First</h4>
+                    <h4 class="leadership__value-name">Customer First</h4>
                 </div>
-                <div class="value-item">
-                    <div class="value-icon" aria-hidden="true">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <div class="leadership__value">
+                    <div class="leadership__value-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
                     </div>
-                    <h4 class="value-name">Excellence</h4>
+                    <h4 class="leadership__value-name">Excellence</h4>
                 </div>
-                <div class="value-item">
-                    <div class="value-icon" aria-hidden="true">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <div class="leadership__value">
+                    <div class="leadership__value-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
                     </div>
-                    <h4 class="value-name">Collaboration</h4>
+                    <h4 class="leadership__value-name">Collaboration</h4>
                 </div>
             </div>
         </aside>

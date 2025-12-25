@@ -1,171 +1,590 @@
-<!-- Pricing: Cards Layout -->
-<section class="pricing-section block-double-tb" id="pricing" aria-labelledby="pricing-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Pricing: Cards Layout
+     Usage: [template name=pricing-cards]
+     BEM Block: .plans
+-->
 
-        <header class="section-header text-center mb-double">
-            <span class="section-label">Pricing</span>
-            <h2 class="section-title" id="pricing-heading">Simple, Transparent Pricing</h2>
-            <p class="section-subtitle">
+<style>
+/* Plans Block */
+.plans {
+    padding: 5rem 1.5rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.plans__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Header Elements */
+.plans__header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.plans__label {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 0.75rem;
+}
+
+.plans__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0 0 1rem;
+}
+
+.plans__subtitle {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0 0 2rem;
+}
+
+/* Billing Toggle */
+.plans__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    background: #fff;
+    border-radius: 100px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.plans__toggle-label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #64748b;
+    transition: color 0.2s ease;
+}
+
+.plans__toggle-label--active {
+    color: #0f172a;
+}
+
+.plans__toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.plans__toggle-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.plans__toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #cbd5e1;
+    border-radius: 24px;
+    transition: background 0.3s ease;
+}
+
+.plans__toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.plans__toggle-input:checked + .plans__toggle-slider {
+    background: #6366f1;
+}
+
+.plans__toggle-input:checked + .plans__toggle-slider::before {
+    transform: translateX(24px);
+}
+
+.plans__toggle-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    margin-left: 0.5rem;
+    background: #22c55e;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 4px;
+}
+
+/* Grid */
+.plans__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1100px;
+    margin-inline: auto;
+}
+
+/* Card Element */
+.plans__card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.plans__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+.plans__card--featured {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 12px 24px rgba(99, 102, 241, 0.3);
+}
+
+.plans__card--featured:hover {
+    transform: scale(1.05) translateY(-4px);
+}
+
+.plans__badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #22c55e;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Card Header */
+.plans__card-header {
+    text-align: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+}
+
+.plans__card--featured .plans__card-header {
+    border-bottom-color: rgba(255,255,255,0.2);
+}
+
+.plans__name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 0.5rem;
+}
+
+.plans__card--featured .plans__name {
+    color: #fff;
+}
+
+.plans__description {
+    font-size: 0.9375rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.plans__card--featured .plans__description {
+    color: rgba(255,255,255,0.9);
+}
+
+/* Price */
+.plans__price {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.plans__price-option {
+    display: none;
+}
+
+.plans__price-option--active {
+    display: block;
+}
+
+.plans__price-currency {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #475569;
+    vertical-align: super;
+}
+
+.plans__card--featured .plans__price-currency {
+    color: rgba(255,255,255,0.9);
+}
+
+.plans__price-amount {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #0f172a;
+}
+
+.plans__card--featured .plans__price-amount {
+    color: #fff;
+}
+
+.plans__price-period {
+    font-size: 1rem;
+    color: #64748b;
+}
+
+.plans__card--featured .plans__price-period {
+    color: rgba(255,255,255,0.8);
+}
+
+.plans__price-custom {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.plans__card--featured .plans__price-custom {
+    color: #fff;
+}
+
+/* Features */
+.plans__features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    flex-grow: 1;
+}
+
+.plans__feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    font-size: 0.9375rem;
+    color: #334155;
+}
+
+.plans__card--featured .plans__feature {
+    color: rgba(255,255,255,0.95);
+}
+
+.plans__feature svg {
+    flex-shrink: 0;
+    color: #22c55e;
+}
+
+.plans__card--featured .plans__feature svg {
+    color: #fff;
+}
+
+.plans__feature--disabled {
+    opacity: 0.5;
+}
+
+.plans__feature--disabled svg {
+    color: #cbd5e1;
+}
+
+/* Card Footer */
+.plans__card-footer {
+    text-align: center;
+}
+
+.plans__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    border: 2px solid #cbd5e1;
+    background: transparent;
+    color: #0f172a;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.plans__button:hover {
+    border-color: #0f172a;
+    background: #0f172a;
+    color: #fff;
+}
+
+.plans__button--primary {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: #fff;
+}
+
+.plans__button--primary:hover {
+    background: #1e293b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
+}
+
+.plans__card--featured .plans__button {
+    background: #fff;
+    border-color: #fff;
+    color: #6366f1;
+}
+
+.plans__card--featured .plans__button:hover {
+    background: #f8fafc;
+}
+
+.plans__trial-note {
+    display: block;
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+.plans__card--featured .plans__trial-note {
+    color: rgba(255,255,255,0.8);
+}
+
+/* Footer */
+.plans__footer {
+    text-align: center;
+    margin-top: 4rem;
+    font-size: 0.9375rem;
+    color: #64748b;
+}
+
+.plans__footer a {
+    color: #6366f1;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.plans__footer a:hover {
+    color: #4f46e5;
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .plans {
+        padding: 4rem 1rem;
+    }
+
+    .plans__grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .plans__card--featured {
+        transform: scale(1);
+    }
+
+    .plans__card--featured:hover {
+        transform: translateY(-4px);
+    }
+}
+
+@media (max-width: 640px) {
+    .plans {
+        padding: 3rem 1rem;
+    }
+
+    .plans__header {
+        margin-bottom: 3rem;
+    }
+
+    .plans__toggle {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+</style>
+
+<section class="plans" id="pricing" aria-labelledby="pricing-heading">
+    <div class="plans__container">
+
+        <header class="plans__header">
+            <span class="plans__label">Pricing</span>
+            <h2 class="plans__title" id="pricing-heading">Simple, Transparent Pricing</h2>
+            <p class="plans__subtitle">
                 Choose the plan that's right for you. No hidden fees.
             </p>
 
             <!-- Billing Toggle -->
-            <div class="pricing-toggle mt-single">
-                <span class="toggle-label">Monthly</span>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="billing-toggle" aria-label="Toggle annual billing">
-                    <span class="toggle-slider"></span>
+            <div class="plans__toggle">
+                <span class="plans__toggle-label plans__toggle-label--active" data-period="monthly">Monthly</span>
+                <label class="plans__toggle-switch">
+                    <input type="checkbox" id="billing-toggle" class="plans__toggle-input" aria-label="Toggle annual billing">
+                    <span class="plans__toggle-slider"></span>
                 </label>
-                <span class="toggle-label">
+                <span class="plans__toggle-label" data-period="annual">
                     Annual
-                    <span class="toggle-badge">Save 20%</span>
+                    <span class="plans__toggle-badge">Save 20%</span>
                 </span>
             </div>
         </header>
 
-        <div class="pricing-grid grid-3" style="max-width: 1100px; margin-inline: auto;">
+        <div class="plans__grid">
 
             <!-- Starter Plan -->
-            <article class="pricing-card">
-                <header class="pricing-card-header">
-                    <h3 class="pricing-name">Starter</h3>
-                    <p class="pricing-description">Perfect for individuals and small projects</p>
+            <article class="plans__card">
+                <header class="plans__card-header">
+                    <h3 class="plans__name">Starter</h3>
+                    <p class="plans__description">Perfect for individuals and small projects</p>
                 </header>
-                <div class="pricing-card-price">
-                    <span class="price-monthly">
-                        <span class="price-currency">$</span>
-                        <span class="price-amount">0</span>
-                        <span class="price-period">/month</span>
+                <div class="plans__price">
+                    <span class="plans__price-option plans__price-option--active" data-period="monthly">
+                        <span class="plans__price-currency">$</span>
+                        <span class="plans__price-amount">0</span>
+                        <span class="plans__price-period">/month</span>
                     </span>
-                    <span class="price-annual" hidden>
-                        <span class="price-currency">$</span>
-                        <span class="price-amount">0</span>
-                        <span class="price-period">/year</span>
+                    <span class="plans__price-option" data-period="annual">
+                        <span class="plans__price-currency">$</span>
+                        <span class="plans__price-amount">0</span>
+                        <span class="plans__price-period">/year</span>
                     </span>
                 </div>
-                <ul class="pricing-features">
-                    <li>
+                <ul class="plans__features">
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         Up to 3 projects
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         Basic analytics
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         Community support
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         1 GB storage
                     </li>
-                    <li class="feature-disabled">
+                    <li class="plans__feature plans__feature--disabled">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                         Custom domain
                     </li>
-                    <li class="feature-disabled">
+                    <li class="plans__feature plans__feature--disabled">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                         Priority support
                     </li>
                 </ul>
-                <footer class="pricing-card-footer">
-                    <a href="/signup/?plan=starter" class="button button-outline button-block">
+                <footer class="plans__card-footer">
+                    <a href="/signup/?plan=starter" class="plans__button">
                         Get Started Free
                     </a>
                 </footer>
             </article>
 
             <!-- Pro Plan (Featured) -->
-            <article class="pricing-card pricing-card--featured">
-                <div class="pricing-badge">Most Popular</div>
-                <header class="pricing-card-header">
-                    <h3 class="pricing-name">Professional</h3>
-                    <p class="pricing-description">Best for growing teams and businesses</p>
+            <article class="plans__card plans__card--featured">
+                <div class="plans__badge">Most Popular</div>
+                <header class="plans__card-header">
+                    <h3 class="plans__name">Professional</h3>
+                    <p class="plans__description">Best for growing teams and businesses</p>
                 </header>
-                <div class="pricing-card-price">
-                    <span class="price-monthly">
-                        <span class="price-currency">$</span>
-                        <span class="price-amount">29</span>
-                        <span class="price-period">/month</span>
+                <div class="plans__price">
+                    <span class="plans__price-option plans__price-option--active" data-period="monthly">
+                        <span class="plans__price-currency">$</span>
+                        <span class="plans__price-amount">29</span>
+                        <span class="plans__price-period">/month</span>
                     </span>
-                    <span class="price-annual" hidden>
-                        <span class="price-currency">$</span>
-                        <span class="price-amount">279</span>
-                        <span class="price-period">/year</span>
+                    <span class="plans__price-option" data-period="annual">
+                        <span class="plans__price-currency">$</span>
+                        <span class="plans__price-amount">279</span>
+                        <span class="plans__price-period">/year</span>
                     </span>
                 </div>
-                <ul class="pricing-features">
-                    <li>
+                <ul class="plans__features">
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         Unlimited projects
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         Advanced analytics
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         Priority email support
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         100 GB storage
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         Custom domain
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         Team collaboration (10 seats)
                     </li>
                 </ul>
-                <footer class="pricing-card-footer">
-                    <a href="/signup/?plan=pro" class="button button-primary button-block">
+                <footer class="plans__card-footer">
+                    <a href="/signup/?plan=pro" class="plans__button plans__button--primary">
                         Start Free Trial
                     </a>
-                    <span class="pricing-trial-note">14-day free trial</span>
+                    <span class="plans__trial-note">14-day free trial</span>
                 </footer>
             </article>
 
             <!-- Enterprise Plan -->
-            <article class="pricing-card">
-                <header class="pricing-card-header">
-                    <h3 class="pricing-name">Enterprise</h3>
-                    <p class="pricing-description">For large organizations with custom needs</p>
+            <article class="plans__card">
+                <header class="plans__card-header">
+                    <h3 class="plans__name">Enterprise</h3>
+                    <p class="plans__description">For large organizations with custom needs</p>
                 </header>
-                <div class="pricing-card-price">
-                    <span class="price-custom">Custom</span>
+                <div class="plans__price">
+                    <span class="plans__price-custom">Custom</span>
                 </div>
-                <ul class="pricing-features">
-                    <li>
+                <ul class="plans__features">
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         Everything in Professional
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         Unlimited storage
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         24/7 phone support
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         SSO & SAML
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         Dedicated account manager
                     </li>
-                    <li>
+                    <li class="plans__feature">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         Custom integrations
                     </li>
                 </ul>
-                <footer class="pricing-card-footer">
-                    <a href="/contact/sales/" class="button button-outline button-block">
+                <footer class="plans__card-footer">
+                    <a href="/contact/sales/" class="plans__button">
                         Contact Sales
                     </a>
                 </footer>
@@ -174,7 +593,7 @@
         </div>
 
         <!-- FAQ Link -->
-        <footer class="pricing-footer text-center mt-double">
+        <footer class="plans__footer">
             <p>
                 Have questions?
                 <a href="/pricing/faq/">Check our FAQ</a>
@@ -185,3 +604,38 @@
 
     </div>
 </section>
+
+<script>
+(function() {
+    const toggle = document.getElementById('billing-toggle');
+    if (!toggle) return;
+
+    const labels = document.querySelectorAll('.plans__toggle-label');
+    const priceOptions = document.querySelectorAll('.plans__price-option');
+
+    toggle.addEventListener('change', function() {
+        const isAnnual = this.checked;
+        const activePeriod = isAnnual ? 'annual' : 'monthly';
+
+        // Update labels
+        labels.forEach(label => {
+            const period = label.getAttribute('data-period');
+            if (period === activePeriod) {
+                label.classList.add('plans__toggle-label--active');
+            } else {
+                label.classList.remove('plans__toggle-label--active');
+            }
+        });
+
+        // Update prices
+        priceOptions.forEach(option => {
+            const period = option.getAttribute('data-period');
+            if (period === activePeriod) {
+                option.classList.add('plans__price-option--active');
+            } else {
+                option.classList.remove('plans__price-option--active');
+            }
+        });
+    });
+})();
+</script>

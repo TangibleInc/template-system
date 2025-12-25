@@ -1,53 +1,259 @@
-<!-- Hero: Video Background -->
-<section class="hero-video block-triple-tb position-relative overflow-hidden" aria-labelledby="hero-video-heading">
+<!-- Hero: Video Background
+     Usage: [template name=hero-video-background]
+     BEM Block: .hero with --video modifier
+-->
 
-    <div class="hero-video-bg" aria-hidden="true">
-        <video autoplay muted loop playsinline>
+<style>
+/* Hero Block - Video Background */
+.hero--video {
+    position: relative;
+    padding: 8rem 1.5rem;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Video Background */
+.hero__video-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.hero__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.75) 100%);
+}
+
+/* Content Container */
+.hero__container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin-inline: auto;
+    text-align: center;
+}
+
+/* Title Element */
+.hero__title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin: 0 0 1.5rem;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Subtitle Element */
+.hero__subtitle {
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0 0 2.5rem;
+    max-width: 700px;
+    margin-inline: auto;
+}
+
+/* Actions Element */
+.hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 4rem;
+}
+
+/* Button Element */
+.hero__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.hero__button--white {
+    background: #fff;
+    color: #0f172a;
+}
+
+.hero__button--white:hover {
+    background: #f1f5f9;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.hero__button--ghost {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.hero__button--ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.hero__button-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Stats Element */
+.hero__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 600px;
+    margin-inline: auto;
+}
+
+.hero__stat {
+    text-align: center;
+}
+
+.hero__stat-number {
+    display: block;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.hero__stat-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero--video {
+        padding: 5rem 1rem;
+        min-height: auto;
+    }
+
+    .hero__actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero__button {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+    }
+
+    .hero__stats {
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero__stats {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+</style>
+
+<section class="hero hero--video" aria-labelledby="hero-video-heading">
+
+    <div class="hero__video-bg" aria-hidden="true">
+        <video class="hero__video" autoplay muted loop playsinline>
             <source src="/assets/videos/hero-bg.mp4" type="video/mp4">
         </video>
-        <div class="hero-video-overlay"></div>
+        <div class="hero__overlay"></div>
     </div>
 
-    <div class="inner position-relative z-1" style="padding-inline: var(--space-s);">
+    <div class="hero__container">
 
-        <div class="text-center text-white" style="max-width: 900px; margin-inline: auto;">
+        <h1 class="hero__title" id="hero-video-heading">
+            Experience Innovation Like Never Before
+        </h1>
 
-            <h1 class="hero-title hero-title--large mb-single" id="hero-video-heading">
-                Experience Innovation Like Never Before
-            </h1>
+        <p class="hero__subtitle">
+            Join thousands of creators, developers, and visionaries who are
+            shaping the future with our revolutionary platform.
+        </p>
 
-            <p class="hero-subtitle mb-single-half">
-                Join thousands of creators, developers, and visionaries who are
-                shaping the future with our revolutionary platform.
-            </p>
+        <div class="hero__actions">
+            <a href="/explore/" class="hero__button hero__button--white">
+                Explore Now
+            </a>
+            <button type="button" class="hero__button hero__button--ghost js-video-modal" data-video="intro-video" aria-label="Play introduction video">
+                <svg class="hero__button-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                Watch Video
+            </button>
+        </div>
 
-            <div class="hero-actions mb-double">
-                <a href="/explore/" class="button button-white button-lg">
-                    Explore Now
-                </a>
-                <button type="button" class="button button-ghost-white button-lg hero-play-btn" aria-label="Play introduction video">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                    Watch Video
-                </button>
+        <div class="hero__stats">
+            <div class="hero__stat">
+                <span class="hero__stat-number">50K+</span>
+                <span class="hero__stat-label">Active Users</span>
             </div>
-
-            <div class="hero-stats grid-3 gap-double">
-                <div class="stat-item">
-                    <span class="stat-number">50K+</span>
-                    <span class="stat-label">Active Users</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">99.9%</span>
-                    <span class="stat-label">Uptime</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">150+</span>
-                    <span class="stat-label">Countries</span>
-                </div>
+            <div class="hero__stat">
+                <span class="hero__stat-number">99.9%</span>
+                <span class="hero__stat-label">Uptime</span>
             </div>
-
+            <div class="hero__stat">
+                <span class="hero__stat-number">150+</span>
+                <span class="hero__stat-label">Countries</span>
+            </div>
         </div>
 
     </div>
 
 </section>
+
+<script>
+(function() {
+    // Video Modal Trigger
+    const videoButtons = document.querySelectorAll('.js-video-modal');
+
+    videoButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const videoId = this.dataset.video;
+            // Dispatch custom event for video modal
+            window.dispatchEvent(new CustomEvent('openVideoModal', {
+                detail: { videoId }
+            }));
+        });
+    });
+
+    // Pause video on reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const heroVideo = document.querySelector('.hero__video');
+
+    if (heroVideo && prefersReducedMotion.matches) {
+        heroVideo.pause();
+    }
+
+    prefersReducedMotion.addEventListener('change', () => {
+        if (heroVideo) {
+            prefersReducedMotion.matches ? heroVideo.pause() : heroVideo.play();
+        }
+    });
+})();
+</script>

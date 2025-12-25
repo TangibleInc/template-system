@@ -1,106 +1,351 @@
-<!-- Blog: Featured Posts with Large Hero -->
-<section class="blog-featured block-double-tb" aria-labelledby="featured-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Blog: Featured Posts with Large Hero
+     Usage: [template name=blog-featured-posts]
+     BEM Block: .featured
+-->
 
-        <header class="section-header mb-double">
-            <h2 class="section-title" id="featured-heading">Featured Stories</h2>
+<style>
+/* Featured Block */
+.featured {
+    padding: 5rem 1.5rem;
+    background: #fff;
+}
+
+.featured__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Header Element */
+.featured__header {
+    margin-bottom: 2.5rem;
+}
+
+.featured__title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+/* Hero Article */
+.featured__hero {
+    margin-bottom: 2rem;
+}
+
+.featured__hero-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.featured__hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.featured__hero-image {
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.featured__hero-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.4s ease;
+}
+
+.featured__hero-link:hover .featured__hero-image img {
+    transform: scale(1.03);
+}
+
+/* Hero Content */
+.featured__hero-content {
+    padding: 1rem 0;
+}
+
+.featured__badge {
+    display: inline-block;
+    padding: 0.375rem 0.875rem;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+}
+
+.featured__category {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6366f1;
+    margin-bottom: 0.75rem;
+}
+
+.featured__hero-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    line-height: 1.25;
+    color: #0f172a;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+}
+
+.featured__hero-excerpt {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: #64748b;
+    margin: 0 0 1.5rem;
+}
+
+/* Hero Meta */
+.featured__hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.featured__author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.featured__avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.featured__author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.featured__author-name {
+    font-weight: 600;
+    color: #0f172a;
+    font-size: 0.938rem;
+}
+
+.featured__author-date {
+    font-size: 0.813rem;
+    color: #94a3b8;
+}
+
+/* Cards Grid */
+.featured__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+/* Card Element */
+.featured__card {
+    background: #f8fafc;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.featured__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.featured__card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.featured__card-image {
+    margin: 0;
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+}
+
+.featured__card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.featured__card:hover .featured__card-image img {
+    transform: scale(1.05);
+}
+
+.featured__card-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.25rem 0.625rem;
+    background: rgba(99, 102, 241, 0.9);
+    color: #fff;
+    font-size: 0.688rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 4px;
+}
+
+.featured__card-content {
+    padding: 1.25rem;
+}
+
+.featured__card-category {
+    display: inline-block;
+    font-size: 0.813rem;
+    font-weight: 600;
+    color: #6366f1;
+    margin-bottom: 0.5rem;
+}
+
+.featured__card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #0f172a;
+    margin: 0 0 0.75rem;
+}
+
+.featured__card-date {
+    font-size: 0.813rem;
+    color: #94a3b8;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .featured__hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .featured__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .featured {
+        padding: 3rem 1rem;
+    }
+
+    .featured__grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<section class="featured" aria-labelledby="featured-heading">
+    <div class="featured__container">
+
+        <header class="featured__header">
+            <h2 class="featured__title" id="featured-heading">Featured Stories</h2>
         </header>
 
-        <div class="featured-layout">
+        <!-- Hero Featured Post -->
+        <Loop type=post count=1 custom_field=featured custom_field_value=1 orderby=date order=DESC>
+            <article class="featured__hero">
+                <a href="{Field url}" class="featured__hero-link">
+                    <div class="featured__hero-grid">
 
-            <!-- Hero Featured Post -->
-            <Loop type=post count=1 custom_field=featured custom_field_value=1 orderby=date order=DESC>
-                <article class="featured-hero mb-single-half">
-                    <a href="{Field url}" class="featured-hero-link">
-                        <div class="grid-2 items-center gap-double">
+                        <figure class="featured__hero-image">
+                            <If field=image_url>
+                                <img src="{Field image_url size=large}"
+                                     alt="{Field image_alt}"
+                                     loading="eager"
+                                     width="700"
+                                     height="450">
+                            </If>
+                        </figure>
 
-                            <figure class="featured-hero-image mb-none">
-                                <If field=image_url>
-                                    <img src="{Field image_url size=large}"
-                                         alt="{Field image_alt}"
-                                         loading="eager"
-                                         width="700"
-                                         height="450">
-                                </If>
-                            </figure>
+                        <div class="featured__hero-content">
+                            <span class="featured__badge">Featured</span>
 
-                            <div class="featured-hero-content">
-                                <span class="featured-badge mb-half">Featured</span>
+                            <If field=terms taxonomy=category>
+                                <span class="featured__category">
+                                    <Field terms taxonomy=category count=1 />
+                                </span>
+                            </If>
 
-                                <If field=terms taxonomy=category>
-                                    <span class="featured-category mb-half">
-                                        <Field terms taxonomy=category count=1 />
+                            <h3 class="featured__hero-title">
+                                <Field title />
+                            </h3>
+
+                            <p class="featured__hero-excerpt">
+                                <Field excerpt words=40 />
+                            </p>
+
+                            <div class="featured__hero-meta">
+                                <span class="featured__author">
+                                    <img src="{Field author_avatar size=thumbnail}"
+                                         alt=""
+                                         class="featured__avatar"
+                                         width="44"
+                                         height="44">
+                                    <span class="featured__author-info">
+                                        <strong class="featured__author-name"><Field author_name /></strong>
+                                        <time class="featured__author-date" datetime="{Field publish_date date_format='Y-m-d'}">
+                                            <Field publish_date date_format="M j, Y" />
+                                        </time>
                                     </span>
-                                </If>
-
-                                <h3 class="featured-hero-title mb-single">
-                                    <Field title />
-                                </h3>
-
-                                <p class="featured-hero-excerpt mb-single">
-                                    <Field excerpt words=40 />
-                                </p>
-
-                                <div class="featured-hero-meta">
-                                    <span class="featured-author">
-                                        <img src="{Field author_avatar size=thumbnail}"
-                                             alt=""
-                                             class="featured-avatar"
-                                             width="40"
-                                             height="40">
-                                        <span>
-                                            <strong><Field author_name /></strong>
-                                            <time datetime="{Field publish_date date_format='Y-m-d'}">
-                                                <Field publish_date date_format="M j, Y" />
-                                            </time>
-                                        </span>
-                                    </span>
-                                </div>
+                                </span>
                             </div>
-
                         </div>
+
+                    </div>
+                </a>
+            </article>
+        </Loop>
+
+        <!-- Secondary Featured Posts -->
+        <div class="featured__grid">
+            <Loop type=post count=3 custom_field=featured custom_field_value=1 offset=1 orderby=date order=DESC>
+                <article class="featured__card">
+                    <a href="{Field url}" class="featured__card-link">
+
+                        <figure class="featured__card-image">
+                            <If field=image_url>
+                                <img src="{Field image_url size=medium}"
+                                     alt="{Field image_alt}"
+                                     loading="lazy"
+                                     width="400"
+                                     height="250">
+                            </If>
+                            <span class="featured__card-badge">Featured</span>
+                        </figure>
+
+                        <div class="featured__card-content">
+                            <If field=terms taxonomy=category>
+                                <span class="featured__card-category">
+                                    <Field terms taxonomy=category count=1 />
+                                </span>
+                            </If>
+
+                            <h3 class="featured__card-title">
+                                <Field title />
+                            </h3>
+
+                            <time class="featured__card-date" datetime="{Field publish_date date_format='Y-m-d'}">
+                                <Field publish_date date_format="M j, Y" />
+                            </time>
+                        </div>
+
                     </a>
                 </article>
             </Loop>
-
-            <!-- Secondary Featured Posts -->
-            <div class="featured-grid grid-3">
-                <Loop type=post count=3 custom_field=featured custom_field_value=1 offset=1 orderby=date order=DESC>
-                    <article class="featured-card">
-                        <a href="{Field url}" class="featured-card-link">
-
-                            <figure class="featured-card-image mb-none">
-                                <If field=image_url>
-                                    <img src="{Field image_url size=medium}"
-                                         alt="{Field image_alt}"
-                                         loading="lazy"
-                                         width="400"
-                                         height="250">
-                                </If>
-                                <span class="featured-card-badge">Featured</span>
-                            </figure>
-
-                            <div class="featured-card-content">
-                                <If field=terms taxonomy=category>
-                                    <span class="featured-card-category">
-                                        <Field terms taxonomy=category count=1 />
-                                    </span>
-                                </If>
-
-                                <h3 class="featured-card-title mb-half">
-                                    <Field title />
-                                </h3>
-
-                                <time class="featured-card-date" datetime="{Field publish_date date_format='Y-m-d'}">
-                                    <Field publish_date date_format="M j, Y" />
-                                </time>
-                            </div>
-
-                        </a>
-                    </article>
-                </Loop>
-            </div>
-
         </div>
 
     </div>

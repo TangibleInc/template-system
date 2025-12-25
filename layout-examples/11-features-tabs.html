@@ -1,178 +1,448 @@
-<!-- Features: Tabbed Interface -->
-<section class="features-tabs block-double-tb" id="features-tabs" aria-labelledby="tabs-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Features: Tabbed Interface
+     Usage: [template name=features-tabs]
+     BEM Block: .tabs
+-->
 
-        <header class="section-header text-center mb-double">
-            <span class="section-label">Platform</span>
-            <h2 class="section-title" id="tabs-heading">Powerful Capabilities</h2>
-            <p class="section-subtitle">
+<style>
+/* Tabs Block */
+.tabs {
+    padding: 5rem 1.5rem;
+    background: #fff;
+}
+
+.tabs__container {
+    max-width: 1000px;
+    margin-inline: auto;
+}
+
+/* Header Element */
+.tabs__header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.tabs__label {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 0.75rem;
+}
+
+.tabs__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+}
+
+.tabs__subtitle {
+    font-size: 1.125rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Navigation Element */
+.tabs__nav {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.tabs__btn {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.938rem;
+    font-weight: 600;
+    color: #64748b;
+    background: #f8fafc;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tabs__btn:hover {
+    color: #475569;
+    background: #f1f5f9;
+}
+
+.tabs__btn--active {
+    color: #6366f1;
+    background: #fff;
+    border-color: #6366f1;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.tabs__btn-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Panel Element */
+.tabs__panel {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tabs__panel--active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.tabs__panel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+/* Panel Content */
+.tabs__panel-content {
+    max-width: 440px;
+}
+
+.tabs__panel-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+}
+
+.tabs__panel-desc {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: #64748b;
+    margin: 0 0 1.5rem;
+}
+
+/* Panel Features */
+.tabs__features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.tabs__feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.938rem;
+    color: #334155;
+}
+
+.tabs__feature::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Panel Image */
+.tabs__panel-image {
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.tabs__panel-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tabs {
+        padding: 3rem 1rem;
+    }
+
+    .tabs__nav {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        padding-bottom: 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .tabs__btn {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 0.75rem 1rem;
+    }
+
+    .tabs__panel-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .tabs__panel-image {
+        order: -1;
+    }
+
+    .tabs__panel-content {
+        max-width: 100%;
+    }
+}
+</style>
+
+<section class="tabs" id="features-tabs" aria-labelledby="tabs-heading">
+    <div class="tabs__container">
+
+        <header class="tabs__header">
+            <span class="tabs__label">Platform</span>
+            <h2 class="tabs__title" id="tabs-heading">Powerful Capabilities</h2>
+            <p class="tabs__subtitle">
                 Explore the tools that make our platform stand out
             </p>
         </header>
 
-        <div class="tabs-container" style="max-width: 1000px; margin-inline: auto;">
+        <!-- Tab Navigation -->
+        <div class="tabs__nav" role="tablist" aria-label="Feature categories">
+            <button class="tabs__btn tabs__btn--active js-tab-btn"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="panel-design"
+                    id="tab-design"
+                    type="button">
+                <svg class="tabs__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                    <path d="M2 2l7.586 7.586"/>
+                    <circle cx="11" cy="11" r="2"/>
+                </svg>
+                Design
+            </button>
+            <button class="tabs__btn js-tab-btn"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="panel-develop"
+                    id="tab-develop"
+                    type="button">
+                <svg class="tabs__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <polyline points="16 18 22 12 16 6"/>
+                    <polyline points="8 6 2 12 8 18"/>
+                </svg>
+                Development
+            </button>
+            <button class="tabs__btn js-tab-btn"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="panel-deploy"
+                    id="tab-deploy"
+                    type="button">
+                <svg class="tabs__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+                Deployment
+            </button>
+            <button class="tabs__btn js-tab-btn"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="panel-scale"
+                    id="tab-scale"
+                    type="button">
+                <svg class="tabs__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+                Scale
+            </button>
+        </div>
 
-            <!-- Tab Navigation -->
-            <div class="tabs-nav mb-single-half" role="tablist" aria-label="Feature categories">
-                <button class="tab-btn active"
-                        role="tab"
-                        aria-selected="true"
-                        aria-controls="tab-panel-design"
-                        id="tab-design">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-                    Design
-                </button>
-                <button class="tab-btn"
-                        role="tab"
-                        aria-selected="false"
-                        aria-controls="tab-panel-develop"
-                        id="tab-develop">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                    Development
-                </button>
-                <button class="tab-btn"
-                        role="tab"
-                        aria-selected="false"
-                        aria-controls="tab-panel-deploy"
-                        id="tab-deploy">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                    Deployment
-                </button>
-                <button class="tab-btn"
-                        role="tab"
-                        aria-selected="false"
-                        aria-controls="tab-panel-scale"
-                        id="tab-scale">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                    Scale
-                </button>
+        <!-- Tab Panels -->
+        <div class="tabs__content">
+
+            <div class="tabs__panel tabs__panel--active js-tab-panel"
+                 role="tabpanel"
+                 id="panel-design"
+                 aria-labelledby="tab-design">
+                <div class="tabs__panel-grid">
+                    <div class="tabs__panel-content">
+                        <h3 class="tabs__panel-title">Visual Design Tools</h3>
+                        <p class="tabs__panel-desc">
+                            Create stunning interfaces with our intuitive drag-and-drop
+                            editor. No design experience required.
+                        </p>
+                        <ul class="tabs__features">
+                            <li class="tabs__feature">Real-time preview</li>
+                            <li class="tabs__feature">Component library with 200+ elements</li>
+                            <li class="tabs__feature">Custom theme builder</li>
+                            <li class="tabs__feature">Responsive breakpoint editor</li>
+                            <li class="tabs__feature">Figma & Sketch import</li>
+                        </ul>
+                    </div>
+                    <figure class="tabs__panel-image">
+                        <img src="/assets/images/feature-design.png"
+                             alt="Design tools interface"
+                             loading="lazy"
+                             width="500"
+                             height="350">
+                    </figure>
+                </div>
             </div>
 
-            <!-- Tab Panels -->
-            <div class="tabs-content">
-
-                <div class="tab-panel active"
-                     role="tabpanel"
-                     id="tab-panel-design"
-                     aria-labelledby="tab-design">
-                    <div class="grid-2 items-center gap-double">
-                        <div class="tab-panel-content">
-                            <h3 class="tab-panel-title mb-single">Visual Design Tools</h3>
-                            <p class="tab-panel-description mb-single">
-                                Create stunning interfaces with our intuitive drag-and-drop
-                                editor. No design experience required.
-                            </p>
-                            <ul class="tab-panel-features">
-                                <li>Real-time preview</li>
-                                <li>Component library with 200+ elements</li>
-                                <li>Custom theme builder</li>
-                                <li>Responsive breakpoint editor</li>
-                                <li>Figma & Sketch import</li>
-                            </ul>
-                        </div>
-                        <figure class="tab-panel-image mb-none">
-                            <img src="/assets/images/feature-design.png"
-                                 alt="Design tools interface"
-                                 loading="lazy"
-                                 width="500"
-                                 height="350">
-                        </figure>
+            <div class="tabs__panel js-tab-panel"
+                 role="tabpanel"
+                 id="panel-develop"
+                 aria-labelledby="tab-develop"
+                 hidden>
+                <div class="tabs__panel-grid">
+                    <div class="tabs__panel-content">
+                        <h3 class="tabs__panel-title">Developer Experience</h3>
+                        <p class="tabs__panel-desc">
+                            Write clean, maintainable code with our
+                            developer-friendly environment.
+                        </p>
+                        <ul class="tabs__features">
+                            <li class="tabs__feature">Hot module replacement</li>
+                            <li class="tabs__feature">TypeScript support</li>
+                            <li class="tabs__feature">Git integration</li>
+                            <li class="tabs__feature">Custom CLI tools</li>
+                            <li class="tabs__feature">Extensive documentation</li>
+                        </ul>
                     </div>
+                    <figure class="tabs__panel-image">
+                        <img src="/assets/images/feature-develop.png"
+                             alt="Code editor interface"
+                             loading="lazy"
+                             width="500"
+                             height="350">
+                    </figure>
                 </div>
+            </div>
 
-                <div class="tab-panel"
-                     role="tabpanel"
-                     id="tab-panel-develop"
-                     aria-labelledby="tab-develop"
-                     hidden>
-                    <div class="grid-2 items-center gap-double">
-                        <div class="tab-panel-content">
-                            <h3 class="tab-panel-title mb-single">Developer Experience</h3>
-                            <p class="tab-panel-description mb-single">
-                                Write clean, maintainable code with our
-                                developer-friendly environment.
-                            </p>
-                            <ul class="tab-panel-features">
-                                <li>Hot module replacement</li>
-                                <li>TypeScript support</li>
-                                <li>Git integration</li>
-                                <li>Custom CLI tools</li>
-                                <li>Extensive documentation</li>
-                            </ul>
-                        </div>
-                        <figure class="tab-panel-image mb-none">
-                            <img src="/assets/images/feature-develop.png"
-                                 alt="Code editor interface"
-                                 loading="lazy"
-                                 width="500"
-                                 height="350">
-                        </figure>
+            <div class="tabs__panel js-tab-panel"
+                 role="tabpanel"
+                 id="panel-deploy"
+                 aria-labelledby="tab-deploy"
+                 hidden>
+                <div class="tabs__panel-grid">
+                    <div class="tabs__panel-content">
+                        <h3 class="tabs__panel-title">One-Click Deployment</h3>
+                        <p class="tabs__panel-desc">
+                            Deploy to production in seconds with our
+                            streamlined CI/CD pipeline.
+                        </p>
+                        <ul class="tabs__features">
+                            <li class="tabs__feature">Automatic SSL certificates</li>
+                            <li class="tabs__feature">Global CDN distribution</li>
+                            <li class="tabs__feature">Instant rollbacks</li>
+                            <li class="tabs__feature">Environment variables</li>
+                            <li class="tabs__feature">Preview deployments</li>
+                        </ul>
                     </div>
+                    <figure class="tabs__panel-image">
+                        <img src="/assets/images/feature-deploy.png"
+                             alt="Deployment dashboard"
+                             loading="lazy"
+                             width="500"
+                             height="350">
+                    </figure>
                 </div>
+            </div>
 
-                <div class="tab-panel"
-                     role="tabpanel"
-                     id="tab-panel-deploy"
-                     aria-labelledby="tab-deploy"
-                     hidden>
-                    <div class="grid-2 items-center gap-double">
-                        <div class="tab-panel-content">
-                            <h3 class="tab-panel-title mb-single">One-Click Deployment</h3>
-                            <p class="tab-panel-description mb-single">
-                                Deploy to production in seconds with our
-                                streamlined CI/CD pipeline.
-                            </p>
-                            <ul class="tab-panel-features">
-                                <li>Automatic SSL certificates</li>
-                                <li>Global CDN distribution</li>
-                                <li>Instant rollbacks</li>
-                                <li>Environment variables</li>
-                                <li>Preview deployments</li>
-                            </ul>
-                        </div>
-                        <figure class="tab-panel-image mb-none">
-                            <img src="/assets/images/feature-deploy.png"
-                                 alt="Deployment dashboard"
-                                 loading="lazy"
-                                 width="500"
-                                 height="350">
-                        </figure>
+            <div class="tabs__panel js-tab-panel"
+                 role="tabpanel"
+                 id="panel-scale"
+                 aria-labelledby="tab-scale"
+                 hidden>
+                <div class="tabs__panel-grid">
+                    <div class="tabs__panel-content">
+                        <h3 class="tabs__panel-title">Infinite Scalability</h3>
+                        <p class="tabs__panel-desc">
+                            Handle traffic spikes effortlessly with
+                            auto-scaling infrastructure.
+                        </p>
+                        <ul class="tabs__features">
+                            <li class="tabs__feature">Auto-scaling containers</li>
+                            <li class="tabs__feature">Load balancing</li>
+                            <li class="tabs__feature">Edge caching</li>
+                            <li class="tabs__feature">Real-time monitoring</li>
+                            <li class="tabs__feature">Cost optimization</li>
+                        </ul>
                     </div>
+                    <figure class="tabs__panel-image">
+                        <img src="/assets/images/feature-scale.png"
+                             alt="Scaling analytics"
+                             loading="lazy"
+                             width="500"
+                             height="350">
+                    </figure>
                 </div>
-
-                <div class="tab-panel"
-                     role="tabpanel"
-                     id="tab-panel-scale"
-                     aria-labelledby="tab-scale"
-                     hidden>
-                    <div class="grid-2 items-center gap-double">
-                        <div class="tab-panel-content">
-                            <h3 class="tab-panel-title mb-single">Infinite Scalability</h3>
-                            <p class="tab-panel-description mb-single">
-                                Handle traffic spikes effortlessly with
-                                auto-scaling infrastructure.
-                            </p>
-                            <ul class="tab-panel-features">
-                                <li>Auto-scaling containers</li>
-                                <li>Load balancing</li>
-                                <li>Edge caching</li>
-                                <li>Real-time monitoring</li>
-                                <li>Cost optimization</li>
-                            </ul>
-                        </div>
-                        <figure class="tab-panel-image mb-none">
-                            <img src="/assets/images/feature-scale.png"
-                                 alt="Scaling analytics"
-                                 loading="lazy"
-                                 width="500"
-                                 height="350">
-                        </figure>
-                    </div>
-                </div>
-
             </div>
 
         </div>
 
     </div>
 </section>
+
+<script>
+(function() {
+    const tabButtons = document.querySelectorAll('.js-tab-btn');
+    const tabPanels = document.querySelectorAll('.js-tab-panel');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('aria-controls');
+
+            // Update buttons
+            tabButtons.forEach(btn => {
+                btn.classList.remove('tabs__btn--active');
+                btn.setAttribute('aria-selected', 'false');
+            });
+            this.classList.add('tabs__btn--active');
+            this.setAttribute('aria-selected', 'true');
+
+            // Update panels
+            tabPanels.forEach(panel => {
+                panel.classList.remove('tabs__panel--active');
+                panel.setAttribute('hidden', '');
+            });
+
+            const targetPanel = document.getElementById(targetId);
+            if (targetPanel) {
+                targetPanel.classList.add('tabs__panel--active');
+                targetPanel.removeAttribute('hidden');
+            }
+        });
+
+        // Keyboard navigation
+        button.addEventListener('keydown', function(e) {
+            const buttons = Array.from(tabButtons);
+            const index = buttons.indexOf(this);
+
+            if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                const next = buttons[(index + 1) % buttons.length];
+                next.focus();
+                next.click();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const prev = buttons[(index - 1 + buttons.length) % buttons.length];
+                prev.focus();
+                prev.click();
+            }
+        });
+    });
+})();
+</script>

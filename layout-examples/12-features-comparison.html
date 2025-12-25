@@ -1,147 +1,391 @@
-<!-- Features: Comparison Table -->
-<section class="features-comparison block-double-tb" id="comparison" aria-labelledby="comparison-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Features: Comparison Table
+     Usage: [template name=features-comparison]
+     BEM Block: .comparison
+-->
 
-        <header class="section-header text-center mb-double">
-            <span class="section-label">Compare</span>
-            <h2 class="section-title" id="comparison-heading">Feature Comparison</h2>
-            <p class="section-subtitle">
+<style>
+/* Comparison Block */
+.comparison {
+    padding: 5rem 1.5rem;
+    background: #f8fafc;
+}
+
+.comparison__container {
+    max-width: 1000px;
+    margin-inline: auto;
+}
+
+/* Header Element */
+.comparison__header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.comparison__label {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 0.75rem;
+}
+
+.comparison__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+}
+
+.comparison__subtitle {
+    font-size: 1.125rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Table Wrapper */
+.comparison__wrapper {
+    overflow-x: auto;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Table Element */
+.comparison__table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    font-size: 0.938rem;
+}
+
+.comparison__table th,
+.comparison__table td {
+    padding: 1rem 1.25rem;
+    text-align: center;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.comparison__table thead th {
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.comparison__table th:first-child,
+.comparison__table td:first-child {
+    text-align: left;
+    font-weight: 500;
+    color: #334155;
+}
+
+/* Plan Header */
+.comparison__plan-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.5rem 0;
+}
+
+.comparison__plan-badge {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    background: #6366f1;
+    color: #fff;
+    font-size: 0.688rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 100px;
+    margin-bottom: 0.25rem;
+}
+
+.comparison__plan-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.comparison__plan-price {
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+/* Featured Column */
+.comparison__col--featured {
+    background: linear-gradient(180deg, rgba(99, 102, 241, 0.05) 0%, rgba(99, 102, 241, 0.02) 100%);
+}
+
+.comparison__table thead th.comparison__col--featured {
+    border-top: 3px solid #6366f1;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+/* Category Row */
+.comparison__category {
+    background: #f8fafc;
+}
+
+.comparison__category th {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #0f172a;
+    padding: 0.875rem 1.25rem;
+}
+
+/* Icons */
+.comparison__icon--check {
+    width: 20px;
+    height: 20px;
+    color: #22c55e;
+}
+
+.comparison__icon--x {
+    width: 20px;
+    height: 20px;
+    color: #e2e8f0;
+}
+
+/* Footer Buttons */
+.comparison__table tfoot td {
+    padding: 1.5rem 1.25rem;
+    border-bottom: none;
+}
+
+.comparison__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.comparison__btn--primary {
+    background: #6366f1;
+    color: #fff;
+}
+
+.comparison__btn--primary:hover {
+    background: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.comparison__btn--outline {
+    background: transparent;
+    color: #475569;
+    border: 2px solid #e2e8f0;
+}
+
+.comparison__btn--outline:hover {
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .comparison {
+        padding: 3rem 1rem;
+    }
+
+    .comparison__table th,
+    .comparison__table td {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    .comparison__plan-header {
+        min-width: 100px;
+    }
+}
+</style>
+
+<section class="comparison" id="comparison" aria-labelledby="comparison-heading">
+    <div class="comparison__container">
+
+        <header class="comparison__header">
+            <span class="comparison__label">Compare</span>
+            <h2 class="comparison__title" id="comparison-heading">Feature Comparison</h2>
+            <p class="comparison__subtitle">
                 See how our plans stack up against each other
             </p>
         </header>
 
-        <div class="comparison-table-wrapper" style="overflow-x: auto;">
-            <table class="comparison-table">
+        <div class="comparison__wrapper">
+            <table class="comparison__table">
                 <thead>
                     <tr>
-                        <th scope="col" class="feature-column">Features</th>
-                        <th scope="col" class="plan-column">
-                            <div class="plan-header">
-                                <span class="plan-name">Starter</span>
-                                <span class="plan-price">Free</span>
+                        <th scope="col">Features</th>
+                        <th scope="col">
+                            <div class="comparison__plan-header">
+                                <span class="comparison__plan-name">Starter</span>
+                                <span class="comparison__plan-price">Free</span>
                             </div>
                         </th>
-                        <th scope="col" class="plan-column plan-column--featured">
-                            <div class="plan-header">
-                                <span class="plan-badge">Popular</span>
-                                <span class="plan-name">Professional</span>
-                                <span class="plan-price">$29/mo</span>
+                        <th scope="col" class="comparison__col--featured">
+                            <div class="comparison__plan-header">
+                                <span class="comparison__plan-badge">Popular</span>
+                                <span class="comparison__plan-name">Professional</span>
+                                <span class="comparison__plan-price">$29/mo</span>
                             </div>
                         </th>
-                        <th scope="col" class="plan-column">
-                            <div class="plan-header">
-                                <span class="plan-name">Enterprise</span>
-                                <span class="plan-price">Custom</span>
+                        <th scope="col">
+                            <div class="comparison__plan-header">
+                                <span class="comparison__plan-name">Enterprise</span>
+                                <span class="comparison__plan-price">Custom</span>
                             </div>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="category-row">
+                    <tr class="comparison__category">
                         <th scope="row" colspan="4">Core Features</th>
                     </tr>
                     <tr>
                         <td>Projects</td>
                         <td>3</td>
-                        <td class="featured-cell">Unlimited</td>
+                        <td class="comparison__col--featured">Unlimited</td>
                         <td>Unlimited</td>
                     </tr>
                     <tr>
                         <td>Team Members</td>
                         <td>1</td>
-                        <td class="featured-cell">10</td>
+                        <td class="comparison__col--featured">10</td>
                         <td>Unlimited</td>
                     </tr>
                     <tr>
                         <td>Storage</td>
                         <td>5 GB</td>
-                        <td class="featured-cell">100 GB</td>
+                        <td class="comparison__col--featured">100 GB</td>
                         <td>Unlimited</td>
                     </tr>
                     <tr>
                         <td>API Requests</td>
                         <td>1,000/mo</td>
-                        <td class="featured-cell">100,000/mo</td>
+                        <td class="comparison__col--featured">100,000/mo</td>
                         <td>Unlimited</td>
                     </tr>
 
-                    <tr class="category-row">
+                    <tr class="comparison__category">
                         <th scope="row" colspan="4">Collaboration</th>
                     </tr>
                     <tr>
                         <td>Real-time Editing</td>
                         <td>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-check" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg class="comparison__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Included">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                         </td>
-                        <td class="featured-cell">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-check" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg>
+                        <td class="comparison__col--featured">
+                            <svg class="comparison__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Included">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                         </td>
                         <td>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-check" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg class="comparison__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Included">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                         </td>
                     </tr>
                     <tr>
                         <td>Comments & Annotations</td>
                         <td>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-x" aria-label="Not included"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            <svg class="comparison__icon--x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Not included">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
                         </td>
-                        <td class="featured-cell">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-check" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg>
+                        <td class="comparison__col--featured">
+                            <svg class="comparison__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Included">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                         </td>
                         <td>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-check" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg class="comparison__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Included">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                         </td>
                     </tr>
                     <tr>
                         <td>Version History</td>
                         <td>7 days</td>
-                        <td class="featured-cell">90 days</td>
+                        <td class="comparison__col--featured">90 days</td>
                         <td>Unlimited</td>
                     </tr>
 
-                    <tr class="category-row">
+                    <tr class="comparison__category">
                         <th scope="row" colspan="4">Security & Support</th>
                     </tr>
                     <tr>
                         <td>SSL Certificate</td>
                         <td>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-check" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg class="comparison__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Included">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                         </td>
-                        <td class="featured-cell">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-check" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg>
+                        <td class="comparison__col--featured">
+                            <svg class="comparison__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Included">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                         </td>
                         <td>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-check" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg class="comparison__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Included">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                         </td>
                     </tr>
                     <tr>
                         <td>Two-Factor Auth</td>
                         <td>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-x" aria-label="Not included"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            <svg class="comparison__icon--x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Not included">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
                         </td>
-                        <td class="featured-cell">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-check" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg>
+                        <td class="comparison__col--featured">
+                            <svg class="comparison__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Included">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                         </td>
                         <td>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-check" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg class="comparison__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Included">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                         </td>
                     </tr>
                     <tr>
                         <td>SSO / SAML</td>
                         <td>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-x" aria-label="Not included"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            <svg class="comparison__icon--x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Not included">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
                         </td>
-                        <td class="featured-cell">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-x" aria-label="Not included"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        <td class="comparison__col--featured">
+                            <svg class="comparison__icon--x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Not included">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
                         </td>
                         <td>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-check" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg class="comparison__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Included">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
                         </td>
                     </tr>
                     <tr>
                         <td>Support Level</td>
                         <td>Community</td>
-                        <td class="featured-cell">Priority Email</td>
+                        <td class="comparison__col--featured">Priority Email</td>
                         <td>24/7 Dedicated</td>
                     </tr>
                 </tbody>
@@ -149,17 +393,17 @@
                     <tr>
                         <td></td>
                         <td>
-                            <a href="/signup/?plan=starter" class="button button-outline button-sm">
+                            <a href="/signup/?plan=starter" class="comparison__btn comparison__btn--outline">
                                 Get Started
                             </a>
                         </td>
-                        <td class="featured-cell">
-                            <a href="/signup/?plan=pro" class="button button-primary button-sm">
+                        <td class="comparison__col--featured">
+                            <a href="/signup/?plan=pro" class="comparison__btn comparison__btn--primary">
                                 Start Free Trial
                             </a>
                         </td>
                         <td>
-                            <a href="/contact/" class="button button-outline button-sm">
+                            <a href="/contact/" class="comparison__btn comparison__btn--outline">
                                 Contact Sales
                             </a>
                         </td>

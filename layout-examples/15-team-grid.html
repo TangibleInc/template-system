@@ -1,19 +1,234 @@
-<!-- Team: Grid Layout -->
-<section class="team-grid block-double-tb" id="team" aria-labelledby="team-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Team: Grid Layout
+     Usage: [template name=team-grid]
+     BEM Block: .team
+-->
 
-        <header class="section-header text-center mb-double">
-            <span class="section-label">Our Team</span>
-            <h2 class="section-title" id="team-heading">Meet the Experts</h2>
-            <p class="section-subtitle">
+<style>
+/* Team Block */
+.team {
+    padding: 5rem 1.5rem;
+    background: #fff;
+}
+
+.team__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Header Element */
+.team__header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.team__label {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 0.75rem;
+}
+
+.team__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+}
+
+.team__subtitle {
+    font-size: 1.125rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Grid Element */
+.team__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+/* Member Element */
+.team__member {
+    text-align: center;
+}
+
+.team__photo {
+    margin: 0 0 1.25rem;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.team__photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 3.5;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.team__member:hover .team__photo img {
+    transform: scale(1.05);
+}
+
+.team__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.7) 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.team__member:hover .team__overlay {
+    opacity: 1;
+}
+
+.team__social {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.team__social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: #fff;
+    border-radius: 50%;
+    color: #0f172a;
+    transition: all 0.2s ease;
+}
+
+.team__social a:hover {
+    background: #6366f1;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.team__social svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Info Element */
+.team__name {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 0.25rem;
+}
+
+.team__role {
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+/* CTA Element */
+.team__cta {
+    margin-top: 4rem;
+    padding: 3rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.team__cta-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.75rem;
+}
+
+.team__cta-text {
+    font-size: 1rem;
+    color: #64748b;
+    margin: 0 0 1.5rem;
+    max-width: 500px;
+    margin-inline: auto;
+}
+
+.team__cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: #6366f1;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.team__cta-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.team__cta-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .team__grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .team__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .team {
+        padding: 3rem 1rem;
+    }
+
+    .team__grid {
+        grid-template-columns: 1fr;
+        max-width: 300px;
+        margin-inline: auto;
+    }
+
+    .team__cta {
+        padding: 2rem 1.5rem;
+    }
+}
+</style>
+
+<section class="team" id="team" aria-labelledby="team-heading">
+    <div class="team__container">
+
+        <header class="team__header">
+            <span class="team__label">Our Team</span>
+            <h2 class="team__title" id="team-heading">Meet the Experts</h2>
+            <p class="team__subtitle">
                 Passionate professionals dedicated to your success
             </p>
         </header>
 
-        <div class="team-container grid-4">
+        <div class="team__grid">
             <Loop type=team orderby=menu_order order=ASC>
-                <article class="team-member">
-                    <figure class="team-photo mb-none">
+                <article class="team__member">
+                    <figure class="team__photo">
                         <If field=photo>
                             <img src="{Field photo size=medium}"
                                  alt=""
@@ -27,47 +242,46 @@
                                  width="300"
                                  height="350">
                         </If>
-                        <div class="team-overlay">
-                            <nav class="team-social" aria-label="Social links for {Field name}">
+                        <div class="team__overlay">
+                            <nav class="team__social" aria-label="Social links for {Field name}">
                                 <If field=linkedin>
                                     <a href="{Field linkedin}" aria-label="LinkedIn" target="_blank" rel="noopener">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                                     </a>
                                 </If>
                                 <If field=twitter>
                                     <a href="{Field twitter}" aria-label="Twitter" target="_blank" rel="noopener">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                                     </a>
                                 </If>
                                 <If field=email>
                                     <a href="mailto:{Field email}" aria-label="Email">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                                     </a>
                                 </If>
                             </nav>
                         </div>
                     </figure>
-                    <div class="team-info">
-                        <h3 class="team-name mb-small"><Field name /></h3>
-                        <span class="team-role"><Field role /></span>
+                    <div class="team__info">
+                        <h3 class="team__name"><Field name /></h3>
+                        <span class="team__role"><Field role /></span>
                     </div>
                 </article>
             </Loop>
         </div>
 
-        <!-- Join Team CTA -->
-        <aside class="team-cta mt-double text-center">
-            <div class="team-cta-content" style="max-width: 600px; margin-inline: auto;">
-                <h3 class="team-cta-title mb-half">Join Our Team</h3>
-                <p class="team-cta-text mb-single">
-                    We're always looking for talented individuals to join our growing team.
-                    Check out our current openings.
-                </p>
-                <a href="/careers/" class="button button-primary">
-                    View Open Positions
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-            </div>
+        <aside class="team__cta">
+            <h3 class="team__cta-title">Join Our Team</h3>
+            <p class="team__cta-text">
+                We're always looking for talented individuals to join our growing team.
+                Check out our current openings.
+            </p>
+            <a href="/careers/" class="team__cta-btn">
+                View Open Positions
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
         </aside>
 
     </div>

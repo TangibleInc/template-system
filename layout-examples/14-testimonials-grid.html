@@ -1,101 +1,385 @@
-<!-- Testimonials: Grid with Featured -->
-<section class="testimonials-grid block-double-tb" id="reviews" aria-labelledby="reviews-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Testimonials: Grid with Featured
+     Usage: [template name=testimonials-grid]
+     BEM Block: .reviews
+-->
 
-        <header class="section-header mb-double">
-            <div class="grid-2 items-end">
-                <div>
-                    <span class="section-label">Reviews</span>
-                    <h2 class="section-title" id="reviews-heading">Loved by Thousands</h2>
-                </div>
-                <div class="section-stats text-right">
-                    <div class="stat-large">
-                        <span class="stat-number">4.9</span>
-                        <div class="stat-stars" aria-label="4.9 out of 5 stars">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        </div>
+<style>
+/* Reviews Block */
+.reviews {
+    padding: 5rem 1.5rem;
+    background: #fff;
+}
+
+.reviews__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Header Element */
+.reviews__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.reviews__label {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 0.5rem;
+}
+
+.reviews__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+/* Stats Element */
+.reviews__stats {
+    text-align: right;
+}
+
+.reviews__score {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.reviews__score-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1;
+}
+
+.reviews__stars {
+    display: flex;
+    gap: 0.125rem;
+    color: #f59e0b;
+}
+
+.reviews__stars svg {
+    width: 20px;
+    height: 20px;
+}
+
+.reviews__count {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+}
+
+/* Featured Element */
+.reviews__featured {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    color: #fff;
+    overflow: hidden;
+}
+
+.reviews__featured-content {
+    position: relative;
+}
+
+.reviews__featured-icon {
+    width: 48px;
+    height: 48px;
+    opacity: 0.3;
+    margin-bottom: 1rem;
+}
+
+.reviews__featured-quote {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+    font-style: italic;
+}
+
+.reviews__featured-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.reviews__featured-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    object-fit: cover;
+}
+
+.reviews__featured-name {
+    font-size: 1rem;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.reviews__featured-role {
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+
+.reviews__featured-image {
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    align-self: center;
+}
+
+.reviews__featured-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Grid Element */
+.reviews__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+/* Card Element */
+.reviews__card {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.reviews__card:hover {
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.reviews__card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.reviews__card-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.reviews__card-meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.reviews__card-name {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #0f172a;
+    font-style: normal;
+    margin: 0;
+}
+
+.reviews__card-role {
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.reviews__card-rating {
+    display: flex;
+    gap: 0.125rem;
+    color: #f59e0b;
+}
+
+.reviews__card-rating svg {
+    width: 14px;
+    height: 14px;
+}
+
+.reviews__card-quote {
+    font-size: 0.938rem;
+    line-height: 1.65;
+    color: #475569;
+    margin: 0 0 0.75rem;
+}
+
+.reviews__card-date {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+/* Footer Element */
+.reviews__footer {
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+.reviews__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #475569;
+    background: transparent;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.reviews__btn:hover {
+    border-color: #0f172a;
+    color: #0f172a;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .reviews__featured {
+        grid-template-columns: 1fr;
+    }
+
+    .reviews__featured-image {
+        display: none;
+    }
+
+    .reviews__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .reviews {
+        padding: 3rem 1rem;
+    }
+
+    .reviews__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .reviews__stats {
+        text-align: left;
+    }
+
+    .reviews__score {
+        justify-content: flex-start;
+    }
+
+    .reviews__grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<section class="reviews" id="reviews" aria-labelledby="reviews-heading">
+    <div class="reviews__container">
+
+        <header class="reviews__header">
+            <div>
+                <span class="reviews__label">Reviews</span>
+                <h2 class="reviews__title" id="reviews-heading">Loved by Thousands</h2>
+            </div>
+            <div class="reviews__stats">
+                <div class="reviews__score">
+                    <span class="reviews__score-number">4.9</span>
+                    <div class="reviews__stars" aria-label="4.9 out of 5 stars">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                     </div>
-                    <span class="stat-label">Based on 2,500+ reviews</span>
                 </div>
+                <p class="reviews__count">Based on 2,500+ reviews</p>
             </div>
         </header>
 
-        <div class="testimonials-masonry">
+        <!-- Featured Review -->
+        <Loop type=testimonial count=1 custom_field=featured custom_field_value=1>
+            <article class="reviews__featured">
+                <div class="reviews__featured-content">
+                    <svg class="reviews__featured-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                    </svg>
+                    <blockquote class="reviews__featured-quote">
+                        "<Field content />"
+                    </blockquote>
+                    <footer class="reviews__featured-author">
+                        <img src="{Field author_image size=thumbnail}"
+                             alt=""
+                             class="reviews__featured-avatar"
+                             width="64"
+                             height="64">
+                        <div>
+                            <cite class="reviews__featured-name"><Field author_name /></cite>
+                            <span class="reviews__featured-role"><Field author_title />, <Field company /></span>
+                        </div>
+                    </footer>
+                </div>
+                <If field=author_photo>
+                    <figure class="reviews__featured-image">
+                        <img src="{Field author_photo size=medium}"
+                             alt=""
+                             loading="lazy">
+                    </figure>
+                </If>
+            </article>
+        </Loop>
 
-            <!-- Featured Testimonial -->
-            <Loop type=testimonial count=1 custom_field=featured custom_field_value=1>
-                <article class="testimonial-featured">
-                    <div class="testimonial-content">
-                        <svg class="quote-icon" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" opacity="0.2"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
-                        <blockquote class="testimonial-quote mb-single-half">
-                            <p>"<Field content />"</p>
-                        </blockquote>
-                        <footer class="testimonial-author">
+        <!-- Reviews Grid -->
+        <div class="reviews__grid">
+            <Loop type=testimonial count=6 custom_field=featured custom_field_compare=not_exists orderby=date order=DESC>
+                <article class="reviews__card">
+                    <header class="reviews__card-header">
+                        <If field=author_image>
                             <img src="{Field author_image size=thumbnail}"
                                  alt=""
-                                 class="testimonial-avatar testimonial-avatar--large"
-                                 width="72"
-                                 height="72">
-                            <div>
-                                <cite class="testimonial-name"><Field author_name /></cite>
-                                <span class="testimonial-title"><Field author_title /></span>
-                                <span class="testimonial-company"><Field company /></span>
-                            </div>
-                        </footer>
-                    </div>
-                    <If field=author_photo>
-                        <figure class="testimonial-photo mb-none">
-                            <img src="{Field author_photo size=medium}"
-                                 alt=""
+                                 class="reviews__card-avatar"
+                                 width="44"
+                                 height="44"
                                  loading="lazy">
-                        </figure>
+                        </If>
+                        <div class="reviews__card-meta">
+                            <cite class="reviews__card-name"><Field author_name /></cite>
+                            <span class="reviews__card-role"><Field author_title /></span>
+                        </div>
+                        <div class="reviews__card-rating" aria-label="{Field rating} star rating">
+                            <Loop count="{Field rating}">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </Loop>
+                        </div>
+                    </header>
+                    <blockquote class="reviews__card-quote">
+                        "<Field content />"
+                    </blockquote>
+                    <If field=date>
+                        <time class="reviews__card-date" datetime="{Field date date_format='Y-m-d'}">
+                            <Field date date_format="M j, Y" />
+                        </time>
                     </If>
                 </article>
             </Loop>
-
-            <!-- Regular Testimonials -->
-            <div class="testimonials-grid-items grid-3">
-                <Loop type=testimonial count=6 custom_field=featured custom_field_compare=not_exists orderby=date order=DESC>
-                    <article class="testimonial-card">
-                        <div class="testimonial-header mb-single">
-                            <If field=author_image>
-                                <img src="{Field author_image size=thumbnail}"
-                                     alt=""
-                                     class="testimonial-avatar"
-                                     width="48"
-                                     height="48"
-                                     loading="lazy">
-                            </If>
-                            <div class="testimonial-meta">
-                                <cite class="testimonial-name"><Field author_name /></cite>
-                                <span class="testimonial-title"><Field author_title /></span>
-                            </div>
-                            <div class="testimonial-rating" aria-label="{Field rating} star rating">
-                                <Loop count="{Field rating}">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                </Loop>
-                            </div>
-                        </div>
-                        <blockquote class="testimonial-quote">
-                            <p>"<Field content />"</p>
-                        </blockquote>
-                        <If field=date>
-                            <time class="testimonial-date" datetime="{Field date date_format='Y-m-d'}">
-                                <Field date date_format="M j, Y" />
-                            </time>
-                        </If>
-                    </article>
-                </Loop>
-            </div>
-
         </div>
 
-        <footer class="section-footer text-center mt-double">
-            <a href="/reviews/" class="button button-outline">
+        <footer class="reviews__footer">
+            <a href="/reviews/" class="reviews__btn">
                 Read All Reviews
             </a>
         </footer>

@@ -1,158 +1,216 @@
-<!-- Header: Complete Navigation -->
-<header class="site-header" role="banner">
+<!-- Header: Complete Navigation
+     Usage: [template name=header-navigation]
+     BEM Block: .header
+-->
 
-    <!-- Top Bar (Optional) -->
-    <div class="header-topbar">
-        <div class="inner" style="padding-inline: var(--space-s);">
-            <div class="topbar-content">
-                <p class="topbar-message">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    New: Check out our latest features!
-                    <a href="/whats-new/">Learn more →</a>
-                </p>
-                <div class="topbar-links">
-                    <a href="/docs/">Documentation</a>
-                    <a href="/support/">Support</a>
-                    <button type="button" class="locale-btn" aria-label="Select language">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                        EN
-                    </button>
-                </div>
+<style>
+/* Header Block */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.header__container {
+    max-width: 1400px;
+    margin-inline: auto;
+    padding: 1rem 1.5rem;
+}
+
+.header__nav {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+/* Logo */
+.header__logo {
+    display: inline-block;
+}
+
+.header__logo img {
+    display: block;
+    height: 32px;
+    width: auto;
+}
+
+/* Menu */
+.header__menu {
+    flex: 1;
+}
+
+.header__list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #475569;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.header__link:hover,
+.header__link--active {
+    color: #0f172a;
+    background: #f8fafc;
+}
+
+/* Actions */
+.header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.header__button--primary {
+    background: #6366f1;
+    color: #fff;
+}
+
+.header__button--primary:hover {
+    background: #4f46e5;
+}
+
+/* Mobile Toggle */
+.header__toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    width: 24px;
+    height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.header__toggle-bar {
+    width: 100%;
+    height: 2px;
+    background: #0f172a;
+    transition: all 0.3s ease;
+}
+
+.header__toggle--active .header__toggle-bar:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.header__toggle--active .header__toggle-bar:nth-child(2) {
+    opacity: 0;
+}
+
+.header__toggle--active .header__toggle-bar:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .header__menu {
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .header__menu--active {
+        max-height: 500px;
+    }
+
+    .header__list {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1rem;
+    }
+
+    .header__toggle {
+        display: flex;
+    }
+
+    .header__actions {
+        display: none;
+    }
+}
+</style>
+
+<header class="header" role="banner">
+    <div class="header__container">
+        <nav class="header__nav" aria-label="Main navigation">
+            <a href="/" class="header__logo" aria-label="Home">
+                <img src="/assets/logo.svg" alt="Company" width="120" height="32">
+            </a>
+
+            <div class="header__menu" id="main-menu">
+                <ul class="header__list">
+                    <li><a href="/products/" class="header__link">Products</a></li>
+                    <li><a href="/pricing/" class="header__link">Pricing</a></li>
+                    <li><a href="/docs/" class="header__link">Docs</a></li>
+                    <li><a href="/blog/" class="header__link">Blog</a></li>
+                    <li><a href="/about/" class="header__link">About</a></li>
+                </ul>
             </div>
-        </div>
+
+            <div class="header__actions">
+                <a href="/login/" class="header__link">Log in</a>
+                <a href="/signup/" class="header__button header__button--primary">Get Started</a>
+            </div>
+
+            <button type="button"
+                    class="header__toggle"
+                    aria-label="Toggle menu"
+                    aria-expanded="false"
+                    aria-controls="main-menu">
+                <span class="header__toggle-bar"></span>
+                <span class="header__toggle-bar"></span>
+                <span class="header__toggle-bar"></span>
+            </button>
+        </nav>
     </div>
-
-    <!-- Main Navigation -->
-    <nav class="header-main" aria-label="Main navigation">
-        <div class="inner" style="padding-inline: var(--space-s);">
-            <div class="nav-container">
-
-                <!-- Logo -->
-                <a href="/" class="nav-logo" aria-label="Home">
-                    <img src="/assets/logo.svg" alt="Company" width="120" height="32">
-                </a>
-
-                <!-- Desktop Navigation -->
-                <div class="nav-menu" id="main-menu">
-                    <ul class="nav-list" role="menubar">
-                        <li class="nav-item has-dropdown" role="none">
-                            <button type="button"
-                                    class="nav-link nav-dropdown-trigger"
-                                    role="menuitem"
-                                    aria-haspopup="true"
-                                    aria-expanded="false">
-                                Products
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                            </button>
-                            <div class="nav-dropdown mega-menu" role="menu">
-                                <div class="mega-menu-content">
-                                    <div class="mega-menu-section">
-                                        <h4 class="mega-menu-title">Platform</h4>
-                                        <ul class="mega-menu-list">
-                                            <li role="none">
-                                                <a href="/products/builder/" role="menuitem">
-                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-                                                    <span>
-                                                        <strong>Page Builder</strong>
-                                                        <span>Visual drag-and-drop editor</span>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li role="none">
-                                                <a href="/products/templates/" role="menuitem">
-                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-                                                    <span>
-                                                        <strong>Templates</strong>
-                                                        <span>Pre-built designs to start fast</span>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li role="none">
-                                                <a href="/products/hosting/" role="menuitem">
-                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
-                                                    <span>
-                                                        <strong>Hosting</strong>
-                                                        <span>Fast, secure cloud hosting</span>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="mega-menu-section">
-                                        <h4 class="mega-menu-title">Solutions</h4>
-                                        <ul class="mega-menu-list">
-                                            <li role="none"><a href="/solutions/startups/" role="menuitem">For Startups</a></li>
-                                            <li role="none"><a href="/solutions/enterprise/" role="menuitem">For Enterprise</a></li>
-                                            <li role="none"><a href="/solutions/agencies/" role="menuitem">For Agencies</a></li>
-                                            <li role="none"><a href="/solutions/ecommerce/" role="menuitem">For E-commerce</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="mega-menu-featured">
-                                        <span class="featured-label">Featured</span>
-                                        <a href="/case-studies/acme/">
-                                            <img src="/assets/images/case-thumb.jpg" alt="" width="200" height="120">
-                                            <strong>How Acme grew 300%</strong>
-                                            <span>Read the case study →</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="nav-item" role="none">
-                            <a href="/pricing/" class="nav-link" role="menuitem">Pricing</a>
-                        </li>
-
-                        <li class="nav-item has-dropdown" role="none">
-                            <button type="button"
-                                    class="nav-link nav-dropdown-trigger"
-                                    role="menuitem"
-                                    aria-haspopup="true"
-                                    aria-expanded="false">
-                                Resources
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                            </button>
-                            <div class="nav-dropdown" role="menu">
-                                <ul class="dropdown-list">
-                                    <li role="none"><a href="/blog/" role="menuitem">Blog</a></li>
-                                    <li role="none"><a href="/docs/" role="menuitem">Documentation</a></li>
-                                    <li role="none"><a href="/tutorials/" role="menuitem">Tutorials</a></li>
-                                    <li role="none"><a href="/community/" role="menuitem">Community</a></li>
-                                    <li role="none"><a href="/webinars/" role="menuitem">Webinars</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item" role="none">
-                            <a href="/about/" class="nav-link" role="menuitem">About</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Right Actions -->
-                <div class="nav-actions">
-                    <button type="button" class="nav-search-btn" aria-label="Search">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                    </button>
-                    <a href="/login/" class="nav-link nav-login">Log in</a>
-                    <a href="/signup/" class="button button-primary">Get Started</a>
-                </div>
-
-                <!-- Mobile Menu Toggle -->
-                <button type="button"
-                        class="nav-toggle"
-                        aria-label="Toggle menu"
-                        aria-expanded="false"
-                        aria-controls="main-menu">
-                    <span class="hamburger">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                </button>
-
-            </div>
-        </div>
-    </nav>
-
 </header>
+
+<script>
+(function() {
+    const toggle = document.querySelector('.header__toggle');
+    const menu = document.querySelector('.header__menu');
+
+    if (toggle && menu) {
+        toggle.addEventListener('click', function() {
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !isExpanded);
+            this.classList.toggle('header__toggle--active');
+            menu.classList.toggle('header__menu--active');
+        });
+    }
+})();
+</script>

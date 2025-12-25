@@ -1,101 +1,441 @@
-<!-- Newsletter: Subscription Sections -->
-<section class="newsletter-section block-double-tb" id="newsletter" aria-labelledby="newsletter-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Newsletter: Subscription Sections
+     Usage: [template name=newsletter]
+     BEM Block: .newsletter
+-->
+
+<style>
+/* Newsletter Block */
+.newsletter {
+    padding: 5rem 1.5rem;
+}
+
+.newsletter__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Minimal Variant */
+.newsletter--minimal {
+    text-align: center;
+    max-width: 600px;
+    margin-inline: auto;
+    margin-bottom: 3rem;
+}
+
+.newsletter__title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0 0 1rem;
+}
+
+.newsletter__text {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0 0 2rem;
+}
+
+.newsletter__form {
+    margin-bottom: 1rem;
+}
+
+.newsletter__form-row {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 500px;
+    margin-inline: auto;
+}
+
+.newsletter__form input[type="email"],
+.newsletter__form input[type="text"] {
+    flex: 1;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.newsletter__form input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.newsletter__form button {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: #0f172a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.newsletter__form button:hover {
+    background: #1e293b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
+}
+
+.newsletter__note {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Featured Variant */
+.newsletter--featured {
+    background: #fff;
+    border-radius: 16px;
+    padding: 3rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 3rem;
+}
+
+.newsletter__label {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    background: #e0e7ff;
+    color: #6366f1;
+    font-size: 0.875rem;
+    font-weight: 700;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+}
+
+.newsletter--featured .newsletter__title {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+}
+
+.newsletter__content {
+    margin-bottom: 2rem;
+}
+
+.newsletter__benefits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.newsletter__benefit {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+    color: #334155;
+}
+
+.newsletter__benefit svg {
+    flex-shrink: 0;
+    color: #22c55e;
+}
+
+.newsletter__form--stacked .newsletter__form-group {
+    margin-bottom: 0.75rem;
+}
+
+.newsletter__form--stacked input {
+    width: 100%;
+}
+
+.newsletter__form--stacked button {
+    width: 100%;
+    justify-content: center;
+    gap: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.newsletter__preview {
+    text-align: center;
+}
+
+.newsletter__mockup {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    margin: 0;
+}
+
+.newsletter__mockup img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.newsletter__social-proof {
+    margin-top: 2rem;
+}
+
+.newsletter__subscriber-avatars {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+}
+
+.newsletter__subscriber-avatars img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    margin-left: -10px;
+}
+
+.newsletter__subscriber-avatars img:first-child {
+    margin-left: 0;
+}
+
+.newsletter__avatar-more {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #6366f1;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    margin-left: -10px;
+}
+
+.newsletter__subscriber-text {
+    font-size: 0.9375rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Inline Variant */
+.newsletter--inline {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+.newsletter__inner {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    max-width: 1000px;
+    margin-inline: auto;
+}
+
+.newsletter__icon {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #6366f1;
+    color: #fff;
+    border-radius: 12px;
+}
+
+.newsletter--inline .newsletter__content {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.newsletter--inline .newsletter__title {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.newsletter--inline .newsletter__text {
+    font-size: 0.9375rem;
+    margin: 0;
+}
+
+.newsletter--inline .newsletter__form {
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.newsletter--inline .newsletter__form-row {
+    max-width: none;
+    margin: 0;
+}
+
+/* Grid Helper */
+.newsletter__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .newsletter {
+        padding: 4rem 1rem;
+    }
+
+    .newsletter--featured {
+        padding: 2rem;
+    }
+
+    .newsletter__grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .newsletter__benefits {
+        grid-template-columns: 1fr;
+    }
+
+    .newsletter__inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .newsletter--inline .newsletter__form-row {
+        max-width: 500px;
+        margin-inline: auto;
+    }
+}
+
+@media (max-width: 640px) {
+    .newsletter {
+        padding: 3rem 1rem;
+    }
+
+    .newsletter--minimal,
+    .newsletter--featured {
+        margin-bottom: 2rem;
+    }
+
+    .newsletter--featured {
+        padding: 1.5rem;
+    }
+
+    .newsletter__form-row {
+        flex-direction: column;
+    }
+
+    .newsletter__form button {
+        width: 100%;
+    }
+
+    .newsletter--inline {
+        padding: 1.5rem;
+    }
+
+    .newsletter__icon {
+        width: 48px;
+        height: 48px;
+    }
+}
+</style>
+
+<section class="newsletter" id="newsletter" aria-labelledby="newsletter-heading">
+    <div class="newsletter__container">
 
         <!-- Minimal Newsletter -->
-        <div class="newsletter newsletter--minimal mb-double text-center" style="max-width: 600px; margin-inline: auto;">
-            <h2 class="newsletter-title" id="newsletter-heading">Stay in the Loop</h2>
-            <p class="newsletter-text mb-single">
+        <div class="newsletter--minimal">
+            <h2 class="newsletter__title" id="newsletter-heading">Stay in the Loop</h2>
+            <p class="newsletter__text">
                 Get weekly insights, tips, and updates delivered straight to your inbox.
             </p>
-            <form class="newsletter-form" action="/subscribe/" method="post">
-                <div class="newsletter-form-row">
+            <form class="newsletter__form" action="/subscribe/" method="post">
+                <div class="newsletter__form-row">
                     <input type="email"
                            name="email"
                            placeholder="your@email.com"
                            required
                            aria-label="Email address">
-                    <button type="submit" class="button button-primary">
+                    <button type="submit">
                         Subscribe
                     </button>
                 </div>
             </form>
-            <p class="newsletter-note mt-half">
+            <p class="newsletter__note">
                 Join 25,000+ subscribers. No spam, ever.
             </p>
         </div>
 
         <!-- Featured Newsletter with Benefits -->
-        <div class="newsletter newsletter--featured mb-double">
-            <div class="grid-2 items-center gap-double">
+        <div class="newsletter--featured">
+            <div class="newsletter__grid">
 
-                <div class="newsletter-content">
-                    <span class="newsletter-label mb-half">Free Newsletter</span>
-                    <h3 class="newsletter-title mb-single">
+                <div class="newsletter__content">
+                    <span class="newsletter__label">Free Newsletter</span>
+                    <h3 class="newsletter__title">
                         The Weekly Digest
                     </h3>
-                    <p class="newsletter-text mb-single">
+                    <p class="newsletter__text">
                         Every Friday, we send out a curated collection of the best
                         articles, resources, and tools to help you stay ahead.
                     </p>
 
-                    <div class="newsletter-benefits mb-single-half">
-                        <div class="benefit-item">
+                    <div class="newsletter__benefits">
+                        <div class="newsletter__benefit">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                             <span>Industry news & trends</span>
                         </div>
-                        <div class="benefit-item">
+                        <div class="newsletter__benefit">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                             <span>Exclusive tutorials</span>
                         </div>
-                        <div class="benefit-item">
+                        <div class="newsletter__benefit">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                             <span>Tool recommendations</span>
                         </div>
-                        <div class="benefit-item">
+                        <div class="newsletter__benefit">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                             <span>Early access to features</span>
                         </div>
                     </div>
 
-                    <form class="newsletter-form newsletter-form--stacked" action="/subscribe/" method="post">
-                        <div class="form-group mb-half">
+                    <form class="newsletter__form newsletter__form--stacked" action="/subscribe/" method="post">
+                        <div class="newsletter__form-group">
                             <input type="text"
                                    name="first_name"
                                    placeholder="First name"
                                    aria-label="First name">
                         </div>
-                        <div class="form-group mb-half">
+                        <div class="newsletter__form-group">
                             <input type="email"
                                    name="email"
                                    placeholder="Email address"
                                    required
                                    aria-label="Email address">
                         </div>
-                        <button type="submit" class="button button-primary button-block">
+                        <button type="submit">
                             Subscribe to Newsletter
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </button>
                     </form>
                 </div>
 
-                <div class="newsletter-preview">
-                    <figure class="newsletter-mockup mb-none">
+                <div class="newsletter__preview">
+                    <figure class="newsletter__mockup">
                         <img src="/assets/images/newsletter-preview.png"
                              alt="Newsletter email preview"
                              loading="lazy"
                              width="450"
                              height="350">
                     </figure>
-                    <div class="newsletter-social-proof mt-single text-center">
-                        <div class="subscriber-avatars" aria-hidden="true">
+                    <div class="newsletter__social-proof">
+                        <div class="newsletter__subscriber-avatars" aria-hidden="true">
                             <img src="/assets/avatars/1.jpg" alt="" width="40" height="40">
                             <img src="/assets/avatars/2.jpg" alt="" width="40" height="40">
                             <img src="/assets/avatars/3.jpg" alt="" width="40" height="40">
                             <img src="/assets/avatars/4.jpg" alt="" width="40" height="40">
-                            <span class="avatar-more">+25k</span>
+                            <span class="newsletter__avatar-more">+25k</span>
                         </div>
-                        <p class="subscriber-text">
+                        <p class="newsletter__subscriber-text">
                             Join 25,000+ happy subscribers
                         </p>
                     </div>
@@ -105,24 +445,26 @@
         </div>
 
         <!-- Inline Footer Newsletter -->
-        <div class="newsletter newsletter--inline">
-            <div class="newsletter-inner">
-                <div class="newsletter-icon" aria-hidden="true">
+        <div class="newsletter--inline">
+            <div class="newsletter__inner">
+                <div class="newsletter__icon" aria-hidden="true">
                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                 </div>
-                <div class="newsletter-content">
-                    <h3 class="newsletter-title">Subscribe for updates</h3>
-                    <p class="newsletter-text">Be the first to know about new features</p>
+                <div class="newsletter__content">
+                    <h3 class="newsletter__title">Subscribe for updates</h3>
+                    <p class="newsletter__text">Be the first to know about new features</p>
                 </div>
-                <form class="newsletter-form" action="/subscribe/" method="post">
-                    <input type="email"
-                           name="email"
-                           placeholder="Enter your email"
-                           required
-                           aria-label="Email address">
-                    <button type="submit" class="button button-primary">
-                        Subscribe
-                    </button>
+                <form class="newsletter__form" action="/subscribe/" method="post">
+                    <div class="newsletter__form-row">
+                        <input type="email"
+                               name="email"
+                               placeholder="Enter your email"
+                               required
+                               aria-label="Email address">
+                        <button type="submit">
+                            Subscribe
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

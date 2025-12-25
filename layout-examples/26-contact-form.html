@@ -1,167 +1,557 @@
-<!-- Contact: Form with Info -->
-<section class="contact-section block-double-tb" id="contact" aria-labelledby="contact-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Contact: Form Layout
+     Usage: [template name=contact-form]
+     BEM Block: .contact
+-->
 
-        <header class="section-header text-center mb-double">
-            <span class="section-label">Get in Touch</span>
-            <h2 class="section-title" id="contact-heading">Contact Us</h2>
-            <p class="section-subtitle">
-                We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+<style>
+/* Contact Block */
+.contact {
+    padding: 5rem 1.5rem;
+    background: #fff;
+}
+
+.contact__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Header */
+.contact__header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.contact__label {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 0.75rem;
+}
+
+.contact__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0 0 1rem;
+}
+
+.contact__subtitle {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0;
+}
+
+/* Grid Layout */
+.contact__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+/* Info Section */
+.contact__info {
+    position: sticky;
+    top: 2rem;
+}
+
+.contact__info-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 1.5rem;
+}
+
+.contact__methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.contact__method {
+    display: flex;
+    gap: 1rem;
+}
+
+.contact__method-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #fff;
+    border-radius: 12px;
+}
+
+.contact__method-content {
+    flex: 1;
+}
+
+.contact__method-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-bottom: 0.25rem;
+}
+
+.contact__method-value {
+    display: block;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.contact__method-value a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.contact__method-value a:hover {
+    color: #6366f1;
+}
+
+.contact__hours {
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.contact__hours-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 1rem;
+}
+
+.contact__hours-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.contact__hours-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9375rem;
+}
+
+.contact__hours-day {
+    color: #475569;
+}
+
+.contact__hours-time {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+/* Form Section */
+.contact__form-wrapper {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.contact__form-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 1.5rem;
+}
+
+.contact__form-group {
+    margin-bottom: 1.5rem;
+}
+
+.contact__label-text {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+}
+
+.contact__label-text--required::after {
+    content: ' *';
+    color: #ef4444;
+}
+
+.contact__input,
+.contact__select,
+.contact__textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.contact__input:focus,
+.contact__select:focus,
+.contact__textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.contact__input--error,
+.contact__textarea--error {
+    border-color: #ef4444;
+}
+
+.contact__textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.contact__error {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #ef4444;
+}
+
+.contact__checkbox-group {
+    display: flex;
+    align-items: start;
+    gap: 0.75rem;
+}
+
+.contact__checkbox {
+    width: 18px;
+    height: 18px;
+    margin-top: 0.125rem;
+    cursor: pointer;
+}
+
+.contact__checkbox-label {
+    font-size: 0.9375rem;
+    color: #475569;
+    cursor: pointer;
+}
+
+.contact__checkbox-label a {
+    color: #6366f1;
+    text-decoration: none;
+}
+
+.contact__checkbox-label a:hover {
+    text-decoration: underline;
+}
+
+.contact__submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: #6366f1;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.contact__submit:hover:not(:disabled) {
+    background: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.contact__submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.contact__success {
+    display: none;
+    padding: 1rem 1.5rem;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.contact__success--show {
+    display: block;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .contact {
+        padding: 4rem 1rem;
+    }
+
+    .contact__grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .contact__info {
+        position: static;
+    }
+}
+
+@media (max-width: 640px) {
+    .contact {
+        padding: 3rem 1rem;
+    }
+
+    .contact__header {
+        margin-bottom: 3rem;
+    }
+
+    .contact__form-wrapper {
+        padding: 1.5rem;
+    }
+}
+</style>
+
+<section class="contact" id="contact" aria-labelledby="contact-heading">
+    <div class="contact__container">
+
+        <header class="contact__header">
+            <span class="contact__label">Get in Touch</span>
+            <h2 class="contact__title" id="contact-heading">Contact Us</h2>
+            <p class="contact__subtitle">
+                Have a question or want to work together? We'd love to hear from you.
             </p>
         </header>
 
-        <div class="contact-container" style="max-width: 1000px; margin-inline: auto;">
-            <div class="grid-3-2 gap-double">
+        <div class="contact__grid">
 
-                <!-- Contact Form -->
-                <div class="contact-form-wrapper">
-                    <form class="contact-form" action="/contact/submit/" method="post">
-                        <div class="form-row grid-2 gap-single">
-                            <div class="form-group">
-                                <label for="contact-name">Full Name <span class="required">*</span></label>
-                                <input type="text"
-                                       id="contact-name"
-                                       name="name"
-                                       required
-                                       placeholder="John Doe">
-                            </div>
-                            <div class="form-group">
-                                <label for="contact-email">Email Address <span class="required">*</span></label>
-                                <input type="email"
-                                       id="contact-email"
-                                       name="email"
-                                       required
-                                       placeholder="john@example.com">
-                            </div>
+            <!-- Contact Info -->
+            <aside class="contact__info">
+                <h3 class="contact__info-title">Let's Talk</h3>
+
+                <div class="contact__methods">
+                    <div class="contact__method">
+                        <div class="contact__method-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                         </div>
-
-                        <div class="form-row grid-2 gap-single">
-                            <div class="form-group">
-                                <label for="contact-phone">Phone Number</label>
-                                <input type="tel"
-                                       id="contact-phone"
-                                       name="phone"
-                                       placeholder="+1 (555) 123-4567">
-                            </div>
-                            <div class="form-group">
-                                <label for="contact-subject">Subject <span class="required">*</span></label>
-                                <select id="contact-subject" name="subject" required>
-                                    <option value="">Select a topic</option>
-                                    <option value="general">General Inquiry</option>
-                                    <option value="support">Technical Support</option>
-                                    <option value="sales">Sales Question</option>
-                                    <option value="partnership">Partnership</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
+                        <div class="contact__method-content">
+                            <span class="contact__method-label">Email</span>
+                            <span class="contact__method-value">
+                                <a href="mailto:hello@example.com">hello@example.com</a>
+                            </span>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="contact-message">Message <span class="required">*</span></label>
-                            <textarea id="contact-message"
-                                      name="message"
-                                      rows="6"
-                                      required
-                                      placeholder="How can we help you?"></textarea>
+                    <div class="contact__method">
+                        <div class="contact__method-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                         </div>
-
-                        <div class="form-group form-checkbox">
-                            <input type="checkbox" id="contact-privacy" name="privacy" required>
-                            <label for="contact-privacy">
-                                I agree to the <a href="/privacy/">Privacy Policy</a> and
-                                <a href="/terms/">Terms of Service</a>
-                            </label>
+                        <div class="contact__method-content">
+                            <span class="contact__method-label">Phone</span>
+                            <span class="contact__method-value">
+                                <a href="tel:+15551234567">+1 (555) 123-4567</a>
+                            </span>
                         </div>
+                    </div>
 
-                        <button type="submit" class="button button-primary button-lg">
-                            Send Message
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                        </button>
-                    </form>
+                    <div class="contact__method">
+                        <div class="contact__method-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <div class="contact__method-content">
+                            <span class="contact__method-label">Office</span>
+                            <span class="contact__method-value">
+                                123 Business Ave<br>
+                                San Francisco, CA 94103
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Contact Info -->
-                <aside class="contact-info">
-                    <div class="info-card mb-single">
-                        <h3 class="info-title mb-single">Contact Information</h3>
+                <div class="contact__hours">
+                    <h4 class="contact__hours-title">Business Hours</h4>
+                    <div class="contact__hours-list">
+                        <div class="contact__hours-item">
+                            <span class="contact__hours-day">Monday - Friday</span>
+                            <span class="contact__hours-time">9:00 AM - 6:00 PM</span>
+                        </div>
+                        <div class="contact__hours-item">
+                            <span class="contact__hours-day">Saturday</span>
+                            <span class="contact__hours-time">10:00 AM - 4:00 PM</span>
+                        </div>
+                        <div class="contact__hours-item">
+                            <span class="contact__hours-day">Sunday</span>
+                            <span class="contact__hours-time">Closed</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
 
-                        <ul class="info-list">
-                            <li class="info-item">
-                                <div class="info-icon" aria-hidden="true">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                </div>
-                                <div class="info-content">
-                                    <strong>Address</strong>
-                                    <address>
-                                        123 Business Street<br>
-                                        Suite 100<br>
-                                        San Francisco, CA 94102
-                                    </address>
-                                </div>
-                            </li>
-                            <li class="info-item">
-                                <div class="info-icon" aria-hidden="true">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                                </div>
-                                <div class="info-content">
-                                    <strong>Phone</strong>
-                                    <a href="tel:+15551234567">+1 (555) 123-4567</a>
-                                </div>
-                            </li>
-                            <li class="info-item">
-                                <div class="info-icon" aria-hidden="true">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                                </div>
-                                <div class="info-content">
-                                    <strong>Email</strong>
-                                    <a href="mailto:hello@example.com">hello@example.com</a>
-                                </div>
-                            </li>
-                            <li class="info-item">
-                                <div class="info-icon" aria-hidden="true">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                </div>
-                                <div class="info-content">
-                                    <strong>Business Hours</strong>
-                                    <span>Monday - Friday: 9am - 6pm PST</span>
-                                </div>
-                            </li>
-                        </ul>
+            <!-- Contact Form -->
+            <div class="contact__form-wrapper">
+                <h3 class="contact__form-title">Send us a message</h3>
+
+                <div class="contact__success" role="alert">
+                    <strong>Thank you!</strong> Your message has been sent successfully. We'll get back to you soon.
+                </div>
+
+                <form class="contact__form" action="/contact/submit/" method="post" novalidate>
+
+                    <div class="contact__form-group">
+                        <label for="contact-name" class="contact__label-text contact__label-text--required">Name</label>
+                        <input type="text"
+                               id="contact-name"
+                               name="name"
+                               class="contact__input"
+                               required
+                               aria-required="true">
+                        <span class="contact__error" role="alert"></span>
                     </div>
 
-                    <div class="social-links">
-                        <h4 class="social-title mb-half">Follow Us</h4>
-                        <nav class="social-nav" aria-label="Social media links">
-                            <a href="#" aria-label="Twitter" class="social-link">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                            </a>
-                            <a href="#" aria-label="LinkedIn" class="social-link">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-                            </a>
-                            <a href="#" aria-label="GitHub" class="social-link">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                            </a>
-                        </nav>
+                    <div class="contact__form-group">
+                        <label for="contact-email" class="contact__label-text contact__label-text--required">Email</label>
+                        <input type="email"
+                               id="contact-email"
+                               name="email"
+                               class="contact__input"
+                               required
+                               aria-required="true">
+                        <span class="contact__error" role="alert"></span>
                     </div>
-                </aside>
 
-            </div>
-        </div>
+                    <div class="contact__form-group">
+                        <label for="contact-subject" class="contact__label-text">Subject</label>
+                        <select id="contact-subject" name="subject" class="contact__select">
+                            <option value="">Select a subject</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="sales">Sales</option>
+                            <option value="partnership">Partnership</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
 
-        <!-- Map -->
-        <div class="contact-map mt-double">
-            <div class="map-container" style="height: 400px;">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d..."
-                    width="100%"
-                    height="100%"
-                    style="border:0;"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    title="Office location map"></iframe>
+                    <div class="contact__form-group">
+                        <label for="contact-message" class="contact__label-text contact__label-text--required">Message</label>
+                        <textarea id="contact-message"
+                                  name="message"
+                                  class="contact__textarea"
+                                  required
+                                  aria-required="true"></textarea>
+                        <span class="contact__error" role="alert"></span>
+                    </div>
+
+                    <div class="contact__form-group">
+                        <div class="contact__checkbox-group">
+                            <input type="checkbox"
+                                   id="contact-consent"
+                                   name="consent"
+                                   class="contact__checkbox"
+                                   required
+                                   aria-required="true">
+                            <label for="contact-consent" class="contact__checkbox-label">
+                                I agree to the <a href="/privacy/">Privacy Policy</a> and consent to data processing
+                            </label>
+                        </div>
+                        <span class="contact__error" role="alert"></span>
+                    </div>
+
+                    <button type="submit" class="contact__submit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        Send Message
+                    </button>
+
+                </form>
             </div>
+
         </div>
 
     </div>
 </section>
+
+<script>
+(function() {
+    const form = document.querySelector('.contact__form');
+    if (!form) return;
+
+    const successMessage = document.querySelector('.contact__success');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Clear previous errors
+        const errorSpans = form.querySelectorAll('.contact__error');
+        errorSpans.forEach(span => span.textContent = '');
+        const inputs = form.querySelectorAll('.contact__input, .contact__textarea');
+        inputs.forEach(input => input.classList.remove('contact__input--error', 'contact__textarea--error'));
+
+        // Validate
+        let isValid = true;
+        const name = form.querySelector('#contact-name');
+        const email = form.querySelector('#contact-email');
+        const message = form.querySelector('#contact-message');
+        const consent = form.querySelector('#contact-consent');
+
+        if (!name.value.trim()) {
+            showError(name, 'Please enter your name');
+            isValid = false;
+        }
+
+        if (!email.value.trim()) {
+            showError(email, 'Please enter your email');
+            isValid = false;
+        } else if (!isValidEmail(email.value)) {
+            showError(email, 'Please enter a valid email address');
+            isValid = false;
+        }
+
+        if (!message.value.trim()) {
+            showError(message, 'Please enter a message');
+            isValid = false;
+        }
+
+        if (!consent.checked) {
+            showError(consent, 'You must agree to the privacy policy');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Show success message (in real app, submit to server)
+            successMessage.classList.add('contact__success--show');
+            form.reset();
+
+            // Hide success after 5 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('contact__success--show');
+            }, 5000);
+        }
+    });
+
+    function showError(input, message) {
+        input.classList.add('contact__input--error');
+        const errorSpan = input.closest('.contact__form-group').querySelector('.contact__error');
+        if (errorSpan) {
+            errorSpan.textContent = message;
+        }
+    }
+
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+})();
+</script>

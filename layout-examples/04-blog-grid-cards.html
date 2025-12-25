@@ -1,21 +1,239 @@
-<!-- Blog: Grid Cards Layout -->
-<section class="blog-grid block-double-tb" id="blog" aria-labelledby="blog-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Blog: Grid Cards Layout
+     Usage: [template name=blog-grid-cards]
+     BEM Block: .blog-grid
+-->
 
-        <header class="section-header text-center mb-double">
-            <span class="section-label">Our Blog</span>
-            <h2 class="section-title" id="blog-heading">Latest Articles</h2>
-            <p class="section-subtitle">
+<style>
+/* Blog Grid Block */
+.blog-grid {
+    padding: 5rem 1.5rem;
+    background: #f8fafc;
+}
+
+.blog-grid__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Header Element */
+.blog-grid__header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.blog-grid__label {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 0.75rem;
+}
+
+.blog-grid__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+}
+
+.blog-grid__subtitle {
+    font-size: 1.125rem;
+    color: #64748b;
+    margin: 0;
+    max-width: 500px;
+    margin-inline: auto;
+}
+
+/* Cards Container */
+.blog-grid__cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+/* Card Element */
+.blog-grid__card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.blog-grid__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.blog-grid__card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Card Image */
+.blog-grid__card-image {
+    margin: 0;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+}
+
+.blog-grid__card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.blog-grid__card:hover .blog-grid__card-image img {
+    transform: scale(1.05);
+}
+
+/* Card Content */
+.blog-grid__card-content {
+    padding: 1.5rem;
+}
+
+/* Card Meta */
+.blog-grid__card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.813rem;
+}
+
+.blog-grid__card-category {
+    color: #6366f1;
+    font-weight: 600;
+}
+
+.blog-grid__card-date {
+    color: #94a3b8;
+}
+
+/* Card Title */
+.blog-grid__card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #0f172a;
+    margin: 0 0 0.75rem;
+}
+
+/* Card Excerpt */
+.blog-grid__card-excerpt {
+    font-size: 0.938rem;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0 0 1rem;
+}
+
+/* Card Footer */
+.blog-grid__card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.blog-grid__card-author {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #475569;
+}
+
+.blog-grid__card-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.blog-grid__card-read-time {
+    font-size: 0.813rem;
+    color: #94a3b8;
+}
+
+/* Footer Element */
+.blog-grid__footer {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.blog-grid__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0f172a;
+    background: transparent;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.blog-grid__button:hover {
+    border-color: #0f172a;
+    background: #0f172a;
+    color: #fff;
+}
+
+.blog-grid__button-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+}
+
+.blog-grid__button:hover .blog-grid__button-icon {
+    transform: translateX(4px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .blog-grid__cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .blog-grid {
+        padding: 3rem 1rem;
+    }
+
+    .blog-grid__cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+</style>
+
+<section class="blog-grid" id="blog" aria-labelledby="blog-heading">
+    <div class="blog-grid__container">
+
+        <header class="blog-grid__header">
+            <span class="blog-grid__label">Our Blog</span>
+            <h2 class="blog-grid__title" id="blog-heading">Latest Articles</h2>
+            <p class="blog-grid__subtitle">
                 Discover insights, tutorials, and stories from our team
             </p>
         </header>
 
-        <div class="blog-grid-container grid-3">
+        <div class="blog-grid__cards">
             <Loop type=post count=9 orderby=date order=DESC>
-                <article class="blog-card">
-                    <a href="{Field url}" class="blog-card-link">
+                <article class="blog-grid__card">
+                    <a href="{Field url}" class="blog-grid__card-link">
 
-                        <figure class="blog-card-image mb-none">
+                        <figure class="blog-grid__card-image">
                             <If field=image_url>
                                 <img src="{Field image_url size=medium}"
                                      alt="{Field image_alt}"
@@ -31,40 +249,40 @@
                             </If>
                         </figure>
 
-                        <div class="blog-card-content">
-                            <div class="blog-card-meta mb-half">
+                        <div class="blog-grid__card-content">
+                            <div class="blog-grid__card-meta">
                                 <If field=terms taxonomy=category>
-                                    <span class="blog-card-category">
+                                    <span class="blog-grid__card-category">
                                         <Field terms taxonomy=category count=1 />
                                     </span>
                                 </If>
-                                <span class="blog-card-date">
+                                <span class="blog-grid__card-date">
                                     <time datetime="{Field publish_date date_format='Y-m-d'}">
                                         <Field publish_date date_format="M j, Y" />
                                     </time>
                                 </span>
                             </div>
 
-                            <h3 class="blog-card-title mb-half">
+                            <h3 class="blog-grid__card-title">
                                 <Field title />
                             </h3>
 
-                            <p class="blog-card-excerpt mb-single">
+                            <p class="blog-grid__card-excerpt">
                                 <Field excerpt words=20 />
                             </p>
 
-                            <div class="blog-card-footer">
-                                <span class="blog-card-author">
+                            <div class="blog-grid__card-footer">
+                                <span class="blog-grid__card-author">
                                     <If field=author_avatar>
                                         <img src="{Field author_avatar size=thumbnail}"
                                              alt=""
-                                             class="blog-card-avatar"
+                                             class="blog-grid__card-avatar"
                                              width="32"
                                              height="32">
                                     </If>
                                     <Field author_name />
                                 </span>
-                                <span class="blog-card-read-time">
+                                <span class="blog-grid__card-read-time">
                                     <Field reading_time /> min read
                                 </span>
                             </div>
@@ -75,10 +293,12 @@
             </Loop>
         </div>
 
-        <footer class="section-footer text-center mt-double">
-            <a href="/blog/" class="button button-outline">
+        <footer class="blog-grid__footer">
+            <a href="/blog/" class="blog-grid__button">
                 View All Articles
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg class="blog-grid__button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
             </a>
         </footer>
 

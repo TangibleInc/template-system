@@ -1,73 +1,220 @@
-<!-- Features: Icon Grid Layout -->
-<section class="features-grid block-double-tb" id="features" aria-labelledby="features-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Features: Icon Grid Layout
+     Usage: [template name=features-icon-grid]
+     BEM Block: .features
+-->
 
-        <header class="section-header text-center mb-double">
-            <span class="section-label">Features</span>
-            <h2 class="section-title" id="features-heading">Everything You Need</h2>
-            <p class="section-subtitle" style="max-width: 600px; margin-inline: auto;">
+<style>
+/* Features Block */
+.features {
+    padding: 5rem 1.5rem;
+    background: #fff;
+}
+
+.features__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Header Element */
+.features__header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.features__label {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 0.75rem;
+}
+
+.features__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+}
+
+.features__subtitle {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0;
+    max-width: 600px;
+    margin-inline: auto;
+}
+
+/* Grid Element */
+.features__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+/* Card Element */
+.features__card {
+    padding: 2rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.features__card:hover {
+    background: #fff;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+}
+
+/* Icon Element */
+.features__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 12px;
+    margin-bottom: 1.25rem;
+    color: #fff;
+}
+
+.features__icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+/* Card Title */
+.features__card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 0.75rem;
+}
+
+/* Card Description */
+.features__card-desc {
+    font-size: 0.938rem;
+    line-height: 1.65;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .features__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .features {
+        padding: 3rem 1rem;
+    }
+
+    .features__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .features__card {
+        padding: 1.5rem;
+    }
+}
+</style>
+
+<section class="features" id="features" aria-labelledby="features-heading">
+    <div class="features__container">
+
+        <header class="features__header">
+            <span class="features__label">Features</span>
+            <h2 class="features__title" id="features-heading">Everything You Need</h2>
+            <p class="features__subtitle">
                 Powerful features designed to help you build, grow, and scale your business efficiently.
             </p>
         </header>
 
-        <div class="features-container grid-3 gap-single-half">
+        <div class="features__grid">
 
-            <div class="feature-card">
-                <div class="feature-icon" aria-hidden="true">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <div class="features__card">
+                <div class="features__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
                 </div>
-                <h3 class="feature-title mb-half">Lightning Fast</h3>
-                <p class="feature-description">
+                <h3 class="features__card-title">Lightning Fast</h3>
+                <p class="features__card-desc">
                     Optimized for speed with sub-second load times. Your content delivered instantly to users worldwide.
                 </p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon" aria-hidden="true">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <div class="features__card">
+                <div class="features__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
                 </div>
-                <h3 class="feature-title mb-half">Secure by Default</h3>
-                <p class="feature-description">
+                <h3 class="features__card-title">Secure by Default</h3>
+                <p class="features__card-desc">
                     Enterprise-grade security with end-to-end encryption, two-factor authentication, and regular audits.
                 </p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon" aria-hidden="true">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div class="features__card">
+                <div class="features__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
                 </div>
-                <h3 class="feature-title mb-half">Team Collaboration</h3>
-                <p class="feature-description">
+                <h3 class="features__card-title">Team Collaboration</h3>
+                <p class="features__card-desc">
                     Work together seamlessly with real-time editing, comments, and role-based permissions.
                 </p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon" aria-hidden="true">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <div class="features__card">
+                <div class="features__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
                 </div>
-                <h3 class="feature-title mb-half">Responsive Design</h3>
-                <p class="feature-description">
+                <h3 class="features__card-title">Responsive Design</h3>
+                <p class="features__card-desc">
                     Beautiful layouts that adapt perfectly to any screen size, from mobile to desktop.
                 </p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon" aria-hidden="true">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+            <div class="features__card">
+                <div class="features__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="20" x2="12" y2="10"/>
+                        <line x1="18" y1="20" x2="18" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="16"/>
+                    </svg>
                 </div>
-                <h3 class="feature-title mb-half">Advanced Analytics</h3>
-                <p class="feature-description">
+                <h3 class="features__card-title">Advanced Analytics</h3>
+                <p class="features__card-desc">
                     Deep insights into your audience behavior with customizable dashboards and reports.
                 </p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon" aria-hidden="true">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <div class="features__card">
+                <div class="features__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
                 </div>
-                <h3 class="feature-title mb-half">Easy Integration</h3>
-                <p class="feature-description">
+                <h3 class="features__card-title">Easy Integration</h3>
+                <p class="features__card-desc">
                     Connect with your favorite tools through our extensive API and native integrations.
                 </p>
             </div>

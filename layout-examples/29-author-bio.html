@@ -1,122 +1,263 @@
-<!-- Author: Bio Box Layouts -->
-<section class="author-section block-single-tb">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Author: Bio Box Layouts
+     Usage: [template name=author-bio]
+     BEM Block: .author
+-->
 
-        <!-- Inline Author Bio (for post footer) -->
-        <div class="author-bio author-bio--inline mb-double">
+<style>
+/* Author Block */
+.author {
+    padding: 3rem 1.5rem;
+}
+
+.author__container {
+    max-width: 900px;
+    margin-inline: auto;
+}
+
+/* Inline Author Bio */
+.author__card {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin-bottom: 3rem;
+}
+
+.author__avatar {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.author__avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.author__info {
+    flex: 1;
+}
+
+.author__name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 0.5rem;
+}
+
+.author__name a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.author__name a:hover {
+    color: #6366f1;
+}
+
+.author__role {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #6366f1;
+    margin-bottom: 1rem;
+}
+
+.author__description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0 0 1rem;
+}
+
+.author__social {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.author__social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: #64748b;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.author__social-link:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+/* Featured Card */
+.author__featured {
+    padding: 3rem;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.author__featured .author__avatar {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+}
+
+.author__label {
+    display: inline-block;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-bottom: 0.75rem;
+}
+
+.author__meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+    padding: 1.5rem 0;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.author__meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+.author__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    background: transparent;
+    color: #0f172a;
+    text-decoration: none;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.author__button:hover {
+    border-color: #0f172a;
+    background: #0f172a;
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .author {
+        padding: 2rem 1rem;
+    }
+
+    .author__card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    .author__featured {
+        padding: 2rem 1.5rem;
+    }
+
+    .author__meta {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+</style>
+
+<section class="author">
+    <div class="author__container">
+
+        <!-- Inline Author Bio -->
+        <article class="author__card">
             <Loop type=user id="{Field author_id}">
-                <figure class="author-avatar mb-none">
+                <figure class="author__avatar">
                     <If field=avatar>
                         <img src="{Field avatar size=thumbnail}"
                              alt=""
                              width="80"
-                             height="80"
-                             loading="lazy">
+                             height="80">
                     </If>
                 </figure>
-                <div class="author-content">
-                    <div class="author-header">
-                        <h3 class="author-name">
-                            <a href="{Field url}"><Field display_name /></a>
-                        </h3>
-                        <If field=role>
-                            <span class="author-role"><Field role /></span>
-                        </If>
-                    </div>
-                    <p class="author-description">
+                <div class="author__info">
+                    <h3 class="author__name">
+                        <a href="{Field url}"><Field display_name /></a>
+                    </h3>
+                    <If field=role>
+                        <span class="author__role"><Field role /></span>
+                    </If>
+                    <p class="author__description">
                         <Field description />
                     </p>
-                    <nav class="author-social" aria-label="Author social links">
+                    <nav class="author__social" aria-label="Author social links">
                         <If field=twitter>
-                            <a href="{Field twitter}" aria-label="Twitter" target="_blank" rel="noopener">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            <a href="{Field twitter}" class="author__social-link" aria-label="Twitter">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                             </a>
                         </If>
                         <If field=linkedin>
-                            <a href="{Field linkedin}" aria-label="LinkedIn" target="_blank" rel="noopener">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-                            </a>
-                        </If>
-                        <If field=website>
-                            <a href="{Field website}" aria-label="Website" target="_blank" rel="noopener">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            <a href="{Field linkedin}" class="author__social-link" aria-label="LinkedIn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                             </a>
                         </If>
                     </nav>
                 </div>
             </Loop>
-        </div>
+        </article>
 
-        <!-- Card Author Bio -->
-        <div class="author-bio author-bio--card mb-double">
+        <!-- Featured Author Card -->
+        <article class="author__featured">
             <Loop type=user id="{Field author_id}">
-                <div class="author-card-content">
-                    <figure class="author-avatar mb-none">
-                        <If field=avatar>
-                            <img src="{Field avatar size=medium}"
-                                 alt=""
-                                 width="120"
-                                 height="120"
-                                 loading="lazy">
-                        </If>
-                    </figure>
-                    <div class="author-info">
-                        <span class="author-label">Written by</span>
-                        <h3 class="author-name mb-half">
-                            <a href="{Field url}"><Field display_name /></a>
-                        </h3>
-                        <If field=title>
-                            <span class="author-title mb-half"><Field title /></span>
-                        </If>
-                        <p class="author-description mb-single">
-                            <Field description />
-                        </p>
-                        <div class="author-meta">
-                            <span class="author-posts">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                                <Field post_count /> articles
-                            </span>
-                            <If field=joined_date>
-                                <span class="author-joined">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                                    Member since <Field joined_date date_format="M Y" />
-                                </span>
-                            </If>
-                        </div>
-                        <a href="{Field url}" class="button button-outline button-sm mt-single">
-                            View all posts
-                        </a>
-                    </div>
+                <span class="author__label">Written by</span>
+                <figure class="author__avatar">
+                    <If field=avatar>
+                        <img src="{Field avatar size=medium}"
+                             alt=""
+                             width="120"
+                             height="120">
+                    </If>
+                </figure>
+                <h3 class="author__name">
+                    <a href="{Field url}"><Field display_name /></a>
+                </h3>
+                <If field=title>
+                    <span class="author__role"><Field title /></span>
+                </If>
+                <p class="author__description">
+                    <Field description />
+                </p>
+                <div class="author__meta">
+                    <span class="author__meta-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        <Field post_count /> articles
+                    </span>
                 </div>
+                <a href="{Field url}" class="author__button">
+                    View all posts
+                </a>
             </Loop>
-        </div>
-
-        <!-- Multiple Authors Grid -->
-        <div class="authors-grid">
-            <h3 class="authors-title mb-single">Meet Our Writers</h3>
-            <div class="grid-4">
-                <Loop type=user role=author count=8>
-                    <article class="author-mini-card">
-                        <a href="{Field url}" class="author-mini-link">
-                            <figure class="author-mini-avatar mb-none">
-                                <If field=avatar>
-                                    <img src="{Field avatar size=thumbnail}"
-                                         alt=""
-                                         width="64"
-                                         height="64"
-                                         loading="lazy">
-                                </If>
-                            </figure>
-                            <div class="author-mini-info">
-                                <h4 class="author-mini-name"><Field display_name /></h4>
-                                <span class="author-mini-role"><Field title /></span>
-                                <span class="author-mini-count"><Field post_count /> posts</span>
-                            </div>
-                        </a>
-                    </article>
-                </Loop>
-            </div>
-        </div>
+        </article>
 
     </div>
 </section>

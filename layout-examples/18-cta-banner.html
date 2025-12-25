@@ -1,91 +1,410 @@
-<!-- CTA: Banner Layouts -->
-<section class="cta-banners block-double-tb">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- CTA: Banner Layouts
+     Usage: [template name=cta-banner]
+     BEM Block: .cta
+-->
+
+<style>
+/* CTA Block */
+.cta {
+    padding: 5rem 1.5rem;
+}
+
+.cta__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Banner Element */
+.cta__banner {
+    background: #fff;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 3rem;
+}
+
+.cta__banner:last-child {
+    margin-bottom: 0;
+}
+
+/* Simple Variant */
+.cta__banner--simple {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.cta__content {
+    flex: 1;
+}
+
+.cta__title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0 0 0.75rem;
+}
+
+.cta__text {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0;
+}
+
+.cta__action {
+    flex-shrink: 0;
+}
+
+/* Gradient Variant */
+.cta__banner--gradient {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #fff;
+    padding: 4rem 3rem;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.cta__banner--gradient .cta__title {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.cta__banner--gradient .cta__text {
+    color: rgba(255,255,255,0.95);
+    max-width: 700px;
+    margin-inline: auto;
+}
+
+.cta__badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+}
+
+.cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.cta__disclaimer {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.8);
+    margin: 1.5rem 0 0;
+}
+
+.cta__decoration {
+    position: absolute;
+    right: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.3;
+    color: #fff;
+    pointer-events: none;
+}
+
+/* Split Variant */
+.cta__banner--split {
+    padding: 0;
+    overflow: hidden;
+}
+
+.cta__banner--split .cta__content {
+    padding: 3rem 2rem;
+}
+
+.cta__benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+}
+
+.cta__benefit {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    font-size: 0.9375rem;
+    color: #334155;
+}
+
+.cta__benefit svg {
+    flex-shrink: 0;
+    color: #22c55e;
+}
+
+.cta__form {
+    max-width: 500px;
+}
+
+.cta__form-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.cta__form input[type="email"] {
+    flex: 1;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.cta__form input[type="email"]:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.cta__form-privacy {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.cta__form-privacy svg {
+    flex-shrink: 0;
+    color: #22c55e;
+}
+
+.cta__image {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.cta__image img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Buttons */
+.cta__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.cta__button--primary {
+    background: #0f172a;
+    color: #fff;
+}
+
+.cta__button--primary:hover {
+    background: #1e293b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
+}
+
+.cta__button--white {
+    background: #fff;
+    color: #6366f1;
+}
+
+.cta__button--white:hover {
+    background: #f8fafc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+.cta__button--ghost-white {
+    background: transparent;
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.cta__button--ghost-white:hover {
+    border-color: #fff;
+    background: rgba(255,255,255,0.1);
+}
+
+.cta__button--lg {
+    padding: 1.125rem 2.5rem;
+    font-size: 1.0625rem;
+}
+
+/* Grid Helper */
+.cta__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .cta {
+        padding: 4rem 1rem;
+    }
+
+    .cta__banner--simple {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cta__banner--gradient {
+        padding: 3rem 2rem;
+    }
+
+    .cta__grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .cta__decoration {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .cta {
+        padding: 3rem 1rem;
+    }
+
+    .cta__banner {
+        padding: 2rem 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .cta__banner--gradient {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .cta__actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .cta__button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cta__form-row {
+        flex-direction: column;
+    }
+
+    .cta__form input[type="email"],
+    .cta__form button {
+        width: 100%;
+    }
+}
+</style>
+
+<section class="cta">
+    <div class="cta__container">
 
         <!-- Simple CTA Banner -->
-        <div class="cta-banner cta-banner--simple mb-double" role="complementary" aria-labelledby="cta-simple-heading">
-            <div class="cta-content">
-                <h2 class="cta-title" id="cta-simple-heading">Ready to get started?</h2>
-                <p class="cta-text">Join thousands of satisfied customers today.</p>
+        <div class="cta__banner cta__banner--simple" role="complementary" aria-labelledby="cta-simple-heading">
+            <div class="cta__content">
+                <h2 class="cta__title" id="cta-simple-heading">Ready to get started?</h2>
+                <p class="cta__text">Join thousands of satisfied customers today.</p>
             </div>
-            <div class="cta-action">
-                <a href="/signup/" class="button button-primary button-lg">
+            <div class="cta__action">
+                <a href="/signup/" class="cta__button cta__button--primary cta__button--lg">
                     Start Free Trial
                 </a>
             </div>
         </div>
 
         <!-- Gradient CTA Banner -->
-        <div class="cta-banner cta-banner--gradient mb-double" role="complementary" aria-labelledby="cta-gradient-heading">
-            <div class="cta-inner">
-                <span class="cta-badge mb-half">Limited Time Offer</span>
-                <h2 class="cta-title cta-title--large" id="cta-gradient-heading">
+        <div class="cta__banner cta__banner--gradient" role="complementary" aria-labelledby="cta-gradient-heading">
+            <div class="cta__inner">
+                <span class="cta__badge">Limited Time Offer</span>
+                <h2 class="cta__title" id="cta-gradient-heading">
                     Get 50% Off Your First Year
                 </h2>
-                <p class="cta-text mb-single">
+                <p class="cta__text">
                     Sign up now and save on all annual plans. Offer ends soon!
                 </p>
-                <div class="cta-actions">
-                    <a href="/signup/?promo=50off" class="button button-white button-lg">
+                <div class="cta__actions">
+                    <a href="/signup/?promo=50off" class="cta__button cta__button--white cta__button--lg">
                         Claim Offer
                     </a>
-                    <a href="/pricing/" class="button button-ghost-white button-lg">
+                    <a href="/pricing/" class="cta__button cta__button--ghost-white cta__button--lg">
                         View Plans
                     </a>
                 </div>
-                <p class="cta-disclaimer mt-single">
+                <p class="cta__disclaimer">
                     *Offer valid for new customers only. Terms apply.
                 </p>
             </div>
-            <div class="cta-decoration" aria-hidden="true">
+            <div class="cta__decoration" aria-hidden="true">
                 <svg width="200" height="200" viewBox="0 0 200 200" fill="none"><circle cx="100" cy="100" r="80" stroke="currentColor" stroke-width="0.5" opacity="0.3"/><circle cx="100" cy="100" r="120" stroke="currentColor" stroke-width="0.5" opacity="0.2"/></svg>
             </div>
         </div>
 
         <!-- Split CTA with Image -->
-        <div class="cta-banner cta-banner--split" role="complementary" aria-labelledby="cta-split-heading">
-            <div class="grid-2 items-center gap-double">
-                <div class="cta-content">
-                    <h2 class="cta-title" id="cta-split-heading">
+        <div class="cta__banner cta__banner--split" role="complementary" aria-labelledby="cta-split-heading">
+            <div class="cta__grid">
+                <div class="cta__content">
+                    <h2 class="cta__title" id="cta-split-heading">
                         Download Our Free Guide
                     </h2>
-                    <p class="cta-text mb-single">
+                    <p class="cta__text">
                         Learn the secrets to scaling your business with our
                         comprehensive 50-page guide. Packed with actionable
                         insights and real-world examples.
                     </p>
-                    <ul class="cta-benefits mb-single">
-                        <li>
+                    <ul class="cta__benefits">
+                        <li class="cta__benefit">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                             10 proven growth strategies
                         </li>
-                        <li>
+                        <li class="cta__benefit">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                             Case studies from top companies
                         </li>
-                        <li>
+                        <li class="cta__benefit">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                             Bonus templates included
                         </li>
                     </ul>
-                    <form class="cta-form" action="/download/" method="post">
-                        <div class="form-row">
+                    <form class="cta__form" action="/download/" method="post">
+                        <div class="cta__form-row">
                             <input type="email"
                                    name="email"
                                    placeholder="Enter your email"
                                    required
                                    aria-label="Email address">
-                            <button type="submit" class="button button-primary">
+                            <button type="submit" class="cta__button cta__button--primary">
                                 Get Free Guide
                             </button>
                         </div>
-                        <p class="form-privacy">
+                        <p class="cta__form-privacy">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                             We respect your privacy. Unsubscribe anytime.
                         </p>
                     </form>
                 </div>
-                <figure class="cta-image mb-none">
+                <figure class="cta__image">
                     <img src="/assets/images/guide-preview.png"
                          alt="Guide preview showing table of contents"
                          loading="lazy"

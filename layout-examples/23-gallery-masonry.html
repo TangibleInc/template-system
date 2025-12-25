@@ -1,22 +1,271 @@
-<!-- Gallery: Masonry Lightbox -->
-<section class="gallery-masonry block-double-tb" id="photos" aria-labelledby="photos-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Gallery: Masonry Lightbox
+     Usage: [template name=gallery-masonry]
+     BEM Block: .lightbox
+-->
 
-        <header class="section-header text-center mb-double">
-            <h2 class="section-title" id="photos-heading">Photo Gallery</h2>
-            <p class="section-subtitle">
+<style>
+/* Lightbox Gallery Block */
+.lightbox-gallery {
+    padding: 5rem 1.5rem;
+    background: #fff;
+}
+
+.lightbox-gallery__container {
+    max-width: 1400px;
+    margin-inline: auto;
+}
+
+/* Header */
+.lightbox-gallery__header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.lightbox-gallery__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0 0 1rem;
+}
+
+.lightbox-gallery__subtitle {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0;
+}
+
+/* Masonry Grid */
+.lightbox-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.lightbox-gallery__item {
+    margin: 0;
+    break-inside: avoid;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    background: #e2e8f0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.lightbox-gallery__item:hover {
+    transform: scale(1.02);
+}
+
+.lightbox-gallery__link {
+    display: block;
+    position: relative;
+}
+
+.lightbox-gallery__item img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.lightbox-gallery__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox-gallery__item:hover .lightbox-gallery__overlay {
+    opacity: 1;
+}
+
+.lightbox-gallery__overlay svg {
+    width: 48px;
+    height: 48px;
+    color: #fff;
+}
+
+/* Lightbox Modal */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(15, 23, 42, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.lightbox--active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox__backdrop {
+    position: absolute;
+    inset: 0;
+}
+
+.lightbox__container {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    z-index: 1;
+}
+
+.lightbox__close {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lightbox__close:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.lightbox__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox__nav:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.lightbox__prev {
+    left: -60px;
+}
+
+.lightbox__next {
+    right: -60px;
+}
+
+.lightbox__content {
+    margin: 0;
+}
+
+.lightbox__image {
+    display: block;
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+}
+
+.lightbox__caption {
+    text-align: center;
+    color: #fff;
+    font-size: 1rem;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.lightbox__counter {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+/* Footer */
+.lightbox-gallery__info {
+    text-align: center;
+    font-size: 0.9375rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .lightbox-gallery {
+        padding: 4rem 1rem;
+    }
+
+    .lightbox-gallery__grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .lightbox__prev {
+        left: 10px;
+    }
+
+    .lightbox__next {
+        right: 10px;
+    }
+
+    .lightbox__close {
+        top: 10px;
+        right: 10px;
+    }
+
+    .lightbox__counter {
+        bottom: 10px;
+    }
+}
+
+@media (max-width: 640px) {
+    .lightbox-gallery {
+        padding: 3rem 1rem;
+    }
+
+    .lightbox-gallery__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lightbox__container {
+        max-width: 95vw;
+    }
+}
+</style>
+
+<section class="lightbox-gallery" id="photos" aria-labelledby="photos-heading">
+    <div class="lightbox-gallery__container">
+
+        <header class="lightbox-gallery__header">
+            <h2 class="lightbox-gallery__title" id="photos-heading">Photo Gallery</h2>
+            <p class="lightbox-gallery__subtitle">
                 Capturing moments and memories
             </p>
         </header>
 
         <!-- Masonry Gallery -->
-        <div class="masonry-gallery" data-masonry='{"itemSelector": ".gallery-item", "columnWidth": ".grid-sizer", "gutter": 16, "percentPosition": true}'>
-            <div class="grid-sizer"></div>
-
+        <div class="lightbox-gallery__grid">
             <Loop type=attachment mime_type=image parent="{Field id}" orderby=menu_order order=ASC>
-                <figure class="gallery-item gallery-item--<If check='{Field loop_index}' operator='%' value='5' result='0'>tall<Else if check='{Field loop_index}' operator='%' value='3' result='0'>wide<Else />regular</If>">
+                <figure class="lightbox-gallery__item">
                     <a href="{Field url size=full}"
-                       class="lightbox-trigger"
+                       class="lightbox-gallery__link"
                        data-caption="{Field caption}"
                        data-index="{Field loop_index}">
                         <img src="{Field url size=medium_large}"
@@ -24,54 +273,114 @@
                              loading="lazy"
                              width="{Field width}"
                              height="{Field height}">
-                        <div class="gallery-item-overlay">
+                        <div class="lightbox-gallery__overlay">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
                         </div>
                     </a>
-                    <If field=caption>
-                        <figcaption class="gallery-caption visually-hidden">
-                            <Field caption />
-                        </figcaption>
-                    </If>
                 </figure>
             </Loop>
-
         </div>
 
         <!-- Gallery Info -->
-        <footer class="gallery-info mt-single-half text-center">
-            <p class="gallery-count">
-                <Loop type=attachment mime_type=image parent="{Field id}">
-                    <If check="{Field loop_index}" value="{Field loop_total}">
-                        Showing <strong>{Field loop_total}</strong> photos
-                    </If>
-                </Loop>
-            </p>
+        <footer class="lightbox-gallery__info">
+            <Loop type=attachment mime_type=image parent="{Field id}">
+                <If check="{Field loop_index}" value="{Field loop_total}">
+                    <p>Showing <strong>{Field loop_total}</strong> photos</p>
+                </If>
+            </Loop>
         </footer>
 
     </div>
 
     <!-- Lightbox Modal -->
-    <div class="lightbox" id="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Image gallery" hidden>
-        <div class="lightbox-backdrop"></div>
-        <div class="lightbox-container">
-            <button type="button" class="lightbox-close" aria-label="Close gallery">
+    <div class="lightbox" id="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Image gallery">
+        <div class="lightbox__backdrop"></div>
+        <div class="lightbox__container">
+            <button type="button" class="lightbox__close" aria-label="Close gallery">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
-            <button type="button" class="lightbox-nav lightbox-prev" aria-label="Previous image">
+            <button type="button" class="lightbox__nav lightbox__prev" aria-label="Previous image">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
-            <figure class="lightbox-content">
-                <img src="" alt="" class="lightbox-image">
-                <figcaption class="lightbox-caption"></figcaption>
+            <figure class="lightbox__content">
+                <img src="" alt="" class="lightbox__image">
+                <figcaption class="lightbox__caption"></figcaption>
             </figure>
-            <button type="button" class="lightbox-nav lightbox-next" aria-label="Next image">
+            <button type="button" class="lightbox__nav lightbox__next" aria-label="Next image">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
             </button>
-            <div class="lightbox-counter">
-                <span class="current">1</span> / <span class="total">10</span>
+            <div class="lightbox__counter">
+                <span class="lightbox__current">1</span> / <span class="lightbox__total">10</span>
             </div>
         </div>
     </div>
 
 </section>
+
+<script>
+(function() {
+    const lightbox = document.getElementById('gallery-lightbox');
+    if (!lightbox) return;
+
+    const links = document.querySelectorAll('.lightbox-gallery__link');
+    const lightboxImage = lightbox.querySelector('.lightbox__image');
+    const lightboxCaption = lightbox.querySelector('.lightbox__caption');
+    const lightboxCurrent = lightbox.querySelector('.lightbox__current');
+    const lightboxTotal = lightbox.querySelector('.lightbox__total');
+    const closeBtn = lightbox.querySelector('.lightbox__close');
+    const prevBtn = lightbox.querySelector('.lightbox__prev');
+    const nextBtn = lightbox.querySelector('.lightbox__next');
+    const backdrop = lightbox.querySelector('.lightbox__backdrop');
+
+    let currentIndex = 0;
+    const images = Array.from(links).map(link => ({
+        src: link.href,
+        caption: link.dataset.caption || ''
+    }));
+
+    lightboxTotal.textContent = images.length;
+
+    function showImage(index) {
+        if (index < 0) index = images.length - 1;
+        if (index >= images.length) index = 0;
+
+        currentIndex = index;
+        lightboxImage.src = images[index].src;
+        lightboxCaption.textContent = images[index].caption;
+        lightboxCurrent.textContent = index + 1;
+    }
+
+    function openLightbox(index) {
+        lightbox.classList.add('lightbox--active');
+        showImage(index);
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('lightbox--active');
+        document.body.style.overflow = '';
+    }
+
+    // Click handlers
+    links.forEach((link, index) => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            openLightbox(index);
+        });
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    backdrop.addEventListener('click', closeLightbox);
+    prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+    nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('lightbox--active')) return;
+
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+        if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+    });
+})();
+</script>

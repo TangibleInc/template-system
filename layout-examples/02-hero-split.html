@@ -1,50 +1,245 @@
-<!-- Hero: Split Layout with Image -->
-<section class="hero-split block-double-tb" aria-labelledby="hero-split-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Hero: Split Layout with Image
+     Usage: [template name=hero-split]
+     BEM Block: .hero with --split modifier
+-->
 
-        <div class="grid-2 items-center gap-double">
+<style>
+/* Hero Block - Split */
+.hero--split {
+    padding: 4rem 1.5rem;
+    background: #fff;
+}
 
-            <div class="hero-content">
-                <span class="hero-eyebrow mb-half">Welcome to Our Platform</span>
-                <h1 class="hero-title mb-single" id="hero-split-heading">
-                    Transform Your Digital Experience
-                </h1>
-                <p class="hero-description mb-single">
-                    Leverage cutting-edge technology to streamline your workflow,
-                    boost productivity, and achieve remarkable results.
-                </p>
+.hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin-inline: auto;
+}
 
-                <ul class="hero-features mb-single-half">
-                    <li>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                        Lightning-fast performance
-                    </li>
-                    <li>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                        Enterprise-grade security
-                    </li>
-                    <li>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                        24/7 dedicated support
-                    </li>
-                </ul>
+.hero__content {
+    max-width: 560px;
+}
 
-                <div class="hero-actions">
-                    <a href="/signup/" class="button button-primary">Start Free Trial</a>
-                    <a href="/pricing/" class="button button-ghost">View Pricing</a>
-                </div>
+/* Eyebrow Element */
+.hero__eyebrow {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 1rem;
+}
+
+/* Title Element */
+.hero__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0 0 1.25rem;
+}
+
+/* Description Element */
+.hero__description {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #475569;
+    margin: 0 0 1.5rem;
+}
+
+/* Features List */
+.hero__features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.hero__feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    color: #334155;
+}
+
+.hero__feature-icon {
+    width: 20px;
+    height: 20px;
+    color: #22c55e;
+    flex-shrink: 0;
+}
+
+/* Actions Element */
+.hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Button Element */
+.hero__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.hero__button--primary {
+    background: #6366f1;
+    color: #fff;
+}
+
+.hero__button--primary:hover {
+    background: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.hero__button--ghost {
+    background: transparent;
+    color: #475569;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.hero__button--ghost:hover {
+    color: #0f172a;
+}
+
+/* Media Element */
+.hero__media {
+    position: relative;
+}
+
+.hero__image-wrapper {
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+.hero__image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .hero__grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .hero__content {
+        order: 2;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .hero__media {
+        order: 1;
+    }
+
+    .hero__features {
+        align-items: center;
+    }
+
+    .hero__actions {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero--split {
+        padding: 3rem 1rem;
+    }
+
+    .hero__actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero__button {
+        justify-content: center;
+    }
+
+    .hero__button--ghost {
+        padding-left: 1.75rem;
+        padding-right: 1.75rem;
+    }
+}
+</style>
+
+<section class="hero hero--split" aria-labelledby="hero-split-heading">
+    <div class="hero__grid">
+
+        <div class="hero__content">
+            <span class="hero__eyebrow">Welcome to Our Platform</span>
+
+            <h1 class="hero__title" id="hero-split-heading">
+                Transform Your Digital Experience
+            </h1>
+
+            <p class="hero__description">
+                Leverage cutting-edge technology to streamline your workflow,
+                boost productivity, and achieve remarkable results.
+            </p>
+
+            <ul class="hero__features">
+                <li class="hero__feature">
+                    <svg class="hero__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    Lightning-fast performance
+                </li>
+                <li class="hero__feature">
+                    <svg class="hero__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    Enterprise-grade security
+                </li>
+                <li class="hero__feature">
+                    <svg class="hero__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    24/7 dedicated support
+                </li>
+            </ul>
+
+            <div class="hero__actions">
+                <a href="/signup/" class="hero__button hero__button--primary">Start Free Trial</a>
+                <a href="/pricing/" class="hero__button hero__button--ghost">View Pricing →</a>
             </div>
+        </div>
 
-            <div class="hero-media">
-                <figure class="hero-image-wrapper">
-                    <img src="/assets/images/hero-dashboard.png"
-                         alt="Platform dashboard preview"
-                         loading="eager"
-                         width="600"
-                         height="450">
-                </figure>
-            </div>
-
+        <div class="hero__media">
+            <figure class="hero__image-wrapper">
+                <img class="hero__image"
+                     src="/assets/images/hero-dashboard.png"
+                     alt="Platform dashboard preview"
+                     loading="eager"
+                     width="600"
+                     height="450">
+            </figure>
         </div>
 
     </div>

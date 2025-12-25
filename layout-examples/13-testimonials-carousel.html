@@ -1,91 +1,371 @@
-<!-- Testimonials: Carousel Layout -->
-<section class="testimonials-carousel block-double-tb" id="testimonials" aria-labelledby="testimonials-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Testimonials: Carousel Layout
+     Usage: [template name=testimonials-carousel]
+     BEM Block: .testimonials
+-->
 
-        <header class="section-header text-center mb-double">
-            <span class="section-label">Testimonials</span>
-            <h2 class="section-title" id="testimonials-heading">What Our Customers Say</h2>
-            <p class="section-subtitle">
+<style>
+/* Testimonials Block */
+.testimonials {
+    padding: 5rem 1.5rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.testimonials__container {
+    max-width: 1100px;
+    margin-inline: auto;
+}
+
+/* Header Element */
+.testimonials__header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.testimonials__label {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6366f1;
+    margin-bottom: 0.75rem;
+}
+
+.testimonials__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+}
+
+.testimonials__subtitle {
+    font-size: 1.125rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Slider Element */
+.testimonials__slider {
+    position: relative;
+    margin-bottom: 2.5rem;
+}
+
+.testimonials__track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 1rem 0;
+}
+
+.testimonials__track::-webkit-scrollbar {
+    display: none;
+}
+
+/* Card Element */
+.testimonials__card {
+    flex: 0 0 350px;
+    scroll-snap-align: center;
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.testimonials__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Rating Element */
+.testimonials__rating {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+    color: #f59e0b;
+}
+
+.testimonials__rating svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Quote Element */
+.testimonials__quote {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #334155;
+    margin: 0 0 1.5rem;
+    font-style: italic;
+}
+
+/* Author Element */
+.testimonials__author {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+}
+
+.testimonials__avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.testimonials__author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonials__name {
+    font-size: 0.938rem;
+    font-weight: 700;
+    color: #0f172a;
+    font-style: normal;
+}
+
+.testimonials__role {
+    font-size: 0.813rem;
+    color: #64748b;
+}
+
+/* Controls Element */
+.testimonials__controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.testimonials__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #475569;
+    transition: all 0.2s ease;
+}
+
+.testimonials__btn:hover {
+    border-color: #6366f1;
+    color: #6366f1;
+}
+
+.testimonials__btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.testimonials__dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.testimonials__dot {
+    width: 10px;
+    height: 10px;
+    background: #cbd5e1;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.testimonials__dot--active,
+.testimonials__dot:hover {
+    background: #6366f1;
+    transform: scale(1.2);
+}
+
+/* Trust Badges */
+.testimonials__trust {
+    text-align: center;
+    padding-top: 2.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.testimonials__trust-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #64748b;
+    margin-bottom: 1.5rem;
+}
+
+.testimonials__logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    opacity: 0.6;
+    filter: grayscale(100%);
+    transition: all 0.3s ease;
+}
+
+.testimonials__logos:hover {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+.testimonials__logos img {
+    height: 32px;
+    width: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .testimonials {
+        padding: 3rem 1rem;
+    }
+
+    .testimonials__card {
+        flex: 0 0 300px;
+    }
+
+    .testimonials__logos {
+        gap: 1.5rem;
+    }
+
+    .testimonials__logos img {
+        height: 24px;
+    }
+}
+</style>
+
+<section class="testimonials" id="testimonials" aria-labelledby="testimonials-heading">
+    <div class="testimonials__container">
+
+        <header class="testimonials__header">
+            <span class="testimonials__label">Testimonials</span>
+            <h2 class="testimonials__title" id="testimonials-heading">What Our Customers Say</h2>
+            <p class="testimonials__subtitle">
                 Join thousands of satisfied customers who trust us
             </p>
         </header>
 
-        <div class="testimonials-slider" aria-roledescription="carousel">
-            <div class="slider-track">
+        <div class="testimonials__slider js-testimonial-slider" aria-roledescription="carousel">
+            <div class="testimonials__track js-slider-track">
 
                 <Loop type=testimonial count=6 orderby=date order=DESC>
-                    <article class="testimonial-slide" role="group" aria-roledescription="slide" aria-label="Testimonial {Field loop_index} of {Field loop_total}">
-                        <div class="testimonial-card">
+                    <article class="testimonials__card" role="group" aria-roledescription="slide">
 
-                            <div class="testimonial-rating mb-single" aria-label="5 star rating">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            </div>
-
-                            <blockquote class="testimonial-quote mb-single">
-                                <p>"<Field content />"</p>
-                            </blockquote>
-
-                            <footer class="testimonial-author">
-                                <If field=author_image>
-                                    <img src="{Field author_image size=thumbnail}"
-                                         alt=""
-                                         class="testimonial-avatar"
-                                         width="56"
-                                         height="56"
-                                         loading="lazy">
-                                </If>
-                                <div class="testimonial-author-info">
-                                    <cite class="testimonial-name">
-                                        <Field author_name />
-                                    </cite>
-                                    <span class="testimonial-title">
-                                        <Field author_title />, <Field company />
-                                    </span>
-                                </div>
-                            </footer>
-
+                        <div class="testimonials__rating" aria-label="5 star rating">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                         </div>
+
+                        <blockquote class="testimonials__quote">
+                            "<Field content />"
+                        </blockquote>
+
+                        <footer class="testimonials__author">
+                            <If field=author_image>
+                                <img src="{Field author_image size=thumbnail}"
+                                     alt=""
+                                     class="testimonials__avatar"
+                                     width="52"
+                                     height="52"
+                                     loading="lazy">
+                            </If>
+                            <div class="testimonials__author-info">
+                                <cite class="testimonials__name"><Field author_name /></cite>
+                                <span class="testimonials__role"><Field author_title />, <Field company /></span>
+                            </div>
+                        </footer>
+
                     </article>
                 </Loop>
 
             </div>
 
-            <!-- Slider Controls -->
-            <div class="slider-controls">
-                <button type="button" class="slider-btn slider-btn--prev" aria-label="Previous testimonial">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+            <div class="testimonials__controls">
+                <button type="button" class="testimonials__btn js-slider-prev" aria-label="Previous testimonial">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
                 </button>
-                <div class="slider-dots" role="tablist" aria-label="Testimonial slides">
+                <div class="testimonials__dots js-slider-dots" role="tablist" aria-label="Testimonial slides">
                     <Loop type=testimonial count=6>
                         <button type="button"
-                                class="slider-dot<If check='{Field loop_index}' value='1'> active</If>"
+                                class="testimonials__dot<If check='{Field loop_index}' value='1'> testimonials__dot--active</If> js-slider-dot"
                                 role="tab"
-                                aria-selected="<If check='{Field loop_index}' value='1'>true<Else />false</If>"
                                 aria-label="Go to slide {Field loop_index}"></button>
                     </Loop>
                 </div>
-                <button type="button" class="slider-btn slider-btn--next" aria-label="Next testimonial">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                <button type="button" class="testimonials__btn js-slider-next" aria-label="Next testimonial">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
                 </button>
             </div>
 
         </div>
 
-        <!-- Trust Badges -->
-        <div class="trust-badges mt-double text-center">
-            <p class="trust-label mb-single">Trusted by leading companies</p>
-            <div class="trust-logos">
-                <img src="/assets/logos/company-1.svg" alt="Company 1" width="120" height="40" loading="lazy">
-                <img src="/assets/logos/company-2.svg" alt="Company 2" width="120" height="40" loading="lazy">
-                <img src="/assets/logos/company-3.svg" alt="Company 3" width="120" height="40" loading="lazy">
-                <img src="/assets/logos/company-4.svg" alt="Company 4" width="120" height="40" loading="lazy">
-                <img src="/assets/logos/company-5.svg" alt="Company 5" width="120" height="40" loading="lazy">
+        <aside class="testimonials__trust">
+            <p class="testimonials__trust-label">Trusted by leading companies</p>
+            <div class="testimonials__logos">
+                <img src="/assets/logos/company-1.svg" alt="Company 1" width="120" height="32" loading="lazy">
+                <img src="/assets/logos/company-2.svg" alt="Company 2" width="120" height="32" loading="lazy">
+                <img src="/assets/logos/company-3.svg" alt="Company 3" width="120" height="32" loading="lazy">
+                <img src="/assets/logos/company-4.svg" alt="Company 4" width="120" height="32" loading="lazy">
+                <img src="/assets/logos/company-5.svg" alt="Company 5" width="120" height="32" loading="lazy">
             </div>
-        </div>
+        </aside>
 
     </div>
 </section>
+
+<script>
+(function() {
+    const slider = document.querySelector('.js-testimonial-slider');
+    if (!slider) return;
+
+    const track = slider.querySelector('.js-slider-track');
+    const cards = track.querySelectorAll('.testimonials__card');
+    const dots = slider.querySelectorAll('.js-slider-dot');
+    const prevBtn = slider.querySelector('.js-slider-prev');
+    const nextBtn = slider.querySelector('.js-slider-next');
+
+    let currentIndex = 0;
+    const cardWidth = cards[0]?.offsetWidth + 24; // gap
+
+    function goToSlide(index) {
+        if (index < 0) index = cards.length - 1;
+        if (index >= cards.length) index = 0;
+        currentIndex = index;
+
+        track.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
+
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('testimonials__dot--active', i === index);
+            dot.setAttribute('aria-selected', i === index);
+        });
+    }
+
+    prevBtn?.addEventListener('click', () => goToSlide(currentIndex - 1));
+    nextBtn?.addEventListener('click', () => goToSlide(currentIndex + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goToSlide(i)));
+
+    // Auto-play
+    let autoplay = setInterval(() => goToSlide(currentIndex + 1), 5000);
+
+    slider.addEventListener('mouseenter', () => clearInterval(autoplay));
+    slider.addEventListener('mouseleave', () => {
+        autoplay = setInterval(() => goToSlide(currentIndex + 1), 5000);
+    });
+})();
+</script>

@@ -1,60 +1,296 @@
-<!-- Blog: Masonry Grid Layout -->
-<section class="blog-masonry block-double-tb" aria-labelledby="masonry-heading">
-    <div class="inner" style="padding-inline: var(--space-s);">
+<!-- Blog: Masonry Grid Layout
+     Usage: [template name=blog-masonry]
+     BEM Block: .masonry
+-->
 
-        <header class="section-header text-center mb-double">
-            <h2 class="section-title" id="masonry-heading">Explore Our Content</h2>
-            <p class="section-subtitle">
+<style>
+/* Masonry Block */
+.masonry {
+    padding: 5rem 1.5rem;
+    background: #f8fafc;
+}
+
+.masonry__container {
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+/* Header Element */
+.masonry__header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.masonry__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.02em;
+}
+
+.masonry__subtitle {
+    font-size: 1.125rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Filter Element */
+.masonry__filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.masonry__filter-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #64748b;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.masonry__filter-btn:hover {
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+.masonry__filter-btn--active {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: #fff;
+}
+
+/* Grid Element */
+.masonry__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.masonry__sizer {
+    grid-column: span 1;
+}
+
+/* Card Element */
+.masonry__card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.masonry__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.masonry__card--tall .masonry__card-image {
+    aspect-ratio: 3 / 4;
+}
+
+.masonry__card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Card Image */
+.masonry__card-image {
+    margin: 0;
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+
+.masonry__card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.masonry__card:hover .masonry__card-image img {
+    transform: scale(1.05);
+}
+
+.masonry__card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+}
+
+.masonry__card-category {
+    padding: 0.25rem 0.625rem;
+    background: rgba(255, 255, 255, 0.95);
+    color: #0f172a;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 4px;
+}
+
+/* Card Content */
+.masonry__card-content {
+    padding: 1.25rem;
+}
+
+.masonry__card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #0f172a;
+    margin: 0 0 0.5rem;
+}
+
+.masonry__card-excerpt {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0 0 0.75rem;
+}
+
+/* Card Footer */
+.masonry__card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.813rem;
+    color: #94a3b8;
+}
+
+/* Footer Element */
+.masonry__footer {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.masonry__load-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: #6366f1;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.masonry__load-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.masonry__load-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+}
+
+.masonry__load-btn:hover .masonry__load-icon {
+    transform: translateY(2px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .masonry__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .masonry {
+        padding: 3rem 1rem;
+    }
+
+    .masonry__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .masonry__filter {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        padding-bottom: 0.5rem;
+    }
+
+    .masonry__filter-btn {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+}
+</style>
+
+<section class="masonry" aria-labelledby="masonry-heading">
+    <div class="masonry__container">
+
+        <header class="masonry__header">
+            <h2 class="masonry__title" id="masonry-heading">Explore Our Content</h2>
+            <p class="masonry__subtitle">
                 Stories, insights, and inspiration from around the world
             </p>
         </header>
 
         <!-- Category Filter -->
-        <nav class="masonry-filter mb-single-half" aria-label="Filter by category">
-            <button class="filter-btn active" data-filter="all">All</button>
+        <nav class="masonry__filter" aria-label="Filter by category">
+            <button class="masonry__filter-btn masonry__filter-btn--active js-filter-btn" data-filter="all" type="button">All</button>
             <Loop taxonomy=category count=5 orderby=count order=DESC>
-                <button class="filter-btn" data-filter="{Field slug}">
+                <button class="masonry__filter-btn js-filter-btn" data-filter="{Field slug}" type="button">
                     <Field title />
                 </button>
             </Loop>
         </nav>
 
         <!-- Masonry Grid -->
-        <div class="masonry-grid" data-masonry='{"itemSelector": ".masonry-item", "columnWidth": ".masonry-sizer", "percentPosition": true}'>
-            <div class="masonry-sizer"></div>
+        <div class="masonry__grid js-masonry-grid">
+            <div class="masonry__sizer"></div>
 
             <Loop type=post count=12 orderby=date order=DESC>
-                <article class="masonry-item masonry-item--<If check='{Field loop_index}' operator='%' value='3' result='0'>tall<Else />regular</If>" data-category="{Field terms taxonomy=category field=slug}">
-                    <a href="{Field url}" class="masonry-card">
+                <article class="masonry__card js-masonry-item" data-category="{Field terms taxonomy=category field=slug}">
+                    <a href="{Field url}" class="masonry__card-link">
 
-                        <figure class="masonry-image mb-none">
+                        <figure class="masonry__card-image">
                             <If field=image_url>
                                 <img src="{Field image_url size=medium_large}"
                                      alt="{Field image_alt}"
                                      loading="lazy">
                             </If>
-                            <div class="masonry-overlay">
+                            <div class="masonry__card-overlay">
                                 <If field=terms taxonomy=category>
-                                    <span class="masonry-category">
+                                    <span class="masonry__card-category">
                                         <Field terms taxonomy=category count=1 />
                                     </span>
                                 </If>
                             </div>
                         </figure>
 
-                        <div class="masonry-content">
-                            <h3 class="masonry-title mb-half">
+                        <div class="masonry__card-content">
+                            <h3 class="masonry__card-title">
                                 <Field title />
                             </h3>
 
-                            <p class="masonry-excerpt mb-half">
+                            <p class="masonry__card-excerpt">
                                 <Field excerpt words=15 />
                             </p>
 
-                            <footer class="masonry-footer">
-                                <span class="masonry-author">
-                                    <Field author_name />
-                                </span>
+                            <footer class="masonry__card-footer">
+                                <span><Field author_name /></span>
                                 <time datetime="{Field publish_date date_format='Y-m-d'}">
                                     <Field publish_date date_format="M j" />
                                 </time>
@@ -67,12 +303,57 @@
 
         </div>
 
-        <footer class="section-footer text-center mt-double">
-            <button class="button button-primary load-more-btn" type="button">
+        <footer class="masonry__footer">
+            <button class="masonry__load-btn js-load-more" type="button">
                 Load More
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                <svg class="masonry__load-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M12 5v14M5 12l7 7 7-7"/>
+                </svg>
             </button>
         </footer>
 
     </div>
 </section>
+
+<script>
+(function() {
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.js-filter-btn');
+    const masonryItems = document.querySelectorAll('.js-masonry-item');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const filter = this.dataset.filter;
+
+            // Update active state
+            filterButtons.forEach(btn => btn.classList.remove('masonry__filter-btn--active'));
+            this.classList.add('masonry__filter-btn--active');
+
+            // Filter items
+            masonryItems.forEach(item => {
+                const category = item.dataset.category;
+                if (filter === 'all' || category.includes(filter)) {
+                    item.style.display = '';
+                    item.style.animation = 'fadeIn 0.3s ease';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Load more button
+    const loadMoreBtn = document.querySelector('.js-load-more');
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+            this.textContent = 'Loading...';
+            this.disabled = true;
+
+            // Dispatch custom event for loading more posts
+            window.dispatchEvent(new CustomEvent('loadMorePosts', {
+                detail: { page: 2 }
+            }));
+        });
+    }
+})();
+</script>
