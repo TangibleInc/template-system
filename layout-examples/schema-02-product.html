@@ -2,8 +2,15 @@
      Usage: [template name=schema-product rating=4.5 rating_count=120 price=29.99 currency=USD]
      Works on: Product pages or any post with product data
 -->
+<If check="{Get rating}" is value=""><Set rating>5</Set></If>
+<If check="{Get rating_count}" is value=""><Set rating_count>1</Set></If>
+<If check="{Get price}" is value=""><Set price>0</Set></If>
+<If check="{Get currency}" is value=""><Set currency>USD</Set></If>
+<If check="{Get availability}" is value=""><Set availability>InStock</Set></If>
+
 <Loop type=post id=current>
-<Set schema_json>{
+<Raw><script type="application/ld+json"></Raw>
+{
     "@context": "https://schema.org",
     "@type": "Product",
     "name": "<Field title />",
@@ -11,37 +18,22 @@
     "image": "<Field image_url />",
     "brand": {
         "@type": "Brand",
-        "name": "<Get brand default='<Site name />' />"
+        "name": "<Site name />"
     },
-    "sku": "<Get sku default='' />",
-    "mpn": "<Get mpn default='' />",
     "offers": {
         "@type": "Offer",
-        "price": "<Get price default='0' />",
-        "priceCurrency": "<Get currency default='USD' />",
-        "availability": "https://schema.org/<Get availability default='InStock' />",
-        "url": "<Field url />",
-        "priceValidUntil": "<Get price_valid_until default='2025-12-31' />"
+        "price": "<Get price />",
+        "priceCurrency": "<Get currency />",
+        "availability": "https://schema.org/<Get availability />",
+        "url": "<Field url />"
     },
     "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "<Get rating default='5' />",
+        "ratingValue": "<Get rating />",
         "bestRating": "5",
         "worstRating": "1",
-        "ratingCount": "<Get rating_count default='1' />"
-    },
-    "review": {
-        "@type": "Review",
-        "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "<Get rating default='5' />",
-            "bestRating": "5"
-        },
-        "author": {
-            "@type": "Person",
-            "name": "<Field author_name />"
-        }
+        "ratingCount": "<Get rating_count />"
     }
-}</Set>
+}
+<Raw></script></Raw>
 </Loop>
-<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

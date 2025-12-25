@@ -1,28 +1,22 @@
 <!-- Schema: VideoObject
-     Usage: [template name=schema-video]
+     Usage: [template name=schema-video duration=PT5M30S]
      Works on: Posts with video content
-     Expects: ACF fields for video_url, duration, thumbnail, etc.
+     Expects: ACF fields for video_url, video_thumbnail
 -->
+<If check="{Get duration}" is value=""><Set duration>PT1M</Set></If>
+
 <Loop type=post id=current>
-<Set schema_json>{
+<Raw><script type="application/ld+json"></Raw>
+{
     "@context": "https://schema.org",
     "@type": "VideoObject",
     "name": "<Field title />",
     "description": "<Field excerpt />",
-    "thumbnailUrl": [
-        "<Field video_thumbnail size=large />",
-        "<Field image_url size=large />"
-    ],
+    "thumbnailUrl": "<Field image_url />",
     "uploadDate": "<Field publish_date date_format='c' />",
-    "duration": "<Get duration default='PT1M' />",
+    "duration": "<Get duration />",
     "contentUrl": "<Field video_url />",
     "embedUrl": "<Field video_embed_url />",
-    "interactionStatistic": {
-        "@type": "InteractionCounter",
-        "interactionType": { "@type": "WatchAction" },
-        "userInteractionCount": "<Get view_count default='0' />"
-    },
-    "regionsAllowed": "<Get regions default='US,CA,GB,AU' />",
     "author": {
         "@type": "Person",
         "name": "<Field author_name />"
@@ -34,18 +28,7 @@
             "@type": "ImageObject",
             "url": "<Site logo />"
         }
-    },
-    "hasPart": [
-        <Loop field=chapters>
-        {
-            "@type": "Clip",
-            "name": "<Field title />",
-            "startOffset": <Field start_time />,
-            "endOffset": <Field end_time />,
-            "url": "<Field url />"
-        }<If not check="{Field loop_last}" value="true">,</If>
-        </Loop>
-    ]
-}</Set>
+    }
+}
+<Raw></script></Raw>
 </Loop>
-<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

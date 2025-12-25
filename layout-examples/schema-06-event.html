@@ -1,10 +1,17 @@
 <!-- Schema: Event
      Usage: [template name=schema-event]
      Works on: Event posts
-     Expects: ACF fields for start_date, end_date, location, price, etc.
+     Expects: ACF fields for start_date, end_date, venue_name, etc.
 -->
+<If check="{Get status}" is value=""><Set status>EventScheduled</Set></If>
+<If check="{Get mode}" is value=""><Set mode>OfflineEventAttendanceMode</Set></If>
+<If check="{Get price}" is value=""><Set price>0</Set></If>
+<If check="{Get currency}" is value=""><Set currency>USD</Set></If>
+<If check="{Get availability}" is value=""><Set availability>InStock</Set></If>
+
 <Loop type=post id=current>
-<Set schema_json>{
+<Raw><script type="application/ld+json"></Raw>
+{
     "@context": "https://schema.org",
     "@type": "Event",
     "name": "<Field title />",
@@ -12,10 +19,10 @@
     "image": "<Field image_url />",
     "startDate": "<Field start_date date_format='c' />",
     "endDate": "<Field end_date date_format='c' />",
-    "eventStatus": "https://schema.org/<Get status default='EventScheduled' />",
-    "eventAttendanceMode": "https://schema.org/<Get mode default='OfflineEventAttendanceMode' />",
+    "eventStatus": "https://schema.org/<Get status />",
+    "eventAttendanceMode": "https://schema.org/<Get mode />",
     "location": {
-        "@type": "<Get location_type default='Place' />",
+        "@type": "Place",
         "name": "<Field venue_name />",
         "address": {
             "@type": "PostalAddress",
@@ -24,12 +31,7 @@
             "addressRegion": "<Field state />",
             "postalCode": "<Field postal_code />",
             "addressCountry": "<Field country />"
-        },
-        "url": "<Field venue_url />"
-    },
-    "performer": {
-        "@type": "<Get performer_type default='Organization' />",
-        "name": "<Field performer_name />"
+        }
     },
     "organizer": {
         "@type": "Organization",
@@ -38,12 +40,11 @@
     },
     "offers": {
         "@type": "Offer",
-        "price": "<Get price default='0' />",
-        "priceCurrency": "<Get currency default='USD' />",
-        "availability": "https://schema.org/<Get availability default='InStock' />",
-        "url": "<Field ticket_url />",
-        "validFrom": "<Field sale_start_date date_format='c' />"
+        "price": "<Get price />",
+        "priceCurrency": "<Get currency />",
+        "availability": "https://schema.org/<Get availability />",
+        "url": "<Field ticket_url />"
     }
-}</Set>
+}
+<Raw></script></Raw>
 </Loop>
-<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

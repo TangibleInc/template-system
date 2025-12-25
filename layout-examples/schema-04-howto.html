@@ -3,35 +3,17 @@
      Works on: Tutorial/how-to posts
      Expects: ACF repeater field 'steps' with 'title', 'description', 'image' subfields
 -->
+<If check="{Get total_time}" is value=""><Set total_time>PT1H</Set></If>
+
 <Loop type=post id=current>
-<Set schema_json>{
+<Raw><script type="application/ld+json"></Raw>
+{
     "@context": "https://schema.org",
     "@type": "HowTo",
     "name": "<Field title />",
     "description": "<Field excerpt />",
     "image": "<Field image_url />",
-    "totalTime": "<Get total_time default='PT1H' />",
-    "estimatedCost": {
-        "@type": "MonetaryAmount",
-        "currency": "<Get currency default='USD' />",
-        "value": "<Get cost default='0' />"
-    },
-    "supply": [
-        <Loop field=supplies>
-        {
-            "@type": "HowToSupply",
-            "name": "<Field name />"
-        }<If not check="{Field loop_last}" value="true">,</If>
-        </Loop>
-    ],
-    "tool": [
-        <Loop field=tools>
-        {
-            "@type": "HowToTool",
-            "name": "<Field name />"
-        }<If not check="{Field loop_last}" value="true">,</If>
-        </Loop>
-    ],
+    "totalTime": "<Get total_time />",
     "step": [
         <Loop field=steps>
         {
@@ -39,11 +21,10 @@
             "position": "<Field loop_index />",
             "name": "<Field title />",
             "text": "<Field description />",
-            "image": "<Field image />",
-            "url": "<Field url />#step-<Field loop_index />"
+            "image": "<Field image />"
         }<If not check="{Field loop_last}" value="true">,</If>
         </Loop>
     ]
-}</Set>
+}
+<Raw></script></Raw>
 </Loop>
-<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

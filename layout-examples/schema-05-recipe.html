@@ -1,31 +1,32 @@
 <!-- Schema: Recipe
      Usage: [template name=schema-recipe prep_time=PT15M cook_time=PT30M rating=4.8 rating_count=256]
      Works on: Recipe posts
-     Expects: ACF fields for ingredients (repeater), instructions (repeater), nutrition
+     Expects: ACF fields for ingredients (repeater), instructions (repeater)
 -->
+<If check="{Get prep_time}" is value=""><Set prep_time>PT15M</Set></If>
+<If check="{Get cook_time}" is value=""><Set cook_time>PT30M</Set></If>
+<If check="{Get total_time}" is value=""><Set total_time>PT45M</Set></If>
+<If check="{Get servings}" is value=""><Set servings>4</Set></If>
+<If check="{Get rating}" is value=""><Set rating>5</Set></If>
+<If check="{Get rating_count}" is value=""><Set rating_count>1</Set></If>
+
 <Loop type=post id=current>
-<Set schema_json>{
+<Raw><script type="application/ld+json"></Raw>
+{
     "@context": "https://schema.org",
     "@type": "Recipe",
     "name": "<Field title />",
     "description": "<Field excerpt />",
-    "image": [
-        "<Field image_url size=large />",
-        "<Field image_url size=medium />",
-        "<Field image_url size=thumbnail />"
-    ],
+    "image": "<Field image_url />",
     "author": {
         "@type": "Person",
         "name": "<Field author_name />"
     },
     "datePublished": "<Field publish_date date_format='Y-m-d' />",
-    "prepTime": "<Get prep_time default='PT15M' />",
-    "cookTime": "<Get cook_time default='PT30M' />",
-    "totalTime": "<Get total_time default='PT45M' />",
-    "recipeYield": "<Get servings default='4' /> servings",
-    "recipeCategory": "<Get category default='Main Course' />",
-    "recipeCuisine": "<Get cuisine default='American' />",
-    "keywords": "<Field terms taxonomy=post_tag />",
+    "prepTime": "<Get prep_time />",
+    "cookTime": "<Get cook_time />",
+    "totalTime": "<Get total_time />",
+    "recipeYield": "<Get servings /> servings",
     "recipeIngredient": [
         <Loop field=ingredients>
         "<Field ingredient />"<If not check="{Field loop_last}" value="true">,</If>
@@ -40,18 +41,11 @@
         }<If not check="{Field loop_last}" value="true">,</If>
         </Loop>
     ],
-    "nutrition": {
-        "@type": "NutritionInformation",
-        "calories": "<Get calories default='' /> calories",
-        "fatContent": "<Get fat default='' /> g",
-        "carbohydrateContent": "<Get carbs default='' /> g",
-        "proteinContent": "<Get protein default='' /> g"
-    },
     "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "<Get rating default='5' />",
-        "ratingCount": "<Get rating_count default='1' />"
+        "ratingValue": "<Get rating />",
+        "ratingCount": "<Get rating_count />"
     }
-}</Set>
+}
+<Raw></script></Raw>
 </Loop>
-<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

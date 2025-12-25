@@ -1,58 +1,49 @@
 <!-- Schema: LocalBusiness
-     Usage: [template name=schema-localbusiness rating=4.7 rating_count=89]
+     Usage: [template name=schema-localbusiness business_name="My Biz" phone="+1234567890" rating=4.7 rating_count=89]
      Works on: Business pages or site-wide
-     Can use Site fields or custom fields
 -->
-<Set schema_json>{
+<If check="{Get business_type}" is value=""><Set business_type>LocalBusiness</Set></If>
+<If check="{Get price_range}" is value=""><Set price_range>$$</Set></If>
+<If check="{Get country}" is value=""><Set country>US</Set></If>
+<If check="{Get rating}" is value=""><Set rating>5</Set></If>
+<If check="{Get rating_count}" is value=""><Set rating_count>1</Set></If>
+<If check="{Get weekday_opens}" is value=""><Set weekday_opens>09:00</Set></If>
+<If check="{Get weekday_closes}" is value=""><Set weekday_closes>17:00</Set></If>
+
+<Raw><script type="application/ld+json"></Raw>
+{
     "@context": "https://schema.org",
-    "@type": "<Get business_type default='LocalBusiness' />",
-    "name": "<Get business_name default='<Site name />' />",
-    "description": "<Get description default='<Site description />' />",
-    "image": "<Get image default='<Site logo />' />",
-    "logo": "<Get logo default='<Site logo />' />",
-    "@id": "<Get id default='<Site url />' />",
-    "url": "<Get url default='<Site url />' />",
+    "@type": "<Get business_type />",
+    "name": "<If check='{Get business_name}' is_not value=''><Get business_name /><Else /><Site name /></If>",
+    "description": "<Site description />",
+    "image": "<Site logo />",
+    "logo": "<Site logo />",
+    "@id": "<Site url />",
+    "url": "<Site url />",
     "telephone": "<Get phone />",
     "email": "<Get email />",
-    "priceRange": "<Get price_range default='$$' />",
+    "priceRange": "<Get price_range />",
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "<Get street />",
         "addressLocality": "<Get city />",
         "addressRegion": "<Get state />",
         "postalCode": "<Get postal_code />",
-        "addressCountry": "<Get country default='US' />"
-    },
-    "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "<Get latitude />",
-        "longitude": "<Get longitude />"
+        "addressCountry": "<Get country />"
     },
     "openingHoursSpecification": [
         {
             "@type": "OpeningHoursSpecification",
             "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-            "opens": "<Get weekday_opens default='09:00' />",
-            "closes": "<Get weekday_closes default='17:00' />"
-        },
-        {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Saturday"],
-            "opens": "<Get saturday_opens default='10:00' />",
-            "closes": "<Get saturday_closes default='14:00' />"
+            "opens": "<Get weekday_opens />",
+            "closes": "<Get weekday_closes />"
         }
-    ],
-    "sameAs": [
-        "<Get facebook />",
-        "<Get twitter />",
-        "<Get linkedin />",
-        "<Get instagram />"
     ],
     "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "<Get rating default='5' />",
+        "ratingValue": "<Get rating />",
         "bestRating": "5",
-        "ratingCount": "<Get rating_count default='1' />"
+        "ratingCount": "<Get rating_count />"
     }
-}</Set>
-<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>
+}
+<Raw></script></Raw>

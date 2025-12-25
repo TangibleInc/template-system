@@ -3,7 +3,8 @@
      Works on: Single posts/articles
 -->
 <Loop type=post id=current>
-<Set schema_json>{
+<Raw><script type="application/ld+json"></Raw>
+{
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "<Field title />",
@@ -28,9 +29,8 @@
         "@type": "WebPage",
         "@id": "<Field url />"
     },
-    "wordCount": "<Field word_count />",
     "articleSection": "<Field terms taxonomy=category />",
     "keywords": "<Field terms taxonomy=post_tag />"
-}</Set>
+}
+<Raw></script></Raw>
 </Loop>
-<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

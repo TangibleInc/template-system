@@ -3,13 +3,13 @@
      Works on: Pages/posts with FAQ custom field (repeater with question/answer)
      Expects: ACF repeater field 'faqs' with 'question' and 'answer' subfields
 -->
-<Set schema_json>{
+<Loop type=post id=current>
+<Raw><script type="application/ld+json"></Raw>
+{
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-        <Loop type=post id=current>
-            <Loop field=faqs>
-                <If field=question>
+        <Loop field=faqs><If field=question>
         {
             "@type": "Question",
             "name": "<Field question />",
@@ -18,9 +18,8 @@
                 "text": "<Field answer />"
             }
         }<If not check="{Field loop_last}" value="true">,</If>
-                </If>
-            </Loop>
-        </Loop>
+        </If></Loop>
     ]
-}</Set>
-<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>
+}
+<Raw></script></Raw>
+</Loop>
