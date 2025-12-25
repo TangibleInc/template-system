@@ -1,0 +1,57 @@
+<!-- Schema: Recipe
+     Usage: [template name=schema-recipe prep_time=PT15M cook_time=PT30M rating=4.8 rating_count=256]
+     Works on: Recipe posts
+     Expects: ACF fields for ingredients (repeater), instructions (repeater), nutrition
+-->
+<Loop type=post id=current>
+<Set schema_json>{
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "<Field title />",
+    "description": "<Field excerpt />",
+    "image": [
+        "<Field image_url size=large />",
+        "<Field image_url size=medium />",
+        "<Field image_url size=thumbnail />"
+    ],
+    "author": {
+        "@type": "Person",
+        "name": "<Field author_name />"
+    },
+    "datePublished": "<Field publish_date date_format='Y-m-d' />",
+    "prepTime": "<Get prep_time default='PT15M' />",
+    "cookTime": "<Get cook_time default='PT30M' />",
+    "totalTime": "<Get total_time default='PT45M' />",
+    "recipeYield": "<Get servings default='4' /> servings",
+    "recipeCategory": "<Get category default='Main Course' />",
+    "recipeCuisine": "<Get cuisine default='American' />",
+    "keywords": "<Field terms taxonomy=post_tag />",
+    "recipeIngredient": [
+        <Loop field=ingredients>
+        "<Field ingredient />"<If not check="{Field loop_last}" value="true">,</If>
+        </Loop>
+    ],
+    "recipeInstructions": [
+        <Loop field=instructions>
+        {
+            "@type": "HowToStep",
+            "position": "<Field loop_index />",
+            "text": "<Field step />"
+        }<If not check="{Field loop_last}" value="true">,</If>
+        </Loop>
+    ],
+    "nutrition": {
+        "@type": "NutritionInformation",
+        "calories": "<Get calories default='' /> calories",
+        "fatContent": "<Get fat default='' /> g",
+        "carbohydrateContent": "<Get carbs default='' /> g",
+        "proteinContent": "<Get protein default='' /> g"
+    },
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "<Get rating default='5' />",
+        "ratingCount": "<Get rating_count default='1' />"
+    }
+}</Set>
+</Loop>
+<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

@@ -1,0 +1,49 @@
+<!-- Schema: HowTo
+     Usage: [template name=schema-howto total_time=PT30M]
+     Works on: Tutorial/how-to posts
+     Expects: ACF repeater field 'steps' with 'title', 'description', 'image' subfields
+-->
+<Loop type=post id=current>
+<Set schema_json>{
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "<Field title />",
+    "description": "<Field excerpt />",
+    "image": "<Field image_url />",
+    "totalTime": "<Get total_time default='PT1H' />",
+    "estimatedCost": {
+        "@type": "MonetaryAmount",
+        "currency": "<Get currency default='USD' />",
+        "value": "<Get cost default='0' />"
+    },
+    "supply": [
+        <Loop field=supplies>
+        {
+            "@type": "HowToSupply",
+            "name": "<Field name />"
+        }<If not check="{Field loop_last}" value="true">,</If>
+        </Loop>
+    ],
+    "tool": [
+        <Loop field=tools>
+        {
+            "@type": "HowToTool",
+            "name": "<Field name />"
+        }<If not check="{Field loop_last}" value="true">,</If>
+        </Loop>
+    ],
+    "step": [
+        <Loop field=steps>
+        {
+            "@type": "HowToStep",
+            "position": "<Field loop_index />",
+            "name": "<Field title />",
+            "text": "<Field description />",
+            "image": "<Field image />",
+            "url": "<Field url />#step-<Field loop_index />"
+        }<If not check="{Field loop_last}" value="true">,</If>
+        </Loop>
+    ]
+}</Set>
+</Loop>
+<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

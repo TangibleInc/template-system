@@ -1,0 +1,49 @@
+<!-- Schema: Event
+     Usage: [template name=schema-event]
+     Works on: Event posts
+     Expects: ACF fields for start_date, end_date, location, price, etc.
+-->
+<Loop type=post id=current>
+<Set schema_json>{
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "<Field title />",
+    "description": "<Field excerpt />",
+    "image": "<Field image_url />",
+    "startDate": "<Field start_date date_format='c' />",
+    "endDate": "<Field end_date date_format='c' />",
+    "eventStatus": "https://schema.org/<Get status default='EventScheduled' />",
+    "eventAttendanceMode": "https://schema.org/<Get mode default='OfflineEventAttendanceMode' />",
+    "location": {
+        "@type": "<Get location_type default='Place' />",
+        "name": "<Field venue_name />",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "<Field street_address />",
+            "addressLocality": "<Field city />",
+            "addressRegion": "<Field state />",
+            "postalCode": "<Field postal_code />",
+            "addressCountry": "<Field country />"
+        },
+        "url": "<Field venue_url />"
+    },
+    "performer": {
+        "@type": "<Get performer_type default='Organization' />",
+        "name": "<Field performer_name />"
+    },
+    "organizer": {
+        "@type": "Organization",
+        "name": "<Field organizer_name />",
+        "url": "<Field organizer_url />"
+    },
+    "offers": {
+        "@type": "Offer",
+        "price": "<Get price default='0' />",
+        "priceCurrency": "<Get currency default='USD' />",
+        "availability": "https://schema.org/<Get availability default='InStock' />",
+        "url": "<Field ticket_url />",
+        "validFrom": "<Field sale_start_date date_format='c' />"
+    }
+}</Set>
+</Loop>
+<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

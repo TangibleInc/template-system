@@ -1,0 +1,35 @@
+<!-- Schema: BreadcrumbList
+     Usage: [template name=schema-breadcrumb]
+     Works on: Any page - auto-generates breadcrumb from hierarchy
+-->
+<Set schema_json>{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "<Site url />"
+        }<Loop type=post id=current><If field=terms taxonomy=category>,
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "<Field terms taxonomy=category count=1 />",
+            "item": "<Field terms taxonomy=category count=1 field=url />"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "<Field title />",
+            "item": "<Field url />"
+        }<Else />,
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "<Field title />",
+            "item": "<Field url />"
+        }</If></Loop>
+    ]
+}</Set>
+<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

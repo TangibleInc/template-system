@@ -1,0 +1,58 @@
+<!-- Schema: LocalBusiness
+     Usage: [template name=schema-localbusiness rating=4.7 rating_count=89]
+     Works on: Business pages or site-wide
+     Can use Site fields or custom fields
+-->
+<Set schema_json>{
+    "@context": "https://schema.org",
+    "@type": "<Get business_type default='LocalBusiness' />",
+    "name": "<Get business_name default='<Site name />' />",
+    "description": "<Get description default='<Site description />' />",
+    "image": "<Get image default='<Site logo />' />",
+    "logo": "<Get logo default='<Site logo />' />",
+    "@id": "<Get id default='<Site url />' />",
+    "url": "<Get url default='<Site url />' />",
+    "telephone": "<Get phone />",
+    "email": "<Get email />",
+    "priceRange": "<Get price_range default='$$' />",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "<Get street />",
+        "addressLocality": "<Get city />",
+        "addressRegion": "<Get state />",
+        "postalCode": "<Get postal_code />",
+        "addressCountry": "<Get country default='US' />"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "<Get latitude />",
+        "longitude": "<Get longitude />"
+    },
+    "openingHoursSpecification": [
+        {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "<Get weekday_opens default='09:00' />",
+            "closes": "<Get weekday_closes default='17:00' />"
+        },
+        {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Saturday"],
+            "opens": "<Get saturday_opens default='10:00' />",
+            "closes": "<Get saturday_closes default='14:00' />"
+        }
+    ],
+    "sameAs": [
+        "<Get facebook />",
+        "<Get twitter />",
+        "<Get linkedin />",
+        "<Get instagram />"
+    ],
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "<Get rating default='5' />",
+        "bestRating": "5",
+        "ratingCount": "<Get rating_count default='1' />"
+    }
+}</Set>
+<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

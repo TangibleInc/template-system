@@ -1,0 +1,47 @@
+<!-- Schema: Product with AggregateRating
+     Usage: [template name=schema-product rating=4.5 rating_count=120 price=29.99 currency=USD]
+     Works on: Product pages or any post with product data
+-->
+<Loop type=post id=current>
+<Set schema_json>{
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "<Field title />",
+    "description": "<Field excerpt />",
+    "image": "<Field image_url />",
+    "brand": {
+        "@type": "Brand",
+        "name": "<Get brand default='<Site name />' />"
+    },
+    "sku": "<Get sku default='' />",
+    "mpn": "<Get mpn default='' />",
+    "offers": {
+        "@type": "Offer",
+        "price": "<Get price default='0' />",
+        "priceCurrency": "<Get currency default='USD' />",
+        "availability": "https://schema.org/<Get availability default='InStock' />",
+        "url": "<Field url />",
+        "priceValidUntil": "<Get price_valid_until default='2025-12-31' />"
+    },
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "<Get rating default='5' />",
+        "bestRating": "5",
+        "worstRating": "1",
+        "ratingCount": "<Get rating_count default='1' />"
+    },
+    "review": {
+        "@type": "Review",
+        "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "<Get rating default='5' />",
+            "bestRating": "5"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "<Field author_name />"
+        }
+    }
+}</Set>
+</Loop>
+<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

@@ -1,6 +1,8 @@
 # Layout Examples
 
-A collection of 30 production-ready HTML layout templates using the Tangible Template System syntax. These layouts are designed to be accessible, responsive, and easy to customize.
+A collection of 40 production-ready templates using the Tangible Template System syntax:
+- **30 HTML layout templates** - Accessible, responsive, and customizable
+- **10 Schema.org JSON-LD templates** - SEO-ready structured data
 
 ## Template Syntax
 
@@ -69,6 +71,62 @@ These layouts use Tangible's template tags:
 | `28-header-navigation.html` | Mega-menu navigation header |
 | `29-author-bio.html` | Author bio box variations |
 | `30-related-posts.html` | Related posts & navigation |
+
+### Schema.org JSON-LD (schema-01 to schema-10)
+| File | Schema Type | Usage |
+|------|-------------|-------|
+| `schema-01-article.html` | Article | Blog posts, news articles |
+| `schema-02-product.html` | Product | E-commerce, product reviews |
+| `schema-03-faq.html` | FAQPage | FAQ sections with Q&A |
+| `schema-04-howto.html` | HowTo | Tutorials, step-by-step guides |
+| `schema-05-recipe.html` | Recipe | Food recipes with ingredients |
+| `schema-06-event.html` | Event | Events, conferences, meetups |
+| `schema-07-localbusiness.html` | LocalBusiness | Business listings, storefronts |
+| `schema-08-person.html` | Person | Author pages, team profiles |
+| `schema-09-video.html` | VideoObject | Video content, embeds |
+| `schema-10-breadcrumb.html` | BreadcrumbList | Navigation breadcrumbs |
+
+## Schema Template Usage
+
+Schema templates use shortcode arguments for dynamic values:
+
+```
+[template name=schema-product rating=4.5 rating_count=120 price=29.99]
+```
+
+### Available Arguments by Schema Type
+
+**Product** (`schema-02-product.html`):
+- `rating` - Rating value (default: 5)
+- `rating_count` - Number of ratings (default: 1)
+- `price` - Product price (default: 0)
+- `currency` - Currency code (default: USD)
+- `availability` - InStock, OutOfStock, PreOrder
+
+**Recipe** (`schema-05-recipe.html`):
+- `prep_time` - ISO 8601 duration (default: PT15M)
+- `cook_time` - ISO 8601 duration (default: PT30M)
+- `servings` - Number of servings (default: 4)
+- `rating`, `rating_count`
+
+**LocalBusiness** (`schema-07-localbusiness.html`):
+- `business_type` - Schema type (default: LocalBusiness)
+- `phone`, `email`, `street`, `city`, `state`, `postal_code`
+- `rating`, `rating_count`
+
+### Important: Script Tag Workaround
+
+Schema templates use `<Set>` + `<Raw>` pattern because `<script>` tags don't process template syntax:
+
+```html
+<Loop type=post id=current>
+<Set schema_json>{
+    "@type": "Article",
+    "name": "<Field title />"
+}</Set>
+</Loop>
+<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>
+```
 
 ## CSS Classes Used
 

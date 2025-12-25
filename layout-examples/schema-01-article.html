@@ -1,0 +1,36 @@
+<!-- Schema: Article
+     Usage: [template name=schema-article]
+     Works on: Single posts/articles
+-->
+<Loop type=post id=current>
+<Set schema_json>{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "<Field title />",
+    "description": "<Field excerpt />",
+    "image": "<Field image_url />",
+    "author": {
+        "@type": "Person",
+        "name": "<Field author_name />",
+        "url": "<Field author_url />"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "<Site name />",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "<Site logo />"
+        }
+    },
+    "datePublished": "<Field publish_date date_format='c' />",
+    "dateModified": "<Field modified_date date_format='c' />",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "<Field url />"
+    },
+    "wordCount": "<Field word_count />",
+    "articleSection": "<Field terms taxonomy=category />",
+    "keywords": "<Field terms taxonomy=post_tag />"
+}</Set>
+</Loop>
+<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>

@@ -1,0 +1,39 @@
+<!-- Schema: Person (Author/Profile)
+     Usage: [template name=schema-person] on author pages
+     Or: [template name=schema-person user_id=5] for specific user
+-->
+<Loop type=user id="{Get user_id default=current}">
+<Set schema_json>{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "<Field display_name />",
+    "givenName": "<Field first_name />",
+    "familyName": "<Field last_name />",
+    "description": "<Field description />",
+    "image": "<Field avatar size=full />",
+    "url": "<Field url />",
+    "email": "<Field email />",
+    "jobTitle": "<Field job_title />",
+    "worksFor": {
+        "@type": "Organization",
+        "name": "<Field company />"
+    },
+    "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "<Field education />"
+    },
+    "knowsAbout": [
+        <Loop field=expertise>
+        "<Field value />"<If not check="{Field loop_last}" value="true">,</If>
+        </Loop>
+    ],
+    "sameAs": [
+        "<Field twitter />",
+        "<Field linkedin />",
+        "<Field facebook />",
+        "<Field github />",
+        "<Field website />"
+    ]
+}</Set>
+</Loop>
+<Raw><script type="application/ld+json"></Raw><Get schema_json /><Raw></script></Raw>
