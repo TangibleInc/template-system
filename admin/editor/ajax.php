@@ -7,6 +7,10 @@ use tangible\template_system\module_loader;
 
 ajax\add_action('tangible_template_editor_save', function( $data = [] ) use ( $plugin ) {
 
+  if (!template_system\can_user_edit_template()) return ajax\error([
+    'message' => 'Not allowed'
+  ]);
+
   $result = $plugin->save_template_post( $data );
 
   if (is_wp_error( $result )) return ajax\error([
