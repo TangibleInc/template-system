@@ -25,7 +25,7 @@ class template_system {
 }
 
 template_system::$state = (object) [
-  'version' => '20250821', // Automatically updated with npm run version
+  'version' => '20260601', // Automatically updated with npm run version
   'path' => __DIR__,
   'url' => framework\module_url( __FILE__ ),
 ];
