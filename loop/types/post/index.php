@@ -1275,6 +1275,20 @@ class PostLoop extends BaseLoop {
 
     $this->items = $query->posts;
 
+    /**
+     * The query runs with fields=ids to limit memory on large result sets,
+     * which skips WP_Query's cache priming and would otherwise cost one
+     * post query plus one meta query per item. Bulk-load post, meta, and
+     * term caches for this page of results instead.
+     */
+    if ( ! empty( $this->items ) && function_exists( '_prime_post_caches' ) ) {
+      $ids = [];
+      foreach ( $this->items as $item ) {
+        $ids[] = $item instanceof \WP_Post ? $item->ID : (int) $item;
+      }
+      _prime_post_caches( $ids, true, true );
+    }
+
     return $this->items;
   }
 
