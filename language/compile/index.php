@@ -12,7 +12,7 @@ namespace Tangible\TemplateSystem\Compile {
     private const POST_CACHE_META_KEY = '_tangible_template_compile_cache_key';
 
     // Bump when the generated code format changes, to invalidate cached files
-    private const COMPILER_VERSION = 8;
+    private const COMPILER_VERSION = 9;
 
     /**
      * Filters that rewrite attributes at render time. While any of these are
@@ -196,12 +196,20 @@ namespace Tangible\TemplateSystem\Compile {
         $lines[] = '  if (' . implode(' || ', $filters) . ') { return null; }';
       }
 
-      // Always present: loop-body closures capture it unconditionally
-      $lines[] = '  static $__data = [';
+      /**
+       * Node data table, materialized once per process. Always present:
+       * loop-body closures capture it unconditionally. Initialized lazily
+       * because entries may contain stdClass values (pre-decoded loop
+       * items), which are not valid in static constant expressions.
+       */
+      $lines[] = '  static $__data = null;';
+      $lines[] = '  if ($__data === null) {';
+      $lines[] = '    $__data = [';
       foreach ($state['data'] as $i => $value) {
-        $lines[] = '    ' . var_export($value, true) . ',';
+        $lines[] = '      ' . var_export($value, true) . ',';
       }
-      $lines[] = '  ];';
+      $lines[] = '    ];';
+      $lines[] = '  }';
 
       $lines[] = '  $__html = \\tangible_template();';
 
@@ -495,6 +503,36 @@ namespace Tangible\TemplateSystem\Compile {
         }
       }
       return false;
+    }
+
+    /**
+     * Pre-decode a static items attribute at compile time, using the same
+     * format\multiple_values the runtime uses (it returns arrays untouched,
+     * so the decoded value passes through unchanged). Skipped when the
+     * value would be template-rendered at runtime ({...} expressions
+     * outside JSON form) or when the loop attributes filter is hooked,
+     * since a filter could expect the original string.
+     */
+    private static function hoistLoopItems(array $atts): array
+    {
+      if (
+        !isset($atts['items'])
+        || !is_string($atts['items'])
+        || (function_exists('has_filter') && has_filter('tangible_loop_tag_attributes'))
+      ) {
+        return $atts;
+      }
+
+      $items = $atts['items'];
+      $would_render = \tangible\html\should_render_attribute('items', $items)
+        && strpbrk($items, '{}') !== false;
+
+      if ($would_render) {
+        return $atts;
+      }
+
+      $atts['items'] = \tangible\format\multiple_values($items);
+      return $atts;
     }
 
     /**
@@ -823,7 +861,7 @@ namespace Tangible\TemplateSystem\Compile {
                * of interpreting the child nodes. Local tag overrides of Loop
                * may inspect children, so they receive the node tree instead.
                */
-              $attsRef = self::dataRef($atts, $state);
+              $attsRef = self::dataRef(self::hoistLoopItems($atts), $state);
               $childrenRef = self::dataRef($children, $state);
 
               $lines[] = $indent . 'if (empty($__html->tag_context[\'local_tags\'][\'Loop\'])) {';

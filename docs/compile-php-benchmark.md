@@ -110,6 +110,7 @@ Synthetic benchmark, compiled ms/render (hand-coded baseline 0.012):
 | + native If branches | 1.11 | 90x |
 | + Field delegation inlining | 0.92 | 80x |
 | + hoisted If condition parsing | 0.84 | 67x |
+| + pre-decoded loop items | 0.73 | 58x |
 
 DB reporting scenario (200 rows, cold cache): hand-coded 3.2ms / 5
 queries; L&L compiled 4.5ms / 5 queries (was 92ms / 403 queries at
