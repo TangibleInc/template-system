@@ -11,6 +11,40 @@ use tangible\template_system;
 
 $html->field_tag = function( $atts ) use ( $loop, $html ) {
 
+  /**
+   * Fast path for the most common shapes: a single bare field name, or
+   * custom=name with no other attributes. None of the format, ACF, date,
+   * type-shortcut, subfield, or "from" attributes can be present, so the
+   * full resolution pipeline below is equivalent for scalar results.
+   * Non-scalar values (loop instances, arrays, objects) fall through to
+   * the full pipeline for their special handling.
+   */
+  $fast_field_name = null;
+
+  if ( count( $atts ) === 1
+    && isset( $atts['keys'][0] )
+    && ! isset( $atts['keys'][1] )
+    && is_string( $atts['keys'][0] )
+    && strpos( $atts['keys'][0], '.' ) === false
+  ) {
+    $fast_field_name = $atts['keys'][0];
+  } elseif ( count( $atts ) === 2
+    && isset( $atts['custom'] )
+    && is_string( $atts['custom'] )
+    && ( $atts['keys'] ?? null ) === []
+  ) {
+    $fast_field_name = $atts['custom'];
+  }
+
+  if ( ! is_null( $fast_field_name ) ) {
+
+    $value = $loop->get_field( $fast_field_name, $atts );
+
+    if ( is_string( $value ) || is_null( $value ) ) return $value;
+    if ( is_bool( $value ) ) return $value ? 'TRUE' : '';
+    // Fall through to the full pipeline
+  }
+
   $current_loop = $loop;
 
   /**
@@ -388,6 +422,18 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
       'display'        => empty( $subfield ),
       'tag_attributes' => $field_atts,
     ];
+
+    /**
+     * Pass simple subfields to the ACF integration, which handles special
+     * ones like label/labels/choices for choice field types and returns
+     * [ subfield => value ] for the generic subfield handling below.
+     * The "field" attribute is extracted into $subfield early, so it is
+     * no longer present in $field_atts. Dot-syntax paths skip this and
+     * descend generically on the raw value.
+     */
+    if ( ! empty( $subfield ) && strpos( $subfield, '.' ) === false ) {
+      $acf_field_options['tag_attributes']['field'] = $subfield;
+    }
 
     // For Date field types, always get raw value so we can apply format and locale
     if ($format_type === 'date') {

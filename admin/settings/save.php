@@ -41,8 +41,33 @@ function ajax_save_settings() {
   }
 }
 
+function ajax_clear_compile_cache() {
+
+  if ( ! verify_settings_nonce() || !current_user_can('administrator') ) {
+    return api\error('Not allowed');
+  }
+
+  if (!class_exists('\\Tangible\\TemplateSystem\\Compile\\Compiler')) {
+    return api\error('Compiler not available');
+  }
+
+  try {
+    $count = \Tangible\TemplateSystem\Compile\Compiler::clearCache();
+    return api\send([
+      'count' => $count,
+    ]);
+  } catch (\Throwable $th) {
+    return api\error( $th->getMessage() );
+  }
+}
+
 add_action(
   // 'wp_ajax_' for logged-in users, 'wp_ajax_nopriv_' for public action
   'wp_ajax_' . template_system::$state->settings_key,
   __NAMESPACE__ . '\\ajax_save_settings'
+);
+
+add_action(
+  'wp_ajax_tangible_template_compile_clear_cache',
+  __NAMESPACE__ . '\\ajax_clear_compile_cache'
 );

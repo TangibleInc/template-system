@@ -20,6 +20,15 @@
       <exclude>tests/e2e</exclude>
       <exclude>tests/empty-block-theme</exclude>
       <exclude>tests/html</exclude>
+      <exclude>tests/compile-php</exclude>
+    </testsuite>
+    <testsuite name="compile-php">
+      <!--
+        Only TestCase files: fixture setup/normalize/capture files and the
+        benchmark scripts are plain PHP that would execute at suite load
+      -->
+      <directory suffix="TestCase.php">tests/compile-php</directory>
+      <exclude>tests/compile-php/fixtures</exclude>
     </testsuite>
     <testsuite name="beaver">
       <directory>tests/integrations/beaver.php</directory>

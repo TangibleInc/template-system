@@ -44,6 +44,13 @@ if (!function_exists('tangible_template')) {
   if (is_wp_error($result)) return false;
 }
 
+// Match the PHPUnit environment, which loads ACF when present
+if (!function_exists('acf')
+  && file_exists(ABSPATH . 'wp-content/plugins/advanced-custom-fields/acf.php')
+) {
+  activate_plugin(ABSPATH . 'wp-content/plugins/advanced-custom-fields/acf.php');
+}
+
 if ( !get_option('site_init_done') ) {
 
   global $wp_rewrite;

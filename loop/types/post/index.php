@@ -1266,6 +1266,19 @@ class PostLoop extends BaseLoop {
 
     // if (isset($this->args['debug'])) system\see( $query_args );
 
+    /**
+     * Skip SQL_CALC_FOUND_ROWS: the loop paginates over the fetched ID
+     * list in PHP and nothing reads found_posts, so the total-row count
+     * is wasted work - a full scan on large tables. Integrations that
+     * attach to the query (WP Grid Builder facets) may rely on it, and
+     * custom_query can override.
+     */
+    if ( ! isset( $query_args['no_found_rows'] )
+      && ! isset( $query_args['wp_grid_builder'] )
+    ) {
+      $query_args['no_found_rows'] = true;
+    }
+
     return new \WP_Query( $query_args );
   }
 
@@ -1274,6 +1287,20 @@ class PostLoop extends BaseLoop {
     // if (isset($this->args['debug'])) system\see( $query );
 
     $this->items = $query->posts;
+
+    /**
+     * The query runs with fields=ids to limit memory on large result sets,
+     * which skips WP_Query's cache priming and would otherwise cost one
+     * post query plus one meta query per item. Bulk-load post, meta, and
+     * term caches for this page of results instead.
+     */
+    if ( ! empty( $this->items ) && function_exists( '_prime_post_caches' ) ) {
+      $ids = [];
+      foreach ( $this->items as $item ) {
+        $ids[] = $item instanceof \WP_Post ? $item->ID : (int) $item;
+      }
+      _prime_post_caches( $ids, true, true );
+    }
 
     return $this->items;
   }

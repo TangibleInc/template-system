@@ -11,6 +11,17 @@ if ( ! $_WORDPRESS_TESTS_DIR = getenv( 'WP_TESTS_DIR' ) ) {
   $_WORDPRESS_TESTS_DIR = $_WORDPRESS_DEVELOP_DIR . '/tests/phpunit';
 }
 
+$polyfills_path = __DIR__ . '/../vendor/yoast/phpunit-polyfills';
+if (file_exists($polyfills_path . '/phpunitpolyfills-autoload.php')) {
+  if (!defined('WP_TESTS_PHPUNIT_POLYFILLS_PATH')) {
+    define('WP_TESTS_PHPUNIT_POLYFILLS_PATH', $polyfills_path);
+  }
+  $autoload = __DIR__ . '/../vendor/autoload.php';
+  if (file_exists($autoload)) {
+    require_once $autoload;
+  }
+}
+
 require_once $_WORDPRESS_TESTS_DIR . '/includes/functions.php';
 
 tests_add_filter('muplugins_loaded', function() {
