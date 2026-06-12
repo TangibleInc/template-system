@@ -12,7 +12,7 @@ namespace Tangible\TemplateSystem\Compile {
     private const POST_CACHE_META_KEY = '_tangible_template_compile_cache_key';
 
     // Bump when the generated code format changes, to invalidate cached files
-    private const COMPILER_VERSION = 9;
+    private const COMPILER_VERSION = 10;
 
     /**
      * Filters that rewrite attributes at render time. While any of these are
@@ -445,7 +445,7 @@ namespace Tangible\TemplateSystem\Compile {
         }
         $parsedRules = $html->parse_if_tag_logic($rendered);
 
-        $lines[] = $indent . '  if ($__html->evaluate_logic_token_rule_groups('
+        $lines[] = $indent . '  if (($__html->evaluate_logic_token_rule_groups)('
           . self::dataRef($parsedRules, $state)
           . ', '
           . self::dataRef($rendered, $state)
@@ -457,7 +457,7 @@ namespace Tangible\TemplateSystem\Compile {
           . ', [\'render_attributes\' => true, \'skip_render_keys\' => '
           . self::dataRef($skipKeys, $state)
           . ']);';
-        $lines[] = $indent . "  if (\$__html->evaluate_if_tag_attributes({$attsVar})) {";
+        $lines[] = $indent . "  if ((\$__html->evaluate_if_tag_attributes)({$attsVar})) {";
       }
       if (!empty($branches['true'])) {
         $lines = array_merge(

@@ -112,6 +112,14 @@ Synthetic benchmark, compiled ms/render (hand-coded baseline 0.012):
 | + hoisted If condition parsing | 0.84 | 67x |
 | + pre-decoded loop items | 0.73 | 58x |
 
+Runtime-engine work (benefits interpreted templates equally): a Field
+fast path for bare-name and custom= shapes cuts field_tag from 0.99 to
+0.65 us (title) and 1.63 to 1.13 us (meta); the DB reporting scenario
+lands at 4.27 ms compiled vs 3.26 hand-coded (1.31x), with the
+interpreted path improving from 5.73 to 5.47 ms. Measured but not
+pursued: the singleton's __call magic costs ~42 ns per hop - real but
+small; compiled If emissions now invoke the evaluator closure directly.
+
 DB reporting scenario (200 rows, cold cache): hand-coded 3.2ms / 5
 queries; L&L compiled 4.5ms / 5 queries (was 92ms / 403 queries at
 sprint start). Remaining ~1.2ms decomposition: compiled loop with empty
