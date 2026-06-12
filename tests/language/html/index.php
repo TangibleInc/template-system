@@ -36,6 +36,9 @@ class HTML_Test_Suite_Verify_Snapshots extends \WP_UnitTestCase {
   function test_html_render() {
 
     $html = tangible_template();
+    $normalize = function($value) {
+      return str_replace(["\r\n", "\r"], "\n", $value);
+    };
 
     $snapshots_dir = __DIR__ . '/../../html/snapshots';
     $files = glob(
@@ -43,14 +46,18 @@ class HTML_Test_Suite_Verify_Snapshots extends \WP_UnitTestCase {
     );
 
     /**
-     * Render these as raw tags for now because they're processed differently
+     * Render these as raw tags for now because they're processed differently.
+     * Save the original handlers to restore after - the template singleton
+     * is shared by every test in the process.
      */
-    unset($html->tags['a']);
-    unset($html->tags['link']);
-    unset($html->tags['img']);
-    unset($html->tags['title']);
-    unset($html->tags['script']);
-    unset($html->tags['style']);
+    $modified_tags = ['a', 'link', 'img', 'title', 'script', 'style'];
+    $saved_tags = [];
+    foreach ($modified_tags as $tag) {
+      if (isset($html->tags[$tag])) {
+        $saved_tags[$tag] = $html->tags[$tag];
+      }
+      unset($html->tags[$tag]);
+    }
 
     $html->add_raw_tag('script', function($atts, $children) use ($html) {
       return $html->render_raw_tag('script', $atts, $children);
@@ -68,10 +75,19 @@ class HTML_Test_Suite_Verify_Snapshots extends \WP_UnitTestCase {
         /**
          * Handle difference between esc_attr (WordPress function) and htmlspecialchars
          */
-        str_replace(['&#039;'], ['&#39;'], $expected),
-        str_replace(['&#039;'], ['&#39;'], $rendered),
+        str_replace(['&#039;'], ['&#39;'], $normalize($expected)),
+        str_replace(['&#039;'], ['&#39;'], $normalize($rendered)),
         str_replace($snapshots_dir . '/', '', $rendered_html_file)
       );
+    }
+
+    // Restore the original tag handlers
+    foreach ($modified_tags as $tag) {
+      if (isset($saved_tags[$tag])) {
+        $html->tags[$tag] = $saved_tags[$tag];
+      } else {
+        unset($html->tags[$tag]);
+      }
     }
   }
 }
