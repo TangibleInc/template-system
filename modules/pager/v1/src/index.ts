@@ -90,6 +90,14 @@ function createPaginator($target) {
           !Array.isArray(subscribeSettings)
         ) {
           Object.assign(buttonsSettings, additionalSettings, subscribeSettings)
+
+          /**
+           * Behavior settings from the buttons tag, such as scroll_top and
+           * scroll_animate, apply to the paginator as a whole - previously
+           * they only reached the local buttons render settings, so
+           * scroll_top had no effect (tangibletalk.com thread #1313).
+           */
+          Object.assign(additionalSettings, subscribeSettings)
         }
 
         $subscriber.renderButtons = () => {
