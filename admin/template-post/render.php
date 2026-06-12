@@ -20,11 +20,14 @@ $plugin->render_template_post = function(
   // Capture any style, script, or unexpected output
   ob_start();
 
+  $template_source = '';
+
   // Direct post data
   if (is_array($post) && isset($post['content'])) {
 
     $is_post = false;
     $content = $post['content'] ?? '';
+    $template_source = $content;
 
   } else {
     if (is_numeric( $post )) $post = get_post( $post );
@@ -34,14 +37,31 @@ $plugin->render_template_post = function(
     }
 
     $content = $post->post_content;
+    $template_source = $content;
+  }
 
+  $compile_enabled = template_system\get_setting('compile_php_templates')
+    && class_exists('\\Tangible\\TemplateSystem\\Compile\\Compiler')
+    && \Tangible\TemplateSystem\Compile\Compiler::isOpcacheEnabled();
+  $compile_enabled = apply_filters(
+    'tangible_template_compile_enabled',
+    (bool) $compile_enabled,
+    $post,
+    $local_scope
+  );
+  $compile_enabled = (bool) $compile_enabled && function_exists('tangible_template_compile_render');
+  if (!empty($plugin->is_template_preview)) {
+    $compile_enabled = false;
+  }
+
+  if ($is_post) {
     /**
      * Post content - Optionally processed and cached
      * Passed to `$html->render_with_catch_exit()` which accepts string
      * or parsed nodes.
      * @see ./cache
      */
-    if (template_system\is_processed_template_post_cache_enabled()) {
+    if (!$compile_enabled && template_system\is_processed_template_post_cache_enabled()) {
 
       // Delete cache for testing
       // template_system\delete_processed_template_post_cache($post);
@@ -95,7 +115,33 @@ $plugin->render_template_post = function(
    *
    * @see vendor/tangible/template/tags/exit.php
    */
-  $content = $html->render_with_catch_exit( $content );
+  if ($compile_enabled) {
+    $version = isset(template_system::$state->version)
+      ? template_system::$state->version
+      : 'v1';
+    $compile_options = apply_filters(
+      'tangible_template_compile_options',
+      [
+        'version' => $version,
+        'post_id' => $is_post ? $post->ID : null,
+        'source' => $is_post ? 'post:' . $post->ID : 'template',
+      ],
+      $post,
+      $local_scope
+    );
+    if (!is_array($compile_options)) {
+      $compile_options = [
+        'version' => $version,
+      ];
+    }
+
+    $compiled = tangible_template_compile_render($template_source, [], $compile_options);
+    $content = is_string($compiled)
+      ? $compiled
+      : $html->render_with_catch_exit( $content );
+  } else {
+    $content = $html->render_with_catch_exit( $content );
+  }
 
   /**
    * Style and script
