@@ -226,9 +226,87 @@ location ^~ /wp-content/tangible-template-cache/ {
 - Add invalidation hooks for template saves, file changes, and version changes.
 - Ensure safe fallback paths with logging and admin warnings.
 
+## Compile contracts: keeping the language pluggable and compiled
+
+The compiler currently special-cases a fixed set of core constructs
+(static markup baking, Get/Field inlining, If condition hoisting, Loop
+body closures) and defers everything else to runtime dispatch. That is
+correct but treats every extension as an opaque box, which is the main
+remaining cost relative to fully compiled template languages.
+
+The proposal is to move that knowledge into the registration API, so an
+extension can tell the compiler what to do with its syntax. Twig uses
+the same model: extensions participate in compilation rather than only
+in rendering. Three tiers:
+
+### Tier 0 - opaque (default, today's behavior)
+
+Register a render callback and nothing else. The compiler defers to
+`render_tag` with runtime guards, exactly as now. Nothing existing
+changes or breaks; undeclared tags are simply not fast.
+
+### Tier 1 - declarations
+
+Registration carries flags the compiler may rely on:
+
+```php
+$html->add_open_tag( 'MyTag', $callback, [
+  'compile' => [
+    'version'               => 1,     // joins the cache key
+    'deterministic'         => false, // output fixed given attributes
+    'reads_loop_context'    => true,
+    'static_children_safe'  => true,  // children may be baked through it
+  ],
+] );
+```
+
+Cheap for authors, and replaces the compiler's hardcoded whitelists:
+baking and hoisting decisions consult declarations instead of tag-name
+lists. Logic rules gain the same option, e.g. a registered rule may
+provide `compile_comparison` returning a native PHP expression for its
+operands, so extension conditions become native branches.
+
+### Tier 2 - emitters
+
+Registration provides a compile function: given the parsed attributes
+and children, emit code through a constrained builder (append literal,
+append expression, compile children inline, defer to runtime). This is
+the full Twig-style path that removes dispatch entirely. The builder
+API - not raw code strings - is the security boundary; until an
+external ecosystem exists, tier 2 can remain first-party.
+
+### Rules that make this safe
+
+- **Certification**: no compile contract is accepted without a parity
+  fixture (`tests/compile-php/fixtures/`). The parity, cache-path, and
+  never-fatal suites are the conformance tests for declared tags.
+- **Versioning**: contract versions and the active plugin set join the
+  compile cache key (the latter is already implemented), so changing a
+  declaration invalidates affected compiled templates.
+- **Core dogfoods it**: the existing hardcoded Get/If/Loop/Field
+  handling migrates behind the same registration API as the first
+  tier-1/tier-2 adopters, so first-party integrations are not a
+  second-class mechanism.
+- **The attribute filter carve-out**: anonymous render-time filters
+  (`tangible_template_render_attributes`, `attribute_escape`) cannot
+  participate in compilation by nature. The existing tripwire remains
+  the compatibility path - hooking them falls the template back to the
+  runtime renderer. A future registered-transformer API with the same
+  declarations could supersede the global filter.
+
+### Side effect on code structure
+
+Compile contracts require named, typed registration structures rather
+than anonymous closures assigned to singleton properties. Migrating
+core tags onto the registration API is therefore also an incremental
+path toward explicit interfaces for tag definitions - per tag, in
+place, verified by fixtures - without a rewrite.
+
 ## Open questions
 - Which dynamic tags are safe to inline vs. defer to runtime calls?
-- How to version cache when integrations add new tags?
+  (Answered by compile contracts above: the ones that declare it.)
+- How to version cache when integrations add new tags? (Answered:
+  active plugin set and contract versions join the cache key.)
 - Should compiled templates be stored in object cache for memory only?
 - How should preview renders in editor bypass or refresh compiled output?
 
