@@ -1266,6 +1266,19 @@ class PostLoop extends BaseLoop {
 
     // if (isset($this->args['debug'])) system\see( $query_args );
 
+    /**
+     * Skip SQL_CALC_FOUND_ROWS: the loop paginates over the fetched ID
+     * list in PHP and nothing reads found_posts, so the total-row count
+     * is wasted work - a full scan on large tables. Integrations that
+     * attach to the query (WP Grid Builder facets) may rely on it, and
+     * custom_query can override.
+     */
+    if ( ! isset( $query_args['no_found_rows'] )
+      && ! isset( $query_args['wp_grid_builder'] )
+    ) {
+      $query_args['no_found_rows'] = true;
+    }
+
     return new \WP_Query( $query_args );
   }
 
