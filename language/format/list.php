@@ -36,6 +36,15 @@ $html->format_slice = function( $content, $options = [] ) use ($html){
   $offset = $options['offset'] ?? 0;
   $length = $options['length'] ?? $options['characters'] ?? null;
 
+  /**
+   * Attribute values can arrive as non-numeric strings, for example an
+   * unresolved {Get ...} expression in a nested curly-brace context.
+   * Treat them as no offset/limit instead of fataling in mb_substr or
+   * array_slice with a TypeError.
+   */
+  $offset = is_numeric( $offset ) ? (int) $offset : 0;
+  $length = is_numeric( $length ) ? (int) $length : null;
+
   if (is_string($content)) {
 
     $result = mb_substr( $content, $offset, $length );
