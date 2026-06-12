@@ -389,6 +389,18 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
       'tag_attributes' => $field_atts,
     ];
 
+    /**
+     * Pass simple subfields to the ACF integration, which handles special
+     * ones like label/labels/choices for choice field types and returns
+     * [ subfield => value ] for the generic subfield handling below.
+     * The "field" attribute is extracted into $subfield early, so it is
+     * no longer present in $field_atts. Dot-syntax paths skip this and
+     * descend generically on the raw value.
+     */
+    if ( ! empty( $subfield ) && strpos( $subfield, '.' ) === false ) {
+      $acf_field_options['tag_attributes']['field'] = $subfield;
+    }
+
     // For Date field types, always get raw value so we can apply format and locale
     if ($format_type === 'date') {
       $acf_field_options['display'] = false;
