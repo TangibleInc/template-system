@@ -74,6 +74,7 @@ return tangible_template(new class extends stdClass {
 
     require_once __DIR__ . '/utils/index.php';
     require_once __DIR__ . '/tags/index.php';
+    require_once __DIR__ . '/compile/index.php';
     require_once __DIR__ . '/format/index.php';
     require_once __DIR__ . '/logic/index.php';
     require_once __DIR__ . '/control/index.php';

@@ -24,6 +24,8 @@ class GroupLoop extends ListLoop {
     ],
   ];
 
+  public $use_sub_fields = true;
+
   function get_items_from_query( $query ) {
 
     // Property "field" is required
@@ -34,9 +36,22 @@ class GroupLoop extends ListLoop {
     $parent_loop = self::$loop->get_context();
     $loop_type   = $parent_loop->get_name();
 
-    $items = [
-      [ '' ], // Non-empty item to force loop a single time
-    ];
+    $items = [];
+
+    $field_name = $query['field'];
+    $field_value = function_exists('get_field')
+      ? get_field( $field_name, $this->object_id )
+      : null;
+
+    if ( is_array( $field_value ) ) {
+      $this->use_sub_fields = false;
+      $items = [ $field_value ];
+    } else {
+      $this->use_sub_fields = true;
+      $items = [
+        [ '' ], // Non-empty item to force loop a single time
+      ];
+    }
 
     $this->reset();
 
@@ -45,16 +60,26 @@ class GroupLoop extends ListLoop {
 
   function set_current( $item ) {
     parent::set_current( $item );
-    the_row();
+    if ( $this->use_sub_fields ) {
+      the_row();
+    }
   }
 
   function reset() {
     parent::reset();
-    @have_rows( $this->query['field'], $this->object_id );
+    if ( $this->use_sub_fields ) {
+      @have_rows( $this->query['field'], $this->object_id );
+    }
   }
 
   function get_item_field( $item, $field_name, $args = [] ) {
-    return get_sub_field( $field_name );
+    if ( $this->use_sub_fields ) {
+      return get_sub_field( $field_name );
+    }
+
+    if ( is_array( $item ) && array_key_exists( $field_name, $item ) ) {
+      return $item[ $field_name ];
+    }
   }
 };
 

@@ -28,6 +28,14 @@ template_system::$state->setting_fields = [
 
   // Features in development (beta/experimental)
   [
+    'name' => 'compile_php_templates',
+    'field_type' => 'checkbox',
+    'label' => 'Compile templates to PHP',
+    'beta' => true,
+    'default_value' => false,
+  ],
+
+  [
     'name' => 'atomic_css',
     'field_type' => 'checkbox',
     'label' => 'Atomic CSS: Generate CSS utility classes on demand',

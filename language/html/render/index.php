@@ -17,6 +17,15 @@ function render($nodes, $options = []) {
   // Support Exit tag
   if ($html->exit_from_current_template) return;
 
+  /**
+   * Compiled templates pass children as closures returning the rendered
+   * string, so loop bodies execute compiled code instead of interpreting
+   * nodes. @see language/compile
+   */
+  if ($nodes instanceof \Closure) {
+    return $nodes();
+  }
+
   // Inherit options from tag context
   if (isset($html->tag_context['options'])) {
     $options = array_merge($options, $html->tag_context['options']);

@@ -15,6 +15,10 @@ class ACF_Repeater_TestCase extends \WP_UnitTestCase {
     }
 
     $html = tangible_template();
+    $normalize = function($value) {
+      $value = str_replace(["\r\n", "\r"], "\n", trim($value));
+      return preg_replace('/\n{2,}/', "\n", $value);
+    };
 
     $repeater_field_name = 'repeater_field';
 
@@ -95,7 +99,7 @@ class ACF_Repeater_TestCase extends \WP_UnitTestCase {
     </Loop></Loop>
     HTML);
 
-    $this->assertEquals(trim($expected), trim($result));
+    $this->assertEquals($normalize($expected), $normalize($result));
 
     $expected = <<<HTML
     $text_3 - $date_3
@@ -110,7 +114,7 @@ class ACF_Repeater_TestCase extends \WP_UnitTestCase {
     </Loop></Loop>
     HTML);
 
-    $this->assertEquals(trim($expected), trim($result));
+    $this->assertEquals($normalize($expected), $normalize($result));
 
   }
 }

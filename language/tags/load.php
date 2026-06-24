@@ -1,6 +1,7 @@
 <?php
 use tangible\format;
 use tangible\hjson;
+use tangible\template_system;
 
 $html->load_file = function( $file ) use ( $html ) {
   return $html->load_asset( $file );
@@ -27,6 +28,23 @@ $html->load_template_with_context = function( $file, $before = false, $after = f
   ?><PopContext /><?php
 
   return ob_get_clean();
+};
+
+$html->load_template_string_with_context = function( $file, $content, $before = false, $after = false ) {
+
+  $template = '<PushContext path="'
+    . dirname( $file )
+    . '" file="'
+    . basename( $file )
+    . "\" />";
+
+  if ($before) $template .= $before;
+  $template .= $content;
+  if ($after) $template .= $after;
+
+  $template .= '<PopContext />';
+
+  return $template;
 };
 
 $html->load_asset = function( $asset_type, $asset = '', $options = [] ) use ( $html ) {
@@ -102,6 +120,19 @@ $html->load_asset = function( $asset_type, $asset = '', $options = [] ) use ( $h
     return;
   }
 
+  $compile_enabled = template_system\get_setting('compile_php_templates')
+    && class_exists('\\Tangible\\TemplateSystem\\Compile\\Compiler')
+    && \Tangible\TemplateSystem\Compile\Compiler::isOpcacheEnabled();
+  if (function_exists('apply_filters')) {
+    $compile_enabled = apply_filters(
+      'tangible_template_compile_enabled',
+      (bool) $compile_enabled,
+      $asset,
+      $options
+    );
+  }
+  $compile_enabled = (bool) $compile_enabled && function_exists('tangible_template_compile_render');
+
   switch ( $asset_type ) {
     case 'template':
       // TODO: From post type tangible_template
@@ -114,17 +145,72 @@ $html->load_asset = function( $asset_type, $asset = '', $options = [] ) use ( $h
           // Local variable scope - @see /tags/get-set/local.php
           $html->push_local_variable_scope();
 
-        $content = $html->render(
-            /**
-             * Support Exit tag by wrapping template with Catch tag
-             *
-             * Can't use $html->render_with_catch_exit() here because
-             * PopContext tag must be called even after exit.
-             */
-            $html->load_template_with_context( $asset,
-              '<Catch>', '</Catch>'
-            )
-          );
+          $should_compile = $compile_enabled && $file_extension === 'html';
+
+          if ($should_compile) {
+            $raw = @file_get_contents( $asset );
+
+            if (is_string($raw)) {
+              $template = $html->load_template_string_with_context(
+                $asset,
+                $raw,
+                '<Catch>',
+                '</Catch>'
+              );
+
+              $version = isset(template_system::$state->version)
+                ? template_system::$state->version
+                : 'v1';
+              $compile_options = [
+                'version' => $version,
+              ];
+
+              if (function_exists('apply_filters')) {
+                $compile_options = apply_filters(
+                  'tangible_template_compile_options',
+                  $compile_options,
+                  $asset,
+                  $options
+                );
+              }
+
+              if (!is_array($compile_options)) {
+                $compile_options = [
+                  'version' => $version,
+                ];
+              }
+
+              $compile_options['render_method'] = 'render';
+              if (empty($compile_options['source'])) {
+                $compile_options['source'] = 'file:' . $asset;
+              }
+
+              $content = tangible_template_compile_render(
+                $template,
+                [],
+                $compile_options
+              );
+              if (!is_string($content)) {
+                $should_compile = false;
+              }
+            } else {
+              $should_compile = false;
+            }
+          }
+
+          if (!$should_compile) {
+            $content = $html->render(
+              /**
+               * Support Exit tag by wrapping template with Catch tag
+               *
+               * Can't use $html->render_with_catch_exit() here because
+               * PopContext tag must be called even after exit.
+               */
+              $html->load_template_with_context( $asset,
+                '<Catch>', '</Catch>'
+              )
+            );
+          }
 
           // End local variable scope
           $html->pop_local_variable_scope();
@@ -135,7 +221,57 @@ $html->load_asset = function( $asset_type, $asset = '', $options = [] ) use ( $h
 
         // Markdown
         case 'md':
-            return $html->render(
+          if ($compile_enabled) {
+            $raw = @file_get_contents( $asset );
+
+            if (is_string($raw)) {
+              $template = $html->load_template_string_with_context(
+                $asset,
+                $raw,
+                "<Markdown>\n",
+                '</Markdown>'
+              );
+
+              $version = isset(template_system::$state->version)
+                ? template_system::$state->version
+                : 'v1';
+              $compile_options = [
+                'version' => $version,
+              ];
+
+              if (function_exists('apply_filters')) {
+                $compile_options = apply_filters(
+                  'tangible_template_compile_options',
+                  $compile_options,
+                  $asset,
+                  $options
+                );
+              }
+
+              if (!is_array($compile_options)) {
+                $compile_options = [
+                  'version' => $version,
+                ];
+              }
+
+              $compile_options['render_method'] = 'render';
+              if (empty($compile_options['source'])) {
+                $compile_options['source'] = 'file:' . $asset;
+              }
+
+              $content = tangible_template_compile_render(
+                $template,
+                [],
+                $compile_options
+              );
+
+              if (is_string($content)) {
+                return $content;
+              }
+            }
+          }
+
+          return $html->render(
             $html->load_template_with_context( $asset,
               "<Markdown>\n", '</Markdown>'
             )

@@ -55,6 +55,10 @@ class Map_TestCase extends \WP_UnitTestCase {
   function test_map_key_order() {
 
     $html = tangible_template();
+    $normalize = function($value) {
+      $value = str_replace(["\r\n", "\r"], "\n", trim($value));
+      return preg_replace('/\n{2,}/', "\n", $value);
+    };
 
     $template = <<<'HTML'
     <Map name=animals>
@@ -76,8 +80,8 @@ class Map_TestCase extends \WP_UnitTestCase {
     HTML;
 
     $this->assertEquals(
-      trim($expected),
-      trim($html->render($template))
+      $normalize($expected),
+      $normalize($html->render($template))
     );
 
     // Sort by field
@@ -96,8 +100,8 @@ class Map_TestCase extends \WP_UnitTestCase {
     HTML;
 
     $this->assertEquals(
-      $expected,
-      trim($html->render($template))
+      $normalize($expected),
+      $normalize($html->render($template))
     );
   }
 

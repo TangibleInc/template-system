@@ -127,7 +127,22 @@ class UserLoop extends BaseLoop {
       ? $this->query_args['query'] // Query instance passed
       : new \WP_User_Query( $this->query_args );
 
-    return $this->items = $this->query->get_results();
+    $this->items = $this->query->get_results();
+
+    /**
+     * The query runs with fields=ids to limit memory, which skips cache
+     * priming and would cost one user query plus one meta query per item.
+     * Bulk-load user and user-meta caches for this page of results.
+     */
+    if ( ! empty( $this->items ) && function_exists( 'cache_users' ) ) {
+      $ids = [];
+      foreach ( $this->items as $item ) {
+        if ( is_numeric( $item ) ) $ids[] = (int) $item;
+      }
+      if ( ! empty( $ids ) ) cache_users( $ids );
+    }
+
+    return $this->items;
   }
 
   function create_query_args( $args = [] ) {

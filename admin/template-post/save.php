@@ -105,6 +105,10 @@ $plugin->save_template_post = function( $data = [] ) use ( $plugin, $html ) {
     if (template_system\is_processed_template_post_cache_enabled()) {
       template_system\process_and_cache_template_post( $post );
     }
+
+    if (class_exists('\\Tangible\\TemplateSystem\\Compile\\Compiler')) {
+      \Tangible\TemplateSystem\Compile\Compiler::deleteCacheForPost($post->ID);
+    }
   }
 
   return $result;
@@ -159,6 +163,10 @@ add_action( 'wp_after_insert_post', function( $post_id, $post, $update ) use ( $
    */
   if (template_system\is_processed_template_post_cache_enabled()) {
     template_system\process_and_cache_template_post( $post );
+  }
+
+  if (class_exists('\\Tangible\\TemplateSystem\\Compile\\Compiler')) {
+    \Tangible\TemplateSystem\Compile\Compiler::deleteCacheForPost($post_id);
   }
 
 }, 10, 3 );

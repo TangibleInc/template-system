@@ -74,6 +74,7 @@ return wp_insert_post([
   await import('./logic/index.ts')
   await import('./language/index.ts')
   await import('./admin/index.ts')
+  await import('./compile-php/index.ts')
 
   await import('../modules/tests.ts')
 
