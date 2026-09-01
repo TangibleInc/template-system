@@ -1,5 +1,5 @@
 import { test, expect } from '@wordpress/e2e-test-utils-playwright'
-import { execSync } from 'node:child_process'
+import { wp } from '../wp.js'
 
 const { describe } = test
 
@@ -9,17 +9,13 @@ const { describe } = test
  * the categories that string-parity tests cannot reach.
  */
 
-// The e2e suite targets the tests instance (port 8889), so seed there
-const wp = (command) =>
-  execSync(`npx wp-env run tests-cli wp ${command}`, { encoding: 'utf8' })
-
 const setCompileSetting = (enabled) => {
   wp(
-    `eval "` +
+    `eval '` +
       `$k = tangible\\template_system::$state->settings_key; ` +
       `$s = get_option($k) ?: []; ` +
-      `$s['compile_php_templates'] = ${enabled ? 'true' : 'false'}; ` +
-      `update_option($k, $s); echo 'ok';"`,
+      `$s["compile_php_templates"] = ${enabled ? 'true' : 'false'}; ` +
+      `update_option($k, $s); echo "ok";'`,
   )
 }
 
