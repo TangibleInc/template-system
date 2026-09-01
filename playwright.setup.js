@@ -3,6 +3,7 @@
  */
 import { request } from '@playwright/test'
 import { RequestUtils } from '@wordpress/e2e-test-utils-playwright'
+import { wp } from './tests/wp.js'
 
 /**
  * @param {import('@playwright/test').FullConfig} config
@@ -22,6 +23,19 @@ async function globalSetup(config) {
     storageStatePath,
     baseURL,
   })
+
+  /**
+   * PHPUnit tests might set pretty permalinks without rewriting .htaccess,
+   * which will returns 404 in our end-to-end tests
+   *
+   * @see set_permalink_structure() in tests/language/tags/url.php
+   *
+   * To make sure .htaccess matches the url structure, we ran the rewrite
+   * command before running our end-to-end tests
+   *
+   * @see https://developer.wordpress.org/cli/commands/rewrite/structure/
+   */
+  wp('rewrite structure /%postname%/ --hard', { stdio: 'ignore' })
 
   // Authenticate and save the storageState to disk.
   await requestUtils.setupRest()
