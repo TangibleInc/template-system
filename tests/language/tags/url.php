@@ -1,5 +1,14 @@
 <?php
 class Template_Tags_Url_TestCase extends WP_UnitTestCase {
+
+  /**
+   * Restore the initial permalink structure for other tests
+   */
+  public function tear_down() {
+    $this->set_permalink_structure( '' );
+    parent::tear_down();
+  }
+
   public function test_template_tags_url_current() {
 
       $post_id = self::factory()->post->create( [] );

@@ -18,26 +18,35 @@ class ACF_Group_TestCase extends \WP_UnitTestCase {
 
     $group_field_name = 'group_field';
 
+    /**
+     * ACF stores field groups globally, not in the database, so they aren't
+     * reset between tests. Unique keys avoid colliding with another test.
+     *
+     * @see https://www.advancedcustomfields.com/resources/register-fields-via-php/
+     */
     $group_key = wp_unique_id('test_group');
+    $field_key = 'field_' . $group_key;
+    $sub_1_key = 'field_' . $group_key . '_1';
+    $sub_2_key = 'field_' . $group_key . '_2';
 
     acf_add_local_field_group([
       'key' => $group_key,
       'title' => 'My Group',
       'fields' => [
         [
-          'key' => 'field_1',
+          'key' => $field_key,
           'label' => 'Group field',
           'name' => $group_field_name,
           'type' => 'group',
           'sub_fields' => [
             [
-              'key' => 'field_2',
+              'key' => $sub_1_key,
               'label' => 'Text field',
               'name' => 'text_field',
               'type' => 'text',
             ],
             [
-              'key' => 'field_3',
+              'key' => $sub_2_key,
               'label' => 'Text field',
               'name' => 'text_field_2',
               'type' => 'text',
