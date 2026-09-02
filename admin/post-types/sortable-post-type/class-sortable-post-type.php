@@ -27,7 +27,6 @@ class SortablePostType {
     add_filter( 'get_next_post_sort', [ $this, 'next_post_sort' ] );
 
     add_action( 'wp_ajax_tangible_sortable_post_type__update_menu_order', [ $this, 'update_menu_order' ] );
-    add_action( 'wp_ajax_tangible_sortable_post_type__reset_order', [ $this, 'ajax_reset_order' ] );
   }
 
   function register( $type ) {
@@ -121,6 +120,8 @@ class SortablePostType {
 
     global $wpdb;
 
+    if ( ! current_user_can( 'manage_options' ) ) return;
+
     parse_str( $_POST['order'], $data );
 
     if ( ! is_array( $data )) return false;
@@ -180,6 +181,7 @@ class SortablePostType {
   }
 
   function next_post_where( $where ) {
+
     global $post;
 
     $types = $this->get_registered_types();
