@@ -81,7 +81,7 @@ export default (function createConfig() {
 
     testDir,
     testMatch,
-    testIgnore: ['playwright.*.js'],
+    testIgnore: ['playwright.*.js', '**/utils.js'],
     globalSetup,
     webServer: {
       command: `wp-env start`,
