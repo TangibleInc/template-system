@@ -69,6 +69,9 @@ function activateTable(selector, options = {}) {
     row_loop: rowLoop,
     column_template: columnTemplate,
     column_order: columnOrder,
+    hash,
+    filter_loop_keys: filterLoopKeys = [],
+    filter_loop_options: filterLoopOptions = {},
   } = config
 
   // Current state
@@ -189,6 +192,9 @@ function activateTable(selector, options = {}) {
         // Excluded from cache key
         column_template: columnTemplate,
         column_sort_type: columnSortType,
+        hash,
+        filter_loop_keys: filterLoopKeys,
+        filter_loop_options: filterLoopOptions,
       },
       cacheKey,
     }

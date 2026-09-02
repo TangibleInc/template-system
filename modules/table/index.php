@@ -17,6 +17,7 @@ require_once __DIR__.'/column.php';
 
 require_once __DIR__.'/ajax.php';
 require_once __DIR__.'/enqueue.php';
+require_once __DIR__.'/hash.php';
 
 require_once __DIR__.'/empty.php';
 require_once __DIR__.'/filter.php';
@@ -174,6 +175,10 @@ $html->table_tag = function($atts, $nodes = []) use ($html) {
     unset($current_table['filter_by_column_values']);
 
     unset($current_table['row_loop']['children']);
+
+    $current_table['hash'] = $html->create_tag_attributes_hash(
+      $html->table_signed_attributes( $current_table )
+    );
 
     $table_atts['data-tangible-table-config'] = json_encode(
       $current_table

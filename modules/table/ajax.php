@@ -7,6 +7,10 @@ use tangible\ajax;
 
 ajax\add_public_action('tangible_table_data', function( $request ) use ( $html ) {
 
+  if ( ! $html->table_is_valid_request( $request ) ) {
+    return ajax\error([ 'message' => 'Not allowed' ]);
+  }
+
   $data = $html->render_tag( 'Table', $request );
 
   // Return only what's needed
