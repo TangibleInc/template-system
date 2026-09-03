@@ -15,23 +15,34 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: phpunit-polyfills
+      - name: Git safe.directory
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --no-progress --optimize-autoloader
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
-      # roll install clones the public tangibleinc repos over git@github.com;
-      # rewrite to https so no deploy key is needed in CI
-      - name: Use HTTPS for GitHub
+      - name: Roll install - Use HTTPS for GitHub
         run: git config --global url."https://github.com/".insteadOf "git@github.com:"
       - name: Install dependencies
         run: bun install
       - name: Install dev plugins (ACF, Elementor, Beaver Builder, WP Fusion)
         run: bun run install:dev
-      - name: PHPUnit - PHP 7.4
-        run: bun run env:test:7.4
-      - name: PHPUnit - PHP 8.2
-        run: bun run env:test:8.2
-      - name: PHPUnit - PHP 8.4
-        run: bun run env:test:8.4
-      - name: Install Playwright
+      - name: Install playwright
         run: bun run e2e:install
-      - name: End to end
+      - name: PHPUnit - Run tests for PHP 7.4
+        run: bun run env:test:7.4
+      - name: End to end - PHP 7.4
+        run: bun run e2e
+      - name: PHPUnit - Run tests for PHP 8.2
+        run: bun run env:test:8.2
+      - name: End to end - PHP 8.2
+        run: bun run e2e
+      - name: PHPUnit - Run tests for PHP 8.4
+        run: bun run env:test:8.4
+      - name: End to end - PHP 8.4
         run: bun run e2e
