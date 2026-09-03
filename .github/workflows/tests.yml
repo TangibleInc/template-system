@@ -1,0 +1,37 @@
+name: Run Tests
+permissions:
+  contents: write
+on:
+  push:
+    branches-ignore:
+      - main
+  workflow_call:
+jobs:
+  tests:
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+      # roll install clones the public tangibleinc repos over git@github.com;
+      # rewrite to https so no deploy key is needed in CI
+      - name: Use HTTPS for GitHub
+        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
+      - name: Install dependencies
+        run: bun install
+      - name: Install dev plugins (ACF, Elementor, Beaver Builder, WP Fusion)
+        run: bun run install:dev
+      - name: PHPUnit - PHP 7.4
+        run: bun run env:test:7.4
+      - name: PHPUnit - PHP 8.2
+        run: bun run env:test:8.2
+      - name: PHPUnit - PHP 8.4
+        run: bun run env:test:8.4
+      - name: Install Playwright
+        run: bun run e2e:install
+      - name: End to end
+        run: bun run e2e

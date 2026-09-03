@@ -114,7 +114,7 @@ class Format_List_TestCase extends \WP_UnitTestCase {
     
     $error = null;
 
-    error_reporting(E_STRICT);
+    error_reporting(E_ALL);
     set_error_handler(function( $errno, $errstr, ...$args ) use ( &$error ) {
       $error = [ $errno, $errstr, $args ];
       restore_error_handler();

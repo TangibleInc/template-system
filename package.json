@@ -44,6 +44,7 @@
     "env:test:compile": "wp-env run tests-wordpress /var/www/html/wp-content/plugins/tangible-template-system/vendor/bin/phpunit --testdox -c /var/www/html/wp-content/plugins/tangible-template-system/phpunit.xml --testsuite compile-php --verbose",
     "env:test:7.4": "WP_ENV_PHP_VERSION=7.4 wp-env start && npm run env:test",
     "env:test:8.2": "WP_ENV_PHP_VERSION=8.2 wp-env start && npm run env:test",
+    "env:test:8.4": "WP_ENV_PHP_VERSION=8.4 wp-env start && npm run env:test",
     "env:destroy": "wp-env destroy",
     "env:clean": "wp-env clean all",
     "-- End-to-end testing --": "https://playwright.dev/",
