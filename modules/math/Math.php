@@ -277,7 +277,7 @@ class Math {
 
           if ( in_array( $fnn, $this->fb ) ) { // check the argument count
             if ( $arg_count > 1 ) {
-              $a           = new stdClass();
+              $a           = new \stdClass();
               $a->expected = 1;
               $a->given    = $arg_count;
               return $this->trigger( $this->get_string( 'wrongnumberofarguments', 'mathslib', $a ) );
@@ -289,14 +289,14 @@ class Math {
             if ( in_array( -1, $counts ) and $arg_count > 0 ) {
 
             } elseif ( ! in_array( $arg_count, $counts ) ) {
-              $a           = new stdClass();
+              $a           = new \stdClass();
               $a->expected = implode( '/', $this->fc[ $fnn ] );
               $a->given    = $arg_count;
               return $this->trigger( $this->get_string( 'wrongnumberofarguments', 'mathslib', $a ) );
             }
           } elseif ( array_key_exists( $fnn, $this->f ) ) {
             if ( $arg_count != count( $this->f[ $fnn ]['args'] ) ) {
-              $a           = new stdClass();
+              $a           = new \stdClass();
               $a->expected = count( $this->f[ $fnn ]['args'] );
               $a->given    = $arg_count;
               return $this->trigger( $this->get_string( 'wrongnumberofarguments', 'mathslib', $a ) );
@@ -374,7 +374,7 @@ class Math {
           $counts = $this->fc[ $fnn ];
 
           if ( ! in_array( 0, $counts ) ) {
-            $a           = new stdClass();
+            $a           = new \stdClass();
             $a->expected = $this->fc[ $fnn ];
             $a->given    = 0;
             return $this->trigger( $this->get_string( 'wrongnumberofarguments', 'mathslib', $a ) );
