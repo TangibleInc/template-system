@@ -3,15 +3,25 @@ import { createHash } from 'node:crypto'
 import path from 'node:path'
 
 /**
- * The wp-env tests container name: instance hash (md5 of the absolute
- * .wp-env.json path) + the `-tests-cli-1` compose suffix
+ * Get the wp-env tests container name
+ *
+ * wp-env >= 11.5: `wp-env-{project directory}-{hash}-tests-cli-1`
+ * wp-env < 11.5: `{hash}-tests-cli-1`
+ *
+ * {hash} is the md5 of the absolute .wp-env.json path, shortened to
+ * 8 characters if wp-env >= 11.5
  *
  * @see node_modules/@wordpress/env/lib/config/load-config.js
  */
 const testsContainer = () => {
   const configPath = path.resolve(process.cwd(), '.wp-env.json')
   const hash = createHash('md5').update(configPath).digest('hex')
-  return `${hash}-tests-cli-1`
+  const containers = execSync(
+    'docker ps --filter label=com.docker.compose.service=tests-cli --format {{.Names}}',
+    { encoding: 'utf8' },
+  ).split('\n')
+  return containers.find(name => name.includes(hash.slice(0, 8)))
+    ?? `${hash}-tests-cli-1`
 }
 
 /**
