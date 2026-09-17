@@ -3,7 +3,7 @@
 (include __DIR__ . '/module-loader.php')(new class {
 
   public $name = 'tangible_logic';
-  public $version = '20260903';
+  public $version = '20260917';
 
   function load() {
     require_once __DIR__ . '/index.php';
