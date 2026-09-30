@@ -192,6 +192,20 @@ describe('AJAX signing: tangible_table_data', () => {
     expect(body).toContain('"success":true')
   })
 
+  test('accepts a column template with HTML entities', async () => {
+
+    const config = await readConfig('e2e-ajax-entities')
+    const nonce = await ajax.nonce()
+
+    // The browser decodes entities in the attribute, the column template must
+    // still match what the server signed
+    const res = await ajax.post({ nonce, ...signedRequest(config) })
+    const body = await res.text()
+
+    expect(body).not.toContain('Not allowed')
+    expect(JSON.parse(body).data.rows[0].title).toContain('&amp; &nbsp; &copy; &lt;b&gt;')
+  })
+
   test('honors an unsigned sort change', async () => {
 
     const config = await readConfig('e2e-ajax-paged')

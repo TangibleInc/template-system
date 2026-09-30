@@ -115,6 +115,16 @@ $ensure_page( 'e2e-ajax-paged', 'E2E Ajax Paged', <<<'HTML'
 </Table>
 HTML );
 
+// A table with HTML entities in its column templates, for the hash round-trip
+$ensure_page( 'e2e-ajax-entities', 'E2E Ajax Entities', <<<'HTML'
+<Table>
+  <Head><Col name=title>Title &amp; more</Col></Head>
+  <RowLoop type=post orderby=title order=asc>
+    <Col name=title>&amp; &nbsp; &copy; &lt;b&gt; <Field title /></Col>
+  </RowLoop>
+</Table>
+HTML );
+
 /**
  * Posts in a category with a known order, for the paginated loops
  */

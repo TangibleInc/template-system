@@ -180,7 +180,7 @@ $html->table_tag = function($atts, $nodes = []) use ($html) {
       $html->table_signed_attributes( $current_table )
     );
 
-    $table_atts['data-tangible-table-config'] = json_encode(
+    $table_atts['data-tangible-table-config'] = $html->encode_signed_data(
       $current_table
     );
   }
