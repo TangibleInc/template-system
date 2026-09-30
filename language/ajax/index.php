@@ -8,9 +8,7 @@ ajax\add_public_action('tangible_template_render', function( $request ) use ($ht
   $hash     = $request['hash'];
   // Verify hash @see /utils/hash.php
   if ( ! $html->verify_tag_attributes_hash(
-    is_array( $template ) && isset( $template['attributes'] )
-    ? $template['attributes']
-    : $template,
+    $html->format_signed_data( $template ),
     $hash
   ) ) {
     return ajax\error( [ 'message' => 'Invalid template hash' ] );
@@ -32,7 +30,10 @@ ajax\add_public_action('tangible_template_render', function( $request ) use ($ht
         : []
     );
 
-    if ( ! $html->verify_tag_attributes_hash( $context, $context_hash ) ) {
+    if ( ! $html->verify_tag_attributes_hash(
+      $html->format_signed_data( $context ),
+      $context_hash
+    ) ) {
       return ajax\error( [
       'message' => 'Invalid context hash',
       'context' => $context,

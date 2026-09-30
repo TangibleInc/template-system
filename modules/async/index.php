@@ -44,11 +44,13 @@ $html->async_tag = function( $atts, $nodes ) use ( $html ) {
 
   return $html->render_raw_tag('div', [
     'class'              => 'tangible-async-render',
-    'data-template-data' => json_encode([
+    'data-template-data' => $html->encode_signed_data([
       'template'     => $template,
       'hash'         => $html->create_tag_attributes_hash( $template ),
       'context'      => $context,
-      'context_hash' => $html->create_tag_attributes_hash( $context ),
+      'context_hash' => $html->create_tag_attributes_hash(
+        $html->format_signed_data( $context )
+      ),
     ]),
   ], []);
 };

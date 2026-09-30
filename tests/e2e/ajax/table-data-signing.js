@@ -31,7 +31,7 @@ const flatten = (obj, prefix, out = {}) => {
   return out
 }
 
-describe('AJAX permission: tangible_table_data signed round-trip', () => {
+describe('AJAX signing: tangible_table_data', () => {
 
   const ajax = useGuestAjax()
 
@@ -93,7 +93,7 @@ describe('AJAX permission: tangible_table_data signed round-trip', () => {
     expect(body).toContain('"success":true')
   })
 
-  test('rejects a loop filter value the author did not offer', async () => {
+  test('rejects a loop filter value not offered', async () => {
 
     const config = await readConfig('e2e-ajax-filter')
     const nonce = await ajax.nonce()
@@ -130,7 +130,7 @@ describe('AJAX permission: tangible_table_data signed round-trip', () => {
     expect(body).toContain('Not allowed')
   })
 
-  test('rejects excluding a non-filter attribute (keys are signed)', async () => {
+  test('rejects excluding a non-filter attribute', async () => {
 
     const config = await readConfig('e2e-ajax-filter')
     const nonce = await ajax.nonce()

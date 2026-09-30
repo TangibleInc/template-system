@@ -1,0 +1,137 @@
+[
+  {
+    "name": "plain field",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><Field title /></Loop>",
+    "expect": "E2E Pager A"
+  },
+  {
+    "name": "empty and valueless attributes",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><div class=\"\" title=\"\" data-flag hidden><Field title /></div></Loop>",
+    "expect": "<div data-flag hidden class title>E2E Pager A</div>"
+  },
+  {
+    "name": "empty and self-closing tags",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><ul><li><span></span><b><Field title /></b><br /><img alt=\"\" /><input type=\"text\" value=\"\" disabled /></li></ul></Loop>",
+    "expect": "<ul><li><span></span><b>E2E Pager A</b><br /><img alt /><input disabled type=\"text\" value /></li></ul>"
+  },
+  {
+    "name": "deeply nested tags",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><div><div><div><div><div><div><div><div><i><Field title /></i></div></div></div></div></div></div></div></div></Loop>",
+    "expect": "<div><div><div><div><div><div><div><div><i>E2E Pager A</i></div></div></div></div></div></div></div></div>"
+  },
+  {
+    "name": "condition with else",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><If field=title includes value=Pager>yes:<Field title /><Else />no</If>|<If field=title includes value=Missing>yes<Else />no:<Field title /></If></Loop>",
+    "expect": "yes:E2E Pager A|no:E2E Pager A"
+  },
+  {
+    "name": "nested loop with JSON attribute",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><Field title />:<Loop items='[{\"v\":\"x\"},{\"v\":\"y\"}]'><Field v />,</Loop></Loop>",
+    "expect": "E2E Pager A:x,y,"
+  },
+  {
+    "name": "dynamic attribute value",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><div data-title=\"{Field title}\" class=\"row-{Field name}\">row</div></Loop>",
+    "expect": "<div data-title=\"E2E Pager A\" class=\"row-e2e-pager-a\">row</div>"
+  },
+  {
+    "name": "special characters in text",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><p>é ü ß 日本語 🙂 &amp; \"double\" 'single' back\\slash \\n 100% a+b=c ? # [x] (y)</p></Loop>",
+    "expect": "<p>é ü ß 日本語 🙂 &amp; \"double\" 'single' back\\slash \\n 100% a+b=c ? # [x] (y)</p>"
+  },
+  {
+    "name": "special characters in attributes",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><a href=\"https://example.com/path/?a=1&amp;b=2#hash\" title=\"é 'single' back\\slash 🙂\">link</a></Loop>",
+    "expect": "<a href=\"https://example.com/path/?a=1&amp;b=2#hash\" title=\"é &#039;single&#039; back\\slash 🙂\">link</a>"
+  },
+  {
+    "name": "HTML entities",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><p title=\"a &amp; b &quot;c&quot;\">&amp; &lt;b&gt; &nbsp; &copy; &#039; &#x27; &quot; &amp;amp;</p></Loop>",
+    "expect": "<p title=\"a &amp; b &quot;c&quot;\">&amp; &lt;b&gt; &nbsp; &copy; &#039; &#x27; &quot; &amp;amp;</p>"
+  },
+  {
+    "name": "numeric and boolean like values",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><div data-int=2 data-zero=0 data-float=1.50 data-negative=-3 data-padded=007 data-true=true data-false=false data-null=null>2 0 1.50 -3 007 true false null</div></Loop>",
+    "expect": "<div data-int=\"2\" data-zero=\"0\" data-float=\"1.50\" data-negative=\"-3\" data-padded=\"007\" data-true=\"true\" data-false=\"false\" data-null=\"null\">2 0 1.50 -3 007 true false null</div>"
+  },
+  {
+    "name": "whitespace and newlines",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1>\n\n  <p>\n\t<Field title />\n  </p>\n\n  <pre>  two  spaces\n\ttab  </pre>\n\n</Loop>",
+    "expect": "<p>\n\tE2E Pager A\n  </p>\n\n  <pre>  two  spaces\n\ttab  </pre>"
+  },
+  {
+    "name": "comment",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><!-- a \"comment\" with <b>tags</b> --><Field title /></Loop>",
+    "expect": "<!-- a \"comment\" with <b>tags</b> -->E2E Pager A"
+  },
+  {
+    "name": "formatted field",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><Format case=upper><Field title /></Format>|<Format case=lower><Field title /></Format></Loop>",
+    "expect": "E2E PAGER A|e2e pager a"
+  },
+  {
+    "name": "numeric loop attributes",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc count=3 offset=0 paged=1><Field title /></Loop>",
+    "expect": "E2E Pager A"
+  },
+  {
+    "name": "multiple loop values",
+    "template": "<Loop type=post category=e2e-ajax-cat,missing-cat status=publish,private orderby=title order=asc paged=1><Field title /></Loop>",
+    "expect": "E2E Pager A"
+  },
+  {
+    "name": "several items per page",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=2><Field title />;</Loop>",
+    "expect": "E2E Pager A;E2E Pager B;"
+  },
+  {
+    "name": "random order",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=random paged=1>item</Loop>",
+    "expect": "item"
+  },
+  {
+    "name": "global variable set before loop",
+    "template": "<Set name=e2e_global>global value</Set><Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><Get name=e2e_global />:<Field title /></Loop>",
+    "expect": "global value:E2E Pager A"
+  },
+  {
+    "name": "local variable set before loop",
+    "template": "<Set local=e2e_local>local value</Set><Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><Get local=e2e_local />:<Field title /></Loop>",
+    "expect": "local value:E2E Pager A"
+  },
+  {
+    "name": "variable set inside loop",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1><Set local=e2e_inside>inside value</Set><Get local=e2e_inside />:<Field title /></Loop>",
+    "expect": "inside value:E2E Pager A"
+  },
+  {
+    "name": "variable never set",
+    "template": "<Loop type=post category=e2e-ajax-cat orderby=title order=asc paged=1>[<Get name=e2e_never_set />]<Field title /></Loop>",
+    "expect": "[]E2E Pager A"
+  },
+  {
+    "name": "async template",
+    "template": "<Async><b>async</b> text</Async>",
+    "expect": "<b>async</b> text"
+  },
+  {
+    "name": "async with special characters",
+    "template": "<Async><p title=\"é 'single' back\\slash\">é 日本語 🙂 &amp; \"double\" back\\slash\n\tnext line</p></Async>",
+    "expect": "<p title=\"é &#039;single&#039; back\\slash\">é 日本語 🙂 &amp; \"double\" back\\slash\n\tnext line</p>"
+  },
+  {
+    "name": "async with variables",
+    "template": "<Set name=e2e_async>async value</Set><Async><Get name=e2e_async />[<Get name=e2e_async_never_set />]</Async>",
+    "expect": "async value[]"
+  },
+  {
+    "name": "async with a loop",
+    "template": "<Async><Loop type=post category=e2e-ajax-cat orderby=title order=asc><Field title />;</Loop></Async>",
+    "expect": "E2E Pager A;E2E Pager B;E2E Pager C;"
+  },
+  {
+    "name": "async with HTML entities",
+    "template": "<Async><p title=\"a &amp; b\">&amp; &lt;b&gt; &nbsp; &copy; &quot;</p></Async>",
+    "expect": "<p title=\"a &amp; b\">&amp; &lt;b&gt; &nbsp; &copy; &quot;</p>"
+  }
+]
