@@ -29,19 +29,19 @@ class ACF_Repeater_TestCase extends \WP_UnitTestCase {
       'title' => 'My Group',
       'fields' => [
         [
-          'key' => 'field_1',
+          'key' => 'field_repeater_test_1',
           'label' => 'Repeater field',
           'name' => $repeater_field_name,
           'type' => 'repeater',
           'sub_fields' => [
             [
-              'key' => 'field_2',
+              'key' => 'field_repeater_test_2',
               'label' => 'Text field',
               'name' => 'text_field',
               'type' => 'text',
             ],
             [
-              'key' => 'field_3',
+              'key' => 'field_repeater_test_3',
               'label' => 'Date field',
               'name' => 'date_field',
               'type' => 'date',
@@ -115,6 +115,43 @@ class ACF_Repeater_TestCase extends \WP_UnitTestCase {
     HTML);
 
     $this->assertEquals($normalize($expected), $normalize($result));
+
+    // Sub-field of the first row through the Field tag
+    $result = $html->render(<<<HTML
+    <Loop type=post id=$post_id>
+    <Field acf_repeater="repeater_field" field=text_field />
+    </Loop>
+    HTML);
+
+    $this->assertEquals($text_1, trim($result));
+
+    // Field setting through the Field tag
+    $result = $html->render(<<<HTML
+    <Loop type=post id=$post_id>
+    <Field acf_repeater="repeater_field" field=field_label />
+    </Loop>
+    HTML);
+
+    $this->assertEquals('Repeater field', trim($result));
+
+    $result = $html->render(<<<HTML
+    <Loop type=post id=$post_id>
+    <Field acf_repeater="repeater_field" field=config />
+    </Loop>
+    HTML);
+
+    $config = json_decode(trim($result), true);
+
+    $this->assertSame('repeater', $config['type'] ?? null);
+
+    // Sub-field that no row has
+    $result = $html->render(<<<HTML
+    <Loop type=post id=$post_id>
+    [<Field acf_repeater="repeater_field" field=unknown />]
+    </Loop>
+    HTML);
+
+    $this->assertEquals('[]', trim($result));
 
   }
 }

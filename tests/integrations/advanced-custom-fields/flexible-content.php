@@ -25,24 +25,24 @@ class ACF_Flexible_Content_TestCase extends \WP_UnitTestCase {
       'title' => 'My Group',
       'fields' => [
         [
-          'key' => 'field_1',
+          'key' => 'field_flexible_test_1',
           'label' => 'Flexible Content field',
           'name' => $flexible_content_field_name,
           'type' => 'flexible_content',
           'layouts' => [
             [
-              'key' => 'layout_1',
+              'key' => 'layout_flexible_test_1',
               'name' => 'layout_1',
               'label' => 'Layout 1',
               'sub_fields' => [
                 [
-                  'key' => 'field_2',
+                  'key' => 'field_flexible_test_2',
                   'label' => 'Text field',
                   'name' => 'text_field',
                   'type' => 'text',
                 ],
                 [
-                  'key' => 'field_3',
+                  'key' => 'field_flexible_test_3',
                   'label' => 'Text field',
                   'name' => 'text_field_2',
                   'type' => 'text',
@@ -50,18 +50,18 @@ class ACF_Flexible_Content_TestCase extends \WP_UnitTestCase {
               ],
             ],
             [
-              'key' => 'layout_2',
+              'key' => 'layout_flexible_test_2',
               'name' => 'layout_2',
               'label' => 'Layout 2',
               'sub_fields' => [
                 [
-                  'key' => 'field_4',
+                  'key' => 'field_flexible_test_4',
                   'label' => 'Text field',
                   'name' => 'text_field',
                   'type' => 'text',
                 ],
                 [
-                  'key' => 'field_5',
+                  'key' => 'field_flexible_test_5',
                   'label' => 'Text field',
                   'name' => 'text_field_2',
                   'type' => 'text',
@@ -115,6 +115,15 @@ class ACF_Flexible_Content_TestCase extends \WP_UnitTestCase {
      */
     clean_post_cache( $post_id );
 
+    // Field setting through the Field tag
+    $result = $html->render(<<<HTML
+    <Loop type=post id=$post_id>
+    <Field acf_flexible="$flexible_content_field_name" field=field_label />
+    </Loop>
+    HTML);
+
+    $this->assertEquals('Flexible Content field', trim($result));
+
     $meta = get_post_meta($post_id);
 
     if (isset($meta['flexible_content_field_0_text_field'])
@@ -132,7 +141,16 @@ class ACF_Flexible_Content_TestCase extends \WP_UnitTestCase {
       HTML);
   
       $this->assertEquals(trim($expected), trim($result));
-  
+
+      // Sub-field of the first layout through the Field tag
+      $result = $html->render(<<<HTML
+      <Loop type=post id=$post_id>
+      <Field acf_flexible="$flexible_content_field_name" field=text_field />
+      </Loop>
+      HTML);
+
+      $this->assertEquals('Test 1', trim($result));
+
     } else {
       // :(
       $this->assertTrue(true);

@@ -424,15 +424,34 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
     ];
 
     /**
-     * Pass simple subfields to the ACF integration, which handles special
-     * ones like label/labels/choices for choice field types and returns
-     * [ subfield => value ] for the generic subfield handling below.
-     * The "field" attribute is extracted into $subfield early, so it is
-     * no longer present in $field_atts. Dot-syntax paths skip this and
-     * descend generically on the raw value.
+     * $html->get_acf_field_type() can handle some subfields by default
+     * (label, choices ...etc)
+     *
+     * @see get_acf_field_type() in integrations/advanced-custom-fields/get-field.php
      */
     if ( ! empty( $subfield ) && strpos( $subfield, '.' ) === false ) {
-      $acf_field_options['tag_attributes']['field'] = $subfield;
+
+      /**
+       * This shouldn't be set for field_types that return a $loop, as
+       * in those cases the field attribute means we filter the loop
+       * result by this given field
+       *
+       * 2 exceptions: field_label and config ($loop is not created
+       * and will return the expected value)
+       *
+       * @see create_query_args() in loop/types/base/index.php
+       * @see get_acf_field_type() in integrations/advanced-custom-fields/get-field.php
+       */
+      $is_acf_loop_field = in_array(
+        $acf_field_type,
+        [ 'group', 'repeater', 'flexible', 'flexible_content' ],
+        true
+      );
+      $is_field_setting = in_array( $subfield, [ 'config', 'field_label' ], true );
+
+      if ( ! $is_acf_loop_field || $is_field_setting ) {
+        $acf_field_options['tag_attributes']['field'] = $subfield;
+      }
     }
 
     // For Date field types, always get raw value so we can apply format and locale
