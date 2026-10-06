@@ -58,11 +58,11 @@ $html->paginated_loop_tag = function( $current_loop, $atts, $nodes, $result ) us
         'items_per_page' => $current_loop->get_items_per_page(),
       ],
       'template'     => $template,
-      'hash'         => $html->create_tag_attributes_hash(
+      'hash'         => $html->create_data_hash(
         $html->format_signed_data( $template )
       ),
       'context'      => $context,
-      'context_hash' => $html->create_tag_attributes_hash(
+      'context_hash' => $html->create_data_hash(
         $html->format_signed_data( $context )
       ),
     ]),

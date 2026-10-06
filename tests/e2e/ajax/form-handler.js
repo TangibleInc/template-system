@@ -5,7 +5,7 @@ const { describe } = test
 
 /**
  * tangible_form_handler processes a form submission, but only after
- * verify_tag_attributes_hash() confirms the location hash; it then renders the
+ * verify_data_hash() confirms the location hash; it then renders the
  * referenced published template server-side, never request-supplied markup.
  *
  * @see form/ajax.php

@@ -6,7 +6,7 @@ const { describe } = test
 
 /**
  * tangible_template_render renders a template node, but only after
- * verify_tag_attributes_hash() confirms a server-issued hash of the whole node
+ * verify_data_hash() confirms a server-issued hash of the whole node
  * (tag, attributes, children). A guest cannot run a template the server did
  * not sign, but a signed one renders.
  *

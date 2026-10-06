@@ -21,7 +21,7 @@ $html->process_form_request = function($request) use ($html) {
   }
 
   // Validate location hash - see ./tag.php and /utils/hash.php
-  if (!$html->verify_tag_attributes_hash($location, $hash)) {
+  if (!$html->verify_data_hash($location, $hash)) {
     return [ 'error' => 'Invalid form location' ];
   }
 

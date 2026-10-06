@@ -1,6 +1,6 @@
 <?php
 
-$html->create_tag_attributes_hash = function( $atts ) use ( $html ) {
+$html->create_data_hash = function( $atts ) use ( $html ) {
 
   if (is_string( $atts )) return wp_hash( $atts );
 
@@ -26,8 +26,8 @@ $html->create_tag_attributes_hash = function( $atts ) use ( $html ) {
   return wp_hash( $content );
 };
 
-$html->verify_tag_attributes_hash = function( $atts, $hash ) use ( $html ) {
-  return strcmp( $hash, $html->create_tag_attributes_hash( $atts ) ) === 0;
+$html->verify_data_hash = function( $atts, $hash ) use ( $html ) {
+  return strcmp( $hash, $html->create_data_hash( $atts ) ) === 0;
 };
 
 /**

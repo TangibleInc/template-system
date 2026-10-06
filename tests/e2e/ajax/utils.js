@@ -17,7 +17,7 @@ const SECRET_OPTION_VALUE = 'SECRET-OPTION-VALUE-9f83a1'
  */
 const sign = (phpArray) =>
   wp(
-    `eval 'echo tangible\\template_system::$html->create_tag_attributes_hash(${phpArray});'`,
+    `eval 'echo tangible\\template_system::$html->create_data_hash(${phpArray});'`,
   ).trim()
 
 let seeded = false

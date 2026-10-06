@@ -7,7 +7,7 @@ ajax\add_public_action('tangible_template_render', function( $request ) use ($ht
   $template = $request['template'];
   $hash     = $request['hash'];
   // Verify hash @see /utils/hash.php
-  if ( ! $html->verify_tag_attributes_hash(
+  if ( ! $html->verify_data_hash(
     $html->format_signed_data( $template ),
     $hash
   ) ) {
@@ -30,7 +30,7 @@ ajax\add_public_action('tangible_template_render', function( $request ) use ($ht
         : []
     );
 
-    if ( ! $html->verify_tag_attributes_hash(
+    if ( ! $html->verify_data_hash(
       $html->format_signed_data( $context ),
       $context_hash
     ) ) {

@@ -2,7 +2,7 @@
 
 $html->table_is_valid_request = function( $request ) use( $html ) {
 
-  $has_valid_hash = $html->verify_tag_attributes_hash(
+  $has_valid_hash = $html->verify_data_hash(
     $html->table_signed_attributes( $request ),
     $request['hash'] ?? ''
   );

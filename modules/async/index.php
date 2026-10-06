@@ -46,9 +46,9 @@ $html->async_tag = function( $atts, $nodes ) use ( $html ) {
     'class'              => 'tangible-async-render',
     'data-template-data' => $html->encode_signed_data([
       'template'     => $template,
-      'hash'         => $html->create_tag_attributes_hash( $template ),
+      'hash'         => $html->create_data_hash( $template ),
       'context'      => $context,
-      'context_hash' => $html->create_tag_attributes_hash(
+      'context_hash' => $html->create_data_hash(
         $html->format_signed_data( $context )
       ),
     ]),
