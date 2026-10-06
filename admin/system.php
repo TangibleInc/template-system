@@ -16,7 +16,7 @@ if (!function_exists('tangible_template_system')) {
 (include __DIR__.'/../module-loader.php')(new class extends \stdClass {
 
   public $name = 'tangible_template_system';
-  public $version = '20260917';
+  public $version = '20261006';
 
   public $url;
   public $path;
