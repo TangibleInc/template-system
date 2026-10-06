@@ -23,7 +23,7 @@ function render_tag($tag, $atts, $children = [], $options = []) {
   $html->tag_context = array_merge($parent_context, [
     'tag' => $tag,
     'local_tags' => $local_tags,
-    'options' => $options,
+    'options' => ( $options['inherit_options'] ?? true ) ? $options : [],
     // Passed from $html->render, can be changed by <load>
     'path' => isset($options['path']) ? $options['path'] : ''
   ]);

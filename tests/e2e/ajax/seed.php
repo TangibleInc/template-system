@@ -126,6 +126,55 @@ $ensure_page( 'e2e-ajax-entities', 'E2E Ajax Entities', <<<'HTML'
 HTML );
 
 /**
+ * A table with a "rendered" column showing a variable no template sets, for
+ * the unsigned values checks: the column only has a value if a request value
+ * was rendered as a template and set the variable
+ */
+$ensure_page( 'e2e-ajax-unsigned', 'E2E Ajax Unsigned', <<<'HTML'
+<Table per_page=1>
+  <Head><Col name=title>Title</Col><Col name=rendered>Rendered</Col></Head>
+  <RowLoop type=post orderby=title count=50>
+    <Col name=title><Field title /></Col>
+    <Col name=rendered><Get name=e2e_unsigned_rendered /></Col>
+  </RowLoop>
+</Table>
+HTML );
+
+/**
+ * A table whose columns use attributes the way templates do (static, dynamic,
+ * on a link, an image, the Col itself and a nested loop), which the endpoint
+ * must render like the page does
+ */
+$ensure_page( 'e2e-ajax-dynamic', 'E2E Ajax Dynamic', <<<'HTML'
+<Table>
+  <Head>
+    <Col name=title>Title</Col>
+    <Col name=link>Link</Col>
+    <Col name=state>State</Col>
+    <Col name=list>List</Col>
+  </Head>
+  <RowLoop type=post category=e2e-ajax-cat orderby=title order=asc>
+    <Col name=title class="cell-{Field name}"><span class="static" data-title="{Field title}"><Field title /></span></Col>
+    <Col name=link><a href="{Field url}" title="{Field title}"><img alt="{Field title}" /></a></Col>
+    <Col name=state value="{Field name}"><If field=title includes value="Pager A"><b data-first>first</b><Else /><i class="other-{Field name}">other</i></If></Col>
+    <Col name=list><Loop type=post category=e2e-ajax-cat sort_field=title sort_order="{If field=title}asc{/If}"><Field title />, </Loop></Col>
+  </RowLoop>
+</Table>
+HTML );
+
+// A table with dynamic attributes on the Table tag itself
+$ensure_page( 'e2e-ajax-attributes', 'E2E Ajax Attributes', <<<'HTML'
+<Set name=e2e_table_per_page>1</Set>
+<Set name=e2e_table_order>desc</Set>
+<Table per_page="{Get name=e2e_table_per_page}" sort=title sort_order="{Get name=e2e_table_order}" class="table-{Get name=e2e_table_order}">
+  <Head><Col name=title>Title</Col></Head>
+  <RowLoop type=post category=e2e-ajax-cat orderby=title order=asc>
+    <Col name=title><Field title /></Col>
+  </RowLoop>
+</Table>
+HTML );
+
+/**
  * Posts in a category with a known order, for the paginated loops
  */
 $term = term_exists( 'e2e-ajax-cat', 'category' );
