@@ -50,7 +50,7 @@ $html->paginated_loop_tag = function( $current_loop, $atts, $nodes, $result ) us
   $tag_attributes = [
     'data-tangible-dynamic-module'        => 'paginator',
     'data-tangible-paginator-target-id'   => $current_loop->paginator_target_id,
-    'data-tangible-paginator-target-data' => json_encode([
+    'data-tangible-paginator-target-data' => $html->encode_signed_data([
       'state'        => [
         'current_page'   => $current_loop->get_current_page(),
         'total_pages'    => $current_loop->get_total_pages(),
@@ -58,9 +58,13 @@ $html->paginated_loop_tag = function( $current_loop, $atts, $nodes, $result ) us
         'items_per_page' => $current_loop->get_items_per_page(),
       ],
       'template'     => $template,
-      'hash'         => $html->create_tag_attributes_hash( $template_attributes ),
+      'hash'         => $html->create_data_hash(
+        $html->format_signed_data( $template )
+      ),
       'context'      => $context,
-      'context_hash' => $html->create_tag_attributes_hash( $context ),
+      'context_hash' => $html->create_data_hash(
+        $html->format_signed_data( $context )
+      ),
     ]),
   ];
 

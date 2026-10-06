@@ -2,7 +2,7 @@
 
 $html->table_is_valid_request = function( $request ) use( $html ) {
 
-  $has_valid_hash = $html->verify_tag_attributes_hash(
+  $has_valid_hash = $html->verify_data_hash(
     $html->table_signed_attributes( $request ),
     $request['hash'] ?? ''
   );
@@ -45,7 +45,7 @@ $html->table_signed_attributes = function( $table ) use ( $html ) {
     unset( $row_loop['attributes'][ $key ] );
   }
 
-  return $html->table_signed_format( [
+  return $html->format_signed_data( [
     'column_template'     => $table['column_template']     ?? [],
     'column_order'        => $table['column_order']        ?? [],
     'column_sort_type'    => $table['column_sort_type']    ?? [],
@@ -70,18 +70,4 @@ $html->table_signed_verify_filter_value = function( $table ) {
   }
 
   return true;
-};
-
-/**
- * The ajax module format data using $.ajax, which strips empty arrays
- * so we need to strips them as well otherwise hashes won't match
- */
-$html->table_signed_format = function( $value ) use ( $html ) {
-
-  if ( ! is_array( $value ) ) return $value;
-
-  return array_filter(
-    array_map( $html->table_signed_format, $value ),
-    fn( $item ) => $item !== []
-  );
 };

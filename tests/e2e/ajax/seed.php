@@ -35,10 +35,13 @@ if ( ! $user ) {
 update_option( 'tangible_e2e_secret_option', 'SECRET-OPTION-VALUE-9f83a1', false );
 
 /**
- * Public pages rendering a Table, so they output the guest nonce and the signed
- * data-tangible-table-config the tests read.
+ * Public pages rendering a template, so they output the guest nonce and the
+ * signed data the tests read (data-tangible-table-config for a Table).
  */
-$ensure_table_page = function ( $slug, $title, $content ) {
+$ensure_page = function ( $slug, $title, $content ) {
+
+  // wp_insert_post() and wp_update_post() expect slashed data
+  $content = wp_slash( $content );
 
   $template = get_page_by_path( $slug . '-template', OBJECT, 'tangible_template' );
   kses_remove_filters();
@@ -76,7 +79,7 @@ $ensure_table_page = function ( $slug, $title, $content ) {
   }
 };
 
-$ensure_table_page( 'e2e-ajax-table', 'E2E Ajax Table', <<<'HTML'
+$ensure_page( 'e2e-ajax-table', 'E2E Ajax Table', <<<'HTML'
 <Table>
   <Head><Col name=title>Title</Col></Head>
   <RowLoop type=post orderby=title order=asc>
@@ -86,7 +89,7 @@ $ensure_table_page( 'e2e-ajax-table', 'E2E Ajax Table', <<<'HTML'
 HTML );
 
 // A table with a loop filter, for the filter round-trip caveat
-$ensure_table_page( 'e2e-ajax-filter', 'E2E Ajax Filter', <<<'HTML'
+$ensure_page( 'e2e-ajax-filter', 'E2E Ajax Filter', <<<'HTML'
 <Table>
   <Head><Col name=title>Title</Col></Head>
   <Filter>
@@ -103,7 +106,7 @@ HTML );
 
 // A paginated table with a numeric loop attribute, for the pagination, sort
 // and numeric round-trip regression checks
-$ensure_table_page( 'e2e-ajax-paged', 'E2E Ajax Paged', <<<'HTML'
+$ensure_page( 'e2e-ajax-paged', 'E2E Ajax Paged', <<<'HTML'
 <Table per_page=1>
   <Head><Col name=title>Title</Col></Head>
   <RowLoop type=post orderby=title count=50>
@@ -111,6 +114,54 @@ $ensure_table_page( 'e2e-ajax-paged', 'E2E Ajax Paged', <<<'HTML'
   </RowLoop>
 </Table>
 HTML );
+
+// A table with HTML entities in its column templates, for the hash round-trip
+$ensure_page( 'e2e-ajax-entities', 'E2E Ajax Entities', <<<'HTML'
+<Table>
+  <Head><Col name=title>Title &amp; more</Col></Head>
+  <RowLoop type=post orderby=title order=asc>
+    <Col name=title>&amp; &nbsp; &copy; &lt;b&gt; <Field title /></Col>
+  </RowLoop>
+</Table>
+HTML );
+
+/**
+ * Posts in a category with a known order, for the paginated loops
+ */
+$term = term_exists( 'e2e-ajax-cat', 'category' );
+if ( ! $term ) {
+  $term = wp_insert_term( 'E2E Ajax Cat', 'category', [ 'slug' => 'e2e-ajax-cat' ] );
+}
+
+foreach ( [ 'E2E Pager A', 'E2E Pager B', 'E2E Pager C' ] as $title ) {
+  $slug = sanitize_title( $title );
+  if ( get_page_by_path( $slug, OBJECT, 'post' ) ) continue;
+  wp_insert_post( [
+    'post_type'     => 'post',
+    'post_status'   => 'publish',
+    'post_title'    => $title,
+    'post_name'     => $slug,
+    'post_category' => [ (int) $term['term_id'] ],
+  ] );
+}
+
+/**
+ * One page with every template of the signed round-trip cases, each in its
+ * own #case-{index} wrapper.
+ *
+ * @see tests/e2e/ajax/template-render-signing.js
+ */
+$cases = json_decode(
+  file_get_contents( __DIR__ . '/template-render-cases.json' ),
+  true
+);
+
+$ensure_page( 'e2e-ajax-render', 'E2E Ajax Render', implode( "\n", array_map(
+  fn( array $case, int $index ): string =>
+    '<div id="case-' . $index . '">' . $case['template'] . '</div>',
+  $cases,
+  array_keys( $cases )
+) ) );
 
 /**
  * A subscriber for the logged-in permission tests. Reset the password each run

@@ -104,7 +104,7 @@ $html->add_open_tag('Form', function($atts, $nodes) use ($html) {
     'id'       => $form_id,
     'location' => $location,
     // @see /utils/hash.php
-    'hash'     => $html->create_tag_attributes_hash( $location ),
+    'hash'     => $html->create_data_hash( $location ),
   ]);
 
   return $content;

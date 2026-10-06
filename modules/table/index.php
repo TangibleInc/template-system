@@ -176,11 +176,11 @@ $html->table_tag = function($atts, $nodes = []) use ($html) {
 
     unset($current_table['row_loop']['children']);
 
-    $current_table['hash'] = $html->create_tag_attributes_hash(
+    $current_table['hash'] = $html->create_data_hash(
       $html->table_signed_attributes( $current_table )
     );
 
-    $table_atts['data-tangible-table-config'] = json_encode(
+    $table_atts['data-tangible-table-config'] = $html->encode_signed_data(
       $current_table
     );
   }

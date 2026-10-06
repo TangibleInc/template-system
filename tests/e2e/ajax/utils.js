@@ -17,7 +17,7 @@ const SECRET_OPTION_VALUE = 'SECRET-OPTION-VALUE-9f83a1'
  */
 const sign = (phpArray) =>
   wp(
-    `eval 'echo tangible\\template_system::$html->create_tag_attributes_hash(${phpArray});'`,
+    `eval 'echo tangible\\template_system::$html->create_data_hash(${phpArray});'`,
   ).trim()
 
 let seeded = false
@@ -78,6 +78,41 @@ const useGuestAjax = () => {
 }
 
 /**
+ * Seeds once, then opens the given page in a browser as a guest, for the specs
+ * that send their requests through the real client (window.Tangible.ajax).
+ * Returns a getter for the page.
+ */
+const useGuestPage = (path) => {
+
+  let guest
+  let page
+
+  test.beforeAll(async ({ browser }) => {
+
+    seed()
+    guest = await browser.newContext({
+      storageState: { cookies: [], origins: [] },
+    })
+    page = await guest.newPage()
+    await page.goto(path)
+
+    // Fail loudly if the session is not a guest one
+    const { cookies } = await guest.storageState()
+    const loggedIn = cookies.some((c) =>
+      c.name.startsWith('wordpress_logged_in'),
+    )
+
+    if (loggedIn) throw new Error(`Guest page ${path} has a logged in session`)
+  })
+
+  test.afterAll(async () => {
+    await guest?.close()
+  })
+
+  return () => page
+}
+
+/**
  * Like useGuestAjax, but logged in as the given user first (a fresh context
  * with that user's session), for the authenticated permission specs.
  */
@@ -124,6 +159,7 @@ const useAuthedAjax = (login, pass) => {
 export {
   useGuestAjax,
   useAuthedAjax,
+  useGuestPage,
   sign,
   ajaxURL,
   SECRET_USER_EMAIL,
