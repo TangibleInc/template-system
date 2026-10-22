@@ -1192,7 +1192,6 @@ class PostLoop extends BaseLoop {
           case 'between':
           case 'not between':
             $compare = strtoupper($compare);
-            $value = format\multiple_values($value);
           break;
         }
       }
@@ -1221,16 +1220,22 @@ class PostLoop extends BaseLoop {
 
       unset($query_args['custom_field_value' . $postfix]);
 
+      // Comma-separated list (or JSON array) of values for IN, NOT IN, BETWEEN, NOT BETWEEN
+      if (in_array($compare, ['IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'], true)) {
+        $value = format\multiple_values($value);
+      }
+
       if (isset($query_args['custom_field_type' . $postfix])) {
 
-        $type = strtoupper( $query_args['custom_field_type' . $postfix] );
+        $type = strtolower( trim( $query_args['custom_field_type' . $postfix] ) );
         unset($query_args['custom_field_type' . $postfix]);
 
         switch ($type) {
           // @see https://developer.wordpress.org/reference/classes/wp_meta_query/#usage
-          case 'string': $compare = 'CHAR'; break;
-          case 'number': $compare = 'NUMERIC'; break;
-          // date, datetime, decimal, signed, time, unsigned
+          case 'string': $type = 'CHAR'; break;
+          case 'number': $type = 'NUMERIC'; break;
+          // date, datetime, time - and WP_Meta_Query's own names: binary, decimal, numeric, signed, unsigned
+          default: $type = strtoupper($type);
         }
       }
 
