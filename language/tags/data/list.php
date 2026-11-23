@@ -184,7 +184,7 @@ $html->list_tag = function( $atts, $nodes ) use ( $html, $loop ) {
   $list = $list_loop->items;
 
   // Support passing to other tags
-  return json_encode( (array) $list );
+  return $html->json_encode_escape_tags( (array) $list );
 };
 
 $html->add_open_tag('List', $html->list_tag, [

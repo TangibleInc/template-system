@@ -12,7 +12,7 @@ namespace Tangible\TemplateSystem\Compile {
     private const POST_CACHE_META_KEY = '_tangible_template_compile_cache_key';
 
     // Bump when the generated code format changes, to invalidate cached files
-    private const COMPILER_VERSION = 10;
+    private const COMPILER_VERSION = 11;
 
     /**
      * Filters that rewrite attributes at render time. While any of these are
@@ -478,7 +478,7 @@ namespace Tangible\TemplateSystem\Compile {
         . self::dataRef($atts, $state) . ', ' . self::dataRef($children, $state)
         . ', [\'render_attributes\' => true]);';
       $lines[] = $indent . '  if ($__value !== null) {';
-      $lines[] = $indent . '    if (!is_string($__value)) { $__value = json_encode($__value); }';
+      $lines[] = $indent . '    if (!is_string($__value)) { $__value = $__html->json_encode_escape_tags($__value); }';
       $lines[] = $indent . '    $__out .= $__value;';
       $lines[] = $indent . '  }';
       $lines[] = $indent . '}';
@@ -608,7 +608,7 @@ namespace Tangible\TemplateSystem\Compile {
       }
 
       // Closed-tag handling in render_tag: non-string values are JSON-encoded
-      $lines[] = $indent . 'if (!is_string($__value)) { $__value = json_encode($__value); }';
+      $lines[] = $indent . 'if (!is_string($__value)) { $__value = $__html->json_encode_escape_tags($__value); }';
       $lines[] = $indent . '$__out .= $__value;';
 
       return $lines;
@@ -651,7 +651,7 @@ namespace Tangible\TemplateSystem\Compile {
         . $attsRef . ', [], [\'render_attributes\' => true]);';
       $lines[] = $indent . '}';
       $lines[] = $indent . 'if ($__value !== null) {';
-      $lines[] = $indent . '  if (!is_string($__value)) { $__value = json_encode($__value); }';
+      $lines[] = $indent . '  if (!is_string($__value)) { $__value = $__html->json_encode_escape_tags($__value); }';
       $lines[] = $indent . '  $__out .= $__value;';
       $lines[] = $indent . '}';
 
@@ -881,7 +881,7 @@ namespace Tangible\TemplateSystem\Compile {
               $lines[] = $indent . '}';
               $lines[] = $indent . 'if ($__value !== null) {';
               $lines[] = $indent . '  if (!is_string($__value)) {';
-              $lines[] = $indent . '    $__value = json_encode($__value);';
+              $lines[] = $indent . '    $__value = $__html->json_encode_escape_tags($__value);';
               $lines[] = $indent . '  }';
               $lines[] = $indent . '  $__out .= $__value;';
               $lines[] = $indent . '}';
@@ -896,7 +896,7 @@ namespace Tangible\TemplateSystem\Compile {
                 . ');';
               $lines[] = $indent . 'if ($__value !== null) {';
               $lines[] = $indent . '  if (!is_string($__value)) {';
-              $lines[] = $indent . '    $__value = json_encode($__value);';
+              $lines[] = $indent . '    $__value = $__html->json_encode_escape_tags($__value);';
               $lines[] = $indent . '  }';
               $lines[] = $indent . '  $__out .= $__value;';
               $lines[] = $indent . '}';

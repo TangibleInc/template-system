@@ -185,7 +185,7 @@ $html->map_tag = function( $atts, $nodes ) use ( $html ) {
   }
 
   // Support passing to other tags
-  return json_encode( (object) $map );
+  return $html->json_encode_escape_tags( (object) $map );
 };
 
 $html->add_open_tag('Map', $html->map_tag, [

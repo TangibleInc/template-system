@@ -82,7 +82,7 @@ function render_tag($tag, $atts, $children = [], $options = []) {
       // If closed tag - supports local tags of different type (open/closed)
       if (isset($tag_config['closed']) && $tag_config['closed']) {
         if (is_null($content)) $content = '';
-        elseif (!is_string($content)) $content = json_encode($content);
+        elseif (!is_string($content)) $content = $html->json_encode_escape_tags($content);
         $content .= html\render_nodes( $children );
       }
     }

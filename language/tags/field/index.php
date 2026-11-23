@@ -600,7 +600,7 @@ $html->field_tag = function( $atts ) use ( $loop, $html ) {
 
     // Cast arrays and objects to JSON string
 
-    return json_encode( $value );
+    return $html->json_encode_escape_tags( $value );
   }
   
   return $value;
