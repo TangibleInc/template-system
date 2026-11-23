@@ -23,4 +23,5 @@ if ( empty( $json_post ) ) {
 $json_payload = '<b class="x">one & two\'s</b>';
 
 update_post_meta( $json_post->ID, 'parity_list_field', [ [ 'name' => $json_payload ] ] );
-update_post_meta( $json_post->ID, 'parity_map_field',  [ 'label' => $json_payload ] );
+update_post_meta( $json_post->ID, 'parity_map_field', [ 'label' => $json_payload ] );
+update_post_meta( $json_post->ID, 'parity_string_list_field', [ $json_payload, 'two' ] );

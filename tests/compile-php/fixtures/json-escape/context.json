@@ -2,5 +2,13 @@
   "items": [
     "<b class=\"x\">one & two's</b>",
     "two"
+  ],
+  "config": {
+    "label": "<b class=\"x\">one & two's</b>"
+  },
+  "rows": [
+    {
+      "name": "<b class=\"x\">one & two's</b>"
+    }
   ]
 }
