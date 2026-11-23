@@ -1,0 +1,20 @@
+<Get variable=items />
+<Loop type=post name=parity-json-escape>
+  <Field parity_list_field />
+  <Field parity_map_field />
+  <Loop list="{Field parity_list_field}"><Field name format=code /></Loop>
+  <List>
+    <Item><Field parity_map_field field=label /></Item>
+  </List>
+  <Map>
+    <Key label><Field parity_map_field field=label /></Key>
+  </Map>
+  <List name=parity_list_variable>
+    <Loop list="{Field parity_list_field}"><Item><Field name /></Item></Loop>
+  </List>
+  <Map name=parity_map_variable>
+    <Key label><Field parity_map_field field=label /></Key>
+  </Map>
+</Loop>
+<Get list=parity_list_variable />
+<Get map=parity_map_variable />
