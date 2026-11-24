@@ -30,7 +30,7 @@ $loop->get_field = function($field_name, $atts = [], $third_arg = []) use ( $loo
     if (empty($current_loop->items)
       && isset($current_loop->args['query'])
       && !empty($current_loop->args['query']->posts)
-      && is_a($current_loop->args['query']->posts[0], 'WP_Post')
+      && $current_loop->args['query']->posts[0] instanceof WP_Post
     ) {
 
       $post = $current_loop->args['query']->posts[0];

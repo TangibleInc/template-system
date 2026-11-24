@@ -116,5 +116,5 @@ $loop->create_type = function( $type_name, $args = [], $context = [] ) use ( $lo
  * Check if value is a loop class instance
  */
 $loop->is_instance = function( $value ) {
-  return is_a( $value, Tangible\Loop\BaseLoop::class );
+  return $value instanceof Tangible\Loop\BaseLoop;
 };
