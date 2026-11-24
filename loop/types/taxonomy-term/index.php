@@ -225,7 +225,7 @@ class TaxonomyTermLoop extends BaseLoop {
 
       foreach ($query_args[ $key ] as $index => $value) {
 
-        if (is_integer( $value ) || is_numeric( $value )) {
+        if (is_int( $value ) || is_numeric( $value )) {
           // ID
         } else {
 

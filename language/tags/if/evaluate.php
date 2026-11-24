@@ -68,7 +68,7 @@ $html->evaluate_logic_token_rule_groups = function( $token_rule_groups, $atts = 
 
           // Unknown operand
           if ( isset( $def['operands_by_key'] )
-            && ! isset( $def['operands_by_key'][ $token ] )
+            && ! isset( $def['operands_by_key'][ $token ?? '' ] )
           ) {
 
             // field_2 is operand

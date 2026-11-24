@@ -50,3 +50,7 @@ jobs:
         run: bun run env:test:8.4
       - name: End to end - PHP 8.4
         run: bun run e2e
+      - name: PHPUnit - Run tests for PHP 8.6
+        run: bun run env:test:8.6
+      - name: End to end - PHP 8.6
+        run: bun run e2e

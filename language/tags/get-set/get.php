@@ -4,7 +4,7 @@
  */
 $html->get_variable_tag = function( $atts, $content ) use ( $html ) {
 
-  $name = array_shift( $atts['keys'] ); // First attribute without key
+  $name = array_shift( $atts['keys'] ) ?? ''; // First attribute without key
 
   if ( isset( $atts['name'] ) ) {
 
@@ -37,6 +37,6 @@ $html->get_variable_type = function( $type, $name, $atts = [] ) use ( $html ) {
   if (empty( $type ) || ! isset( $html->variable_types[ $type ] )) return;
 
   return $html->variable_types[ $type ]['get'](
-    $name, $atts, $html->variable_type_memory[ $type ]
+    $name ?? '', $atts, $html->variable_type_memory[ $type ]
   );
 };

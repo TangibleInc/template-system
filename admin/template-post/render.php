@@ -31,7 +31,7 @@ $plugin->render_template_post = function(
 
   } else {
     if (is_numeric( $post )) $post = get_post( $post );
-    if ( ! is_a( $post, 'WP_Post' )) {
+    if ( ! $post instanceof WP_Post ) {
       ob_end_clean();
       return;
     }

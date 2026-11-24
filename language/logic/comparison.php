@@ -178,7 +178,7 @@ $html->evaluate_logic_comparison = function( $operand, $value, $current_value, $
         || $current_value === 0
         || $current_value === false
         // Empty loop instance
-        || ( is_a( $current_value, BaseLoop::class )
+        || ( $current_value instanceof BaseLoop
           ? ( ! $current_value->has_next() )
           // Empty array
           : ( is_array( $current_value ) && empty( $current_value ) )

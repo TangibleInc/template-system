@@ -199,7 +199,7 @@ $html->create_content_type = function($name, $config) use ($html) {
       continue;
     }
 
-    if (is_integer($default_value)) {
+    if (is_int($default_value)) {
       $config[ $key ] = (int) $config[ $key ];
     } elseif (is_bool($default_value)) {
       $config[ $key ] = $config[ $key ]===true || $config[ $key ]==='true';
