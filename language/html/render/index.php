@@ -93,7 +93,7 @@ function render_nodes($nodes, $options = []) {
 
     if (is_null($value)) continue;
     if (!is_string($value)) {
-      $value = json_encode($value);
+      $value = $html->json_encode_escape_tags($value);
     }
     $result .= $value;
 

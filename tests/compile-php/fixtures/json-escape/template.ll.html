@@ -1,0 +1,81 @@
+<Note>
+  Lists and maps print as JSON, with < > " ' & escaped.
+  Notes starting with a function name point to the code compiling the cases
+  below them, in language/compile/index.php
+</Note>
+
+<Note>compileInlineTag: Get variable holding a list, a map, a list of maps (from context.json)</Note>
+<Get variable=items />
+<Get variable=config />
+<Get variable=rows />
+
+<Loop type=post name=parity-json-escape>
+
+  <Note>compileInlineField: field with a list or map value</Note>
+  <Field parity_list_field />
+  <Field parity_map_field />
+
+  <Note>Reading the JSON back gives the original value</Note>
+  <Loop list="{Field parity_list_field}"><Field name format=code /></Loop>
+
+  <Note>compileNode render_tag call: List and Map return JSON</Note>
+  <List>
+    <Item><Field parity_map_field field=label /></Item>
+  </List>
+  <Map>
+    <Key label><Field parity_map_field field=label /></Key>
+  </Map>
+
+  <Note>Stored for the Get and Field cases after the Loop</Note>
+  <List name=parity_list_variable>
+    <Loop list="{Field parity_list_field}"><Item><Field name /></Item></Loop>
+  </List>
+  <Map name=parity_map_variable>
+    <Key label><Field parity_map_field field=label /></Key>
+  </Map>
+  <List name=parity_nested_list>
+    <Item><Map><Key label><Field parity_map_field field=label /></Key></Map></Item>
+  </List>
+  <List name=parity_list_of_lists>
+    <Item><List><Item><Field parity_map_field field=label /></Item></List></Item>
+  </List>
+  <Map name=parity_map_of_lists>
+    <Key labels><List><Item><Field parity_map_field field=label /></Item></List></Key>
+  </Map>
+  <Set variable=parity_json_copy><Field parity_map_field /></Set>
+  <Set variable=parity_field_name>parity_map_field</Set>
+
+  <Note>compileNode render_tag call: open tag returning an array</Note>
+  <Format split="|"><Field parity_map_field field=label />|two</Format>
+
+  <Note>compileIfTag: field inside If and inside Else</Note>
+  <If field=parity_map_field exists><Field parity_map_field /></If>
+  <If field=parity_missing_field exists>missing<Else /><Field parity_map_field /></If>
+
+  <Note>compileNode render_tag call: field inside Switch</Note>
+  <Switch field=parity_map_field><When exists /><Field parity_map_field /></Switch>
+
+  <Note>compileNode render_tag call: Field with a dynamic attribute is not inlined</Note>
+  <Field name="{Get variable=parity_field_name}" />
+
+  <Note>Escaped JSON stays escaped in an attribute and through format=code</Note>
+  <div data-config="{Field parity_map_field}"></div>
+  <Format code><Field parity_map_field /></Format>
+
+  <Note>Outside a JSON value, the payload prints unchanged</Note>
+  <Field parity_map_field field=label />
+  <Field parity_string_list_field join=", " />
+
+</Loop>
+
+<Note>compileNode render_tag call: Get list and Get map</Note>
+<Get list=parity_list_variable />
+<Get map=parity_map_variable />
+
+<Note>compileInlineField: list item or map key holding a map or a list</Note>
+<Field list=parity_nested_list item=1 />
+<Field list=parity_list_of_lists item=1 />
+<Field labels map=parity_map_of_lists />
+
+<Note>compileInlineTag: a variable holding JSON as a string stays escaped</Note>
+<Get variable=parity_json_copy />
