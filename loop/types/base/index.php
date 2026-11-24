@@ -431,7 +431,8 @@ class BaseLoop extends \StdClass implements BaseLoopInterface {
   }
 
   function set_current( $item ) {
-    return $this->current = &$item;
+    $this->current = &$item;
+    return $this->current;
   }
 
   function next() {
