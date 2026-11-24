@@ -176,8 +176,6 @@ class BaseLoop extends \StdClass implements BaseLoopInterface {
     }
 
     $this->items = $this->get_current_page_items();
-
-    return $this;
   }
 
   function __invoke( $fn ) {

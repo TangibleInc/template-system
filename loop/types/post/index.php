@@ -436,8 +436,6 @@ class PostLoop extends BaseLoop {
     }
 
     parent::__construct( $args );
-
-    return $this;
   }
 
   // Loop type name
