@@ -56,7 +56,7 @@ $test('Field wp_fusion_tags', function( $it ) use ( $loop, $plugin, $wp_fusion )
   $it( 'returns an array', is_array( $tags ) && $connected );
 
   $tag = array_shift( $tags );
-  $it( 'returns an array of tag IDs', is_integer( $tag ) || is_string( $tag ) );
+  $it( 'returns an array of tag IDs', is_int( $tag ) || is_string( $tag ) );
 
     $test_tags_a = [];
   foreach ( $test_tags as $t ) {

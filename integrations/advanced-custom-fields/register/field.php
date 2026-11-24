@@ -175,7 +175,7 @@ $html->create_field_config = function( $config, $key_prefix = 'tangible_template
         continue;
       }
 
-      if ( is_integer( $default_value ) ) {
+      if ( is_int( $default_value ) ) {
         $config[ $key ] = (int) $config[ $key ];
         continue;
       }

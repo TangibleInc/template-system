@@ -663,7 +663,7 @@ class PostLoop extends BaseLoop {
 
         // ID
 
-        if (is_integer($slug) || is_numeric($slug)) {
+        if (is_int($slug) || is_numeric($slug)) {
           $query_args[ $target_key ] []= $slug;
           continue;
         }
@@ -865,7 +865,7 @@ class PostLoop extends BaseLoop {
       ];
 
       foreach ($terms as $value) {
-        if (is_integer($value) || is_numeric($value)) {
+        if (is_int($value) || is_numeric($value)) {
           $value_types['id'] []= $value;
         } elseif (is_string($value)) {
 
