@@ -49,10 +49,9 @@ $html->form_actions['create'] = function( $attributes, $data ) use ( $html, $loo
      *
      * @see https://developer.wordpress.org/reference/functions/update_post_meta/#character-escaping
      */
-    $post_data['meta_input'][ $key ] = is_string( $value )
-      ? wp_slash( wp_strip_all_tags( $value ) )
-      : $value
-    ;
+    $post_data['meta_input'][ $key ] = wp_slash(
+      map_deep( $value, 'wp_strip_all_tags' )
+    );
   }
 
   // TODO: Taxonomy

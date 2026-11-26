@@ -248,6 +248,25 @@ foreach ( [ 'e2e-order-a' => 1, 'e2e-order-b' => 2 ] as $order_slug => $order ) 
 }
 
 /**
+ * Form create + display pages, for the unauthenticated stored XSS regression.
+ *
+ * A <Form action=create> only renders when loaded from a template file (its
+ * template_id branch is dead code), so the form page loads a fixture file to
+ * get the file context that produces a signed location in window.Tangible.forms.
+ * The display page renders the created string and array meta with <Field>.
+ *
+ * @see form/tag.php
+ * @see tests/e2e/ajax/form-create-xss.js
+ */
+$ensure_page( 'e2e-ajax-xss-form', 'E2E Ajax XSS Form',
+  '<Load file="' . __DIR__ . '/fixtures/xss-form.html" />'
+);
+
+$ensure_page( 'e2e-ajax-xss-display', 'E2E Ajax XSS Display', <<<'HTML'
+<div id="xss-zone"><Loop type=post orderby=date order=desc><Field note /><Field message /></Loop></div>
+HTML );
+
+/**
  * The tests instance ships the intentionally empty block theme, which renders
  * nothing on the frontend. The Table pages need a real theme so they output the
  * ajax config and nonce the tests read.
