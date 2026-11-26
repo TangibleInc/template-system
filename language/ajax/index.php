@@ -52,7 +52,7 @@ ajax\add_public_action('tangible_template_render', function( $request ) use ($ht
 
   // Allow paginator to set page number
   if ( isset( $request['page'] ) && isset( $template['attributes'] ) ) {
-    $template['attributes']['page'] = $request['page'];
+    $template['attributes']['page'] = (int) $request['page'];
   }
 
   try {
